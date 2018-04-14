@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 
     // Config
     $this->publishes([
-      __DIR__.'/../../config/admin-lte.php' => config_path('admin-lte.php'),
+      __DIR__.'/../../config/uccello.php' => config_path('uccello.php'),
     ], 'config');
 
     // Routes

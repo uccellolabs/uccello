@@ -1,0 +1,18 @@
+@extends('uccello::layouts.main')
+
+@if (auth()->check())
+@section('user-avatar', 'https://www.gravatar.com/avatar/' . md5(auth()->user()->email) . '?d=mm')
+@section('user-name', auth()->user()->name)
+@endif
+
+@section('sidebar-menu')
+<ul class="list">
+    <li class="header">MAIN NAVIGATION</li>
+    <li>
+        <a href="{{ route('home') }}">
+            <i class="material-icons">home</i>
+            <span>Home</span>
+        </a>
+    </li>
+</ul>
+@endsection

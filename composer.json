@@ -1,0 +1,57 @@
+{
+    "name": "sardoj/uccello",
+    "type": "library",
+    "description": "CRUD core fore Laravel projects.",
+    "keywords": [
+        "sardoj",
+        "uccello"
+    ],
+    "homepage": "https://github.com/sardoj/uccello",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonathan SARDO",
+            "email": "sardoj@gmail.com",
+            "homepage": "https://github.com/sardoj",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "~7.0",
+        "laravel/framework": "~5.5",
+        "laravelcollective/html": "^5.6",
+        "spatie/laravel-menu": "~3.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : ">=5.4.3",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sardoj\\Uccello\\": "app"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sardoj\\Uccello\\Tests": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Sardoj\\Uccello\\Providers\\AppServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}

@@ -35,6 +35,7 @@ class UccelloMakeCommand extends Command
         // 'auth/passwords/reset.stub' => 'auth/passwords/reset.blade.php',
         'errors/403.stub' => 'errors/403.blade.php',
         'errors/404.stub' => 'errors/404.blade.php',
+        'errors/500.stub' => 'errors/500.blade.php',
         'layouts/app.stub' => 'layouts/app.blade.php',
         // 'home.stub' => 'home.blade.php',
     ];
@@ -57,7 +58,7 @@ class UccelloMakeCommand extends Command
     public function handle()
     {
         $this->info('Execute make:auth');
-        $this->call('make:auth', [ '--force' => true, '--views' => $this->option('views') ]);
+        // $this->call('make:auth', [ '--force' => true, '--views' => $this->option('views') ]);
 
         $this->info('Start Uccello scaffolding');
         $this->info('Copying views...');
@@ -67,9 +68,10 @@ class UccelloMakeCommand extends Command
                 __DIR__.'/stubs/make/views/'.$key,
                 resource_path('views/'.$value)
             );
+            // echo resource_path('views/'.$value)."\n";
         }
         $this->info('Copying assets...');
-        $this->xcopy(__DIR__.'/../../../resources/assets', resource_path('assets'));
+        // $this->xcopy(__DIR__.'/../../../resources/assets', resource_path('assets'));
 
         $this->info('Copying public...');
         $this->xcopy(__DIR__.'/../../../public', public_path());

@@ -9,7 +9,7 @@
 <ul class="list">
     <li class="header">MAIN NAVIGATION</li>
     <li>
-        <a href="{{ route('home') }}">
+        <a href="/">
             <i class="material-icons">home</i>
             <span>Home</span>
         </a>

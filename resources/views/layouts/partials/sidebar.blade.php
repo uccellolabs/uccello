@@ -33,7 +33,7 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <a href="/">
+                        <a href="{{ route('home') }}">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>

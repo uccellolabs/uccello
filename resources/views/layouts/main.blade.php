@@ -33,11 +33,8 @@
     @yield('extra-css')
 </head>
 
-<body class="theme-{{ config('uccello.skin', 'red') }}">
-    @include('uccello::layouts.partials.loader')
-    <div class="overlay"></div>
-    @include('uccello::layouts.partials.header')
-    @include('uccello::layouts.partials.sidebar')
+<body class="@section('body-class')theme-{{ config('uccello.skin', 'red') }}@show @yield('body-extra-class')">
+    @yield('pre-content')
 
     <section class="content">
         @yield('content')

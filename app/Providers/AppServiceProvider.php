@@ -39,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
         __DIR__.'/../../resources/views' => resource_path('views/vendor/sardoj')
     ], 'views');
 
+    // Migrations
+    $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+
     // Commands
     if ($this->app->runningInConsole()) {
       $this->commands([

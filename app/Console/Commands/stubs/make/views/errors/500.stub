@@ -1,9 +1,9 @@
-@extends('layouts.app')
+@section('body-extra-class')
 
 @section('content-title', '500 Error Page')
 @section('content-subtitle', '')
 
-@section('body-class')
+@section('body-extra-class')
 four-zero-four
 @endsection
 

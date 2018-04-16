@@ -6,7 +6,7 @@ use Sardoj\Uccello\Database\Eloquent\Model;
 
 class Module extends Model
 {
-    protected $table = 'module';
+    protected $table = 'modules';
 
     public function permissions()
     {
@@ -16,5 +16,10 @@ class Module extends Model
     public function domains()
     {
         return $this->belongsToMany(Domain::class, $this->tablePrefix . 'domains_modules');
+    }
+
+    public static function modules()
+    {
+        return static::all();
     }
 }

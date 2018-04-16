@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Sardoj\\Uccello\\": "app"
+            "Sardoj\\Uccello\\": "app/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Sardoj\\Uccello\\Tests": "tests"
+            "Sardoj\\Uccello\\Tests\\": "tests/"
         }
     },
     "scripts": {

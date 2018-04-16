@@ -15,6 +15,6 @@ class DetailController extends Controller
      */
     public function process($domain, $module)
     {
-        return view('uccello::detail.main');
+        return view('uccello::detail.main', compact('domain', 'module'));
     }
 }

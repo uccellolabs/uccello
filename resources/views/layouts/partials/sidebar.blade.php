@@ -33,12 +33,22 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <a href="{{ route('home') }}">
+                        <a href="/">
                             <i class="material-icons">home</i>
                             <span>Home</span>
                         </a>
                     </li>
                 </ul>
+                @if (isset($modules) && isset($domain) && isset($module))
+                    @foreach ($modules as $_module)
+                    <li>
+                        <a href="{{ route('list', ['domain' => $domain, 'module' => $_module->name]) }}">
+                            <i class="material-icons">{{ $_module->icon ?? 'list' }}</i>
+                            <span>{{ __('uccello::'.$_module->name.'.'.$_module->name) }}</span>
+                        </a>
+                    </li>
+                    @endforeach
+                @endif
                 @show
             </ul>
         </div>

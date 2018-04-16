@@ -15,6 +15,6 @@ class IndexController extends Controller
      */
     public function process($domain, $module)
     {
-        return view('uccello::index.main');
+        return view('uccello::index.main', compact('domain', 'module'));
     }
 }

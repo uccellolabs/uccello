@@ -15,6 +15,6 @@ class EditController extends Controller
      */
     public function process($domain, $module)
     {
-        return view('uccello::edit.main');
+        return view('uccello::edit.main', compact('domain', 'module'));
     }
 }

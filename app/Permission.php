@@ -12,7 +12,7 @@ class Permission extends Model
     const CAN_DELETE = 'delete';
     const CAN_ADMIN = 'admin';
 
-    protected $table = 'permission';
+    protected $table = 'permissions';
 
     public function profile()
     {

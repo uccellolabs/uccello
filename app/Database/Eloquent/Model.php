@@ -8,12 +8,14 @@ class Model extends DefaultModel
 {
     protected $tablePrefix;
 
-    public function __construct()
+    public function __construct(array $attributes = [])
     {
-        parent::__construct();
+        parent::__construct($attributes);
         
+        // Set table prefix
         $this->setTablePrefix();
 
+        // Set table name
         $this->setTableName();
     }
 

@@ -4,6 +4,7 @@ namespace Sardoj\Uccello\Providers;
  
 use Illuminate\Support\ServiceProvider;
 use Sardoj\Uccello\Console\Commands\UccelloMakeCommand;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * App Service Provider
@@ -57,8 +58,10 @@ class AppServiceProvider extends ServiceProvider
   {
     view()->composer('uccello::layouts.partials.sidebar', function($view) {
       
-      // Get modules lists
-      $modules = \Sardoj\Uccello\Module::modules();
+      //TODO: Invalidate Cache if modules are created
+      $modules = Cache::rememberForever('modules', function() {
+          return \Sardoj\Uccello\Module::modules();
+      });
 
       $view->with('modules', $modules);
     });

@@ -39,6 +39,9 @@ class AppServiceProvider extends ServiceProvider
         __DIR__.'/../../resources/views' => resource_path('views/vendor/sardoj')
     ], 'views');
 
+    // Translations
+    $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'uccello');
+
     // Migrations
     $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
@@ -50,5 +53,14 @@ class AppServiceProvider extends ServiceProvider
     }
   }
 
-  public function register() {}
+  public function register()
+  {
+    view()->composer('uccello::layouts.partials.sidebar', function($view) {
+      
+      // Get modules lists
+      $modules = \Sardoj\Uccello\Module::modules();
+
+      $view->with('modules', $modules);
+    });
+  }
 }

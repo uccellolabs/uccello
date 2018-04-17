@@ -1,0 +1,14 @@
+.card.block .block-label-with-icon {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.card.block .block-label-with-icon .material-icons {
+    width: 24px;
+}
+
+.card.block .block-label-with-icon span {
+    position: relative;
+    top: -3px;
+    left: 7px;
+}

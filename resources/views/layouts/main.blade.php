@@ -23,7 +23,8 @@
         {{ Html::style('vendor/uccello/plugins/morrisjs/morris.css') }}
         {{ Html::style('css/vendor/uccello/admin-bsb.min.css') }}
         {{ Html::style('css/vendor/uccello/all-themes.min.css') }}
-        {{--  {{ Html::style('css/app.css') }}  --}}
+        {{ Html::style('css/vendor/uccello/uccello.css') }}
+        {{ Html::style('css/app.css') }} 
 
          <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">

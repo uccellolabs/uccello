@@ -17,4 +17,9 @@ class Module extends Model
     {
         return $this->belongsToMany(Domain::class, $this->tablePrefix . 'domains_modules');
     }
+
+    public function tabs()
+    {
+        return $this->hasMany(Tab::class);
+    }
 }

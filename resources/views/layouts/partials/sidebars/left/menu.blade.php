@@ -20,7 +20,7 @@
                 <li @if ($_module->id === $module->id)class="active"@endif>
                     <a href="{{ route('list', ['domain' => $domain->slug, 'module' => $_module->name]) }}">
                         <i class="material-icons">{{ $_module->icon ?? 'list' }}</i>
-                        <span>{{ __('uccello::'.$_module->name.'.'.$_module->name) }}</span>
+                        <span>{{ __(sprintf('uccello::%s.%s', $_module->name, $_module->name)) }}</span>
                     </a>
                 </li>
                 @endif

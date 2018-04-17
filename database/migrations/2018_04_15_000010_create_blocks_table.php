@@ -17,6 +17,7 @@ class CreateBlocksTable extends Migration
             $table->increments('id');
             $table->string('label');
             $table->string('icon')->nullable();
+            $table->string('description')->nullable();
             $table->unsignedInteger('sequence');
             $table->unsignedInteger('tab_id');
             $table->timestamps();

@@ -50,6 +50,7 @@ abstract class Controller extends BaseController
      */
     public function process(string $domain, string $module)
     {
+        // Pre-process
         $this->preProcess($domain, $module);
 
         return view($this->viewName);
@@ -95,7 +96,7 @@ abstract class Controller extends BaseController
      */
     protected function checkPermissions()
     {
-        
+        //TODO:To complete
     }
 
     /**
@@ -104,10 +105,7 @@ abstract class Controller extends BaseController
      */
     protected function getDomainBySlug(string $slug)
     {
-        // TODO: invalidate cache if necessary
-        $this->domain = Cache::rememberForever('domain_'.$slug, function() use ($slug) {
-            return Domain::where("slug", $slug)->firstOrFail();
-        });
+        $this->domain = Domain::where("slug", $slug)->firstOrFail();
     }
 
     /**
@@ -116,20 +114,15 @@ abstract class Controller extends BaseController
      */
     protected function getModuleByName(string $name)
     {
-        // TODO: invalidate cache if necessary
-        $this->module = Cache::rememberForever('module_'.$name, function() use ($name) {
-            return Module::where("name", $name)->firstOrFail();
-        });
+        $this->module = Module::where("name", $name)->firstOrFail();
     }
 
     /**
      * Get all modules from database
-     * @return Array<Module>
+     * @return Module[]
      */
     protected function getAllModules()
     {
-        return Cache::rememberForever('modules', function() {
-            return Module::all();
-        });
+        return Module::all();
     }
 }

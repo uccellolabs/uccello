@@ -17,9 +17,4 @@ class Module extends Model
     {
         return $this->belongsToMany(Domain::class, $this->tablePrefix . 'domains_modules');
     }
-
-    public static function modules()
-    {
-        return static::all();
-    }
 }

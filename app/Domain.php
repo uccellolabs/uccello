@@ -3,10 +3,24 @@
 namespace Sardoj\Uccello;
 
 use Sardoj\Uccello\Database\Eloquent\Model;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
 class Domain extends Model
 {
+    use HasSlug;
+    
     protected $table = 'domains';
+
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('name')
+            ->saveSlugsTo('slug');
+    }
 
     public function parent()
     {

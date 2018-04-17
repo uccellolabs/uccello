@@ -56,14 +56,6 @@ class AppServiceProvider extends ServiceProvider
 
   public function register()
   {
-    view()->composer('uccello::layouts.partials.sidebar', function($view) {
-      
-      //TODO: Invalidate Cache if modules are created
-      $modules = Cache::rememberForever('modules', function() {
-          return \Sardoj\Uccello\Module::modules();
-      });
-
-      $view->with('modules', $modules);
-    });
+    
   }
 }

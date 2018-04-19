@@ -1,0 +1,15 @@
+language: php
+
+php:
+  - 7.1
+  - 7.2
+
+before_script:
+  - composer create-project --prefer-dist laravel/laravel ../laravel && cd ../laravel
+  - mkdir vendor/sardoj
+  - mv ../uccello vendor/sardoj && cd vendor/sardoj/uccello
+  - sh -c "mysql -e 'CREATE DATABASE 'laravel_test;'"
+  - mv .env.travis .env
+
+script:
+  - composer run test

@@ -20,7 +20,7 @@ class CreateFieldsTable extends Migration
             $table->string('uitype');
             $table->string('display_type');
             $table->unsignedInteger('sequence');
-            $table->json('data')->nullable();
+            $table->text('data')->nullable();
             $table->unsignedInteger('block_id');
             $table->timestamps();
         });

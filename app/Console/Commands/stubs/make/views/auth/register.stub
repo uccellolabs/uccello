@@ -34,7 +34,7 @@ signup-page
                         <i class="material-icons">email</i>
                     </span>
                     <div class="form-line">
-                        <input id="name" type="text" placeholder="{{ __('E-Mail Address') }}" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                        <input id="email" type="text" placeholder="{{ __('E-Mail Address') }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
                     </div>
 
                     @if ($errors->has('email'))

@@ -17,18 +17,18 @@
 
     <!-- Bootstrap Core Css -->
     @section('css')
-        {{ Html::style('vendor/uccello/plugins/bootstrap/css/bootstrap.css') }}
-        {{ Html::style('vendor/uccello/plugins/node-waves/waves.css') }}
-        {{ Html::style('vendor/uccello/plugins/animate-css/animate.css') }}
-        {{ Html::style('vendor/uccello/plugins/morrisjs/morris.css') }}
-        {{ Html::style('css/vendor/uccello/admin-bsb.min.css') }}
-        {{ Html::style('css/vendor/uccello/all-themes.min.css') }}
-        {{ Html::style('css/vendor/uccello/uccello.css') }}
+        {{-- {{ Html::style('vendor/uccello/plugins/bootstrap/css/bootstrap.css') }} --}}
+        {{-- {{ Html::style('vendor/uccello/plugins/node-waves/waves.css') }} --}}
+        {{-- {{ Html::style('vendor/uccello/plugins/animate-css/animate.css') }} --}}
+        {{-- {{ Html::style('vendor/uccello/plugins/morrisjs/morris.css') }} --}}
+        {{-- {{ Html::style('css/vendor/uccello/admin-bsb.min.css') }} --}}
         {{ Html::style('css/app.css') }} 
+        {{-- {{ Html::style('css/vendor/uccello/all-themes.min.css') }} --}}
+        {{-- {{ Html::style('css/vendor/uccello/uccello.css') }} --}}
 
          <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+        {{-- <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css"> --}}
     @show
 
     @yield('extra-css')
@@ -42,17 +42,18 @@
     </section>
 
     @section('script')
-        {{Html::script('vendor/uccello/plugins/jquery/jquery.min.js')}}
-        {{Html::script('vendor/uccello/plugins/bootstrap/js/bootstrap.js')}}
-        {{Html::script('vendor/uccello/plugins/bootstrap-select/js/bootstrap-select.js')}}
+        {{-- {{Html::script('vendor/uccello/plugins/jquery/jquery.min.js')}} --}}
+        {{-- {{Html::script('vendor/uccello/plugins/bootstrap/js/bootstrap.js')}} --}}
+        {{-- {{Html::script('vendor/uccello/plugins/bootstrap-select/js/bootstrap-select.js')}} --}}
         {{-- {{Html::script('vendor/uccello/plugins/jquery-slimscroll/jquery.slimscroll.js')}} --}}
-        {{Html::script('vendor/uccello/plugins/node-waves/waves.js')}}
+        {{-- {{Html::script('vendor/uccello/plugins/node-waves/waves.js')}} --}}
     @show    
 
     @yield('extra-script')
     @section('script-bottom')
-        {{Html::script('js/vendor/uccello/admin-bsb.js')}}
+        {{-- {{Html::script('js/vendor/uccello/admin-bsb.js')}} --}}
         {{-- {{Html::script('js/uccello.js')}} --}}
+        {{Html::script('js/app.js')}}
     @show
 </body>
 

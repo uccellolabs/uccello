@@ -30,7 +30,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Sardoj\\Uccello\\": "app/"
+            "Sardoj\\Uccello\\": "app/",
+            "Sardoj\\Uccello\\Seeds\\": "database/seeds/"
         }
     },
     "autoload-dev": {

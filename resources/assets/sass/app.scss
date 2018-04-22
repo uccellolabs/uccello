@@ -1,0 +1,35 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+// Bootstrap
+@import '~adminbsb-materialdesign/plugins/bootstrap/css/bootstrap.css';
+
+// Waves plugin
+@import '~adminbsb-materialdesign/plugins/node-waves/waves.css';
+
+// Animate plugin
+@import '~adminbsb-materialdesign/plugins/animate-css/animate.css';
+
+// Admin BSB Template
+@import "adminbsb/_adminbsb";
+
+// Custom
+.card {
+    &.block {
+        .block-label-with-icon {
+            margin-bottom: 5px;
+            text-align: left;
+
+            .material-icons {
+                width: 24px;
+            }
+
+            span {
+                position: relative;
+                top: -3px;
+                left: 7px;
+            }
+        }
+    }
+}

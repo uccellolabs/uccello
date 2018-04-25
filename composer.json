@@ -50,7 +50,8 @@
         },
         "laravel": {
             "providers": [
-                "Sardoj\\Uccello\\Providers\\AppServiceProvider"
+                "Sardoj\\Uccello\\Providers\\AppServiceProvider",
+                "Sardoj\\Uccello\\Providers\\RouteServiceProvider"
             ]
         }
     },

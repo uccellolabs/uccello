@@ -3,13 +3,14 @@
 namespace Sardoj\Uccello\Seeds;
 
 use Illuminate\Database\Seeder;
-use Sardoj\Uccello\Domain;
+use Sardoj\Uccello\Role;
 use Sardoj\Uccello\Module;
 use Sardoj\Uccello\Tab;
 use Sardoj\Uccello\Block;
 use Sardoj\Uccello\Field;
+use Sardoj\Uccello\Domain;
 
-class DomainSeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,19 +26,20 @@ class DomainSeeder extends Seeder
 
     protected function createData()
     {
-        Domain::create([
-            'name' => 'Default',
+        Role::create([
+            'name' => 'Administrator',
             'description' => null,
-            'parent_id' => null
+            'parent_id' => null,
+            'domain_id' => Domain::first()->id
         ]);
     }
 
     protected function createModule()
     {
         return Module::create([
-            'name' => 'domain',
-            'icon' => 'domain',
-            'entity_class' => 'Domain',
+            'name' => 'role',
+            'icon' => 'lock',
+            'entity_class' => 'Role',
             'is_for_admin' => true
         ]);
     }

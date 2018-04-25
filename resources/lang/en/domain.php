@@ -1,5 +1,8 @@
 <?php
 
 return [
-    'domain' => 'Domains'
+    'domain' => 'Domains',
+    'block.general' => 'General information',
+    'field.name' => 'Name',
+    'field.description' => 'Description'
 ];

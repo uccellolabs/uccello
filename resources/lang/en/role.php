@@ -1,5 +1,8 @@
 <?php
 
 return [
-    'role' => 'Roles'
+    'role' => 'Roles',
+    'block.general' => 'General information',
+    'field.name' => 'Name',
+    'field.description' => 'Description'
 ];

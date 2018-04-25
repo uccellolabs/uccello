@@ -43,12 +43,12 @@ abstract class Controller extends BaseController
 
     /**
      * Process and display asked page
-     * @param string $domain
-     * @param string $module
+     * @param Domain $domain
+     * @param Module $module
      * 
      * @return \Illuminate\Http\Response
      */
-    public function process(string $domain, string $module)
+    public function process(Domain $domain, Module $module)
     {
         // Pre-process
         $this->preProcess($domain, $module);
@@ -58,16 +58,16 @@ abstract class Controller extends BaseController
 
     /**
      * Instantiance variables and check permissions
-     * @param string $domain
-     * @param string $module
+     * @param Domain $domain
+     * @param Module $module
      */
-    protected function preProcess(string $domain, string $module)
+    protected function preProcess(Domain $domain, Module $module)
     {
-        // Get domain by slug
-        $this->getDomainBySlug($domain);
+        // Get domain
+        $this->domain = $domain;
 
-        // Get module by name
-        $this->getModuleByName($module);
+        // Get module
+        $this->module = $module;
 
         // Check user permissions
         $this->checkPermissions();
@@ -97,24 +97,6 @@ abstract class Controller extends BaseController
     protected function checkPermissions()
     {
         //TODO:To complete
-    }
-
-    /**
-     * Retrieve domain by slug from the cache, else from the database
-     * @param string $slug
-     */
-    protected function getDomainBySlug(string $slug)
-    {
-        $this->domain = Domain::where("slug", $slug)->firstOrFail();
-    }
-
-    /**
-     * Retrieve module by name from the cache, else from the database
-     * @param string $name
-     */
-    protected function getModuleByName(string $name)
-    {
-        $this->module = Module::where("name", $name)->firstOrFail();
     }
 
     /**

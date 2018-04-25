@@ -22,4 +22,22 @@ class Module extends Model
     {
         return $this->hasMany(Tab::class);
     }
+
+    public function getFieldsAttribute()
+    {
+        $fields = [];
+
+        foreach($this->tabs as $tab)
+        {
+            foreach($tab->blocks as $block)
+            {
+                foreach($block->fields as $field)
+                {
+                    $fields[] = $field;
+                }
+            }
+        }
+
+        return $fields;
+    }
 }

@@ -18,6 +18,7 @@
     ],
     "require": {
         "php" : "~7.0",
+        "kris/laravel-form-builder": "^1.14",
         "laravel/framework": "~5.5",
         "laravelcollective/html": "^5.6",
         "spatie/laravel-menu": "~3.1",

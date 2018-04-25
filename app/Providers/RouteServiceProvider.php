@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Providers\RouteServiceProvider as DefaultRouteServiceProvider;
 use Sardoj\Uccello\Domain;
 use Sardoj\Uccello\Module;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Route Service Provider

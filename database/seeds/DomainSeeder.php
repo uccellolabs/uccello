@@ -8,9 +8,12 @@ use Sardoj\Uccello\Module;
 use Sardoj\Uccello\Tab;
 use Sardoj\Uccello\Block;
 use Sardoj\Uccello\Field;
+use Sardoj\Uccello\Database\Migrations\Traits\TablePrefixTrait;
 
 class DomainSeeder extends Seeder
 {
+    use TablePrefixTrait;
+
     /**
      * Run the database seeds.
      *
@@ -37,7 +40,7 @@ class DomainSeeder extends Seeder
         return Module::create([
             'name' => 'domain',
             'icon' => 'domain',
-            'entity_class' => 'Domain',
+            'entity_class' => 'Sardoj\Uccello\Domain',
             'is_for_admin' => true
         ]);
     }
@@ -66,7 +69,7 @@ class DomainSeeder extends Seeder
             'label' => 'field.name',
             'uitype' => Field::UITYPE_TEXT,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
-            'data' => ['rules' => 'required|unique:core_domains,name'],
+            'data' => ['rules' => 'required|unique:'.$this->getTablePrefix().'domains,name'],
             'sequence' => 0,
             'block_id' => $block->id
         ]);
@@ -78,7 +81,7 @@ class DomainSeeder extends Seeder
             'uitype' => Field::UITYPE_TEXTAREA,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
             'data' => ['large' => true],
-            'sequence' => 0,
+            'sequence' => 1,
             'block_id' => $block->id
         ]);
 

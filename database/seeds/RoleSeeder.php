@@ -39,7 +39,7 @@ class RoleSeeder extends Seeder
         return Module::create([
             'name' => 'role',
             'icon' => 'lock',
-            'entity_class' => 'Role',
+            'entity_class' => 'Sardoj\Uccello\Role',
             'is_for_admin' => true
         ]);
     }
@@ -68,8 +68,17 @@ class RoleSeeder extends Seeder
             'label' => 'field.name',
             'uitype' => Field::UITYPE_TEXT,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
-            'data' => ['rules' => 'required|unique:core_domains,name'],
             'sequence' => 0,
+            'block_id' => $block->id
+        ]);
+
+        // Domain
+        Field::create([
+            'name' => 'domain_id',
+            'label' => 'field.domain_id',
+            'uitype' => Field::UITYPE_NUMBER,
+            'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
+            'sequence' => 1,
             'block_id' => $block->id
         ]);
 
@@ -80,7 +89,7 @@ class RoleSeeder extends Seeder
             'uitype' => Field::UITYPE_TEXTAREA,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
             'data' => ['large' => true],
-            'sequence' => 0,
+            'sequence' => 2,
             'block_id' => $block->id
         ]);
 

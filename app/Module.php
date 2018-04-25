@@ -20,7 +20,7 @@ class Module extends Model
 
     public function tabs()
     {
-        return $this->hasMany(Tab::class);
+        return $this->hasMany(Tab::class)->orderBy('sequence');
     }
 
     public function getFieldsAttribute()

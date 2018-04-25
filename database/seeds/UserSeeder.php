@@ -39,7 +39,7 @@ class UserSeeder extends Seeder
         return Module::create([
             'name' => 'user',
             'icon' => 'person',
-            'entity_class' => 'User',
+            'entity_class' => 'Sardoj\Uccello\User',
             'is_for_admin' => true
         ]);
     }

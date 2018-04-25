@@ -11,6 +11,7 @@ use Sardoj\Uccello\Domain;
 use Sardoj\Uccello\Module;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
+use Illuminate\Http\Request;
 
 abstract class Controller extends BaseController
 {
@@ -45,10 +46,11 @@ abstract class Controller extends BaseController
      * Process and display asked page
      * @param Domain $domain
      * @param Module $module
+     * @param Request $request
      * 
      * @return \Illuminate\Http\Response
      */
-    public function process(Domain $domain, Module $module)
+    public function process(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module);

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    {!! form_start($form, ['novalidate']) !!}
     @section('default-blocks')
         {{-- All defined blocks --}}
         @foreach ($structure->tabs as $tab)  {{-- TODO: Display all tabs --}}
@@ -47,6 +46,4 @@
 
     {{-- Other blocks --}}
     @yield('other-blocks')
-
-    {!! form_end($form) !!}
 @endsection

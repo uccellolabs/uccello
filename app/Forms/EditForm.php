@@ -15,11 +15,18 @@ class EditForm extends Form
      */
     public function buildForm()
     {
+        // Get domain data
+        $domain = $this->getData('domain');
+
         // Get module data
         $module = $this->getData('module');
 
-        // Deactivate HTML5 validation
-        $this->formOptions = ['novalidate'];
+        // Options
+        $this->formOptions = [
+            'method' => 'POST', // Use POST method
+            'url' => route('store', ['domain' => $domain->slug, 'module' => $module->name]), // URL to call      
+            'novalidate', // Deactivate HTML5 validation
+        ];
 
         // Add all fields
         foreach($module->fields as $field)

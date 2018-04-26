@@ -7,20 +7,9 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-## Structure
+Laravel Package for providing an advanced CRUD interface. For the moment, this package can be integrated easily only on a fresh installation. Soon it will be possible to install it alson on an existing one.
 
-If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
-
-```
-bin/        
-config/
-src/
-tests/
-vendor/
-```
-
-
-## Install
+## Installation
 
 Via Composer
 
@@ -28,15 +17,61 @@ Via Composer
 $ composer require sardoj/uccello
 ```
 
-## Change log
+If you are using Laravel 5.5 or above skip this step, but if aren't then add this code on *config/app.php*, on providers
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+``` php
+'providers' => [
+  ...
+  Sardoj\Uccello\Providers\AppServiceProvider::class,
+  Sardoj\Uccello\Providers\RouteServiceProvider::class,
+  ...
+]
+```
+
+And then run,
+
+``` bash
+$ php artisan make:uccello
+```
+
+This command will extract needed views for **auth**, and **errors**.
+
+### Migrate and seed the database
+Configure *.env* file then run this command to migrate and seed the database
+
+```bash
+ php artisan migrate:fresh && php artisan db:seed --class=\\Sardoj\\Uccello\\Seeds\\DatabaseSeeder
+```
+
+
+### Set the default routes
+Add this code on *routes/web.php*
+
+``` php
+Route::redirect('/', '/default/home');
+
+Auth::routes();
+...
+```
+
+Then go to your **homepage**. You must be redirected to the **login page**.
+You can easily **sign up** to create a new account or **sign in** with the following credentials
+
+```
+Login: admin@uccello.io
+Password: 123456
+```
+
 
 ## Testing
 
 ``` bash
 $ composer test
 ```
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 

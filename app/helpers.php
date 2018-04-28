@@ -22,10 +22,10 @@ if (! function_exists('uctrans')) {
         if (!is_null($module) && Module::class == get_class($module))
         {
             // By default prefix is same as the module's name
-            $prefix = $module->name;
+            $prefix = $module->name.'.';
 
             // If it is an uccello core module, add uccello:: before
-            if (preg_match('/Sardoj\\\Uccello/', $module->entityClass)) {
+            if (preg_match('/Sardoj\\\Uccello/', $module->entity_class)) {
                 $prefix = 'uccello::'.$prefix;
             }
 

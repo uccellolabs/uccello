@@ -2,14 +2,14 @@
     <ul class="list">
         @section('sidebar-menu')
         <ul class="list">
-            <li class="header">MAIN NAVIGATION</li>            
+            <li class="header">{{ strtoupper(uctrans('menu.title', $module)) }}</li>            
         </ul>
         @if (isset($domain))
         {{-- Home module --}}
         <li @if ('home' === $module->name)class="active"@endif>
             <a href="/{{ $domain->slug }}/home">
                 <i class="material-icons">home</i>
-                <span>Home</span>
+                <span>{{ uctrans('uccello::home.home') }}</span>
             </a>
         </li>
         @endif

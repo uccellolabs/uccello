@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'profile' => 'Profiles'
+    'profile' => 'Profiles',
+    'add_record' => 'Add Profile',
 ];

@@ -4,7 +4,7 @@ use Sardoj\Uccello\Module;
 
 if (! function_exists('uctrans')) {
     /**
-     * Retrieve prefix and translate the given message.
+     * Retrieve prefix and translate the given message. If the default translation does not exist try to find a fallback one.
      *
      * @param  string  $key
      * @param  Module|null  $module
@@ -28,10 +28,26 @@ if (! function_exists('uctrans')) {
             if (preg_match('/Sardoj\\\Uccello/', $module->entity_class)) {
                 $prefix = 'uccello::'.$prefix;
             }
+            
+            // Get translation
+            $translation = app('translator')->trans($prefix.$key, $replace, $locale);
+            
+            // If translation does not exist, try with fallback one
+            if ($translation === $prefix.$key) {
+                
+                // Get fallback translation
+                $fallbackTranslation = app('translator')->trans('uccello::default.'.$key, $replace, $locale);
 
-            $key = $prefix.$key;
+                // If fallback translation exists then use it
+                if ($fallbackTranslation !== 'uccello::default.'.$key) {
+                    $translation = $fallbackTranslation;
+                }
+            }
+            
+            return $translation;            
         }
 
+        // Default behaviour
         return app('translator')->trans($key, $replace, $locale);
     }
 }

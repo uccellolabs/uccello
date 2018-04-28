@@ -2,7 +2,7 @@
 
 return [
     'domain' => 'Domains',
-    'block.general' => 'General information',
+    'add_record' => 'Add Domain',
     'field.name' => 'Name',
     'field.description' => 'Description'
 ];

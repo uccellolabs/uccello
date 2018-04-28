@@ -32,7 +32,7 @@ class EditForm extends Form
         foreach($module->fields as $field)
         {
             // Get translated field label
-            $fieldLabel = __(sprintf('uccello::%s.%s', $module->name, $field->label));
+            $fieldLabel = uctrans($field->label, $module);
 
             // Repeated field
             if ($field->data->repeated ?? false) {
@@ -48,7 +48,7 @@ class EditForm extends Form
                         ],
                     ],
                     'second_options' => [
-                        'label' => __(sprintf('uccello::%s.%s', $module->name, $field->label . '_confirmation')),
+                        'label' => uctrans($field->label.'_confirmation', $module),
                         'label_attr' => ['class' => 'form-label'],
                         'default_value' => $field->data->default ?? null,
                         'attr' => [
@@ -73,7 +73,7 @@ class EditForm extends Form
 
         // Add a save button
         $this->add('submit_btn', 'submit', [
-            'label' => __('uccello::global.button.save'),
+            'label' => uctrans('button.save', $module),
             'attr' => [
                 'class' => 'btn btn-success pull-right'
             ]

@@ -31,9 +31,9 @@
     </section>
 
     @section('script')
-    {{Html::script('js/manifest.js')}}
-    {{Html::script('js/vendor.js')}}
-    {{Html::script('js/app.js')}}
+    {{ Html::script(mix('js/manifest.js')) }}
+    {{ Html::script(mix('js/vendor.js')) }}
+    {{ Html::script(mix('js/app.js')) }}
     @show    
 
     @yield('extra-script')

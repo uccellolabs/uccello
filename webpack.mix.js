@@ -6,10 +6,13 @@ mix.js('resources/assets/js/app.js', 'public/js')
 mix.autoload({
     jquery: [ '$', 'jQuery', 'jquery'],
 });
+
 mix.extract([
     'lodash', 'jquery', 'bootstrap',
     'fastclick', 'jquery-slimscroll', 'adminbsb-materialdesign',
     'vue', 'axios', 'node-waves'
 ], 'public/js/vendor.js');
+
 mix.version();
+
 mix.setPublicPath('public');

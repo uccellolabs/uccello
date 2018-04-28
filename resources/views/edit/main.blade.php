@@ -17,12 +17,12 @@
                             @endif
 
                             {{-- Label --}}
-                            <span>{{ __(sprintf('uccello::%s.%s', $module->name , $block->label)) }}</span>
+                            <span>{{ uctrans($block->label, $module) }}</span>
                         </div>
 
                         {{-- Description --}}
                         @if ($block->description)
-                            <small>{{ __(sprintf('uccello::%s.%s', $module->name , $block->description)) }}</small>                        
+                            <small>{{ uctrans($block->description, $module) }}</small>                        
                         @endif
                     </h2>
                 </div>

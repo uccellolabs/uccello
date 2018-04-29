@@ -23,6 +23,11 @@ class Module extends Model
         return $this->hasMany(Tab::class)->orderBy('sequence');
     }
 
+    public function filters()
+    {
+        return $this->hasMany(Filter::class);
+    }
+
     public function getFieldsAttribute()
     {
         $fields = [];

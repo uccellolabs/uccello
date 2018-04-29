@@ -1,4 +1,4 @@
-webpackJsonp([1],{
+webpackJsonp([2],{
 
 /***/ "./resources/assets/js/app.js":
 /***/ (function(module, exports, __webpack_require__) {

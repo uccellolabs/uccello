@@ -9,6 +9,7 @@ use Sardoj\Uccello\Tab;
 use Sardoj\Uccello\Block;
 use Sardoj\Uccello\Field;
 use Sardoj\Uccello\Database\Migrations\Traits\TablePrefixTrait;
+use Sardoj\Uccello\Filter;
 
 class DomainSeeder extends Seeder
 {
@@ -24,6 +25,7 @@ class DomainSeeder extends Seeder
         $this->createData();
         $module = $this->createModule();
         $this->createTabsBlocksFields($module);
+        $this->createFilters($module);
     }
 
     protected function createData()
@@ -86,5 +88,21 @@ class DomainSeeder extends Seeder
         ]);
 
         //TODO: Parent
+    }
+
+    protected function createFilters($module)
+    {
+        Filter::create([
+            'module_id' => $module->id,
+            'domain_id' => null,
+            'user_id' => null,
+            'name' => 'filter.all',
+            'type' => 'list',
+            'columns' => ['id', 'name', 'description', 'parent_id', 'created_at', 'updated_at'],
+            'conditions' => null,
+            'order_by' => null,
+            'is_default' => true,
+            'is_public' => false
+        ]);
     }
 }

@@ -59793,7 +59793,7 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__("./node_modules/lodash/lodash.js");
@@ -59809,4 +59809,4 @@ module.exports = __webpack_require__("../../../node_modules/node-waves/src/js/wa
 
 /***/ })
 
-},[1]);
+},[2]);

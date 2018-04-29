@@ -14,6 +14,7 @@ return [
     'block.general' => 'General information',
 
     // Field
+    'field.id' => 'Id',
     'field.created_at' => 'Created at',
-    'field.modified_at' => 'Modified at',
+    'field.updated_at' => 'Updated at',
 ];

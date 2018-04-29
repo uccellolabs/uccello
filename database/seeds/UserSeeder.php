@@ -9,6 +9,7 @@ use Sardoj\Uccello\Module;
 use Sardoj\Uccello\Tab;
 use Sardoj\Uccello\Block;
 use Sardoj\Uccello\Field;
+use Sardoj\Uccello\Filter;
 
 class UserSeeder extends Seeder
 {
@@ -22,7 +23,7 @@ class UserSeeder extends Seeder
         $this->createData();
         $module = $this->createModule();
         $this->createTabsBlocksFields($module);
-        
+        $this->createFilters($module);
     }
 
     public function createData()
@@ -63,13 +64,13 @@ class UserSeeder extends Seeder
             'tab_id' => $tab->id
         ]);
 
-        // Username
+        // Name
         Field::create([
-            'name' => 'username',
-            'label' => 'field.username',
+            'name' => 'name',
+            'label' => 'field.name',
             'uitype' => Field::UITYPE_TEXT,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
-            'data' => ['rules' => 'required|alpha_dash|unique:users,username'],
+            'data' => ['rules' => 'required|alpha_dash|unique:users,name'],
             'sequence' => 0,
             'block_id' => $block->id
         ]);
@@ -122,6 +123,22 @@ class UserSeeder extends Seeder
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
             'sequence' => 1,
             'block_id' => $block->id
+        ]);
+    }
+
+    protected function createFilters($module)
+    {
+        Filter::create([
+            'module_id' => $module->id,
+            'domain_id' => null,
+            'user_id' => null,
+            'name' => 'filter.all',
+            'type' => 'list',
+            'columns' => ['id', 'name', 'email', 'created_at', 'updated_at'],
+            'conditions' => null,
+            'order_by' => null,
+            'is_default' => true,
+            'is_public' => false
         ]);
     }
 }

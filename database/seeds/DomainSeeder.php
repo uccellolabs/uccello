@@ -76,6 +76,17 @@ class DomainSeeder extends Seeder
             'block_id' => $block->id
         ]);
 
+        // Parent
+        Field::create([
+            'name' => 'parent_id',
+            'label' => 'field.parent_id',
+            'uitype' => Field::UITYPE_ENTITY,
+            'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
+            'data' => ['module' => 'domain', 'field' => 'name'],
+            'sequence' => 1,
+            'block_id' => $block->id
+        ]);
+
         // Description
         Field::create([
             'name' => 'description',
@@ -83,11 +94,9 @@ class DomainSeeder extends Seeder
             'uitype' => Field::UITYPE_TEXTAREA,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
             'data' => ['large' => true],
-            'sequence' => 1,
+            'sequence' => 2,
             'block_id' => $block->id
         ]);
-
-        //TODO: Parent
     }
 
     protected function createFilters($module)

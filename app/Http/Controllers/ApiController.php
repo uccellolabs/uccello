@@ -28,7 +28,7 @@ class ApiController extends Controller
             $entityClass = $module->entity_class;
 
             // Paginate results
-            $result = $entityClass::paginate(self::ITEMS_PER_PAGE) ?? [];
+            $result = $entityClass::paginate(self::ITEMS_PER_PAGE);
         }
 
         return $result;

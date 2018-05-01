@@ -6,6 +6,11 @@ use Sardoj\Uccello\Database\Eloquent\Model;
 
 class Filter extends Model
 {
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
     protected $table = 'filters';
 
     /**

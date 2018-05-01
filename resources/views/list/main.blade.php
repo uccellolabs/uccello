@@ -4,9 +4,13 @@
 {{ Html::script(mix('js/list.js')) }}
 
 <script>
+/** global: domainSlug */
 var domainSlug = '{{ $domain->slug }}';
+/** global: moduleName */
 var moduleName = '{{ $module->name }}';
+/** global: csrfToken */
 var csrfToken = $('meta[name="csrf-token"]').attr('content');
+/** global: filterColumns */
 var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
 </script>
 @endsection
@@ -37,7 +41,7 @@ var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
                 </div> --}}
                 <div class="body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-hover dataTable">
+                        <table class="table table-striped table-hover dataTable">
                             <thead>
                                 <tr>
                                     @foreach ($filter->columns as $column)

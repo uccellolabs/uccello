@@ -74,12 +74,13 @@ class RoleSeeder extends Seeder
             'block_id' => $block->id
         ]);
 
-        // Domain
+        // Parent
         Field::create([
-            'name' => 'domain_id',
-            'label' => 'field.domain_id',
-            'uitype' => Field::UITYPE_NUMBER,
+            'name' => 'parent_id',
+            'label' => 'field.parent_id',
+            'uitype' => Field::UITYPE_ENTITY,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
+            'data' => ['module' => 'role', 'field' => 'name'],
             'sequence' => 1,
             'block_id' => $block->id
         ]);
@@ -94,8 +95,6 @@ class RoleSeeder extends Seeder
             'sequence' => 2,
             'block_id' => $block->id
         ]);
-
-        //TODO: Parent
     }
 
     protected function createFilters($module)

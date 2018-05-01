@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "adminbsb-materialdesign": "^1.0.5",
+        "autosize": "^4.0.2",
         "axios": "^0.18",
         "bootstrap": "^4.0.0",
         "cross-env": "^5.1",

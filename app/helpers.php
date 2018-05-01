@@ -51,3 +51,22 @@ if (! function_exists('uctrans')) {
         return app('translator')->trans($key, $replace, $locale);
     }
 }
+
+if (! function_exists('ucgetEntityClassByModuleName')) {
+    /**
+     * Retrieve a module by its name and return its entity class.
+     *
+     * @param string|null $moduleName
+     * @return string|null
+     */
+    function ucgetEntityClassByModuleName(?string $moduleName): ?string
+    {
+        if (is_null($moduleName)) {
+            return null;
+        }
+        
+        $module = Module::where('name', $moduleName)->first();
+
+        return $module->entity_class ?? null;
+    }
+}

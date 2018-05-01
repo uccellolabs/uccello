@@ -79,7 +79,7 @@ class UserSeeder extends Seeder
         Field::create([
             'name' => 'is_admin',
             'label' => 'field.is_admin',
-            'uitype' => Field::UITYPE_CHECKBOX,
+            'uitype' => Field::UITYPE_BOOLEAN,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
             'sequence' => 1,
             'block_id' => $block->id
@@ -119,7 +119,7 @@ class UserSeeder extends Seeder
         Field::create([
             'name' => 'phone',
             'label' => 'field.phone',
-            'uitype' => Field::UITYPE_TEL,
+            'uitype' => Field::UITYPE_PHONE,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
             'sequence' => 1,
             'block_id' => $block->id

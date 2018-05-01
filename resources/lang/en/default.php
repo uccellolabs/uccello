@@ -3,6 +3,9 @@
 return [
     // General
     'add_record' => 'Add record',
+    'select_empty_value' => '- Select an option -',
+    'yes' => 'Yes',
+    'no' => 'No',
 
     // Menu
     'menu.title' => 'Menu',

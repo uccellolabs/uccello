@@ -1,5 +1,8 @@
 <div class="col-md-6">
     <div class="form-group">
+        {{-- Label --}}
+        {!! form_label($form->{$field->name}) !!}
+
         <div class="input-group">            
             {{-- Icon if defined --}}
             @if($field->icon ?? false)
@@ -8,11 +11,9 @@
             </span>
             @endif
 
-            <div style="padding-top: 20px; padding-bottom: 15px;">
+            <div style="padding-top: 10px;">
                 {{-- Field --}}
                 {!! form_widget($form->{$field->name}) !!}
-                {{-- Label --}}
-                {!! form_label($form->{$field->name}) !!}
             </div>
         </div>
     </div>

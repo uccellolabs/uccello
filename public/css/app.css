@@ -23126,3 +23126,7 @@ html.ie11 .bs-searchbox .form-control {
   left: 7px;
 }
 
+.dataTable tr {
+  cursor: pointer;
+}
+

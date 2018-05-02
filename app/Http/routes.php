@@ -8,5 +8,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/api/{domain}/{module}/list', '\Sardoj\Uccello\Http\Controllers\ApiController@index')->middleware('auth');
     Route::get('/{domain}/{module}/detail', '\Sardoj\Uccello\Http\Controllers\DetailController@process')->name('detail');
     Route::get('/{domain}/{module}/edit', '\Sardoj\Uccello\Http\Controllers\EditController@process')->name('edit');
+    Route::get('/{domain}/{module}/delete', '\Sardoj\Uccello\Http\Controllers\DeleteController@process')->name('delete');
     Route::post('/{domain}/{module}', '\Sardoj\Uccello\Http\Controllers\EditController@store')->name('store');
 });

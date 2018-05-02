@@ -12,6 +12,8 @@ return [
 
     // Button
     'button.save' => 'Save',
+    'button.edit' => 'Edit',
+    'button.delete' => 'Delete',
 
     // Block
     'block.general' => 'General information',

@@ -19,6 +19,7 @@ class CreateDomainsTable extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->unsignedInteger('parent_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -109,4 +109,32 @@ abstract class Controller extends BaseController
     {
         return Module::all();
     }
+
+    /**
+     * Retrieve record instance if "id" param is defined or return a new empty instance.
+     *
+     * @param Request $request
+     * @return mixed|null
+     */
+    protected function getRecordFromRequest(Request $request)
+    {
+        if (empty($this->module->entity_class)) {
+            return null;
+        }
+
+        // Retrieve entity class
+        $entityClass = $this->module->entity_class;
+        
+        // An id is defined, retrieve the record from the database fail (404) 
+        if ($request->has('id')) {
+            $recordId = (int) $request->input('id');
+            $record = $entityClass::findOrFail($recordId);
+        }
+        // Make a new empty instance
+        else {
+            $record = new $entityClass();
+        }
+
+        return $record;
+    }
 }

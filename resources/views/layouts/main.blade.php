@@ -10,6 +10,8 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="domain" content="{{ $domain->slug }}">
+    <meta name="module" content="{{ $module->name }}">
 
     <!-- Favicon-->
     <link rel="icon" href="favicon.ico" type="image/x-icon">

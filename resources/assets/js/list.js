@@ -7,6 +7,10 @@ require('datatables.net-select');
 
 $(function () {
 
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+    var domainSlug = $('meta[name="domain"]').attr('content');
+    var moduleName = $('meta[name="module"]').attr('content');
+
     $('.dataTable').DataTable({
         dom: 'lrtip',
         responsive: true,
@@ -16,7 +20,13 @@ $(function () {
             url: `/api/${domainSlug}/${moduleName}/list?datatable=1&_token=${csrfToken}`,
             type: "POST"
         },
-        columns: getDatatableColumns()
+        columns: getDatatableColumns(),
+        createdRow: function ( row, data, index ) {
+            // Go to detail view when you click on a row
+            $('td', row).click(function() {
+                document.location.href = `/${domainSlug}/${moduleName}/detail?id=${data.id}`;
+            })
+        }
     });
 
     /**

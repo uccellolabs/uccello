@@ -19,6 +19,7 @@ class CreateProfilesTable extends Migration
             $table->text('description');
             $table->unsignedInteger('role_id');
             $table->unsignedInteger('domain_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

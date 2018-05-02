@@ -21,10 +21,19 @@ class EditForm extends Form
         // Get module data
         $module = $this->getData('module');
 
+        // Make route params
+        $routeParams = ['domain' => $domain->slug, 'module' => $module->name];
+
+        // Get and add record id to route params if defined
+        $recordId = $this->getModel()->id ?? null;
+        if ($recordId ?? false) {
+            $routeParams['id'] = $recordId;
+        }
+
         // Options
         $this->formOptions = [
             'method' => 'POST', // Use POST method
-            'url' => route('store', ['domain' => $domain->slug, 'module' => $module->name]), // URL to call      
+            'url' => route('store', $routeParams), // URL to call      
             'novalidate', // Deactivate HTML5 validation
         ];
 

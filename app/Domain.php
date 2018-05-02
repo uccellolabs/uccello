@@ -5,10 +5,12 @@ namespace Sardoj\Uccello;
 use Sardoj\Uccello\Database\Eloquent\Model;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Domain extends Model
 {
     use HasSlug;
+    use SoftDeletes;
     
     /**
      * The table associated with the model.
@@ -16,6 +18,13 @@ class Domain extends Model
      * @var string
      */
     protected $table = 'domains';
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * Get the options for generating the slug.

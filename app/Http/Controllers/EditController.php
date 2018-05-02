@@ -33,13 +33,11 @@ class EditController extends Controller
         // Pre-process
         $this->preProcess($domain, $module);
 
-        $entityClass = $this->module->entity_class;
-        
-            // Get record model
-            $recordModel = new $entityClass();
+        // Retrieve record or get a new empty instance
+        $record = $this->getRecordFromRequest($request);
 
         // Get form
-        $form = $this->getForm($recordModel);
+        $form = $this->getForm($record);
 
         return view($this->viewName, [
             'structure' => $this->getModuleStructure(),
@@ -54,7 +52,7 @@ class EditController extends Controller
      * @param Module $module
      * @return void
      */
-    public function store(Domain $domain, Module $module)
+    public function store(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module);        
@@ -64,11 +62,11 @@ class EditController extends Controller
         
         try
         {
-            // Get record model
-            $recordModel = new $entityClass();
+            // Retrieve record or get a new empty instance
+            $record = $this->getRecordFromRequest($request);
 
             // Get form
-            $form = $this->getForm($recordModel);
+            $form = $this->getForm($record);
 
             // Redirect if form not valid
             $form->redirectIfNotValid();
@@ -81,22 +79,22 @@ class EditController extends Controller
             }
 
             // Save record
-            $recordModel->save();
+            $record->save();
 
             // Redirect to detail view
-            return redirect()->route('detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $recordModel->id]);
+            return redirect()->route('detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
         }
         catch (\Exception $e) {}
             
         // If there was an error, redirect to edit page 
         // TODO: improve
-        return redirect()->route('edit', ['domain' => $domain->slug, 'module' => $module->name]);
+        return redirect()->route('edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
     }
 
-    public function getForm($recordModel = null)
+    public function getForm($record = null)
     {
         return $this->formBuilder->create(EditForm::class, [
-            'model' => $recordModel,
+            'model' => $record,
             'data' => [
                 'domain' => $this->domain,
                 'module' => $this->module

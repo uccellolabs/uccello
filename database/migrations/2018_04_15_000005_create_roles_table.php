@@ -19,6 +19,7 @@ class CreateRolesTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedInteger('parent_id')->nullable();
             $table->unsignedInteger('domain_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

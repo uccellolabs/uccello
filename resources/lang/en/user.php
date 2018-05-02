@@ -2,6 +2,7 @@
 
 return [
     'user' => 'Users',
+    'user.single' => 'User',
     'add_record' => 'Add User',
     'block.auth' => 'Authentication',
     'block.auth.description' => 'Authentication information',

@@ -4,12 +4,6 @@
 {{ Html::script(mix('js/list.js')) }}
 
 <script>
-/** global: domainSlug */
-var domainSlug = '{{ $domain->slug }}';
-/** global: moduleName */
-var moduleName = '{{ $module->name }}';
-/** global: csrfToken */
-var csrfToken = $('meta[name="csrf-token"]').attr('content');
 /** global: filterColumns */
 var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
 </script>
@@ -17,7 +11,8 @@ var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
 
 @section('content')
     <a href="{{ route('edit', ['domain' => $domain->slug, 'module' => $module->name]) }}" class="btn btn-success">
-    {{ uctrans('add_record', $module) }}</a>
+    {{ uctrans('add_record', $module) }}
+    </a>
 
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

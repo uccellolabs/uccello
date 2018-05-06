@@ -106,8 +106,8 @@ class ApiController extends Controller
         $start = (int) $request->get('start');
         $length = (int) $request->get('length');
         $order = $request->get('order');
-        $columns = $request->get('columns');        
-
+        $columns = $request->get('columns');
+        
         // Get entity model class
         $entityClass = $module->entity_class;
 

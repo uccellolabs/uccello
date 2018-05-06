@@ -1,4 +1,5 @@
 <?php $isLarge = $field->data->large ?? false; ?>
+<?php $isError = form_errors($form->{$field->name}) ?? false; ?>
 <div class="{{ $isLarge ? 'col-md-12' : 'col-md-6' }}">
     <div class="form-group">
         {{-- if it is a repeated field display only the first one --}}
@@ -17,7 +18,7 @@
             </span>
             @endif
 
-            <div class="form-line">
+            <div class="form-line {{ $isError ? 'focused error' : ''}}">
                 {{-- if it is a repeated field display only the first one --}}
                 @if($field->data->repeated ?? false)
                 {!! form_widget($form->{$field->name}->first) !!}
@@ -26,6 +27,18 @@
                 {!! form_widget($form->{$field->name}) !!}
                 @endif
             </div>
+
+            @if($isError)
+            <div class="help-info">
+                {{-- if it is a repeated field display only the first error --}}
+                @if($field->data->repeated ?? false)
+                {!! form_errors($form->{$field->name}->first) !!}
+                @else
+                {{-- else display the error normally --}}
+                {!! form_errors($form->{$field->name}) !!}
+                @endif
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -44,9 +57,15 @@
             </span>
             @endif
 
-            <div class="form-line">
+            <div class="form-line {{ $isError ? 'focused error' : ''}}">
                 {!! form_widget($form->{$field->name}->second) !!}
             </div>
+
+            @if($isError)
+            <div class="help-info">
+                {!! form_errors($form->{$field->name}->second) !!}
+            </div>
+            @endif
         </div>
     </div>
 </div>

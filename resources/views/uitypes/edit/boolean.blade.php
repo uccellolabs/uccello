@@ -1,3 +1,4 @@
+<?php $isError = form_errors($form->{$field->name}) ?? false; ?>
 <div class="col-md-6">
     <div class="form-group">
         {{-- Label --}}
@@ -21,5 +22,11 @@
                 </label>
             </div>
         </div>
+
+        @if($isError)
+        <div class="help-info">
+            {!! form_errors($form->{$field->name}) !!}
+        </div>
+        @endif
     </div>
 </div>

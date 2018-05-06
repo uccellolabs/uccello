@@ -68,18 +68,11 @@ class EditController extends Controller
             // Get form
             $form = $this->getForm($record);
 
-            // Redirect if form not valid
+            // Redirect if form not valid (the record is made here)
             $form->redirectIfNotValid();
 
-            // Make record
-            $values = $form->getFieldValues();
-            foreach($values as $name => $value)
-            {
-                $form->getModel()->$name = $value;
-            }
-
             // Save record
-            $record->save();
+            $form->getModel()->save();
 
             // Redirect to detail view
             return redirect()->route('detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
@@ -88,7 +81,7 @@ class EditController extends Controller
             
         // If there was an error, redirect to edit page 
         // TODO: improve
-        return redirect()->route('edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
+        return redirect()->route('edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id, 'error' => 1]);
     }
 
     public function getForm($record = null)

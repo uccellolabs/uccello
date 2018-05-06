@@ -15,5 +15,11 @@
                 {!! form_label($form->{$field->name}) !!}
             </div>
         </div>
+
+        @if($isError)
+        <div class="help-info">
+            {!! form_errors($form->{$field->name}) !!}
+        </div>
+        @endif
     </div>
 </div>

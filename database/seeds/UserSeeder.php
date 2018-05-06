@@ -70,7 +70,7 @@ class UserSeeder extends Seeder
             'label' => 'field.name',
             'uitype' => Field::UITYPE_TEXT,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
-            'data' => ['rules' => 'required|alpha_dash|unique:users,name'],
+            'data' => ['rules' => 'required|alpha_dash|unique:users'],
             'sequence' => 0,
             'block_id' => $block->id
         ]);
@@ -91,7 +91,7 @@ class UserSeeder extends Seeder
             'label' => 'field.password',
             'uitype' => Field::UITYPE_PASSWORD,
             'display_type' => Field::DISPLAY_TYPE_CREATE_ONLY,
-            'data' => ['rules' => 'min:6', 'repeated' => true],
+            'data' => ['rules' => 'required|min:6', 'repeated' => true],
             'sequence' => 2,
             'block_id' => $block->id
         ]);
@@ -110,7 +110,7 @@ class UserSeeder extends Seeder
             'label' => 'field.email',
             'uitype' => Field::UITYPE_EMAIL,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
-            'data' => ['rules' => 'required|email|unique:users,email'],
+            'data' => ['rules' => 'required|email|unique:users'],
             'sequence' => 0,
             'block_id' => $block->id
         ]);

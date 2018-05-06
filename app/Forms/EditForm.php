@@ -2,9 +2,9 @@
 
 namespace Sardoj\Uccello\Forms;
 
-use Kris\LaravelFormBuilder\Form;
 use Sardoj\Uccello\Field;
 use Debugbar;
+use Illuminate\Support\Facades\Hash;
 
 class EditForm extends Form
 {
@@ -38,7 +38,7 @@ class EditForm extends Form
         ];
 
         // Add all fields
-        foreach($module->fields as $field)
+        foreach ($module->fields as $field)
         {
             // Get field type: if the field must be repeated, the type is "repeated" else get the FormBuilder type
             $fieldType = isset($field->data->repeated) && $field->data->repeated === true ? 'repeated' : $this->getFormBuilderType($field);
@@ -60,6 +60,30 @@ class EditForm extends Form
                 'class' => 'btn btn-success pull-right'
             ]
         ]);
+    }
+
+    /**
+     * Optionally mess with this form's $values before it's returned from getFieldValues().
+     *
+     * @param array $values
+     * @return void
+     */
+    public function alterFieldValues(array &$values)
+    {
+        // Get module data
+        $module = $this->getData('module');
+
+        foreach ($module->fields as $field)
+        {
+            // Hash passwords
+            if ($field->uitype === Field::UITYPE_PASSWORD) {
+                if (!empty($values[$field->name])) {
+                    $values[$field->name] = Hash::make($values[$field->name]);
+                }
+            }
+        }
+
+        // dd($values);
     }
 
     /**
@@ -294,9 +318,10 @@ class EditForm extends Form
         // First field have default options
         $firstFieldOptions = $this->getDefaultFieldOptions($field);
 
-        // Second field have default options too, except the label
+        // Second field have default options too, except label and rules (already verified in the first field)
         $secondFieldOptions = $firstFieldOptions;
         $secondFieldOptions['label'] = uctrans($field->label.'_confirmation', $module);
+        $secondFieldOptions['rules'] = null;
 
         return [
             'type' => $this->getFormBuilderType($field),                  

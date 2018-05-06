@@ -3,14 +3,13 @@
 namespace Sardoj\Uccello;
 
 use Sardoj\Uccello\Database\Eloquent\Model;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Domain extends Model
-{
-    use HasSlug;
+{    
     use SoftDeletes;
+    use Sluggable;
     
     /**
      * The table associated with the model.
@@ -27,13 +26,19 @@ class Domain extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * Get the options for generating the slug.
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
      */
-    public function getSlugOptions(): SlugOptions
+    public function sluggable()
     {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
+        return [
+            'slug' => [
+                'source' => 'name',
+                'onUpdate' => true,
+                'includeTrashed' => false
+            ]
+        ];
     }
 
     public function parent()

@@ -12,6 +12,7 @@ use Sardoj\Uccello\Module;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 abstract class Controller extends BaseController
 {
@@ -133,6 +134,11 @@ abstract class Controller extends BaseController
         // Make a new empty instance
         else {
             $record = new $entityClass();
+
+            // Set domain if column exists
+            if (Schema::hasColumn($record->getTable(), 'domain_id')) {
+                $record->domain_id = $this->domain->id;
+            }
         }
 
         return $record;

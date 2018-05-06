@@ -70,6 +70,7 @@ class RoleSeeder extends Seeder
             'label' => 'field.name',
             'uitype' => Field::UITYPE_TEXT,
             'display_type' => Field::DISPLAY_TYPE_EVERYWHERE,
+            'data' => ['rules' => 'required'],
             'sequence' => 0,
             'block_id' => $block->id
         ]);

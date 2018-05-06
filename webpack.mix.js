@@ -11,8 +11,8 @@ mix.autoload({
 
 mix.extract([
     'lodash', 'jquery', 'bootstrap',
-    'fastclick', 'jquery-slimscroll', 'adminbsb-materialdesign',
-    'vue', 'axios', 'node-waves'
+    'fastclick', 'adminbsb-materialdesign',
+    'vue', 'axios', 'node-waves', 'popper.js'
 ], 'public/js/vendor.js');
 
 mix.version();

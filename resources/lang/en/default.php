@@ -6,6 +6,7 @@ return [
     'select_empty_value' => '- Select an option -',
     'yes' => 'Yes',
     'no' => 'No',
+    'logout' => 'Logout',
 
     // Menu
     'menu.title' => 'Menu',

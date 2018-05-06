@@ -11,9 +11,8 @@
     },
     "devDependencies": {
         "adminbsb-materialdesign": "^1.0.5",
-        "autosize": "^4.0.2",
         "axios": "^0.18",
-        "bootstrap": "^4.0.0",
+        "bootstrap": "^3.1.7",
         "cross-env": "^5.1",
         "datatables.net-autofill-bs": "^2.0.0",
         "datatables.net-bs": "^1.10.16",
@@ -22,9 +21,12 @@
         "datatables.net-fixedcolumns-bs": "^3.2.4",
         "datatables.net-responsive-bs": "^2.2.1",
         "datatables.net-select-bs": "^1.2.5",
+        "fastclick": "^1.0.6",
         "jquery": "^3.2",
+        "jquery-slimscroll": "^1.3.8",
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
+        "node-waves": "^0.7.6",
         "popper.js": "^1.12",
         "vue": "^2.5.7"
     }

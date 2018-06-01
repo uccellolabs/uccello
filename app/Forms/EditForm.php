@@ -33,7 +33,7 @@ class EditForm extends Form
         // Options
         $this->formOptions = [
             'method' => 'POST', // Use POST method
-            'url' => route('store', $routeParams), // URL to call      
+            'url' => route('uccello.store', $routeParams), // URL to call      
             'novalidate', // Deactivate HTML5 validation
         ];
 

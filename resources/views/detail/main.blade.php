@@ -3,11 +3,11 @@
 @section('content')
     <div class="row">
         <div class="col-md-12">
-            <a href="{{ route('edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]) }}" class="btn btn-success">
+            <a href="{{ route('uccello.edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]) }}" class="btn btn-success">
                 {{ uctrans('button.edit', $module) }}
             </a>
 
-            <a href="{{ route('delete', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]) }}" class="btn btn-danger pull-right">
+            <a href="{{ route('uccello.delete', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]) }}" class="btn btn-danger pull-right">
                 {{ uctrans('button.delete', $module) }}
             </a>
         </div>

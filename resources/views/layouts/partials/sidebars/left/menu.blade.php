@@ -24,7 +24,7 @@
                 @foreach ($modules as $_module)
                     @if ($_module->name !== 'home')
                     <li @if ($_module->id === $module->id)class="active"@endif>
-                        <a href="{{ route('list', ['domain' => $domain->slug, 'module' => $_module->name]) }}">
+                        <a href="{{ route('uccello.list', ['domain' => $domain->slug, 'module' => $_module->name]) }}">
                             @if ($_module->icon)<i class="material-icons">{{ $_module->icon ?? 'list' }}</i>@endif
                             <span>{{ uctrans($_module->name, $_module) }}</span>
                         </a>

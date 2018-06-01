@@ -50,8 +50,7 @@ Add this code on *routes/web.php*
 ``` php
 Route::redirect('/', '/default/home');
 
-Auth::routes();
-...
+//...
 ```
 
 Then go to your **homepage**. You must be redirected to the **login page**.

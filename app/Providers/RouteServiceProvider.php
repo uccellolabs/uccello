@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
  */
 class RouteServiceProvider extends DefaultRouteServiceProvider
 {
-
+  /**
+   * @inheritDoc
+   */
   public function boot()
   {
     parent::boot();
@@ -30,4 +32,26 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
       return Module::where('name', $value)->first() ?? abort(404);
     });
   }
+
+  /**
+   * @inheritDoc
+   */
+  public function map()
+  {
+    parent::map();
+
+    $this->mapUccelloRoutes();
+  }
+
+    /**
+     * Define "uccello" routes for the application.
+     *
+     * @return void
+     */
+    protected function mapUccelloRoutes()
+    {
+        Route::middleware('web', 'auth')
+             ->namespace('Sardoj\Uccello\Http\Controllers')
+             ->group(__DIR__.'/../Http/routes.php');
+    }
 }

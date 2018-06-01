@@ -20,19 +20,10 @@ class AppServiceProvider extends ServiceProvider
 
   public function boot()
   {
-    // Get namespace
-    $nameSpace = $this->app->getNamespace();
-
     // Config
     $this->publishes([
       __DIR__.'/../../config/uccello.php' => config_path('uccello.php'),
     ], 'config');
-
-    // Routes
-    $this->app->router->group(['namespace' => $nameSpace . 'Http\Controllers'], function()
-    {
-      require __DIR__.'/../Http/routes.php';
-    });
 
     // Views
     $this->loadViewsFrom(__DIR__.'/../../resources/views', 'uccello');

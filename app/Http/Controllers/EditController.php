@@ -75,13 +75,13 @@ class EditController extends Controller
             $form->getModel()->save();
 
             // Redirect to detail view
-            return redirect()->route('detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
+            return redirect()->route('uccello.detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
         }
         catch (\Exception $e) {}
             
         // If there was an error, redirect to edit page 
         // TODO: improve
-        return redirect()->route('edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id, 'error' => 1]);
+        return redirect()->route('uccello.edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id, 'error' => 1]);
     }
 
     public function getForm($record = null)

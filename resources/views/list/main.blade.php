@@ -10,7 +10,7 @@ var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
 @endsection
 
 @section('content')
-    <a href="{{ route('edit', ['domain' => $domain->slug, 'module' => $module->name]) }}" class="btn btn-success">
+    <a href="{{ route('uccello.edit', ['domain' => $domain->slug, 'module' => $module->name]) }}" class="btn btn-success">
     {{ uctrans('add_record', $module) }}
     </a>
 

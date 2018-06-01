@@ -32,6 +32,6 @@ class DeleteController extends Controller
             $record->delete();
         }
 
-        return redirect()->route('list', ['domain' => $domain->slug, 'module' => $module->name]);
+        return redirect()->route('uccello.list', ['domain' => $domain->slug, 'module' => $module->name]);
     }
 }

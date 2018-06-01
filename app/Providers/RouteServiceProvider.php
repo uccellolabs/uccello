@@ -2,9 +2,6 @@
 
 namespace Sardoj\Uccello\Providers;
  
-use Illuminate\Support\ServiceProvider;
-use Sardoj\Uccello\Console\Commands\UccelloMakeCommand;
-use Illuminate\Support\Facades\Cache;
 use App\Providers\RouteServiceProvider as DefaultRouteServiceProvider;
 use Sardoj\Uccello\Domain;
 use Sardoj\Uccello\Module;

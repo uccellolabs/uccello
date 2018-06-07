@@ -1,0 +1,10 @@
+<?php
+
+namespace App;
+
+use Sardoj\Uccello\User as UccelloUser;
+
+class User extends UccelloUser
+{
+    
+}

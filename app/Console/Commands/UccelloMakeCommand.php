@@ -61,6 +61,12 @@ class UccelloMakeCommand extends Command
         $this->call('make:auth', [ '--force' => true, '--views' => $this->option('views') ]);
 
         $this->info('Start Uccello scaffolding');
+        $this->info('Copying user model...');
+        copy(
+            __DIR__.'/stubs/make/app/User.stub',
+            app_path('User.php')
+        );
+
         $this->info('Copying views...');
         $this->createDirectories();
         foreach ($this->views as $key => $value) {

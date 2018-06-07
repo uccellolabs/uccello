@@ -14,7 +14,7 @@ use Sardoj\Uccello\Module;
 class CheckPermissions
 {
     /**
-     * Check if the user has permission to access the asked page.
+     * Check if the user has permission to access the asked page or redirect to 403 page.
      * Rule: An user is allowed if he is admin or if he has the asked capability.
      *
      * @param  \Illuminate\Http\Request  $request

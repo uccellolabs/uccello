@@ -1,4 +1,4 @@
-@section('body-extra-class')
+@extends('uccello::layouts.error')
 
 @section('content-title', '403 Error Page')
 @section('content-subtitle', '')
@@ -10,7 +10,7 @@ four-zero-four
 @section('content')
 <div class="four-zero-four-container">
     <div class="error-code">403</div>
-    <div class="error-message">This page doesn't exist</div>
+    <div class="error-message">You are not allowed</div>
     <div class="button-place">
         <a href="/" class="btn btn-default btn-lg waves-effect">GO TO HOMEPAGE</a>
     </div>

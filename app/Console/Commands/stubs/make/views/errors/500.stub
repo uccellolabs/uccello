@@ -1,4 +1,4 @@
-@section('body-extra-class')
+@extends('uccello::layouts.error')
 
 @section('content-title', '500 Error Page')
 @section('content-subtitle', '')

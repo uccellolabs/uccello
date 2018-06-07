@@ -16,11 +16,13 @@ class Permission extends Model
     /**
      * List of capabilities
      */
-    const CAN_CREATE = 'create';
-    const CAN_RETRIEVE = 'retrieve';
-    const CAN_UPDATE = 'update';
-    const CAN_DELETE = 'delete';
-    const CAN_ADMIN = 'admin';
+    const CAN_CREATE    = 'create';
+    const CAN_RETRIEVE  = 'retrieve';
+    const CAN_UPDATE    = 'update';
+    const CAN_DELETE    = 'delete';
+    const CAN_ADMIN     = 'admin';
+    const CAN_VIEW_MAP  = 'map';
+    const CAN_DESCRIBE  = 'describe';
 
     public function profile()
     {

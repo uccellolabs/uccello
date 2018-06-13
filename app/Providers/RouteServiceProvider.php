@@ -3,9 +3,9 @@
 namespace Sardoj\Uccello\Providers;
  
 use App\Providers\RouteServiceProvider as DefaultRouteServiceProvider;
-use Sardoj\Uccello\Domain;
-use Sardoj\Uccello\Module;
 use Illuminate\Support\Facades\Route;
+use Sardoj\Uccello\Models\Domain;
+use Sardoj\Uccello\Models\Module;
 
 /**
  * Route Service Provider

@@ -5,11 +5,11 @@ namespace Sardoj\Uccello\Http\Middleware;
 use Closure;
 use Auth;
 use Cache;
-use App\User;
-use Sardoj\Uccello\Privilege;
-use Sardoj\Uccello\Permission;
-use Sardoj\Uccello\Domain;
-use Sardoj\Uccello\Module;
+use Sardoj\Uccello\Models\User;
+use Sardoj\Uccello\Models\Privilege;
+use Sardoj\Uccello\Models\Permission;
+use Sardoj\Uccello\Models\Domain;
+use Sardoj\Uccello\Models\Module;
 
 class CheckPermissions
 {

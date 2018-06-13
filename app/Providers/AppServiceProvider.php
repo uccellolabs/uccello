@@ -4,7 +4,6 @@ namespace Sardoj\Uccello\Providers;
  
 use Illuminate\Support\ServiceProvider;
 use Sardoj\Uccello\Console\Commands\UccelloMakeCommand;
-use Illuminate\Support\Facades\Cache;
 
 /**
  * App Service Provider

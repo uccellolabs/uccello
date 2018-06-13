@@ -2,11 +2,11 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Sardoj\Uccello\Database\Migrations\Traits\TablePrefixTrait;
-use Sardoj\Uccello\Module;
-use Sardoj\Uccello\Tab;
-use Sardoj\Uccello\Block;
-use Sardoj\Uccello\Field;
-use Sardoj\Uccello\Filter;
+use Sardoj\Uccello\Models\Module;
+use Sardoj\Uccello\Models\Tab;
+use Sardoj\Uccello\Models\Block;
+use Sardoj\Uccello\Models\Field;
+use Sardoj\Uccello\Models\Filter;
 
 class CreateDomainStructure extends Migration
 {
@@ -39,7 +39,7 @@ class CreateDomainStructure extends Migration
         $module = new  Module();
         $module->name = 'domain';
         $module->icon = 'domain';
-        $module->entity_class = 'Sardoj\Uccello\Domain';
+        $module->entity_class = 'Sardoj\Uccello\Models\Domain';
         $module->is_for_admin = true;
         $module->save();
 

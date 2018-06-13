@@ -7,24 +7,23 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
-use Sardoj\Uccello\Domain;
-use Sardoj\Uccello\Module;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Sardoj\Uccello\Models\Domain;
+use Sardoj\Uccello\Models\Module;
 
 abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * @var Sardoj\Uccello\Domain
+     * @var Sardoj\Uccello\Models\Domain
      */
     protected $domain;
 
     /**
-     * @var Sardoj\Uccello\Module
+     * @var Sardoj\Uccello\Models\Module
      */
     protected $module;
 

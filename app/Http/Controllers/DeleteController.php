@@ -2,9 +2,9 @@
 
 namespace Sardoj\Uccello\Http\Controllers;
 
-use Sardoj\Uccello\Domain;
-use Sardoj\Uccello\Module;
 use Illuminate\Http\Request;
+use Sardoj\Uccello\Models\Domain;
+use Sardoj\Uccello\Models\Module;
 
 
 class DeleteController extends Controller

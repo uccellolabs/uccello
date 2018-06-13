@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Sardoj\Uccello\User as UccelloUser;
+use Sardoj\Uccello\Models\User as UccelloUser;
 
 class User extends UccelloUser
 {

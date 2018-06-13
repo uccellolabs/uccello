@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello;
+namespace Sardoj\Uccello\Models;
 
 use Sardoj\Uccello\Database\Eloquent\Model;
 

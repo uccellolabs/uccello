@@ -1,6 +1,6 @@
 <?php
 
-use Sardoj\Uccello\Module;
+use Sardoj\Uccello\Models\Module;
 
 if (! function_exists('uctrans')) {
     /**

@@ -3,14 +3,11 @@
 namespace Sardoj\Uccello\Http\Controllers;
 
 use Debugbar;
-use Sardoj\Uccello\Domain;
-use Sardoj\Uccello\Module;
-use Illuminate\Support\Facades\Cache;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Sardoj\Uccello\Forms\EditForm;
-use Sardoj\Uccello\Tab;
-use PHPUnit\Framework\MockObject\BadMethodCallException;
 use Illuminate\Http\Request;
+use Sardoj\Uccello\Models\Domain;
+use Sardoj\Uccello\Models\Module;
 
 
 class EditController extends Controller

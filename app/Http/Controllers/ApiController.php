@@ -3,8 +3,8 @@
 namespace Sardoj\Uccello\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Sardoj\Uccello\Domain;
-use Sardoj\Uccello\Module;
+use Sardoj\Uccello\Models\Domain;
+use Sardoj\Uccello\Models\Module;
 use Debugbar;
 
 class ApiController extends Controller

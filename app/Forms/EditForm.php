@@ -2,9 +2,8 @@
 
 namespace Sardoj\Uccello\Forms;
 
-use Sardoj\Uccello\Field;
-use Debugbar;
 use Illuminate\Support\Facades\Hash;
+use Sardoj\Uccello\Models\Field;
 
 class EditForm extends Form
 {

@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Sardoj\Uccello\User;
-use Sardoj\Uccello\Domain;
-use Sardoj\Uccello\Role;
-use Sardoj\Uccello\Module;
+use Sardoj\Uccello\Models\User;
+use Sardoj\Uccello\Models\Domain;
+use Sardoj\Uccello\Models\Role;
+use Sardoj\Uccello\Models\Module;
 
 class AddDefaultData extends Migration
 {   

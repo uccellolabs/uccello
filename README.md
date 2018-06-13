@@ -17,7 +17,7 @@ Via Composer
 $ composer require sardoj/uccello
 ```
 
-If you are using Laravel 5.5 or above skip this step, but if aren't then add this code on *config/app.php*, on providers
+If you are using Laravel 5.5 or above skip this step, but if aren't then add this code on ```config/app.php```, on providers
 
 ``` php
 'providers' => [
@@ -36,8 +36,18 @@ $ php artisan make:uccello
 
 This command will extract needed views for **auth**, and **errors**.
 
+### Add check permissions middleware
+Open ```app/Http/Kernel.php``` file and add the following code:
+
+```php
+protected $routeMiddleware = [
+  ...
+  'uccello.permissions' => \Sardoj\Uccello\Http\Middleware\CheckPermissions::class,
+];
+```
+
 ### Migrate and seed the database
-Configure *.env* file then run this command to migrate the database
+Configure ```.env``` file then run this command to migrate the database
 
 ```bash
  php artisan migrate
@@ -45,12 +55,11 @@ Configure *.env* file then run this command to migrate the database
 
 
 ### Set the default routes
-Add this code on *routes/web.php*
+Add this code on ```routes/web.php```
 
 ``` php
 Route::redirect('/', '/default/home');
-
-//...
+...
 ```
 
 Then go to your **homepage**. You must be redirected to the **login page**.
@@ -60,7 +69,6 @@ You can easily **sign up** to create a new account or **sign in** with the follo
 Login: admin@uccello.io
 Password: admin
 ```
-
 
 ## Testing
 

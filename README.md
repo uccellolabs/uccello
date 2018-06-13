@@ -41,7 +41,7 @@ Open ```app/Http/Kernel.php``` file and add the following code:
 
 ```php
 protected $routeMiddleware = [
-  ...
+  //...
   'uccello.permissions' => \Sardoj\Uccello\Http\Middleware\CheckPermissions::class,
 ];
 ```

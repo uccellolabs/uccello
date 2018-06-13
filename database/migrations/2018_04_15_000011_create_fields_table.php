@@ -23,6 +23,11 @@ class CreateFieldsTable extends Migration
             $table->text('data')->nullable();
             $table->unsignedInteger('block_id');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('block_id')
+                    ->references('id')->on($this->tablePrefix . 'blocks')
+                    ->onDelete('cascade');
         });
     }
 

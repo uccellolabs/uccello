@@ -18,6 +18,15 @@ class CreateProfilesRolesTable extends Migration
             $table->unsignedInteger('profile_id');
             $table->unsignedInteger('role_id');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('profile_id')
+                    ->references('id')->on($this->tablePrefix . 'profiles')
+                    ->onDelete('cascade');
+            
+            $table->foreign('role_id')
+                    ->references('id')->on($this->tablePrefix . 'roles')
+                    ->onDelete('cascade');
         });
     }
 

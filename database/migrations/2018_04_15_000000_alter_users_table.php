@@ -14,7 +14,12 @@ class AlterUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->string('username')->after('id');
+            $table->string('first_name')->after('username')->nullable();
+            $table->string('phone')->after('password')->nullable();
             $table->boolean('is_admin')->after('remember_token')->default(false);
+            $table->softDeletes();
+            $table->renameColumn('name', 'last_name');
         });
     }
 
@@ -26,6 +31,9 @@ class AlterUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
+            $table->renameColumn('username', 'name');
+            $table->removeColumn('first_name');
+            $table->removeColumn('last_name');
             $table->removeColumn('is_admin');
         });
     }

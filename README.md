@@ -37,10 +37,10 @@ $ php artisan make:uccello
 This command will extract needed views for **auth**, and **errors**.
 
 ### Migrate and seed the database
-Configure *.env* file then run this command to migrate and seed the database
+Configure *.env* file then run this command to migrate the database
 
 ```bash
- php artisan migrate:fresh && php artisan db:seed --class=\\Sardoj\\Uccello\\Seeds\\DatabaseSeeder
+ php artisan migrate
 ```
 
 
@@ -58,7 +58,7 @@ You can easily **sign up** to create a new account or **sign in** with the follo
 
 ```
 Login: admin@uccello.io
-Password: 123456
+Password: admin
 ```
 
 

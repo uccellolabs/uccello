@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Sardoj\Uccello\Database\Migrations\Migration;
 
-class CreateDomainsTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,22 @@ class CreateDomainsTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'domains', function (Blueprint $table) {
+        Schema::create($this->tablePrefix . 'roles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('slug');
             $table->text('description')->nullable();
             $table->unsignedInteger('parent_id')->nullable();
+            $table->unsignedInteger('domain_id');
             $table->timestamps();
             $table->softDeletes();
 
             // Foreign keys
             $table->foreign('parent_id')
-                    ->references('id')->on($this->tablePrefix . 'domains');
+                    ->references('id')->on($this->tablePrefix . 'roles');
+
+            $table->foreign('domain_id')
+                    ->references('id')->on($this->tablePrefix . 'domains')
+                    ->onDelete('cascade');
         });
     }
 
@@ -35,6 +39,6 @@ class CreateDomainsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'domains');
+        Schema::dropIfExists($this->tablePrefix . 'roles');
     }
 }

@@ -21,6 +21,11 @@ class CreateBlocksTable extends Migration
             $table->unsignedInteger('sequence');
             $table->unsignedInteger('tab_id');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('tab_id')
+                    ->references('id')->on($this->tablePrefix . 'tabs')
+                    ->onDelete('cascade');
         });
     }
 

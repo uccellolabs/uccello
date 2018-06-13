@@ -26,6 +26,19 @@ class CreateFiltersTable extends Migration
             $table->boolean('is_default')->default(false);
             $table->boolean('is_public')->default(false);
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('module_id')
+                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->onDelete('cascade');
+            
+            $table->foreign('domain_id')
+                    ->references('id')->on($this->tablePrefix . 'domains')
+                    ->onDelete('cascade');
+            
+            $table->foreign('user_id')
+                    ->references('id')->on('users')
+                    ->onDelete('cascade');
         });
     }
 

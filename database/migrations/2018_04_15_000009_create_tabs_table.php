@@ -3,9 +3,12 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Sardoj\Uccello\Database\Migrations\Migration;
+use Sardoj\Uccello\Database\Migrations\Traits\TablePrefixTrait;
 
 class CreateTabsTable extends Migration
 {
+    use TablePrefixTrait;
+
     /**
      * Run the migrations.
      *
@@ -20,6 +23,11 @@ class CreateTabsTable extends Migration
             $table->unsignedInteger('sequence');
             $table->unsignedInteger('module_id');
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('module_id')
+                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->onDelete('cascade');
         });
     }
 

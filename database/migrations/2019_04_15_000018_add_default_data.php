@@ -15,9 +15,9 @@ class AddDefaultData extends Migration
      */
     public function up()
     {
-        $this->addDefaultUser();
         $this->addDefaultDomain();
         $this->addDefaultRole();
+        $this->addDefaultUser();
     }
 
     /**
@@ -30,18 +30,6 @@ class AddDefaultData extends Migration
         User::where('username', 'admin')->forceDelete();
         Domain::where('name', 'Default')->forceDelete();
         Role::where('name', 'Administrator')->forceDelete();
-    }
-
-    protected function addDefaultUser()
-    {
-        $user = new User();
-        $user->username = 'admin';
-        $user->first_name = null;
-        $user->last_name = 'Admin';
-        $user->email = 'admin@uccello.io';
-        $user->password = Hash::make( 'admin');
-        $user->is_admin = true;
-        $user->save();
     }
 
     protected function addDefaultDomain()
@@ -61,5 +49,18 @@ class AddDefaultData extends Migration
         $role->parent_id = null;
         $role->domain_id = Domain::first()->id;
         $role->save();
+    }
+
+    protected function addDefaultUser()
+    {
+        $user = new User();
+        $user->username = 'admin';
+        $user->first_name = null;
+        $user->last_name = 'Admin';
+        $user->email = 'admin@uccello.io';
+        $user->password = Hash::make( 'admin');
+        $user->is_admin = true;
+        $user->domain_id = Domain::first()->id;
+        $user->save();
     }
 }

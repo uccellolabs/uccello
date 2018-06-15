@@ -16,7 +16,7 @@ class CreateProfilesTable extends Migration
         Schema::create($this->tablePrefix . 'profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->unsignedInteger('domain_id');
             $table->timestamps();
             $table->softDeletes();

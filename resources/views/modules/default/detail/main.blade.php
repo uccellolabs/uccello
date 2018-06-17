@@ -1,7 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    {!! form_start($form) !!}
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{{ route('uccello.edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]) }}" class="btn btn-success">
+                {{ uctrans('button.edit', $module) }}
+            </a>
+
+            <a href="{{ route('uccello.delete', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]) }}" class="btn btn-danger pull-right">
+                {{ uctrans('button.delete', $module) }}
+            </a>
+        </div>
+    </div>
+
     @section('default-blocks')
         {{-- All defined blocks --}}
         @foreach ($structure->tabs as $tab)  {{-- TODO: Display all tabs --}}
@@ -30,13 +41,13 @@
                     <div class="row">
                     {{-- Display all block's fields --}}
                     @foreach ($block->fields as $field)
-                        @if(View::exists(sprintf('uccello::uitypes.edit.%s', $field->uitype)))
-                            {{-- If a special template exists, use it --}}
-                            @include(sprintf('uccello::uitypes.edit.%s', $field->uitype))
-                        @else 
-                            {{-- Else use the generic template --}}
-                            @include(sprintf('uccello::uitypes.edit.text'))
-                        @endif
+                        <?php
+                            // If a special template exists, use it. Else use the generic template
+                            $uitypeViewName = sprintf('uitypes.detail.%s', $field->uitype);
+                            $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
+                            $uitypeViewToInclude = ucview($module, $uitypeViewName, $uitypeFallbackView);
+                        ?>
+                        @include($uitypeViewToInclude)
                     @endforeach
                     </div>
                 </div>
@@ -47,6 +58,4 @@
 
     {{-- Other blocks --}}
     @yield('other-blocks')
-
-    {!! form_end($form) !!}
 @endsection

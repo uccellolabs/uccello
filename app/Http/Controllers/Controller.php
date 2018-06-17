@@ -55,7 +55,7 @@ abstract class Controller extends BaseController
         // Pre-process
         $this->preProcess($domain, $module);
 
-        return view($this->viewName);
+        return $this->autoView();
     }
 
     /**
@@ -141,5 +141,19 @@ abstract class Controller extends BaseController
         }
 
         return $record;
+    }
+
+    /**
+     * Detects which view it must use and returns the evaluated view contents.
+     *
+     * @param  array   $data
+     * @param  array   $mergeData
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
+    protected function autoView($data = [], $mergeData = [])
+    {
+        $viewToUse = ucview($this->module, $this->viewName);
+
+        return view($viewToUse, $data, $mergeData);
     }
 }

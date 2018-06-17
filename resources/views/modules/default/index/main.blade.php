@@ -2,4 +2,5 @@
 
 @section('content')
 Index
+@ucinclude('test')
 @endsection

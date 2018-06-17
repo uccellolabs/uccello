@@ -10,7 +10,7 @@ use Sardoj\Uccello\Models\Module;
 
 class ListController extends Controller
 {
-    protected $viewName = 'uccello::list.main';
+    protected $viewName = 'list.main';
 
     /**
      * @inheritDoc
@@ -23,7 +23,7 @@ class ListController extends Controller
         // Get filter
         $filter = $this->getFilter();
 
-        return view($this->viewName, compact('filter'));
+        return $this->autoView(compact('filter'));
     }
 
     /**

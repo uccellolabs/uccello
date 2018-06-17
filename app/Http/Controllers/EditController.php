@@ -12,7 +12,7 @@ use Sardoj\Uccello\Models\Module;
 
 class EditController extends Controller
 {
-    protected $viewName = 'uccello::edit.main';
+    protected $viewName = 'edit.main';
     protected $formBuilder;
 
     public function __construct(FormBuilder $formBuilder)
@@ -36,7 +36,7 @@ class EditController extends Controller
         // Get form
         $form = $this->getForm($record);
 
-        return view($this->viewName, [
+        return $this->autoView([
             'structure' => $this->getModuleStructure(),
             'form' => $form
         ]);

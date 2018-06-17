@@ -9,7 +9,7 @@ use Sardoj\Uccello\Models\Module;
 
 class DetailController extends Controller
 {
-    protected $viewName = 'uccello::detail.main';
+    protected $viewName = 'detail.main';
 
     /**
      * {@inheritdoc}
@@ -22,7 +22,7 @@ class DetailController extends Controller
         // Get record id
         $recordId = $request->input('id');
 
-        return view($this->viewName, [
+        return $this->autoView([
             'structure' => $this->getModuleStructure(),
             'record' => $this->getRecord($recordId)
         ]);

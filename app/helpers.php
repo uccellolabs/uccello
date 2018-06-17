@@ -70,3 +70,49 @@ if (! function_exists('ucgetEntityClassByModuleName')) {
         return $module->entity_class ?? null;
     }
 }
+
+if (! function_exists('ucview')) {
+    /**
+     * Detects which view it must use and returns the evaluated view contents.
+     * Priority:
+     * 1 - Module view overrided in app
+     * 2 - Default view overrided in app
+     * 3 - Module view ovverrided in uccello
+     * 4 - Default view defined in uccello
+     * 5 - Fallback view if defined
+     *
+     * @param Module $module
+     * @param string $viewName
+     * @param string|null $fallbackView
+     * @return string|null
+     */
+    function ucview(Module $module, string $viewName, ?string $fallbackView = null): ?string
+    {
+        // Module view overrided in app
+        $appModuleView = 'modules.' . $module->name . '.' . $viewName;
+
+        // Default view overrided in app
+        $appDefaultView = 'modules.default.' . $viewName;
+
+        // Module view ovverrided in uccello
+        $uccelloModuleView = 'uccello::modules.' . $module->name . '.' . $viewName;
+
+        // Default view defined in uccello
+        $uccelloDefaultView = 'uccello::modules.default.' . $viewName;
+
+        $viewToInclude = null;
+        if (view()->exists($appModuleView)) {
+            $viewToInclude = $appModuleView;
+        } elseif (view()->exists($appDefaultView)) {
+            $viewToInclude = $appDefaultView;
+        } elseif (view()->exists($uccelloModuleView)) {
+            $viewToInclude = $uccelloModuleView;
+        } elseif (view()->exists($uccelloDefaultView)) {
+            $viewToInclude = $uccelloDefaultView;
+        } elseif (!is_null($fallbackView)) {
+            $viewToInclude = $fallbackView;
+        }
+
+        return $viewToInclude;
+    }
+}

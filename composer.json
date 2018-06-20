@@ -54,7 +54,8 @@
         "laravel": {
             "providers": [
                 "Sardoj\\Uccello\\Providers\\AppServiceProvider",
-                "Sardoj\\Uccello\\Providers\\RouteServiceProvider"
+                "Sardoj\\Uccello\\Providers\\RouteServiceProvider",
+                "Sardoj\\Uccello\\Providers\\EventServiceProvider"
             ],
             "aliases": {
                 "Uccello": "Sardoj\\Uccello\\Facades\\Uccello"

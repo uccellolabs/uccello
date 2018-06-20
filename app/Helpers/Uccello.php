@@ -3,6 +3,7 @@
 namespace Sardoj\Uccello\Helpers;
 
 use Sardoj\Uccello\Models\Module;
+use Sardoj\Uccello\Models\Permission;
 
 class Uccello
 {
@@ -15,7 +16,7 @@ class Uccello
      * @param  string  $locale
      * @return \Illuminate\Contracts\Translation\Translator|string|array|null
      */
-    function trans($key = null, ?Module $module = null, $replace = [], $locale = null)
+    public function trans($key = null, ?Module $module = null, $replace = [], $locale = null)
     {
         if (is_null($key)) {
             return app('translator');
@@ -60,7 +61,7 @@ class Uccello
      * @param string|null $moduleName
      * @return string|null
      */
-    function getEntityClassByModuleName(?string $moduleName): ?string
+    public function getEntityClassByModuleName(?string $moduleName): ?string
     {
         if (is_null($moduleName)) {
             return null;
@@ -85,7 +86,7 @@ class Uccello
      * @param string|null $fallbackView
      * @return string|null
      */
-    function view(Module $module, string $viewName, ?string $fallbackView = null): ?string
+    public function view(Module $module, string $viewName, ?string $fallbackView = null): ?string
     {
         // Module view overrided in app
         $appModuleView = 'modules.' . $module->name . '.' . $viewName;
@@ -113,5 +114,27 @@ class Uccello
         }
 
         return $viewToInclude;
+    }
+
+    /**
+     * Returns the list of capabilities.
+     * Important: A capability name must begin by CAPABILITY_
+     *
+     * @return array
+     * 
+     * @see Sardoj\Uccello\Models\Permission
+     */
+    public function getCapabilities(): array
+    {
+        $class = new \ReflectionClass(Permission::class);
+
+        $capabilities = [];
+        foreach ($class->getConstants() as $constant => $value) {
+            if (preg_match('`^CAPABILITY_`', $constant)) {
+                $capabilities[] = $value;
+            }
+        }
+
+        return $capabilities;
     }
 }

@@ -47,4 +47,34 @@ class User extends Authenticatable
     {
         return $this->hasMany(Privilege::class);
     }
+
+    public function canAdmin(Domain $domain, Module $module)
+    {
+        return $this->is_admin;
+    }
+
+    public function canCreate(Domain $domain, Module $module)
+    {
+        return true;
+    }
+
+    public function canRetrieve(Domain $domain, Module $module)
+    {
+        return true;
+    }
+
+    public function canUpdate(Domain $domain, Module $module)
+    {
+        return true;
+    }
+
+    public function canDelete(Domain $domain, Module $module)
+    {
+        return true;
+    }
+
+    public function canViewMap(Domain $domain, Module $module)
+    {
+        return true;
+    }
 }

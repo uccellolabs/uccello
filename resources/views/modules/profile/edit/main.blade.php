@@ -31,7 +31,7 @@
             @foreach (uccello()->getCapabilities() as $capability)
                 <div class="col-md-3 col-sm-6 switch">
                     <label>
-                        <input type="checkbox" name="capabilities[{{ $_module->name }}][{{ $capability }}]">
+                        <input type="checkbox" name="permissions[{{ $_module->name }}][{{ $capability }}]">
                         <span class="lever switch-col-blue"></span>
                         {{ uctrans('capability.' . $capability, $module) }}
                     </label>

@@ -6,6 +6,8 @@ use Debugbar;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Sardoj\Uccello\Forms\EditForm;
 use Illuminate\Http\Request;
+use Sardoj\Uccello\Events\BeforeSaveEvent;
+use Sardoj\Uccello\Events\AfterSaveEvent;
 use Sardoj\Uccello\Models\Domain;
 use Sardoj\Uccello\Models\Module;
 
@@ -52,11 +54,11 @@ class EditController extends Controller
     public function store(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
-        $this->preProcess($domain, $module);        
+        $this->preProcess($domain, $module);
 
         // Get entity class used by the module
         $entityClass = $this->module->entity_class;
-        
+
         try
         {
             // Retrieve record or get a new empty instance
@@ -68,15 +70,21 @@ class EditController extends Controller
             // Redirect if form not valid (the record is made here)
             $form->redirectIfNotValid();
 
+            $mode = $record->id ? 'edit' : 'create';
+
+            event(new BeforeSaveEvent($domain, $module, $request, $record, $mode));
+
             // Save record
             $form->getModel()->save();
+
+            event(new AfterSaveEvent($domain, $module, $request, $record, $mode));
 
             // Redirect to detail view
             return redirect()->route('uccello.detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
         }
         catch (\Exception $e) {}
-            
-        // If there was an error, redirect to edit page 
+
+        // If there was an error, redirect to edit page
         // TODO: improve
         return redirect()->route('uccello.edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id, 'error' => 1]);
     }

@@ -33,7 +33,12 @@ class Module extends Model
         return $this->hasMany(Filter::class);
     }
 
-    public function getFieldsAttribute()
+    /**
+     * Returns all module fields.
+     *
+     * @return array
+     */
+    public function getFieldsAttribute(): array
     {
         $fields = [];
 
@@ -49,5 +54,25 @@ class Module extends Model
         }
 
         return $fields;
+    }
+
+    /**
+     * Checks if the module is active on a domain.
+     *
+     * @param Domain $domain
+     * @return boolean
+     */
+    public function isActiveOnDomain(Domain $domain): bool
+    {
+        $isActive = false;
+
+        foreach ($this->domains as $domainActive) {
+            if ($domainActive->id === $domain->id) {
+                $isActive = true;
+                break;
+            }
+        }
+
+        return $isActive;
     }
 }

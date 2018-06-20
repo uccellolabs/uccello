@@ -5,6 +5,7 @@ namespace Sardoj\Uccello\Providers;
 use Illuminate\Support\ServiceProvider;
 use Sardoj\Uccello\Console\Commands\UccelloMakeCommand;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Schema;
 
 /**
  * App Service Provider
@@ -20,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
 
   public function boot()
   {
+    // For compatibility
+    Schema::defaultStringLength(191);
+
     // Config
     $this->publishes([
       __DIR__ . '/../../config/uccello.php' => config_path('uccello.php'),

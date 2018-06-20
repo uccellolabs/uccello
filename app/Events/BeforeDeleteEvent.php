@@ -9,9 +9,9 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Http\Request;
 use Sardoj\Uccello\Models\Domain;
 use Sardoj\Uccello\Models\Module;
-use Request;
 
 class BeforeDeleteEvent
 {

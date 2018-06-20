@@ -45,7 +45,7 @@
                             // If a special template exists, use it. Else use the generic template
                             $uitypeViewName = sprintf('uitypes.detail.%s', $field->uitype);
                             $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
-                            $uitypeViewToInclude = ucview($module, $uitypeViewName, $uitypeFallbackView);
+                            $uitypeViewToInclude = uccello()->view($module, $uitypeViewName, $uitypeFallbackView);
                         ?>
                         @include($uitypeViewToInclude)
                     @endforeach

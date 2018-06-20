@@ -25,7 +25,12 @@ If you are using Laravel 5.5 or above skip this step, but if aren't then add thi
   Sardoj\Uccello\Providers\AppServiceProvider::class,
   Sardoj\Uccello\Providers\RouteServiceProvider::class,
   ...
-]
+],
+...
+'aliases' => [
+  ...
+  'Uccello' => Sardoj\Uccello\Facades\Uccello::class,
+],
 ```
 
 And then run,

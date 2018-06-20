@@ -49,13 +49,18 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.0-dev"
+            "dev-master": "0.2.1-dev"
         },
         "laravel": {
             "providers": [
                 "Sardoj\\Uccello\\Providers\\AppServiceProvider",
                 "Sardoj\\Uccello\\Providers\\RouteServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Uccello": "Sardoj\\Uccello\\Facades\\Uccello"
+            }
+
+            
         }
     },
     "config": {

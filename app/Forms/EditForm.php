@@ -4,6 +4,7 @@ namespace Sardoj\Uccello\Forms;
 
 use Illuminate\Support\Facades\Hash;
 use Sardoj\Uccello\Models\Field;
+use Sardoj\Uccello\Facades\Uccello;
 
 class EditForm extends Form
 {
@@ -258,7 +259,7 @@ class EditForm extends Form
             case Field::UITYPE_ENTITY:
                 if ($field->data->module) {
                     $options = [
-                        'class' => ucgetEntityClassByModuleName($field->data->module),
+                        'class' => Uccello::getEntityClassByModuleName($field->data->module),
                         'property' => $field->data->field ?? 'name'
                     ];
                 }

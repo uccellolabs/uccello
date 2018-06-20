@@ -152,7 +152,7 @@ abstract class Controller extends BaseController
      */
     protected function autoView($data = [], $mergeData = [])
     {
-        $viewToUse = ucview($this->module, $this->viewName);
+        $viewToUse = uccello()->view($this->module, $this->viewName);
 
         return view($viewToUse, $data, $mergeData);
     }

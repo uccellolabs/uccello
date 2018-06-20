@@ -1,9 +1,10 @@
 <?php
 
 namespace Sardoj\Uccello\Providers;
- 
+
 use Illuminate\Support\ServiceProvider;
 use Sardoj\Uccello\Console\Commands\UccelloMakeCommand;
+use Illuminate\Support\Facades\App;
 
 /**
  * App Service Provider
@@ -21,31 +22,33 @@ class AppServiceProvider extends ServiceProvider
   {
     // Config
     $this->publishes([
-      __DIR__.'/../../config/uccello.php' => config_path('uccello.php'),
+      __DIR__ . '/../../config/uccello.php' => config_path('uccello.php'),
     ], 'config');
 
     // Views
-    $this->loadViewsFrom(__DIR__.'/../../resources/views', 'uccello');
+    $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
     $this->publishes([
-        __DIR__.'/../../resources/views' => resource_path('views/vendor/sardoj')
+      __DIR__ . '/../../resources/views' => resource_path('views/vendor/sardoj')
     ], 'views');
 
     // Translations
-    $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'uccello');
+    $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'uccello');
 
     // Migrations
-    $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+    $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
     // Commands
     if ($this->app->runningInConsole()) {
       $this->commands([
-          UccelloMakeCommand::class,
+        UccelloMakeCommand::class,
       ]);
     }
   }
 
   public function register()
   {
-    
+    App::bind('uccello', function () {
+      return new \Sardoj\Uccello\Helpers\Uccello;
+    });
   }
 }

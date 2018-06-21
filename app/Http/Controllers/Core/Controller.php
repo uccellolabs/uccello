@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers;
+namespace Sardoj\Uccello\Http\Controllers\Core;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -28,6 +28,11 @@ abstract class Controller extends BaseController
     protected $module;
 
     /**
+     * @var Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
      * @var string
      */
     protected $viewName;
@@ -47,13 +52,13 @@ abstract class Controller extends BaseController
      * @param Domain $domain
      * @param Module $module
      * @param Request $request
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function process(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
-        $this->preProcess($domain, $module);
+        $this->preProcess($domain, $module, $request);
 
         return $this->autoView();
     }
@@ -63,13 +68,16 @@ abstract class Controller extends BaseController
      * @param Domain $domain
      * @param Module $module
      */
-    protected function preProcess(Domain $domain, Module $module)
+    protected function preProcess(Domain $domain, Module $module, Request $request)
     {
         // Get domain
         $this->domain = $domain;
 
         // Get module
         $this->module = $module;
+
+        // Get request
+        $this->request = $request;
 
         // Check user permissions
         $this->checkPermissions();
@@ -98,7 +106,7 @@ abstract class Controller extends BaseController
      */
     protected function checkPermissions()
     {
-        //TODO:To complete
+        //
     }
 
     /**
@@ -113,10 +121,9 @@ abstract class Controller extends BaseController
     /**
      * Retrieve record instance if "id" param is defined or return a new empty instance.
      *
-     * @param Request $request
      * @return mixed|null
      */
-    protected function getRecordFromRequest(Request $request)
+    protected function getRecordFromRequest()
     {
         if (empty($this->module->entity_class)) {
             return null;
@@ -124,10 +131,10 @@ abstract class Controller extends BaseController
 
         // Retrieve entity class
         $entityClass = $this->module->entity_class;
-        
-        // An id is defined, retrieve the record from the database fail (404) 
-        if ($request->has('id')) {
-            $recordId = (int) $request->input('id');
+
+        // An id is defined, retrieve the record from the database fail (404)
+        if ($this->request->has('id')) {
+            $recordId = (int) $this->request->input('id');
             $record = $entityClass::findOrFail($recordId);
         }
         // Make a new empty instance

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers;
+namespace Sardoj\Uccello\Http\Controllers\Core;
 
 use Illuminate\Http\Request;
 use Sardoj\Uccello\Models\Domain;
@@ -12,12 +12,20 @@ class DetailController extends Controller
     protected $viewName = 'detail.main';
 
     /**
+     * Check user permissions
+     */
+    protected function checkPermissions()
+    {
+        $this->middleware('uccello.permissions:retrieve');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function process(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
-        $this->preProcess($domain, $module);
+        $this->preProcess($domain, $module, $request);
 
         // Get record id
         $recordId = $request->input('id');
@@ -46,11 +54,11 @@ class DetailController extends Controller
     protected function getRecord(int $id)
     {
         $record = null;
-        
+
         try
         {
             $entityClass = $this->module->entity_class;
-            $record = $entityClass::findOrFail($id);            
+            $record = $entityClass::findOrFail($id);
         }
         catch (\Exception $e) {}
 

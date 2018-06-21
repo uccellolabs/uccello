@@ -4,14 +4,17 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name(
 
 Route::name('uccello.')->group(function () {
 
-    Route::middleware('uccello.permissions:retrieve')->group(function () {
-        Route::get('{domain}/{module}', 'IndexController@process')->name('index');
-        Route::get('{domain}/{module}/list', 'ListController@process')->name('list');
-        Route::post('api/{domain}/{module}/list', 'ApiController@index')->name('api');
-        Route::get('{domain}/{module}/detail', 'DetailController@process')->name('detail');
-    });
+    // Overrided routes
+    // Route::get('{domain}/profile/edit', 'Profile\EditController@process')
+    //     ->defaults('module', 'profile')
+    //     ->name('profile.edit');
 
-    Route::get('{domain}/{module}/edit', 'EditController@process')->middleware('uccello.permissions:create')->name('edit');
-    Route::get('{domain}/{module}/delete', 'DeleteController@process')->middleware('uccello.permissions:delete')->name('delete');
-    Route::post('{domain}/{module}', 'EditController@store')->middleware('uccello.permissions:create')->name('store');
+    // Default routes
+    Route::get('{domain}/{module}', 'Core\IndexController@process')->name('index');
+    Route::get('{domain}/{module}/list', 'Core\ListController@process')->name('list');
+    Route::post('api/{domain}/{module}/list', 'Core\ApiController@index')->name('api');
+    Route::get('{domain}/{module}/detail', 'Core\DetailController@process')->name('detail');
+    Route::get('{domain}/{module}/edit', 'Core\EditController@process')->name('edit');
+    Route::get('{domain}/{module}/delete', 'Core\DeleteController@process')->name('delete');
+    Route::post('{domain}/{module}', 'Core\EditController@store')->name('store');
 });

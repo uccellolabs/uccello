@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers;
+namespace Sardoj\Uccello\Http\Controllers\Core;
 
 use Debugbar;
 use Kris\LaravelFormBuilder\FormBuilder;
@@ -17,6 +17,18 @@ class EditController extends Controller
     protected $viewName = 'edit.main';
     protected $formBuilder;
 
+    /**
+     * Check user permissions
+     */
+    protected function checkPermissions()
+    {
+        if ($this->request->has('id')) {
+            $this->middleware('uccello.permissions:update');
+        } else {
+            $this->middleware('uccello.permissions:create');
+        }
+    }
+
     public function __construct(FormBuilder $formBuilder)
     {
         $this->formBuilder = $formBuilder;
@@ -30,17 +42,18 @@ class EditController extends Controller
     public function process(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
-        $this->preProcess($domain, $module);
+        $this->preProcess($domain, $module, $request);
 
         // Retrieve record or get a new empty instance
-        $record = $this->getRecordFromRequest($request);
+        $record = $this->getRecordFromRequest();
 
         // Get form
         $form = $this->getForm($record);
 
         return $this->autoView([
             'structure' => $this->getModuleStructure(),
-            'form' => $form
+            'form' => $form,
+            'record' => $record
         ]);
     }
 
@@ -54,7 +67,7 @@ class EditController extends Controller
     public function store(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
-        $this->preProcess($domain, $module);
+        $this->preProcess($domain, $module, $request);
 
         // Get entity class used by the module
         $entityClass = $this->module->entity_class;
@@ -62,7 +75,7 @@ class EditController extends Controller
         try
         {
             // Retrieve record or get a new empty instance
-            $record = $this->getRecordFromRequest($request);
+            $record = $this->getRecordFromRequest();
 
             // Get form
             $form = $this->getForm($record);

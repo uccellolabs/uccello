@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers;
+namespace Sardoj\Uccello\Http\Controllers\Core;
 
 use Illuminate\Http\Request;
 use Sardoj\Uccello\Models\Domain;
@@ -22,6 +22,9 @@ class ApiController extends Controller
      */
     public function index(Domain $domain, Module $module, Request $request)
     {
+        // Check user permissions
+        $this->middleware('uccello.permissions:retrieve');
+
         if ($request->get('datatable')) {
             // Get data formated for Datatable
             $result = $this->getResultForDatatable($domain, $module, $request);
@@ -43,16 +46,6 @@ class ApiController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -60,7 +53,9 @@ class ApiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Check user permissions
+        $this->middleware('uccello.permissions:create');
+
     }
 
     /**
@@ -71,18 +66,9 @@ class ApiController extends Controller
      */
     public function show($id)
     {
-        //
-    }
+        // Check user permissions
+        $this->middleware('uccello.permissions:retrieve');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -94,7 +80,9 @@ class ApiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Check user permissions
+        $this->middleware('uccello.permissions:update');
+
     }
 
     /**
@@ -105,7 +93,8 @@ class ApiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Check user permissions
+        $this->middleware('uccello.permissions:delete');
     }
 
     protected function getResultForDatatable(Domain $domain, Module $module, Request $request)
@@ -115,13 +104,13 @@ class ApiController extends Controller
         $length = (int) $request->get('length');
         $order = $request->get('order');
         $columns = $request->get('columns');
-        
+
         // Get entity model class
         $entityClass = $module->entity_class;
 
         // If the class exists, make the query
         if (class_exists($entityClass)) {
-            
+
             // Filter on domain if column exists
             if (Schema::hasColumn((new $entityClass)->getTable(), 'domain_id')) {
                 // Count all results
@@ -146,7 +135,7 @@ class ApiController extends Controller
 
             // Make the query
             $data = $query->get();
-        
+
         } else {
             $data = [];
             $total = 0;

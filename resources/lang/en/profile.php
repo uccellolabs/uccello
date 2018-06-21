@@ -10,6 +10,7 @@ return [
     'field.domain_id' => 'Domain',
     'field.description' => 'Description',
     'modules' => 'Modules',
+    'capability.nothing' => 'No permission on this module',
     'capability.admin' => 'Admin',
     'capability.create' => 'Create',
     'capability.retrieve' => 'Display',

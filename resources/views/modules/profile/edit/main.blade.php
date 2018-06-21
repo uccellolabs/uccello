@@ -6,40 +6,40 @@
 </div>
 
 @foreach ($modules as $_module)
-<?php if (!Auth::user()->canAdmin($domain, $_module)) continue; ?>
-{{-- <strong></strong> --}}
-<div class="card block">
-    <div class="header">
-        <h2>                    
-            <div class="block-label-with-icon">
-                {{-- Icon --}}
-                @if ($_module->icon)
-                <i class="material-icons">{{ $_module->icon }}</i>
-                @endif
+    @continue(!Auth::user()->canAdmin($domain, $_module) || !$_module->isActiveOnDomain($domain))
+    <div class="card block">
+        <div class="header">
+            <h2>
+                <div class="block-label-with-icon">
+                    {{-- Icon --}}
+                    @if ($_module->icon)
+                    <i class="material-icons">{{ $_module->icon }}</i>
+                    @endif
 
-                {{-- Label --}}
-                <span>{{ uctrans($_module->name, $_module) }}</span>
-                {{-- <span>{{ uctrans('block.permissions', $module) }}</span> --}}
-            </div>
-
-            {{-- Description --}}
-            {{-- <small>{{ uctrans('block.permissions.description', $module) }}</small>  --}}
-        </h2>
-    </div>
-    <div class="body">
-        <div class="row">
-            @foreach (uccello()->getCapabilities() as $capability)
-                <div class="col-md-3 col-sm-6 switch">
-                    <label>
-                        <input type="checkbox" name="permissions[{{ $_module->name }}][{{ $capability }}]">
-                        <span class="lever switch-col-blue"></span>
-                        {{ uctrans('capability.' . $capability, $module) }}
-                    </label>
+                    {{-- Label --}}
+                    <span>{{ uctrans($_module->name, $_module) }}</span>
                 </div>
-            @endforeach
+            </h2>
+        </div>
+        <div class="body">
+            <div class="row">
+                @foreach (uccello()->getCapabilities() as $capability)
+                    <div class="col-md-3 col-sm-6 switch">
+                        <label>
+                            <input
+                                type="checkbox"
+                                name="permissions[{{ $_module->name }}][{{ $capability }}]"
+                                @if ($record->hasCapabilityOnModule($capability, $_module))
+                                checked="checked"
+                                @endif
+                            >
+                            <span class="lever switch-col-blue"></span>
+                            {{ uctrans('capability.' . $capability, $module) }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
         </div>
     </div>
-</div>
-
-@endforeach
+    @endforeach
 @endsection

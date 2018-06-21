@@ -17,7 +17,7 @@ class Permission extends Model
      * List of capabilities.
      * The order is respected in profile permissions list.
      * Important: A capability name must begin by CAPABILITY_
-     * 
+     *
      * @see Sardoj\Uccello\Helpers\Uccello
      */
     public const CAPABILITY_RETRIEVE            = 'retrieve';
@@ -29,9 +29,9 @@ class Permission extends Model
     public const CAPABILITY_UPDATE_ONLY_API     = 'api.update';
     public const CAPABILITY_DELETE_ONLY_API     = 'api.delete';
     public const CAPABILITY_ADMIN               = 'admin';
-    // public const CAN_VIEW_MAP  = 'map';
-    // public const CAN_DESCRIBE  = 'describe';
-    
+    // public const CAPABILITY_VIEW_MAP  = 'map';
+    // public const CAPABILITY_DESCRIBE  = 'describe';
+
     public function profile()
     {
         return $this->belongsTo(Profile::class);

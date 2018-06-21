@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Profile extends Model
 {
     use SoftDeletes;
-    
+
     /**
      * The table associated with the model.
      *
@@ -36,5 +36,19 @@ class Profile extends Model
     public function permissions()
     {
         return $this->hasMany(Permission::class);
+    }
+
+    public function hasCapabilityOnModule(string $capability, Module $module)
+    {
+        $hasCapability = false;
+
+        foreach ($this->permissions as $permission) {
+            if ($permission->module->id === $module->id && $permission->capability === $capability) {
+                $hasCapability = true;
+                break;
+            }
+        }
+
+        return $hasCapability;
     }
 }

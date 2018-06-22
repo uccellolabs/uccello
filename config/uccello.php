@@ -1,5 +1,5 @@
 <?php
 
 return [
-  'skin' => 'blue',
+  'skin' => 'deep-orange',
 ];

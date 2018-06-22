@@ -25,7 +25,7 @@
     @yield('extra-css')
 </head>
 
-<body class="@section('body-class')theme-{{ config('uccello.skin', 'blue') }}@show @yield('body-extra-class')">
+<body class="@section('body-class')theme-{{ config('uccello.skin', 'deep-orange') }}@show @yield('body-extra-class')">
     @yield('pre-content')
 
     <section class="content">
@@ -36,7 +36,7 @@
     {{ Html::script(mix('js/manifest.js')) }}
     {{ Html::script(mix('js/vendor.js')) }}
     {{ Html::script(mix('js/app.js')) }}
-    @show    
+    @show
 
     @yield('extra-script')
 </body>

@@ -55,12 +55,8 @@ class DetailController extends Controller
     {
         $record = null;
 
-        try
-        {
-            $entityClass = $this->module->entity_class;
-            $record = $entityClass::findOrFail($id);
-        }
-        catch (\Exception $e) {}
+        $entityClass = $this->module->entity_class;
+        $record = $entityClass::findOrFail($id);
 
         return $record;
     }

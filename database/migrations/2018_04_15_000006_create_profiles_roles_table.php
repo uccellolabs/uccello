@@ -23,10 +23,13 @@ class CreateProfilesRolesTable extends Migration
             $table->foreign('profile_id')
                     ->references('id')->on($this->tablePrefix . 'profiles')
                     ->onDelete('cascade');
-            
+
             $table->foreign('role_id')
                     ->references('id')->on($this->tablePrefix . 'roles')
                     ->onDelete('cascade');
+
+            // Unique keys
+            $table->unique(['profile_id', 'role_id']);
         });
     }
 

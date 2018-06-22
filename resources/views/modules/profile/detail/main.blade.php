@@ -30,12 +30,12 @@
                             @foreach (uccello()->getCapabilities() as $capability)
                                 @if ($record->hasCapabilityOnModule($capability, $_module))
                                 <?php $hasCapability = true; ?>
-                                <span class="label label-primary">{{ uctrans('capability.' . $capability, $module) }}</span>
+                                <span class="label label-primary font-13">{{ uctrans('capability.' . $capability, $module) }}</span>
                                 @endif
                             @endforeach
 
                             @if (!$hasCapability)
-                            <span class="label label-warning">{{ uctrans('capability.nothing', $module )}}</span>
+                            <span class="label label-warning font-13">{{ uctrans('capability.nothing', $module )}}</span>
                             @endif
                         </div>
                     </div>

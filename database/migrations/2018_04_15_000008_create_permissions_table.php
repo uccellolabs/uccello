@@ -29,6 +29,7 @@ class CreatePermissionsTable extends Migration
                     ->references('id')->on($this->tablePrefix . 'profiles')
                     ->onDelete('cascade');
 
+            // Unique keys
             $table->unique(['module_id', 'profile_id', 'capability']);
         });
     }

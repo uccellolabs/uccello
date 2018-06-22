@@ -23,10 +23,13 @@ class CreateDomainsModulesTable extends Migration
             $table->foreign('domain_id')
                     ->references('id')->on($this->tablePrefix . 'domains')
                     ->onDelete('cascade');
-            
+
             $table->foreign('module_id')
                     ->references('id')->on($this->tablePrefix . 'modules')
                     ->onDelete('cascade');
+
+            // Unique keys
+            $table->unique(['domain_id', 'module_id']);
         });
     }
 

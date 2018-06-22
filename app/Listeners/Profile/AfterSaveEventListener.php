@@ -45,7 +45,7 @@ class AfterSaveEventListener
         $oldPermissions = $this->getProfilePermissions($event);
         $newPermissions = [];
 
-        $permissions = $request->input('permissions') ?? [];
+        $permissions = (array) $request->input('permissions');
 
         foreach ($permissions as $moduleName => $capabilities) {
             // Retrieve module from name

@@ -1,7 +1,7 @@
 <?php
 
 namespace Sardoj\Uccello\Providers;
- 
+
 use App\Providers\EventServiceProvider as DefaultEventServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Sardoj\Uccello\Models\Domain;
@@ -20,6 +20,7 @@ class EventServiceProvider extends DefaultEventServiceProvider
     protected $listen = [
       'Sardoj\Uccello\Events\AfterSaveEvent' => [
           'Sardoj\Uccello\Listeners\Profile\AfterSaveEventListener',
+          'Sardoj\Uccello\Listeners\Role\AfterSaveEventListener',
       ],
   ];
 

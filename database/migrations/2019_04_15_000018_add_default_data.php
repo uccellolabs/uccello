@@ -7,7 +7,7 @@ use Sardoj\Uccello\Models\Role;
 use Sardoj\Uccello\Models\Module;
 
 class AddDefaultData extends Migration
-{   
+{
     /**
      * Run the migrations.
      *
@@ -18,6 +18,7 @@ class AddDefaultData extends Migration
         $this->addDefaultDomain();
         $this->addDefaultRole();
         $this->addDefaultUser();
+        $this->addDomainModules();
     }
 
     /**
@@ -62,5 +63,15 @@ class AddDefaultData extends Migration
         $user->is_admin = true;
         $user->domain_id = Domain::first()->id;
         $user->save();
+    }
+
+    protected function addDomainModules()
+    {
+        $domain = Domain::first();
+        $modules = Module::all();
+
+        foreach ($modules as $module) {
+            $domain->modules()->save($module);
+        }
     }
 }

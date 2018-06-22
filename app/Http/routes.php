@@ -5,9 +5,9 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name(
 Route::name('uccello.')->group(function () {
 
     // Overrided routes
-    // Route::get('{domain}/profile/edit', 'Profile\EditController@process')
-    //     ->defaults('module', 'profile')
-    //     ->name('profile.edit');
+    Route::get('{domain}/role/edit', 'Role\EditController@process')
+        ->defaults('module', 'role')
+        ->name('role.edit');
 
     // Default routes
     Route::get('{domain}/{module}', 'Core\IndexController@process')->name('index');

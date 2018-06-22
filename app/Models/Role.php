@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Role extends Model
 {
     use SoftDeletes;
-    
+
     /**
      * The table associated with the model.
      *
@@ -45,6 +45,6 @@ class Role extends Model
 
     public function profiles()
     {
-        return $this->belongsToMany(Role::class, $this->tablePrefix . 'profiles_roles');
+        return $this->belongsToMany(Profile::class, $this->tablePrefix . 'profiles_roles');
     }
 }

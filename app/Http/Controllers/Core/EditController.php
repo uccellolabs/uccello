@@ -2,15 +2,13 @@
 
 namespace Sardoj\Uccello\Http\Controllers\Core;
 
-use Debugbar;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Sardoj\Uccello\Forms\EditForm;
 use Illuminate\Http\Request;
+use Sardoj\Uccello\Forms\EditForm;
 use Sardoj\Uccello\Events\BeforeSaveEvent;
 use Sardoj\Uccello\Events\AfterSaveEvent;
 use Sardoj\Uccello\Models\Domain;
 use Sardoj\Uccello\Models\Module;
-
 
 class EditController extends Controller
 {
@@ -22,7 +20,7 @@ class EditController extends Controller
      */
     protected function checkPermissions()
     {
-        if ($this->request->has('id')) {
+        if (request()->has('id')) {
             $this->middleware('uccello.permissions:update');
         } else {
             $this->middleware('uccello.permissions:create');
@@ -97,9 +95,8 @@ class EditController extends Controller
         }
         catch (\Exception $e) {}
 
-        // If there was an error, redirect to edit page
-        // TODO: improve
-        return redirect()->route('uccello.edit', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id, 'error' => 1]);
+        // If there was an error, redirect to previous page
+        return back()->withInput();
     }
 
     public function getForm($record = null)

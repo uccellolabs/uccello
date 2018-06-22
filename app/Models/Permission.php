@@ -24,10 +24,10 @@ class Permission extends Model
     public const CAPABILITY_CREATE              = 'create';
     public const CAPABILITY_UPDATE              = 'update';
     public const CAPABILITY_DELETE              = 'delete';
-    public const CAPABILITY_RETRIEVE_ONLY_API   = 'api.retrieve';
-    public const CAPABILITY_CREATE_ONLY_API     = 'api.create';
-    public const CAPABILITY_UPDATE_ONLY_API     = 'api.update';
-    public const CAPABILITY_DELETE_ONLY_API     = 'api.delete';
+    public const CAPABILITY_RETRIEVE_BY_API     = 'api-retrieve';
+    public const CAPABILITY_CREATE_BY_API       = 'api-create';
+    public const CAPABILITY_UPDATE_BY_API       = 'api-update';
+    public const CAPABILITY_DELETE_BY_API       = 'api-delete';
     public const CAPABILITY_ADMIN               = 'admin';
     // public const CAPABILITY_VIEW_MAP  = 'map';
     // public const CAPABILITY_DESCRIBE  = 'describe';

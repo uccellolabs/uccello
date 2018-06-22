@@ -38,12 +38,41 @@ class Profile extends Model
         return $this->hasMany(Permission::class);
     }
 
-    public function hasCapabilityOnModule(string $capability, Module $module)
+    /**
+     * Returns profile capabilities on a module
+     *
+     * @param Module $module
+     * @return array
+     */
+    public function capabilitiesOnModule(Module $module) : array
+    {
+        $capabilities = [];
+
+        // Get profile permissions on module
+        $permissions = $this->permissions->where('module_id', $module->id);
+
+        foreach ($permissions as $permission) {
+            if (!in_array($permission->capability, $capabilities)) {
+                $capabilities[] = $permission->capability;
+            }
+        }
+
+        return $capabilities;
+    }
+
+    /**
+     * Checks if the profil has a capability on a module
+     *
+     * @param string $capability
+     * @param Module $module
+     * @return boolean
+     */
+    public function hasCapabilityOnModule(string $capability, Module $module) : bool
     {
         $hasCapability = false;
 
-        foreach ($this->permissions as $permission) {
-            if ($permission->module->id === $module->id && $permission->capability === $capability) {
+        foreach ($this->capabilitiesOnModule($module) as $capabilityOnModule) {
+            if ($capabilityOnModule === $capability) {
                 $hasCapability = true;
                 break;
             }

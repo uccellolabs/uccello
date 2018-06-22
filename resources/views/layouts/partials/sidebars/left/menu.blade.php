@@ -4,12 +4,13 @@
 
         @section('sidebar-main-menu')
             <ul class="list">
-                <li class="header">{{ strtoupper(uctrans('menu.title', $module)) }}</li>            
+                <li class="header">{{ strtoupper(uctrans('menu.title', $module)) }}</li>
             </ul>
-            
+
             @yield('sidebar-main-menu-before')
 
-            @if (isset($domain))
+            <?php $homeModule = ucmodule('home'); ?>
+            @if (isset($domain) && $homeModule->isActiveOnDomain($domain))
             {{-- Home module --}}
             <li @if ('home' === $module->name)class="active"@endif>
                 <a href="/{{ $domain->slug }}/home">
@@ -18,18 +19,17 @@
                 </a>
             </li>
             @endif
-            
+
             {{-- All modules except Home --}}
             @if (isset($modules) && isset($domain) && isset($module))
                 @foreach ($modules as $_module)
-                    @if ($_module->name !== 'home')
+                    @continue ($_module->name === 'home' || !$_module->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $_module))
                     <li @if ($_module->id === $module->id)class="active"@endif>
                         <a href="{{ route('uccello.list', ['domain' => $domain->slug, 'module' => $_module->name]) }}">
                             @if ($_module->icon)<i class="material-icons">{{ $_module->icon ?? 'list' }}</i>@endif
                             <span>{{ uctrans($_module->name, $_module) }}</span>
                         </a>
                     </li>
-                    @endif
                 @endforeach
             @endif
 

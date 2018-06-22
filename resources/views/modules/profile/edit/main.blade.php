@@ -26,13 +26,10 @@
                 @foreach (uccello()->getCapabilities() as $capability)
                     <div class="col-md-3 col-sm-6 switch">
                         <label>
-                            <input
-                                type="checkbox"
-                                name="permissions[{{ $_module->name }}][{{ $capability }}]"
-                                @if ($record->hasCapabilityOnModule($capability, $_module))
-                                checked="checked"
-                                @endif
-                            >
+                            {{ Form::checkbox(
+                                'permissions['.$_module->name.']['.$capability.']',
+                                '1',
+                                $record->hasCapabilityOnModule($capability, $_module)) }}
                             <span class="lever switch-col-blue"></span>
                             {{ uctrans('capability.' . $capability, $module) }}
                         </label>

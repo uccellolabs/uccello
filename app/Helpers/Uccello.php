@@ -32,13 +32,13 @@ class Uccello
             if (preg_match('/Sardoj\\\Uccello/', $module->entity_class)) {
                 $prefix = 'uccello::'.$prefix;
             }
-            
+
             // Get translation
             $translation = app('translator')->trans($prefix.$key, $replace, $locale);
-            
+
             // If translation does not exist, try with fallback one
             if ($translation === $prefix.$key) {
-                
+
                 // Get fallback translation
                 $fallbackTranslation = app('translator')->trans('uccello::default.'.$key, $replace, $locale);
 
@@ -47,8 +47,8 @@ class Uccello
                     $translation = $fallbackTranslation;
                 }
             }
-            
-            return $translation;            
+
+            return $translation;
         }
 
         // Default behaviour
@@ -66,7 +66,7 @@ class Uccello
         if (is_null($moduleName)) {
             return null;
         }
-        
+
         $module = Module::where('name', $moduleName)->first();
 
         return $module->entity_class ?? null;
@@ -121,7 +121,7 @@ class Uccello
      * Important: A capability name must begin by CAPABILITY_
      *
      * @return array
-     * 
+     *
      * @see Sardoj\Uccello\Models\Permission
      */
     public function getCapabilities(): array
@@ -136,5 +136,20 @@ class Uccello
         }
 
         return $capabilities;
+    }
+
+    /**
+     * Get a module instance by name or id
+     *
+     * @param string|int $name
+     * @return Module|null
+     */
+    public function getModuleInstance($nameOrId): ?Module
+    {
+        if (is_int($nameOrId)) {
+            return Module::find($nameOrId);
+        } else {
+            return Module::where('name', (string) $nameOrId)->first();
+        }
     }
 }

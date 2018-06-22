@@ -48,33 +48,147 @@ class User extends Authenticatable
         return $this->hasMany(Privilege::class);
     }
 
-    public function canAdmin(Domain $domain, Module $module)
+    /**
+     * Returns all user capabilities on a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return array
+     */
+    public function capabilitiesOnModule(Domain $domain, Module $module) : array
     {
-        return $this->is_admin;
+        $capabilities = [];
+
+        // Get user privileges on domain
+        $privileges = $this->privileges->where('domain_id', $domain->id);
+
+        foreach ($privileges as $privilege) {
+            foreach ($privilege->role->profiles as $profile) {
+                $capabilities = array_merge($capabilities, $profile->capabilitiesOnModule($module));
+            }
+        }
+
+        return $capabilities;
     }
 
-    public function canCreate(Domain $domain, Module $module)
+    /**
+     * Checks if the user has a capability on a module in a domain.
+     *
+     * @param string $capability
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function hasCapabilityOnModule(string $capability, Domain $domain, Module $module) : bool
     {
-        return true;
+        return in_array($capability, $this->capabilitiesOnModule($domain, $module));
     }
 
-    public function canRetrieve(Domain $domain, Module $module)
+    /**
+     * Checks if the user can admin a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canAdmin(Domain $domain, Module $module) : bool
     {
-        return true;
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_ADMIN, $domain, $module);
     }
 
-    public function canUpdate(Domain $domain, Module $module)
+    /**
+     * Checks if the user can create a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canCreate(Domain $domain, Module $module) : bool
     {
-        return true;
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_CREATE, $domain, $module);
     }
 
-    public function canDelete(Domain $domain, Module $module)
+    /**
+     * Checks if the user can retrieve a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canRetrieve(Domain $domain, Module $module) : bool
     {
-        return true;
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_RETRIEVE, $domain, $module);
     }
 
-    public function canViewMap(Domain $domain, Module $module)
+    /**
+     * Checks if the user can update a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canUpdate(Domain $domain, Module $module) : bool
     {
-        return true;
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_UPDATE, $domain, $module);
+    }
+
+    /**
+     * Checks if the user can delete a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canDelete(Domain $domain, Module $module) : bool
+    {
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_DELETE, $domain, $module);
+    }
+
+    /**
+     * Checks if the user can create by API a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canCreateByApi(Domain $domain, Module $module) : bool
+    {
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_CREATE_BY_API, $domain, $module);
+    }
+
+    /**
+     * Checks if the user can retrieve by API a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canRetrieveByApi(Domain $domain, Module $module) : bool
+    {
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_RETRIEVE_BY_API, $domain, $module);
+    }
+
+    /**
+     * Checks if the user can update by API a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canUpdateByApi(Domain $domain, Module $module) : bool
+    {
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_UPDATE_BY_API, $domain, $module);
+    }
+
+    /**
+     * Checks if the user can delete by API a module in a domain.
+     *
+     * @param Domain $domain
+     * @param Module $module
+     * @return boolean
+     */
+    public function canDeleteByApi(Domain $domain, Module $module) : bool
+    {
+        return $this->is_admin || $this->hasCapabilityOnModule(Permission::CAPABILITY_DELETE_BY_API, $domain, $module);
     }
 }

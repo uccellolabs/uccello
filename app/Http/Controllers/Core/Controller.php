@@ -45,6 +45,9 @@ abstract class Controller extends BaseController
     public function __construct()
     {
         $this->middleware('auth');
+
+        // Check user permissions
+        $this->checkPermissions();
     }
 
     /**
@@ -78,9 +81,6 @@ abstract class Controller extends BaseController
 
         // Get request
         $this->request = $request;
-
-        // Check user permissions
-        $this->checkPermissions();
 
         // Share blade variables
         $this->shareBladeVariables();

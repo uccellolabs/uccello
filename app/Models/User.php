@@ -43,6 +43,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function domain()
+    {
+        return $this->belongsTo(Domain::class);
+    }
+
     public function privileges()
     {
         return $this->hasMany(Privilege::class);

@@ -20,23 +20,26 @@ build:
             - node_modules
             - vendor/
             - ~/.composer/cache/
-    # dependencies:
-    #     before:
-    #         - mysql -uroot -e 'CREATE DATABASE scrutinizer'
-    #         - mkdir ../uccello
-    #         - mv mv {.,}* ../uccello
-    #         - composer create-project --prefer-dist laravel/laravel .
-    #         - mkdir ./vendor/sardoj
-    #         - mv ../uccello ./vendor/sardoj
-    #         - cd ./vendor/sardoj/uccello
+    dependencies:
+        before:
+            - mysql -uroot -e 'CREATE DATABASE scrutinizer'
+            - mkdir ../uccello
+            - mv * ../uccello
+            - mv .e* ../uccello
+            - mv .git* ../uccello
+            - mv .s* ../uccello
+            - mv .t* ../uccello
+            - composer create-project --prefer-dist laravel/laravel .
+            - mkdir ./vendor/sardoj
     tests:
         before:
             - chmod -R 777 storage
             - chmod -R 777 bootstrap/cache
-            # - npm run production
-        # override:
-        #     -
-        #         command: ../../../vendor/bin/phpunit --coverage-clover=uccello-coverage
-        #         coverage:
-        #             file: uccello-coverage
-        #             format: clover
+            - mv ../uccello ./vendor/sardoj
+            - cd ./vendor/sardoj/uccello
+        override:
+            -
+                command: ../../../vendor/bin/phpunit --coverage-clover=uccello-coverage
+                coverage:
+                    file: uccello-coverage
+                    format: clover

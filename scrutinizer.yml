@@ -23,10 +23,11 @@ build:
     dependencies:
         before:
             - mysql -uroot -e 'CREATE DATABASE scrutinizer'
-            - mkdir ../vendor/sardoj/uccello
-            - mv * ../vendor/sardoj/uccello
+            - mkdir ../uccello
+            - mv * ../uccello
             - composer create-project --prefer-dist laravel/laravel .
-            - mv ../vendor .
+            - mkdir ./vendor/sardoj
+            - mv ../uccello ./vendor/sardoj
     tests:
         before:
             - chmod -R 777 storage

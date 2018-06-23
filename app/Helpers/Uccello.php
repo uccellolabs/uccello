@@ -146,7 +146,7 @@ class Uccello
      */
     public function getModuleInstance($nameOrId): ?Module
     {
-        if (is_int($nameOrId)) {
+        if (is_numeric($nameOrId)) {
             return Module::find($nameOrId);
         } else {
             return Module::where('name', (string) $nameOrId)->first();

@@ -36,6 +36,7 @@ build:
         before:
             - chmod -R 777 storage
             - chmod -R 777 bootstrap/cache
+            - php artisan package:discover
             - php artisan migrate
             - cd ./vendor/sardoj/uccello
         override:

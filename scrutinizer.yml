@@ -23,9 +23,10 @@ build:
     dependencies:
         before:
             - mysql -uroot -e 'CREATE DATABASE scrutinizer'
-            # - composer create-project --prefer-dist laravel/laravel ../laravel
-            # - mkdir ../laravel/vendor/sardoj
-            # - mv * ../laravel/vendor/sardoj && cd ../laravel/vendor/sardoj
+            - composer create-project --prefer-dist laravel/laravel ../laravel
+            - mkdir ../laravel/vendor/sardoj
+            - mv * ../laravel/vendor/sardoj
+            - mv ../laravel . && cd ./laravel
     tests:
         before:
             - chmod -R 777 storage

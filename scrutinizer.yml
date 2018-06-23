@@ -31,11 +31,12 @@ build:
             - mv .t* ../uccello
             - composer create-project --prefer-dist laravel/laravel .
             - mkdir ./vendor/sardoj
+            - mv ../uccello ./vendor/sardoj
     tests:
         before:
             - chmod -R 777 storage
             - chmod -R 777 bootstrap/cache
-            - mv ../uccello ./vendor/sardoj
+            - php artisan migrate
             - cd ./vendor/sardoj/uccello
         override:
             -

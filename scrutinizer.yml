@@ -1,0 +1,39 @@
+build:
+    environment:
+        php: '7.1'
+        mysql: '5.7'
+        node: '8.1'
+        hosts:
+            uccello.dev: '127.0.0.1'
+        variables:
+            APP_KEY: 'base64:OYl4Bk9ekouOUIRXyeTD0FVi+cJ9D+HMyDJBgSBSUuI='
+            APP_ENV: 'testing'
+            APP_URL: 'http://uccello.dev'
+            API_HOST: 'uccello.dev'
+            DB_HOST: '127.0.0.1'
+            DB_DATABASE: 'scrutinizer'
+            DB_USERNAME: 'root'
+            DB_PASSWORD: ''
+            MAIL_DRIVER: 'log'
+    cache:
+        directories:
+            - node_modules
+            - vendor/
+            - ~/.composer/cache/
+    dependencies:
+        before:
+            - mysql -uroot -e 'CREATE DATABASE scrutinizer'
+            - composer create-project --prefer-dist laravel/laravel ../laravel
+            - mkdir ../laravel/vendor/sardoj
+            - mv * ../laravel/vendor/sardoj && cd ../laravel/vendor/sardoj
+    tests:
+        before:
+            - chmod -R 777 storage
+            - chmod -R 777 bootstrap/cache
+            # - npm run production
+        override:
+            -
+                command: ../../../vendor/bin/phpunit --coverage-clover=uccello-coverage
+                coverage:
+                    file: uccello-coverage
+                    format: clover

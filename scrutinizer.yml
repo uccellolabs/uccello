@@ -23,17 +23,17 @@ build:
     dependencies:
         before:
             - mysql -uroot -e 'CREATE DATABASE scrutinizer'
-            - composer create-project --prefer-dist laravel/laravel ../laravel
-            - mkdir ../laravel/vendor/sardoj
-            - mv * ../laravel/vendor/sardoj && cd ../laravel/vendor/sardoj
+            # - composer create-project --prefer-dist laravel/laravel ../laravel
+            # - mkdir ../laravel/vendor/sardoj
+            # - mv * ../laravel/vendor/sardoj && cd ../laravel/vendor/sardoj
     tests:
         before:
             - chmod -R 777 storage
             - chmod -R 777 bootstrap/cache
             # - npm run production
-        override:
-            -
-                command: ../../../vendor/bin/phpunit --coverage-clover=uccello-coverage
-                coverage:
-                    file: uccello-coverage
-                    format: clover
+        # override:
+        #     -
+        #         command: ../../../vendor/bin/phpunit --coverage-clover=uccello-coverage
+        #         coverage:
+        #             file: uccello-coverage
+        #             format: clover

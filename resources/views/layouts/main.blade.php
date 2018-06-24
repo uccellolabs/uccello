@@ -28,9 +28,11 @@
 <body class="@section('body-class')theme-{{ config('uccello.skin', 'deep-orange') }}@show @yield('body-extra-class')">
     @yield('pre-content')
 
+    @section('content-container')
     <section class="content">
         @yield('content')
     </section>
+    @show
 
     @section('script')
     {{ Html::script(mix('js/manifest.js')) }}

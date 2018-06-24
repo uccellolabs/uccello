@@ -7,7 +7,7 @@
 four-zero-four
 @endsection
 
-@section('content')
+@section('content-container')
 <div class="five-zero-zero-container">
     <div class="error-code">500</div>
     <div class="error-message">Internal Server Error</div>

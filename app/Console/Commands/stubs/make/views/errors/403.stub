@@ -7,7 +7,7 @@
 four-zero-four
 @endsection
 
-@section('content')
+@section('content-container')
 <div class="four-zero-four-container">
     <div class="error-code">403</div>
     <div class="error-message">You are not allowed</div>

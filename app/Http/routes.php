@@ -9,6 +9,10 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'role')
         ->name('role.edit');
 
+    Route::get('{domain}/user/edit', 'User\EditController@process')
+        ->defaults('module', 'user')
+        ->name('user.edit');
+
     // Default routes
     Route::get('{domain}/{module}', 'Core\IndexController@process')->name('index');
     Route::get('{domain}/{module}/list', 'Core\ListController@process')->name('list');

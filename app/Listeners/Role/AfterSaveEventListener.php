@@ -2,17 +2,11 @@
 
 namespace Sardoj\Uccello\Listeners\Role;
 
-use Sardoj\Uccello\Events\BeforeSaveEvent;
-use Sardoj\Uccello\Events\AfterSaveEvent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Sardoj\Uccello\Models\Permission;
-use Sardoj\Uccello\Models\Module;
-use Uccello;
-use Sardoj\Uccello\Models\ProfileRole;
+use Sardoj\Uccello\Events\AfterSaveEvent;
 use Sardoj\Uccello\Models\Profile;
 use Sardoj\Uccello\Models\Role;
+use Uccello;
 
 class AfterSaveEventListener
 {
@@ -40,38 +34,19 @@ class AfterSaveEventListener
             return;
         }
 
-        $request = $event->request;
         $role = $event->record;
 
-        $oldProfileIds = $this->getRoleProfileIds($event);
-        $newProfileIds = (array) $request->input('profiles');
+        $oldProfileIds = $role->profiles->pluck('id')->toArray();
+        $newProfileIds = (array) $event->request->input('profiles');
 
         try {
             $role->profiles()->attach($newProfileIds);
         } catch (\Exception $e) {
+            // Profile no longer exists
         }
 
         // Delete obsolete profiles
         $this->deleteObsoleteProfiles($role, $oldProfileIds, $newProfileIds);
-    }
-
-    /**
-     * Returns all profiles ids for a role.
-     *
-     * @param AfterSaveEvent $event
-     * @return array
-     */
-    protected function getRoleProfileIds(AfterSaveEvent $event) : array
-    {
-        $profileIds = [];
-
-        $role = $event->record;
-
-        foreach ($role->profiles as $profile) {
-            $profileIds[] = $profile->id;
-        }
-
-        return $profileIds;
     }
 
     /**
@@ -83,39 +58,10 @@ class AfterSaveEventListener
      */
     protected function deleteObsoleteProfiles(Role $role, array $oldProfileIds, array $newProfileIds)
     {
-        $obsoleteProfileIds = [];
-
-        foreach ($oldProfileIds as $oldProfileId) {
-            $isObsolete = true;
-
-            foreach ($newProfileIds as $newProfileId) {
-                if (in_array($newProfileId, $oldProfileIds)) {
-                    $isObsolete = false;
-                    break;
-                }
-            }
-
-            if ($isObsolete) {
-                $obsoleteProfileIds[] = $oldProfileId;
-            }
-        }
+        $obsoleteProfileIds = array_diff($oldProfileIds, $newProfileIds);
 
         if ($obsoleteProfileIds) {
             $role->profiles()->detach($obsoleteProfileIds);
         }
-    }
-
-    /**
-     * Checks if a capability exists.
-     * Note: A capability exists if it is defined in Sardoj\Uccello\Models\Permission
-     *
-     * @param string $capability
-     * @return boolean
-     *
-     * @see Sardoj\Uccello\Helpers\Uccello
-     */
-    protected function capabilityExists(string $capability) : bool
-    {
-        return in_array($capability, Uccello::getCapabilities());
     }
 }

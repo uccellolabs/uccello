@@ -2,11 +2,8 @@
 
 namespace Sardoj\Uccello\Listeners\Profile;
 
-use Sardoj\Uccello\Events\BeforeSaveEvent;
-use Sardoj\Uccello\Events\AfterSaveEvent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
+use Sardoj\Uccello\Events\AfterSaveEvent;
 use Sardoj\Uccello\Models\Permission;
 use Sardoj\Uccello\Models\Module;
 use Uccello;
@@ -69,14 +66,16 @@ class AfterSaveEventListener
                     $permission->profile_id = $profile->id;
                     $permission->module_id = $module->id;
                     $permission->capability = $capability;
-
-                    // Add new permission
-                    $newPermissions[] = $permission;
-
                     $permission->save();
 
                 } catch (\Exception $e) {
+                    // Permission already exists
                 }
+
+                // Add new permission
+                // Note: We must add permission even if it was impossible to save (catch),
+                // because it means the permision already exists
+                $newPermissions[] = $permission;
             }
         }
 
@@ -146,6 +145,6 @@ class AfterSaveEventListener
      */
     protected function capabilityExists(string $capability) : bool
     {
-        return in_array($capability, Uccello::getCapabilities());
+        return Uccello::getCapabilities()->contains($capability);
     }
 }

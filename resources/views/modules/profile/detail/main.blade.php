@@ -35,7 +35,7 @@
                             @endforeach
 
                             @if (!$hasCapability)
-                            <span class="label label-warning font-13">{{ uctrans('capability.nothing', $module )}}</span>
+                            <span class="label bg-deep-orange font-13">{{ uctrans('capability.nothing', $module )}}</span>
                             @endif
                         </div>
                     </div>

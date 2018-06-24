@@ -24,14 +24,17 @@ class CreatePrivilegesTable extends Migration
             $table->foreign('domain_id')
                     ->references('id')->on($this->tablePrefix . 'domains')
                     ->onDelete('cascade');
-            
+
             $table->foreign('role_id')
                     ->references('id')->on($this->tablePrefix . 'roles')
                     ->onDelete('cascade');
-            
+
             $table->foreign('user_id')
                     ->references('id')->on('users')
                     ->onDelete('cascade');
+
+            // Unique keys
+            $table->unique(['domain_id', 'role_id', 'user_id']);
         });
     }
 

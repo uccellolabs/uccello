@@ -1,4 +1,4 @@
-@extends('uccello::modules.default.detail.main')
+@extends('uccello::modules.default.edit.main')
 
 @section('other-blocks')
 <div class="card block">
@@ -11,18 +11,20 @@
                 @endif
 
                 {{-- Label --}}
-                <span>{{ uctrans('block.profiles', $module) }}</span>
+                <span>{{ uctrans('block.roles', $module) }}</span>
             </div>
         </h2>
     </div>
     <div class="body">
         <div class="row">
             <div class="col-md-12">
-                @forelse ($record->profiles->where('domain_id', $domain->id) as $profile)
-                <label class="label label-primary font-13">{{ $profile->name }}</label>
-                @empty
-                <label class="label bg-deep-orange font-13">{{ uctrans('no_profile', $module) }}</label>
-                @endforelse
+                <div class="form-group">
+                    {{ Form::select(
+                        'roles[]',
+                        $roles,
+                        $selectedRoleIds,
+                        ['multiple' => 'multiple', 'class' => 'form-control']) }}
+                </div>
             </div>
         </div>
     </div>

@@ -93,7 +93,8 @@ class EditController extends Controller
             // Redirect to detail view
             return redirect()->route('uccello.detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
         }
-        catch (\Exception $e) {}
+        catch (\Exception $e) {
+        }
 
         // If there was an error, redirect to previous page
         return back()->withInput();

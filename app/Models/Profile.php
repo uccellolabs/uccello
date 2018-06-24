@@ -4,6 +4,7 @@ namespace Sardoj\Uccello\Models;
 
 use Sardoj\Uccello\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Profile extends Model
 {
@@ -42,17 +43,17 @@ class Profile extends Model
      * Returns profile capabilities on a module
      *
      * @param Module $module
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function capabilitiesOnModule(Module $module) : array
+    public function capabilitiesOnModule(Module $module) : Collection
     {
-        $capabilities = [];
+        $capabilities = new Collection();
 
         // Get profile permissions on module
         $permissions = $this->permissions->where('module_id', $module->id);
 
         foreach ($permissions as $permission) {
-            if (!in_array($permission->capability, $capabilities)) {
+            if (!$capabilities->contains($permission->capability)) {
                 $capabilities[] = $permission->capability;
             }
         }

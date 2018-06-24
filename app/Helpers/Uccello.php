@@ -2,6 +2,7 @@
 
 namespace Sardoj\Uccello\Helpers;
 
+use Illuminate\Support\Collection;
 use Sardoj\Uccello\Models\Module;
 use Sardoj\Uccello\Models\Permission;
 
@@ -120,15 +121,15 @@ class Uccello
      * Returns the list of capabilities.
      * Important: A capability name must begin by CAPABILITY_
      *
-     * @return array
+     * @return \Illuminate\Support\Collection
      *
      * @see Sardoj\Uccello\Models\Permission
      */
-    public function getCapabilities(): array
+    public function getCapabilities(): Collection
     {
         $class = new \ReflectionClass(Permission::class);
 
-        $capabilities = [];
+        $capabilities = new Collection();
         foreach ($class->getConstants() as $constant => $value) {
             if (preg_match('`^CAPABILITY_`', $constant)) {
                 $capabilities[] = $value;

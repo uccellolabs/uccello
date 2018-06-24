@@ -7,6 +7,7 @@ return [
     'block.auth' => 'Authentication',
     'block.auth.description' => 'Authentication information',
     'block.contact' => 'Contact',
+    'block.roles' => 'Roles',
     'field.username' => 'Username',
     'field.first_name' => 'First name',
     'field.last_name' => 'Last name',
@@ -14,5 +15,6 @@ return [
     'field.password' => 'Password',
     'field.password_confirmation' => 'Password (confirmation)',
     'field.email' => 'Email',
-    'field.phone' => 'Phone'
+    'field.phone' => 'Phone',
+    'no_role' => 'No related role',
 ];

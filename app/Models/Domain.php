@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 
 class Domain extends Model
-{    
+{
     use SoftDeletes;
     use Sluggable;
-    
+
     /**
      * The table associated with the model.
      *
@@ -58,7 +58,7 @@ class Domain extends Model
 
     public function roles()
     {
-        return $this->hasMany(Roles::class);
+        return $this->hasMany(Role::class);
     }
 
     public function profiles()

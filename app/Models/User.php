@@ -5,6 +5,7 @@ namespace Sardoj\Uccello\Models;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class User extends Authenticatable
 {
@@ -54,15 +55,32 @@ class User extends Authenticatable
     }
 
     /**
+     * Returns user roles on a domain
+     *
+     * @param Domain $domain
+     * @return \Illuminate\Support\Collection
+     */
+    public function rolesOnDomain(Domain $domain) : Collection
+    {
+        $roles = new Collection();
+
+        foreach ($this->privileges->where('domain_id', $domain->id) as $privilege) {
+            $roles[] = $privilege->role;
+        }
+
+        return $roles;
+    }
+
+    /**
      * Returns all user capabilities on a module in a domain.
      *
      * @param Domain $domain
      * @param Module $module
-     * @return array
+     * @return \Illuminate\Support\Collection
      */
-    public function capabilitiesOnModule(Domain $domain, Module $module) : array
+    public function capabilitiesOnModule(Domain $domain, Module $module) : Collection
     {
-        $capabilities = [];
+        $capabilities = new Collection();
 
         // Get user privileges on domain
         $privileges = $this->privileges->where('domain_id', $domain->id);
@@ -86,7 +104,7 @@ class User extends Authenticatable
      */
     public function hasCapabilityOnModule(string $capability, Domain $domain, Module $module) : bool
     {
-        return in_array($capability, $this->capabilitiesOnModule($domain, $module));
+        return $this->capabilitiesOnModule($domain, $module)->contains($capability);
     }
 
     /**

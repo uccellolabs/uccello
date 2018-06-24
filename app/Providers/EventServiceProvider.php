@@ -21,6 +21,7 @@ class EventServiceProvider extends DefaultEventServiceProvider
       'Sardoj\Uccello\Events\AfterSaveEvent' => [
           'Sardoj\Uccello\Listeners\Profile\AfterSaveEventListener',
           'Sardoj\Uccello\Listeners\Role\AfterSaveEventListener',
+          'Sardoj\Uccello\Listeners\User\AfterSaveEventListener',
       ],
   ];
 

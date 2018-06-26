@@ -10,7 +10,7 @@
             @yield('sidebar-main-menu-before')
 
             <?php $homeModule = ucmodule('home'); ?>
-            @if (isset($domain) && $homeModule->isActiveOnDomain($domain))
+            @if (isset($domain) && $homeModule->isActiveOnDomain($domain) && Auth::user()->canRetrieve($domain, $homeModule))
             {{-- Home module --}}
             <li @if ('home' === $module->name)class="active"@endif>
                 <a href="/{{ $domain->slug }}/home">

@@ -30,16 +30,24 @@ class EditForm extends Form
             $routeParams['id'] = $recordId;
         }
 
+        // Get mode
+        $mode = $recordId ? 'edit' : 'create';
+
         // Options
         $this->formOptions = [
             'method' => 'POST', // Use POST method
-            'url' => route('uccello.store', $routeParams), // URL to call      
+            'url' => route('uccello.store', $routeParams), // URL to call
             'novalidate', // Deactivate HTML5 validation
         ];
 
         // Add all fields
         foreach ($module->fields as $field)
         {
+            // Check if the field can be displayed
+            if (($mode === 'edit' && !$field->isEditable()) || ($mode === 'create' && !$field->isCreateable())) {
+                continue;
+            }
+
             // Get field type: if the field must be repeated, the type is "repeated" else get the FormBuilder type
             $fieldType = isset($field->data->repeated) && $field->data->repeated === true ? 'repeated' : $this->getFormBuilderType($field);
 
@@ -199,7 +207,7 @@ class EditForm extends Form
      * @return array
      */
     protected function getFieldOptions(Field $field): array
-    {   
+    {
         $options = [];
 
         if ($field->data->repeated ?? false) {
@@ -232,7 +240,7 @@ class EditForm extends Form
             ]
         ];
 
-        $otherOptions = $this->getSpecialFieldOptions($field);        
+        $otherOptions = $this->getSpecialFieldOptions($field);
 
         return array_merge($options, $otherOptions);
     }
@@ -264,11 +272,11 @@ class EditForm extends Form
                     ];
                 }
                 break;
-            
+
             // Select
             case Field::UITYPE_SELECT:
                 $choices = [];
-                
+
                 if ($field->data->choices) {
                     foreach ($field->data->choices as $choice) {
                         $choices[$choice] = uctrans($choice, $module);
@@ -281,11 +289,11 @@ class EditForm extends Form
                     'empty_value' => uctrans('select_empty_value', $module)
                 ];
                 break;
-            
+
             // Choice
             case Field::UITYPE_CHOICE:
                 $choices = [];
-                
+
                 if ($field->data->choices) {
                     foreach ($field->data->choices as $choice) {
                         $choices[$choice] = uctrans($choice, $module);
@@ -324,7 +332,7 @@ class EditForm extends Form
         $secondFieldOptions['rules'] = null;
 
         return [
-            'type' => $this->getFormBuilderType($field),                  
+            'type' => $this->getFormBuilderType($field),
             'first_options' => $firstFieldOptions,
             'second_options' => $secondFieldOptions
         ];

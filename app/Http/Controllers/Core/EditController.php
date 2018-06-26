@@ -48,10 +48,14 @@ class EditController extends Controller
         // Get form
         $form = $this->getForm($record);
 
+        // Get mode
+        $mode = !is_null($record->id) ? 'edit' : 'create';
+
         return $this->autoView([
             'structure' => $this->getModuleStructure(),
             'form' => $form,
-            'record' => $record
+            'record' => $record,
+            'mode' => $mode
         ]);
     }
 

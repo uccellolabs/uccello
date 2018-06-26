@@ -4,9 +4,7 @@ namespace Sardoj\Uccello\Http\Middleware;
 
 use Closure;
 use Auth;
-use Cache;
 use Sardoj\Uccello\Models\User;
-use Sardoj\Uccello\Models\Privilege;
 use Sardoj\Uccello\Models\Permission;
 use Sardoj\Uccello\Models\Domain;
 use Sardoj\Uccello\Models\Module;
@@ -31,7 +29,7 @@ class CheckPermissions
         $module = $request->module;
 
         $isModuleActive = $module->isActiveOnDomain($domain);
-        $isUserAllowed = $user->is_admin || $user->hasCapabilityOnModule($capability, $domain, $module);
+        $isUserAllowed =  $user->hasCapabilityOnModule($capability, $domain, $module);
 
         if (!$isModuleActive) {
             return abort(404);

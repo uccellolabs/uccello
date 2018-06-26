@@ -5,6 +5,7 @@ namespace Sardoj\Uccello\Models;
 use Sardoj\Uccello\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Support\Collection;
 
 class Domain extends Model
 {
@@ -69,5 +70,29 @@ class Domain extends Model
     public function modules()
     {
         return $this->belongsToMany(Module::class, $this->tablePrefix . 'domains_modules');
+    }
+
+    /**
+     * Returns all parents of a domain and insert also this domain if necessary.
+     *
+     * @param boolean $includeItself
+     * @return Collection
+     */
+    public function parents($includeItself=true) : Collection
+    {
+        $parents = new Collection();
+
+        if ($includeItself) {
+            $parents[] = $this;
+        }
+
+        $domain = $this;
+
+        while (!is_null($domain->parent)) {
+            $domain = $domain->parent;
+            $parents[] = $domain;
+        }
+
+        return $parents;
     }
 }

@@ -13,6 +13,7 @@ $(function () {
 
     $('.dataTable').DataTable({
         dom: 'lrtip',
+        autoWidth: false, // Else the width is not refreshed on window resize
         responsive: true,
         colReorder: true,
         serverSide: true,

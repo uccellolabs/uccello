@@ -1,5 +1,5 @@
 {
-    "name": "uccello/core",
+    "name": "sardoj/uccello",
     "type": "library",
     "description": "CRUD core fore Laravel projects.",
     "keywords": [

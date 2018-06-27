@@ -30,7 +30,7 @@ class Uccello
             $prefix = $module->name.'.';
 
             // If it is an uccello core module, add uccello:: before
-            if (preg_match('/Sardoj\\\Uccello/', $module->entity_class)) {
+            if (preg_match('/Uccello\\\Core/', $module->entity_class)) {
                 $prefix = 'uccello::'.$prefix;
             }
 

@@ -30,7 +30,7 @@ class Uccello
             $prefix = $module->name.'.';
 
             // If it is an uccello core module, add uccello:: before
-            if (preg_match('/Uccello\\\Core/', $module->entity_class)) {
+            if (preg_match('/Uccello\\\Core/', $module->model_class)) {
                 $prefix = 'uccello::'.$prefix;
             }
 
@@ -57,7 +57,7 @@ class Uccello
     }
 
     /**
-     * Retrieve a module by its name and return its entity class.
+     * Retrieve a module by its name and return its model class.
      *
      * @param string|null $moduleName
      * @return string|null
@@ -70,7 +70,7 @@ class Uccello
 
         $module = Module::where('name', $moduleName)->first();
 
-        return $module->entity_class ?? null;
+        return $module->model_class ?? null;
     }
 
     /**

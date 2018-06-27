@@ -125,12 +125,12 @@ abstract class Controller extends BaseController
      */
     protected function getRecordFromRequest()
     {
-        if (empty($this->module->entity_class)) {
+        if (empty($this->module->model_class)) {
             return null;
         }
 
-        // Retrieve entity class
-        $entityClass = $this->module->entity_class;
+        // Retrieve model class
+        $entityClass = $this->module->model_class;
 
         // An id is defined, retrieve the record from the database fail (404)
         if ($this->request->has('id')) {

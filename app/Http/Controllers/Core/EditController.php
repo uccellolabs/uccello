@@ -71,8 +71,8 @@ class EditController extends Controller
         // Pre-process
         $this->preProcess($domain, $module, $request);
 
-        // Get entity class used by the module
-        $entityClass = $this->module->entity_class;
+        // Get model class used by the module
+        $entityClass = $this->module->model_class;
 
         try
         {

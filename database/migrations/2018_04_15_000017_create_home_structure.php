@@ -30,7 +30,7 @@ class CreateHomeStructure extends Migration
         $module = new  Module();
         $module->name = 'home';
         $module->icon = 'home';
-        $module->entity_class = null;
+        $module->model_class = null;
         $module->is_for_admin = false;
         $module->save();
 

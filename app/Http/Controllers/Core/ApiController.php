@@ -30,7 +30,7 @@ class ApiController extends Controller
             $result = $this->getResultForDatatable($domain, $module, $request);
         } else {
             // Get entity model class
-            $entityClass = $module->entity_class;
+            $entityClass = $module->model_class;
 
             // Filter on domain if column exists
             if (Schema::hasColumn((new $entityClass)->getTable(), 'domain_id')) {
@@ -106,7 +106,7 @@ class ApiController extends Controller
         $columns = $request->get('columns');
 
         // Get entity model class
-        $entityClass = $module->entity_class;
+        $entityClass = $module->model_class;
 
         // If the class exists, make the query
         if (class_exists($entityClass)) {

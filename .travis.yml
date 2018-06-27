@@ -10,8 +10,8 @@ env:
 
 before_script:
   - composer create-project --prefer-dist laravel/laravel ../laravel $LARAVEL_VERSION && cd ../laravel
-  - mkdir vendor/sardoj
-  - mv ../uccello vendor/sardoj && cd vendor/sardoj/uccello
+  - mkdir vendor/uccello
+  - mv ../uccello vendor/uccello && cd vendor/uccello/uccello
   - sh -c "mysql -e 'CREATE DATABASE laravel_test;'"
   - mv .env.travis .env
 

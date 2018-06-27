@@ -14,7 +14,7 @@ Laravel Package for providing an advanced CRUD interface. For the moment, this p
 Via Composer
 
 ``` bash
-$ composer require sardoj/uccello
+$ composer require uccello/uccello
 ```
 
 If you are using Laravel 5.5 or above skip this step, but if aren't then add this code on ```config/app.php```, on providers
@@ -102,17 +102,17 @@ If you discover any security related issues, please email sardoj@gmail.com inste
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/sardoj/uccello.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/uccello/uccello.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/sardoj/uccello/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/sardoj/uccello.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/sardoj/uccello.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/sardoj/uccello.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/uccello/uccello/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/uccello/uccello.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/uccello/uccello.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/uccello/uccello.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/sardoj/uccello
-[link-travis]: https://travis-ci.org/sardoj/uccello
-[link-scrutinizer]: https://scrutinizer-ci.com/g/sardoj/uccello/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/sardoj/uccello
-[link-downloads]: https://packagist.org/packages/sardoj/uccello
+[link-packagist]: https://packagist.org/packages/uccello/uccello
+[link-travis]: https://travis-ci.org/uccello/uccello
+[link-scrutinizer]: https://scrutinizer-ci.com/g/uccello/uccello/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/uccello/uccello
+[link-downloads]: https://packagist.org/packages/uccello/uccello
 [link-author]: https://github.com/sardoj
 [link-contributors]: ../../contributors

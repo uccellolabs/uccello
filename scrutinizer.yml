@@ -30,15 +30,15 @@ build:
             - mv .s* ../uccello
             - mv .t* ../uccello
             - composer create-project --prefer-dist laravel/laravel .
-            - mkdir ./vendor/sardoj
-            - mv ../uccello ./vendor/sardoj
+            - mkdir ./vendor/uccello
+            - mv ../uccello ./vendor/uccello
     tests:
         before:
             - chmod -R 777 storage
             - chmod -R 777 bootstrap/cache
             - php artisan package:discover
             - php artisan migrate
-            - cd ./vendor/sardoj/uccello
+            - cd ./vendor/uccello/uccello
         override:
             -
                 command: ../../../vendor/bin/phpunit --coverage-clover=uccello-coverage

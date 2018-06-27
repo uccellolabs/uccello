@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Sardoj\Uccello\Database\Migrations\Migration;
+use Uccello\Core\Database\Migrations\Migration;
 
 class CreateBlocksTable extends Migration
 {

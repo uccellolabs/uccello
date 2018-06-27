@@ -1,11 +1,11 @@
 <?php
 
-namespace Sardoj\Uccello\Providers;
- 
+namespace Uccello\Core\Providers;
+
 use App\Providers\RouteServiceProvider as DefaultRouteServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 /**
  * Route Service Provider
@@ -48,7 +48,7 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
     protected function mapUccelloRoutes()
     {
         Route::middleware('web', 'auth')
-             ->namespace('Sardoj\Uccello\Http\Controllers')
+             ->namespace('Uccello\Core\Http\Controllers')
              ->group(__DIR__.'/../Http/routes.php');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Facades;
+namespace Uccello\Core\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

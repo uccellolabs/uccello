@@ -1,8 +1,8 @@
 <?php
 
-namespace Sardoj\Uccello\Models;
+namespace Uccello\Core\Models;
 
-use Sardoj\Uccello\Database\Eloquent\Model;
+use Uccello\Core\Database\Eloquent\Model;
 
 class Tab extends Model
 {

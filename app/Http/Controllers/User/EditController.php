@@ -1,13 +1,13 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers\User;
+namespace Uccello\Core\Http\Controllers\User;
 
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Http\Request;
-use Sardoj\Uccello\Http\Controllers\Core\EditController as CoreEditController;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
-use Sardoj\Uccello\Models\Profile;
+use Uccello\Core\Http\Controllers\Core\EditController as CoreEditController;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Profile;
 
 class EditController extends CoreEditController
 {

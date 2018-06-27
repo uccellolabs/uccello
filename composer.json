@@ -1,5 +1,5 @@
 {
-    "name": "sardoj/uccello",
+    "name": "uccello/core",
     "type": "library",
     "description": "CRUD core fore Laravel projects.",
     "keywords": [
@@ -30,8 +30,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Sardoj\\Uccello\\": "app/",
-            "Sardoj\\Uccello\\Seeds\\": "database/seeds/"
+            "Uccello\\Core\\": "app/",
+            "Uccello\\Core\\Seeds\\": "database/seeds/"
         },
         "files": [
             "app/helpers.php"
@@ -39,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Sardoj\\Uccello\\Tests\\": "tests/"
+            "Uccello\\Core\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -49,19 +49,19 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.1-dev"
+            "dev-master": "0.1.3-dev"
         },
         "laravel": {
             "providers": [
-                "Sardoj\\Uccello\\Providers\\AppServiceProvider",
-                "Sardoj\\Uccello\\Providers\\RouteServiceProvider",
-                "Sardoj\\Uccello\\Providers\\EventServiceProvider"
+                "Uccello\\Core\\Providers\\AppServiceProvider",
+                "Uccello\\Core\\Providers\\RouteServiceProvider",
+                "Uccello\\Core\\Providers\\EventServiceProvider"
             ],
             "aliases": {
-                "Uccello": "Sardoj\\Uccello\\Facades\\Uccello"
+                "Uccello": "Uccello\\Core\\Facades\\Uccello"
             }
 
-            
+
         }
     },
     "config": {

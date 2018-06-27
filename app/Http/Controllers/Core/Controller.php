@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers\Core;
+namespace Uccello\Core\Http\Controllers\Core;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -10,20 +10,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * @var Sardoj\Uccello\Models\Domain
+     * @var Uccello\Core\Models\Domain
      */
     protected $domain;
 
     /**
-     * @var Sardoj\Uccello\Models\Module
+     * @var Uccello\Core\Models\Module
      */
     protected $module;
 

@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Models\Module;
 
 class CreateHomeStructure extends Migration
-{   
+{
     /**
      * Run the migrations.
      *

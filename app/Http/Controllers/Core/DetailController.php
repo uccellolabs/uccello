@@ -1,10 +1,10 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers\Core;
+namespace Uccello\Core\Http\Controllers\Core;
 
 use Illuminate\Http\Request;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 
 class DetailController extends Controller

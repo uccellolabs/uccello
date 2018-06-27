@@ -1,10 +1,10 @@
 <?php
 
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Models\Module;
 
 if (!function_exists('uccello')) {
     /**
-     * Return an instance of Sardoj\Uccello\Helpers\Uccello
+     * Return an instance of Uccello\Core\Helpers\Uccello
      *
      * @return void
      */
@@ -24,7 +24,7 @@ if (!function_exists('uctrans')) {
      * @param  string  $locale
      * @return \Illuminate\Contracts\Translation\Translator|string|array|null
      *
-     * @see Sardoj\Uccello\Helpers\Uccello
+     * @see Uccello\Core\Helpers\Uccello
      */
     function uctrans($key = null, ? Module $module = null, $replace = [], $locale = null)
     {

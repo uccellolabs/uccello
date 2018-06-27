@@ -1,10 +1,10 @@
 <?php
 
-namespace Sardoj\Uccello\Helpers;
+namespace Uccello\Core\Helpers;
 
 use Illuminate\Support\Collection;
-use Sardoj\Uccello\Models\Module;
-use Sardoj\Uccello\Models\Permission;
+use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Permission;
 
 class Uccello
 {
@@ -123,7 +123,7 @@ class Uccello
      *
      * @return \Illuminate\Support\Collection
      *
-     * @see Sardoj\Uccello\Models\Permission
+     * @see Uccello\Core\Models\Permission
      */
     public function getCapabilities(): Collection
     {

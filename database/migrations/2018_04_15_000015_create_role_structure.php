@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Sardoj\Uccello\Models\Module;
-use Sardoj\Uccello\Models\Tab;
-use Sardoj\Uccello\Models\Block;
-use Sardoj\Uccello\Models\Field;
-use Sardoj\Uccello\Models\Filter;
+use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Tab;
+use Uccello\Core\Models\Block;
+use Uccello\Core\Models\Field;
+use Uccello\Core\Models\Filter;
 
 class CreateRoleStructure extends Migration
-{   
+{
     /**
      * Run the migrations.
      *
@@ -36,7 +36,7 @@ class CreateRoleStructure extends Migration
         $module = new  Module();
         $module->name = 'role';
         $module->icon = 'lock';
-        $module->entity_class = 'Sardoj\Uccello\Models\Role';
+        $module->entity_class = 'Uccello\Core\Models\Role';
         $module->is_for_admin = true;
         $module->save();
 

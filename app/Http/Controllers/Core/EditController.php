@@ -1,14 +1,14 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers\Core;
+namespace Uccello\Core\Http\Controllers\Core;
 
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Http\Request;
-use Sardoj\Uccello\Forms\EditForm;
-use Sardoj\Uccello\Events\BeforeSaveEvent;
-use Sardoj\Uccello\Events\AfterSaveEvent;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Forms\EditForm;
+use Uccello\Core\Events\BeforeSaveEvent;
+use Uccello\Core\Events\AfterSaveEvent;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 class EditController extends Controller
 {

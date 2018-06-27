@@ -1,10 +1,10 @@
 <?php
 
-namespace Sardoj\Uccello\Forms;
+namespace Uccello\Core\Forms;
 
 use Illuminate\Support\Facades\Hash;
-use Sardoj\Uccello\Models\Field;
-use Sardoj\Uccello\Facades\Uccello;
+use Uccello\Core\Models\Field;
+use Uccello\Core\Facades\Uccello;
 
 class EditForm extends Form
 {

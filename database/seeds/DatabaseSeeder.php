@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Seeds;
+namespace Uccello\Core\Seeds;
 
 use Illuminate\Database\Seeder;
 

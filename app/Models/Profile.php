@@ -1,8 +1,8 @@
 <?php
 
-namespace Sardoj\Uccello\Models;
+namespace Uccello\Core\Models;
 
-use Sardoj\Uccello\Database\Eloquent\Model;
+use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Sardoj\Uccello\Database\Migrations\Traits;
+namespace Uccello\Core\Database\Migrations\Traits;
 
 trait TablePrefixTrait
 {
-    protected $tablePrefix;    
+    protected $tablePrefix;
 
     protected function setTablePrefix()
     {

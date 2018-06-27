@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Tests\Unit;
+namespace Uccello\Core\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 

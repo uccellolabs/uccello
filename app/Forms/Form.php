@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Forms;
+namespace Uccello\Core\Forms;
 
 use Kris\LaravelFormBuilder\Form As DefaultForm;
 use Illuminate\Http\UploadedFile;
@@ -17,7 +17,7 @@ class Form extends DefaultForm
     public function redirectIfNotValid($destination = null)
     {
         $values = $this->getFieldValues();
-        
+
         // Filter values
         $values = array_filter($values, function ($value) {
             return !is_null($value) && (!is_object($value) || !$value instanceof UploadedFile) && !is_array($value);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Console\Commands;
+namespace Uccello\Core\Console\Commands;
 
 use Illuminate\Console\Command;
 

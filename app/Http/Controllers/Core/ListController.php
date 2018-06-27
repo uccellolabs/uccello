@@ -1,12 +1,12 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers\Core;
+namespace Uccello\Core\Http\Controllers\Core;
 
 use Illuminate\Http\Request;
-use Sardoj\Uccello\Models\Filter;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
-use Sardoj\Uccello\Http\Middleware\CheckPermissions;
+use Uccello\Core\Models\Filter;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
+use Uccello\Core\Http\Middleware\CheckPermissions;
 
 
 class ListController extends Controller

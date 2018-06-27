@@ -1,9 +1,9 @@
 <?php
 
-namespace Sardoj\Uccello\Providers;
+namespace Uccello\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Sardoj\Uccello\Console\Commands\UccelloMakeCommand;
+use Uccello\Core\Console\Commands\UccelloMakeCommand;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
   public function register()
   {
     App::bind('uccello', function () {
-      return new \Sardoj\Uccello\Helpers\Uccello;
+      return new \Uccello\Core\Helpers\Uccello;
     });
   }
 }

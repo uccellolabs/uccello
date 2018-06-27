@@ -1,14 +1,14 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Sardoj\Uccello\Models\Module;
-use Sardoj\Uccello\Models\Tab;
-use Sardoj\Uccello\Models\Block;
-use Sardoj\Uccello\Models\Field;
-use Sardoj\Uccello\Models\Filter;
+use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Tab;
+use Uccello\Core\Models\Block;
+use Uccello\Core\Models\Field;
+use Uccello\Core\Models\Filter;
 
 class CreateUserStructure extends Migration
-{   
+{
     /**
      * Run the migrations.
      *
@@ -36,7 +36,7 @@ class CreateUserStructure extends Migration
         $module = new  Module();
         $module->name = 'user';
         $module->icon = 'person';
-        $module->entity_class = 'Sardoj\Uccello\Models\User';
+        $module->entity_class = 'Uccello\Core\Models\User';
         $module->is_for_admin = true;
         $module->save();
 

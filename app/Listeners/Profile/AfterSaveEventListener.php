@@ -1,11 +1,11 @@
 <?php
 
-namespace Sardoj\Uccello\Listeners\Profile;
+namespace Uccello\Core\Listeners\Profile;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Sardoj\Uccello\Events\AfterSaveEvent;
-use Sardoj\Uccello\Models\Permission;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Events\AfterSaveEvent;
+use Uccello\Core\Models\Permission;
+use Uccello\Core\Models\Module;
 use Uccello;
 
 class AfterSaveEventListener
@@ -136,12 +136,12 @@ class AfterSaveEventListener
 
     /**
      * Checks if a capability exists.
-     * Note: A capability exists if it is defined in Sardoj\Uccello\Models\Permission
+     * Note: A capability exists if it is defined in Uccello\Core\Models\Permission
      *
      * @param string $capability
      * @return boolean
      *
-     * @see Sardoj\Uccello\Helpers\Uccello
+     * @see Uccello\Core\Helpers\Uccello
      */
     protected function capabilityExists(string $capability) : bool
     {

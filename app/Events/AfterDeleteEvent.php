@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Events;
+namespace Uccello\Core\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
@@ -10,8 +10,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Http\Request;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 class AfterDeleteEvent
 {

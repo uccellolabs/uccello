@@ -1,8 +1,8 @@
 <?php
 
-namespace Sardoj\Uccello\Models;
+namespace Uccello\Core\Models;
 
-use Sardoj\Uccello\Database\Eloquent\Model;
+use Uccello\Core\Database\Eloquent\Model;
 
 class Permission extends Model
 {
@@ -18,7 +18,7 @@ class Permission extends Model
      * The order is respected in profile permissions list.
      * Important: A capability name must begin by CAPABILITY_
      *
-     * @see Sardoj\Uccello\Helpers\Uccello
+     * @see Uccello\Core\Helpers\Uccello
      */
     public const CAPABILITY_RETRIEVE            = 'retrieve';
     public const CAPABILITY_CREATE              = 'create';

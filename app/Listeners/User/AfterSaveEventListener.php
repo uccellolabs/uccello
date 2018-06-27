@@ -1,11 +1,11 @@
 <?php
 
-namespace Sardoj\Uccello\Listeners\User;
+namespace Uccello\Core\Listeners\User;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
-use Sardoj\Uccello\Events\AfterSaveEvent;
-use Sardoj\Uccello\Models\Role;
-use Sardoj\Uccello\Models\Privilege;
+use Uccello\Core\Events\AfterSaveEvent;
+use Uccello\Core\Models\Role;
+use Uccello\Core\Models\Privilege;
 use Uccello;
 
 class AfterSaveEventListener

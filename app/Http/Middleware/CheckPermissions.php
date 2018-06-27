@@ -1,13 +1,13 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Middleware;
+namespace Uccello\Core\Http\Middleware;
 
 use Closure;
 use Auth;
-use Sardoj\Uccello\Models\User;
-use Sardoj\Uccello\Models\Permission;
-use Sardoj\Uccello\Models\Domain;
-use Sardoj\Uccello\Models\Module;
+use Uccello\Core\Models\User;
+use Uccello\Core\Models\Permission;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 class CheckPermissions
 {

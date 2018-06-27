@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Sardoj\Uccello\Database\Migrations\Migration;
+use Uccello\Core\Database\Migrations\Migration;
 
 class CreateFiltersTable extends Migration
 {
@@ -31,11 +31,11 @@ class CreateFiltersTable extends Migration
             $table->foreign('module_id')
                     ->references('id')->on($this->tablePrefix . 'modules')
                     ->onDelete('cascade');
-            
+
             $table->foreign('domain_id')
                     ->references('id')->on($this->tablePrefix . 'domains')
                     ->onDelete('cascade');
-            
+
             $table->foreign('user_id')
                     ->references('id')->on('users')
                     ->onDelete('cascade');

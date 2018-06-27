@@ -22,14 +22,14 @@ If you are using Laravel 5.5 or above skip this step, but if aren't then add thi
 ``` php
 'providers' => [
   ...
-  Sardoj\Uccello\Providers\AppServiceProvider::class,
-  Sardoj\Uccello\Providers\RouteServiceProvider::class,
+  Uccello\Core\Providers\AppServiceProvider::class,
+  Uccello\Core\Providers\RouteServiceProvider::class,
   ...
 ],
 ...
 'aliases' => [
   ...
-  'Uccello' => Sardoj\Uccello\Facades\Uccello::class,
+  'Uccello' => Uccello\Core\Facades\Uccello::class,
 ],
 ```
 
@@ -47,7 +47,7 @@ Open ```app/Http/Kernel.php``` file and add the following code:
 ```php
 protected $routeMiddleware = [
   ...
-  'uccello.permissions' => \Sardoj\Uccello\Http\Middleware\CheckPermissions::class,
+  'uccello.permissions' => \Uccello\Core\Http\Middleware\CheckPermissions::class,
 ];
 ```
 

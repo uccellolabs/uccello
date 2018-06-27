@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Http\Controllers\Core;
+namespace Uccello\Core\Http\Controllers\Core;
 
 class IndexController extends Controller
 {

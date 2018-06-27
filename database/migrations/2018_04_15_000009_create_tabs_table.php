@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Sardoj\Uccello\Database\Migrations\Migration;
-use Sardoj\Uccello\Database\Migrations\Traits\TablePrefixTrait;
+use Uccello\Core\Database\Migrations\Migration;
+use Uccello\Core\Database\Migrations\Traits\TablePrefixTrait;
 
 class CreateTabsTable extends Migration
 {

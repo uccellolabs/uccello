@@ -1,6 +1,6 @@
 <?php
 
-namespace Sardoj\Uccello\Database\Eloquent;
+namespace Uccello\Core\Database\Eloquent;
 
 use Illuminate\Database\Eloquent\Model as DefaultModel;
 
@@ -11,7 +11,7 @@ class Model extends DefaultModel
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
-        
+
         // Set table prefix
         $this->setTablePrefix();
 

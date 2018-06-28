@@ -14,7 +14,7 @@
     @if($module ?? false)<meta name="module" content="{{ $module->name }}">@endif
 
     <!-- Favicon-->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="img/favicon.png" type="image/x-icon">
     <base href="/">
 
     <!-- Bootstrap Core Css -->

@@ -68,7 +68,7 @@ class CreateUserStructure extends Migration
         $field->label = 'field.username';
         $field->uitype = Field::UITYPE_TEXT;
         $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
-        $field->data = ['rules' => 'required|alpha_dash|unique:users'];
+        $field->data = ['rules' => 'required|alpha_dash|unique:users,username,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->save();
@@ -132,7 +132,7 @@ class CreateUserStructure extends Migration
         $field->label = 'field.email';
         $field->uitype = Field::UITYPE_EMAIL;
         $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
-        $field->data = ['rules' => 'required|email|unique:users'];
+        $field->data = ['rules' => 'required|email|unique:users,email,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->save();

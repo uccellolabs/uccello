@@ -233,7 +233,7 @@ class EditForm extends Form
         $options = [
             'label' => uctrans($field->label, $module),
             'label_attr' => ['class' => 'form-label'],
-            'rules' => $field->data->rules ?? null,
+            'rules' => $this->getFieldRules($field),
             'default_value' => $field->data->default ?? null,
             'attr' => [
                 'class' => 'form-control'
@@ -336,5 +336,35 @@ class EditForm extends Form
             'first_options' => $firstFieldOptions,
             'second_options' => $secondFieldOptions
         ];
+    }
+
+    /**
+     * Returns the rules defined for a field.
+     * In the rules %id% is replaced by the record id (usefull for unique key control).
+     *
+     * @param Field $field
+     * @return string|null
+     */
+    protected function getFieldRules(Field $field) : ?string
+    {
+        $rules = null;
+
+        if (!empty($field->data->rules)) {
+            // Get the rules
+            $rules = $field->data->rules;
+
+            // Check if we are editing an existant record
+            $record = $this->getModel();
+
+            if (!is_null($record->id)) {
+                // Replace %id% by the record id
+                $rules = preg_replace('`%id%`', $record->id, $rules);
+            } else {
+                // Remove ,%id% from the rules
+                $rules = preg_replace('`,%id%`', '', $rules);
+            }
+        }
+
+        return $rules;
     }
 }

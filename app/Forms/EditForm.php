@@ -267,7 +267,7 @@ class EditForm extends Form
             case Field::UITYPE_ENTITY:
                 if ($field->data->module) {
                     $options = [
-                        'class' => Uccello::getEntityClassByModuleName($field->data->module),
+                        'class' => Uccello::getModelClassByModuleName($field->data->module),
                         'property' => $field->data->field ?? 'name'
                     ];
                 }

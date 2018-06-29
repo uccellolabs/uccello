@@ -29,16 +29,16 @@ class ApiController extends Controller
             // Get data formated for Datatable
             $result = $this->getResultForDatatable($domain, $module, $request);
         } else {
-            // Get entity model class
-            $entityClass = $module->model_class;
+            // Get model model class
+            $modelClass = $module->model_class;
 
             // Filter on domain if column exists
-            if (Schema::hasColumn((new $entityClass)->getTable(), 'domain_id')) {
+            if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
                 // Paginate results
-                $result = $entityClass::where('domain_id', $domain->id)->paginate(self::ITEMS_PER_PAGE);
+                $result = $modelClass::where('domain_id', $domain->id)->paginate(self::ITEMS_PER_PAGE);
             } else {
                 // Paginate results
-                $result = $entityClass::paginate(self::ITEMS_PER_PAGE);
+                $result = $modelClass::paginate(self::ITEMS_PER_PAGE);
             }
         }
 
@@ -105,25 +105,25 @@ class ApiController extends Controller
         $order = $request->get('order');
         $columns = $request->get('columns');
 
-        // Get entity model class
-        $entityClass = $module->model_class;
+        // Get model model class
+        $modelClass = $module->model_class;
 
         // If the class exists, make the query
-        if (class_exists($entityClass)) {
+        if (class_exists($modelClass)) {
 
             // Filter on domain if column exists
-            if (Schema::hasColumn((new $entityClass)->getTable(), 'domain_id')) {
+            if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
                 // Count all results
-                $total = $entityClass::where('domain_id', $domain->id)->count();
+                $total = $modelClass::where('domain_id', $domain->id)->count();
 
                 // Paginate results
-                $query = $entityClass::where('domain_id', $domain->id)->skip($start)->take($length);
+                $query = $modelClass::where('domain_id', $domain->id)->skip($start)->take($length);
             } else {
                 // Count all results
-                $total = $entityClass::count();
+                $total = $modelClass::count();
 
                 // Paginate results
-                $query = $entityClass::skip($start)->take($length);
+                $query = $modelClass::skip($start)->take($length);
             }
 
             // Order results

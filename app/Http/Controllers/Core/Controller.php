@@ -130,16 +130,16 @@ abstract class Controller extends BaseController
         }
 
         // Retrieve model class
-        $entityClass = $this->module->model_class;
+        $modelClass = $this->module->model_class;
 
         // An id is defined, retrieve the record from the database fail (404)
         if ($this->request->has('id')) {
             $recordId = (int) $this->request->input('id');
-            $record = $entityClass::findOrFail($recordId);
+            $record = $modelClass::findOrFail($recordId);
         }
         // Make a new empty instance
         else {
-            $record = new $entityClass();
+            $record = new $modelClass();
 
             // Set domain if column exists
             if (Schema::hasColumn($record->getTable(), 'domain_id')) {

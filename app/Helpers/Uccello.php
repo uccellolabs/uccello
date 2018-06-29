@@ -62,7 +62,7 @@ class Uccello
      * @param string|null $moduleName
      * @return string|null
      */
-    public function getEntityClassByModuleName(?string $moduleName): ?string
+    public function getModelClassByModuleName(?string $moduleName): ?string
     {
         if (is_null($moduleName)) {
             return null;

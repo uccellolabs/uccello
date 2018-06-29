@@ -36,7 +36,7 @@ class EditForm extends Form
         // Options
         $this->formOptions = [
             'method' => 'POST', // Use POST method
-            'url' => route('uccello.store', $routeParams), // URL to call
+            'url' => route('uccello.save', $routeParams), // URL to call
             'novalidate', // Deactivate HTML5 validation
         ];
 
@@ -268,7 +268,8 @@ class EditForm extends Form
                 if ($field->data->module) {
                     $options = [
                         'class' => Uccello::getModelClassByModuleName($field->data->module),
-                        'property' => $field->data->field ?? 'name'
+                        'property' => $field->data->field ?? 'name',
+                        'empty_value' => uctrans('select_empty_value', $module)
                     ];
                 }
                 break;

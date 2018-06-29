@@ -20,5 +20,5 @@ Route::name('uccello.')->group(function () {
     Route::get('{domain}/{module}/detail', 'Core\DetailController@process')->name('detail');
     Route::get('{domain}/{module}/edit', 'Core\EditController@process')->name('edit');
     Route::get('{domain}/{module}/delete', 'Core\DeleteController@process')->name('delete');
-    Route::post('{domain}/{module}', 'Core\EditController@store')->name('store');
+    Route::post('{domain}/{module}', 'Core\EditController@save')->name('save');
 });

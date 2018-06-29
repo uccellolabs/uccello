@@ -66,7 +66,7 @@ class EditController extends Controller
      * @param Module $module
      * @return void
      */
-    public function store(Domain $domain, Module $module, Request $request)
+    public function save(Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);

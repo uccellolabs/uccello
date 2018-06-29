@@ -20,7 +20,7 @@ class Form extends DefaultForm
 
         // Filter values
         $values = array_filter($values, function ($value) {
-            return !is_null($value) && (!is_object($value) || !$value instanceof UploadedFile) && !is_array($value);
+            return (!is_object($value) || !$value instanceof UploadedFile) && !is_array($value);
         });
 
         // Set fields value only if the column exists in the table

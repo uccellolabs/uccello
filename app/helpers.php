@@ -45,6 +45,23 @@ if (!function_exists('ucmodule')) {
     }
 }
 
+if (!function_exists('ucroute')) {
+    /**
+     * Makes route automaticaly and add domain and module parameter.
+     *
+     * @param array|string $name
+     * @param Domain|string|null $domain
+     * @param Module|string|null $module
+     * @param mixed $parameters
+     * @param boolean $absolute
+     * @return string
+     */
+    function ucroute($name, $domain = null, $module = null, $parameters = [], $absolute = true) : string
+    {
+        return app('uccello')->route($name, $domain, $module, $parameters, $absolute);
+    }
+}
+
 if (!function_exists('uclog')) {
     /**
      * Use Debugbar to log data.

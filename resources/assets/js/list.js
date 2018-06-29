@@ -10,6 +10,7 @@ $(function () {
     var csrfToken = $('meta[name="csrf-token"]').attr('content');
     var domainSlug = $('meta[name="domain"]').attr('content');
     var moduleName = $('meta[name="module"]').attr('content');
+    var datatableUrl = $('meta[name="datatable-url"]').attr('content');
 
     $('.dataTable').DataTable({
         dom: 'lrtip',
@@ -18,7 +19,7 @@ $(function () {
         colReorder: true,
         serverSide: true,
         ajax: {
-            url: `/api/${domainSlug}/${moduleName}/list?datatable=1&_token=${csrfToken}`,
+            url: `${datatableUrl}?datatable=1&_token=${csrfToken}`,
             type: "POST"
         },
         columns: getDatatableColumns(),

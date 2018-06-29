@@ -26,6 +26,11 @@ class ApiController extends Controller
         $this->middleware('uccello.permissions:retrieve');
 
         if ($request->get('datatable')) {
+            // If we don't use multi domains, find the first one
+            if (!uccello()->useDomains()) {
+                $domain = Domain::first();
+            }
+
             // Get data formated for Datatable
             $result = $this->getResultForDatatable($domain, $module, $request);
         } else {

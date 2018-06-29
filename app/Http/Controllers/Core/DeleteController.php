@@ -20,15 +20,9 @@ class DeleteController extends Controller
     }
 
     /**
-     * Delete record and redirect.
-     *
-     * @param Domain $domain
-     * @param Module $module
-     * @param Request $request
-     *
-     * @return \Illuminate\Http\Response
+     * @inheritDoc
      */
-    public function process(Domain $domain, Module $module, Request $request)
+    public function process(?Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -40,6 +34,8 @@ class DeleteController extends Controller
             $record->delete();
         }
 
-        return redirect()->route('uccello.list', ['domain' => $domain->slug, 'module' => $module->name]);
+        $route = ucroute('uccello.list', $domain, $module);
+
+        return redirect($route);
     }
 }

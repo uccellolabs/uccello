@@ -11,7 +11,7 @@
             @if (isset($domain) && $homeModule->isActiveOnDomain($domain) && Auth::user()->canRetrieve($domain, $homeModule))
             {{-- Home module --}}
             <li @if ('home' === $module->name)class="active"@endif>
-                <a href="/{{ $domain->slug }}/home">
+                <a href="{{ ucroute('uccello.home', $domain) }}">
                     <i class="material-icons">home</i>
                     <span>{{ uctrans('uccello::home.home') }}</span>
                 </a>
@@ -23,7 +23,7 @@
                 @foreach ($modules as $_module)
                     @continue ($_module->name === 'home' || !$_module->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $_module))
                     <li @if ($_module->id === $module->id)class="active"@endif>
-                        <a href="{{ route('uccello.list', ['domain' => $domain->slug, 'module' => $_module->name]) }}">
+                        <a href="{{ ucroute('uccello.list', $domain, $_module) }}">
                             @if ($_module->icon)<i class="material-icons">{{ $_module->icon ?? 'list' }}</i>@endif
                             <span>{{ uctrans($_module->name, $_module) }}</span>
                         </a>

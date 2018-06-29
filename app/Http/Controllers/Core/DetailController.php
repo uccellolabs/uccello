@@ -22,7 +22,7 @@ class DetailController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function process(Domain $domain, Module $module, Request $request)
+    public function process(?Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);

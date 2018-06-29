@@ -5,6 +5,7 @@ namespace Uccello\Core\Helpers;
 use Illuminate\Support\Collection;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Permission;
+use Uccello\Core\Models\Domain;
 
 class Uccello
 {
@@ -118,6 +119,38 @@ class Uccello
     }
 
     /**
+     * Makes route automaticaly and add module parameter.
+     *
+     * @param array|string $name
+     * @param Domain|string|null $domain
+     * @param Module|string|null $module
+     * @param mixed $parameters
+     * @param boolean $absolute
+     * @return string
+     */
+    public function route($name, $domain = null, $module = null, $parameters = [], $absolute = true) : string
+    {
+        if (is_a($domain, Domain::class)) {
+            $domain = $domain->slug;
+        }
+
+        if (is_a($module, Module::class)) {
+            $module = $module->name;
+        }
+
+        // Add domain to route if we use multi domains
+        if (!is_null($domain) && uccello()->useDomains()) {
+            $parameters['domain'] = $domain;
+        }
+
+        if (!is_null($module)) {
+            $parameters['module'] = $module;
+        }
+
+        return route($name, $parameters, $absolute);
+    }
+
+    /**
      * Returns the list of capabilities.
      * Important: A capability name must begin by CAPABILITY_
      *
@@ -152,5 +185,15 @@ class Uccello
         } else {
             return Module::where('name', (string) $nameOrId)->first();
         }
+    }
+
+    /**
+     * Returns true if multi domains are used, false else.
+     *
+     * @return void
+     */
+    public function useDomains()
+    {
+        return env('UCCELLO_MULTI_DOMAINS', true) !== false;
     }
 }

@@ -37,7 +37,7 @@ class EditController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function process(Domain $domain, Module $module, Request $request)
+    public function process(?Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -62,11 +62,11 @@ class EditController extends Controller
     /**
      * Create or update record into database
      *
-     * @param Domain $domain
+     * @param Domain|null $domain
      * @param Module $module
      * @return void
      */
-    public function save(Domain $domain, Module $module, Request $request)
+    public function save(?Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -95,7 +95,9 @@ class EditController extends Controller
             event(new AfterSaveEvent($domain, $module, $request, $record, $mode));
 
             // Redirect to detail view
-            return redirect()->route('uccello.detail', ['domain' => $domain->slug, 'module' => $module->name, 'id' => $record->id]);
+            $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->id]);
+
+            return redirect($route);
         }
         catch (\Exception $e) {
         }

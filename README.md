@@ -60,11 +60,22 @@ Configure ```.env``` file then run this command to migrate the database
 
 
 ### Set the default routes
-Add this code on ```routes/web.php```
+Add this code in ```routes/web.php```
 
 ``` php
-Route::redirect('/', '/default/home');
+Route::get('/', function() {
+    $domain = uccello()->useDomains() ? 'default' : null;
+    $route = ucroute('uccello.home', $domain);
+    return redirect($route);
+});
 ...
+```
+
+If you don't want to use multi domains, add this code in ```.env```
+
+```
+...
+UCCELLO_MULTI_DOMAINS=false
 ```
 
 Then go to your **homepage**. You must be redirected to the **login page**.

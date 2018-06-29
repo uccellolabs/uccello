@@ -14,7 +14,7 @@ class EditController extends CoreEditController
     /**
      * {@inheritdoc}
      */
-    public function process(Domain $domain, Module $module, Request $request)
+    public function process(?Domain $domain, Module $module, Request $request)
     {
         // Get default view
         $view = parent::process($domain, $module, $request);

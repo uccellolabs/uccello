@@ -12,6 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if($domain ?? false)<meta name="domain" content="{{ $domain->slug }}">@endif
     @if($module ?? false)<meta name="module" content="{{ $module->name }}">@endif
+    @yield('extra-meta')
 
     <!-- Favicon-->
     <link rel="icon" href="img/favicon.png" type="image/x-icon">

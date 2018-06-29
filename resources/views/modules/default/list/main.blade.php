@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('extra-meta')
+    <meta name="datatable-url" content="{{ ucroute('uccello.datatable', $domain, $module) }}">
+@endsection
+
 @section('extra-script')
 {{ Html::script(mix('js/list.js')) }}
 
@@ -10,7 +14,7 @@ var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
 @endsection
 
 @section('content')
-    <a href="{{ route('uccello.edit', ['domain' => $domain->slug, 'module' => $module->name]) }}" class="btn btn-success">
+    <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success">
     {{ uctrans('add_record', $module) }}
     </a>
 

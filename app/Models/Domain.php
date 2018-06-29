@@ -27,6 +27,15 @@ class Domain extends Model
     protected $dates = ['deleted_at'];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'config' => 'object',
+    ];
+
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array

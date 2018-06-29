@@ -28,6 +28,11 @@ class CheckPermissions
         $domain = $request->domain;
         $module = $request->module;
 
+        // If we don't use multi domains, find the first one
+        if (!uccello()->useDomains()) {
+            $domain = Domain::firstOrFail();
+        }
+
         $isModuleActive = $module->isActiveOnDomain($domain);
         $isUserAllowed =  $user->hasCapabilityOnModule($capability, $domain, $module);
 

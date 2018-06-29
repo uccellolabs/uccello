@@ -4,21 +4,34 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name(
 
 Route::name('uccello.')->group(function () {
 
+    // Adapt params if we use or not multi domains
+    if (!uccello()->useDomains()) {
+        $domainParam = '';
+        $domainAndModuleParams = '/{module}';
+    } else {
+        $domainParam = '{domain}';
+        $domainAndModuleParams = '{domain}/{module}';
+    }
+
     // Overrided routes
-    Route::get('{domain}/role/edit', 'Role\EditController@process')
+    Route::get($domainParam.'/role/edit', 'Role\EditController@process')
         ->defaults('module', 'role')
         ->name('role.edit');
 
-    Route::get('{domain}/user/edit', 'User\EditController@process')
+    Route::get($domainParam.'/user/edit', 'User\EditController@process')
         ->defaults('module', 'user')
         ->name('user.edit');
 
     // Default routes
-    Route::get('{domain}/{module}', 'Core\IndexController@process')->name('index');
-    Route::get('{domain}/{module}/list', 'Core\ListController@process')->name('list');
-    Route::post('api/{domain}/{module}/list', 'Core\ApiController@index')->name('api');
-    Route::get('{domain}/{module}/detail', 'Core\DetailController@process')->name('detail');
-    Route::get('{domain}/{module}/edit', 'Core\EditController@process')->name('edit');
-    Route::get('{domain}/{module}/delete', 'Core\DeleteController@process')->name('delete');
-    Route::post('{domain}/{module}', 'Core\EditController@save')->name('save');
+    Route::get($domainParam.'/home', 'Core\IndexController@process')
+        ->defaults('module', 'home')
+        ->name('home');
+
+    Route::get($domainAndModuleParams, 'Core\IndexController@process')->name('index');
+    Route::get($domainAndModuleParams.'/list', 'Core\ListController@process')->name('list');
+    Route::post($domainAndModuleParams.'/list/datatable', 'Core\ApiController@index')->name('datatable');
+    Route::get($domainAndModuleParams.'/detail', 'Core\DetailController@process')->name('detail');
+    Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
+    Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
+    Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
 });

@@ -25,7 +25,7 @@ fp-page
                     <div class="form-line">
                         <input id="email" type="email" placeholder="{{ __('E-Mail Address') }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
                     </div>
-                    
+
                     @if ($errors->has('email'))
                         <span class="invalid-feedback">
                             <strong>{{ $errors->first('email') }}</strong>
@@ -42,4 +42,9 @@ fp-page
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    {{ Html::script(mix('js/manifest.js')) }}
+    {{ Html::script(mix('js/vendor.js')) }}
 @endsection

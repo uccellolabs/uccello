@@ -52,13 +52,13 @@ abstract class Controller extends BaseController
 
     /**
      * Process and display asked page
-     * @param Domain $domain
+     * @param Domain|null $domain
      * @param Module $module
      * @param Request $request
      *
      * @return \Illuminate\Http\Response
      */
-    public function process(Domain $domain, Module $module, Request $request)
+    public function process(?Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -68,11 +68,16 @@ abstract class Controller extends BaseController
 
     /**
      * Instantiance variables and check permissions
-     * @param Domain $domain
+     * @param Domain|null $domain
      * @param Module $module
      */
-    protected function preProcess(Domain $domain, Module $module, Request $request)
+    protected function preProcess(?Domain &$domain, Module $module, Request $request)
     {
+        // If we don't use multi domains, find the first one
+        if (!uccello()->useDomains()) {
+            $domain = Domain::firstOrFail();
+        }
+
         // Get domain
         $this->domain = $domain;
 

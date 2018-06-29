@@ -24,7 +24,7 @@ class ListController extends Controller
     /**
      * @inheritDoc
      */
-    public function process(Domain $domain, Module $module, Request $request)
+    public function process(?Domain $domain, Module $module, Request $request)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);

@@ -22,7 +22,7 @@ class EditForm extends Form
         $module = $this->getData('module');
 
         // Make route params
-        $routeParams = ['domain' => $domain->slug, 'module' => $module->name];
+        $routeParams = [];
 
         // Get and add record id to route params if defined
         $recordId = $this->getModel()->id ?? null;
@@ -36,7 +36,7 @@ class EditForm extends Form
         // Options
         $this->formOptions = [
             'method' => 'POST', // Use POST method
-            'url' => route('uccello.save', $routeParams), // URL to call
+            'url' => ucroute('uccello.save', $domain, $module, $routeParams), // URL to call
             'novalidate', // Deactivate HTML5 validation
         ];
 

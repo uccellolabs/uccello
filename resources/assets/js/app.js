@@ -2,7 +2,7 @@
 require('./bootstrap');
 
 // Slimscroll
-// require('adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js');
+require('adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js');
 
 // Admin BSB
 require('adminbsb-materialdesign');

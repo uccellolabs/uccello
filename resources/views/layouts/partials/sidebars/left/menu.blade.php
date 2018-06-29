@@ -1,11 +1,9 @@
 <div class="menu">
-    <ul class="list">
-        @yield('sidebar-menu-before')
+    @yield('sidebar-menu-before')
 
-        @section('sidebar-main-menu')
-            <ul class="list">
-                <li class="header">{{ strtoupper(uctrans('menu.title', $module)) }}</li>
-            </ul>
+    @section('sidebar-main-menu')
+        <ul class="list">
+            <li class="header">{{ strtoupper(uctrans('menu.title', $module)) }}</li>
 
             @yield('sidebar-main-menu-before')
 
@@ -34,8 +32,8 @@
             @endif
 
             @yield('sidebar-main-menu-after')
-        @show
+        </ul>
+    @show
 
-        @yield('sidebar-menu-after')
-    </ul>
+    @yield('sidebar-menu-after')
 </div>

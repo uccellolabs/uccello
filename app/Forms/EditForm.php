@@ -76,128 +76,35 @@ class EditForm extends Form
      * @param array $values
      * @return void
      */
-    public function alterFieldValues(array &$values)
-    {
-        // Get module data
-        $module = $this->getData('module');
+    // public function alterFieldValues(array &$values)
+    // {
+    //     // Get module data
+    //     $module = $this->getData('module');
 
-        foreach ($module->fields as $field)
-        {
-            // Hash passwords
-            if ($field->uitype === Field::UITYPE_PASSWORD) {
-                if (!empty($values[$field->name])) {
-                    $values[$field->name] = Hash::make($values[$field->name]);
-                }
-            }
-        }
+    //     foreach ($module->fields as $field)
+    //     {
+    //         // Hash passwords
+    //         if ($field->uitype === Field::UITYPE_PASSWORD) {
+    //             if (!empty($values[$field->name])) {
+    //                 $values[$field->name] = Hash::make($values[$field->name]);
+    //             }
+    //         }
+    //     }
 
-        // dd($values);
-    }
+    //     // dd($values);
+    // }
 
     /**
-     * Return field type used by Form builder according to uitype.
+     * Returns field type used by Form builder.
      *
      * @param Field $field
      * @return string
      */
     public function getFormBuilderType(Field $field): string
     {
-        $type = "";
+        $uitype = $this->getUitypeInstance($field);
 
-        switch ($field->uitype) {
-            case Field::UITYPE_EMAIL:
-                $type = 'email';
-                break;
-
-            case Field::UITYPE_PASSWORD:
-                $type = 'password';
-                break;
-
-            case Field::UITYPE_HIDDEN:
-                $type = 'hidden';
-                break;
-
-            case Field::UITYPE_TEXTAREA:
-                $type = 'textarea';
-                break;
-
-            case Field::UITYPE_NUMBER:
-            case Field::UITYPE_INTEGER:
-                $type = 'number';
-                break;
-
-            case Field::UITYPE_FILE:
-                $type = 'file';
-                break;
-
-            case Field::UITYPE_IMAGE:
-                $type = 'image';
-                break;
-
-            case Field::UITYPE_URL:
-                $type = 'url';
-                break;
-
-            case Field::UITYPE_PHONE:
-                $type = 'tel';
-                break;
-
-            case Field::UITYPE_SEARCH:
-                $type = 'search';
-                break;
-
-            case Field::UITYPE_COLOR:
-                $type = 'color';
-                break;
-
-            case Field::UITYPE_DATE:
-                $type = 'date';
-                break;
-
-            case Field::UITYPE_TIME:
-                $type = 'time';
-                break;
-
-            case Field::UITYPE_DATETIME:
-                $type = 'datetime-local';
-                break;
-
-            case Field::UITYPE_MONTH:
-                $type = 'month';
-                break;
-
-            case Field::UITYPE_WEEK:
-                $type = 'week';
-                break;
-
-            case Field::UITYPE_RANGE:
-                $type = 'range';
-                break;
-
-            case Field::UITYPE_SELECT:
-                $type = 'select';
-                break;
-
-            case Field::UITYPE_CHOICE:
-                $type = 'choice';
-                break;
-
-            case Field::UITYPE_CHECKBOX:
-            case Field::UITYPE_BOOLEAN:
-                $type = 'checkbox';
-                break;
-
-            case Field::UITYPE_ENTITY:
-                $type = 'entity';
-                break;
-
-            case Field::UITYPE_TEXT:
-            default:
-                $type = 'text';
-                break;
-        }
-
-        return $type;
+        return $uitype->getFormType();
     }
 
     /**
@@ -253,64 +160,12 @@ class EditForm extends Form
      */
     protected function getSpecialFieldOptions(Field $field): array
     {
-        if (!is_object($field->data)) {
-            return [];
-        }
-
         // Get module data
         $module = $this->getData('module');
 
-        $options = [];
+        $uitype = $this->getUitypeInstance($field);
 
-        switch ($field->uitype) {
-            // Entity
-            case Field::UITYPE_ENTITY:
-                if ($field->data->module) {
-                    $options = [
-                        'class' => Uccello::getModelClassByModuleName($field->data->module),
-                        'property' => $field->data->field ?? 'name',
-                        'empty_value' => uctrans('select_empty_value', $module)
-                    ];
-                }
-                break;
-
-            // Select
-            case Field::UITYPE_SELECT:
-                $choices = [];
-
-                if ($field->data->choices) {
-                    foreach ($field->data->choices as $choice) {
-                        $choices[$choice] = uctrans($choice, $module);
-                    }
-                }
-
-                $options = [
-                    'choices' => $choices,
-                    'selected' => $field->data->default ?? null,
-                    'empty_value' => uctrans('select_empty_value', $module)
-                ];
-                break;
-
-            // Choice
-            case Field::UITYPE_CHOICE:
-                $choices = [];
-
-                if ($field->data->choices) {
-                    foreach ($field->data->choices as $choice) {
-                        $choices[$choice] = uctrans($choice, $module);
-                    }
-                }
-
-                $options = [
-                    'choices' => $choices,
-                    'selected' => $field->data->default ?? null,
-                    'expanded' => true,
-                    'multiple' => $field->data->multiple ?? false
-                ];
-                break;
-        }
-
-        return $options;
+        return $uitype->getFormOptions($field, $module);
     }
 
     /**
@@ -367,5 +222,18 @@ class EditForm extends Form
         }
 
         return $rules;
+    }
+
+    /**
+     * Get an instance of the uitype used by a field
+     *
+     * @param Field $field
+     * @return mixed
+     */
+    protected function getUitypeInstance(Field $field)
+    {
+        $uitypeClass = $field->uitype->model_class;
+
+        return new $uitypeClass();
     }
 }

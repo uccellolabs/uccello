@@ -53,27 +53,25 @@ class Profile extends Model
         $permissions = $this->permissions->where('module_id', $module->id);
 
         foreach ($permissions as $permission) {
-            if (!$capabilities->contains($permission->capability)) {
-                $capabilities[] = $permission->capability;
-            }
+            $capabilities[] = $permission->capability;
         }
 
-        return $capabilities;
+        return $capabilities->unique();
     }
 
     /**
      * Checks if the profil has a capability on a module
      *
-     * @param string $capability
+     * @param Capability $capability
      * @param Module $module
      * @return boolean
      */
-    public function hasCapabilityOnModule(string $capability, Module $module) : bool
+    public function hasCapabilityOnModule(Capability $capability, Module $module) : bool
     {
         $hasCapability = false;
 
         foreach ($this->capabilitiesOnModule($module) as $capabilityOnModule) {
-            if ($capabilityOnModule === $capability) {
+            if ($capabilityOnModule->id === $capability->id) {
                 $hasCapability = true;
                 break;
             }

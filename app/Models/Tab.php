@@ -13,6 +13,15 @@ class Tab extends Model
      */
     protected $table = 'tabs';
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'object',
+    ];
+
     public function module()
     {
         return $this->belongsTo(Module::class);

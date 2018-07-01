@@ -17,7 +17,7 @@ class CreatePermissionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('profile_id');
-            $table->string('capability');
+            $table->unsignedInteger('capability_id');
             $table->timestamps();
 
             // Foreign keys
@@ -29,8 +29,12 @@ class CreatePermissionsTable extends Migration
                     ->references('id')->on($this->tablePrefix . 'profiles')
                     ->onDelete('cascade');
 
+            $table->foreign('capability_id')
+                    ->references('id')->on($this->tablePrefix . 'capabilities')
+                    ->onDelete('cascade');
+
             // Unique keys
-            $table->unique(['module_id', 'profile_id', 'capability']);
+            $table->unique(['module_id', 'profile_id', 'capability_id']);
         });
     }
 

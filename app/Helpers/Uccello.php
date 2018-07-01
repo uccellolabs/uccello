@@ -6,9 +6,22 @@ use Illuminate\Support\Collection;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Permission;
 use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Uitype;
+use Uccello\Core\Models\Displaytype;
+use Uccello\Core\Models\Capability;
 
 class Uccello
 {
+    /**
+     * Returns true if multi domains are used, false else.
+     *
+     * @return void
+     */
+    public function useMultiDomains()
+    {
+        return env('UCCELLO_MULTI_DOMAINS', true) !== false;
+    }
+
     /**
      * Retrieve prefix and translate the given message. If the default translation does not exist try to find a fallback one.
      *
@@ -55,23 +68,6 @@ class Uccello
 
         // Default behaviour
         return app('translator')->trans($key, $replace, $locale);
-    }
-
-    /**
-     * Retrieve a module by its name and return its model class.
-     *
-     * @param string|null $moduleName
-     * @return string|null
-     */
-    public function getModelClassByModuleName(?string $moduleName): ?string
-    {
-        if (is_null($moduleName)) {
-            return null;
-        }
-
-        $module = Module::where('name', $moduleName)->first();
-
-        return $module->model_class ?? null;
     }
 
     /**
@@ -139,7 +135,7 @@ class Uccello
         }
 
         // Add domain to route if we use multi domains
-        if (!is_null($domain) && uccello()->useDomains()) {
+        if (!is_null($domain) && uccello()->useMultiDomains()) {
             $parameters['domain'] = $domain;
         }
 
@@ -152,33 +148,23 @@ class Uccello
 
     /**
      * Returns the list of capabilities.
-     * Important: A capability name must begin by CAPABILITY_
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Collection
      *
      * @see Uccello\Core\Models\Permission
      */
     public function getCapabilities(): Collection
     {
-        $class = new \ReflectionClass(Permission::class);
-
-        $capabilities = new Collection();
-        foreach ($class->getConstants() as $constant => $value) {
-            if (preg_match('`^CAPABILITY_`', $constant)) {
-                $capabilities[] = $value;
-            }
-        }
-
-        return $capabilities;
+        return Capability::all();
     }
 
     /**
      * Get a module instance by name or id
      *
-     * @param string|int $name
+     * @param string|int $nameOrId
      * @return Module|null
      */
-    public function getModuleInstance($nameOrId): ?Module
+    public function getModule($nameOrId): ?Module
     {
         if (is_numeric($nameOrId)) {
             return Module::find($nameOrId);
@@ -188,12 +174,47 @@ class Uccello
     }
 
     /**
-     * Returns true if multi domains are used, false else.
+     * Get an Uitype instance by name or id
      *
-     * @return void
+     * @param string|int $nameOrId
+     * @return Uitype|null
      */
-    public function useDomains()
+    public function getUitype($nameOrId): ?Uitype
     {
-        return env('UCCELLO_MULTI_DOMAINS', true) !== false;
+        if (is_numeric($nameOrId)) {
+            return Uitype::find($nameOrId);
+        } else {
+            return Uitype::where('name', (string) $nameOrId)->first();
+        }
+    }
+
+    /**
+     * Get a display type instance by name or id
+     *
+     * @param string|int $nameOrId
+     * @return Uitype|null
+     */
+    public function getDisplaytype($nameOrId): ?Displaytype
+    {
+        if (is_numeric($nameOrId)) {
+            return Displaytype::find($nameOrId);
+        } else {
+            return Displaytype::where('name', (string) $nameOrId)->first();
+        }
+    }
+
+    /**
+     * Get a capability instance by name or id
+     *
+     * @param string|int $nameOrId
+     * @return Uitype|null
+     */
+    public function getCapability($nameOrId): ?Capability
+    {
+        if (is_numeric($nameOrId)) {
+            return Capability::find($nameOrId);
+        } else {
+            return Capability::where('name', (string) $nameOrId)->first();
+        }
     }
 }

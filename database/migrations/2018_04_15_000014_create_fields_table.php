@@ -17,8 +17,8 @@ class CreateFieldsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('label');
-            $table->string('uitype');
-            $table->string('display_type');
+            $table->unsignedInteger('uitype_id');
+            $table->unsignedInteger('displaytype_id');
             $table->unsignedInteger('sequence');
             $table->text('data')->nullable();
             $table->unsignedInteger('block_id');
@@ -28,6 +28,12 @@ class CreateFieldsTable extends Migration
             $table->foreign('block_id')
                     ->references('id')->on($this->tablePrefix . 'blocks')
                     ->onDelete('cascade');
+
+            $table->foreign('uitype_id')
+                    ->references('id')->on($this->tablePrefix . 'uitypes');
+
+            $table->foreign('displaytype_id')
+                    ->references('id')->on($this->tablePrefix . 'displaytypes');
         });
     }
 

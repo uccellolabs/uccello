@@ -41,7 +41,7 @@ if (!function_exists('ucmodule')) {
      */
     function ucmodule($nameOrId): ?Module
     {
-        return app('uccello')->getModuleInstance($nameOrId);
+        return app('uccello')->getModule($nameOrId);
     }
 }
 
@@ -72,5 +72,44 @@ if (!function_exists('uclog')) {
     function uclog($data)
     {
         \Debugbar::info($data);
+    }
+}
+
+if (!function_exists('uitype')) {
+    /**
+     * Get an uitype instance by name or id
+     *
+     * @param string|int $nameOrId
+     * @return Uitype|null
+     */
+    function uitype($nameOrId)
+    {
+        return app('uccello')->getUitype($nameOrId);
+    }
+}
+
+if (!function_exists('displaytype')) {
+    /**
+     * Get a display type instance by name or id
+     *
+     * @param string|int $nameOrId
+     * @return Displaytype|null
+     */
+    function displaytype($nameOrId)
+    {
+        return app('uccello')->getDisplaytype($nameOrId);
+    }
+}
+
+if (!function_exists('capability')) {
+    /**
+     * Get a capability instance by name or id
+     *
+     * @param string|int $nameOrId
+     * @return Capabillity|null
+     */
+    function capability($nameOrId)
+    {
+        return app('uccello')->getCapability($nameOrId);
     }
 }

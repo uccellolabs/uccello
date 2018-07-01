@@ -27,7 +27,7 @@ class ApiController extends Controller
 
         if ($request->get('datatable')) {
             // If we don't use multi domains, find the first one
-            if (!uccello()->useDomains()) {
+            if (!uccello()->useMultiDomains()) {
                 $domain = Domain::first();
             }
 

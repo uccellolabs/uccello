@@ -27,11 +27,11 @@
                     <div class="col-md-3 col-sm-6 switch">
                         <label>
                             {{ Form::checkbox(
-                                'permissions['.$_module->name.']['.$capability.']',
+                                'permissions['.$_module->name.']['.$capability->name.']',
                                 '1',
                                 $record->hasCapabilityOnModule($capability, $_module)) }}
                             <span class="lever switch-col-blue"></span>
-                            {{ uctrans('capability.' . $capability, $module) }}
+                            {{ uctrans('capability.' . $capability->name, $module) }}
                         </label>
                     </div>
                 @endforeach

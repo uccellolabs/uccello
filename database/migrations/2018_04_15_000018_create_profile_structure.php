@@ -37,7 +37,7 @@ class CreateProfileStructure extends Migration
         $module->name = 'profile';
         $module->icon = 'lock';
         $module->model_class = 'Uccello\Core\Models\Profile';
-        $module->is_for_admin = true;
+        $module->data = ["admin" => true];
         $module->save();
 
         return $module;
@@ -65,8 +65,8 @@ class CreateProfileStructure extends Migration
         $field = new Field();
         $field->name = 'name';
         $field->label = 'field.name';
-        $field->uitype = Field::UITYPE_TEXT;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('text')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required'];
         $field->sequence = 0;
         $field->block_id = $block->id;
@@ -76,8 +76,8 @@ class CreateProfileStructure extends Migration
         $field = new Field();
         $field->name = 'description';
         $field->label = 'field.description';
-        $field->uitype = Field::UITYPE_TEXTAREA;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('textarea')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['large' => true];
         $field->sequence = 1;
         $field->block_id = $block->id;

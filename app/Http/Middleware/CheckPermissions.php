@@ -29,7 +29,7 @@ class CheckPermissions
         $module = $request->module;
 
         // If we don't use multi domains, find the first one
-        if (!uccello()->useDomains()) {
+        if (!uccello()->useMultiDomains()) {
             $domain = Domain::firstOrFail();
         }
 

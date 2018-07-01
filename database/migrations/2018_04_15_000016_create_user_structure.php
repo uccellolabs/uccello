@@ -37,7 +37,7 @@ class CreateUserStructure extends Migration
         $module->name = 'user';
         $module->icon = 'person';
         $module->model_class = 'Uccello\Core\Models\User';
-        $module->is_for_admin = true;
+        $module->data = ["admin" => true];
         $module->save();
 
         return $module;
@@ -66,8 +66,8 @@ class CreateUserStructure extends Migration
         $field = new Field();
         $field->name = 'username';
         $field->label = 'field.username';
-        $field->uitype = Field::UITYPE_TEXT;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('text')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required|alpha_dash|unique:users,username,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
@@ -77,8 +77,8 @@ class CreateUserStructure extends Migration
         $field = new Field();
         $field->name = 'first_name';
         $field->label = 'field.first_name';
-        $field->uitype = Field::UITYPE_TEXT;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('text')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = null;
         $field->sequence = 1;
         $field->block_id = $block->id;
@@ -88,20 +88,19 @@ class CreateUserStructure extends Migration
         $field = new Field();
         $field->name = 'last_name';
         $field->label = 'field.last_name';
-        $field->uitype = Field::UITYPE_TEXT;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('text')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required'];
         $field->sequence = 2;
         $field->block_id = $block->id;
         $field->save();
 
-
         // Is Admin
         $field = new Field();
         $field->name = 'is_admin';
         $field->label = 'field.is_admin';
-        $field->uitype = Field::UITYPE_BOOLEAN;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('boolean')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['module' => 'domain', 'field' => 'name'];
         $field->sequence = 3;
         $field->block_id = $block->id;
@@ -111,8 +110,8 @@ class CreateUserStructure extends Migration
         $field = new Field();
         $field->name = 'password';
         $field->label = 'field.password';
-        $field->uitype = Field::UITYPE_PASSWORD;
-        $field->display_type = Field::DISPLAY_TYPE_CREATE_ONLY;
+        $field->uitype_id = uitype('password')->id;
+        $field->displaytype_id = displaytype('create')->id;
         $field->data = ['rules' => 'required|min:6', 'repeated' => true];
         $field->sequence = 4;
         $field->block_id = $block->id;
@@ -130,8 +129,8 @@ class CreateUserStructure extends Migration
         $field = new Field();
         $field->name = 'email';
         $field->label = 'field.email';
-        $field->uitype = Field::UITYPE_EMAIL;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('email')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required|email|unique:users,email,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
@@ -141,8 +140,8 @@ class CreateUserStructure extends Migration
         $field = new Field();
         $field->name = 'phone';
         $field->label = 'field.phone';
-        $field->uitype = Field::UITYPE_PHONE;
-        $field->display_type = Field::DISPLAY_TYPE_EVERYWHERE;
+        $field->uitype_id = uitype('phone')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
         $field->sequence = 1;
         $field->block_id = $block->id;
         $field->save();

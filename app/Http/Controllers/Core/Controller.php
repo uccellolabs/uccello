@@ -74,7 +74,7 @@ abstract class Controller extends BaseController
     protected function preProcess(?Domain &$domain, Module $module, Request $request)
     {
         // If we don't use multi domains, find the first one
-        if (!uccello()->useDomains()) {
+        if (!uccello()->useMultiDomains()) {
             $domain = Domain::firstOrFail();
         }
 

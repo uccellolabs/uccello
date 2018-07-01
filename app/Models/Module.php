@@ -13,6 +13,15 @@ class Module extends Model
      */
     protected $table = 'modules';
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'object',
+    ];
+
     public function permissions()
     {
         return $this->hasMany(Permission::class);

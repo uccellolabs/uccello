@@ -32,7 +32,7 @@ class Domain extends Model
      * @var array
      */
     protected $casts = [
-        'config' => 'object',
+        'data' => 'object',
     ];
 
     /**

@@ -104,13 +104,15 @@ class User extends Authenticatable
     /**
      * Checks if the user has a capability on a module in a domain.
      *
-     * @param string $capability
+     * @param string $capabilityName
      * @param Domain $domain
      * @param Module $module
      * @return boolean
      */
-    public function hasCapabilityOnModule(string $capability, Domain $domain, Module $module) : bool
+    public function hasCapabilityOnModule(string $capabilityName, Domain $domain, Module $module) : bool
     {
+        $capability = capability($capabilityName);
+
         return $this->is_admin || $this->capabilitiesOnModule($domain, $module)->contains($capability);
     }
 
@@ -123,7 +125,7 @@ class User extends Authenticatable
      */
     public function canAdmin(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_ADMIN, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('admin'), $domain, $module);
     }
 
     /**
@@ -135,7 +137,7 @@ class User extends Authenticatable
      */
     public function canCreate(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_CREATE, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('create'), $domain, $module);
     }
 
     /**
@@ -147,7 +149,7 @@ class User extends Authenticatable
      */
     public function canRetrieve(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_RETRIEVE, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('retrieve'), $domain, $module);
     }
 
     /**
@@ -159,7 +161,7 @@ class User extends Authenticatable
      */
     public function canUpdate(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_UPDATE, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('update'), $domain, $module);
     }
 
     /**
@@ -171,7 +173,7 @@ class User extends Authenticatable
      */
     public function canDelete(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_DELETE, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('delete'), $domain, $module);
     }
 
     /**
@@ -183,7 +185,7 @@ class User extends Authenticatable
      */
     public function canCreateByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_CREATE_BY_API, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('api-create'), $domain, $module);
     }
 
     /**
@@ -195,7 +197,7 @@ class User extends Authenticatable
      */
     public function canRetrieveByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_RETRIEVE_BY_API, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('api-retrieve'), $domain, $module);
     }
 
     /**
@@ -207,7 +209,7 @@ class User extends Authenticatable
      */
     public function canUpdateByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_UPDATE_BY_API, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('api-update'), $domain, $module);
     }
 
     /**
@@ -219,6 +221,6 @@ class User extends Authenticatable
      */
     public function canDeleteByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(Permission::CAPABILITY_DELETE_BY_API, $domain, $module);
+        return $this->hasCapabilityOnModule(capability('api-delete'), $domain, $module);
     }
 }

@@ -22,6 +22,7 @@ class CreateTabsTable extends Migration
             $table->string('icon')->nullable();
             $table->unsignedInteger('sequence');
             $table->unsignedInteger('module_id');
+            $table->text('data')->nullable();
             $table->timestamps();
 
             // Foreign keys

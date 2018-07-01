@@ -18,7 +18,7 @@ class CreateModulesTable extends Migration
             $table->string('name');
             $table->string('icon')->nullable();
             $table->string('model_class')->nullable();
-            $table->boolean('is_for_admin')->default(false);
+            $table->text('data')->nullable();
             $table->timestamps();
         });
     }

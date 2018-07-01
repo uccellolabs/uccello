@@ -7,6 +7,7 @@ use Uccello\Core\Events\AfterSaveEvent;
 use Uccello\Core\Models\Permission;
 use Uccello\Core\Models\Module;
 use Uccello;
+use Uccello\Core\Models\Capability;
 
 class AfterSaveEventListener
 {
@@ -54,9 +55,11 @@ class AfterSaveEventListener
             }
 
             // Create new permissions from capabilities list
-            foreach ($capabilities as $capability => $value) {
+            foreach ($capabilities as $capabilityName => $value) {
+                $capability = capability($capabilityName);
+
                 // Check if the capability really exists
-                if (!$this->capabilityExists($capability)) {
+                if (is_null($capability)) {
                     continue;
                 }
 
@@ -65,7 +68,7 @@ class AfterSaveEventListener
                     $permission = new Permission();
                     $permission->profile_id = $profile->id;
                     $permission->module_id = $module->id;
-                    $permission->capability = $capability;
+                    $permission->capability_id = $capability->id;
                     $permission->save();
 
                 } catch (\Exception $e) {
@@ -121,7 +124,7 @@ class AfterSaveEventListener
             $isObsolete = true;
 
             foreach ($newPermissions as $newPermission) {
-                if ($oldPermission->capability === $newPermission->capability
+                if ($oldPermission->capability_id === $newPermission->capability_id
                     && $oldPermission->module_id === $newPermission->module_id) {
                     $isObsolete = false;
                     break;
@@ -132,19 +135,5 @@ class AfterSaveEventListener
                 $oldPermission->delete();
             }
         }
-    }
-
-    /**
-     * Checks if a capability exists.
-     * Note: A capability exists if it is defined in Uccello\Core\Models\Permission
-     *
-     * @param string $capability
-     * @return boolean
-     *
-     * @see Uccello\Core\Helpers\Uccello
-     */
-    protected function capabilityExists(string $capability) : bool
-    {
-        return Uccello::getCapabilities()->contains($capability);
     }
 }

@@ -25,10 +25,10 @@ class Displaytype extends Model
      */
     public function getInstance()
     {
-        $modelClass = $this->model_class;
+        $class = $this->class;
 
-        if (class_exists($modelClass)) {
-            return new $modelClass();
+        if (class_exists($class)) {
+            return new $class();
         } else {
             return null;
         }
@@ -41,7 +41,7 @@ class Displaytype extends Model
      */
     public function isListable() : bool
     {
-        return $this->getInstance()->isListable() ?? false;
+        return $this->getInstance()->isListable();
     }
 
     /**
@@ -51,7 +51,7 @@ class Displaytype extends Model
      */
     public function isDetailable() : bool
     {
-        return $this->getInstance()->isDetailable() ?? false;
+        return $this->getInstance()->isDetailable();
     }
 
     /**
@@ -61,7 +61,7 @@ class Displaytype extends Model
      */
     public function isCreateable() : bool
     {
-        return $this->getInstance()->isCreateable() ?? false;
+        return $this->getInstance()->isCreateable();
     }
 
     /**
@@ -71,6 +71,6 @@ class Displaytype extends Model
      */
     public function isEditable() : bool
     {
-        return $this->getInstance()->isEditable() ?? false;
+        return $this->getInstance()->isEditable();
     }
 }

@@ -55,6 +55,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Returns label to display
+     *
+     * @return string
+     */
+    public function getDisplayLabelAttribute() : string
+    {
+        return trim($this->first_name . ' ' .$this->last_name) ?? $this->username;
+    }
+
+    /**
      * Returns user roles on a domain
      *
      * @param Domain $domain

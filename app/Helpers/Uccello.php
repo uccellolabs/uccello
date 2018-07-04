@@ -75,16 +75,17 @@ class Uccello
      * Priority:
      * 1 - Module view overrided in app
      * 2 - Default view overrided in app
-     * 3 - Module view ovverrided in uccello
-     * 4 - Default view defined in uccello
+     * 3 - Module view ovverrided in package
+     * 4 - Default view defined in package
      * 5 - Fallback view if defined
      *
+     * @param string $package
      * @param Module $module
      * @param string $viewName
      * @param string|null $fallbackView
      * @return string|null
      */
-    public function view(Module $module, string $viewName, ?string $fallbackView = null): ?string
+    public function view(string $package, Module $module, string $viewName, ?string $fallbackView = null): ?string
     {
         // Module view overrided in app
         $appModuleView = 'modules.' . $module->name . '.' . $viewName;
@@ -92,21 +93,21 @@ class Uccello
         // Default view overrided in app
         $appDefaultView = 'modules.default.' . $viewName;
 
-        // Module view ovverrided in uccello
-        $uccelloModuleView = 'uccello::modules.' . $module->name . '.' . $viewName;
+        // Module view ovverrided in package
+        $packageModuleView = $package . '::modules.' . $module->name . '.' . $viewName;
 
-        // Default view defined in uccello
-        $uccelloDefaultView = 'uccello::modules.default.' . $viewName;
+        // Default view defined in package
+        $packageDefaultView = $package . '::modules.default.' . $viewName;
 
         $viewToInclude = null;
         if (view()->exists($appModuleView)) {
             $viewToInclude = $appModuleView;
         } elseif (view()->exists($appDefaultView)) {
             $viewToInclude = $appDefaultView;
-        } elseif (view()->exists($uccelloModuleView)) {
-            $viewToInclude = $uccelloModuleView;
-        } elseif (view()->exists($uccelloDefaultView)) {
-            $viewToInclude = $uccelloDefaultView;
+        } elseif (view()->exists($packageModuleView)) {
+            $viewToInclude = $packageModuleView;
+        } elseif (view()->exists($packageDefaultView)) {
+            $viewToInclude = $packageDefaultView;
         } elseif (!is_null($fallbackView)) {
             $viewToInclude = $fallbackView;
         }

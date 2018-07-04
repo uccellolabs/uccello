@@ -232,7 +232,7 @@ class EditForm extends Form
      */
     protected function getUitypeInstance(Field $field)
     {
-        $uitypeClass = $field->uitype->model_class;
+        $uitypeClass = $field->uitype->class;
 
         return new $uitypeClass();
     }

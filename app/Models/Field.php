@@ -99,7 +99,7 @@ class Field extends Model
             return $this->data->icon;
         }
 
-        $uitypeClass = $this->uitype->model_class;
+        $uitypeClass = $this->uitype->class;
         $uitype = new $uitypeClass();
 
         return $uitype->getDefaultIcon();

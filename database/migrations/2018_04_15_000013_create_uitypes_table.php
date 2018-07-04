@@ -17,7 +17,7 @@ class CreateUitypesTable extends Migration
         Schema::create($this->tablePrefix . 'uitypes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('model_class');
+            $table->string('class');
             $table->timestamps();
 
             // Unique keys
@@ -45,36 +45,36 @@ class CreateUitypesTable extends Migration
     protected function addUitypes()
     {
         $uitypes = [
-            'text'      => 'Uccello\Core\Models\Uitypes\Text',
-            'textarea'  => 'Uccello\Core\Models\Uitypes\Textarea',
-            'hidden'    => 'Uccello\Core\Models\Uitypes\Hidden',
-            'time'      => 'Uccello\Core\Models\Uitypes\Time',
-            'date'      => 'Uccello\Core\Models\Uitypes\Date',
-            'datetime'  => 'Uccello\Core\Models\Uitypes\DateTime',
-            'integer'   => 'Uccello\Core\Models\Uitypes\Integer',
-            'number'    => 'Uccello\Core\Models\Uitypes\Number',
-            'range'     => 'Uccello\Core\Models\Uitypes\Range',
-            'entity'    => 'Uccello\Core\Models\Uitypes\Entity',
-            'color'     => 'Uccello\Core\Models\Uitypes\Color',
-            'phone'     => 'Uccello\Core\Models\Uitypes\Phone',
-            'email'     => 'Uccello\Core\Models\Uitypes\Email',
-            'search'    => 'Uccello\Core\Models\Uitypes\Search',
-            'choice'    => 'Uccello\Core\Models\Uitypes\Choice',
-            'select'    => 'Uccello\Core\Models\Uitypes\Select',
-            'url'       => 'Uccello\Core\Models\Uitypes\Url',
-            'boolean'   => 'Uccello\Core\Models\Uitypes\Boolean',
-            'checkbox'  => 'Uccello\Core\Models\Uitypes\Checkbox',
-            'password'  => 'Uccello\Core\Models\Uitypes\Password',
-            'month'     => 'Uccello\Core\Models\Uitypes\Month',
-            'week'      => 'Uccello\Core\Models\Uitypes\Week',
-            'file'      => 'Uccello\Core\Models\Uitypes\File',
-            'image'     => 'Uccello\Core\Models\Uitypes\Image',
+            'text'      => 'Uccello\Core\Fields\Uitype\Text',
+            'textarea'  => 'Uccello\Core\Fields\Uitype\Textarea',
+            'hidden'    => 'Uccello\Core\Fields\Uitype\Hidden',
+            'time'      => 'Uccello\Core\Fields\Uitype\Time',
+            'date'      => 'Uccello\Core\Fields\Uitype\Date',
+            'datetime'  => 'Uccello\Core\Fields\Uitype\DateTime',
+            'integer'   => 'Uccello\Core\Fields\Uitype\Integer',
+            'number'    => 'Uccello\Core\Fields\Uitype\Number',
+            'range'     => 'Uccello\Core\Fields\Uitype\Range',
+            'entity'    => 'Uccello\Core\Fields\Uitype\Entity',
+            'color'     => 'Uccello\Core\Fields\Uitype\Color',
+            'phone'     => 'Uccello\Core\Fields\Uitype\Phone',
+            'email'     => 'Uccello\Core\Fields\Uitype\Email',
+            'search'    => 'Uccello\Core\Fields\Uitype\Search',
+            'choice'    => 'Uccello\Core\Fields\Uitype\Choice',
+            'select'    => 'Uccello\Core\Fields\Uitype\Select',
+            'url'       => 'Uccello\Core\Fields\Uitype\Url',
+            'boolean'   => 'Uccello\Core\Fields\Uitype\Boolean',
+            'checkbox'  => 'Uccello\Core\Fields\Uitype\Checkbox',
+            'password'  => 'Uccello\Core\Fields\Uitype\Password',
+            'month'     => 'Uccello\Core\Fields\Uitype\Month',
+            'week'      => 'Uccello\Core\Fields\Uitype\Week',
+            'file'      => 'Uccello\Core\Fields\Uitype\File',
+            'image'     => 'Uccello\Core\Fields\Uitype\Image',
         ];
 
-        foreach ($uitypes as $name => $modelClass) {
+        foreach ($uitypes as $name => $class) {
             $uitype = new Uitype();
             $uitype->name = $name;
-            $uitype->model_class = $modelClass;
+            $uitype->class = $class;
             $uitype->save();
         }
     }

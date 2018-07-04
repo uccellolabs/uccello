@@ -19,34 +19,26 @@ class Uitype extends Model
     }
 
     /**
-     * Returns an instance of the uitype if the related class exists
-     *
-     * @return mixed
-     */
-    public function getInstance()
-    {
-        $modelClass = $this->model_class;
-
-        if (class_exists($modelClass)) {
-            return new $modelClass();
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Returns specific uitype view name if exists.
+     * Returns uitype package name
      *
      * @return string|null
      */
-    public function getViewName() : ?string
+    public function getPackageAttribute() : ?string
     {
-        $viewName = null;
+        $uitypeClass = $this->class;
+        return (new $uitypeClass())->package;
+    }
 
-        if (method_exists($this->model_class, 'viewName')) {
-            $viewName = $this->getInstance()->viewName();
-        }
-
-        return $viewName;
+    /**
+     * Returns value to display.
+     *
+     * @param Field $field
+     * @param mixed $record
+     * @return string
+     */
+    public function getDisplayedValue(Field $field, $record) : string
+    {
+        $uitypeClass = $this->class;
+        return (new $uitypeClass())->getDisplayedValue($field, $record);
     }
 }

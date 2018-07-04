@@ -104,4 +104,14 @@ class Domain extends Model
 
         return $parents;
     }
+
+    /**
+     * Returns label to display
+     *
+     * @return string
+     */
+    public function getDisplayLabelAttribute() : string
+    {
+        return $this->name;
+    }
 }

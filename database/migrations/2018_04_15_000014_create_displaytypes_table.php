@@ -17,7 +17,7 @@ class CreateDisplaytypesTable extends Migration
         Schema::create($this->tablePrefix . 'displaytypes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('model_class');
+            $table->string('class');
             $table->timestamps();
         });
 
@@ -37,17 +37,17 @@ class CreateDisplaytypesTable extends Migration
     protected function addDisplaytypes()
     {
         $displaytypes = [
-            'everywhere'    => 'Uccello\Core\Models\Displaytypes\Everywhere',
-            'create'        => 'Uccello\Core\Models\Displaytypes\Create',
-            'detail'        => 'Uccello\Core\Models\Displaytypes\Detail',
-            'edit_detail'   => 'Uccello\Core\Models\Displaytypes\EditDetail',
-            'hidden'        => 'Uccello\Core\Models\Displaytypes\Hidden',
+            'everywhere'    => 'Uccello\Core\Fields\Displaytype\Everywhere',
+            'create'        => 'Uccello\Core\Fields\Displaytype\Create',
+            'detail'        => 'Uccello\Core\Fields\Displaytype\Detail',
+            'edit_detail'   => 'Uccello\Core\Fields\Displaytype\EditDetail',
+            'hidden'        => 'Uccello\Core\Fields\Displaytype\Hidden',
         ];
 
-        foreach ($displaytypes as $name => $modelClass) {
+        foreach ($displaytypes as $name => $class) {
             $displaytype = new Displaytype();
             $displaytype->name = $name;
-            $displaytype->model_class = $modelClass;
+            $displaytype->class = $class;
             $displaytype->save();
         }
     }

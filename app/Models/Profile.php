@@ -40,6 +40,16 @@ class Profile extends Model
     }
 
     /**
+     * Returns label to display
+     *
+     * @return string
+     */
+    public function getDisplayLabelAttribute() : string
+    {
+        return $this->name;
+    }
+
+    /**
      * Returns profile capabilities on a module
      *
      * @param Module $module

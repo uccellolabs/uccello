@@ -1,20 +1,13 @@
 <?php
 
-namespace Uccello\Core\Contracts\Field;
+namespace Uccello\Core\Fields\Traits;
 
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
 
-interface Uitype
-{
-    /**
-     * Returns field type used by Form builder.
-     *
-     * @param Field $field
-     * @return string
-     */
-    public function getFormType(): string;
 
+trait DefaultUitype
+{
     /**
      * Returns options for Form builder.
      *
@@ -22,14 +15,20 @@ interface Uitype
      * @param Module $module
      * @return array
      */
-    public function getFormOptions(Field $field, Module $module) : array;
+    public function getFormOptions(Field $field, Module $module): array
+    {
+        return [];
+    }
 
     /**
      * Returns default icon.
      *
      * @return string|null
      */
-    public function getDefaultIcon() : ?string;
+    public function getDefaultIcon() : ?string
+    {
+        return null;
+    }
 
     /**
      * Returns value to display.
@@ -38,5 +37,8 @@ interface Uitype
      * @param mixed $record
      * @return string
      */
-    public function getDisplayedValue(Field $field, $record) : string;
+    public function getDisplayedValue(Field $field, $record) : string
+    {
+        return $record->{$field->name} ?? '';
+    }
 }

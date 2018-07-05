@@ -55,11 +55,11 @@ class User extends Authenticatable
     }
 
     /**
-     * Returns label to display
+     * Returns record label
      *
      * @return string
      */
-    public function getDisplayLabelAttribute() : string
+    public function getRecordLabelAttribute() : string
     {
         return trim($this->first_name . ' ' .$this->last_name) ?? $this->username;
     }

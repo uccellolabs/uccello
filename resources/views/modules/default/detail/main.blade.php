@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="block-header">
+        <h2>{{ $record->displayLabel }}</h2>
+    </div>
+
     <div class="row">
         <div class="col-md-12">
             <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn btn-success">

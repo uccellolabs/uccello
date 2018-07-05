@@ -31,4 +31,14 @@ class Model extends DefaultModel
             $this->table = $this->tablePrefix . $this->table;
         }
     }
+
+    /**
+     * Returns record label
+     *
+     * @return string
+     */
+    public function getRecordLabelAttribute() : string
+    {
+        return $this->id;
+    }
 }

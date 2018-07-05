@@ -51,7 +51,7 @@ class Entity implements Uitype
 
     /**
      * Returns value to display.
-     * Uses displayLabel attribute if defined, id else.
+     * Uses recordLabel attribute if defined, id else.
      *
      * @param Field $field
      * @param mixed $record
@@ -74,9 +74,9 @@ class Entity implements Uitype
 
         // Check if there is an attribute called displayLabel in the related record else use id
         if (!is_null($relatedRecord)) {
-            $value = $relatedRecord->displayLabel ?? $relatedRecord->id;
+            $value = $relatedRecord->recordLabel ?? $relatedRecord->id;
         } else { // Related record was probably deleted
-            $value = '-';
+            $value = '';
         }
 
         return  $value;

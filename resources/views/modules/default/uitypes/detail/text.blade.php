@@ -1,4 +1,7 @@
 <?php $isLarge = $field->data->large ?? false; ?>
-<div class="{{ $isLarge ? 'col-md-12' : 'col-md-6' }}">
-    {{ $field->uitype->getDisplayedValue($field, $record) }}
+<div class="col-sm-2 col-xs-5">
+    <strong>{{ uctrans($field->label, $module) }}</strong>
+</div>
+<div class="{{ $isLarge ? 'col-sm-10 col-xs-7' : 'col-sm-4 col-xs-7' }}">
+    {{ $field->uitype->getDisplayedValue($field, $record) }}&nbsp;
 </div>

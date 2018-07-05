@@ -49,11 +49,11 @@ class Role extends Model
     }
 
     /**
-     * Returns label to display
+     * Returns record label
      *
      * @return string
      */
-    public function getDisplayLabelAttribute() : string
+    public function getRecordLabelAttribute() : string
     {
         return $this->name;
     }

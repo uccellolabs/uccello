@@ -25,7 +25,7 @@ class EditForm extends Form
         $routeParams = [];
 
         // Get and add record id to route params if defined
-        $recordId = $this->getModel()->id ?? null;
+        $recordId = $this->getModel()->getKey() ?? null;
         if ($recordId ?? false) {
             $routeParams['id'] = $recordId;
         }
@@ -141,12 +141,17 @@ class EditForm extends Form
             'label' => uctrans($field->label, $module),
             'label_attr' => ['class' => 'form-label'],
             'rules' => $this->getFieldRules($field),
-            'default_value' => $field->data->default ?? null,
             'attr' => [
                 'class' => 'form-control'
             ]
         ];
 
+        // Set default value only if it is a creation (record id doen't exist)
+        if (is_null($this->getModel()->getKey())) {
+            $options['default_value'] = $field->data->default ?? null;
+        }
+
+        // Add other options
         $otherOptions = $this->getSpecialFieldOptions($field);
 
         return array_merge($options, $otherOptions);
@@ -165,7 +170,7 @@ class EditForm extends Form
 
         $uitype = $this->getUitypeInstance($field);
 
-        return $uitype->getFormOptions($field, $module);
+        return $uitype->getFormOptions($this->getModel(), $field, $module);
     }
 
     /**
@@ -212,9 +217,9 @@ class EditForm extends Form
             // Check if we are editing an existant record
             $record = $this->getModel();
 
-            if (!is_null($record->id)) {
+            if (!is_null($record->getKey())) {
                 // Replace %id% by the record id
-                $rules = preg_replace('`%id%`', $record->id, $rules);
+                $rules = preg_replace('`%id%`', $record->getKey(), $rules);
             } else {
                 // Remove ,%id% from the rules
                 $rules = preg_replace('`,%id%`', '', $rules);

@@ -4,7 +4,7 @@
     {!! form_start($form) !!}
     @section('default-blocks')
         {{-- All defined blocks --}}
-        @foreach ($structure->tabs as $tab)  {{-- TODO: Display all tabs --}}
+        @foreach ($module->tabs as $tab)  {{-- TODO: Display all tabs --}}
             @foreach ($tab->blocks as $block)
             <div class="card block">
                 <div class="header">

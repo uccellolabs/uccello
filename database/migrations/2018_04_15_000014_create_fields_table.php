@@ -16,12 +16,11 @@ class CreateFieldsTable extends Migration
         Schema::create($this->tablePrefix . 'fields', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('label');
+            $table->text('data')->nullable();
             $table->unsignedInteger('uitype_id');
             $table->unsignedInteger('displaytype_id');
-            $table->unsignedInteger('sequence');
-            $table->text('data')->nullable();
             $table->unsignedInteger('block_id');
+            $table->unsignedInteger('sequence');
             $table->timestamps();
 
             // Foreign keys

@@ -17,7 +17,7 @@ class Boolean extends Checkbox implements Uitype
      */
     public function getDisplayedValue(Field $field, $record) : string
     {
-        $value = $record->{$field->name};
+        $value = $record->{$field->column};
 
         $label = $value ? uctrans('yes', $field->module) : uctrans('no', $field->module);
 

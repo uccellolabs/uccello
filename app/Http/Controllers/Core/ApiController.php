@@ -135,11 +135,29 @@ class ApiController extends Controller
             foreach ($order as $orderInfo) {
                 $columnIndex = (int) $orderInfo["column"];
                 $column = $columns[$columnIndex];
-                $query = $query->orderBy($column["data"], $orderInfo["dir"]);
+                $fieldName = $column["data"];
+
+                // Get field by name and order by field column
+                $field = $module->getField($fieldName);
+                if (!is_null($field)) {
+                    $query = $query->orderBy($field->column, $orderInfo["dir"]);
+                }
             }
 
             // Make the query
-            $data = $query->get();
+            $records = $query->get();
+
+            foreach ($records as &$record) {
+                foreach ($module->fields as $field) {
+                    $displayedValue = $field->uitype->getDisplayedValue($field, $record);
+
+                    if ($displayedValue !== $record->{$field->column}) {
+                        $record->{$field->name} = $displayedValue;
+                    }
+                }
+            }
+
+            $data = $records;
 
         } else {
             $data = [];

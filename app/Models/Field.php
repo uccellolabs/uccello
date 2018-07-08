@@ -38,6 +38,55 @@ class Field extends Model
     }
 
     /**
+     * Returns overrided label if defined, else default one.
+     * Default: field.fieldName
+     *
+     * @return string
+     */
+    public function getLabelAttribute() : string
+    {
+        return $this->data->label ?? 'field.' . $this->name;
+    }
+
+    /**
+     * Returns overrided column name if defined, else default one.
+     * The related uitype defines default column name.
+     *
+     * @return string
+     */
+    public function getColumnAttribute() : string
+    {
+        if ($this->data->column ?? false) {
+            $column = $this->data->column;
+        } else {
+            $uitypeClass = $this->uitype->class;
+            $uitype = new $uitypeClass();
+            $column = $uitype->getDefaultColumn($this);
+        }
+
+        return $column;
+    }
+
+    /**
+     * Returns default icon if defined, else checks if an icon is related to the uitype.
+     *
+     * @return string|null
+     */
+    public function getIconAttribute() : ?string
+    {
+        if ($this->data->icon ?? false) {
+            $icon = $this->data->icon;
+
+        } else {
+            $uitypeClass = $this->uitype->class;
+            $uitype = new $uitypeClass();
+            $icon = $uitype->getDefaultIcon();
+        }
+
+        return $icon;
+    }
+
+    /**
      * Checks if the field can be displayed in List view.
      *
      * @return boolean
@@ -86,22 +135,5 @@ class Field extends Model
     public function isHidden() : bool
     {
         return $this->displaytype->isHidden();
-    }
-
-    /**
-     * Returns default icon if defined, else return icon according to uitype.
-     *
-     * @return string|null
-     */
-    public function getIconAttribute(): ?string
-    {
-        if (!empty($this->data) && isset($this->data->icon)) {
-            return $this->data->icon;
-        }
-
-        $uitypeClass = $this->uitype->class;
-        $uitype = new $uitypeClass();
-
-        return $uitype->getDefaultIcon();
     }
 }

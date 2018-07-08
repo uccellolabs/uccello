@@ -34,11 +34,12 @@ class Model extends DefaultModel
 
     /**
      * Returns record label
+     * Default: id
      *
      * @return string
      */
     public function getRecordLabelAttribute() : string
     {
-        return $this->id;
+        return $this->getKey();
     }
 }

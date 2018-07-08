@@ -64,7 +64,6 @@ class CreateProfileStructure extends Migration
         // Name
         $field = new Field();
         $field->name = 'name';
-        $field->label = 'field.name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required'];
@@ -75,7 +74,6 @@ class CreateProfileStructure extends Migration
         // Description
         $field = new Field();
         $field->name = 'description';
-        $field->label = 'field.description';
         $field->uitype_id = uitype('textarea')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['large' => true];

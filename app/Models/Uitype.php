@@ -41,4 +41,20 @@ class Uitype extends Model
         $uitypeClass = $this->class;
         return (new $uitypeClass())->getDisplayedValue($field, $record);
     }
+
+    /**
+     * Returns sanitized value for saving.
+     *
+     * @param Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param Domain|null $domain
+     * @param Module|null $module
+     * @return string|null
+     */
+    public function getSanitizedValueForSaving(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    {
+        $uitypeClass = $this->class;
+        return (new $uitypeClass())->getSanitizedValueForSaving($field, $value, $record, $domain, $module);
+    }
 }

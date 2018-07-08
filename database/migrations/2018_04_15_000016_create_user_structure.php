@@ -65,7 +65,6 @@ class CreateUserStructure extends Migration
         // Username
         $field = new Field();
         $field->name = 'username';
-        $field->label = 'field.username';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required|alpha_dash|unique:users,username,%id%'];
@@ -76,7 +75,6 @@ class CreateUserStructure extends Migration
         // First name
         $field = new Field();
         $field->name = 'first_name';
-        $field->label = 'field.first_name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = null;
@@ -87,7 +85,6 @@ class CreateUserStructure extends Migration
         // Last name
         $field = new Field();
         $field->name = 'last_name';
-        $field->label = 'field.last_name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required'];
@@ -98,7 +95,6 @@ class CreateUserStructure extends Migration
         // Is Admin
         $field = new Field();
         $field->name = 'is_admin';
-        $field->label = 'field.is_admin';
         $field->uitype_id = uitype('boolean')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['module' => 'domain', 'field' => 'name'];
@@ -109,7 +105,6 @@ class CreateUserStructure extends Migration
         // Password
         $field = new Field();
         $field->name = 'password';
-        $field->label = 'field.password';
         $field->uitype_id = uitype('password')->id;
         $field->displaytype_id = displaytype('create')->id;
         $field->data = ['rules' => 'required|min:6', 'repeated' => true];
@@ -128,7 +123,6 @@ class CreateUserStructure extends Migration
         // Email
         $field = new Field();
         $field->name = 'email';
-        $field->label = 'field.email';
         $field->uitype_id = uitype('email')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required|email|unique:users,email,%id%'];
@@ -139,7 +133,6 @@ class CreateUserStructure extends Migration
         // Phone
         $field = new Field();
         $field->name = 'phone';
-        $field->label = 'field.phone';
         $field->uitype_id = uitype('phone')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->sequence = 1;

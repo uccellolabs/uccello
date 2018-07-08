@@ -64,7 +64,6 @@ class CreateRoleStructure extends Migration
         // Name
         $field = new Field();
         $field->name = 'name';
-        $field->label = 'field.name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['rules' => 'required'];
@@ -74,8 +73,7 @@ class CreateRoleStructure extends Migration
 
         // Parent
         $field = new Field();
-        $field->name = 'parent_id';
-        $field->label = 'field.parent_id';
+        $field->name = 'parent';
         $field->uitype_id = uitype('entity')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['module' => 'role', 'field' => 'name'];
@@ -86,7 +84,6 @@ class CreateRoleStructure extends Migration
         // Description
         $field = new Field();
         $field->name = 'description';
-        $field->label = 'field.description';
         $field->uitype_id = uitype('textarea')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = ['large' => true];
@@ -103,7 +100,7 @@ class CreateRoleStructure extends Migration
         $filter->user_id = null;
         $filter->name = 'filter.all';
         $filter->type = 'list';
-        $filter->columns = ['id', 'name', 'description', 'parent_id', 'created_at', 'updated_at'];
+        $filter->columns = ['id', 'name', 'description', 'parent', 'created_at', 'updated_at'];
         $filter->conditions = null;
         $filter->order_by = null;
         $filter->is_default = true;

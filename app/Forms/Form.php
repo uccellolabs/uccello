@@ -18,15 +18,17 @@ class Form extends DefaultForm
     {
         $values = $this->getFieldValues();
 
-        // Filter values
-        $values = array_filter($values, function ($value) {
-            return (!is_object($value) || !$value instanceof UploadedFile) && !is_array($value);
-        });
+        $domain = $this->getData('domain');
+        $module = $this->getData('module');
+        $record = $this->getModel();
 
-        // Set fields value only if the column exists in the table
-        foreach ($values as $name => $value) {
-            if (Schema::hasColumn($this->getModel()->getTable(), $name)) {
-                $this->getModel()->$name = $value;
+        foreach ($values as $fieldName => $value) {
+            $field = $module->getField($fieldName);
+
+            // If the field exists sanitize the value and store it in the good model column
+            if (!is_null($field)) {
+                $column = $field->column;
+                $this->getModel()->$column = $field->uitype->getSanitizedValueForSaving($field, $value, $record, $domain, $module);
             }
         }
 

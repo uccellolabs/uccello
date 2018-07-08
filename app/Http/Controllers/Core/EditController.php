@@ -49,10 +49,9 @@ class EditController extends Controller
         $form = $this->getForm($record);
 
         // Get mode
-        $mode = !is_null($record->id) ? 'edit' : 'create';
+        $mode = !is_null($record->getKey()) ? 'edit' : 'create';
 
         return $this->autoView([
-            'structure' => $this->getModuleStructure(),
             'form' => $form,
             'record' => $record,
             'mode' => $mode
@@ -85,7 +84,7 @@ class EditController extends Controller
             // Redirect if form not valid (the record is made here)
             $form->redirectIfNotValid();
 
-            $mode = $record->id ? 'edit' : 'create';
+            $mode = $record->getKey() ? 'edit' : 'create';
 
             event(new BeforeSaveEvent($domain, $module, $request, $record, $mode));
 
@@ -95,7 +94,7 @@ class EditController extends Controller
             event(new AfterSaveEvent($domain, $module, $request, $record, $mode));
 
             // Redirect to detail view
-            $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->id]);
+            $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
 
             return redirect($route);
         }
@@ -115,14 +114,5 @@ class EditController extends Controller
                 'module' => $this->module
             ]
         ]);
-    }
-
-    /**
-     * Get module structure : tabs > blocks > fields
-     * @return Module
-     */
-    protected function getModuleStructure()
-    {
-        return Module::find($this->module->id);
     }
 }

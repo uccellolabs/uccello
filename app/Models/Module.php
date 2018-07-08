@@ -3,6 +3,7 @@
 namespace Uccello\Core\Models;
 
 use Uccello\Core\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Module extends Model
 {
@@ -47,7 +48,7 @@ class Module extends Model
      *
      * @return array
      */
-    public function getFieldsAttribute(): array
+    public function getFieldsAttribute()
     {
         $fields = [];
 
@@ -66,12 +67,36 @@ class Module extends Model
     }
 
     /**
+     * Searches in the module a field by name.
+     *
+     * @param string $name
+     * @return Field|null
+     */
+    public function getField($name) : ?Field
+    {
+        foreach($this->tabs as $tab)
+        {
+            foreach($tab->blocks as $block)
+            {
+                foreach($block->fields as $field)
+                {
+                    if ($field->name === $name) {
+                        return $field;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Checks if the module is active on a domain.
      *
      * @param Domain $domain
      * @return boolean
      */
-    public function isActiveOnDomain(Domain $domain): bool
+    public function isActiveOnDomain(Domain $domain) : bool
     {
         $isActive = false;
 

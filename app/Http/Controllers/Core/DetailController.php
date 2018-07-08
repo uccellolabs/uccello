@@ -31,18 +31,8 @@ class DetailController extends Controller
         $recordId = $request->input('id');
 
         return $this->autoView([
-            'structure' => $this->getModuleStructure(),
             'record' => $this->getRecord($recordId)
         ]);
-    }
-
-    /**
-     * Get module structure : tabs > blocks > fields
-     * @return Module
-     */
-    protected function getModuleStructure()
-    {
-        return Module::find($this->module->id);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Uccello\Core\Forms;
 
-use Illuminate\Support\Facades\Hash;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Facades\Uccello;
 
@@ -69,30 +68,6 @@ class EditForm extends Form
             ]
         ]);
     }
-
-    /**
-     * Optionally mess with this form's $values before it's returned from getFieldValues().
-     *
-     * @param array $values
-     * @return void
-     */
-    // public function alterFieldValues(array &$values)
-    // {
-    //     // Get module data
-    //     $module = $this->getData('module');
-
-    //     foreach ($module->fields as $field)
-    //     {
-    //         // Hash passwords
-    //         if ($field->uitype === Field::UITYPE_PASSWORD) {
-    //             if (!empty($values[$field->name])) {
-    //                 $values[$field->name] = Hash::make($values[$field->name]);
-    //             }
-    //         }
-    //     }
-
-    //     // dd($values);
-    // }
 
     /**
      * Returns field type used by Form builder.

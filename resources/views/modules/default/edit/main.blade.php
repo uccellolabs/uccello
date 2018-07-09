@@ -27,7 +27,7 @@
                     </h2>
                 </div>
                 <div class="body">
-                    <div class="row">
+                    <div class="row display-flex">
                     {{-- Display all block's fields --}}
                     @foreach ($block->fields as $field)
                         {{-- Check if the field can be displayed --}}

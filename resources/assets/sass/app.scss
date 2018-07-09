@@ -40,3 +40,19 @@
 .dataTable tr {
     cursor: pointer;
 }
+
+.row {
+    &.display-flex {
+        display: flex;
+        flex-wrap: wrap;
+
+        > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+
+.input-group .form-control {
+    z-index: auto;
+}

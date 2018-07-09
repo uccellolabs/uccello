@@ -73,36 +73,28 @@ class EditController extends Controller
         // Get model class used by the module
         $modelClass = $this->module->model_class;
 
-        try
-        {
-            // Retrieve record or get a new empty instance
-            $record = $this->getRecordFromRequest();
+        // Retrieve record or get a new empty instance
+        $record = $this->getRecordFromRequest();
 
-            // Get form
-            $form = $this->getForm($record);
+        // Get form
+        $form = $this->getForm($record);
 
-            // Redirect if form not valid (the record is made here)
-            $form->redirectIfNotValid();
+        // Redirect if form not valid (the record is made here)
+        $form->redirectIfNotValid();
 
-            $mode = $record->getKey() ? 'edit' : 'create';
+        $mode = $record->getKey() ? 'edit' : 'create';
 
-            event(new BeforeSaveEvent($domain, $module, $request, $record, $mode));
+        event(new BeforeSaveEvent($domain, $module, $request, $record, $mode));
 
-            // Save record
-            $form->getModel()->save();
+        // Save record
+        $form->getModel()->save();
 
-            event(new AfterSaveEvent($domain, $module, $request, $record, $mode));
+        event(new AfterSaveEvent($domain, $module, $request, $record, $mode));
 
-            // Redirect to detail view
-            $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
+        // Redirect to detail view
+        $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
 
-            return redirect($route);
-        }
-        catch (\Exception $e) {
-        }
-
-        // If there was an error, redirect to previous page
-        return back()->withInput();
+        return redirect($route);
     }
 
     public function getForm($record = null)

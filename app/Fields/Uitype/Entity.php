@@ -70,14 +70,14 @@ class Entity implements Uitype
     }
 
     /**
-     * Returns value to display.
+     * Returns formatted value to display.
      * Uses recordLabel attribute if defined, id else.
      *
      * @param Field $field
      * @param mixed $record
      * @return string
      */
-    public function getDisplayedValue(Field $field, $record) : string
+    public function getFormattedValueToDisplay(Field $field, $record) : string
     {
         $relatedRecordId = $record->{$field->column};
 

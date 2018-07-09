@@ -30,20 +30,20 @@ class Uitype extends Model
     }
 
     /**
-     * Returns value to display.
+     * Returns formatted value to display.
      *
      * @param Field $field
      * @param mixed $record
      * @return string
      */
-    public function getDisplayedValue(Field $field, $record) : string
+    public function getFormattedValueToDisplay(Field $field, $record) : string
     {
         $uitypeClass = $this->class;
-        return (new $uitypeClass())->getDisplayedValue($field, $record);
+        return (new $uitypeClass())->getFormattedValueToDisplay($field, $record);
     }
 
     /**
-     * Returns sanitized value for saving.
+     * Returns formatted value to save.
      *
      * @param Field $field
      * @param mixed|null $value
@@ -52,9 +52,9 @@ class Uitype extends Model
      * @param Module|null $module
      * @return string|null
      */
-    public function getSanitizedValueForSaving(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         $uitypeClass = $this->class;
-        return (new $uitypeClass())->getSanitizedValueForSaving($field, $value, $record, $domain, $module);
+        return (new $uitypeClass())->getFormattedValueToSave($field, $value, $record, $domain, $module);
     }
 }

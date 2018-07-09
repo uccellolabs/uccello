@@ -10,14 +10,14 @@ use Uccello\Core\Models\Module;
 class Boolean extends Checkbox implements Uitype
 {
     /**
-     * Returns value to display.
+     * Returns formatted value to display.
      * Display Yes or No instead of 1 or 0.
      *
      * @param Field $field
      * @param mixed $record
      * @return string
      */
-    public function getDisplayedValue(Field $field, $record) : string
+    public function getFormattedValueToDisplay(Field $field, $record) : string
     {
         $value = $record->{$field->column};
 
@@ -27,7 +27,7 @@ class Boolean extends Checkbox implements Uitype
     }
 
     /**
-     * Returns sanitized value for saving.
+     * Returns formatted value to save.
      * If value is null, returns 0 (false)
      *
      * @param Field $field
@@ -37,7 +37,7 @@ class Boolean extends Checkbox implements Uitype
      * @param Module|null $module
      * @return string|null
      */
-    public function getSanitizedValueForSaving(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         return $value ?? 0;
     }

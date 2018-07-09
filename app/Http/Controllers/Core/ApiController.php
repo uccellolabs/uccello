@@ -149,7 +149,7 @@ class ApiController extends Controller
 
             foreach ($records as &$record) {
                 foreach ($module->fields as $field) {
-                    $displayedValue = $field->uitype->getDisplayedValue($field, $record);
+                    $displayedValue = $field->uitype->getFormattedValueToDisplay($field, $record);
 
                     if ($displayedValue !== $record->{$field->column}) {
                         $record->{$field->name} = $displayedValue;

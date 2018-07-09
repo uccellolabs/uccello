@@ -34,16 +34,16 @@ interface Uitype
     public function getDefaultIcon() : ?string;
 
     /**
-     * Returns value to display.
+     * Returns formatted value to display.
      *
      * @param Field $field
      * @param mixed $record
      * @return string
      */
-    public function getDisplayedValue(Field $field, $record) : string;
+    public function getFormattedValueToDisplay(Field $field, $record) : string;
 
     /**
-     * Returns sanitized value for saving.
+     * Returns formatted value to save.
      *
      * @param Field $field
      * @param mixed|null $value
@@ -52,5 +52,5 @@ interface Uitype
      * @param Module|null $module
      * @return string|null
      */
-    public function getSanitizedValueForSaving(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string;
+    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string;
 }

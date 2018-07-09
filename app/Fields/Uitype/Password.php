@@ -32,7 +32,7 @@ class Password extends Text implements Uitype
     }
 
     /**
-     * Returns sanitized value for saving.
+     * Returns formatted value to save.
      *
      * @param Field $field
      * @param mixed|null $value
@@ -41,7 +41,7 @@ class Password extends Text implements Uitype
      * @param Module|null $module
      * @return string|null
      */
-    public function getSanitizedValueForSaving(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         return Hash::make($value);
     }

@@ -64,7 +64,7 @@ login-page
 </div>
 @endsection
 
-section('script')
+@section('script')
     {{ Html::script(mix('js/manifest.js')) }}
     {{ Html::script(mix('js/vendor.js')) }}
 @endsection

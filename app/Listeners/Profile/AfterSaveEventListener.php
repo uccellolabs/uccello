@@ -63,22 +63,12 @@ class AfterSaveEventListener
                     continue;
                 }
 
-                // Create a new permisison (ignore duplicates with "try")
-                try {
-                    $permission = new Permission();
-                    $permission->profile_id = $profile->id;
-                    $permission->module_id = $module->id;
-                    $permission->capability_id = $capability->id;
-                    $permission->save();
-
-                } catch (\Exception $e) {
-                    // Permission already exists
-                }
-
-                // Add new permission
-                // Note: We must add permission even if it was impossible to save (catch),
-                // because it means the permision already exists
-                $newPermissions[] = $permission;
+                // Create a new permisison and ignore duplicates
+                $newPermissions[] = Permission::firstOrCreate([
+                    'profile_id' => $profile->id,
+                    'module_id' => $module->id,
+                    'capability_id' => $capability->id
+                ]);
             }
         }
 

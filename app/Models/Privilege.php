@@ -13,6 +13,15 @@ class Privilege extends Model
      */
     protected $table = 'privileges';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'domain_id', 'role_id', 'user_id',
+    ];
+
     public function domain()
     {
         return $this->belongsTo(Domain::class);

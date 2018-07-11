@@ -37,16 +37,15 @@ class AfterSaveEventListener
         $role = $event->record;
 
         $oldProfileIds = $role->profiles->pluck('id')->toArray();
-        $newProfileIds = (array) $event->request->input('profiles');
+        $selectedProfileIds = (array) $event->request->input('profiles');
 
-        try {
-            $role->profiles()->attach($newProfileIds);
-        } catch (\Exception $e) {
-            // Profile no longer exists
-        }
+        // Note: All selected profiles - Old profiles = New profiles
+        $newProfileIds = array_diff($selectedProfileIds, $oldProfileIds);
+
+        $role->profiles()->attach($newProfileIds);
 
         // Delete obsolete profiles
-        $this->deleteObsoleteProfiles($role, $oldProfileIds, $newProfileIds);
+        $this->deleteObsoleteProfiles($role, $oldProfileIds, $selectedProfileIds);
     }
 
     /**
@@ -56,9 +55,10 @@ class AfterSaveEventListener
      * @param array $newProfiles
      * @return void
      */
-    protected function deleteObsoleteProfiles(Role $role, array $oldProfileIds, array $newProfileIds)
+    protected function deleteObsoleteProfiles(Role $role, array $oldProfileIds, array $selectedProfileIds)
     {
-        $obsoleteProfileIds = array_diff($oldProfileIds, $newProfileIds);
+        // Note: Old selected profiles - All selected profiles  = Obsolete profiles (new profiles are ignored)
+        $obsoleteProfileIds = array_diff($oldProfileIds, $selectedProfileIds);
 
         if ($obsoleteProfileIds) {
             $role->profiles()->detach($obsoleteProfileIds);

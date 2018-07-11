@@ -13,6 +13,15 @@ class Permission extends Model
      */
     protected $table = 'permissions';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'profile_id', 'module_id', 'capability_id',
+    ];
+
     public function profile()
     {
         return $this->belongsTo(Profile::class);

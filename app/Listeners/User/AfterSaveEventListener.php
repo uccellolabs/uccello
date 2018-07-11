@@ -49,20 +49,12 @@ class AfterSaveEventListener
                 continue;
             }
 
-            try {
-                $privilege = new Privilege();
-                $privilege->domain_id = $domain->id;
-                $privilege->role_id = $role->id;
-                $privilege->user_id = $user->id;
-                $privilege->save();
-
-            } catch (\Exception $e) {
-                // Privilege already exists
-            }
-
-            // Note: We must add privilege even if it was impossible to save (catch),
-            // because it means the privilege already exists
-            $newPrivileges[] = $privilege;
+            // Create a new privilege and ignore duplicates
+            $newPrivileges[] = Privilege::firstOrCreate([
+                'domain_id' => $domain->id,
+                'role_id' => $role->id,
+                'user_id' => $user->id
+            ]);
         }
 
         // Delete obsolete privileges

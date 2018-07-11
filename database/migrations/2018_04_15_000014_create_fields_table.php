@@ -15,15 +15,20 @@ class CreateFieldsTable extends Migration
     {
         Schema::create($this->tablePrefix . 'fields', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->text('data')->nullable();
+            $table->unsignedInteger('module_id')->comment('Decrease queries');
+            $table->unsignedInteger('block_id');
             $table->unsignedInteger('uitype_id');
             $table->unsignedInteger('displaytype_id');
-            $table->unsignedInteger('block_id');
+            $table->string('name');
             $table->unsignedInteger('sequence');
+            $table->text('data')->nullable();
             $table->timestamps();
 
             // Foreign keys
+            $table->foreign('module_id')
+                ->references('id')->on($this->tablePrefix . 'modules')
+                ->onDelete('cascade');
+
             $table->foreign('block_id')
                     ->references('id')->on($this->tablePrefix . 'blocks')
                     ->onDelete('cascade');

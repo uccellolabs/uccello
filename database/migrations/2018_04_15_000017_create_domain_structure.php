@@ -62,6 +62,7 @@ class CreateDomainStructure extends Migration
         $block->icon = 'info';
         $block->sequence = 0;
         $block->tab_id = $tab->id;
+        $block->module_id = $module->id;
         $block->save();
 
         // Name
@@ -72,6 +73,7 @@ class CreateDomainStructure extends Migration
         $field->data = ['rules' => 'required|unique:'.$this->getTablePrefix().'domains,name,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Parent
@@ -82,6 +84,7 @@ class CreateDomainStructure extends Migration
         $field->data = ['module' => 'domain', 'field' => 'name'];
         $field->sequence = 1;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Description
@@ -92,6 +95,7 @@ class CreateDomainStructure extends Migration
         $field->data = ['large' => true];
         $field->sequence = 2;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
     }
 

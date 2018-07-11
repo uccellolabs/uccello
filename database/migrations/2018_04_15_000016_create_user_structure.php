@@ -60,6 +60,7 @@ class CreateUserStructure extends Migration
         $block->description = 'block.auth.description';
         $block->sequence = 0;
         $block->tab_id = $tab->id;
+        $block->module_id = $module->id;
         $block->save();
 
         // Username
@@ -70,6 +71,7 @@ class CreateUserStructure extends Migration
         $field->data = ['rules' => 'required|alpha_dash|unique:users,username,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // First name
@@ -80,6 +82,7 @@ class CreateUserStructure extends Migration
         $field->data = null;
         $field->sequence = 1;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Last name
@@ -90,6 +93,7 @@ class CreateUserStructure extends Migration
         $field->data = ['rules' => 'required'];
         $field->sequence = 2;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Is Admin
@@ -100,6 +104,7 @@ class CreateUserStructure extends Migration
         $field->data = ['module' => 'domain', 'field' => 'name'];
         $field->sequence = 3;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Password
@@ -110,6 +115,7 @@ class CreateUserStructure extends Migration
         $field->data = ['rules' => 'required|min:6', 'repeated' => true];
         $field->sequence = 4;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Contact block
@@ -118,6 +124,7 @@ class CreateUserStructure extends Migration
         $block->icon = 'person';
         $block->sequence = 1;
         $block->tab_id = $tab->id;
+        $block->module_id = $module->id;
         $block->save();
 
         // Email
@@ -128,6 +135,7 @@ class CreateUserStructure extends Migration
         $field->data = ['rules' => 'required|email|unique:users,email,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Phone
@@ -137,6 +145,7 @@ class CreateUserStructure extends Migration
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->sequence = 1;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
     }
 

@@ -15,14 +15,19 @@ class CreateBlocksTable extends Migration
     {
         Schema::create($this->tablePrefix . 'blocks', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('module_id')->comment('Decrease queries');
+            $table->unsignedInteger('tab_id');
             $table->string('label');
             $table->string('icon')->nullable();
             $table->string('description')->nullable();
             $table->unsignedInteger('sequence');
-            $table->unsignedInteger('tab_id');
             $table->timestamps();
 
             // Foreign keys
+            $table->foreign('module_id')
+                ->references('id')->on($this->tablePrefix . 'modules')
+                ->onDelete('cascade');
+
             $table->foreign('tab_id')
                     ->references('id')->on($this->tablePrefix . 'tabs')
                     ->onDelete('cascade');

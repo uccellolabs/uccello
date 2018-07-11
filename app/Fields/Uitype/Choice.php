@@ -26,17 +26,18 @@ class Choice extends Select implements Uitype
     /**
      * Returns options for Form builder.
      *
+     * @param mixed $record
      * @param Field $field
      * @param Module $module
      * @return array
      */
-    public function getFormOptions(Field $field, Module $module): array
+    public function getFormOptions($record, Field $field, Module $module): array
     {
         if (!is_object($field->data)) {
             return [];
         }
 
-        $options = parent::getFormOptions($field, $module);
+        $options = parent::getFormOptions($record, $field, $module);
 
         $options['expanded'] = true;
         $options['multiple'] = $field->data->multiple ?? false;

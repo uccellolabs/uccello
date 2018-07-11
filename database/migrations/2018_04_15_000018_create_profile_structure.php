@@ -59,6 +59,7 @@ class CreateProfileStructure extends Migration
         $block->icon = 'info';
         $block->sequence = 0;
         $block->tab_id = $tab->id;
+        $block->module_id = $module->id;
         $block->save();
 
         // Name
@@ -69,6 +70,7 @@ class CreateProfileStructure extends Migration
         $field->data = ['rules' => 'required'];
         $field->sequence = 0;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
 
         // Description
@@ -79,6 +81,7 @@ class CreateProfileStructure extends Migration
         $field->data = ['large' => true];
         $field->sequence = 1;
         $field->block_id = $block->id;
+        $field->module_id = $module->id;
         $field->save();
     }
 

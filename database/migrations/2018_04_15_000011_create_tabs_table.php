@@ -18,10 +18,10 @@ class CreateTabsTable extends Migration
     {
         Schema::create($this->tablePrefix . 'tabs', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('module_id');
             $table->string('label');
             $table->string('icon')->nullable();
             $table->unsignedInteger('sequence');
-            $table->unsignedInteger('module_id');
             $table->text('data')->nullable();
             $table->timestamps();
 

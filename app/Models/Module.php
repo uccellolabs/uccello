@@ -38,32 +38,19 @@ class Module extends Model
         return $this->hasMany(Tab::class)->orderBy('sequence');
     }
 
+    public function blocks()
+    {
+        return $this->hasMany(Block::class)->orderBy('sequence');
+    }
+
+    public function fields()
+    {
+        return $this->hasMany(Field::class);
+    }
+
     public function filters()
     {
         return $this->hasMany(Filter::class);
-    }
-
-    /**
-     * Returns all module fields.
-     *
-     * @return array
-     */
-    public function getFieldsAttribute()
-    {
-        $fields = [];
-
-        foreach($this->tabs as $tab)
-        {
-            foreach($tab->blocks as $block)
-            {
-                foreach($block->fields as $field)
-                {
-                    $fields[] = $field;
-                }
-            }
-        }
-
-        return $fields;
     }
 
     /**
@@ -74,20 +61,7 @@ class Module extends Model
      */
     public function getField($name) : ?Field
     {
-        foreach($this->tabs as $tab)
-        {
-            foreach($tab->blocks as $block)
-            {
-                foreach($block->fields as $field)
-                {
-                    if ($field->name === $name) {
-                        return $field;
-                    }
-                }
-            }
-        }
-
-        return null;
+        return $this->fields()->where('name', $name)->first();
     }
 
     /**

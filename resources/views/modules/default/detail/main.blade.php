@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('page', 'detail')
+
 @section('content')
     <div class="block-header">
         <h2>{{ $record->displayLabel }}</h2>

@@ -1,0 +1,11 @@
+import * as selector from '../../../vendor/uccello/uccello/resources/assets/js/uitype-selector'
+import _ from 'lodash'
+
+export class UitypeSelector extends selector.UitypeSelector {
+    uitypes() {
+        return _.merge(super.uitypes(), {
+            // Add your custom Uitypes
+            // name: Class
+        })
+    }
+}

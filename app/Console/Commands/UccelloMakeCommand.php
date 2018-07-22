@@ -75,19 +75,26 @@ class UccelloMakeCommand extends Command
                 resource_path('views/'.$value)
             );
         }
-        $this->info('Copying assets...');
+
+        // $this->info('Copying Uitype Selector...');
+        // copy(
+        //     __DIR__.'/stubs/make/assets/js/uitype-selector.stub',
+        //     resource_path('assets/js/uitype-selector.js')
+        // );
+
+        // $this->info('Copying assets...');
         // $this->xcopy(__DIR__.'/../../../resources/assets', resource_path('assets'));
 
         $this->info('Copying public...');
         $this->xcopy(__DIR__.'/../../../public', public_path());
 
-        if (!$this->option('views')) {
-            // file_put_contents(
-            //     base_path('webpack.mix.js'),
-            //     file_get_contents(__DIR__.'/stubs/make/webpack.mix.stub'),
-            //     FILE_APPEND
-            // );
-        }
+        // if (!$this->option('views')) {
+        //     file_put_contents(
+        //         base_path('webpack.mix.js'),
+        //         file_get_contents(__DIR__.'/stubs/make/webpack.mix.stub'),
+        //         FILE_APPEND
+        //     );
+        // }
 
         $this->info('Uccello scaffolding generated successfully.');
     }

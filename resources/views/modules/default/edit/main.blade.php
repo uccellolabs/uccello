@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('page', 'edit')
+
 @section('content')
     {!! form_start($form) !!}
     @section('default-blocks')

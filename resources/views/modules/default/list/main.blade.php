@@ -1,22 +1,18 @@
 @extends('layouts.app')
 
+@section('page', 'list')
+
 @section('extra-meta')
     <meta name="datatable-url" content="{{ ucroute('uccello.datatable', $domain, $module) }}">
-@endsection
-
-@section('extra-script')
-{{ Html::script(mix('js/list.js')) }}
-
-<script>
-/** global: filterColumns */
-var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
-</script>
+    <meta name="datatable-columns" content='{!! json_encode($datatableColumns) !!}'>
 @endsection
 
 @section('content')
-    <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success">
-    {{ uctrans('add_record', $module) }}
-    </a>
+    <div id="action-buttons" class="m-b-10">
+        <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success">
+        {{ uctrans('add_record', $module) }}
+        </a>
+    </div>
 
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -43,8 +39,8 @@ var filterColumns = JSON.parse('{!! json_encode($filter->columns) !!}');
                         <table class="table table-striped table-hover dataTable">
                             <thead>
                                 <tr>
-                                    @foreach ($filter->columns as $column)
-                                    <th>{{ uctrans('field.'.$column, $module) }}</th>
+                                    @foreach ($datatableColumns as $column)
+                                    <th>{{ uctrans('field.'.$column['name'], $module) }}</th>
                                     @endforeach
                                 </tr>
                             </thead>

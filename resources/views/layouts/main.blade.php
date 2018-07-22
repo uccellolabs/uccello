@@ -8,21 +8,27 @@
 
     <title>@yield('title', config('app.name', 'Uccello'))</title>
 
-    <!-- CSRF Token -->
+    {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    {{-- Page name --}}
+    <meta name="page" content="@yield('page')">
+    {{-- Domain --}}
     @if($domain ?? false)<meta name="domain" content="{{ $domain->slug }}">@endif
+    {{-- Module --}}
     @if($module ?? false)<meta name="module" content="{{ $module->name }}">@endif
+
     @yield('extra-meta')
 
-    <!-- Favicon-->
+    {{-- Favicon --}}
     <link rel="icon" href="img/favicon.png" type="image/x-icon">
     <base href="/">
 
-    <!-- Bootstrap Core Css -->
+    {{-- CSS --}}
     @section('css')
         {{ Html::style('css/app.css') }}
     @show
 
+    {{-- Extra CSS --}}
     @yield('extra-css')
 </head>
 
@@ -42,6 +48,10 @@
     @show
 
     @yield('extra-script')
+
+    @section('autoloader-script')
+    {{ Html::script(mix('js/autoloader.js')) }}
+    @show
 </body>
 
 </html>

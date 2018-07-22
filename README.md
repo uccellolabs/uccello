@@ -44,7 +44,7 @@ This command will extract needed views for **auth**, and **errors**.
 ### Add check permissions middleware
 Open ```app/Http/Kernel.php``` file and add the following code:
 
-```php
+``` php
 protected $routeMiddleware = [
   ...
   'uccello.permissions' => \Uccello\Core\Http\Middleware\CheckPermissions::class,
@@ -54,10 +54,9 @@ protected $routeMiddleware = [
 ### Migrate and seed the database
 Configure ```.env``` file then run this command to migrate the database
 
-```bash
- php artisan migrate
+``` bash
+$ php artisan migrate
 ```
-
 
 ### Set the default routes
 Add this code in ```routes/web.php```

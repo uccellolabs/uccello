@@ -1,0 +1,25 @@
+
+
+const path = require('path');
+
+const uitypePath = path.resolve('./resources/assets/js/uitype-selector.js')
+
+let autoload = { jquery: [ '$', 'jQuery', 'jquery'] }
+autoload[uitypePath] = ['UccelloUitypeSelector']
+mix.autoload(autoload);
+
+mix.setPublicPath('public');
+mix.extract([
+    'lodash', 'jquery', 'bootstrap',
+    'fastclick', 'adminbsb-materialdesign',
+    'vue', 'axios', 'node-waves', 'popper.js'
+], 'public/js/vendor.js');
+mix.version();
+
+mix.js('vendor/uccello/uccello/resources/assets/js/app.js', 'public/js')
+   .sass('vendor/uccello/uccello/resources/assets/sass/app.scss', 'public/css');
+
+mix.js('vendor/uccello/uccello/resources/assets/js/core/autoloader.js', 'public/js');
+
+// Add your overrided files here
+// ...

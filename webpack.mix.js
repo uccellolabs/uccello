@@ -1,13 +1,21 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
+const path = require('path');
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+let uitypePath = path.resolve('./resources/assets/js/uitype-selector.js')
 
-mix.js('resources/assets/js/list.js', 'public/js');
+var autoload = {
+    jquery: [ '$', 'jQuery', 'jquery']
+}
+autoload[uitypePath] = ['UccelloUitypeSelector']
 
-mix.autoload({
-    jquery: [ '$', 'jQuery', 'jquery'],
-});
+mix.autoload(autoload);
+
+mix.setPublicPath('public');
+
+mix.js('./resources/assets/js/app.js', 'public/js')
+   .sass('./resources/assets/sass/app.scss', 'public/css');
+
+mix.js('./resources/assets/js/core/autoloader.js', 'public/js');
 
 mix.extract([
     'lodash', 'jquery', 'bootstrap',
@@ -16,8 +24,6 @@ mix.extract([
 ], 'public/js/vendor.js');
 
 mix.version();
-
-mix.setPublicPath('public');
 
 // Copy all compiled files into main project
 mix.copyDirectory('public', '../../../public');

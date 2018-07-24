@@ -49,7 +49,7 @@ class Field extends Model
     }
 
     /**
-     * Returns overrided datatable column name if defined, else default one.
+     * Returns overrided database column name if defined, else default one.
      * The related uitype defines default column name.
      *
      * @return string
@@ -61,7 +61,7 @@ class Field extends Model
         } else {
             $uitypeClass = $this->uitype->class;
             $uitype = new $uitypeClass();
-            $column = $uitype->getDefaultDatatableColumn($this);
+            $column = $uitype->getDefaultDatabaseColumn($this);
         }
 
         return $column;

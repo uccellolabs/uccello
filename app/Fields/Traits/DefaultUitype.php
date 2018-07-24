@@ -23,11 +23,11 @@ trait DefaultUitype
     }
 
     /**
-     * Returns default datatable column name.
+     * Returns default database column name.
      *
      * @return string
      */
-    public function getDefaultDatatableColumn(Field $field) : string
+    public function getDefaultDatabaseColumn(Field $field) : string
     {
         return $field->name;
     }

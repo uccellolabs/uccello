@@ -70,6 +70,10 @@ use Uccello\Core\Models\Domain;
 
 class Text implements Uitype
 {
+    /**
+     * Nom du package dans lequel se trouve l'uitype
+     * Utile à Blade pour retrouver les fichiers de template associés
+     */
     public $package = 'uccello';
 
     /**

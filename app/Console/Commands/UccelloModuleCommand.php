@@ -202,8 +202,9 @@ class UccelloModuleCommand extends Command
         // Name
         $this->module->name = snake_case($moduleName);
 
-        // Model. The studly_case function converts the given string to StudlyCase
-        $this->module->model = 'App\\' . studly_case($moduleName);
+        // Model class
+        $defaultModelClass = 'App\\' . studly_case($moduleName); // The studly_case function converts the given string to StudlyCase
+        $this->module->model = $this->ask('Model class', $defaultModelClass);
 
         // Icon
         $this->module->icon = $this->ask('Material icon name (e.g. book)');

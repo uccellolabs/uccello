@@ -4,17 +4,14 @@ namespace Uccello\Core\Console\Commands;
 
 use Illuminate\Console\Command;
 
-/**
- * AdminLTE Make Command
- */
-class UccelloMakeCommand extends Command
+class UccelloInstallCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:uccello {--views : Only scaffold the views}';
+    protected $signature = 'uccello:install {--views : Only scaffold the views}';
 
     /**
      * The console command description.

@@ -72,11 +72,18 @@ export class Datatable {
         var buttonsContainer = table.buttons().container()
 
         // Move buttons
-        buttonsContainer.appendTo( '#action-buttons' );
+        buttonsContainer.appendTo('#action-buttons');
 
-        // Replace <span>...</span> by its content
         $('button', buttonsContainer).each((index, element) => {
+            // Replace <span>...</span> by its content
             $(element).html($('span', element).html())
+
+            // Add icon and effect
+            $(element).addClass('icon-right waves-effect')
+            $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
         })
+
+        // Move to the right
+        $('#action-buttons .btn-group').addClass('pull-right')
     }
 }

@@ -8,9 +8,10 @@
 @endsection
 
 @section('content')
-    <div id="action-buttons" class="m-b-10">
-        <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success">
+    <div id="action-buttons" class="m-b-25">
+        <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success icon-left waves-effect">
         {{ uctrans('add_record', $module) }}
+        <i class="material-icons">add</i>
         </a>
     </div>
 

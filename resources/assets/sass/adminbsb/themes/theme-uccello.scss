@@ -1,0 +1,152 @@
+﻿@import '_theme-color-variables';
+
+.theme-uccello {
+
+    background-color: $theme-uccello-bg;
+
+    .bg-primary {
+        background-color: $theme-uccello;
+    }
+
+    .navbar {
+        background-color: $theme-uccello;
+    }
+
+    .navbar-brand {
+        color: $theme-uccello-navbar-brand;
+
+        &:hover {
+            color: $theme-uccello-navbar-brand_hover;
+        }
+
+        &:active {
+            color: $theme-uccello-navbar-brand_active;
+        }
+
+        &:focus {
+            color: $theme-uccello-navbar-brand_focus;
+        }
+    }
+
+    .nav {
+        > li {
+            > a {
+                color: $theme-uccello-nav-anchor;
+
+                &:hover {
+                    background-color: $theme-uccello-nav-anchor_hover;
+                }
+
+                &:focus {
+                    background-color: $theme-uccello-nav-anchor_focus;
+                }
+            }
+        }
+
+        .open {
+            > a {
+                background-color: $theme-uccello-nav-anchor-opened;
+
+                &:hover {
+                    background-color: $theme-uccello-nav-anchor-opened_hover;
+                }
+
+                &:focus {
+                    background-color: $theme-uccello-nav-anchor-opened_focus;
+                }
+            }
+        }
+    }
+
+    .bars {
+        color: $theme-uccello-bar;
+    }
+
+    .sidebar {
+        background-color: $theme-uccello-sidebar-bg;
+
+        .user-info {
+            background-color: $theme-uccello-sidebar-user-info;
+            border-bottom: none;
+            height: 100px;
+
+            .image {
+                margin-top: 18px;
+            }
+
+            .info-container {
+                border-left: solid 1px $theme-uccello;
+                padding-left: 15px;
+            }
+        }
+
+        .menu {
+            .list {
+                .header {
+                    background-color: $theme-uccello-menu-header-bg;
+                    color: $theme-uccello-menu-header-color;
+                }
+
+                a {
+                    color: $theme-uccello-menu-list-color;
+
+                    span {
+                        color: $theme-uccello-menu-list-color;
+                    }
+
+                    &:hover {
+                        color: $theme-uccello-menu-list-hover;
+
+                        span {
+                            color: $theme-uccello-menu-list-hover;
+                        }
+                    }
+                }
+
+                li.active {
+                    background-color: $theme-uccello-menu-list-active;
+
+                    a {
+                        padding-left: 8px;
+                    }
+
+                    > :first-child {
+                        i, span {
+                            color: $theme-uccello-menu-list-color;
+                        }
+                    }
+                }
+
+                .toggled {
+                    background-color: $theme-uccello-menu-list-toggled;
+                    border-left: solid 5px $theme-uccello;
+                }
+
+                .ml-menu {
+                    background-color: $theme-uccello-menu-list-submenu;
+                }
+            }
+        }
+
+        .legal {
+            background-color: $theme-uccello-legal-bg;
+            color: $theme-uccello-legal-color;
+            border: none;
+
+            .copyright {
+                a {
+                    color: $theme-uccello !important;
+                }
+            }
+        }
+    }
+
+    .pagination {
+        li.active {
+            a {
+                background-color: $theme-uccello;
+                border-radius: 20px;
+            }
+        }
+    }
+}

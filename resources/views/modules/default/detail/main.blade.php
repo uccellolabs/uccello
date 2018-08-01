@@ -7,16 +7,21 @@
         <h2>{{ $record->displayLabel }}</h2>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn btn-success">
-                {{ uctrans('button.edit', $module) }}
-            </a>
+    <div id="action-buttons" class="m-b-25">
+        <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="btn btn-default icon-left waves-effect m-r-10">
+            {{ uctrans('button.return', $module) }}
+            <i class="material-icons">chevron_left</i>
+        </a>
 
-            <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn btn-danger pull-right">
-                {{ uctrans('button.delete', $module) }}
-            </a>
-        </div>
+        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn btn-success icon-left waves-effect">
+            {{ uctrans('button.edit', $module) }}
+            <i class="material-icons">edit</i>
+        </a>
+
+        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn btn-danger icon-right waves-effect pull-right">
+            {{ uctrans('button.delete', $module) }}
+            <i class="material-icons">delete</i>
+        </a>
     </div>
 
     @section('default-blocks')

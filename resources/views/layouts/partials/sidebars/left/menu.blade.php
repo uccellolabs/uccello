@@ -3,8 +3,6 @@
 
     @section('sidebar-main-menu')
         <ul class="list">
-            <li class="header">{{ strtoupper(uctrans('menu.title', $module)) }}</li>
-
             @yield('sidebar-main-menu-before')
 
             <?php $homeModule = ucmodule('home'); ?>

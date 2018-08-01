@@ -56,3 +56,64 @@
 .input-group .form-control {
     z-index: auto;
 }
+
+.sidebar {
+    width: 260px;
+
+    .user-info {
+        .info-container {
+            .email {
+                max-width: 130px;
+            }
+        }
+    }
+}
+
+section.content {
+    margin: 100px 25px 0 285px;
+}
+
+.btn:not(.btn-link):not(.btn-circle),
+.btn-group,
+.btn-group-vertical {
+    border-radius: 20px;
+    position: relative;
+
+    &.icon-left i.material-icons,
+    &.icon-right i.material-icons {
+        position: absolute;
+        top: 3px;
+        background-color: rgba(0,0,0,.2);
+        border-radius: 20px;
+        padding: 3px;
+        font-size: 18px;
+    }
+
+    &.icon-left {
+        i.material-icons {
+            left: 4px;
+        }
+    }
+
+    &.icon-right {
+        i.material-icons {
+            right: 4px;
+        }
+    }
+}
+
+.btn:not(.btn-link):not(.btn-circle),
+.btn-group .btn {
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    &.icon-left {
+        padding-left: 40px;
+        padding-right: 30px;
+    }
+
+    &.icon-right {
+        padding-left: 30px;
+        padding-right: 40px;
+    }
+}

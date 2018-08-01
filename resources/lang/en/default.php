@@ -12,6 +12,7 @@ return [
     'menu.title' => 'Menu',
 
     // Button
+    'button.return' => 'Return',
     'button.save' => 'Save',
     'button.edit' => 'Edit',
     'button.delete' => 'Delete',

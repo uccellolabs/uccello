@@ -14,7 +14,7 @@ export class Datatable {
      */
     init(selector) {
         let table = $(selector).DataTable({
-            dom: 'Blrtip',
+            dom: 'Brtp',
             autoWidth: false, // Else the width is not refreshed on window resize
             responsive: true,
             colReorder: true,
@@ -32,10 +32,16 @@ export class Datatable {
             },
             buttons: [
                 {
-                    extend: "colvis",
+                    extend: "colvis"
                     //columns: ':gt(0):lt(-1)'
                 }
-            ]
+            ],
+            language: {
+                paginate: {
+                    previous: '<',
+                    next: '>'
+                }
+            }
         });
 
         // Config buttons
@@ -79,11 +85,21 @@ export class Datatable {
             $(element).html($('span', element).html())
 
             // Add icon and effect
-            $(element).addClass('icon-right waves-effect')
+            $(element).addClass('icon-right waves-effect bg-primary')
+            $(element).removeClass('btn-default')
             $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
         })
 
         // Move to the right
         $('#action-buttons .btn-group').addClass('pull-right')
+
+        // Change records number
+        $('ul#items-number a').on('click', (event) => {
+            let recordsNumber = $(event.target).data('number')
+            $('strong.records-number').text(recordsNumber)
+            table.page.len(recordsNumber).draw();
+        })
+
+        $(".dataTables_paginate").appendTo(".paginator")
     }
 }

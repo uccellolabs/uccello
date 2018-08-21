@@ -17,6 +17,7 @@ return [
     'button.return' => 'Return',
     'button.save' => 'Save',
     'button.save_new' => 'Save and New',
+    'button.new' => 'New',
     'button.edit' => 'Edit',
     'button.delete' => 'Delete',
 
@@ -27,4 +28,7 @@ return [
     'field.id' => 'Id',
     'field.created_at' => 'Created at',
     'field.updated_at' => 'Updated at',
+
+    // Filter
+    'filter.all' => 'All',
 ];

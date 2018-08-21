@@ -127,7 +127,7 @@ section.content {
 div.breadcrumb {
     background-color: #fff;
     border-radius: 20px;
-    padding: 5px;
+    padding: 1px 4px;
     margin-bottom: 25px;
     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -233,7 +233,7 @@ div.detail-blocks {
     margin-bottom: 90px;
 }
 
-#detail-action-buttons {
+#page-action-buttons {
     position: fixed !important;
     bottom: 20px;
     right: 25px;
@@ -241,4 +241,23 @@ div.detail-blocks {
     a {
         margin-left: 10px;
     }
+}
+
+.paginator {
+    text-align: center;
+
+    .pagination {
+        margin: 0;
+
+        & > .disabled > span, & > .disabled > span:hover, & > .disabled > span:focus, & > .disabled > a, & > .disabled > a:hover, & > .disabled > a:focus {
+            border-radius: 20px;
+            margin: 0 5px;
+        }
+
+        & > li > a, & > li > span {
+            border-radius: 20px;
+            margin: 0 5px;
+        }
+    }
+
 }

@@ -71,8 +71,8 @@
     @yield('other-blocks')
     </div>
 
-    @section('detail-action-buttons')
-    <div id="detail-action-buttons">
+    @section('page-action-buttons')
+    <div id="page-action-buttons">
         <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">edit</i>
         </a>

@@ -8,33 +8,45 @@
 @endsection
 
 @section('content')
-    <div id="action-buttons" class="m-b-25">
-        <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success icon-right waves-effect">
-        {{ uctrans('add_record', $module) }}
-        <i class="material-icons">add</i>
-        </a>
+
+@section('breadcrumb')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="breadcrumb pull-left">
+                {{-- Redirect to previous page. If there is not previous page, redirect to home page --}}
+                <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.home', $domain, $module) }}" class="pull-left">
+                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
+                </a>
+
+                <ol class="breadcrumb pull-left">
+                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
+                    <li class="active">{{ uctrans('filter.all', $module) }}</li>
+                </ol>
+            </div>
+
+            <div id="action-buttons">
+
+                <div class="btn-group m-l-10">
+                    <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Show <strong class="records-number">10</strong> records
+                        <i class="material-icons">keyboard_arrow_down</i>
+                    </button>
+                    <ul id="items-number" class="dropdown-menu">
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="1">1</a></li>
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="10">10</a></li>
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="20">20</a></li>
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+    @show
 
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card">
-                {{-- <div class="header">
-                    <h2>
-                        BASIC EXAMPLE
-                    </h2>
-                    <ul class="header-dropdown m-r--5">
-                        <li class="dropdown">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <i class="material-icons">more_vert</i>
-                            </a>
-                            <ul class="dropdown-menu pull-right">
-                                <li><a href="javascript:void(0);">Action</a></li>
-                                <li><a href="javascript:void(0);">Another action</a></li>
-                                <li><a href="javascript:void(0);">Something else here</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div> --}}
                 <div class="body">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover dataTable">
@@ -49,6 +61,17 @@
                     </div>
                 </div>
             </div>
+
+            <div class="paginator">
+            </div>
         </div>
     </div>
+
+    @section('page-action-buttons')
+    <div id="page-action-buttons">
+        <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.new', $module) }}" data-toggle="tooltip" data-placement="top">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
+    @show
 @endsection

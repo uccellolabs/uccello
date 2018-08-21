@@ -7,6 +7,8 @@ return [
     'yes' => 'Yes',
     'no' => 'No',
     'logout' => 'Logout',
+    'create' => 'Create',
+    'edit' => 'Edit',
 
     // Menu
     'menu.title' => 'Menu',
@@ -14,6 +16,7 @@ return [
     // Button
     'button.return' => 'Return',
     'button.save' => 'Save',
+    'button.save_new' => 'Save and New',
     'button.edit' => 'Edit',
     'button.delete' => 'Delete',
 

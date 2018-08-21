@@ -3,27 +3,26 @@
 @section('page', 'detail')
 
 @section('content')
-    <div class="block-header">
-        <h2>{{ $record->displayLabel }}</h2>
+
+    @section('breadcrumb')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="breadcrumb pull-left">
+                {{-- Redirect to previous page. If there is not previous page, redirect to list view --}}
+                <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.list', $domain, $module) }}" class="pull-left">
+                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
+                </a>
+
+                <ol class="breadcrumb pull-left">
+                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
+                    <li class="active">{{ $record->recordLabel }}</li>
+                </ol>
+            </div>
+        </div>
     </div>
+    @show
 
-    <div id="action-buttons" class="m-b-25">
-        <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="btn btn-default icon-left waves-effect m-r-10">
-            {{ uctrans('button.return', $module) }}
-            <i class="material-icons">chevron_left</i>
-        </a>
-
-        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn btn-success icon-left waves-effect">
-            {{ uctrans('button.edit', $module) }}
-            <i class="material-icons">edit</i>
-        </a>
-
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn btn-danger icon-right waves-effect pull-right">
-            {{ uctrans('button.delete', $module) }}
-            <i class="material-icons">delete</i>
-        </a>
-    </div>
-
+    <div class="detail-blocks">
     @section('default-blocks')
         {{-- All defined blocks --}}
         @foreach ($module->tabs as $tab)  {{-- TODO: Display all tabs --}}
@@ -70,4 +69,17 @@
 
     {{-- Other blocks --}}
     @yield('other-blocks')
+    </div>
+
+    @section('detail-action-buttons')
+    <div id="detail-action-buttons">
+        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
+            <i class="material-icons">edit</i>
+        </a>
+
+        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn btn-danger btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
+            <i class="material-icons">delete</i>
+        </a>
+    </div>
+    @show
 @endsection

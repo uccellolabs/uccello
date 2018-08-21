@@ -16,3 +16,6 @@ import 'node-waves';
 // Autosize
 import autosize from 'adminbsb-materialdesign/plugins/autosize/autosize.js';
 autosize($('textarea.auto-growth'));
+
+// Tooltip
+$("[data-toggle='tooltip']").tooltip();

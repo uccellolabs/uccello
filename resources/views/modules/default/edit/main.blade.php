@@ -3,6 +3,26 @@
 @section('page', 'edit')
 
 @section('content')
+
+    @section('breadcrumb')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="breadcrumb pull-left">
+                {{-- Redirect to previous page. If there is not previous page, redirect to list view --}}
+                <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.list', $domain, $module) }}" class="pull-left">
+                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
+                </a>
+
+                <ol class="breadcrumb pull-left">
+                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
+                    @if ($record->id)<li><a href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->id]) }}">{{ $record->recordLabel }}</a></li>@endif
+                    <li class="active">{{ $record->id ? uctrans('edit', $module) : uctrans('create', $module) }}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    @show
+
     {!! form_start($form) !!}
     @section('default-blocks')
         {{-- All defined blocks --}}

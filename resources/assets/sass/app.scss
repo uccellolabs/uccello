@@ -70,7 +70,7 @@
 
     .menu {
         .list {
-            margin-top: 15px;
+            //margin-top: 15px;
         }
     }
 }
@@ -121,5 +121,124 @@ section.content {
     &.icon-right {
         padding-left: 30px;
         padding-right: 40px;
+    }
+}
+
+div.breadcrumb {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 5px;
+    margin-bottom: 25px;
+    -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
+    i {
+        color: black;
+        background-color: rgba(0,0,0,.2);
+        border-radius: 20px;
+        padding: 3px;
+        font-size: 18px;
+        margin-right: 25px;
+        margin-top: 2px;
+    }
+
+    ol.breadcrumb {
+        margin: 0;
+        padding: 5px 0 0 0;
+        margin-right: 25px;
+
+        li a {
+            font-weight: bold;
+            color: #333;
+        }
+    }
+}
+
+.input-field {
+    position: relative;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    .prefix {
+        position: absolute;
+        width: 3rem;
+        font-size: 2rem;
+        -webkit-transition: color .2s;
+        transition: color .2s;
+        top: .5rem;
+
+        ~ .form-line, ~ .switch {
+            margin-left: 3rem;
+            width: 92%;
+            width: calc(100% - 3rem);
+        }
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .input-field .prefix {
+        ~ .form-line, ~ .switch {
+            width: 86%;
+            width: calc(100% - 3rem);
+        }
+    }
+}
+
+.form-group.form-switch {
+    label:not(.switch-label) {
+        top: 0px;
+        left: 15px;
+        position: absolute;
+        font-size: 12px;
+        font-weight: normal;
+        color: #aaa;
+        cursor: text;
+    }
+}
+
+button {
+    &.btn-save {
+        position: fixed !important;
+        bottom: 20px;
+        right: 25px;
+        z-index: 1001;
+
+        &:hover, &:focus, .focus {
+            color: #fff !important;
+        }
+    }
+
+    &.btn-save-new {
+        position: fixed !important;
+        bottom: 20px;
+        right: 85px;
+        z-index: 1001;
+
+        &:hover, &:focus, .focus {
+            color: #fff !important;
+        }
+    }
+}
+
+form.edit-form {
+    margin-bottom: 90px;
+
+    label.required::before {
+        content: '* ';
+        color: red;
+    }
+}
+
+div.detail-blocks {
+    margin-bottom: 90px;
+}
+
+#detail-action-buttons {
+    position: fixed !important;
+    bottom: 20px;
+    right: 25px;
+
+    a {
+        margin-left: 10px;
     }
 }

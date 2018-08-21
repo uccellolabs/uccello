@@ -119,7 +119,7 @@
 
                 .toggled {
                     background-color: $theme-uccello-menu-list-toggled;
-                    border-left: solid 5px $theme-uccello;
+                    border-left: solid 3px $theme-uccello;
                 }
 
                 .ml-menu {
@@ -148,5 +148,49 @@
                 border-radius: 20px;
             }
         }
+    }
+
+    div.breadcrumb {
+        ol.breadcrumb {
+            li {
+                a:hover {
+                    color: $theme-uccello;
+                }
+
+                &.active {
+                    color: $theme-uccello;
+                }
+            }
+
+
+        }
+    }
+
+    .card {
+        .header {
+            h2 {
+                div.block-label-with-icon {
+                    i {
+                        color: $theme-uccello;
+                    }
+                }
+
+                small {
+                    margin-left: 35px;
+                }
+            }
+        }
+    }
+
+    .switch label input[type=checkbox]:checked + .lever.switch-col-primary {
+        background-color: $theme-uccello-switch-background;
+
+        &:after {
+            background-color: $theme-uccello;
+        }
+    }
+
+    .form-group .form-line:after {
+        border-bottom: 2px solid $theme-uccello;
     }
 }

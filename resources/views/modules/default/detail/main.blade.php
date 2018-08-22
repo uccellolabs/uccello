@@ -22,6 +22,20 @@
     </div>
     @show
 
+    <ul class="nav nav-tabs m-b-25" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#home_with_icon_title" data-toggle="tab">
+            <i class="material-icons">view_headline</i> {{ uctrans('tabs.details', $module) }}
+            </a>
+        </li>
+        {{-- <li role="presentation">
+            <a href="#profile_with_icon_title" data-toggle="tab">
+                <i class="material-icons">face</i> PROFILE
+                <span class="badge bg-green">9</span>
+            </a>
+        </li> --}}
+    </ul>
+
     <div class="detail-blocks">
     @section('default-blocks')
         {{-- All defined blocks --}}
@@ -73,11 +87,11 @@
 
     @section('page-action-buttons')
     <div id="page-action-buttons">
-        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
+        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn bg-green btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">edit</i>
         </a>
 
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn btn-danger btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
+        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">delete</i>
         </a>
     </div>

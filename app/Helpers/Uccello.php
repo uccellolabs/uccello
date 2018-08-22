@@ -218,4 +218,9 @@ class Uccello
             return Capability::where('name', (string) $nameOrId)->first();
         }
     }
+
+    public function getRootDomains(): Collection
+    {
+        return Domain::whereNull('parent_id')->get();
+    }
 }

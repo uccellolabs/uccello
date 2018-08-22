@@ -64,6 +64,19 @@ class User extends Authenticatable
         return trim($this->first_name . ' ' .$this->last_name) ?? $this->username;
     }
 
+    // public function getAccessibleDomainsAttribute() : Collection
+    // {
+    //     $domains = new Collection();
+
+    //     $rootDomains = Domain::whereNull('parent_id');
+
+    //     foreach ($rootDomains as $domain) {
+
+    //     }
+
+    //     return $domains;
+    // }
+
     /**
      * Returns user roles on a domain
      *

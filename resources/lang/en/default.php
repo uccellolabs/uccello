@@ -13,6 +13,9 @@ return [
     // Menu
     'menu.title' => 'Menu',
 
+    // Domain
+    'domain.search' => 'Search a domain',
+
     // Button
     'button.return' => 'Return',
     'button.save' => 'Save',
@@ -31,4 +34,7 @@ return [
 
     // Filter
     'filter.all' => 'All',
+
+    // Tabs
+    'tabs.details' => 'Details',
 ];

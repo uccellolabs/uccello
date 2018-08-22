@@ -58,7 +58,7 @@ class Domain extends Model
 
     public function children()
     {
-        return $this->hasMany(self::class);
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     public function privileges()

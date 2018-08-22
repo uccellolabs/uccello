@@ -193,4 +193,48 @@
     .form-group .form-line:after {
         border-bottom: 2px solid $theme-uccello;
     }
+
+    .nav-tabs {
+        border-bottom: 2px solid $theme-uccello-navtabs-border;
+
+        & > li.active > a {
+            color: $theme-uccello !important;
+        }
+
+        & > li > a:before {
+            border-bottom: 3px solid $theme-uccello;
+        }
+    }
+}
+
+.right-sidebar {
+    background-color: $theme-uccello-sidebar-bg;
+
+    .domain-search-bar {
+        background-color: $theme-uccello-menu-header-bg;
+    }
+
+    .content {
+        color: $theme-uccello-sidebar-color;
+    }
+}
+
+.jstree-default {
+    .jstree-search {
+        color: #fd582d;
+    }
+
+    .jstree-hovered {
+        background: $theme-uccello-menu-list-active;
+        border: none;
+        border-radius: 20px;
+    }
+
+    .jstree-anchor {
+        padding: 0 10px;
+    }
+
+    .current > a {
+        color: #58AFD2;
+    }
 }

@@ -237,7 +237,7 @@ class Uccello
      */
     public function getLastOrDefaultDomain(): ?Domain
     {
-        $domain = Auth::user()->lastDomain;
+        $domain = Auth::user()->lastDomain ?? null; // On login page user is not authenticated
 
         if (!$domain) {
             $domain = $this->getRootDomains()[0];

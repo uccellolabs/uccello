@@ -7,8 +7,8 @@ signup-page
 @section('content')
 <div class="signup-box">
     <div class="logo">
-        <a href="javascript:void(0);">Admin<b>BSB</b></a>
-        <small>Admin BootStrap Based - Material Design</small>
+        <a href="javascript:void(0);">Uccello</b></a>
+        <small>Advanced Admin Panel - For Laravel</small>
     </div>
     <div class="card">
         <div class="body">
@@ -70,7 +70,7 @@ signup-page
                     <label for="terms">I read and agree to the <a href="javascript:void(0);">terms of usage</a>.</label>
                 </div>
 
-                <button class="btn btn-block btn-lg bg-pink waves-effect" type="submit">{{ __('Register') }}</button>
+                <button class="btn btn-block btn-lg bg-primary waves-effect" type="submit">{{ __('Register') }}</button>
 
                 <div class="m-t-25 m-b--5 align-center">
                     <a href="{{ route('login') }}">You already have a membership?</a>

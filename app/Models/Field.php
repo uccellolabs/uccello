@@ -86,6 +86,11 @@ class Field extends Model
         return $icon;
     }
 
+    public function getRequiredAttribute(): bool
+    {
+        return $this->data->required ?? false;
+    }
+
     /**
      * Checks if the field can be displayed in List view.
      *

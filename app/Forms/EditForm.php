@@ -36,6 +36,7 @@ class EditForm extends Form
         $this->formOptions = [
             'method' => 'POST', // Use POST method
             'url' => ucroute('uccello.save', $domain, $module, $routeParams), // URL to call
+            'class' => 'edit-form',
             'novalidate', // Deactivate HTML5 validation
         ];
 
@@ -50,9 +51,6 @@ class EditForm extends Form
             // Get field type: if the field must be repeated, the type is "repeated" else get the FormBuilder type
             $fieldType = isset($field->data->repeated) && $field->data->repeated === true ? 'repeated' : $this->getFormBuilderType($field);
 
-            // Get translated field label
-            $fieldLabel = uctrans($field->label, $module);
-
             // Get field options
             $fieldOptions = $this->getFieldOptions($field);
 
@@ -61,10 +59,24 @@ class EditForm extends Form
         }
 
         // Add a save button
-        $this->add('submit_btn', 'submit', [
-            'label' => uctrans('button.save', $module),
+        $this->add('save_btn', 'submit', [
+            'label' => '<i class="material-icons">save</i>',
             'attr' => [
-                'class' => 'btn btn-success pull-right'
+                'class' => 'btn bg-green btn-circle-lg waves-effect waves-circle waves-float btn-save',
+                'title' => uctrans('button.save', $module),
+                'data-toggle' => 'tooltip',
+                'data-placement' => 'top',
+            ]
+        ]);
+
+        // Add a save and new button
+        $this->add('save_new_btn', 'submit', [
+            'label' => '<i class="material-icons">add</i>',
+            'attr' => [
+                'class' => 'btn bg-primary btn-circle-lg waves-effect waves-circle waves-float btn-save-new',
+                'title' => uctrans('button.save_new', $module),
+                'data-toggle' => 'tooltip',
+                'data-placement' => 'top',
             ]
         ]);
     }
@@ -112,9 +124,12 @@ class EditForm extends Form
         // Get module data
         $module = $this->getData('module');
 
+        // Check if required CSS class must be added
+        $requiredClass = $field->required ? 'required' : '';
+
         $options = [
             'label' => uctrans($field->label, $module),
-            'label_attr' => ['class' => 'form-label'],
+            'label_attr' => ['class' => 'form-label' . $requiredClass],
             'rules' => $this->getFieldRules($field),
             'attr' => [
                 'class' => 'form-control'

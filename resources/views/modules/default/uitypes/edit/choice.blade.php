@@ -5,12 +5,10 @@
         {{-- Label --}}
         {!! form_label($form->{$field->name}) !!}
 
-        <div class="input-group">            
+        <div class="input-field">
             {{-- Icon if defined --}}
             @if($field->icon ?? false)
-            <span class="input-group-addon">
-                <i class="material-icons">{{ $field->icon }}</i>
-            </span>
+            <i class="material-icons prefix">{{ $field->icon }}</i>
             @endif
 
             <div style="padding-top: 10px;">

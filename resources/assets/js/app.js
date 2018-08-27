@@ -2,7 +2,7 @@
 import './bootstrap';
 
 // Slimscroll
-import 'adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js';
+// import 'adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js';
 
 // Admin BSB
 import 'adminbsb-materialdesign';

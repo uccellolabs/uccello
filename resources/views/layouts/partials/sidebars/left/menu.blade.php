@@ -19,7 +19,7 @@
             {{-- All modules except Home --}}
             @if (isset($modules) && isset($domain) && isset($module))
                 @foreach ($modules as $_module)
-                    @continue ($_module->name === 'home' || !$_module->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $_module))
+                    @continue ($_module->name === 'home' || !$_module->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $_module) || (!$admin_env && $_module->isAdminModule()) || ($admin_env && !$_module->isAdminModule()))
                     <li @if ($_module->id === $module->id)class="active"@endif>
                         <a href="{{ ucroute('uccello.list', $domain, $_module) }}">
                             @if ($_module->icon)<i class="material-icons">{{ $_module->icon ?? 'list' }}</i>@endif
@@ -30,6 +30,23 @@
             @endif
 
             @yield('sidebar-main-menu-after')
+
+            {{-- Display admin menu for admin users --}}
+            @if (Auth::user()->is_admin && !$admin_env)
+                <li class="header">{{ uctrans('menu.admin', $module) }}</li>
+
+                @yield('sidebar-admin-menu-before')
+
+                <li>
+                    <a href="{{ ucroute('uccello.list', $domain, 'user') }}">
+                        <i class="material-icons">settings</i>
+                        <span>{{ uctrans('menu.settings', $module) }}</span>
+                    </a>
+                </li>
+
+                @yield('sidebar-admin-menu-after')
+
+            @endif
         </ul>
     @show
 

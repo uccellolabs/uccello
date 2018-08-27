@@ -5,7 +5,7 @@
         @include('uccello::layouts.partials.header.navbar.right.tasks') --}}
 
         {{-- Display current domain name and a link to open domains list --}}
-        @if (uccello()->useMultiDomains())
+        @if (uccello()->useMultiDomains() && isset($domain))
         <li class="pull-right">
             <a href="javascript:void(0);" class="current-domain js-right-sidebar" data-close="true">
                 <span>{{ $domain->name }}</span>

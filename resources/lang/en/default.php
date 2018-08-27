@@ -37,4 +37,11 @@ return [
 
     // Tabs
     'tabs.details' => 'Details',
+
+    // Menu
+    'menu.admin' => 'Admin',
+    'menu.settings' => 'Settings',
+
+    // Breadcrumb
+    'breadcrumb.admin' => 'Admin',
 ];

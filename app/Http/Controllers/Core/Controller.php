@@ -118,7 +118,10 @@ abstract class Controller extends BaseController
         View::share('module', $this->module);
 
         // All modules
-        View::share('modules', $this->getAllModules());
+        View::share('modules', $this->getAllModules(true));
+
+        // Admin environment
+        View::share('admin_env', $this->module->isAdminModule());
     }
 
     /**
@@ -131,11 +134,26 @@ abstract class Controller extends BaseController
 
     /**
      * Get all modules from database
+     * @param boolean $getAdminModules
      * @return Module[]
      */
-    protected function getAllModules()
+    protected function getAllModules($getAdminModules = false)
     {
-        return Module::all();
+        $modules = [];
+
+        $allModules = Module::all();
+
+        if ($getAdminModules) {
+            $modules = $allModules;
+        } else {
+            foreach ($allModules as $module) {
+                if (!$module->isAdminModule()) {
+                    $modules[] = $module;
+                }
+            }
+        }
+
+        return $modules;
     }
 
     /**

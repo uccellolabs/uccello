@@ -87,8 +87,23 @@ abstract class Controller extends BaseController
         // Get request
         $this->request = $request;
 
+        // Save last visited domain by user
+        $this->saveUserLastVisitedDomain();
+
         // Share blade variables
         $this->shareBladeVariables();
+    }
+
+    /**
+     * Save last visited domain by user
+     *
+     * @return void
+     */
+    protected function saveUserLastVisitedDomain()
+    {
+        $user = Auth::user();
+        $user->last_domain_id = $this->domain->id;
+        $user->save();
     }
 
     /**

@@ -49,6 +49,11 @@ class User extends Authenticatable
         return $this->belongsTo(Domain::class);
     }
 
+    public function lastDomain()
+    {
+        return $this->belongsTo(Domain::class);
+    }
+
     public function privileges()
     {
         return $this->hasMany(Privilege::class);

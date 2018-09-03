@@ -1,7 +1,7 @@
 import 'datatables.net-bs';
 import 'datatables.net-buttons-bs';
 import 'datatables.net-buttons/js/buttons.colVis';
-import 'datatables.net-colreorder';
+// import 'datatables.net-colreorder';
 import 'datatables.net-fixedcolumns';
 import 'datatables.net-responsive-bs';
 import 'datatables.net-select';
@@ -46,6 +46,8 @@ export class Datatable {
 
         // Config buttons
         this.configButtons(table)
+
+        this.initDatatableColumnSearch(table)
     }
 
     /**
@@ -101,5 +103,30 @@ export class Datatable {
         })
 
         $(".dataTables_paginate").appendTo(".paginator")
+    }
+
+    /**
+     * Config column search
+     * @param {Datatable} table
+     */
+    initDatatableColumnSearch(table)
+    {
+        let timer = 0
+
+        table.columns().every(function (index) {
+            let column = table.column(index)
+
+            $('input, select', this.header()).on('keyup change', function() {
+                let value = $(this).val()
+
+                if (column.search() !== value) {
+                    clearTimeout(timer)
+                    timer = setTimeout(() => {
+                        column.search(value)
+                        table.draw()
+                    }, 500)
+                }
+            })
+        })
     }
 }

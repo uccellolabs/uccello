@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Traits;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Domain;
+use Illuminate\Database\Eloquent\Builder;
 
 
 trait DefaultUitype
@@ -67,5 +68,39 @@ trait DefaultUitype
     public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         return $value;
+    }
+
+    /**
+     * Returns formatted value to search.
+     * By default adds % at the beginning end the ending to make a 'like' query.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    public function getFormattedValueToSearch($value) : string
+    {
+        $formattedValue = $value;
+
+        if ($formattedValue) {
+            $formattedValue = "%$value%";
+        }
+
+        return $formattedValue;
+    }
+
+    /**
+     * Returns updated query after adding a new search condition.
+     *
+     * @param Builder query
+     * @param Field $field
+     * @param mixed $value
+     * @return Builder
+     */
+    public function addConditionToSearchQuery(Builder $query, Field $field, $value)
+    {
+        $formattedValue = $this->getFormattedValueToSearch($value);
+        $query = $query->where($field->column, 'like', $formattedValue);
+
+        return $query;
     }
 }

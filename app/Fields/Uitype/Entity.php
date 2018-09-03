@@ -7,6 +7,7 @@ use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
+use Illuminate\Database\Eloquent\Builder;
 
 class Entity implements Uitype
 {
@@ -100,5 +101,31 @@ class Entity implements Uitype
         }
 
         return  $value;
+    }
+
+    /**
+     * Returns updated query after adding a new search condition.
+     * Uses field data to know in which attribute make the search.
+     *
+     * @param Builder query
+     * @param Field $field
+     * @param mixed $value
+     * @return Builder
+     */
+    public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
+    {
+        $formattedValue = $this->getFormattedValueToSearch($value);
+
+        // Get field data
+        $fieldData = $field->data;
+
+        if (isset($fieldData->field)) {
+            // Search by entity's main field (we suppose the belongsTo relation has the same name as the field)
+            $query = $query->whereHas($field->name, function($q) use($field, $fieldData, $formattedValue) {
+                $q->where($fieldData->field, 'like', $formattedValue);
+            });
+        }
+
+        return $query;
     }
 }

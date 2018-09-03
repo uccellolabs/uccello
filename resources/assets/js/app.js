@@ -2,7 +2,7 @@
 import './bootstrap';
 
 // Slimscroll
-// import 'adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js';
+import 'adminbsb-materialdesign/plugins/jquery-slimscroll/jquery.slimscroll.js';
 
 // Admin BSB
 import 'adminbsb-materialdesign';
@@ -49,3 +49,9 @@ $('.domain-search-bar #domain-name').keyup(() => {
         domainsTree.jstree(true).search(v)
     }, 250)
 });
+
+$('table.dataTable thead th input, table.dataTable thead th select').on('click', (e) => {
+    e.stopImmediatePropagation();
+
+
+})

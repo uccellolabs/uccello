@@ -131,6 +131,18 @@ class ApiController extends Controller
                 $query = $modelClass::skip($start)->take($length);
             }
 
+            // Search by column
+            foreach ($columns as $column) {
+                $fieldName = $column["data"];
+                $searchValue = $column["search"]["value"];
+
+                // Get field by name and search by field column
+                $field = $module->getField($fieldName);
+                if (isset($searchValue) && !is_null($field)) {
+                    $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
+                }
+            }
+
             // Order results
             foreach ($order as $orderInfo) {
                 $columnIndex = (int) $orderInfo["column"];

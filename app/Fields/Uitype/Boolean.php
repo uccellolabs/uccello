@@ -6,6 +6,7 @@ use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Illuminate\Database\Eloquent\Builder;
 
 class Boolean extends Checkbox implements Uitype
 {
@@ -40,5 +41,34 @@ class Boolean extends Checkbox implements Uitype
     public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         return $value ?? 0;
+    }
+
+    /**
+     * Returns formatted value to search.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    public function getFormattedValueToSearch($value) : string
+    {
+        $formattedValue = $value === 'true' ? true : false;
+
+        return $formattedValue;
+    }
+
+    /**
+     * Returns updated query after adding a new search condition.
+     *
+     * @param Builder query
+     * @param Field $field
+     * @param mixed $value
+     * @return Builder
+     */
+    public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
+    {
+        $formattedValue = $this->getFormattedValueToSearch($value);
+        $query = $query->where($field->column, '=', $formattedValue);
+
+        return $query;
     }
 }

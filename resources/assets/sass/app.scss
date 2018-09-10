@@ -15,7 +15,7 @@
 @import '~adminbsb-materialdesign/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css';
 
 // JS Tree
-// @import '~jstree/dist/themes/default/style.css';
+@import '~jstree/dist/themes/default/style.css';
 
 // Admin BSB Template
 @import 'adminbsb/_adminbsb';
@@ -320,20 +320,46 @@ div.detail-blocks {
     }
 }
 
-table.dataTable thead {
-    .sorting:after,
-    .sorting_asc:after,
-    .sorting_asc_disabled:after,
-    .sorting_desc:after,
-    .sorting_desc_disabled:after {
-        bottom: 35px;
-        // right: 30px;
+table.dataTable {
+    thead {
+        .sorting:after,
+        .sorting_asc:after,
+        .sorting_asc_disabled:after,
+        .sorting_desc:after,
+        .sorting_desc_disabled:after {
+            bottom: 45px;
+            right: 30px;
+        }
+
+        th.select-column {
+            width: 20px;
+        }
+
+        th.actions-column {
+            width: 30px;
+            text-align: right;
+
+            .clear-search {
+                display: none;
+            }
+        }
     }
 
-    th {
-        input,
-        select {
-            width: 100%;
+    tr {
+        td:last-child {
+            padding: 6px;
+        }
+
+        a.edit-btn,
+        a.delete-btn {
+            display: none;
+        }
+
+        &:hover {
+            a.edit-btn,
+            a.delete-btn {
+                display: inline-block;
+            }
         }
     }
 }

@@ -205,36 +205,47 @@
             border-bottom: 3px solid $theme-uccello;
         }
     }
-}
 
-.right-sidebar {
-    background-color: $theme-uccello-sidebar-bg;
 
-    .domain-search-bar {
-        background-color: $theme-uccello-menu-header-bg;
+    .right-sidebar {
+        background-color: $theme-uccello-sidebar-bg;
+
+        .domain-search-bar {
+            background-color: $theme-uccello-menu-header-bg;
+        }
+
+        .content {
+            color: $theme-uccello-sidebar-color;
+        }
     }
 
-    .content {
-        color: $theme-uccello-sidebar-color;
-    }
-}
+    .jstree-default {
+        .jstree-search {
+            color: #fd582d;
+        }
 
-.jstree-default {
-    .jstree-search {
-        color: #fd582d;
+        .jstree-hovered {
+            background: $theme-uccello-menu-list-active;
+            border: none;
+            border-radius: 20px;
+        }
+
+        .jstree-anchor {
+            padding: 0 10px;
+        }
+
+        .current > a {
+            color: #58AFD2;
+        }
     }
 
-    .jstree-hovered {
-        background: $theme-uccello-menu-list-active;
-        border: none;
-        border-radius: 20px;
+    table.dataTable {
+        tr {
+            a.edit-btn,
+            a.delete-btn {
+                color: $theme-uccello;
+            }
+        }
     }
 
-    .jstree-anchor {
-        padding: 0 10px;
-    }
-
-    .current > a {
-        color: #58AFD2;
-    }
 }

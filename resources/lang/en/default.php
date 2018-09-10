@@ -23,6 +23,7 @@ return [
     'button.new' => 'New',
     'button.edit' => 'Edit',
     'button.delete' => 'Delete',
+    'button.clear_search' => 'Clear',
 
     // Block
     'block.general' => 'General information',
@@ -34,6 +35,7 @@ return [
 
     // Filter
     'filter.all' => 'All',
+    'filter.show_n_records' => 'Show :number records',
 
     // Tabs
     'tabs.details' => 'Details',

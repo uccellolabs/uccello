@@ -45,6 +45,7 @@
     {{ Html::script(mix('js/manifest.js')) }}
     {{ Html::script(mix('js/vendor.js')) }}
     {{ Html::script(mix('js/app.js')) }}
+    {{ Html::script('js/laroute.js') }}
     @show
 
     @yield('extra-script')

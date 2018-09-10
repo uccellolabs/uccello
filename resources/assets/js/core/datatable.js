@@ -23,17 +23,18 @@ export class Datatable {
                 url: this.url,
                 type: "POST"
             },
+            order: [[1, 'asc']],
             columnDefs: this.getDatatableColumnDefs(),
             createdRow: (row, data, index) => {
                 // Go to detail view when you click on a row
-                $('td', row).click(() => {
+                $('td:gt(0):lt(-1)', row).click(() => {
                     document.location.href = sprintf(this.rowUrl, data.id);
                 })
             },
             buttons: [
                 {
-                    extend: "colvis"
-                    //columns: ':gt(0):lt(-1)'
+                    extend: 'colvis',
+                    columns: ':gt(0):lt(-1)'
                 }
             ],
             language: {
@@ -47,6 +48,7 @@ export class Datatable {
         // Config buttons
         this.configButtons(table)
 
+        // Init search
         this.initDatatableColumnSearch(table)
     }
 
@@ -57,10 +59,21 @@ export class Datatable {
         let selector = new UccelloUitypeSelector.UitypeSelector() // UccelloUitypeSelector is replaced automaticaly by webpack. See webpack.mix.js
 
         let datatableColumns = [];
+
+        // Add first column
+        datatableColumns.push({
+            targets: 0,
+            data: null,
+            defaultContent: '',
+            orderable: false,
+            searchable: false
+        })
+
+        // Add all filter columns
         for (let i in this.columns) {
             let column = this.columns[i]
             datatableColumns.push({
-                targets: parseInt(i), // Force integer
+                targets: parseInt(i) + 1, // Force integer
                 data: column.name,
                 createdCell: (td, cellData, rowData, row, col) => {
                     selector.get(column.uitype).createdCell(column, td, cellData, rowData, row, col)
@@ -68,7 +81,37 @@ export class Datatable {
                 visible: column.visible
             });
         }
+
+        // Add last column (action buttons)
+        datatableColumns.push({
+            targets: this.columns.length + 1,
+            data: null,
+            defaultContent: '',
+            orderable: false,
+            searchable: false,
+            createdCell: this.getActionsColumnCreatedCell()
+        })
+
         return datatableColumns;
+    }
+
+    /**
+     * Make datatable action column.
+     */
+    getActionsColumnCreatedCell() {
+        return (td, cellData, rowData, row, col) => {
+            // Copy buttons from template
+            let editButton = $("#template .edit-btn").clone().tooltip().appendTo($(td))
+            let deleteButton = $("#template .delete-btn").clone().tooltip().appendTo($(td))
+
+            // Config edit link url
+            let editLink = editButton.attr('href').replace('RECORD_ID', rowData.id)
+            editButton.attr('href', editLink)
+
+            // Config delete link url
+            let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
+            deleteButton.attr('href', deleteLink)
+        }
     }
 
     /**
@@ -106,18 +149,24 @@ export class Datatable {
     }
 
     /**
-     * Config column search
+     * Config column search.
      * @param {Datatable} table
      */
     initDatatableColumnSearch(table)
     {
         let timer = 0
 
+        // Config each column
         table.columns().every(function (index) {
             let column = table.column(index)
 
+            // Event listener to launch search
             $('input, select', this.header()).on('keyup change', function() {
                 let value = $(this).val()
+
+                if (value !== '') {
+                    $('.clear-search').show()
+                }
 
                 if (column.search() !== value) {
                     clearTimeout(timer)
@@ -127,6 +176,33 @@ export class Datatable {
                     }, 500)
                 }
             })
+        })
+
+        // Add clear search button listener
+        this.addClearSearchButtonListener(table)
+    }
+
+    /**
+     * Clear datatable search
+     * @param {Datatable} table
+     */
+    addClearSearchButtonListener(table)
+    {
+        $('.actions-column .clear-search').on('click', (event) => {
+            // Clear all search fields
+            $('thead input, thead select').val(null)
+
+            // Update columns
+            table.columns().every(function (index) {
+                let column = table.column(index)
+                column.search('')
+            })
+
+            // Disable clear search button
+            $(event.currentTarget).hide()
+
+            // Update data
+            table.draw()
         })
     }
 }

@@ -20,7 +20,7 @@ mix.js('./resources/assets/js/core/autoloader.js', 'public/js');
 mix.extract([
     'lodash', 'jquery', 'bootstrap',
     'fastclick', 'adminbsb-materialdesign',
-    'vue', 'axios', 'node-waves', 'popper.js'
+    'vue', 'axios', 'node-waves', 'popper.js', 'moment'
 ], 'public/js/vendor.js');
 
 mix.version();

@@ -14,6 +14,15 @@
 // Datatable
 @import '~adminbsb-materialdesign/plugins/jquery-datatable/skin/bootstrap/css/dataTables.bootstrap.css';
 
+// Bootstrap Material DateTime Picker
+@import '~bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css';
+
+// Nouislider
+@import '~adminbsb-materialdesign/plugins/nouislider/nouislider.min.css';
+
+// Colorpicker
+@import '~adminbsb-materialdesign/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css';
+
 // JS Tree
 @import '~jstree/dist/themes/default/style.css';
 
@@ -178,6 +187,16 @@ div.breadcrumb {
     }
 }
 
+.form-control {
+    background-color: transparent;
+}
+
+.colorpicker {
+    .input-group-addon i {
+        border: solid 1px black;
+    }
+}
+
 @media only screen and (max-width: 992px) {
     .input-field .prefix {
         ~ .form-line, ~ .switch {
@@ -189,6 +208,30 @@ div.breadcrumb {
 
 .form-group.form-switch {
     label:not(.switch-label) {
+        top: 0px;
+        left: 15px;
+        position: absolute;
+        font-size: 12px;
+        font-weight: normal;
+        color: #aaa;
+        cursor: text;
+    }
+}
+
+.form-group.form-choice {
+    label:not(.control-label) {
+        top: 0px;
+        left: 15px;
+        position: absolute;
+        font-size: 12px;
+        font-weight: normal;
+        color: #aaa;
+        cursor: text;
+    }
+}
+
+.form-group.form-fixed {
+    label:not(.checkbox-label) {
         top: 0px;
         left: 15px;
         position: absolute;

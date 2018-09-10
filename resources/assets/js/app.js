@@ -9,9 +9,13 @@ import 'adminbsb-materialdesign';
 
 // Admin BSB Plugins
 import 'adminbsb-materialdesign/plugins/bootstrap-select/js/bootstrap-select.js';
+import 'adminbsb-materialdesign/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js';
+import noUiSlider from 'adminbsb-materialdesign/plugins/nouislider/nouislider';
 
 // Node waves (for Admin BSB)
 import 'node-waves';
+
+import 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker';
 
 // JSTree
 import 'jstree/src/jstree.search.js';
@@ -24,6 +28,44 @@ autosize($('textarea.auto-growth'));
 // Tooltip
 $("[data-toggle='tooltip']").tooltip();
 
+// Color picker
+$('.colorpicker').colorpicker();
+
+// Datetime picker
+$('.datepicker').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
+$('.timepicker').bootstrapMaterialDatePicker({ date: false, format : 'HH:mm' });
+$('.datetimepicker').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm' });
+$('.monthpicker').bootstrapMaterialDatePicker({ format : 'MM', time: false });
+$('.weekpicker').bootstrapMaterialDatePicker({ format : 'w', time: false });
+
+
+var rangeSlider = document.getElementById('nouislider_range');
+noUiSlider.create(rangeSlider, {
+    start: [30],
+    connect: 'lower',
+    step: 1,
+    range: {
+        'min': [0],
+        'max': [100]
+    }
+});
+
+getNoUISliderValue(rangeSlider, false);
+
+//Get noUISlider Value and write on
+function getNoUISliderValue(slider, percentage) {
+    slider.noUiSlider.on('update', function () {
+        var val = slider.noUiSlider.get();
+        if (percentage) {
+            val = parseInt(val);
+            val += '%';
+        }
+        $(slider).parent().find('span.js-nouislider-value').text(val);
+        $(slider).parent().find('input').val(val);
+    });
+}
+
+// Domains tree
 let domainsTree = $('#domains-tree')
 domainsTree.jstree({
     "core" : {

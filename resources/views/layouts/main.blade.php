@@ -42,6 +42,7 @@
     @show
 
     @section('script')
+    {{ Html::script('http://momentjs.com/downloads/moment-with-locales.min.js') }}
     {{ Html::script(mix('js/manifest.js')) }}
     {{ Html::script(mix('js/vendor.js')) }}
     {{ Html::script(mix('js/app.js')) }}

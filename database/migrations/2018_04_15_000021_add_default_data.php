@@ -18,7 +18,7 @@ class AddDefaultData extends Migration
         $this->addDefaultDomain();
         $this->addDefaultRole();
         $this->addDefaultUser();
-        $this->addDomainModules();
+        $this->addModulesInDomain();
     }
 
     /**
@@ -65,7 +65,7 @@ class AddDefaultData extends Migration
         $user->save();
     }
 
-    protected function addDomainModules()
+    protected function addModulesInDomain()
     {
         $domain = Domain::first();
         $modules = Module::all();

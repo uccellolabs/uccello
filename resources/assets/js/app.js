@@ -39,9 +39,8 @@ $('.monthpicker').bootstrapMaterialDatePicker({ format : 'MM', time: false });
 $('.weekpicker').bootstrapMaterialDatePicker({ format : 'w', time: false });
 
 
-var rangeSlider = document.getElementById('nouislider_range');
-
-if (rangeSlider) {
+var rangeSlider = $('#nouislider_range');
+if (rangeSlider.length > 0) {
     noUiSlider.create(rangeSlider, {
         start: [30],
         connect: 'lower',

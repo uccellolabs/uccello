@@ -364,6 +364,8 @@ div.detail-blocks {
 }
 
 table.dataTable {
+    // min-height: 200px;
+
     thead {
         .sorting:after,
         .sorting_asc:after,
@@ -386,6 +388,10 @@ table.dataTable {
                 display: none;
             }
         }
+
+        th input {
+            font-weight: normal;
+        }
     }
 
     tr {
@@ -403,6 +409,12 @@ table.dataTable {
             a.delete-btn {
                 display: inline-block;
             }
+        }
+    }
+
+    tbody {
+        td.dataTables_empty {
+            text-align: center;
         }
     }
 }

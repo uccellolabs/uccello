@@ -190,7 +190,7 @@ export class Datatable {
     {
         $('.actions-column .clear-search').on('click', (event) => {
             // Clear all search fields
-            $('thead input, thead select').val(null)
+            $('.dataTable thead input, .dataTable thead select').val(null).change()
 
             // Update columns
             table.columns().every(function (index) {

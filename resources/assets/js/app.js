@@ -40,17 +40,20 @@ $('.weekpicker').bootstrapMaterialDatePicker({ format : 'w', time: false });
 
 
 var rangeSlider = document.getElementById('nouislider_range');
-noUiSlider.create(rangeSlider, {
-    start: [30],
-    connect: 'lower',
-    step: 1,
-    range: {
-        'min': [0],
-        'max': [100]
-    }
-});
 
-getNoUISliderValue(rangeSlider, false);
+if (rangeSlider) {
+    noUiSlider.create(rangeSlider, {
+        start: [30],
+        connect: 'lower',
+        step: 1,
+        range: {
+            'min': [0],
+            'max': [100]
+        }
+    });
+
+    getNoUISliderValue(rangeSlider, false);
+}
 
 //Get noUISlider Value and write on
 function getNoUISliderValue(slider, percentage) {

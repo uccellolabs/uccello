@@ -37,6 +37,11 @@ class Field extends Model
         return $this->belongsTo(Displaytype::class);
     }
 
+    public function module()
+    {
+        return $this->belongsTo(Module::class);
+    }
+
     /**
      * Returns overrided label if defined, else default one.
      * Default: field.fieldName

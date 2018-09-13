@@ -21,6 +21,7 @@ class Form extends DefaultForm
         $domain = $this->getData('domain');
         $module = $this->getData('module');
         $record = $this->getModel();
+        $request = $this->getRequest();
 
         foreach ($values as $fieldName => $value) {
             $field = $module->getField($fieldName);
@@ -28,7 +29,7 @@ class Form extends DefaultForm
             // If the field exists format the value and store it in the good model column
             if (!is_null($field)) {
                 $column = $field->column;
-                $this->getModel()->$column = $field->uitype->getFormattedValueToSave($field, $value, $record, $domain, $module);
+                $this->getModel()->$column = $field->uitype->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
             }
         }
 

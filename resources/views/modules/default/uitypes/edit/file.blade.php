@@ -14,8 +14,15 @@
             <div class="form-line {{ $isError ? 'focused error' : ''}}">
                 {{-- Field --}}
                 {!! form_widget($form->{$field->name}) !!}
+                <input type="hidden" name="delete-{{$field->name}}" value="0">
             </div>
         </div>
+
+        @if($record->{$field->column} && isset($field->data->public) && $field->data->public === true)
+            <img src="{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}">
+        @else
+            {{ $field->uitype->getFormattedValueToDisplay($field, $record) }}
+        @endif
 
         @if($isError)
         <div class="help-info">

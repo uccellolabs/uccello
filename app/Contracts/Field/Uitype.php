@@ -5,6 +5,7 @@ namespace Uccello\Core\Contracts\Field;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Illuminate\Http\Request;
 
 interface Uitype
 {
@@ -45,6 +46,7 @@ interface Uitype
     /**
      * Returns formatted value to save.
      *
+     * @param Request $request
      * @param Field $field
      * @param mixed|null $value
      * @param mixed|null $record
@@ -52,5 +54,5 @@ interface Uitype
      * @param Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string;
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string;
 }

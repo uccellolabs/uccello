@@ -6,6 +6,7 @@ use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Domain;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 
 trait DefaultUitype
@@ -58,6 +59,7 @@ trait DefaultUitype
     /**
      * Returns formatted value to save.
      *
+     * @param Request $request
      * @param Field $field
      * @param mixed|null $value
      * @param mixed|null $record
@@ -65,7 +67,7 @@ trait DefaultUitype
      * @param Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         return $value;
     }

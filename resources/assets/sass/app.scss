@@ -185,6 +185,24 @@ div.breadcrumb {
             width: calc(100% - 3rem);
         }
     }
+
+    &.current-file {
+        .img-container {
+            position: relative;
+            margin-top: 20px;
+            padding-left: 30px;
+
+            .delete-file {
+                position: absolute;
+                left: -5px;
+                top: -3px;
+            }
+
+            img {
+                max-height: 200px;
+            }
+        }
+    }
 }
 
 .form-control {
@@ -277,6 +295,12 @@ form.edit-form {
 
 div.detail-blocks {
     margin-bottom: 90px;
+
+    .img-container {
+        img {
+            max-height: 200px;
+        }
+    }
 }
 
 #page-action-buttons {

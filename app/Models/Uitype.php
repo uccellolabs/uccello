@@ -4,6 +4,7 @@ namespace Uccello\Core\Models;
 
 use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class Uitype extends Model
 {
@@ -46,6 +47,7 @@ class Uitype extends Model
     /**
      * Returns formatted value to save.
      *
+     * @param Request $request
      * @param Field $field
      * @param mixed|null $value
      * @param mixed|null $record
@@ -53,10 +55,10 @@ class Uitype extends Model
      * @param Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         $uitypeClass = $this->class;
-        return (new $uitypeClass())->getFormattedValueToSave($field, $value, $record, $domain, $module);
+        return (new $uitypeClass())->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
     }
 
     /**

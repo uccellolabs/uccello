@@ -12,7 +12,7 @@
 
             {{-- Field --}}
             <div style="padding-top: 10px; padding-bottom: 5px;">
-                <div id="nouislider_range"></div>
+                <div class="nouislider_range"></div>
                 {!! form_widget($form->{$field->name}) !!}
             </div>
         </div>

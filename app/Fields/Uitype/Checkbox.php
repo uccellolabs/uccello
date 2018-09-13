@@ -9,6 +9,7 @@ use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 
 use Uccello\Core\Contracts\Field\Uitype;
+use Illuminate\Http\Request;
 
 class Checkbox implements Uitype
 {
@@ -46,6 +47,7 @@ class Checkbox implements Uitype
      * Returns formatted value to save.
      * If value is null, returns 0 (false)
      *
+     * @param Request $request
      * @param Field $field
      * @param mixed|null $value
      * @param mixed|null $record
@@ -53,7 +55,7 @@ class Checkbox implements Uitype
      * @param Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         return $value ?? 0;
     }

@@ -39,19 +39,22 @@ $('.monthpicker').bootstrapMaterialDatePicker({ format : 'MM', time: false });
 $('.weekpicker').bootstrapMaterialDatePicker({ format : 'w', time: false });
 
 
-var rangeSlider = $('#nouislider_range');
-if (rangeSlider.length > 0) {
-    noUiSlider.create(rangeSlider, {
-        start: [30],
-        connect: 'lower',
-        step: 1,
-        range: {
-            'min': [0],
-            'max': [100]
-        }
-    });
+var rangeSliders = $('.nouislider_range');
+if (rangeSliders.length > 0) {
 
-    getNoUISliderValue(rangeSlider, false);
+    for (var rangeSlider of rangeSliders) {
+        noUiSlider.create(rangeSlider, {
+            start: [0],
+            connect: 'lower',
+            step: 1,
+            range: {
+                'min': [0],
+                'max': [100]
+            }
+        });
+
+        getNoUISliderValue(rangeSlider, false);
+    }
 }
 
 //Get noUISlider Value and write on

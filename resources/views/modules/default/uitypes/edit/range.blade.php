@@ -12,7 +12,14 @@
 
             {{-- Field --}}
             <div style="padding-top: 10px; padding-bottom: 5px;">
-                <div class="nouislider_range"></div>
+            <div class="nouislider_range"
+                data-min="{{ $field->data->min ?? '0' }}"
+                data-max="{{ $field->data->max ?? '100' }}"
+                data-start="{{ $field->data->start ?? '0' }}"
+                data-step="{{ $field->data->step ?? '1' }}"
+                data-margin="{{ $field->data->margin ?? '' }}"
+                data-limit="{{ $field->data->limit ?? '' }}"
+                data-value="{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}"></div>
                 {!! form_widget($form->{$field->name}) !!}
             </div>
         </div>

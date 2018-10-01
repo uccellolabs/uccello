@@ -43,14 +43,42 @@ var rangeSliders = $('.nouislider_range');
 if (rangeSliders.length > 0) {
 
     for (var rangeSlider of rangeSliders) {
-        noUiSlider.create(rangeSlider, {
-            start: [0],
-            connect: 'lower',
-            step: 1,
-            range: {
-                'min': [0],
-                'max': [100]
+
+        var start = $(rangeSlider).data('start')
+        var min = $(rangeSlider).data('min')
+        var max = $(rangeSlider).data('max')
+        var step = $(rangeSlider).data('step')
+        var margin = $(rangeSlider).data('margin')
+        var limit = $(rangeSlider).data('limit')
+        var value = $(rangeSlider).data('value')
+
+        var connect = typeof start === 'object' && start.length > 1 ? true : 'lower'
+
+        // If a value is defined, update start value
+        if (value) {
+            var values = value.split(',')
+            start = []
+            for (var i=0; i<values.length; i++) {
+                start.push(values[i])
             }
+        }
+
+        noUiSlider.create(rangeSlider, {
+            start: start,
+            connect: connect,
+            step: step,
+            range: {
+                'min': min,
+                'max': max
+            },
+            margin: margin ? margin : 1,
+            limit: limit ? limit : max
+            // Legend
+            // pips: {
+            //     mode: 'steps',
+            //     stepped: true,
+            //     density: 4
+            // }
         });
 
         getNoUISliderValue(rangeSlider, false);
@@ -61,6 +89,7 @@ if (rangeSliders.length > 0) {
 function getNoUISliderValue(slider, percentage) {
     slider.noUiSlider.on('update', function () {
         var val = slider.noUiSlider.get();
+
         if (percentage) {
             val = parseInt(val);
             val += '%';

@@ -83,4 +83,14 @@ class Module extends Model
 
         return $isActive;
     }
+
+    /**
+     * Checks if the module is for administration.
+     *
+     * @return boolean
+     */
+    public function isAdminModule() : bool
+    {
+        return $this->data->admin ?? false;
+    }
 }

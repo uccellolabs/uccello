@@ -9,6 +9,7 @@ use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;
+use Illuminate\Support\Facades\Auth;
 
 class Uccello
 {
@@ -217,5 +218,31 @@ class Uccello
         } else {
             return Capability::where('name', (string) $nameOrId)->first();
         }
+    }
+
+    /**
+     * Returns all domains without parents
+     *
+     * @return Collection
+     */
+    public function getRootDomains(): Collection
+    {
+        return Domain::whereNull('parent_id')->get();
+    }
+
+    /**
+     * Get last domain visited by the connected user, or the first one available
+     *
+     * @return Domain|null
+     */
+    public function getLastOrDefaultDomain(): ?Domain
+    {
+        $domain = Auth::user()->lastDomain ?? null; // On login page user is not authenticated
+
+        if (!$domain) {
+            $domain = $this->getRootDomains()[0];
+        }
+
+        return $domain;
     }
 }

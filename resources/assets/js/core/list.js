@@ -14,6 +14,8 @@ export class List {
 
         let datatable = new Datatable()
         datatable.url = `${datatableUrl}?datatable=1&_token=${csrfToken}`
+        datatable.domainSlug = domainSlug
+        datatable.moduleName = moduleName
         datatable.columns = JSON.parse(datatableColumns)
         datatable.rowUrl = `/${domainSlug}/${moduleName}/detail?id=%s`
         datatable.init('.dataTable')

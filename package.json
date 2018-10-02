@@ -30,5 +30,12 @@
         "popper.js": "^1.12",
         "vue": "^2.5.7",
         "sprintf-js": "^1.1.1"
+    },
+    "dependencies": {
+        "bootstrap-material-datetimepicker": "^2.7.3",
+        "jstree": "^3.3.5",
+        "materialize-css": "^1.0.0-rc.2",
+        "moment": "^2.22.2",
+        "wnumb": "^1.1.0"
     }
 }

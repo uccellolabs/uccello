@@ -1,4 +1,5 @@
 import { List } from './list'
+import { Edit } from './edit'
 
 class Autoloader {
     constructor() {
@@ -11,6 +12,10 @@ class Autoloader {
         switch (page) {
             case 'list':
                 new List()
+                break;
+
+            case 'edit':
+                new Edit()
                 break;
         }
     }

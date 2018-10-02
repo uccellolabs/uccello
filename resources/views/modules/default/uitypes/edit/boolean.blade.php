@@ -1,23 +1,21 @@
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
 <div class="col-md-6">
-    <div class="form-group">
+    <div class="form-group form-switch">
         {{-- Label --}}
         {!! form_label($form->{$field->name}) !!}
 
-        <div class="input-group">            
+        <div class="input-field">
             {{-- Icon if defined --}}
             @if($field->icon ?? false)
-            <span class="input-group-addon">
-                <i class="material-icons">{{ $field->icon }}</i>
-            </span>
+            <i class="material-icons prefix">{{ $field->icon }}</i>
             @endif
 
             {{-- Field --}}
             <div class="switch" style="padding-top: 10px; padding-bottom: 5px;">
-                <label>
+                <label class="switch-label">
                     {{ uctrans('no', $module) }}
                     {!! form_widget($form->{$field->name}) !!}
-                    <span class="lever"></span>
+                    <span class="lever switch-col-primary"></span>
                     {{ uctrans('yes', $module) }}
                 </label>
             </div>

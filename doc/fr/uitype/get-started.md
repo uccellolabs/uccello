@@ -119,9 +119,34 @@ class Text implements Uitype
     /**
      * Formatage de la valeur avant sa sauvegarde dans la base de données
      */
-    public function getFormattedValueToSave(Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
     {
         return $value;
+    }
+
+    /**
+     * Formatage de la valeur avant la recherche dans la base de données
+     */
+    public function getFormattedValueToSearch($value) : string
+    {
+        $formattedValue = $value;
+
+        if ($formattedValue) {
+            $formattedValue = "%$value%";
+        }
+
+        return $formattedValue;
+    }
+
+    /**
+     * Ajout de la condition dans la requête SQL
+     */
+    public function addConditionToSearchQuery(Builder $query, Field $field, $value)
+    {
+        $formattedValue = $this->getFormattedValueToSearch($value);
+        $query = $query->where($field->column, 'like', $formattedValue);
+
+        return $query;
     }
 }
 ```
@@ -142,7 +167,8 @@ export class UitypeText
 #### Fichiers blade
 Il existe au moins **deux fichiers** blade par `uitype`. Un pour la mise en page du champ du formulaire de la vue `édition` et un pour l'affichage de la valeur du champ dans la vue `détail`.
 
-Par défaut, l'uitype `text` utilise les fichiers blade `resources/views/modules/default/uitypes/edit/text.blade.php` et `resources/views/modules/default/uitypes/detail/text.blade.php`.
+Par défaut, l'uitype `text` utilise les fichiers blade `resources/views/modules/default/uitypes/edit/text.blade.php`, `resources/views/modules/default/uitypes/detail/text.blade.php` et
+`resources/views/modules/default/uitypes/search/text.blade.php`.
 
 Voici le contenu du fichier `resources/views/modules/default/uitypes/detail/text.blade.php`.
 

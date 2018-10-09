@@ -21,7 +21,11 @@
                 @foreach ($modules as $_module)
                     @continue ($_module->name === 'home' || !$_module->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $_module) || (!$admin_env && $_module->isAdminModule()) || ($admin_env && !$_module->isAdminModule()))
                     <li @if ($_module->id === $module->id)class="active"@endif>
-                        <a href="{{ ucroute('uccello.list', $domain, $_module) }}">
+                        <?php
+                            // Use route if defined, else use default one
+                            $routeName = isset($_module->data->route) ? $_module->data->route : 'uccello.list';
+                        ?>
+                        <a href="{{ ucroute($routeName, $domain, $_module) }}">
                             @if ($_module->icon)<i class="material-icons">{{ $_module->icon ?? 'list' }}</i>@endif
                             <span>{{ uctrans($_module->name, $_module) }}</span>
                         </a>

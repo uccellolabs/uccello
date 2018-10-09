@@ -21,8 +21,9 @@
         "cviebrock/eloquent-sluggable": "^4.5",
         "doctrine/dbal": "^2.7",
         "kris/laravel-form-builder": "^1.14",
-        "lord/laroute" : "2.*",
-        "spatie/laravel-menu": "~3.1"
+        "lord/laroute": "2.*",
+        "spatie/laravel-menu": "~3.1",
+        "uccello/module-designer": "@dev"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

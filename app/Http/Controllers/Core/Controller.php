@@ -197,7 +197,10 @@ abstract class Controller extends BaseController
      */
     protected function autoView($data = [], $mergeData = [])
     {
-        $viewToUse = uccello()->view('uccello', $this->module, $this->viewName);
+        // Get module package name
+        $package = isset($this->module->data->package) ? $this->module->data->package : 'uccello';
+
+        $viewToUse = uccello()->view($package, $this->module, $this->viewName);
 
         return view($viewToUse, $data, $mergeData);
     }

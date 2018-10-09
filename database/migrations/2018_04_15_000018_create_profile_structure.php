@@ -37,7 +37,7 @@ class CreateProfileStructure extends Migration
         $module->name = 'profile';
         $module->icon = 'lock';
         $module->model_class = 'Uccello\Core\Models\Profile';
-        $module->data = ["admin" => true];
+        $module->data = ["package" => "uccello", "admin" => true];
         $module->save();
 
         return $module;

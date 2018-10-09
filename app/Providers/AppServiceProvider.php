@@ -4,7 +4,6 @@ namespace Uccello\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Uccello\Core\Console\Commands\UccelloInstallCommand;
-use Uccello\Core\Console\Commands\UccelloModuleCommand;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
@@ -46,7 +45,6 @@ class AppServiceProvider extends ServiceProvider
     if ($this->app->runningInConsole()) {
       $this->commands([
         UccelloInstallCommand::class,
-        UccelloModuleCommand::class,
       ]);
     }
   }

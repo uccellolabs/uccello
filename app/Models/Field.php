@@ -37,6 +37,11 @@ class Field extends Model
         return $this->belongsTo(Displaytype::class);
     }
 
+    public function module()
+    {
+        return $this->belongsTo(Module::class);
+    }
+
     /**
      * Returns overrided label if defined, else default one.
      * Default: field.fieldName
@@ -49,7 +54,7 @@ class Field extends Model
     }
 
     /**
-     * Returns overrided datatable column name if defined, else default one.
+     * Returns overrided database column name if defined, else default one.
      * The related uitype defines default column name.
      *
      * @return string
@@ -61,7 +66,7 @@ class Field extends Model
         } else {
             $uitypeClass = $this->uitype->class;
             $uitype = new $uitypeClass();
-            $column = $uitype->getDefaultDatatableColumn($this);
+            $column = $uitype->getDefaultDatabaseColumn($this);
         }
 
         return $column;
@@ -84,6 +89,11 @@ class Field extends Model
         }
 
         return $icon;
+    }
+
+    public function getRequiredAttribute(): bool
+    {
+        return $this->data->required ?? false;
     }
 
     /**

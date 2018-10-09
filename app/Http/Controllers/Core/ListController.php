@@ -63,6 +63,7 @@ class ListController extends Controller
                 'name' => $field->name,
                 'db_column' => $field->column,
                 'uitype' => $field->uitype->name,
+                'package' => $field->uitype->package,
                 'data' => $field->data,
                 'visible' => in_array($field->name, $filter->columns)
             ];

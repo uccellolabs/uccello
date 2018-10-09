@@ -23,6 +23,6 @@ class Url extends Text implements Uitype
      */
     public function getDefaultIcon() : ?string
     {
-        return 'url';
+        return 'link';
     }
 }

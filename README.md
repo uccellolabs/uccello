@@ -63,7 +63,7 @@ Add this code in ```routes/web.php```
 
 ``` php
 Route::get('/', function() {
-    $domain = uccello()->useMultiDomains() ? 'default' : null;
+    $domain = uccello()->useMultiDomains() ? uccello()->getLastOrDefaultDomain()->slug : null;
     $route = ucroute('uccello.home', $domain);
     return redirect($route);
 });

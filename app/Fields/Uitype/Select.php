@@ -52,4 +52,19 @@ class Select implements Uitype
 
         return $options;
     }
+
+    /**
+     * Returns formatted value to display.
+     * Display Yes or No instead of 1 or 0.
+     *
+     * @param Field $field
+     * @param mixed $record
+     * @return string
+     */
+    public function getFormattedValueToDisplay(Field $field, $record) : string
+    {
+        $value = $record->{$field->column} ? uctrans($record->{$field->column}, $field->module) : '';
+
+        return  $value;
+    }
 }

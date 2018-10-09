@@ -144,19 +144,19 @@
 @import '~adminbsb-materialdesign/scss/_jquerynestable.scss';
 
 /* Login Page ================================== */
-@import '~adminbsb-materialdesign/scss/pages/_loginpage.scss';
+@import 'pages/_loginpage.scss';
 
 /* Sign Up Page ================================ */
-@import '~adminbsb-materialdesign/scss/pages/_signuppage.scss';
+@import 'pages/_signuppage.scss';
 
 /* Forgot Password Page ======================== */
-@import '~adminbsb-materialdesign/scss/pages/_forgotpasswordpage.scss';
+@import 'pages/_forgotpasswordpage.scss';
 
 /* 404 Not Found Page ========================== */
-@import '~adminbsb-materialdesign/scss/pages/_404.scss';
+@import 'pages/_404.scss';
 
 /* 500 Server Error Page ======================= */
-@import '~adminbsb-materialdesign/scss/pages/_500.scss';
+@import 'pages/_500.scss';
 
 /* Maps ======================================== */
 @import '~adminbsb-materialdesign/scss/_maps.scss';
@@ -180,7 +180,7 @@
 @import '~adminbsb-materialdesign/scss/browser-support/_ie11.scss';
 
 // All Themes
-@import "~adminbsb-materialdesign/scss/themes/_all-themes";
+@import "themes/_all-themes";
 
 // Plugins
 @import "~adminbsb-materialdesign/plugins/bootstrap-select/css/bootstrap-select.css"

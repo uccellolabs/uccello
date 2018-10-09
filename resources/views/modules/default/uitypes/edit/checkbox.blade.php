@@ -1,18 +1,21 @@
+<?php $isError = form_errors($form->{$field->name}) ?? false; ?>
 <div class="col-md-6">
-    <div class="form-group">
-        <div class="input-group">            
+    <div class="form-group form-fixed">
+        {{-- Label --}}
+        {!! form_label($form->{$field->name}) !!}
+
+        <div class="input-field">
             {{-- Icon if defined --}}
             @if($field->icon ?? false)
-            <span class="input-group-addon">
-                <i class="material-icons">{{ $field->icon }}</i>
-            </span>
+            <i class="material-icons prefix">{{ $field->icon }}</i>
             @endif
 
-            <div style="padding-top: 20px; padding-bottom: 15px;">
+            {{-- Field --}}
+            <div style="margin-top: 20px;">
                 {{-- Field --}}
                 {!! form_widget($form->{$field->name}) !!}
                 {{-- Label --}}
-                {!! form_label($form->{$field->name}) !!}
+                {!! form_label($form->{$field->name}, ['label_attr' => ['class' => 'checkbox-label']]) !!}
             </div>
         </div>
 

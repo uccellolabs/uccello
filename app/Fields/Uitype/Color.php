@@ -18,6 +18,6 @@ class Color implements Uitype
      */
     public function getFormType(): string
     {
-        return 'color';
+        return 'text';
     }
 }

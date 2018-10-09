@@ -87,8 +87,23 @@ abstract class Controller extends BaseController
         // Get request
         $this->request = $request;
 
+        // Save last visited domain by user
+        $this->saveUserLastVisitedDomain();
+
         // Share blade variables
         $this->shareBladeVariables();
+    }
+
+    /**
+     * Save last visited domain by user
+     *
+     * @return void
+     */
+    protected function saveUserLastVisitedDomain()
+    {
+        $user = Auth::user();
+        $user->last_domain_id = $this->domain->id;
+        $user->save();
     }
 
     /**
@@ -103,7 +118,10 @@ abstract class Controller extends BaseController
         View::share('module', $this->module);
 
         // All modules
-        View::share('modules', $this->getAllModules());
+        View::share('modules', $this->getAllModules(true));
+
+        // Admin environment
+        View::share('admin_env', $this->module->isAdminModule());
     }
 
     /**
@@ -116,11 +134,26 @@ abstract class Controller extends BaseController
 
     /**
      * Get all modules from database
+     * @param boolean $getAdminModules
      * @return Module[]
      */
-    protected function getAllModules()
+    protected function getAllModules($getAdminModules = false)
     {
-        return Module::all();
+        $modules = [];
+
+        $allModules = Module::all();
+
+        if ($getAdminModules) {
+            $modules = $allModules;
+        } else {
+            foreach ($allModules as $module) {
+                if (!$module->isAdminModule()) {
+                    $modules[] = $module;
+                }
+            }
+        }
+
+        return $modules;
     }
 
     /**

@@ -21,7 +21,7 @@
                 @forelse ($record->rolesOnDomain($domain) as $role)
                 <label class="label label-primary font-13">{{ $role->name }}</label>
                 @empty
-                <label class="label bg-deep-orange font-13">{{ uctrans('no_role', $module) }}</label>
+                <label class="label bg-primary font-13">{{ uctrans('no_role', $module) }}</label>
                 @endforelse
             </div>
         </div>

@@ -44,4 +44,14 @@ class Choice extends Select implements Uitype
 
         return $options;
     }
+
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getFormattedValueToDisplay(Field $field, $record) : string
+    {
+        return parent::getFormattedValueToDisplay($field, $record);
+    }
 }

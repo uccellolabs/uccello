@@ -3,6 +3,7 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Uccello\Core\Contracts\Field\Uitype;
+use Uccello\Core\Models\Field;
 
 class Textarea extends Text implements Uitype
 {
@@ -14,5 +15,17 @@ class Textarea extends Text implements Uitype
     public function getFormType(): string
     {
         return 'textarea';
+    }
+
+    /**
+     * Returns formatted value to display.
+     *
+     * @param Field $field
+     * @param mixed $record
+     * @return string
+     */
+    public function getFormattedValueToDisplay(Field $field, $record) : string
+    {
+        return nl2br($record->{$field->column}) ?? '';
     }
 }

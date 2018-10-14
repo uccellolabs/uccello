@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
     // Views
     $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
     $this->publishes([
-      __DIR__ . '/../../resources/views' => resource_path('views/vendor/sardoj')
+      __DIR__ . '/../../resources/views' => resource_path('views/vendor/uccello')
     ], 'views');
 
     // Translations

@@ -44,9 +44,9 @@ class Uccello
             // By default prefix is same as the module's name
             $prefix = $module->name.'.';
 
-            // If it is an uccello core module, add uccello:: before
-            if (preg_match('/Uccello\\\Core/', $module->model_class)) {
-                $prefix = 'uccello::'.$prefix;
+            // If a package name is defined add it before
+            if (isset($module->data->package)) {
+                $prefix = $module->data->package . '::'. $prefix;
             }
 
             // Get translation
@@ -78,7 +78,9 @@ class Uccello
      * 2 - Default view overrided in app
      * 3 - Module view ovverrided in package
      * 4 - Default view defined in package
-     * 5 - Fallback view if defined
+     * 5 - Module view ovverrided in uccello
+     * 6 - Default view defined in uccello
+     * 7 - Fallback view if defined
      *
      * @param string $package
      * @param Module $module
@@ -100,6 +102,12 @@ class Uccello
         // Default view defined in package
         $packageDefaultView = $package . '::modules.default.' . $viewName;
 
+        // Module view ovverrided in uccello
+        $uccelloModuleView = 'uccello::modules.' . $module->name . '.' . $viewName;
+
+        // Default view defined in uccello
+        $uccelloDefaultView = 'uccello::modules.default.' . $viewName;
+
         $viewToInclude = null;
         if (view()->exists($appModuleView)) {
             $viewToInclude = $appModuleView;
@@ -109,6 +117,10 @@ class Uccello
             $viewToInclude = $packageModuleView;
         } elseif (view()->exists($packageDefaultView)) {
             $viewToInclude = $packageDefaultView;
+        }  elseif (view()->exists($uccelloModuleView)) {
+            $viewToInclude = $uccelloModuleView;
+        } elseif (view()->exists($uccelloDefaultView)) {
+            $viewToInclude = $uccelloDefaultView;
         } elseif (!is_null($fallbackView)) {
             $viewToInclude = $fallbackView;
         }

@@ -12,16 +12,16 @@ mix.autoload(autoload);
 
 mix.setPublicPath('public');
 
-mix.js('./resources/assets/js/app.js', 'public/js')
-   .sass('./resources/assets/sass/app.scss', 'public/css');
+mix.js('./resources/assets/js/app.js', 'public/js/vendor/uccello/uccello')
+   .sass('./resources/assets/sass/app.scss', 'public/css/vendor/uccello/uccello');
 
-mix.js('./resources/assets/js/core/autoloader.js', 'public/js');
+mix.js('./resources/assets/js/core/autoloader.js', 'public/js/vendor/uccello/uccello');
 
 mix.extract([
     'lodash', 'jquery', 'bootstrap',
     'fastclick', 'adminbsb-materialdesign',
     'vue', 'axios', 'node-waves', 'popper.js', 'moment'
-], 'public/js/vendor.js');
+], 'public/js/vendor/uccello/uccello/vendor.js');
 
 mix.version();
 

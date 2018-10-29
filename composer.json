@@ -6,12 +6,12 @@
         "sardoj",
         "uccello"
     ],
-    "homepage": "https://github.com/sardoj/uccello",
+    "homepage": "https://github.com/uccello-io/uccello",
     "license": "MIT",
     "authors": [
         {
             "name": "Jonathan SARDO",
-            "email": "sardoj@gmail.com",
+            "email": "jonathan@uccellolabs.com",
             "homepage": "https://github.com/sardoj",
             "role": "Developer"
         }
@@ -21,7 +21,7 @@
         "cviebrock/eloquent-sluggable": "^4.5",
         "doctrine/dbal": "^2.7",
         "kris/laravel-form-builder": "^1.14",
-        "lord/laroute" : "2.*",
+        "lord/laroute": "2.*",
         "spatie/laravel-menu": "~3.1"
     },
     "require-dev": {
@@ -66,6 +66,8 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     }
 }

@@ -3,7 +3,7 @@
 namespace Uccello\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Uccello\Core\Console\Commands\UccelloMakeCommand;
+use Uccello\Core\Console\Commands\UccelloInstallCommand;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 
@@ -32,8 +32,13 @@ class AppServiceProvider extends ServiceProvider
     // Views
     $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
     $this->publishes([
-      __DIR__ . '/../../resources/views' => resource_path('views/vendor/sardoj')
+      __DIR__ . '/../../resources/views' => resource_path('views/vendor/uccello')
     ], 'views');
+
+    // Publish assets
+    $this->publishes([
+      __DIR__ . '/../../public' => public_path('vendor/uccello/uccello'),
+    ], 'assets');
 
     // Translations
     $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'uccello');
@@ -44,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
     // Commands
     if ($this->app->runningInConsole()) {
       $this->commands([
-        UccelloMakeCommand::class,
+        UccelloInstallCommand::class,
       ]);
     }
   }

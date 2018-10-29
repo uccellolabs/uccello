@@ -51,6 +51,16 @@ protected $routeMiddleware = [
 ];
 ```
 
+### Generate routes for javascript
+Uccello uses [laroute](https://github.com/aaronlord/laroute) to port the routes over to JavaScript.
+It is important to launch this command every times you modify the routes.
+
+``` bash
+$ php artisan laroute:generate
+```
+
+It will generate the file ```public/js/laroute.js``` used by Uccello.
+
 ### Migrate and seed the database
 Configure ```.env``` file then run this command to migrate the database
 

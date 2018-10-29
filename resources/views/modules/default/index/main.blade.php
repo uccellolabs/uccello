@@ -9,7 +9,7 @@
             <div class="body">
                 <div class="row">
                     <div class="col-md-12 align-center">
-                        {{ Html::image('img/logo-uccello.png', null, ['style' => 'max-width: 500px']) }}
+                        {{ Html::image('images/vendor/uccello/uccello/logo-uccello.png', null, ['style' => 'max-width: 500px']) }}
                     </div>
                 </div>
             </div>

@@ -6,12 +6,12 @@
         "sardoj",
         "uccello"
     ],
-    "homepage": "https://github.com/sardoj/uccello",
+    "homepage": "https://github.com/uccello-io/uccello",
     "license": "MIT",
     "authors": [
         {
             "name": "Jonathan SARDO",
-            "email": "sardoj@gmail.com",
+            "email": "jonathan@uccellolabs.com",
             "homepage": "https://github.com/sardoj",
             "role": "Developer"
         }
@@ -67,6 +67,8 @@
         }
     },
     "config": {
-        "sort-packages": true
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
     }
 }

@@ -35,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
       __DIR__ . '/../../resources/views' => resource_path('views/vendor/uccello')
     ], 'views');
 
+    // Publish assets
+    $this->publishes([
+      __DIR__ . '/../../public' => public_path(),
+    ], 'assets');
+
     // Translations
     $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'uccello');
 

@@ -20,12 +20,12 @@
     @yield('extra-meta')
 
     {{-- Favicon --}}
-    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/vendor/uccello/uccello/favicon.png" type="image/x-icon">
     <base href="/">
 
     {{-- CSS --}}
     @section('css')
-        {{ Html::style('css/app.css') }}
+        {{ Html::style('css/vendor/uccello/uccello/app.css') }}
     @show
 
     {{-- Extra CSS --}}
@@ -43,16 +43,16 @@
 
     @section('script')
     {{ Html::script('http://momentjs.com/downloads/moment-with-locales.min.js') }}
-    {{ Html::script(mix('js/manifest.js')) }}
-    {{ Html::script(mix('js/vendor.js')) }}
-    {{ Html::script(mix('js/app.js')) }}
+    {{ Html::script(mix('js/vendor/uccello/uccello/manifest.js')) }}
+    {{ Html::script(mix('js/vendor/uccello/uccello/vendor.js')) }}
+    {{ Html::script(mix('js/vendor/uccello/uccello/app.js')) }}
     {{ Html::script('js/laroute.js') }}
     @show
 
     @yield('extra-script')
 
     @section('autoloader-script')
-    {{ Html::script(mix('js/autoloader.js')) }}
+    {{ Html::script(mix('js/vendor/uccello/uccello/autoloader.js')) }}
     @show
 </body>
 

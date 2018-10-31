@@ -27,11 +27,11 @@ class CreateHomeStructure extends Migration
 
     protected function createModule()
     {
-        $module = new  Module();
+        $module = new Module();
         $module->name = 'home';
         $module->icon = 'home';
         $module->model_class = null;
-        $module->data = ["link" => 'index'];
+        $module->data = ["package" => "uccello", "link" => 'index'];
         $module->save();
 
         return $module;

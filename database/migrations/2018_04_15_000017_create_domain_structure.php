@@ -36,11 +36,11 @@ class CreateDomainStructure extends Migration
 
     protected function createModule()
     {
-        $module = new  Module();
+        $module = new Module();
         $module->name = 'domain';
         $module->icon = 'domain';
         $module->model_class = 'Uccello\Core\Models\Domain';
-        $module->data = ["admin" => true];
+        $module->data = ["package" => "uccello", "admin" => true];
         $module->save();
 
         return $module;
@@ -70,7 +70,7 @@ class CreateDomainStructure extends Migration
         $field->name = 'name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['rules' => 'required|unique:'.$this->getTablePrefix().'domains,name,%id%'];
+        $field->data = ['rules' => 'required|unique:' . $this->getTablePrefix() . 'domains,name,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;

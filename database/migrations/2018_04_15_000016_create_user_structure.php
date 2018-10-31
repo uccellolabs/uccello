@@ -33,11 +33,11 @@ class CreateUserStructure extends Migration
 
     protected function createModule()
     {
-        $module = new  Module();
+        $module = new Module();
         $module->name = 'user';
         $module->icon = 'person';
         $module->model_class = 'Uccello\Core\Models\User';
-        $module->data = ["admin" => true];
+        $module->data = ["package" => "uccello", "admin" => true];
         $module->save();
 
         return $module;

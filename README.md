@@ -88,10 +88,10 @@ If you don't want to use multi domains, add this code in ```.env```
 UCCELLO_MULTI_DOMAINS=false
 ```
 
-__Important__ : Don't forget launch the commande ```php artisan laroute:generate``` each times you change the value of ```UCCELLO_MULTI_DOMAINS```.
+__Important__ : Don't forget to launch the command ```php artisan laroute:generate``` each times you change the value of ```UCCELLO_MULTI_DOMAINS```.
 
 
-### Enjoy
+### Enjoy!
 Go to your **homepage**. You must be redirected to the **login page**.
 You can easily **sign in** with the following credentials:
 

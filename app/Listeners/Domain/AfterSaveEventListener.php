@@ -45,10 +45,13 @@ class AfterSaveEventListener
 
         // Attach admin modules to the domain
         foreach ($modules as $module) {
-            if ((isset($module->data->admin) && $module->data->admin === true)
-                || (isset($module->data->mandatory) && $module->data->mandatory === true)) {
-                $domain->modules()->attach($module);
-            }
+            // if ((isset($module->data->admin) && $module->data->admin === true)
+            //     || (isset($module->data->mandatory) && $module->data->mandatory === true)) {
+            //     $domain->modules()->attach($module);
+            // }
+
+            // Activate all modules (for the moment)
+            $domain->modules()->attach($module);
         }
     }
 }

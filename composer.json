@@ -3,8 +3,13 @@
     "type": "library",
     "description": "Uccello is a Laravel Package for providing a way to make easily complete web applications.",
     "keywords": [
-        "sardoj",
-        "uccello"
+        "uccellolabs",
+        "uccello",
+        "laravel",
+        "application",
+        "crud",
+        "admin",
+        "panel"
     ],
     "homepage": "https://github.com/uccello-io/uccello",
     "license": "MIT",

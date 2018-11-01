@@ -120,6 +120,7 @@ If you discover any security related issues, please email jonathan@uccellolabs.c
 
 ## Credits
 
+- [Uccello Labs][link-organization]
 - [Jonathan SARDO][link-author]
 - [All Contributors][link-contributors]
 
@@ -129,15 +130,16 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/uccello/uccello.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/uccello-io/uccello/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/uccello-io/uccello.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/uccello-io/uccello.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/uccellolabs/uccello/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/uccellolabs/uccello.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/uccellolabs/uccello.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/uccello/uccello.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/uccello/uccello
-[link-travis]: https://travis-ci.org/uccello-io/uccello
-[link-scrutinizer]: https://scrutinizer-ci.com/g/uccello-io/uccello/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/uccello-io/uccello
+[link-travis]: https://travis-ci.org/uccellolabs/uccello
+[link-scrutinizer]: https://scrutinizer-ci.com/g/uccellolabs/uccello/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/uccellolabs/uccello
 [link-downloads]: https://packagist.org/packages/uccello/uccello
+[link-organization]: https://github.com/uccellolabs
 [link-author]: https://github.com/sardoj
 [link-contributors]: ../../contributors

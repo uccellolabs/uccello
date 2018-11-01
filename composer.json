@@ -1,7 +1,7 @@
 {
     "name": "uccello/uccello",
     "type": "library",
-    "description": "CRUD core fore Laravel projects.",
+    "description": "Uccello is a Laravel Package for providing a way to make easily complete web applications.",
     "keywords": [
         "sardoj",
         "uccello"

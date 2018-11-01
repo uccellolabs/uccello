@@ -8,8 +8,8 @@
         <div class="card">
             <div class="body">
                 <div class="row">
-                    <div class="col-md-12 align-center">
-
+                    <div class="col-md-6 col-md-offset-3 align-center">
+                        {{ Html::image(ucasset('images/logo-uccello.png'), null, ['class' => 'img-responsive']) }}
                     </div>
                 </div>
             </div>

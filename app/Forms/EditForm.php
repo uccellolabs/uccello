@@ -196,7 +196,7 @@ class EditForm extends Form
      * @param Field $field
      * @return string|null
      */
-    protected function getFieldRules(Field $field) : ?string
+    protected function getFieldRules(Field $field) : ?array
     {
         $rules = null;
 
@@ -216,7 +216,7 @@ class EditForm extends Form
             }
         }
 
-        return $rules;
+        return explode('|', $rules); // We transform into array because specify validation rules with regex separated by pipeline can lead to undesired behavior (see: https://stackoverflow.com/questions/42577045/laravel-5-4-validation-with-regex)
     }
 
     /**

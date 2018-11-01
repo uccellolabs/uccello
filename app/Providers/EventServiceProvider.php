@@ -3,9 +3,6 @@
 namespace Uccello\Core\Providers;
 
 use App\Providers\EventServiceProvider as DefaultEventServiceProvider;
-use Illuminate\Support\Facades\Route;
-use Uccello\Core\Models\Domain;
-use Uccello\Core\Models\Module;
 
 /**
  * Event Service Provider
@@ -22,6 +19,7 @@ class EventServiceProvider extends DefaultEventServiceProvider
           'Uccello\Core\Listeners\Profile\AfterSaveEventListener',
           'Uccello\Core\Listeners\Role\AfterSaveEventListener',
           'Uccello\Core\Listeners\User\AfterSaveEventListener',
+          'Uccello\Core\Listeners\Domain\AfterSaveEventListener',
       ],
   ];
 

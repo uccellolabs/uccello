@@ -31,7 +31,7 @@ class CreateHomeStructure extends Migration
         $module->name = 'home';
         $module->icon = 'home';
         $module->model_class = null;
-        $module->data = ["package" => "uccello", "route" => 'uccello.index'];
+        $module->data = ["package" => "uccello", "route" => 'uccello.index', "mandatory" => true];
         $module->save();
 
         return $module;

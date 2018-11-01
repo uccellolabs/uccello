@@ -22,6 +22,10 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'user')
         ->name('user.edit');
 
+    Route::post($domainParam . '/domain', 'Domain\EditController@save')
+        ->defaults('module', 'domain')
+        ->name('domain.save');
+
     // Default routes
     Route::get($domainParam.'/home', 'Core\IndexController@process')
         ->defaults('module', 'home')

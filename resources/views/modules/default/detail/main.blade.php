@@ -16,7 +16,7 @@
                 <ol class="breadcrumb pull-left">
                     @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                     <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    <li class="active">{{ $record->recordLabel ?? $record->id }}</li>
+                    <li class="active">{{ $record->recordLabel ?? $record->getKey() }}</li>
                 </ol>
             </div>
         </div>
@@ -88,11 +88,11 @@
 
     @section('page-action-buttons')
     <div id="page-action-buttons">
-        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn bg-green btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
+        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->getKey()]) }}" class="btn bg-green btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">edit</i>
         </a>
 
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
+        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->getKey()]) }}" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">delete</i>
         </a>
     </div>

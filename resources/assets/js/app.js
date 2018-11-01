@@ -110,8 +110,16 @@ domainsTree.jstree({
     "plugins" : ['search', 'sort']
 })
 
+// Open tree automatically
 .on('ready.jstree', () => {
     domainsTree.jstree('open_all')
+})
+
+// Switch on domain on click
+.on('changed.jstree', (e, data) => {
+    if (data.node.a_attr.href !== '#') {
+        document.location.href = data.node.a_attr.href;
+    }
 })
 
 let to = false;

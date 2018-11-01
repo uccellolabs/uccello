@@ -49,6 +49,6 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
     {
         Route::middleware('web', 'auth')
              ->namespace('Uccello\Core\Http\Controllers')
-             ->group(__DIR__.'/../Http/routes.php');
+             ->group(__DIR__.'/../../routes/web.php');
     }
 }

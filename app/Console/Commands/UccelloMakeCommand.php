@@ -3,6 +3,7 @@
 namespace Uccello\Core\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * AdminLTE Make Command
@@ -37,7 +38,6 @@ class UccelloMakeCommand extends Command
         'errors/404.stub' => 'errors/404.blade.php',
         'errors/500.stub' => 'errors/500.blade.php',
         'layouts/app.stub' => 'layouts/app.blade.php',
-        'home.stub' => 'home.blade.php',
     ];
 
     /**
@@ -61,10 +61,17 @@ class UccelloMakeCommand extends Command
         $this->call('make:auth', [ '--force' => true, '--views' => $this->option('views') ]);
 
         $this->info('Start Uccello scaffolding');
+
         $this->info('Copying user model...');
         copy(
             __DIR__.'/stubs/make/app/User.stub',
             app_path('User.php')
+        );
+
+        $this->info('Copying login controller...');
+        copy(
+            __DIR__ . '/stubs/make/app/Http/Controllers/Auth/LoginController.stub',
+            app_path('Http/Controllers/Auth/LoginController.php')
         );
 
         $this->info('Copying views...');
@@ -82,19 +89,12 @@ class UccelloMakeCommand extends Command
         //     resource_path('assets/js/uitype-selector.js')
         // );
 
-        // $this->info('Copying assets...');
-        // $this->xcopy(__DIR__.'/../../../resources/assets', resource_path('assets'));
-
-        $this->info('Copying public...');
-        $this->xcopy(__DIR__.'/../../../public', public_path());
-
-        // if (!$this->option('views')) {
-        //     file_put_contents(
-        //         base_path('webpack.mix.js'),
-        //         file_get_contents(__DIR__.'/stubs/make/webpack.mix.stub'),
-        //         FILE_APPEND
-        //     );
-        // }
+        $this->info('Publishing assets...');
+        Artisan::call('vendor:publish', [
+            '--tag' => 'assets',
+            '--provider' => 'Uccello\Core\Providers\AppServiceProvider',
+            '--force' => 1
+        ]);
 
         $this->info('Uccello scaffolding generated successfully.');
     }

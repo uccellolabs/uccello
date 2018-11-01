@@ -1,4 +1,4 @@
-# uccello
+# Uccello
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Laravel Package for providing an advanced CRUD interface. For the moment, this package can be integrated easily only on a fresh installation. Soon it will be possible to install it alson on an existing one.
+Uccello is a Laravel Package for providing a way to make easily complete web applications. For the moment, this package can be integrated easily only on a fresh installation.
 
 ## Installation
 
@@ -22,6 +22,7 @@ If you are using Laravel 5.5 or above skip this step, but if aren't then add thi
 ``` php
 'providers' => [
   ...
+  Lord\Laroute\LarouteServiceProvider::class,
   Uccello\Core\Providers\AppServiceProvider::class,
   Uccello\Core\Providers\RouteServiceProvider::class,
   ...
@@ -87,8 +88,12 @@ If you don't want to use multi domains, add this code in ```.env```
 UCCELLO_MULTI_DOMAINS=false
 ```
 
-Then go to your **homepage**. You must be redirected to the **login page**.
-You can easily **sign up** to create a new account or **sign in** with the following credentials
+__Important__ : Don't forget launch the commande ```php artisan laroute:generate``` each times you change the value of ```UCCELLO_MULTI_DOMAINS```.
+
+
+### Enjoy
+Go to your **homepage**. You must be redirected to the **login page**.
+You can easily **sign in** with the following credentials:
 
 ```
 Login: admin@uccello.io

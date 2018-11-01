@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
 
     // Publish assets
     $this->publishes([
-      __DIR__ . '/../../public' => public_path(),
+      __DIR__ . '/../../public' => public_path('vendor/uccello/uccello'),
     ], 'assets');
 
     // Translations
@@ -56,6 +56,13 @@ class AppServiceProvider extends ServiceProvider
 
   public function register()
   {
+    // Config
+    $this->mergeConfigFrom(
+      __DIR__ . '/../../config/uccello.php',
+      'uccello'
+    );
+
+    // Helper
     App::bind('uccello', function () {
       return new \Uccello\Core\Helpers\Uccello;
     });

@@ -113,3 +113,17 @@ if (!function_exists('capability')) {
         return app('uccello')->getCapability($nameOrId);
     }
 }
+
+if (!function_exists('ucasset')) {
+    /**
+     * Get complete path to asset
+     *
+     * @param string $path
+     * @param string $package
+     * @return void
+     */
+    function ucasset($path, $package='uccello')
+    {
+        return asset("vendor/uccello/$package/$path");
+    }
+}

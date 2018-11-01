@@ -1,7 +1,7 @@
 {
-    "/js/vendor/uccello/uccello/vendor.js": "/js/vendor/uccello/uccello/vendor.js?id=638df8cbe5765d74e98b",
-    "/js/vendor/uccello/uccello/autoloader.js": "/js/vendor/uccello/uccello/autoloader.js?id=1733c3d50113d4fd9189",
-    "/js/vendor/uccello/uccello/app.js": "/js/vendor/uccello/uccello/app.js?id=d7fe491596385d21313b",
-    "/css/vendor/uccello/uccello/app.css": "/css/vendor/uccello/uccello/app.css?id=1fb2aec058581adbd8d2",
-    "/js/vendor/uccello/uccello/manifest.js": "/js/vendor/uccello/uccello/manifest.js?id=0225916a5d4fbc86a881"
+    "/js/vendor.js": "/js/vendor.js?id=638df8cbe5765d74e98b",
+    "/js/autoloader.js": "/js/autoloader.js?id=40b4b63ec7d20addb67e",
+    "/js/app.js": "/js/app.js?id=1beeec4225469c8b6beb",
+    "/css/app.css": "/css/app.css?id=17b60ec4b065b916e9d0",
+    "/js/manifest.js": "/js/manifest.js?id=0225916a5d4fbc86a881"
 }

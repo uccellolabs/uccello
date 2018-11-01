@@ -68,7 +68,7 @@ class CreateUserStructure extends Migration
         $field->name = 'username';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['rules' => 'required|alpha_dash|unique:users,username,%id%'];
+        $field->data = ['rules' => 'required|regex:/^[a-zA-Z0-9.-_]+$/|unique:users,username,%id%'];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;

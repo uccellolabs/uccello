@@ -63,9 +63,10 @@ class EditController extends Controller
      *
      * @param Domain|null $domain
      * @param Module $module
+     * @param boolean $redirect
      * @return void
      */
-    public function save(?Domain $domain, Module $module, Request $request)
+    public function save(?Domain $domain, Module $module, Request $request, bool $redirect=true)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -92,9 +93,15 @@ class EditController extends Controller
         event(new AfterSaveEvent($domain, $module, $request, $record, $mode));
 
         // Redirect to detail view
-        $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
+        if ($redirect === true) {
+            $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
 
-        return redirect($route);
+            return redirect($route);
+        }
+        // Or return record
+        else {
+            return $form->getModel();
+        }
     }
 
     public function getForm($record = null)

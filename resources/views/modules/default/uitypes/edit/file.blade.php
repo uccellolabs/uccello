@@ -1,6 +1,6 @@
 <?php $isLarge = $field->data->large ?? false; ?>
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
-<div class="{{ $isLarge ? 'col-md-12' : 'col-md-6' }}">
+<div class="{{ $isLarge ? 'col-md-12' : 'col-sm-6 col-xs-12' }}">
     <div class="form-group form-fixed">
         {{-- Label --}}
         {!! form_label($form->{$field->name}) !!}

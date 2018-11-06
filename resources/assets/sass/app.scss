@@ -1,6 +1,7 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://use.fontawesome.com/releases/v5.5.0/css/all.css");
 
 // Bootstrap
 @import '~adminbsb-materialdesign/plugins/bootstrap/css/bootstrap.css';
@@ -360,6 +361,10 @@ div.detail-blocks {
     }
 }
 
+.navbar {
+    z-index: 1001;
+}
+
 .navbar-nav > li > a.current-domain {
     position: relative;
     padding-right: 40px;
@@ -445,4 +450,40 @@ table.dataTable {
             text-align: center;
         }
     }
+}
+
+
+
+/*
+ * Datatable sort styling
+ */
+ table.dataTable thead th {
+	position: relative;
+	background-image: none !important; /* Remove the DataTables bootstrap integration styling */
+}
+
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+	display: block;
+	font-family: 'Font Awesome 5 Free';
+}
+
+table.dataTable thead th.sorting:after {
+	content: "\f077";
+	color: #ddd;
+	font-size: 0.8em;
+	padding-top: 0.12em;
+}
+table.dataTable thead th.sorting_asc:after {
+	content: "\f077";
+}
+table.dataTable thead th.sorting_desc:after {
+	content: "\f078";
+}
+
+div.dataTables_scrollBody table.dataTable thead th.sorting:after,
+div.dataTables_scrollBody table.dataTable thead th.sorting_asc:after,
+div.dataTables_scrollBody table.dataTable thead th.sorting_desc:after {
+	content: "";
 }

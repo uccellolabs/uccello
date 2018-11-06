@@ -12,32 +12,36 @@
 @section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
-            <div class="breadcrumb pull-left">
-                {{-- Redirect to previous page. If there is not previous page, redirect to home page --}}
-                <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.home', $domain, $module) }}" class="pull-left">
-                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
-                </a>
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <div class="breadcrumb pull-left">
+                        {{-- Redirect to previous page. If there is not previous page, redirect to home page --}}
+                        <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.home', $domain, $module) }}" class="pull-left">
+                            <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
+                        </a>
 
-                <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    <li class="active">{{ uctrans('filter.all', $module) }}</li>
-                </ol>
-            </div>
+                        <ol class="breadcrumb pull-left">
+                            @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                            <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
+                            <li class="active">{{ uctrans('filter.all', $module) }}</li>
+                        </ol>
+                    </div>
+                </div>
 
-            <div id="action-buttons">
+                <div id="action-buttons" class="col-sm-8 col-xs-12">
 
-                <div class="btn-group m-l-10">
-                    <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">10</strong>']) !!}
-                        <i class="material-icons">keyboard_arrow_down</i>
-                    </button>
-                    <ul id="items-number" class="dropdown-menu">
-                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="10">10</a></li>
-                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="20">20</a></li>
-                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
-                        <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
-                    </ul>
+                    <div class="btn-group m-l-10">
+                        <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">10</strong>']) !!}
+                            <i class="material-icons">keyboard_arrow_down</i>
+                        </button>
+                        <ul id="items-number" class="dropdown-menu">
+                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="10">10</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="20">20</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

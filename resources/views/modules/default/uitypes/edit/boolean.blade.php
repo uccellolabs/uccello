@@ -3,7 +3,7 @@
 <div class="{{ $isLarge ? 'col-md-12' : 'col-sm-6 col-xs-12' }}">
     <div class="form-group form-switch">
         {{-- Label --}}
-        {!! form_label($form->{$field->name}) !!}
+        <label for="{{ $field->name }}" class="form-label">{{ uctrans($field->label, $module) }}</label>
 
         <div class="input-field">
             {{-- Icon if defined --}}

@@ -94,7 +94,14 @@ class EditController extends Controller
 
         // Redirect to detail view
         if ($redirect === true) {
-            $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
+            // Redirect to edit if the user want to create a new record
+            if ($request->input('save_new_hdn') === '1') {
+                $route = ucroute('uccello.edit', $domain, $module);
+            }
+            // Else redirect to detail
+            else {
+                $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
+            }
 
             return redirect($route);
         }

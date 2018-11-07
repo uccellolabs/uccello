@@ -70,7 +70,7 @@ class EditForm extends Form
         ]);
 
         // Add a save and new button
-        $this->add('save_new_btn', 'submit', [
+        $this->add('save_new_btn', 'button', [
             'label' => '<i class="material-icons">add</i>',
             'attr' => [
                 'class' => 'btn bg-primary btn-circle-lg waves-effect waves-circle waves-float btn-save-new',
@@ -79,6 +79,9 @@ class EditForm extends Form
                 'data-placement' => 'top',
             ]
         ]);
+
+        // Add a save and new hidden value
+        $this->add('save_new_hdn', 'hidden');
     }
 
     /**

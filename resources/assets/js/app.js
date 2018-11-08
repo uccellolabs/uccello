@@ -56,10 +56,12 @@ if (rangeSliders.length > 0) {
 
         // If a value is defined, update start value
         if (value) {
-            var values = value.split(',')
-            start = []
-            for (var i=0; i<values.length; i++) {
-                start.push(values[i])
+            start = [];
+
+            if (typeof value === 'string' && value.search(',') > -1) {
+                start = value.split(',')
+            } else {
+                start.push(value)
             }
         }
 

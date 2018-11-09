@@ -65,6 +65,16 @@ class Module extends Model
     }
 
     /**
+     * Returns module's package if defined, uccello else.
+     *
+     * @return string
+     */
+    public function getPackageAttribute() : string
+    {
+        return $this->data->package ?? 'uccello';
+    }
+
+    /**
      * Checks if the module is active on a domain.
      *
      * @param Domain $domain

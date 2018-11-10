@@ -47,17 +47,19 @@ class MakePackageCommand extends Command
     public function handle()
     {
         // Ask package information
-        $success = $this->askPackageInformation();
+        $this->askPackageInformation();
 
-        if ($success) {
-            // Make package
-            $this->makePackage();
+        // Make package
+        $packageMade = $this->makePackage();
 
+        if ($packageMade) {
             // Add local repository
             $this->addLocalRepository();
 
             $this->info('Package created!');
             $this->info('You can install with <comment>composer require ' . $this->package->name . '</comment>');
+        } else {
+            $this->error('Package not made');
         }
     }
 
@@ -150,32 +152,36 @@ class MakePackageCommand extends Command
     protected function makePackage()
     {
         // Make directory
-        $this->makeDirectory();
+        $packageMade = $this->makeDirectory();
 
-        // Generate composer.json
-        $this->generateComposerJsonFile();
+        if ($packageMade) {
+            // Generate composer.json
+            $this->generateComposerJsonFile();
 
-        // Generate webpack.mix.js
-        $this->generateWebpackMixFile();
+            // Generate webpack.mix.js
+            $this->generateWebpackMixFile();
 
-        // Generate app/Providers/AppServiceProvider.php
-        $this->generateAppServiceProviderFile();
+            // Generate app/Providers/AppServiceProvider.php
+            $this->generateAppServiceProviderFile();
 
-        // Generate model file
-        $this->generateModelFile();
+            // Generate model file
+            $this->generateModelFile();
 
-        // Generate lang file
-        $this->generateLangFile();
+            // Generate lang file
+            $this->generateLangFile();
 
-        // Generate migration file
-        $this->generateMigrationFile();
+            // Generate migration file
+            $this->generateMigrationFile();
 
-        // Generate overrided views path
-        $this->generateOverridedViewsPath();
+            // Generate overrided views path
+            $this->generateOverridedViewsPath();
+        }
+
+        return $packageMade;
     }
 
     /**
-     * Make package directory and copy module-skeleton files
+     * Make package directory and copy package-skeleton files
      *
      * @return boolean
      */
@@ -195,8 +201,8 @@ class MakePackageCommand extends Command
         // Make directory
         File::makeDirectory($packagePath, 0755, true);
 
-        // Copy files from module-skeleton
-        File::copyDirectory('vendor/uccello/module-skeleton', $packagePath);
+        // Copy files from package-skeleton
+        File::copyDirectory('vendor/uccello/package-skeleton', $packagePath);
 
         return true;
     }
@@ -219,10 +225,10 @@ class MakePackageCommand extends Command
         // Replace data
         $content = str_replace(
             [
-                'uccello/module-skeleton',
-                'Uccello\\\\ModuleSkeleton',
+                'uccello/package-skeleton',
+                'Uccello\\\\PackageSkeleton',
                 '1.0.0',
-                'Module skeleton for Uccello',
+                'Package skeleton for Uccello',
                 'Jonathan SARDO',
                 'jonathan@uccellolabs.com',
                 '"laravel": {}'
@@ -261,7 +267,7 @@ class MakePackageCommand extends Command
         // Replace data
         $content = str_replace(
             [
-                'uccello/module-skeleton',
+                'uccello/package-skeleton',
             ],
             [
                 $this->package->name,
@@ -287,9 +293,9 @@ class MakePackageCommand extends Command
         // Replace data
         $content = str_replace(
             [
-                'uccello/module-skeleton',
-                'Uccello\\ModuleSkeleton',
-                'module-skeleton',
+                'uccello/package-skeleton',
+                'Uccello\\PackageSkeleton',
+                'package-skeleton',
             ],
             [
                 $this->package->name,
@@ -326,7 +332,7 @@ class MakePackageCommand extends Command
         // Replace data
         $content = str_replace(
             [
-                'Uccello\\ModuleSkeleton',
+                'Uccello\\PackageSkeleton',
                 'ModuleSkeleton',
                 'module_skeletons',
             ],
@@ -366,12 +372,14 @@ class MakePackageCommand extends Command
         $content = str_replace(
             [
                 'CreateModuleSkeletonModule',
+                'package-skeleton',
                 'module-skeleton',
                 'module_skeletons',
-                'Uccello\\ModuleSkeleton\\Models\\ModuleSkeleton',
+                'Uccello\\PackageSkeleton\\Models\\ModuleSkeleton',
             ],
             [
                 'Create' . $moduleClassName . 'Module',
+                $this->package->package,
                 $this->package->module,
                 $this->package->table,
                 $this->package->namespace . '\\Models\\' . $moduleClassName,

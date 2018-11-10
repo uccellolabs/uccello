@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Uccello\Core\Console\Commands\UccelloMakeCommand;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
+use Uccello\Core\Console\Commands\MakePackageCommand;
 
 /**
  * App Service Provider
@@ -50,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
     if ($this->app->runningInConsole()) {
       $this->commands([
         UccelloMakeCommand::class,
+        MakePackageCommand::class,
       ]);
     }
   }

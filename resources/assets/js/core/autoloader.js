@@ -1,5 +1,6 @@
 import { List } from './list'
 import { Edit } from './edit'
+import { Detail } from './detail'
 
 class Autoloader {
     constructor() {
@@ -16,6 +17,10 @@ class Autoloader {
 
             case 'edit':
                 new Edit()
+                break;
+
+            case 'detail':
+                new Detail()
                 break;
         }
     }

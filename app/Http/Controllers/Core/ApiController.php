@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Schema;
+use Uccello\Core\Models\Relatedlist;
 
 class ApiController extends Controller
 {
@@ -109,6 +110,8 @@ class ApiController extends Controller
         $length = (int) $request->get('length');
         $order = $request->get('order');
         $columns = $request->get('columns');
+        $recordId = $request->get('id');
+        $relatedListId = $request->get('relatedlist');
 
         // Get model model class
         $modelClass = $module->model_class;
@@ -129,6 +132,21 @@ class ApiController extends Controller
 
                 // Paginate results
                 $query = $modelClass::skip($start)->take($length);
+            }
+
+            // If the query is for a related list, add conditions
+            if ($relatedListId) {
+                // Get related list
+                $relatedList = Relatedlist::find($relatedListId);
+
+                if ($relatedList && $relatedList->method) {
+                    // Related list method
+                    $method = $relatedList->method;
+
+                    // Update query
+                    $model = new $modelClass;
+                    $query = $model->$method($relatedList, $recordId, $query);
+                }
             }
 
             // Search by column
@@ -177,7 +195,7 @@ class ApiController extends Controller
         }
 
         return [
-            "data" => $data,
+            "data" => $data->toArray(),
             "draw" => $draw,
             "recordsTotal" => $total,
             "recordsFiltered" => $total,

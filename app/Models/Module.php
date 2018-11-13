@@ -53,6 +53,11 @@ class Module extends Model
         return $this->hasMany(Filter::class);
     }
 
+    public function relatedlists()
+    {
+        return $this->hasMany(Relatedlist::class, 'module_id')->orderBy('sequence');
+    }
+
     /**
      * Searches in the module a field by name.
      *

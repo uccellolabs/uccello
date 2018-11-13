@@ -3,10 +3,9 @@
 namespace Uccello\Core\Http\Controllers\Core;
 
 use Illuminate\Http\Request;
-use Uccello\Core\Models\Filter;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Http\Middleware\CheckPermissions;
+use Uccello\Core\Facades\Uccello;
 
 
 class ListController extends Controller
@@ -30,45 +29,8 @@ class ListController extends Controller
         $this->preProcess($domain, $module, $request);
 
         // Get datatable columns
-        $datatableColumns = $this->getDatatableColumns();
+        $datatableColumns = Uccello::getDatatableColumns($module);
 
         return $this->autoView(compact('datatableColumns'));
-    }
-
-    /**
-     * Retrieve columns to display in the list of data
-     *
-     * @return array
-     */
-    protected function getDatatableColumns(): array
-    {
-        $columns = [];
-
-        // Get default filter
-        $filter = Filter::where('module_id', $this->module->id)
-            ->where('type', 'list')
-            ->first();
-
-        // Get all fields
-        $fields = $this->module->fields;
-
-        foreach ($fields as $field) {
-            // If the field is not listable, continue
-            if (!$field->isListable()){
-                continue;
-            }
-
-            // Add the field as a new column
-            $columns[] = [
-                'name' => $field->name,
-                'db_column' => $field->column,
-                'uitype' => $field->uitype->name,
-                'package' => $field->uitype->package,
-                'data' => $field->data,
-                'visible' => in_array($field->name, $filter->columns)
-            ];
-        }
-
-        return $columns;
     }
 }

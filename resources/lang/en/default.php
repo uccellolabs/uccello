@@ -38,7 +38,7 @@ return [
     'filter.show_n_records' => 'Show :number records',
 
     // Tabs
-    'tabs.details' => 'Details',
+    'tab.main' => 'Details',
 
     // Menu
     'menu.admin' => 'Admin',

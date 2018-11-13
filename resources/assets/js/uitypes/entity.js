@@ -7,6 +7,10 @@ export class UitypeEntity
 
         let route = laroute.route('uccello.detail', { id: recordId, domain: domainSlug, module: moduleName })
 
+        if(typeof cellData === 'object') {
+            cellData = cellData[columnData.name]
+        }
+
         let link = `<a href="${route}">${cellData}</a>`;
 
         $(td).html(link)

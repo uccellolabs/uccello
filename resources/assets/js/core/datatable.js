@@ -10,10 +10,10 @@ import { sprintf } from 'sprintf-js'
 export class Datatable {
     /**
      * Init Datatable configuration
-     * @param {Element} selector
+     * @param {Element} element
      */
-    init(selector) {
-        let table = $(selector).DataTable({
+    init(element) {
+        let table = $(element).DataTable({
             dom: 'Brtp',
             autoWidth: false, // Else the width is not refreshed on window resize
             responsive: true,
@@ -24,7 +24,7 @@ export class Datatable {
                 type: "POST"
             },
             order: [[1, 'asc']],
-            columnDefs: this.getDatatableColumnDefs(),
+            columnDefs: this.getDatatableColumnDefs(element),
             createdRow: (row, data, index) => {
                 // Go to detail view when you click on a row
                 $('td:gt(0):lt(-1)', row).click(() => {
@@ -54,8 +54,9 @@ export class Datatable {
 
     /**
      * Make datatable columns from filter.
+     * @param {Element} element
      */
-    getDatatableColumnDefs() {
+    getDatatableColumnDefs(element) {
         let selector = new UccelloUitypeSelector.UitypeSelector() // UccelloUitypeSelector is replaced automaticaly by webpack. See webpack.mix.js
 
         let datatableColumns = [];
@@ -89,7 +90,7 @@ export class Datatable {
             defaultContent: '',
             orderable: false,
             searchable: false,
-            createdCell: this.getActionsColumnCreatedCell()
+            createdCell: this.getActionsColumnCreatedCell(element)
         })
 
         return datatableColumns;
@@ -97,12 +98,15 @@ export class Datatable {
 
     /**
      * Make datatable action column.
+     * @param {Element} element
      */
-    getActionsColumnCreatedCell() {
+    getActionsColumnCreatedCell(element) {
         return (td, cellData, rowData, row, col) => {
+            var dataTableContainer = $(element).parents('.dataTable-container:first');
+
             // Copy buttons from template
-            let editButton = $("#template .edit-btn").clone().tooltip().appendTo($(td))
-            let deleteButton = $("#template .delete-btn").clone().tooltip().appendTo($(td))
+            let editButton = $(".template .edit-btn", dataTableContainer).clone().tooltip().appendTo($(td))
+            let deleteButton = $(".template .delete-btn", dataTableContainer).clone().tooltip().appendTo($(td))
 
             // Config edit link url
             let editLink = editButton.attr('href').replace('RECORD_ID', rowData.id)
@@ -122,8 +126,11 @@ export class Datatable {
         // Get buttons container
         var buttonsContainer = table.buttons().container()
 
+        // Retrieve container
+        var dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
+
         // Move buttons
-        buttonsContainer.appendTo('#action-buttons');
+        buttonsContainer.appendTo($('.action-buttons', dataTableContainer));
 
         $('button', buttonsContainer).each((index, element) => {
             // Replace <span>...</span> by its content
@@ -136,7 +143,7 @@ export class Datatable {
         })
 
         // Move to the right
-        $('#action-buttons .btn-group').addClass('pull-right')
+        $('.action-buttons .btn-group', dataTableContainer).addClass('pull-right')
 
         // Change records number
         $('ul#items-number a').on('click', (event) => {
@@ -145,7 +152,7 @@ export class Datatable {
             table.page.len(recordsNumber).draw();
         })
 
-        $(".dataTables_paginate").appendTo(".paginator")
+        $(".dataTables_paginate", dataTableContainer).appendTo($('.paginator', dataTableContainer))
     }
 
     /**

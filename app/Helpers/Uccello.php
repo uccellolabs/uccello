@@ -10,6 +10,7 @@ use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;
 use Illuminate\Support\Facades\Auth;
+use Uccello\Core\Models\Filter;
 
 class Uccello
 {
@@ -256,5 +257,43 @@ class Uccello
         }
 
         return $domain;
+    }
+
+    /**
+     * Retrieve columns to display in a datatable table
+     *
+     * @param Module $module
+     * @return array
+     */
+    public function getDatatableColumns(Module $module): array
+    {
+        $columns = [];
+
+        // Get default filter
+        $filter = Filter::where('module_id', $module->id)
+            ->where('type', 'list')
+            ->first();
+
+        // Get all fields
+        $fields = $module->fields;
+
+        foreach ($fields as $field) {
+            // If the field is not listable, continue
+            if (!$field->isListable()){
+                continue;
+            }
+
+            // Add the field as a new column
+            $columns[] = [
+                'name' => $field->name,
+                'db_column' => $field->column,
+                'uitype' => $field->uitype->name,
+                'package' => $field->uitype->package,
+                'data' => $field->data,
+                'visible' => in_array($field->name, $filter->columns)
+            ];
+        }
+
+        return $columns;
     }
 }

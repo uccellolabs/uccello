@@ -8,8 +8,8 @@
 @endsection
 
 @section('content')
-
-@section('breadcrumb')
+<div class="dataTable-container">
+    @section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
             <div class="row">
@@ -28,8 +28,7 @@
                     </div>
                 </div>
 
-                <div id="action-buttons" class="col-sm-8 col-xs-12">
-
+                <div class="action-buttons" class="col-sm-8 col-xs-12">
                     <div class="btn-group m-l-10">
                         <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">10</strong>']) !!}
@@ -100,7 +99,7 @@
     @show
 
     {{-- Template to use in the table --}}
-    <div id="template" class="hide">
+    <div class="template hide">
         @if (Auth::user()->canUpdate($domain, $module))
         <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $module) }}" class="edit-btn"><i class="material-icons">edit</i></a>
         @endif
@@ -109,4 +108,5 @@
         <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn"><i class="material-icons">delete</i></a>
         @endif
     </div>
+</div>
 @endsection

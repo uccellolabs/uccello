@@ -113,8 +113,8 @@ export class Datatable {
             editButton.attr('href', editLink)
 
             // Config delete link url
-            let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
-            deleteButton.attr('href', deleteLink)
+            // let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
+            // deleteButton.attr('href', deleteLink)
         }
     }
 
@@ -129,21 +129,45 @@ export class Datatable {
         // Retrieve container
         var dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
 
-        // Move buttons
-        buttonsContainer.appendTo($('.action-buttons', dataTableContainer));
+        // Display mini buttons (related lists)
+        if (dataTableContainer.data('button-size') === 'mini') {
 
-        $('button', buttonsContainer).each((index, element) => {
-            // Replace <span>...</span> by its content
-            $(element).html($('span', element).html())
+            $('button', buttonsContainer).each((index, element) => {
+                // Get content and use it as a title
+                var title = $('span', element).html()
 
-            // Add icon and effect
-            $(element).addClass('icon-right waves-effect bg-primary')
-            $(element).removeClass('btn-default')
-            $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
-        })
+                // Add icon and effect
+                $(element)
+                    .addClass('btn-circle waves-effect waves-circle waves-float bg-primary')
+                    .removeClass('btn-default')
+                    .html('<i class="material-icons">view_column</i>')
+                    .attr('title', title)
+                    .tooltip({
+                        placement: 'top'
+                    })
 
-        // Move to the right
-        $('.action-buttons .btn-group', dataTableContainer).addClass('pull-right')
+                // Move button
+                $(element).prependTo($('.action-buttons', dataTableContainer))
+            })
+        }
+        // Display classic buttons (list)
+        else {
+            // Move buttons
+            buttonsContainer.appendTo($('.action-buttons', dataTableContainer));
+
+            $('button', buttonsContainer).each((index, element) => {
+                // Replace <span>...</span> by its content
+                $(element).html($('span', element).html())
+
+                // Add icon and effect
+                $(element).addClass('icon-right waves-effect bg-primary')
+                $(element).removeClass('btn-default')
+                $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
+            })
+
+            // Move to the right
+            $('.action-buttons .btn-group', dataTableContainer).addClass('pull-right')
+        }
 
         // Change records number
         $('ul#items-number a').on('click', (event) => {

@@ -142,10 +142,14 @@ class ApiController extends Controller
                 if ($relatedList && $relatedList->method) {
                     // Related list method
                     $method = $relatedList->method;
+                    $countMethod = $method . 'Count';
 
                     // Update query
                     $model = new $modelClass;
-                    $query = $model->$method($relatedList, $module, $recordId, $query);
+                    $query = $model->$method($relatedList, $recordId, $query, $start, $length);
+
+                    // Count all results
+                    $total = $model->$countMethod($relatedList, $recordId);
                 }
             }
 

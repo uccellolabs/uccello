@@ -15,11 +15,11 @@ class CreateRelationsTable extends Migration
     {
         Schema::create($this->tablePrefix . 'relations', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('record_id');
-            $table->unsignedInteger('related_record_id');
-            $table->unsignedInteger('module_id');
-            $table->unsignedInteger('related_module_id');
             $table->unsignedInteger('relatedlist_id');
+            $table->unsignedInteger('module_id');
+            $table->unsignedInteger('record_id');
+            $table->unsignedInteger('related_module_id');
+            $table->unsignedInteger('related_record_id');
             $table->text('data')->nullable();
             $table->timestamps();
 

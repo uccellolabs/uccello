@@ -22,7 +22,7 @@ export class Detail {
             datatable.domainSlug = domainSlug
             datatable.moduleName = relatedModuleName
             datatable.columns = datatableColumns
-            datatable.rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: moduleName })
+            datatable.rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: relatedModuleName })
             datatable.init(element)
         })
     }

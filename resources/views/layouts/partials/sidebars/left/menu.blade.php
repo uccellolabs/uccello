@@ -31,6 +31,16 @@
                         </a>
                     </li>
                 @endforeach
+
+                {{-- If we are on a module not displayed in the menu, add it without link --}}
+                @if (!$module->isDisplayedInMenu())
+                    <li class="active">
+                        <a href="javascript:void(0)">
+                            @if ($module->icon)<i class="material-icons">{{ $module->icon ?? 'list' }}</i>@endif
+                            <span>{{ uctrans($module->name, $module) }}</span>
+                        </a>
+                    </li>
+                @endif
             @endif
 
             @yield('sidebar-main-menu-after')

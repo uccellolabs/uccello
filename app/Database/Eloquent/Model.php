@@ -51,34 +51,36 @@ class Model extends DefaultModel
      * Retrieves related records linked by an entity field
      *
      * @param Relatedlist $relatedList
-     * @param Module $relatedModule
      * @param integer $recordId
      * @param Builder $query
+     * @param int $start
+     * @param int $length
      * @return Builder
      */
-    public function getDependentList(Relatedlist $relatedList, Module $relatedModule, int $recordId, Builder $query) : Builder
+    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start, int $length) : Builder
     {
         // Related field
         $relatedField = $relatedList->relatedField;
 
-        return $query->where($relatedField->column, $recordId);
+        return $query->where($relatedField->column, $recordId)
+            ->skip($start)
+            ->take($length);
     }
 
     /**
      * Counts related records linked by an entity field
      *
      * @param Relatedlist $relatedList
-     * @param Module $relatedModule
      * @param integer $recordId
      * @return int
      */
-    public function getDependentListCount(Relatedlist $relatedList, Module $relatedModule, int $recordId) : int
+    public function getDependentListCount(Relatedlist $relatedList, int $recordId, int $start = 0, int $length = 10) : int
     {
         // Related module
         $relatedModule = $relatedList->relatedModule;
 
         // Model
-        $relatedModel = new $relatedModule->model_class;
+        $relatedModel = new $relatedList->relatedModule->model_class;
 
         // Related field
         $relatedField = $relatedList->relatedField;
@@ -90,21 +92,25 @@ class Model extends DefaultModel
      * Retrieves related records for n-n relations
      *
      * @param Relatedlist $relatedList
-     * @param Module $relatedModule
      * @param integer $recordId
      * @param Builder $query
+     * @param int $start
+     * @param int $length
      * @return Builder
      */
-    public function getRelatedList(Relatedlist $relatedList, Module $relatedModule, int $recordId, Builder $query) : Builder
+    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 10) : Builder
     {
         // Get related record ids
         $relatedRecordIds = Relation::where('relatedlist_id', $relatedList->id)
-            ->where('related_module_id', $relatedModule->id)
+            ->where('module_id', $relatedList->module_id)
+            ->where('related_module_id', $relatedList->related_module_id)
             ->where('record_id', $recordId)
-            ->pluck('id');
+            ->skip($start)
+            ->take($length)
+            ->pluck('related_record_id');
 
         // Related model
-        $relatedModel = new $relatedModule->model_class;
+        $relatedModel = new $relatedList->relatedModule->model_class;
 
         // Returns related records
         return $relatedModel::whereIn('id', $relatedRecordIds);
@@ -114,14 +120,14 @@ class Model extends DefaultModel
      * Counts related records for n-n relations
      *
      * @param Relatedlist $relatedList
-     * @param Module $relatedModule
      * @param integer $recordId
      * @return int
      */
-    public function getRelatedListCount(Relatedlist $relatedList, Module $relatedModule, int $recordId) : int
+    public function getRelatedListCount(Relatedlist $relatedList, int $recordId) : int
     {
         return Relation::where('relatedlist_id', $relatedList->id)
-            ->where('related_module_id', $relatedModule->id)
+            ->where('module_id', $relatedList->module_id)
+            ->where('related_module_id', $relatedList->related_module_id)
             ->where('record_id', $recordId)
             ->count();
     }

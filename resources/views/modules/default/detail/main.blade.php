@@ -31,17 +31,17 @@
     <ul class="nav nav-tabs m-b-25" role="tablist">
         {{-- Tabs --}}
         @foreach ($module->tabs as $i => $tab)
-        <li role="presentation" @if ($i === 0)class="active"@endif>
+        <li role="presentation" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0) || $selectedTabId === $tab->id)class="active"@endif>
             <a href="#{{ $tab->id }}" data-toggle="tab">
                 <i class="material-icons">{{ $tab->icon ?? 'view_headline' }}</i> {{ uctrans($tab->label, $module) }}
             </a>
         </li>
         @endforeach
 
-        {{-- Related lists --}}
+        {{-- One tab by related list --}}
         @foreach ($module->relatedlists as $relatedlist)
-        @continue(!empty($relatedlist->tab_id))
-        <li role="presentation">
+        @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
+        <li role="presentation" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
             <a href="#relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" data-toggle="tab">
                 {{-- Icon --}}
                 <i class="material-icons">{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}</i>
@@ -55,7 +55,7 @@
                     $countMethod = $relatedlist->method . 'Count';
 
                     $model = new $relatedModule->model_class;
-                    $count = $model->$countMethod($relatedlist, $module, $record->id);
+                    $count = $model->$countMethod($relatedlist, $record->id);
                 ?>
                 @if ($count > 0)
                 <span class="badge bg-green">{{ $count }}</span>
@@ -70,7 +70,7 @@
         <div class="tab-content">
             {{-- Tabs and blocks --}}
             @foreach ($module->tabs as $i => $tab)
-            <div role="tabpanel" class="tab-pane fade in @if ($i === 0)active @endif" id="{{ $tab->id }}">
+            <div role="tabpanel" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0) || $selectedTabId === $tab->id)active @endif" id="{{ $tab->id }}">
                 @foreach ($tab->blocks as $block)
                 <div class="card block">
                     <div class="header">
@@ -110,12 +110,13 @@
                 </div>
                 @endforeach
 
-                {{-- Tab related lists --}}
+                {{-- Related lists as block --}}
                 @foreach ($tab->relatedlists as $relatedlist)
+                @continue(!Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
                 <?php
                     $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule);
                 ?>
-                <div role="tabpanel" class="tab-pane fade in dataTable-container" id="relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}">
+                <div role="tabpanel" class="tab-pane fade in dataTable-container" id="relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" data-button-size="mini">
                     <div class="card block">
                         <div class="header">
                             <div class="row">
@@ -130,7 +131,21 @@
                                         </div>
                                     </h2>
                                 </div>
-                                <div class="col-sm-4 action-buttons">
+                                <div class="col-sm-4 action-buttons text-right">
+                                    {{-- Select button --}}
+                                    {{-- @if ($relatedlist->canSelect() && Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
+                                    <button class="btn bg-orange btn-circle waves-effect waves-circle waves-float btn-relatedlist-select" title="{{ uctrans('relatedlist.button.select', $module) }}" data-toggle="tooltip" data-placement="top">
+                                        <i class="material-icons">playlist_add_check</i>
+                                    </button>
+                                    @endif --}}
+
+                                    {{-- Add button --}}
+                                    @if ($relatedlist->canAdd() && Auth::user()->canCreate($domain, $relatedlist->relatedModule))
+                                    <a href="{{ $relatedlist->getAddLink($domain, $record->id) }}" class="btn bg-green btn-circle waves-effect waves-circle waves-float btn-relatedlist-add" title="{{ uctrans('relatedlist.button.add', $module) }}" data-toggle="tooltip" data-placement="top">
+                                        <i class="material-icons">playlist_add</i>
+                                    </a>
+                                    @endif
+
                                     {{-- Action buttons for related list --}}
                                 </div>
                             </div>
@@ -166,29 +181,29 @@
                     {{-- Template to use in the table --}}
                     <div class="template hide">
                         @if (Auth::user()->canUpdate($domain, $relatedlist->relatedModule))
-                        <a href="{{ ucroute('uccello.edit', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
+                        <a href="{{ $relatedlist->getEditLink($domain, $record->id) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
                         @endif
 
-                        @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
-                        <a href="{{ ucroute('uccello.delete', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
-                        @endif
+                        {{-- @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
+                        <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
+                        @endif --}}
                     </div>
                 </div>
                 @endforeach
             </div>
             @endforeach
 
-            {{-- Related lists --}}
+            {{-- Related lists as tab --}}
             @foreach ($module->relatedlists as $relatedlist)
-            @continue(!empty($relatedlist->tab_id))
+            @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
             <?php
                 $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule);
             ?>
-            <div role="tabpanel" class="tab-pane fade in dataTable-container" id="relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}">
+            <div role="tabpanel" class="tab-pane fade in dataTable-container @if ($selectedRelatedlistId === $relatedlist->id)active @endif" id="relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" data-button-size="mini">
                 <div class="card block">
                     <div class="header">
                         <div class="row">
-                            <div class="col-sm-8">
+                            <div class="col-sm-4">
                                 <h2>
                                     <div class="block-label-with-icon">
                                         {{-- Icon --}}
@@ -199,7 +214,21 @@
                                     </div>
                                 </h2>
                             </div>
-                            <div class="col-sm-4 action-buttons">
+                            <div class="col-sm-8 action-buttons text-right">
+                                {{-- Select button --}}
+                                {{-- @if ($relatedlist->canSelect() && Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
+                                <button class="btn bg-orange btn-circle waves-effect waves-circle waves-float btn-relatedlist-select" title="{{ uctrans('relatedlist.button.select', $module) }}" data-toggle="tooltip" data-placement="top">
+                                    <i class="material-icons">playlist_add_check</i>
+                                </button>
+                                @endif --}}
+
+                                {{-- Add button --}}
+                                @if ($relatedlist->canAdd() && Auth::user()->canCreate($domain, $relatedlist->relatedModule))
+                                <a href="{{ $relatedlist->getAddLink($domain, $record->id) }}" class="btn bg-green btn-circle waves-effect waves-circle waves-float btn-relatedlist-add" title="{{ uctrans('relatedlist.button.add', $module) }}" data-toggle="tooltip" data-placement="top">
+                                    <i class="material-icons">playlist_add</i>
+                                </a>
+                                @endif
+
                                 {{-- Action buttons for related list --}}
                             </div>
                         </div>
@@ -235,12 +264,12 @@
                 {{-- Template to use in the table --}}
                 <div class="template hide">
                     @if (Auth::user()->canUpdate($domain, $relatedlist->relatedModule))
-                    <a href="{{ ucroute('uccello.edit', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
+                    <a href="{{ $relatedlist->getEditLink($domain, $record->id) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
                     @endif
 
-                    @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
-                    <a href="{{ ucroute('uccello.delete', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
-                    @endif
+                    {{-- @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
+                    <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
+                    @endif --}}
                 </div>
             </div>
             @endforeach

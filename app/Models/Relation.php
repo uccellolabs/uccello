@@ -22,6 +22,15 @@ class Relation extends Model
         'data' => 'object',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'relatedlist_id', 'module_id', 'related_module_id', 'record_id', 'related_record_id', 'data'
+    ];
+
     protected function setTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');

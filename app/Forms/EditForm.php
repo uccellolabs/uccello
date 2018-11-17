@@ -20,6 +20,9 @@ class EditForm extends Form
         // Get module data
         $module = $this->getData('module');
 
+        // Get request data
+        $request = $this->getData('request');
+
         // Make route params
         $routeParams = [];
 
@@ -69,19 +72,37 @@ class EditForm extends Form
             ]
         ]);
 
-        // Add a save and new button
-        $this->add('save_new_btn', 'button', [
-            'label' => '<i class="material-icons">add</i>',
-            'attr' => [
-                'class' => 'btn bg-primary btn-circle-lg waves-effect waves-circle waves-float btn-save-new',
-                'title' => uctrans('button.save_new', $module),
-                'data-toggle' => 'tooltip',
-                'data-placement' => 'top',
-            ]
-        ]);
+        // Add a save and new button if we are not making a relation (else it will be difficult to redirect to the source record)
+        if (!$request->input('relatedlist')) {
+            $this->add('save_new_btn', 'button', [
+                'label' => '<i class="material-icons">add</i>',
+                'attr' => [
+                    'class' => 'btn bg-primary btn-circle-lg waves-effect waves-circle waves-float btn-save-new',
+                    'title' => uctrans('button.save_new', $module),
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'top',
+                ]
+            ]);
 
-        // Add a save and new hidden value
-        $this->add('save_new_hdn', 'hidden');
+            // Add a save and new hidden value
+            $this->add('save_new_hdn', 'hidden');
+        }
+
+        // Add related list data
+        if ($request->input('relatedlist') && $request->input('src_id')) {
+            $relatedlistId = $request->input('relatedlist');
+            $sourceRecordId = $request->input('src_id');
+
+            $this->add('relatedlist', 'hidden', ['value' => $relatedlistId]);
+            $this->add('src_id', 'hidden', ['value' => $sourceRecordId]);
+        }
+
+        // Add selected tab data
+        if ($request->input('tab')) {
+            $tabId = $request->input('tab');
+
+            $this->add('tab', 'hidden', ['value' => $tabId]);
+        }
     }
 
     /**
@@ -127,6 +148,9 @@ class EditForm extends Form
         // Get module data
         $module = $this->getData('module');
 
+        // Request
+        $request = $this->getData('request');
+
         // Check if required CSS class must be added
         $requiredClass = $field->required ? 'required' : '';
 
@@ -139,9 +163,13 @@ class EditForm extends Form
             ]
         ];
 
+        if ($request->input($field->name)) {
+            $selectedValue = $request->input($field->name);
+        }
+
         // Set default value only if it is a creation (record id doen't exist)
         if (is_null($this->getModel()->getKey())) {
-            $options['default_value'] = $field->data->default ?? null;
+            $options['default_value'] = $selectedValue ?? $field->data->default ?? null;
         }
 
         // Add other options

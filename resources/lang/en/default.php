@@ -46,4 +46,8 @@ return [
 
     // Breadcrumb
     'breadcrumb.admin' => 'Admin',
+
+    // Related list
+    'relatedlist.button.add' => 'Add',
+    'relatedlist.button.select' => 'Select'
 ];

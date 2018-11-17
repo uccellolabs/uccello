@@ -27,8 +27,7 @@
         "doctrine/dbal": "^2.7",
         "kris/laravel-form-builder": "^1.14",
         "lord/laroute": "2.*",
-        "spatie/laravel-menu": "~3.1",
-        "uccello/package-skeleton": "^1.0"
+        "spatie/laravel-menu": "~3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",

@@ -4,14 +4,14 @@ namespace Uccello\Core\Models;
 
 use Uccello\Core\Database\Eloquent\Model;
 
-class Tab extends Model
+class Relation extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'tabs';
+    protected $table = 'relations';
 
     /**
      * The attributes that should be casted to native types.
@@ -27,13 +27,13 @@ class Tab extends Model
         return $this->belongsTo(Module::class);
     }
 
-    public function blocks()
+    public function relatedModule()
     {
-        return $this->hasMany(Block::class)->orderBy('sequence');
+        return $this->belongsTo(Module::class);
     }
 
-    public function relatedlists()
+    public function relatedlist()
     {
-        return $this->hasMany(Relatedlist::class)->orderBy('sequence');
+        return $this->belongsTo(Relatedlist::class);
     }
 }

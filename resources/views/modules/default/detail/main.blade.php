@@ -40,6 +40,7 @@
 
         {{-- Related lists --}}
         @foreach ($module->relatedlists as $relatedlist)
+        @continue(!empty($relatedlist->tab_id))
         <li role="presentation">
             <a href="#relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" data-toggle="tab">
                 {{-- Icon --}}
@@ -54,7 +55,7 @@
                     $countMethod = $relatedlist->method . 'Count';
 
                     $model = new $relatedModule->model_class;
-                    $count = $model->$countMethod($relatedlist, $record->id);
+                    $count = $model->$countMethod($relatedlist, $module, $record->id);
                 ?>
                 @if ($count > 0)
                 <span class="badge bg-green">{{ $count }}</span>
@@ -108,11 +109,78 @@
                     </div>
                 </div>
                 @endforeach
+
+                {{-- Tab related lists --}}
+                @foreach ($tab->relatedlists as $relatedlist)
+                <?php
+                    $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule);
+                ?>
+                <div role="tabpanel" class="tab-pane fade in dataTable-container" id="relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}">
+                    <div class="card block">
+                        <div class="header">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h2>
+                                        <div class="block-label-with-icon">
+                                            {{-- Icon --}}
+                                            <i class="material-icons">{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}</i>
+
+                                            {{-- Label --}}
+                                            <span>{{ uctrans($relatedlist->label, $module) }}</span>
+                                        </div>
+                                    </h2>
+                                </div>
+                                <div class="col-sm-4 action-buttons">
+                                    {{-- Action buttons for related list --}}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                    <table class="table table-striped table-hover dataTable" data-relatedlist="{{ $relatedlist->id }}" data-related-module="{{ $relatedlist->relatedModule->name }}" data-url="{{ ucroute('uccello.datatable', $domain, $relatedlist->relatedModule) }}" data-columns='{!! json_encode($datatableColumns) !!}'>
+                                            <thead>
+                                                <tr>
+                                                    <th class="select-column">&nbsp;</th>
+
+                                                    @foreach ($datatableColumns as $column)
+                                                    <th>
+                                                        {{ uctrans('field.'.$column['name'], $relatedlist->relatedModule) }}
+                                                    </th>
+                                                    @endforeach
+
+                                                    <th class="actions-column">&nbsp;</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="paginator"></div>
+
+                    {{-- Template to use in the table --}}
+                    <div class="template hide">
+                        @if (Auth::user()->canUpdate($domain, $relatedlist->relatedModule))
+                        <a href="{{ ucroute('uccello.edit', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
+                        @endif
+
+                        @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
+                        <a href="{{ ucroute('uccello.delete', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
+                        @endif
+                    </div>
+                </div>
+                @endforeach
             </div>
             @endforeach
 
             {{-- Related lists --}}
             @foreach ($module->relatedlists as $relatedlist)
+            @continue(!empty($relatedlist->tab_id))
             <?php
                 $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule);
             ?>

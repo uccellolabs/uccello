@@ -145,7 +145,7 @@ class ApiController extends Controller
 
                     // Update query
                     $model = new $modelClass;
-                    $query = $model->$method($relatedList, $recordId, $query);
+                    $query = $model->$method($relatedList, $module, $recordId, $query);
                 }
             }
 

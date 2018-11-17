@@ -32,6 +32,11 @@ class Relatedlist extends Model
         return $this->belongsTo(Module::class);
     }
 
+    public function relatedTab()
+    {
+        return $this->belongsTo(Tab::class);
+    }
+
     public function relatedField()
     {
         return $this->belongsTo(Field::class);

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Uccello\Core\Database\Migrations\Migration;
 
-class CreateRelatedlistsTable extends Migration
+class CreateRelationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,13 @@ class CreateRelatedlistsTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'relatedlists', function (Blueprint $table) {
+        Schema::create($this->tablePrefix . 'relations', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('record_id');
+            $table->unsignedInteger('related_record_id');
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('related_module_id');
-            $table->unsignedInteger('tab_id')->nullable();
-            $table->unsignedInteger('related_field_id')->nullable();
-            $table->string('label');
-            $table->string('icon')->nullable();
-            $table->enum('type', ['n-1', 'n-n']);
-            $table->string('method');
-            $table->unsignedInteger('sequence');
+            $table->unsignedInteger('relatedlist_id');
             $table->text('data')->nullable();
             $table->timestamps();
 
@@ -36,16 +32,12 @@ class CreateRelatedlistsTable extends Migration
                     ->references('id')->on($this->tablePrefix . 'modules')
                     ->onDelete('cascade');
 
-            $table->foreign('tab_id')
-                    ->references('id')->on($this->tablePrefix . 'tabs')
-                    ->onDelete('cascade');
-
-            $table->foreign('related_field_id')
-            ->references('id')->on($this->tablePrefix . 'fields')
+            $table->foreign('relatedlist_id')
+                    ->references('id')->on($this->tablePrefix . 'relatedlists')
                     ->onDelete('cascade');
 
             // Unique keys
-            $table->unique(['module_id', 'related_module_id', 'label'], 'relatedlists_unique_key');
+            $table->unique(['module_id', 'record_id', 'related_record_id', 'related_module_id', 'relatedlist_id'], 'relations_unique_key');
         });
     }
 
@@ -56,6 +48,6 @@ class CreateRelatedlistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'relatedlists');
+        Schema::dropIfExists($this->tablePrefix . 'relations');
     }
 }

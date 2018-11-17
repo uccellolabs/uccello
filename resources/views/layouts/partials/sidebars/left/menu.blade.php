@@ -19,7 +19,7 @@
             {{-- All modules except Home --}}
             @if (isset($modules) && isset($domain) && isset($module))
                 @foreach ($modules as $_module)
-                    @continue ($_module->name === 'home' || !$_module->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $_module) || (!$admin_env && $_module->isAdminModule()) || ($admin_env && !$_module->isAdminModule()))
+                    @continue ($_module->name === 'home' || !$_module->isDisplayedInMenu() || !$_module->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $_module) || (!$admin_env && $_module->isAdminModule()) || ($admin_env && !$_module->isAdminModule()))
                     <li @if ($_module->id === $module->id)class="active"@endif>
                         <?php
                             // Use route if defined, else use default one

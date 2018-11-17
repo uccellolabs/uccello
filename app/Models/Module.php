@@ -112,4 +112,14 @@ class Module extends Model
     {
         return $this->data->admin ?? false;
     }
+
+    /**
+     * Check if the module can be displayed in the menu.
+     *
+     * @return boolean
+     */
+    public function isDisplayedInMenu() : bool
+    {
+        return $this->data->menu ?? true;
+    }
 }

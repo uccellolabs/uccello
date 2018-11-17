@@ -22,6 +22,11 @@ class Privilege extends Model
         'domain_id', 'role_id', 'user_id',
     ];
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function domain()
     {
         return $this->belongsTo(Domain::class);

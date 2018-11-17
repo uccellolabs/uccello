@@ -3,7 +3,6 @@
 namespace Uccello\Core\Models;
 
 use Uccello\Core\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Module extends Model
 {
@@ -22,6 +21,11 @@ class Module extends Model
     protected $casts = [
         'data' => 'object',
     ];
+
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
 
     public function permissions()
     {

@@ -51,6 +51,11 @@ class Domain extends Model
         ];
     }
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function parent()
     {
         return $this->belongsTo(self::class);

@@ -25,7 +25,7 @@ class Model extends DefaultModel
 
     protected function setTablePrefix()
     {
-        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+        $this->tablePrefix = '';
     }
 
     protected function setTableName()

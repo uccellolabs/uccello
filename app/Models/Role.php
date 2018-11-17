@@ -23,6 +23,11 @@ class Role extends Model
      */
     protected $dates = ['deleted_at'];
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function parent()
     {
         return $this->belongsTo(self::class);

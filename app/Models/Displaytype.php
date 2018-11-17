@@ -13,6 +13,11 @@ class Displaytype extends Model
      */
     protected $table = 'displaytypes';
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function fields()
     {
         return $this->hasMany(Field::class);

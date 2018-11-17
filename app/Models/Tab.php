@@ -22,6 +22,11 @@ class Tab extends Model
         'data' => 'object',
     ];
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function module()
     {
         return $this->belongsTo(Module::class);

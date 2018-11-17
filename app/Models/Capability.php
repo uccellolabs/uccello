@@ -13,6 +13,11 @@ class Capability extends Model
      */
     protected $table = 'capabilities';
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function permissions()
     {
         return $this->hasMany(Permission::class);

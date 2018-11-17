@@ -24,6 +24,11 @@ class Profile extends Model
      */
     protected $dates = ['deleted_at'];
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function domain()
     {
         return $this->belongsTo(Domain::class);

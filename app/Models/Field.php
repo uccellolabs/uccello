@@ -22,6 +22,11 @@ class Field extends Model
         'data' => 'object',
     ];
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function block()
     {
         return $this->belongsTo(Block::class);

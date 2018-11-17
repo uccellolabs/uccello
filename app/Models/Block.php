@@ -13,6 +13,11 @@ class Block extends Model
      */
     protected $table = 'blocks';
 
+    protected function setTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function tab()
     {
         return $this->belongsTo(Tab::class);

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model as DefaultModel;
 use Illuminate\Database\Eloquent\Builder ;
 use Uccello\Core\Models\Relatedlist;
 use Uccello\Core\Models\Relation;
-use Uccello\Core\Models\Module;
+use Illuminate\Support\Collection;
 
 class Model extends DefaultModel
 {
@@ -55,16 +55,17 @@ class Model extends DefaultModel
      * @param Builder $query
      * @param int $start
      * @param int $length
-     * @return Builder
+     * @return Collection
      */
-    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start, int $length) : Builder
+    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start, int $length) : Collection
     {
         // Related field
         $relatedField = $relatedList->relatedField;
 
         return $query->where($relatedField->column, $recordId)
             ->skip($start)
-            ->take($length);
+            ->take($length)
+            ->get();
     }
 
     /**
@@ -96,24 +97,32 @@ class Model extends DefaultModel
      * @param Builder $query
      * @param int $start
      * @param int $length
-     * @return Builder
+     * @return Collection
      */
-    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 10) : Builder
+    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 10) : Collection
     {
         // Get related record ids
-        $relatedRecordIds = Relation::where('relatedlist_id', $relatedList->id)
+        $relations = Relation::where('relatedlist_id', $relatedList->id)
             ->where('module_id', $relatedList->module_id)
             ->where('related_module_id', $relatedList->related_module_id)
             ->where('record_id', $recordId)
             ->skip($start)
             ->take($length)
-            ->pluck('related_record_id');
+            ->get();
 
         // Related model
         $relatedModel = new $relatedList->relatedModule->model_class;
 
-        // Returns related records
-        return $relatedModel::whereIn('id', $relatedRecordIds);
+        // Retrieve all related records and add the relation id to be able to delete the relation instead of the record
+        $relatedRecords = new Collection();
+        foreach($relations as $relation)
+        {
+            $relatedRecord = $relatedModel::find($relation->related_record_id);
+            $relatedRecord->relation_id = $relation->id; // Add relation id
+            $relatedRecords[] = $relatedRecord;
+        }
+
+        return $relatedRecords;
     }
 
     /**

@@ -109,12 +109,22 @@ export class Datatable {
             let deleteButton = $(".template .delete-btn", dataTableContainer).clone().tooltip().appendTo($(td))
 
             // Config edit link url
-            let editLink = editButton.attr('href').replace('RECORD_ID', rowData.id)
-            editButton.attr('href', editLink)
+            if (editButton.attr('href')) {
+                let editLink = editButton.attr('href').replace('RECORD_ID', rowData.id)
+                editButton.attr('href', editLink)
+            }
 
             // Config delete link url
-            // let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
-            // deleteButton.attr('href', deleteLink)
+            if (deleteButton.attr('href')) {
+                let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
+
+                // if relation_id is defined, replace RELATION_ID
+                if (rowData.relation_id) {
+                    deleteLink = deleteLink.replace('RELATION_ID', rowData.relation_id)
+                }
+
+                deleteButton.attr('href', deleteLink)
+            }
         }
     }
 

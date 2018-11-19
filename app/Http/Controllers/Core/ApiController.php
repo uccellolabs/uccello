@@ -134,25 +134,6 @@ class ApiController extends Controller
                 $query = $modelClass::skip($start)->take($length);
             }
 
-            // If the query is for a related list, add conditions
-            if ($relatedListId) {
-                // Get related list
-                $relatedList = Relatedlist::find($relatedListId);
-
-                if ($relatedList && $relatedList->method) {
-                    // Related list method
-                    $method = $relatedList->method;
-                    $countMethod = $method . 'Count';
-
-                    // Update query
-                    $model = new $modelClass;
-                    $query = $model->$method($relatedList, $recordId, $query, $start, $length);
-
-                    // Count all results
-                    $total = $model->$countMethod($relatedList, $recordId);
-                }
-            }
-
             // Search by column
             foreach ($columns as $column) {
                 $fieldName = $column["data"];
@@ -178,8 +159,27 @@ class ApiController extends Controller
                 }
             }
 
-            // Make the query
-            $records = $query->get();
+            // If the query is for a related list, add conditions
+            if ($relatedListId) {
+                // Get related list
+                $relatedList = Relatedlist::find($relatedListId);
+
+                if ($relatedList && $relatedList->method) {
+                    // Related list method
+                    $method = $relatedList->method;
+                    $countMethod = $method . 'Count';
+
+                    // Update query
+                    $model = new $modelClass;
+                    $records = $model->$method($relatedList, $recordId, $query, $start, $length);
+
+                    // Count all results
+                    $total = $model->$countMethod($relatedList, $recordId);
+                }
+            } else {
+                // Make the query
+                $records = $query->get();
+            }
 
             foreach ($records as &$record) {
                 foreach ($module->fields as $field) {

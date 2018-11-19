@@ -184,9 +184,9 @@
                         <a href="{{ $relatedlist->getEditLink($domain, $record->id) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
                         @endif
 
-                        {{-- @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
+                        @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
                         <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
-                        @endif --}}
+                        @endif
                     </div>
                 </div>
                 @endforeach
@@ -267,9 +267,9 @@
                     <a href="{{ $relatedlist->getEditLink($domain, $record->id) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
                     @endif
 
-                    {{-- @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
+                    @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
                     <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
-                    @endif --}}
+                    @endif
                 </div>
             </div>
             @endforeach

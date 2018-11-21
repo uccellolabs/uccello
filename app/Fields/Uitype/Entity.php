@@ -43,7 +43,7 @@ class Entity implements Uitype
         if ($field->data->module) {
             $options = [
                 'class' => ucmodule($field->data->module)->model_class ?? null,
-                'property' => $field->data->field ?? 'id',
+                'property' => $field->data->field ?? 'recordLabel',
                 'empty_value' => uctrans('select_empty_value', $module),
                 'selected' => $record->{$field->column} ?? null,
                 'query_builder' => function ($relatedRecord) use($record) {

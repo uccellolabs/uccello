@@ -1,10 +1,12 @@
 import { List } from './list'
 import { Edit } from './edit'
 import { Detail } from './detail'
+import { Global } from './global'
 
 class Autoloader {
     constructor() {
         this.lazyLoad()
+        this.initGlobal()
     }
 
     lazyLoad() {
@@ -23,6 +25,10 @@ class Autoloader {
                 new Detail()
                 break;
         }
+    }
+
+    initGlobal() {
+        new Global();
     }
 }
 

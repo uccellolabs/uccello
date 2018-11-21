@@ -296,4 +296,37 @@ class Uccello
 
         return $columns;
     }
+
+    /**
+     * Returns a record attribute value.
+     * It is able to follow a complex path according to models definition (e.g. 'domain.parent.name')
+     *
+     * @param Object $record
+     * @param string $attribute
+     * @return string|Object|Array|null
+     */
+    public function getRecordAttribute($record, string $attribute) {
+
+        $attributeParts = explode('.', $attribute);
+
+        if (count($attributeParts) > 0) {
+            $value = $record;
+
+            foreach ($attributeParts as $part) {
+                // Get attribute value if exists
+                if (isset($value->{$part})) {
+                    $value = $value->{$part};
+                }
+                // If property does not exist return an empty value
+                else {
+                    $value = null;
+                    break;
+                }
+            }
+        } else {
+            $value = $record->{$attribute};
+        }
+
+        return $value;
+    }
 }

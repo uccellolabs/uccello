@@ -62,6 +62,16 @@ class Module extends Model
         return $this->hasMany(Relatedlist::class, 'module_id')->orderBy('sequence');
     }
 
+    public function detailLinks()
+    {
+        return $this->hasMany(Link::class, 'module_id')->where('type', 'detail')->orderBy('sequence');
+    }
+
+    public function detailActionLinks()
+    {
+        return $this->hasMany(Link::class, 'module_id')->where('type', 'detail.action')->orderBy('sequence');
+    }
+
     /**
      * Searches in the module a field by name.
      *

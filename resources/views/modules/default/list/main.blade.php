@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <div class="action-buttons" class="col-sm-8 col-xs-12">
+                <div class="action-buttons col-sm-8 col-xs-12">
                     <div class="btn-group m-l-10">
                         <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">10</strong>']) !!}

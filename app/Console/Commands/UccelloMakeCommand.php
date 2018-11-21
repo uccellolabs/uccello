@@ -96,6 +96,9 @@ class UccelloMakeCommand extends Command
             '--force' => 1
         ]);
 
+        $this->info('Generating routes with laroute...');
+        Artisan::call('laroute:generate');
+
         $this->info('Uccello scaffolding generated successfully.');
     }
 

@@ -41,6 +41,8 @@
     </section>
     @show
 
+    @yield('extra-content')
+
     @section('script')
     {{ Html::script('http://momentjs.com/downloads/moment-with-locales.min.js') }}
     {{ Html::script(ucasset('js/manifest.js')) }}

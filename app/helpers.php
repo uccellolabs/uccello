@@ -127,3 +127,18 @@ if (!function_exists('ucasset')) {
         return asset("vendor/uccello/$package/$path");
     }
 }
+
+if (!function_exists('ucattribute')) {
+    /**
+     * Returns a record attribute value.
+     * It is able to follow a complex path according to models definition (e.g. 'domain.parent.name')
+     *
+     * @param Object $record
+     * @param string $attribute
+     * @return string|Object|Array|null
+     */
+    function ucattribute($record, $attribute)
+    {
+        return app('uccello')->getRecordAttribute($record, $attribute);
+    }
+}

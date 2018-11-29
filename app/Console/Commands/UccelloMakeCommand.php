@@ -96,8 +96,19 @@ class UccelloMakeCommand extends Command
             '--force' => 1
         ]);
 
+        Artisan::call('vendor:publish', [
+            '--provider' => 'Tymon\JWTAuth\Providers\LaravelServiceProvider'
+        ]);
+
         $this->info('Generating routes with laroute...');
         Artisan::call('laroute:generate');
+
+
+        // Generate JWT Secret if it does not exist yet (else there is an error)
+        if (empty(env('JWT_SECRET'))) {
+            $this->info('Generating jwt secret...');
+            Artisan::call('jwt:secret');
+        }
 
         $this->info('Uccello scaffolding generated successfully.');
     }

@@ -7,11 +7,15 @@ Route::name('uccello.')->group(function () {
     // Adapt params if we use or not multi domains
     if (!uccello()->useMultiDomains()) {
         $domainParam = '';
-        $domainAndModuleParams = '/{module}';
+        $domainAndModuleParams = '{module}';
     } else {
         $domainParam = '{domain}';
         $domainAndModuleParams = '{domain}/{module}';
     }
+
+    // Overrided routes
+    Route::get($domainParam.'/api/doc', 'Core\SwaggerController@api')
+        ->name('api.doc');
 
     // Overrided routes
     Route::get($domainParam.'/role/edit', 'Role\EditController@process')
@@ -33,7 +37,7 @@ Route::name('uccello.')->group(function () {
 
     Route::get($domainAndModuleParams, 'Core\IndexController@process')->name('index');
     Route::get($domainAndModuleParams.'/list', 'Core\ListController@process')->name('list');
-    Route::post($domainAndModuleParams.'/list/datatable', 'Core\ApiController@index')->name('datatable');
+    Route::post($domainAndModuleParams.'/list/datatable', 'Core\ListController@processForDatatable')->name('datatable');
     Route::get($domainAndModuleParams.'/detail', 'Core\DetailController@process')->name('detail');
     Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');

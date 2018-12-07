@@ -8,6 +8,9 @@ use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
 use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Database\Schema\Blueprint;
 
 class Entity implements Uitype
 {
@@ -127,5 +130,47 @@ class Entity implements Uitype
         }
 
         return $query;
+    }
+
+    /**
+     * Ask the user some specific options relative to a field
+     *
+     * @param \StdClass $module
+     * @param \StdClass $field
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     */
+    public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
+    {
+        // Get all modules
+        $modules = Module::orderBy('name')->get();
+
+        $choices = [];
+        foreach ($modules as $_module) {
+            $choices[] = $_module->name;
+        }
+
+        // Add module itself if necessary
+        if (!in_array($module->name, $choices)) {
+            $choices[] = $module->name;
+        }
+
+        // Related module
+        $relatedModule = $output->choice('What is the related module', $choices);
+
+        $field->data->module = $relatedModule;
+    }
+
+    /**
+     * Create field column in the module table
+     *
+     * @param Field $field
+     * @param Blueprint $table
+     * @return \Illuminate\Support\Fluent
+     */
+    public function createFieldColumn(Field $field, Blueprint $table)
+    {
+        return $table->unsignedInteger($this->getDefaultDatabaseColumn($field));
     }
 }

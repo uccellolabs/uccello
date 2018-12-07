@@ -22,6 +22,15 @@ class Tab extends Model
         'data' => 'object',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'label', 'icon', 'sequence', 'data', 'module_id'
+    ];
+
     protected function setTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');

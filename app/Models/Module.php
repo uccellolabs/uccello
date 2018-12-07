@@ -22,6 +22,15 @@ class Module extends Model
         'data' => 'object',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'icon', 'model_class', 'data'
+    ];
+
     protected function setTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');

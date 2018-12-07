@@ -22,6 +22,15 @@ class Field extends Model
         'data' => 'object',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name', 'sequence', 'data', 'module_id', 'block_id', 'uitype_id', 'displaytype_id'
+    ];
+
     protected function setTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');

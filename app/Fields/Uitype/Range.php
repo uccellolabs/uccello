@@ -6,7 +6,6 @@ use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
-use Uccello\Core\Models\Module;
 
 class Range implements Uitype
 {

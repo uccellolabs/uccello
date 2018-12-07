@@ -7,6 +7,7 @@ use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
+use Illuminate\Database\Schema\Blueprint;
 
 class DateTime implements Uitype
 {
@@ -46,5 +47,17 @@ class DateTime implements Uitype
         $options['attr'] = ['class' => 'form-control datetimepicker'];
 
         return $options;
+    }
+
+    /**
+     * Create field column in the module table
+     *
+     * @param Field $field
+     * @param Blueprint $table
+     * @return \Illuminate\Support\Fluent
+     */
+    public function createFieldColumn(Field $field, Blueprint $table)
+    {
+        return $table->datetime($this->getDefaultDatabaseColumn($field));
     }
 }

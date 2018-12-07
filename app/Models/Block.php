@@ -13,6 +13,15 @@ class Block extends Model
      */
     protected $table = 'blocks';
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'label', 'icon', 'description', 'sequence', 'module_id', 'tab_id'
+    ];
+
     protected function setTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');

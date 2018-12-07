@@ -7,6 +7,8 @@ use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Select implements Uitype
 {
@@ -66,5 +68,29 @@ class Select implements Uitype
         $value = $record->{$field->column} ? uctrans($record->{$field->column}, $field->module) : '';
 
         return  $value;
+    }
+
+    /**
+     * Ask the user some specific options relative to a field
+     *
+     * @param \StdClass $module
+     * @param \StdClass $field
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     */
+    public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
+    {
+        // Choices
+        $options = $output->ask('Choose field options (e.g. list.option1,list.option2)');
+
+        $choices = array_map(
+            function($value) {
+                return trim($value);
+            },
+            explode(",", $options)
+        );
+
+        $field->data->choices = $choices;
     }
 }

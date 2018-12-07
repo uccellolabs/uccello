@@ -5,6 +5,9 @@ namespace Uccello\Core\Models;
 use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Database\Schema\Blueprint;
 
 class Uitype extends Model
 {
@@ -90,5 +93,33 @@ class Uitype extends Model
     {
         $uitypeClass = $this->class;
         return (new $uitypeClass())->addConditionToSearchQuery($query, $field, $value);
+    }
+
+    /**
+     * Ask user some specific options relative to a field
+     *
+     * @param \StdClass $module
+     * @param \StdClass $field
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     */
+    public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
+    {
+        $uitypeClass = $this->class;
+        return (new $uitypeClass())->askFieldOptions($module, $field, $input, $output);
+    }
+
+    /**
+     * Create field column in the module table
+     *
+     * @param Field $field
+     * @param Blueprint $table
+     * @return void
+     */
+    public function createFieldColumn(Field $field, Blueprint $table)
+    {
+        $uitypeClass = $this->class;
+        return (new $uitypeClass())->createFieldColumn($field, $table);
     }
 }

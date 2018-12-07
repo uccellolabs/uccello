@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Uitype;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
+use Uccello\Core\Models\Field;
 
 class Text implements Uitype
 {

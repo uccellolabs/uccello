@@ -2,12 +2,14 @@
 
 namespace Uccello\Core\Fields\Traits;
 
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Database\Schema\Blueprint;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Domain;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-
 
 trait DefaultUitype
 {
@@ -104,5 +106,31 @@ trait DefaultUitype
         $query = $query->where($field->column, 'like', $formattedValue);
 
         return $query;
+    }
+
+    /**
+     * Ask the user some specific options relative to a field
+     *
+     * @param \StdClass $module
+     * @param \StdClass $field
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     */
+    public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
+    {
+
+    }
+
+    /**
+     * Create field column in the module table
+     *
+     * @param Field $field
+     * @param Blueprint $table
+     * @return \Illuminate\Support\Fluent
+     */
+    public function createFieldColumn(Field $field, Blueprint $table)
+    {
+        return $table->string($this->getDefaultDatabaseColumn($field));
     }
 }

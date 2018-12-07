@@ -10,6 +10,7 @@ use Uccello\Core\Fields\Traits\UccelloUitype;
 
 use Uccello\Core\Contracts\Field\Uitype;
 use Illuminate\Http\Request;
+use Illuminate\Database\Schema\Blueprint;
 
 class Checkbox implements Uitype
 {
@@ -87,5 +88,17 @@ class Checkbox implements Uitype
         $query = $query->where($field->column, '=', $formattedValue);
 
         return $query;
+    }
+
+    /**
+     * Create field column in the module table
+     *
+     * @param Field $field
+     * @param Blueprint $table
+     * @return \Illuminate\Support\Fluent
+     */
+    public function createFieldColumn(Field $field, Blueprint $table)
+    {
+        return $table->boolean($this->getDefaultDatabaseColumn($field));
     }
 }

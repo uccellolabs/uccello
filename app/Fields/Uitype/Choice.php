@@ -3,16 +3,11 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Uccello\Core\Contracts\Field\Uitype;
-use Uccello\Core\Fields\Traits\DefaultUitype;
-use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
 
 class Choice extends Select implements Uitype
 {
-    use DefaultUitype;
-    use UccelloUitype;
-
     /**
      * Returns field type used by Form builder.
      *
@@ -44,8 +39,6 @@ class Choice extends Select implements Uitype
 
         return $options;
     }
-
-
 
     /**
      * @inheritDoc

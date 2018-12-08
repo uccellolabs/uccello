@@ -119,7 +119,11 @@ trait DefaultUitype
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
     {
+        $repeated = $output->confirm('Would you like to repeat this field (for confirmation)?', false);
 
+        if ($repeated) {
+            $field->data->repeated = true;
+        }
     }
 
     /**

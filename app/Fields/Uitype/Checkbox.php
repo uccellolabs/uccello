@@ -1,16 +1,18 @@
 <?php
 
 namespace Uccello\Core\Fields\Uitype;
+
+use Illuminate\Http\Request;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Illuminate\Database\Eloquent\Builder;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
-
 use Uccello\Core\Contracts\Field\Uitype;
-use Illuminate\Http\Request;
-use Illuminate\Database\Schema\Blueprint;
 
 class Checkbox implements Uitype
 {
@@ -100,5 +102,19 @@ class Checkbox implements Uitype
     public function createFieldColumn(Field $field, Blueprint $table)
     {
         return $table->boolean($this->getDefaultDatabaseColumn($field));
+    }
+
+    /**
+     * Ask the user some specific options relative to a field
+     *
+     * @param \StdClass $module
+     * @param \StdClass $field
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return void
+     */
+    public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
+    {
+        // Not repeated
     }
 }

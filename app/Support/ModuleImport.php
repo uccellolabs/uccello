@@ -49,8 +49,8 @@ class ModuleImport
         // Create links
         $this->createLinks($module);
 
-        // Create language file
-        $this->createLanguageFile($module);
+        // Create language files
+        $this->createLanguageFiles($module);
 
         // Create model file
         $this->createModelFile($module);
@@ -263,23 +263,26 @@ class ModuleImport
      * @param Module $module
      * @return void
      */
-    protected function createLanguageFile(Module $module)
+    protected function createLanguageFiles(Module $module)
     {
-        $locale = \Lang::getLocale();
+        //TODO:: Update language file it exists
 
-        $languageFile = 'resources/lang/' . $locale . '/' . $this->structure->name . '.php';
+        foreach ($this->structure->lang as $locale => $translations) {
 
-        if (!file_exists($languageFile)) {
-            $content = "<?php\n\n".
-                        "return [\n";
+            $languageFile = 'resources/lang/' . $locale . '/' . $this->structure->name . '.php';
 
-            foreach ($this->structure->lang->{$locale} as $key => $val) {
-                $content .= "    '$key' => '". str_replace("'", "\'", $val) ."',\n";
+            if (!file_exists($languageFile)) {
+                $content = "<?php\n\n".
+                            "return [\n";
+
+                foreach ($translations as $key => $val) {
+                    $content .= "    '$key' => '". str_replace("'", "\'", $val) ."',\n";
+                }
+
+                $content .= "];";
+
+                file_put_contents($languageFile, $content);
             }
-
-            $content .= "];";
-
-            file_put_contents($languageFile, $content);
         }
     }
 

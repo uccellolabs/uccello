@@ -156,6 +156,9 @@ class Entity implements Uitype
             $choices[] = $module->name;
         }
 
+        // Sort
+        sort($choices);
+
         // Related module
         $relatedModule = $output->choice('What is the related module', $choices);
 

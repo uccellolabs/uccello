@@ -66,49 +66,64 @@ class ModuleImport
      */
     protected function createModule()
     {
+        $moduleData = [];
+
+        // Is for admin
+        if ($this->structure->isForAdmin === true) {
+            $moduleData['admin'] = true;
+        }
+
+        // Default route
+        if ($this->structure->route !== 'uccello.list') {
+            $moduleData['route'] = $this->structure->route;
+        }
+
         // Create new module
         $module = Module::firstOrNew([
             'name' => $this->structure->name,
         ]);
         $module->icon = $this->structure->icon;
         $module->model_class = $this->structure->model;
+        $module->data = !empty($moduleData) ? $moduleData : null;
         $module->save();
 
         // Create tabs
-        foreach ($this->structure->tabs as $_tab) {
+        if (isset($this->structure->tabs)) {
+            foreach ($this->structure->tabs as $_tab) {
 
-            $tab = Tab::firstOrNew([
-                'label' => $_tab->label,
-                'module_id' => $module->id,
-            ]);
-            $tab->icon = $_tab->icon;
-            $tab->sequence = $_tab->sequence;
-            $tab->save();
-
-            // Create blocks
-            foreach ($_tab->blocks as $_block) {
-                $block = Block::firstOrNew([
-                    'label' => $_block->label,
+                $tab = Tab::firstOrNew([
+                    'label' => $_tab->label,
                     'module_id' => $module->id,
                 ]);
-                $block->icon = $_block->icon;
-                $block->data = $_block->data;
-                $block->sequence = $_block->sequence;
-                $block->tab_id = $tab->id;
-                $block->save();
+                $tab->icon = $_tab->icon;
+                $tab->sequence = $_tab->sequence;
+                $tab->save();
 
-                // Create fields
-                foreach ($_block->fields as $_field) {
-                    $field = Field::firstOrNew([
-                        'name' => $_field->name,
+                // Create blocks
+                foreach ($_tab->blocks as $_block) {
+                    $block = Block::firstOrNew([
+                        'label' => $_block->label,
                         'module_id' => $module->id,
                     ]);
-                    $field->block_id = $block->id;
-                    $field->data = $_field->data ?? null;
-                    $field->uitype_id = uitype($_field->uitype)->id;
-                    $field->displaytype_id = displaytype($_field->displaytype)->id;
-                    $field->sequence = $_field->sequence;
-                    $field->save();
+                    $block->icon = $_block->icon;
+                    $block->data = $_block->data;
+                    $block->sequence = $_block->sequence;
+                    $block->tab_id = $tab->id;
+                    $block->save();
+
+                    // Create fields
+                    foreach ($_block->fields as $_field) {
+                        $field = Field::firstOrNew([
+                            'name' => $_field->name,
+                            'module_id' => $module->id,
+                        ]);
+                        $field->block_id = $block->id;
+                        $field->data = $_field->data ?? null;
+                        $field->uitype_id = uitype($_field->uitype)->id;
+                        $field->displaytype_id = displaytype($_field->displaytype)->id;
+                        $field->sequence = $_field->sequence;
+                        $field->save();
+                    }
                 }
             }
         }
@@ -418,11 +433,13 @@ class ModuleImport
     {
         $fields = [];
 
-        foreach ($this->structure->tabs as $tab) {
-            foreach ($tab->blocks as $block) {
-                if (isset($block->fields)) {
-                    foreach ($block->fields as $field) {
-                        $fields[] = $field;
+        if (isset($this->structure->tabs)) {
+            foreach ($this->structure->tabs as $tab) {
+                foreach ($tab->blocks as $block) {
+                    if (isset($block->fields)) {
+                        foreach ($block->fields as $field) {
+                            $fields[] = $field;
+                        }
                     }
                 }
             }

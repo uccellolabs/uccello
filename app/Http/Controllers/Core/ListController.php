@@ -2,11 +2,12 @@
 
 namespace Uccello\Core\Http\Controllers\Core;
 
+use Schema;
 use Illuminate\Http\Request;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Facades\Uccello;
-use Schema;
+use Uccello\Core\Models\Relatedlist;
 
 
 class ListController extends Controller

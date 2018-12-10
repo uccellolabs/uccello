@@ -11,6 +11,7 @@ use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Filter;
 use Uccello\Core\Models\Relatedlist;
 use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Link;
 
 class ModuleImport
 {
@@ -54,6 +55,8 @@ class ModuleImport
 
         // Create model file
         $this->createModelFile($module);
+
+        //TODO: Delete old elements (tab, block, field, ....)
     }
 
     /**
@@ -69,7 +72,7 @@ class ModuleImport
         ]);
         $module->icon = $this->structure->icon;
         $module->model_class = $this->structure->model;
-        $module->save(); //TODO: or update
+        $module->save();
 
         // Create tabs
         foreach ($this->structure->tabs as $_tab) {
@@ -88,6 +91,8 @@ class ModuleImport
                     'label' => $_block->label,
                     'module_id' => $module->id,
                 ]);
+                $block->icon = $_block->icon;
+                $block->data = $_block->data;
                 $block->sequence = $_block->sequence;
                 $block->tab_id = $tab->id;
                 $block->save();
@@ -114,7 +119,7 @@ class ModuleImport
     /**
      * Create module table from fields information
      *
-     * @param Module $module
+     * @param \Uccello\Core\Models\Module $module
      * @return void
      */
     protected function createTable(Module $module)
@@ -161,8 +166,8 @@ class ModuleImport
     /**
      * Create column in database table
      *
-     * @param Field $field
-     * @param Blueprint $table
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Illuminate\Database\Schema\Blueprint $table
      * @return void
      */
     protected function createColumn(Field $field, Blueprint $table)
@@ -184,23 +189,26 @@ class ModuleImport
     /**
      * Create default filter
      *
-     * @param Module $module
+     * @param \Uccello\Core\Models\Module $module
      * @return void
      */
     protected function createDefaultFilter(Module $module)
     {
         // Add all field in the filter
         $columns = [];
-        foreach ($this->getAllFields() as $field) { //TODO: Choose fields to display in filter
-            $columns[] = $field->name;
+        foreach ($this->getAllFields() as $field) {
+            if ($field->displayInFilter === true) {
+                $columns[] = $field->name;
+            }
         }
 
-        $filter = new Filter();
-        $filter->module_id = $module->id;
-        $filter->domain_id = null;
-        $filter->user_id = null;
-        $filter->name = 'filter.all';
-        $filter->type = 'list';
+        $filter = Filter::firstOrNew([
+            "module_id" => $module->id,
+            "domain_id" => null,
+            "user_id" => null,
+            "name" => 'filter.all',
+            "type" => 'list',
+        ]);
         $filter->columns = $columns;
         $filter->conditions = null;
         $filter->order_by = null;
@@ -212,16 +220,43 @@ class ModuleImport
     /**
      * Create all related lists
      *
-     * @param Module $module
+     * @param \Uccello\Core\Models\Module $module
      * @return void
      */
     protected function createRelatedLists(Module $module)
     {
         if (isset($this->structure->relatedLists)) {
             foreach ($this->structure->relatedLists as $_relatedList) {
-                // $relatedList = new Relatedlist();
-                // $relatedList->module_id = $module->id;
+                // Get tab where we want to connect the related list if defined
+                if (isset($_relatedList->tab)) {
+                    $tab = Tab::where('module_id', $module->id)
+                        ->where('label', $_relatedList->tab)
+                        ->first();
+                } else {
+                    $tab = null;
+                }
 
+                // Get related field if defined
+                if (isset($_relatedList->related_field)) {
+                    $relatedField = Field::where('module_id', $module->id)
+                        ->where('name', $_relatedList->related_field)
+                        ->first();
+                } else {
+                    $relatedField = null;
+                }
+
+                $relatedList = Relatedlist::firstOrNew([
+                    "module_id" => $module->id,
+                    "related_module_id" => ucmodule($_relatedList->related_module)->id,
+                    "label" => $_relatedList->label,
+                ]);
+                $relatedList->tab_id = isset($tab) ? $tab->id : null;
+                $relatedList->icon = $_relatedList->icon;
+                $relatedList->type = $_relatedList->type;
+                $relatedList->method = $_relatedList->method;
+                $relatedList->data = $_relatedList->data;
+                $relatedList->sequence = $_relatedList->sequence;
+                $relatedList->save();
             }
         }
     }
@@ -229,14 +264,23 @@ class ModuleImport
     /**
      * Create all links
      *
-     * @param Module $module
+     * @param \Uccello\Core\Models\Module $module
      * @return void
      */
     protected function createLinks(Module $module)
     {
         if (isset($this->structure->links)) {
             foreach ($this->structure->links as $_link) {
-                // $link = new Link
+                $link = Link::firstOrNew([
+                    "module_id" => $module->id,
+                    "label" => $_link->label,
+                ]);
+                $link->icon = $_link->icon;
+                $link->type = $_link->type;
+                $link->url = $_link->url;
+                $link->data = $_link->data;
+                $link->sequence = $_link->sequence;
+                $link->save();
             }
         }
     }
@@ -244,7 +288,7 @@ class ModuleImport
     /**
      * Activate module on all domains
      *
-     * @param Module $module
+     * @param \Uccello\Core\Models\Module $module
      * @return void
      */
     protected function activateModuleOnDomains(Module $module)
@@ -258,38 +302,57 @@ class ModuleImport
     }
 
     /**
-     * Create language file
+     * Create or update language files
      *
-     * @param Module $module
+     * @param \Uccello\Core\Models\Module $module
      * @return void
      */
     protected function createLanguageFiles(Module $module)
     {
-        //TODO:: Update language file it exists
-
         foreach ($this->structure->lang as $locale => $translations) {
 
             $languageFile = 'resources/lang/' . $locale . '/' . $this->structure->name . '.php';
 
-            if (!file_exists($languageFile)) {
-                $content = "<?php\n\n".
-                            "return [\n";
+            // If file exists then update translations
+            if (file_exists($languageFile)) {
 
-                foreach ($translations as $key => $val) {
-                    $content .= "    '$key' => '". str_replace("'", "\'", $val) ."',\n";
-                }
+                // Get old translations ($languageFile returns an array)
+                $fileTranslations = require $languageFile;
 
-                $content .= "];";
-
-                file_put_contents($languageFile, $content);
+                // Add or update translations ($translations have priority)
+                $translations = array_merge($fileTranslations, (array) $translations);
             }
+
+            // Write language file
+            $this->writeLanguageFile($languageFile, $translations);
         }
+    }
+
+    /**
+     * Write language file
+     *
+     * @param string $filepath
+     * @param Object|array $translations
+     * @return void
+     */
+    protected function writeLanguageFile(string $filepath, $translations)
+    {
+        $content = "<?php\n\n".
+                    "return [\n";
+
+        foreach ($translations as $key => $val) {
+            $content .= "    '$key' => '". str_replace("'", "\'", $val) ."',\n";
+        }
+
+        $content .= "];";
+
+        file_put_contents($filepath, $content);
     }
 
     /**
      * Create model file
      *
-     * @param Module $module
+     * @param \Uccello\Core\Models\Module $module
      * @return void
      */
     protected function createModelFile(Module $module)

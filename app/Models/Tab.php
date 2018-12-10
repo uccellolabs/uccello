@@ -28,7 +28,11 @@ class Tab extends Model
      * @var array
      */
     protected $fillable = [
-        'label', 'icon', 'sequence', 'data', 'module_id'
+        'module_id',
+        'label',
+        'icon',
+        'sequence',
+        'data',
     ];
 
     protected function setTablePrefix()

@@ -28,7 +28,10 @@ class Module extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'icon', 'model_class', 'data'
+        'name',
+        'icon',
+        'model_class',
+        'data'
     ];
 
     protected function setTablePrefix()

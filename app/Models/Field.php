@@ -28,7 +28,13 @@ class Field extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'sequence', 'data', 'module_id', 'block_id', 'uitype_id', 'displaytype_id'
+        'module_id',
+        'block_id',
+        'uitype_id',
+        'displaytype_id',
+        'name',
+        'sequence',
+        'data',
     ];
 
     protected function setTablePrefix()

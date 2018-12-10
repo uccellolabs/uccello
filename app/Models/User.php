@@ -7,11 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Uccello\Core\Support\Traits\RelatedlistTrait;
 
 class User extends Authenticatable implements JWTSubject
 {
     use SoftDeletes;
     use Notifiable;
+    use RelatedlistTrait;
 
     /**
      * The table associated with the model.

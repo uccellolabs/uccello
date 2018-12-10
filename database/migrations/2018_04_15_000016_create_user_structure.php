@@ -57,7 +57,7 @@ class CreateUserStructure extends Migration
         $block = new Block();
         $block->label = 'block.auth';
         $block->icon = 'lock';
-        $block->description = 'block.auth.description';
+        $block->data = ['description' => 'block.auth.description'];
         $block->sequence = 0;
         $block->tab_id = $tab->id;
         $block->module_id = $module->id;

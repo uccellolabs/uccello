@@ -14,12 +14,27 @@ class Block extends Model
     protected $table = 'blocks';
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'object',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'label', 'icon', 'description', 'sequence', 'module_id', 'tab_id'
+        'module_id',
+        'tab_id',
+        'label',
+        'icon',
+        'description',
+        'sequence',
+        'data',
     ];
 
     protected function setTablePrefix()
@@ -35,5 +50,10 @@ class Block extends Model
     public function fields()
     {
         return $this->hasMany(Field::class)->orderBy('sequence');
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->data->description ?? null;
     }
 }

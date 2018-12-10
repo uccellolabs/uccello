@@ -19,8 +19,8 @@ class CreateBlocksTable extends Migration
             $table->unsignedInteger('tab_id');
             $table->string('label');
             $table->string('icon')->nullable();
-            $table->string('description')->nullable();
             $table->unsignedInteger('sequence');
+            $table->text('data')->nullable();
             $table->timestamps();
 
             // Foreign keys

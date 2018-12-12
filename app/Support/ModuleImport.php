@@ -222,6 +222,8 @@ class ModuleImport
                         continue;
                     }
 
+                    //TODO: Change column type if it exists yet
+
                     // Create column
                     $this->createColumn($field, $table);
                 }
@@ -423,13 +425,30 @@ class ModuleImport
      */
     protected function createModelFile(Module $module)
     {
-        $modelClassData = explode("\\", $this->structure->model);
+        $modelClassData = explode('\\', $this->structure->model);
 
         // Extract class name
-        $className = $modelClassData[count($modelClassData) - 1];
+        $className = array_pop($modelClassData); // Remove last element: Model
 
         // Extract namespace
-        $namespace = str_replace("\\$className", "", $this->structure->model);
+        $namespace = implode('\\', $modelClassData);
+
+        // Extract subdirectories
+        $subDirectories = '';
+        if (count($modelClassData) > 2) {
+            array_pull($modelClassData, 0); // Remove first element: Vendor
+            array_pull($modelClassData, 1); // Remove second element: Package
+
+            // Now it remains only the subdirectories
+            $subDirectories = implode('/', $modelClassData);
+
+            // Create sub directories if not exist
+            if (!$this->files->isDirectory($this->filePath . '/app/' . $subDirectories)) {
+                $this->files->makeDirectory($this->filePath . '/app/' . $subDirectories, 0755, true); // Recursive
+            }
+
+            $subDirectories .= '/';
+        }
 
         // Table name
         $tableName = $this->structure->tableName;
@@ -438,7 +457,7 @@ class ModuleImport
         $tablePrefix = $this->structure->tablePrefix;
 
         // File path
-        $modelFile = $this->filePath .  "app/$className.php";
+        $modelFile = $this->filePath .  'app/' . $subDirectories . $className . '.php';
 
         if ($this->files->exists($modelFile)) {
             return false;

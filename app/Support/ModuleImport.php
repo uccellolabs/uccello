@@ -4,6 +4,7 @@ namespace Uccello\Core\Support;
 
 use Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Filesystem\Filesystem;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Tab;
 use Uccello\Core\Models\Block;
@@ -23,6 +24,31 @@ class ModuleImport
     protected $structure;
 
     /**
+     * Module directory file path
+     *
+     * @var string
+     */
+    protected $filePath;
+
+    /**
+     * File system implementation
+     *
+     * @var \Illuminate\Filesystem\Filesystem
+     */
+    protected $files;
+
+    /**
+     * Constructor
+     *
+     * @param \Illuminate\Filesystem\Filesystem $files
+     * @return void
+     */
+    public function __construct(Filesystem $files)
+    {
+        $this->files = $files;
+    }
+
+    /**
      * Generate all files and database structure to install the new module
      *
      * @param \StdClass $module
@@ -31,6 +57,9 @@ class ModuleImport
     public function install(\StdClass $module)
     {
         $this->structure = $module;
+
+        // Initialize module file path
+        $this->initFilePath();
 
         // Create module structure
         $module = $this->createModule();
@@ -59,6 +88,20 @@ class ModuleImport
         //TODO: Delete old elements (tab, block, field, ....)
     }
 
+    protected function initFilePath()
+    {
+        $this->filePath = '';
+
+        if (!is_null($this->structure->package)) {
+            // Extract vendor and package names
+            $packageParts = explode('/', $this->structure->package);
+
+            if (count($packageParts) === 2) {
+                $this->filePath = 'packages/' . $packageParts[0] . '/' . $packageParts[1] . '/';
+            }
+        }
+    }
+
     /**
      * Create module structure in the database
      *
@@ -67,6 +110,14 @@ class ModuleImport
     protected function createModule()
     {
         $moduleData = [];
+
+        // Package
+        if (!is_null($this->structure->package)) {
+            $packageParts = explode('/', $this->structure->package); // vendor/package
+
+            // Keep only package name
+            $moduleData['package'] = $packageParts[count($packageParts) - 1];
+        }
 
         // Is for admin
         if ($this->structure->isForAdmin === true) {
@@ -326,10 +377,10 @@ class ModuleImport
     {
         foreach ($this->structure->lang as $locale => $translations) {
 
-            $languageFile = 'resources/lang/' . $locale . '/' . $this->structure->name . '.php';
+            $languageFile = $this->filePath . 'resources/lang/' . $locale . '/' . $this->structure->name . '.php';
 
             // If file exists then update translations
-            if (file_exists($languageFile)) {
+            if ($this->files->exists($languageFile)) {
 
                 // Get old translations ($languageFile returns an array)
                 $fileTranslations = require $languageFile;
@@ -361,7 +412,7 @@ class ModuleImport
 
         $content .= "];";
 
-        file_put_contents($filepath, $content);
+        $this->files->put($filepath, $content);
     }
 
     /**
@@ -380,11 +431,27 @@ class ModuleImport
         // Extract namespace
         $namespace = str_replace("\\$className", "", $this->structure->model);
 
-        // File path
-        $modelFile = "app/$className.php";
+        // Table name
+        $tableName = $this->structure->tableName;
 
-        if (file_exists($modelFile)) {
+        // Table prefix
+        $tablePrefix = $this->structure->tablePrefix;
+
+        // File path
+        $modelFile = $this->filePath .  "app/$className.php";
+
+        if ($this->files->exists($modelFile)) {
             return false;
+        }
+
+        // Generate table prefix
+        if (!empty($tablePrefix)) {
+            $setTablePrefix = "    protected function setTablePrefix()\n".
+                            "    {\n".
+                            "        \$this->tablePrefix = '$tablePrefix';\n".
+                            "    }\n\n";
+        } else {
+            $setTablePrefix = '';
         }
 
         // Generate relations
@@ -405,10 +472,27 @@ class ModuleImport
         // Generate content
         $content = "<?php\n\n".
                     "namespace $namespace;\n\n".
-                    "use Illuminate\Database\Eloquent\Model;\n".
+                    "use Illuminate\Database\Eloquent\SoftDeletes;\n".
+                    "use Uccello\Core\Database\Eloquent\Model;\n".
                     "\n".
                     "class $className extends Model\n".
                     "{\n".
+                    "    use SoftDeletes;\n\n".
+                    "    /**\n".
+                    "     * The table associated with the model.\n".
+                    "     *\n".
+                    "     * @var string\n".
+                    "     */\n".
+                    "    protected \$table = '$tableName';\n".
+                    "\n".
+                    "    /**\n".
+                    "     * The attributes that should be mutated to dates.\n".
+                    "     *\n".
+                    "     * @var array\n".
+                    "     */\n".
+                    "    protected \$dates = ['deleted_at'];\n".
+                    "\n".
+                    $setTablePrefix.
                     $relations.
                     "    /**\n".
                     "    * Returns record label\n".
@@ -421,7 +505,7 @@ class ModuleImport
                     "    }\n".
                     "}";
 
-        file_put_contents($modelFile, $content);
+        $this->files->put($modelFile, $content);
     }
 
     /**

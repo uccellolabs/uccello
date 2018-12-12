@@ -51,11 +51,11 @@
     {{ Html::script('js/laroute.js') }}
     @show
 
-    @yield('extra-script')
-
     @section('autoloader-script')
     {{ Html::script(ucasset('js/autoloader.js')) }}
     @show
+
+    @yield('extra-script')
 </body>
 
 </html>

@@ -15,19 +15,24 @@ class Model extends DefaultModel
     {
         parent::__construct($attributes);
 
-        // Set table prefix
-        $this->setTablePrefix();
+        // Init table prefix
+        $this->initTablePrefix();
 
-        // Set table name
-        $this->setTableName();
+        // Init table name
+        $this->initTableName();
     }
 
-    protected function setTablePrefix()
+    public function getTablePrefix()
+    {
+        return $this->tablePrefix;
+    }
+
+    protected function initTablePrefix()
     {
         $this->tablePrefix = '';
     }
 
-    protected function setTableName()
+    protected function initTableName()
     {
         if($this->table)
         {

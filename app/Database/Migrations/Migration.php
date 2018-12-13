@@ -11,6 +11,6 @@ class Migration extends DefaultMigration
 
     public function __construct()
     {
-        $this->setTablePrefix();
+        $this->initTablePrefix();
     }
 }

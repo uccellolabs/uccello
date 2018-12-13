@@ -31,11 +31,18 @@ class ModuleImport
     protected $filePath;
 
     /**
-     * File system implementation
+     * Filesystem implementation
      *
      * @var \Illuminate\Filesystem\Filesystem
      */
     protected $files;
+
+    /**
+     * Command implementation to be able to display message in the console
+     *
+     * @var \Illuminate\Console\Command|Uccello\ModuleDesigner\Console\Commands\MakeModuleCommand
+     */
+    protected $command;
 
     /**
      * Constructor
@@ -43,9 +50,17 @@ class ModuleImport
      * @param \Illuminate\Filesystem\Filesystem $files
      * @return void
      */
-    public function __construct(Filesystem $files)
+    /**
+     * Undocumented function
+     *
+     * @param \Illuminate\Filesystem\Filesystem $files
+     * @param \Illuminate\Console\Command|Uccello\ModuleDesigner\Console\Commands\MakeModuleCommand|null $output
+     */
+    public function __construct(Filesystem $files, $command)
     {
         $this->files = $files;
+
+        $this->command = $command;
     }
 
     /**
@@ -133,6 +148,10 @@ class ModuleImport
         $module = Module::firstOrNew([
             'name' => $this->structure->name,
         ]);
+
+        // Check if the module already exists
+        $alreadyExits = !empty($module->id);
+
         $module->icon = $this->structure->icon;
         $module->model_class = $this->structure->model;
         $module->data = !empty($moduleData) ? $moduleData : null;
@@ -179,6 +198,16 @@ class ModuleImport
             }
         }
 
+        if (!is_null($this->command)) {
+            if ($alreadyExits) {
+                $statusMessage = 'already exists. It was <comment>updated</comment>.';
+            } else {
+                $statusMessage = 'was created.';
+            }
+
+            $this->command->line('The module <info>' . $module->name . '</info> '. $statusMessage);
+        }
+
         return $module;
     }
 
@@ -212,22 +241,31 @@ class ModuleImport
                 $table->softDeletes();
             });
 
+            if (!is_null($this->command)) {
+                $this->command->line('The table <info>' . $tableName . '</info> was created.');
+            }
+
         } else {
             // Update table
             Schema::table($tableName, function(Blueprint $table) use ($module, $tableName) {
                 // Create each column according to the selected uitype
                 foreach ($module->fields as $field) {
                     // Do not recreate id
-                    if ($field->name === 'id' || Schema::hasColumn($tableName, $field->name)) {
+                    if ($field->name === 'id') {
                         continue;
                     }
 
-                    //TODO: Change column type if it exists yet
+                    // Check if the column already exists and if we need to update it
+                    $update = Schema::hasColumn($tableName, $field->name);
 
                     // Create column
-                    $this->createColumn($field, $table);
+                    $this->createColumn($field, $table, $update);
                 }
             });
+
+            if (!is_null($this->command)) {
+                $this->command->line('The table <info>' . $tableName . '</info> already exists. It was <comment>updated</comment>.');
+            }
         }
     }
 
@@ -236,9 +274,10 @@ class ModuleImport
      *
      * @param \Uccello\Core\Models\Field $field
      * @param \Illuminate\Database\Schema\Blueprint $table
+     * @param boolean $update
      * @return void
      */
-    protected function createColumn(Field $field, Blueprint $table)
+    protected function createColumn(Field $field, Blueprint $table, bool $update = false)
     {
         // Create column
         $column = uitype($field->uitype->id)->createFieldColumn($field, $table);
@@ -251,6 +290,10 @@ class ModuleImport
             if (!in_array('required', $rules)) {
                 $column->nullable();
             }
+        }
+
+        if ($update) {
+            $column->change();
         }
     }
 
@@ -385,14 +428,22 @@ class ModuleImport
             if ($this->files->exists($languageFile)) {
 
                 // Get old translations ($languageFile returns an array)
-                $fileTranslations = require $languageFile;
+                $fileTranslations = $this->files->getRequire($languageFile);
 
                 // Add or update translations ($translations have priority)
                 $translations = array_merge($fileTranslations, (array) $translations);
+
+                $message = 'The file <info>' . $languageFile . '</info> already exists. It was <comment>updated</comment>.';
+            } else {
+                $message = 'The file <info>' . $languageFile . '</info> was created.';
             }
 
             // Write language file
             $this->writeLanguageFile($languageFile, $translations);
+
+            if (!is_null($this->command)) {
+                $this->command->line($message);
+            }
         }
     }
 
@@ -459,8 +510,12 @@ class ModuleImport
         // File path
         $modelFile = $this->filePath .  'app/' . $subDirectories . $className . '.php';
 
+        // Check if file already exists
         if ($this->files->exists($modelFile)) {
-            return false;
+            if (!is_null($this->command)) {
+                $this->command->line('The file <info>' . $modelFile . '</info> already exists. It was <error>ignored</error>.');
+            }
+            return;
         }
 
         // Generate table prefix
@@ -525,6 +580,10 @@ class ModuleImport
                     "}";
 
         $this->files->put($modelFile, $content);
+
+        if (!is_null($this->command)) {
+            $this->command->line('The file <info>' . $modelFile . '</info> was created.');
+        }
     }
 
     /**

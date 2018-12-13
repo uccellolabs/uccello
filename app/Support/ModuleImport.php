@@ -610,6 +610,12 @@ class ModuleImport
 
         $content .= "];";
 
+        // Create language directory if necessary
+        $directory = dirname($filepath);
+        if (!$this->files->isDirectory($directory)) {
+            $this->files->makeDirectory($directory, 0755, true); // Recursive
+        }
+
         $this->files->put($filepath, $content);
     }
 

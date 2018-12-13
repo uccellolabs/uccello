@@ -18,7 +18,7 @@ class Uitype extends Model
      */
     protected $table = 'uitypes';
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

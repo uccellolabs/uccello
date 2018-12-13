@@ -41,7 +41,7 @@ class Filter extends Model
         'is_public',
     ];
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

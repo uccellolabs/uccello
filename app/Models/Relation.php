@@ -31,7 +31,7 @@ class Relation extends Model
         'relatedlist_id', 'module_id', 'related_module_id', 'record_id', 'related_record_id', 'data'
     ];
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

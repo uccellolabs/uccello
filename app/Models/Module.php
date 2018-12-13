@@ -34,7 +34,7 @@ class Module extends Model
         'data'
     ];
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }
@@ -74,6 +74,11 @@ class Module extends Model
         return $this->hasMany(Relatedlist::class, 'module_id')->orderBy('sequence');
     }
 
+    public function links()
+    {
+        return $this->hasMany(Link::class, 'module_id')->orderBy('sequence');
+    }
+
     public function detailLinks()
     {
         return $this->hasMany(Link::class, 'module_id')->where('type', 'detail')->orderBy('sequence');
@@ -96,13 +101,22 @@ class Module extends Model
     }
 
     /**
-     * Returns module's package if defined, uccello else.
+     * Returns module package name
      *
-     * @return string
+     * @return string|null
      */
-    public function getPackageAttribute() : string
+    public function getPackageAttribute() : ?string
     {
-        return $this->data->package ?? 'uccello';
+        $package = ''; // For modules created directory in the host application
+
+        // Get only package name if defined (Format: vendor/package)
+        if (isset($this->data->package))
+        {
+            $packageData = explode('/', $this->data->package);
+            $package = array_pop($packageData);
+        }
+
+        return $package;
     }
 
     /**

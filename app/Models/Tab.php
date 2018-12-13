@@ -35,7 +35,7 @@ class Tab extends Model
         'data',
     ];
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

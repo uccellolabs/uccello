@@ -13,6 +13,7 @@ use Uccello\Core\Models\Filter;
 use Uccello\Core\Models\Relatedlist;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Link;
+use Uccello\ModuleDesigner\Models\DesignedModule;
 
 class ModuleImport
 {
@@ -100,16 +101,17 @@ class ModuleImport
         // Create model file
         $this->createModelFile($module);
 
-        //TODO: Delete old elements (tab, block, field, ....)
+        // Delete designed module
+        $this->deleteDesignedModule();
     }
 
     protected function initFilePath()
     {
         $this->filePath = '';
 
-        if (!is_null($this->structure->package)) {
+        if (isset($this->structure->data->package)) {
             // Extract vendor and package names
-            $packageParts = explode('/', $this->structure->package);
+            $packageParts = explode('/', $this->structure->data->package);
 
             if (count($packageParts) === 2) {
                 $this->filePath = 'packages/' . $packageParts[0] . '/' . $packageParts[1] . '/';
@@ -124,26 +126,6 @@ class ModuleImport
      */
     protected function createModule()
     {
-        $moduleData = [];
-
-        // Package
-        if (!is_null($this->structure->package)) {
-            $packageParts = explode('/', $this->structure->package); // vendor/package
-
-            // Keep only package name
-            $moduleData['package'] = $packageParts[count($packageParts) - 1];
-        }
-
-        // Is for admin
-        if ($this->structure->isForAdmin === true) {
-            $moduleData['admin'] = true;
-        }
-
-        // Default route
-        if ($this->structure->route !== 'uccello.list') {
-            $moduleData['route'] = $this->structure->route;
-        }
-
         // Create new module
         $module = Module::firstOrNew([
             'name' => $this->structure->name,
@@ -152,41 +134,44 @@ class ModuleImport
         // Check if the module already exists
         $alreadyExits = !empty($module->id);
 
+        // Delete obsolete structure elements if necessary
+        if ($alreadyExits) {
+            $this->deleteObsoleteStructureElements($module);
+        }
+
         $module->icon = $this->structure->icon;
         $module->model_class = $this->structure->model;
-        $module->data = !empty($moduleData) ? $moduleData : null;
+        $module->data = $this->structure->data ?? null;
         $module->save();
 
         // Create tabs
         if (isset($this->structure->tabs)) {
             foreach ($this->structure->tabs as $_tab) {
 
-                $tab = Tab::firstOrNew([
-                    'label' => $_tab->label,
-                    'module_id' => $module->id,
-                ]);
+                $tab = Tab::findOrNew($_tab->id);
+                $tab->label = $_tab->label;
+                $tab->module_id = $module->id;
                 $tab->icon = $_tab->icon;
+                $tab->data = $_tab->data ?? null;
                 $tab->sequence = $_tab->sequence;
                 $tab->save();
 
                 // Create blocks
                 foreach ($_tab->blocks as $_block) {
-                    $block = Block::firstOrNew([
-                        'label' => $_block->label,
-                        'module_id' => $module->id,
-                    ]);
+                    $block = Block::findOrNew($_block->id);
+                    $block->label = $_block->label;
+                    $block->module_id = $module->id;
                     $block->icon = $_block->icon;
-                    $block->data = $_block->data;
+                    $block->data = $_block->data ?? null;
                     $block->sequence = $_block->sequence;
                     $block->tab_id = $tab->id;
                     $block->save();
 
                     // Create fields
                     foreach ($_block->fields as $_field) {
-                        $field = Field::firstOrNew([
-                            'name' => $_field->name,
-                            'module_id' => $module->id,
-                        ]);
+                        $field = Field::findOrNew($_field->id);
+                        $field->name = $_field->name;
+                        $field->module_id = $module->id;
                         $field->block_id = $block->id;
                         $field->data = $_field->data ?? null;
                         $field->uitype_id = uitype($_field->uitype)->id;
@@ -209,6 +194,161 @@ class ModuleImport
         }
 
         return $module;
+    }
+
+    /**
+     * Delete obsolete tabs, blocks and fields if necessary
+     *
+     * @param \Uccello\Core\Models\Module $module
+     * @return void
+     */
+    protected function deleteObsoleteStructureElements(Module $module)
+    {
+        // Delete tabs
+        $this->deleteObsoleteTabs($module);
+
+        // Delete blocks
+        $this->deleteObsoleteBlocks($module);
+
+        // Delete fields
+        $this->deleteObsoleteFields($module);
+
+        // Delete related lists
+        $this->deleteObsoleteRelatedLists($module);
+
+        // Delete links
+        $this->deleteObsoleteLinks($module);
+    }
+
+    /**
+     * Delete obsolete tabs if necessary
+     *
+     * @param \Uccello\Core\Models\Module $module
+     * @return void
+     */
+    protected function deleteObsoleteTabs(Module $module)
+    {
+        foreach ($module->tabs as $tab) {
+            $found = false;
+
+            // Search tab in the new structure
+            foreach ($this->structure->tabs as $_tab) {
+                if ($tab->id === $_tab->id) {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $tab->delete();
+            }
+        }
+    }
+
+    /**
+     * Delete obsolete blocks if necessary
+     *
+     * @param \Uccello\Core\Models\Module $module
+     * @return void
+     */
+    protected function deleteObsoleteBlocks(Module $module)
+    {
+        foreach ($module->blocks as $block) {
+            $found = false;
+
+            // Search block in the new structure
+            foreach ($this->structure->tabs as $_tab) {
+                foreach ($_tab->blocks as $_block) {
+                    if ($block->id === $_block->id) {
+                        $found = true;
+                        break 2;
+                    }
+                }
+            }
+
+            if (!$found) {
+                $block->delete();
+            }
+        }
+    }
+
+    /**
+     * Delete obsolete fields if necessary
+     *
+     * @param \Uccello\Core\Models\Module $module
+     * @return void
+     */
+    protected function deleteObsoleteFields(Module $module)
+    {
+        foreach ($module->fields as $field) {
+            $found = false;
+
+            // Search field in the new structure
+            foreach ($this->structure->tabs as $_tab) {
+                foreach ($_tab->blocks as $_block) {
+                    foreach ($_block->fields as $_field) {
+                        if ($field->id === $_field->id) {
+                            $found = true;
+                            break 3;
+                        }
+                    }
+                }
+            }
+
+            if (!$found) {
+                $field->delete();
+            }
+        }
+    }
+
+    /**
+     * Delete obsolete related lists if necessary
+     *
+     * @param \Uccello\Core\Models\Module $module
+     * @return void
+     */
+    protected function deleteObsoleteRelatedLists(Module $module)
+    {
+        foreach ($module->relatedlists as $relatdlist) {
+            $found = false;
+
+            // Search related list in the new structure
+            foreach ($this->structure->relatedlists as $_relatdlist) {
+                if ($relatdlist->id === $_relatdlist->id) {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $relatdlist->delete();
+            }
+        }
+    }
+
+    /**
+     * Delete obsolete links if necessary
+     *
+     * @param \Uccello\Core\Models\Module $module
+     * @return void
+     */
+    protected function deleteObsoleteLinks(Module $module)
+    {
+        foreach ($module->links as $link) {
+            $found = false;
+
+            // Search related list in the new structure
+            foreach ($this->structure->links as $_link) {
+                if ($link->id === $_link->id) {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found) {
+                $link->delete();
+            }
+        }
     }
 
     /**
@@ -256,7 +396,7 @@ class ModuleImport
                     }
 
                     // Check if the column already exists and if we need to update it
-                    $update = Schema::hasColumn($tableName, $field->name);
+                    $update = Schema::hasColumn($tableName, $field->column);
 
                     // Create column
                     $this->createColumn($field, $table, $update);
@@ -459,8 +599,13 @@ class ModuleImport
         $content = "<?php\n\n".
                     "return [\n";
 
-        foreach ($translations as $key => $val) {
-            $content .= "    '$key' => '". str_replace("'", "\'", $val) ."',\n";
+        foreach ($translations as $label => $translation) {
+            // Do not put translations to remove
+            if (!empty($this->structure->translationsToRemove) && in_array($label, $this->structure->translationsToRemove)) {
+                continue;
+            }
+
+            $content .= "    '$label' => '". str_replace("'", "\'", $translation) ."',\n";
         }
 
         $content .= "];";
@@ -520,12 +665,12 @@ class ModuleImport
 
         // Generate table prefix
         if (!empty($tablePrefix)) {
-            $setTablePrefix = "    protected function setTablePrefix()\n".
+            $initTablePrefix = "    protected function initTablePrefix()\n".
                             "    {\n".
                             "        \$this->tablePrefix = '$tablePrefix';\n".
                             "    }\n\n";
         } else {
-            $setTablePrefix = '';
+            $initTablePrefix = '';
         }
 
         // Generate relations
@@ -566,7 +711,7 @@ class ModuleImport
                     "     */\n".
                     "    protected \$dates = ['deleted_at'];\n".
                     "\n".
-                    $setTablePrefix.
+                    $initTablePrefix.
                     $relations.
                     "    /**\n".
                     "    * Returns record label\n".
@@ -583,6 +728,22 @@ class ModuleImport
 
         if (!is_null($this->command)) {
             $this->command->line('The file <info>' . $modelFile . '</info> was created.');
+        }
+    }
+
+    /**
+     * Delete module from designed_modules table
+     *
+     * @return void
+     */
+    protected function deleteDesignedModule()
+    {
+        // Search designed module by name
+        $designedModule = DesignedModule::where('name', $this->structure->name);
+
+        // Delete if exists
+        if (!is_null($designedModule)) {
+            $designedModule->delete();
         }
     }
 

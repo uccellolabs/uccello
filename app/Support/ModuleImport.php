@@ -627,6 +627,16 @@ class ModuleImport
      */
     protected function createModelFile(Module $module)
     {
+        // Check model stub file existence (from module-designer package)
+        $stubsDirectory = base_path('vendor/uccello/module-designer/app/Console/Commands/stubs');
+
+        if (!$this->files->exists($stubsDirectory . '/model.stub')) {
+            if (!is_null($this->command)) {
+                $this->command->line('<error>You have to install module-designer to generate the model file</error> : <comment>composer require uccello/module-designer</comment>');
+            }
+            return;
+        }
+
         $modelClassData = explode('\\', $this->structure->model);
 
         // Extract class name
@@ -664,17 +674,20 @@ class ModuleImport
         // Check if file already exists
         if ($this->files->exists($modelFile)) {
             if (!is_null($this->command)) {
-                $this->command->line('The file <info>' . $modelFile . '</info> already exists. It was <error>ignored</error>.');
+                $modelFileCopy = str_replace('.php', '.prev.php', $modelFile);
+                $this->files->move($modelFile, $modelFileCopy);
+                $this->command->line('<error>WARNING:</error> The file <info>' . $modelFile . '</info> already exists. '.
+                    'It was <comment>renamed</comment> into <info>' . $this->files->basename($modelFileCopy). '</info>.'
+                );
             }
-            return;
         }
 
         // Generate table prefix
         if (!empty($tablePrefix)) {
-            $initTablePrefix = "    protected function initTablePrefix()\n".
+            $initTablePrefix = "\n    protected function initTablePrefix()\n".
                             "    {\n".
                             "        \$this->tablePrefix = '$tablePrefix';\n".
-                            "    }\n\n";
+                            "    }\n";
         } else {
             $initTablePrefix = '';
         }
@@ -686,49 +699,34 @@ class ModuleImport
                 $relatedModule = Module::where('name', $field->data->module)->first();
 
                 if ($relatedModule) {
-                    $relations .= "    public function ". $field->name . "()\n".
+                    $relations .= "\n    public function ". $field->name . "()\n".
                                 "    {\n".
                                 "        return \$this->belongsTo(\\". $relatedModule->model_class . "::class);\n".
-                                "    }\n\n";
+                                "    }\n";
                 }
             }
         }
 
         // Generate content
-        $content = "<?php\n\n".
-                    "namespace $namespace;\n\n".
-                    "use Illuminate\Database\Eloquent\SoftDeletes;\n".
-                    "use Uccello\Core\Database\Eloquent\Model;\n".
-                    "\n".
-                    "class $className extends Model\n".
-                    "{\n".
-                    "    use SoftDeletes;\n\n".
-                    "    /**\n".
-                    "     * The table associated with the model.\n".
-                    "     *\n".
-                    "     * @var string\n".
-                    "     */\n".
-                    "    protected \$table = '$tableName';\n".
-                    "\n".
-                    "    /**\n".
-                    "     * The attributes that should be mutated to dates.\n".
-                    "     *\n".
-                    "     * @var array\n".
-                    "     */\n".
-                    "    protected \$dates = ['deleted_at'];\n".
-                    "\n".
-                    $initTablePrefix.
-                    $relations.
-                    "    /**\n".
-                    "    * Returns record label\n".
-                    "    *\n".
-                    "    * @return string\n".
-                    "    */\n".
-                    "    public function getRecordLabelAttribute() : string\n".
-                    "    {\n".
-                    "        return \$this->id;\n".
-                    "    }\n".
-                    "}";
+        $fileContent = $this->files->get($stubsDirectory . '/model.stub');
+
+        $content = str_replace(
+            [
+                '// %namespace%',
+                'ClassName',
+                '%table_name%',
+                '// %init_table_prefix%',
+                '// %relations%'
+            ],
+            [
+                "namespace $namespace;",
+                $className,
+                $tableName,
+                $initTablePrefix,
+                $relations
+            ],
+            $fileContent
+        );
 
         $this->files->put($modelFile, $content);
 

@@ -46,6 +46,13 @@ class ModuleImport
     protected $command;
 
     /**
+     * Fields to delete in database
+     *
+     * @var array
+     */
+    protected $fieldsToDelete = [];
+
+    /**
      * Constructor
      *
      * @param \Illuminate\Filesystem\Filesystem $files
@@ -73,6 +80,8 @@ class ModuleImport
     public function install(\StdClass $module)
     {
         $this->structure = $module;
+
+        // dd($module);
 
         // Initialize module file path
         $this->initFilePath();
@@ -297,6 +306,7 @@ class ModuleImport
 
             if (!$found) {
                 $field->delete();
+                $this->fieldsToDelete[] = $field;
             }
         }
     }
@@ -367,14 +377,32 @@ class ModuleImport
                 $table->increments('id');
 
                 // Create each column according to the selected uitype
-                foreach ($module->fields as $field) {
-                    // Do not recreate id
-                    if ($field->name === 'id') {
-                        continue;
-                    }
+                foreach ($this->structure->tabs as $_tabs) {
+                    foreach ($_tabs->blocks as $_block) {
+                        foreach ($_block->fields as $_field) {
+                            // Do not recreate id
+                            if ($_field->name === 'id') {
+                                continue;
+                            }
 
-                    // Create column
-                    $this->createColumn($field, $table);
+                            if (!empty((array) $_field->data)) {
+                                $data = $_field->data;
+                            } else {
+                                $data = null;
+                            }
+
+                            $field = new Field([
+                                'name' => $_field->name,
+                                'uitype_id' => uitype($_field->uitype)->id,
+                                'displaytype_id' => displaytype($_field->displaytype)->id,
+                                'sequence' => $_field->sequence,
+                                'data' => $data
+                            ]);
+
+                            // Create column
+                            $this->createColumn($field, $table);
+                        }
+                    }
                 }
 
                 $table->timestamps();
@@ -389,17 +417,53 @@ class ModuleImport
             // Update table
             Schema::table($tableName, function(Blueprint $table) use ($module, $tableName) {
                 // Create each column according to the selected uitype
-                foreach ($module->fields as $field) {
-                    // Do not recreate id
-                    if ($field->name === 'id') {
-                        continue;
+                foreach ($this->structure->tabs as $_tabs) {
+                    foreach ($_tabs->blocks as $_block) {
+                        foreach ($_block->fields as $_field) {
+
+                            // Do not recreate id
+                            if ($_field->name === 'id') {
+                                continue;
+                            }
+
+                            if (!empty((array) $_field->data)) {
+                                $data = $_field->data;
+                            } else {
+                                $data = null;
+                            }
+
+                            $field = new Field([
+                                'name' => $_field->name,
+                                'uitype_id' => uitype($_field->uitype)->id,
+                                'displaytype_id' => displaytype($_field->displaytype)->id,
+                                'sequence' => $_field->sequence,
+                                'data' => $data
+                            ]);
+
+                            // Check if the column already exists and if we need to update it
+                            $updateColumn = Schema::hasColumn($tableName, $field->column);
+
+                            // Create column
+                            $this->createColumn($field, $table, $updateColumn);
+                        }
                     }
+                }
 
-                    // Check if the column already exists and if we need to update it
-                    $update = Schema::hasColumn($tableName, $field->column);
+                // Drop old columns
+                foreach ($this->fieldsToDelete as $field) {
 
-                    // Create column
-                    $this->createColumn($field, $table, $update);
+                    // Check if the column exists
+                    $columnExists = Schema::hasColumn($tableName, $field->column);
+
+                    if ($columnExists) {
+                        $column = uitype($field->uitype->id)->createFieldColumn($field, $table);
+
+                        // Set column nullable (instead to drop it to preserve old data in production)
+                        $column->nullable()->change();
+
+                        // Delete column
+                        // $table->dropColumn($field->column);
+                    }
                 }
             });
 
@@ -414,11 +478,13 @@ class ModuleImport
      *
      * @param \Uccello\Core\Models\Field $field
      * @param \Illuminate\Database\Schema\Blueprint $table
-     * @param boolean $update
+     * @param boolean $updateColumn
      * @return void
      */
-    protected function createColumn(Field $field, Blueprint $table, bool $update = false)
+    protected function createColumn(Field $field, Blueprint $table, bool $updateColumn = false)
     {
+        $tableName = $this->structure->tablePrefix . $this->structure->tableName;
+
         // Create column
         $column = uitype($field->uitype->id)->createFieldColumn($field, $table);
 
@@ -432,7 +498,7 @@ class ModuleImport
             }
         }
 
-        if ($update) {
+        if ($updateColumn) {
             $column->change();
         }
     }

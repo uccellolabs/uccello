@@ -24,6 +24,7 @@
     "require": {
         "php": "~7.0",
         "cviebrock/eloquent-sluggable": "^4.5",
+        "darkaonline/l5-swagger": "5.7.*",
         "doctrine/dbal": "^2.7",
         "kris/laravel-form-builder": "^1.14",
         "lord/laroute": "2.*",

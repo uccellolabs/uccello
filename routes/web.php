@@ -14,6 +14,10 @@ Route::name('uccello.')->group(function () {
     }
 
     // Overrided routes
+
+    Route::get($domainParam.'/api/doc/json', 'Core\SwaggerController@docs')
+    ->name('api.doc.json');
+
     Route::get($domainParam.'/api/doc', 'Core\SwaggerController@api')
         ->name('api.doc');
 

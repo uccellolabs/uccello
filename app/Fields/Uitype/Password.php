@@ -17,7 +17,7 @@ class Password extends Text implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'password';
     }
@@ -35,12 +35,12 @@ class Password extends Text implements Uitype
     /**
      * Returns formatted value to save.
      *
-     * @param Request $request
-     * @param Field $field
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed|null $value
      * @param mixed|null $record
-     * @param Domain|null $domain
-     * @param Module|null $module
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
      * @return string|null
      */
     public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string

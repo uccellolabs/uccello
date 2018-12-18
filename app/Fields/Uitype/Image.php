@@ -11,7 +11,7 @@ class Image extends File implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'file';
     }

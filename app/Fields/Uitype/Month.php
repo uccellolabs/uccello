@@ -18,7 +18,7 @@ class Month implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'text';
     }
@@ -27,11 +27,11 @@ class Month implements Uitype
      * Returns options for Form builder.
      *
      * @param mixed $record
-     * @param Field $field
-     * @param Module $module
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module): array
+    public function getFormOptions($record, Field $field, Module $module) : array
     {
         $options['attr'] = ['class' => 'form-control monthpicker'];
 

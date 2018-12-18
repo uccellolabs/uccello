@@ -18,7 +18,7 @@ class Color implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'text';
     }
@@ -28,8 +28,8 @@ class Color implements Uitype
      *
      * @param \StdClass $module
      * @param \StdClass $field
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Input\OutputInterface $output
      * @return void
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)

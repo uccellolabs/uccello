@@ -3,6 +3,7 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Fluent;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
@@ -18,7 +19,7 @@ class Number implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'number';
     }
@@ -26,12 +27,24 @@ class Number implements Uitype
     /**
      * Create field column in the module table
      *
-     * @param Field $field
-     * @param Blueprint $table
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Illuminate\Database\Schema\Blueprint $table
      * @return \Illuminate\Support\Fluent
      */
-    public function createFieldColumn(Field $field, Blueprint $table)
+    public function createFieldColumn(Field $field, Blueprint $table) : Fluent
     {
         return $table->decimal($this->getDefaultDatabaseColumn($field));
+    }
+
+    /**
+     * Get field column creation in string format (for make:module)
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @return string
+     */
+    public function createFieldColumnStr(Field $field) : string
+    {
+        $column = $this->getDefaultDatabaseColumn($field);
+        return "\$table->decimal('$column')";
     }
 }

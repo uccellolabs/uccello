@@ -20,7 +20,7 @@ class Select implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'select';
     }
@@ -29,11 +29,11 @@ class Select implements Uitype
      * Returns options for Form builder.
      *
      * @param mixed $record
-     * @param Field $field
-     * @param Module $module
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module): array
+    public function getFormOptions($record, Field $field, Module $module) : array
     {
         if (!is_object($field->data)) {
             return [];
@@ -57,9 +57,9 @@ class Select implements Uitype
 
     /**
      * Returns formatted value to display.
-     * Display Yes or No instead of 1 or 0.
+     * Translate the value.
      *
-     * @param Field $field
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $record
      * @return string
      */

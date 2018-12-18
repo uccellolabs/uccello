@@ -2,15 +2,16 @@
 
 namespace Uccello\Core\Fields\Uitype;
 
+use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Fluent;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
-use Illuminate\Database\Eloquent\Builder;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Illuminate\Database\Schema\Blueprint;
 
 class Entity implements Uitype
 {
@@ -22,7 +23,7 @@ class Entity implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'entity';
     }
@@ -31,11 +32,11 @@ class Entity implements Uitype
      * Returns options for Form builder.
      *
      * @param mixed $record
-     * @param Field $field
-     * @param Module $module
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module): array
+    public function getFormOptions($record, Field $field, Module $module) : array
     {
         if (!is_object($field->data)) {
             return [];
@@ -77,7 +78,7 @@ class Entity implements Uitype
      * Returns formatted value to display.
      * Uses recordLabel attribute if defined, id else.
      *
-     * @param Field $field
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $record
      * @return string
      */
@@ -108,12 +109,11 @@ class Entity implements Uitype
 
     /**
      * Returns updated query after adding a new search condition.
-     * Uses field data to know in which attribute make the search.
      *
-     * @param Builder query
-     * @param Field $field
+     * @param \Illuminate\Database\Eloquent\Builder query
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $value
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
@@ -137,8 +137,8 @@ class Entity implements Uitype
      *
      * @param \StdClass $module
      * @param \StdClass $field
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Input\OutputInterface $output
      * @return void
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
@@ -168,12 +168,24 @@ class Entity implements Uitype
     /**
      * Create field column in the module table
      *
-     * @param Field $field
-     * @param Blueprint $table
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Illuminate\Database\Schema\Blueprint $table
      * @return \Illuminate\Support\Fluent
      */
-    public function createFieldColumn(Field $field, Blueprint $table)
+    public function createFieldColumn(Field $field, Blueprint $table) : Fluent
     {
         return $table->unsignedInteger($this->getDefaultDatabaseColumn($field));
+    }
+
+    /**
+     * Get field column creation in string format (for make:module)
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @return string
+     */
+    public function createFieldColumnStr(Field $field) : string
+    {
+        $column = $this->getDefaultDatabaseColumn($field);
+        return "\$table->unsignedInteger('$column')";
     }
 }

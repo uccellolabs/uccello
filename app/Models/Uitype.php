@@ -122,4 +122,16 @@ class Uitype extends Model
         $uitypeClass = $this->class;
         return (new $uitypeClass())->createFieldColumn($field, $table);
     }
+
+    /**
+     * Get field column creation in string format (for make:module)
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @return string
+     */
+    public function createFieldColumnStr(Field $field) : string
+    {
+        $uitypeClass = $this->class;
+        return (new $uitypeClass())->createFieldColumnStr($field);
+    }
 }

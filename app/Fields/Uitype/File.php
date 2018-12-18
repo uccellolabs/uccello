@@ -23,7 +23,7 @@ class File implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'file';
     }
@@ -42,12 +42,12 @@ class File implements Uitype
      * Returns formatted value to save.
      * Upload file if defined and get its path, or delete file.
      *
-     * @param Request $request
-     * @param Field $field
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed|null $value
      * @param mixed|null $record
-     * @param Domain|null $domain
-     * @param Module|null $module
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
      * @return string|null
      */
     public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
@@ -86,7 +86,7 @@ class File implements Uitype
     /**
      * Returns formatted value to display.
      *
-     * @param Field $field
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $record
      * @return string
      */
@@ -110,8 +110,8 @@ class File implements Uitype
      *
      * @param \StdClass $module
      * @param \StdClass $field
-     * @param InputInterface $input
-     * @param OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Input\OutputInterface $output
      * @return void
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)

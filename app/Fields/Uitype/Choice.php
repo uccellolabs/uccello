@@ -13,7 +13,7 @@ class Choice extends Select implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'choice';
     }
@@ -22,11 +22,11 @@ class Choice extends Select implements Uitype
      * Returns options for Form builder.
      *
      * @param mixed $record
-     * @param Field $field
-     * @param Module $module
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module): array
+    public function getFormOptions($record, Field $field, Module $module) : array
     {
         if (!is_object($field->data)) {
             return [];
@@ -41,7 +41,11 @@ class Choice extends Select implements Uitype
     }
 
     /**
-     * @inheritDoc
+     * Returns formatted value to display.
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $record
+     * @return string
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {

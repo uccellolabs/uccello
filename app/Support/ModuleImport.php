@@ -377,30 +377,36 @@ class ModuleImport
                 $table->increments('id');
 
                 // Create each column according to the selected uitype
-                foreach ($this->structure->tabs as $_tabs) {
-                    foreach ($_tabs->blocks as $_block) {
-                        foreach ($_block->fields as $_field) {
-                            // Do not recreate id
-                            if ($_field->name === 'id') {
-                                continue;
+                if (!empty($this->structure->tabs)) {
+                    foreach ($this->structure->tabs as $_tabs) {
+                        if (!empty($_tabs->blocks)) {
+                            foreach ($_tabs->blocks as $_block) {
+                                if (!empty($_block->fields)) {
+                                    foreach ($_block->fields as $_field) {
+                                        // Do not recreate id
+                                        if ($_field->name === 'id') {
+                                            continue;
+                                        }
+
+                                        if (!empty((array) $_field->data)) {
+                                            $data = $_field->data;
+                                        } else {
+                                            $data = null;
+                                        }
+
+                                        $field = new Field([
+                                            'name' => $_field->name,
+                                            'uitype_id' => uitype($_field->uitype)->id,
+                                            'displaytype_id' => displaytype($_field->displaytype)->id,
+                                            'sequence' => $_field->sequence,
+                                            'data' => $data
+                                        ]);
+
+                                        // Create column
+                                        $this->createColumn($field, $table);
+                                    }
+                                }
                             }
-
-                            if (!empty((array) $_field->data)) {
-                                $data = $_field->data;
-                            } else {
-                                $data = null;
-                            }
-
-                            $field = new Field([
-                                'name' => $_field->name,
-                                'uitype_id' => uitype($_field->uitype)->id,
-                                'displaytype_id' => displaytype($_field->displaytype)->id,
-                                'sequence' => $_field->sequence,
-                                'data' => $data
-                            ]);
-
-                            // Create column
-                            $this->createColumn($field, $table);
                         }
                     }
                 }
@@ -417,34 +423,39 @@ class ModuleImport
             // Update table
             Schema::table($tableName, function(Blueprint $table) use ($module, $tableName) {
                 // Create each column according to the selected uitype
-                foreach ($this->structure->tabs as $_tabs) {
-                    foreach ($_tabs->blocks as $_block) {
-                        foreach ($_block->fields as $_field) {
+                if (!empty($this->structure->tabs)) {
+                    foreach ($this->structure->tabs as $_tabs) {
+                        if (!empty($_tabs->blocks)) {
+                            foreach ($_tabs->blocks as $_block) {
+                                if (!empty($_block->fields)) {
+                                    foreach ($_block->fields as $_field) {
+                                        // Do not recreate id
+                                        if ($_field->name === 'id') {
+                                            continue;
+                                        }
 
-                            // Do not recreate id
-                            if ($_field->name === 'id') {
-                                continue;
+                                        if (!empty((array) $_field->data)) {
+                                            $data = $_field->data;
+                                        } else {
+                                            $data = null;
+                                        }
+
+                                        $field = new Field([
+                                            'name' => $_field->name,
+                                            'uitype_id' => uitype($_field->uitype)->id,
+                                            'displaytype_id' => displaytype($_field->displaytype)->id,
+                                            'sequence' => $_field->sequence,
+                                            'data' => $data
+                                        ]);
+
+                                        // Check if the column already exists and if we need to update it
+                                        $updateColumn = Schema::hasColumn($tableName, $field->column);
+
+                                        // Create column
+                                        $this->createColumn($field, $table, $updateColumn);
+                                    }
+                                }
                             }
-
-                            if (!empty((array) $_field->data)) {
-                                $data = $_field->data;
-                            } else {
-                                $data = null;
-                            }
-
-                            $field = new Field([
-                                'name' => $_field->name,
-                                'uitype_id' => uitype($_field->uitype)->id,
-                                'displaytype_id' => displaytype($_field->displaytype)->id,
-                                'sequence' => $_field->sequence,
-                                'data' => $data
-                            ]);
-
-                            // Check if the column already exists and if we need to update it
-                            $updateColumn = Schema::hasColumn($tableName, $field->column);
-
-                            // Create column
-                            $this->createColumn($field, $table, $updateColumn);
                         }
                     }
                 }

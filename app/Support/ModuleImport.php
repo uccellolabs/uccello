@@ -489,13 +489,19 @@ class ModuleImport
         $column = uitype($field->uitype->id)->createFieldColumn($field, $table);
 
         // Get field rules
+        $isRequired = false;
         if (isset($field->data->rules)) {
             $rules = explode('|', $field->data->rules);
 
-            // Add nullable() if the field is not required
-            if (!in_array('required', $rules)) {
-                $column->nullable();
+            // Check if the field is required
+            if (in_array('required', $rules)) {
+                $isRequired = true;
             }
+        }
+
+        // Add nullable() if the field is not required
+        if (!$isRequired) {
+            $column->nullable();
         }
 
         if ($updateColumn) {

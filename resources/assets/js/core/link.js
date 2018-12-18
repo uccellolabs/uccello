@@ -1,6 +1,6 @@
 import { Dialog } from './dialog'
 
-export class CustomLink {
+export class Link {
     constructor() {
         this.initListeners()
     }
@@ -15,6 +15,9 @@ export class CustomLink {
 
             this.element = $(event.currentTarget)
             this.config = this.element.data('config')
+
+            // Remove focus
+            this.element.blur();
 
             if (this.config === null) {
                 this.config = {}

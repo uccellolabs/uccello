@@ -1,11 +1,11 @@
-import { CustomLink } from './custom-link'
+import { Link } from './link'
 
 export class Global {
     constructor() {
-        this.initCustomLinks()
+        this.initLinks()
     }
 
-    initCustomLinks() {
-        new CustomLink()
+    initLinks() {
+        new Link()
     }
 }

@@ -13,7 +13,7 @@ class Capability extends Model
      */
     protected $table = 'capabilities';
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

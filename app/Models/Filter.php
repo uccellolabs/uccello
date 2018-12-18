@@ -23,7 +23,25 @@ class Filter extends Model
         'conditions' => 'object',
     ];
 
-    protected function setTablePrefix()
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'module_id',
+        'domain_id',
+        'user_id',
+        'name',
+        'type',
+        'columns',
+        'conditions',
+        'order_by',
+        'is_default',
+        'is_public',
+    ];
+
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

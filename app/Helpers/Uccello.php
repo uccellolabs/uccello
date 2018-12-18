@@ -46,8 +46,8 @@ class Uccello
             $prefix = $module->name.'.';
 
             // If a package name is defined add it before
-            if (isset($module->data->package)) {
-                $prefix = $module->data->package . '::'. $prefix;
+            if (!empty($module->package)) {
+                $prefix = $module->package . '::'. $prefix;
             }
 
             // Get translation

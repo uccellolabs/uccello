@@ -13,7 +13,7 @@ class Displaytype extends Model
      */
     protected $table = 'displaytypes';
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

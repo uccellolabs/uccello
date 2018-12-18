@@ -37,7 +37,7 @@ class CreateUserStructure extends Migration
         $module->name = 'user';
         $module->icon = 'person';
         $module->model_class = 'Uccello\Core\Models\User';
-        $module->data = ["package" => "uccello", "admin" => true];
+        $module->data = ["package" => "uccello/uccello", "admin" => true];
         $module->save();
 
         return $module;
@@ -57,7 +57,7 @@ class CreateUserStructure extends Migration
         $block = new Block();
         $block->label = 'block.auth';
         $block->icon = 'lock';
-        $block->description = 'block.auth.description';
+        $block->data = ['description' => 'block.auth.description'];
         $block->sequence = 0;
         $block->tab_id = $tab->id;
         $block->module_id = $module->id;

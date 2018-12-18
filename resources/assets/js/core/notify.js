@@ -1,5 +1,3 @@
-import 'adminbsb-materialdesign/plugins/bootstrap-notify/bootstrap-notify'
-
 export class Notify {
 
     show(text, colorName, placementFrom, placementAlign, animateEnter, animateExit) {

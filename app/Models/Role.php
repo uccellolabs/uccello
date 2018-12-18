@@ -23,7 +23,7 @@ class Role extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

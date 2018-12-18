@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Uitype;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
+use Uccello\Core\Models\Field;
 
 class Text implements Uitype
 {
@@ -16,7 +17,7 @@ class Text implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'text';
     }

@@ -26,7 +26,7 @@
                             $routeName = isset($_module->data->route) ? $_module->data->route : 'uccello.list';
                         ?>
                         <a href="{{ ucroute($routeName, $domain, $_module) }}">
-                            @if ($_module->icon)<i class="material-icons">{{ $_module->icon ?? 'list' }}</i>@endif
+                            <i class="material-icons">{{ $_module->icon ?? 'crop_square' }}</i>
                             <span>{{ uctrans($_module->name, $_module) }}</span>
                         </a>
                     </li>

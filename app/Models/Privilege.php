@@ -22,7 +22,7 @@ class Privilege extends Model
         'domain_id', 'role_id', 'user_id',
     ];
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

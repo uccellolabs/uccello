@@ -4,10 +4,7 @@ namespace Uccello\Core\Http\Middleware;
 
 use Closure;
 use Auth;
-use Uccello\Core\Models\User;
-use Uccello\Core\Models\Permission;
 use Uccello\Core\Models\Domain;
-use Uccello\Core\Models\Module;
 
 class CheckPermissions
 {

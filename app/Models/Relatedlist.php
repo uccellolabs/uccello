@@ -22,7 +22,25 @@ class Relatedlist extends Model
         'data' => 'object',
     ];
 
-    protected function setTablePrefix()
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'module_id',
+        'related_module_id',
+        'tab_id',
+        'related_field_id',
+        'label',
+        'icon',
+        'type',
+        'method',
+        'sequence',
+        'data',
+    ];
+
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

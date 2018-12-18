@@ -21,6 +21,12 @@ import 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker';
 import 'jstree/src/jstree.search.js';
 import 'jstree/src/jstree.sort.js';
 
+// Notify
+import 'adminbsb-materialdesign/plugins/bootstrap-notify/bootstrap-notify'
+
+// Sweetalert
+import 'adminbsb-materialdesign/plugins/sweetalert/sweetalert.min.js'
+
 // Autosize
 import autosize from 'adminbsb-materialdesign/plugins/autosize/autosize.js';
 autosize($('textarea.auto-growth'));

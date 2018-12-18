@@ -6,23 +6,23 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
 /**
- * AdminLTE Make Command
+ * Uccello Install Command
  */
-class UccelloMakeCommand extends Command
+class UccelloInstallCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:uccello {--views : Only scaffold the views}';
+    protected $signature = 'uccello:install {--views : Only scaffold the views}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Scaffold Uccelo Template';
+    protected $description = 'Install Uccello';
 
     /**
      * The views that need to be exported.
@@ -96,8 +96,19 @@ class UccelloMakeCommand extends Command
             '--force' => 1
         ]);
 
+        Artisan::call('vendor:publish', [
+            '--provider' => 'Tymon\JWTAuth\Providers\LaravelServiceProvider'
+        ]);
+
         $this->info('Generating routes with laroute...');
         Artisan::call('laroute:generate');
+
+
+        // Generate JWT Secret if it does not exist yet (else there is an error)
+        if (empty(env('JWT_SECRET'))) {
+            $this->info('Generating jwt secret...');
+            Artisan::call('jwt:secret');
+        }
 
         $this->info('Uccello scaffolding generated successfully.');
     }

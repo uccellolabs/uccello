@@ -11,7 +11,7 @@ class Url extends Text implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'url';
     }

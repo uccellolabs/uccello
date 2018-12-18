@@ -6,7 +6,7 @@ trait TablePrefixTrait
 {
     protected $tablePrefix;
 
-    protected function setTablePrefix()
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
 
@@ -15,6 +15,6 @@ trait TablePrefixTrait
 
     protected function getTablePrefix()
     {
-        return $this->tablePrefix ?? $this->setTablePrefix();
+        return $this->tablePrefix ?? $this->initTablePrefix();
     }
 }

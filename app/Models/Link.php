@@ -22,7 +22,22 @@ class Link extends Model
         'data' => 'object',
     ];
 
-    protected function setTablePrefix()
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'module_id',
+        'label',
+        'icon',
+        'type',
+        'url',
+        'sequence',
+        'data',
+    ];
+
+    protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }

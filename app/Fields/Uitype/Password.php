@@ -3,12 +3,11 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Uccello\Core\Contracts\Field\Uitype;
-
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Domain;
-use Illuminate\Http\Request;
 
 class Password extends Text implements Uitype
 {

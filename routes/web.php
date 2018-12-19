@@ -30,6 +30,14 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'domain')
         ->name('domain.save');
 
+    Route::get($domainParam.'/settings', 'Settings\IndexController@process')
+        ->defaults('module', 'settings')
+        ->name('settings');
+
+    Route::get($domainParam.'/module/activation', 'Module\ActivationController@process')
+        ->defaults('module', 'module')
+        ->name('module.activation');
+
     // Default routes
     Route::get($domainParam.'/home', 'Core\IndexController@process')
         ->defaults('module', 'home')

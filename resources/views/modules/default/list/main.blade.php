@@ -9,6 +9,7 @@
 
 @section('content')
 <div class="dataTable-container">
+
     @section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
@@ -21,7 +22,7 @@
                         </a>
 
                         <ol class="breadcrumb pull-left">
-                            @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                            @if ($admin_env)<li><a href="{{ ucroute('uccello.settings', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                             <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
                             <li class="active">{{ uctrans('filter.all', $module) }}</li>
                         </ol>

@@ -57,6 +57,14 @@
     cursor: pointer;
 }
 
+.uppercase {
+    text-transform: uppercase;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
 .dataTable tr {
     cursor: pointer;
 }
@@ -489,4 +497,12 @@ div.dataTables_scrollBody table.dataTable thead th.sorting:after,
 div.dataTables_scrollBody table.dataTable thead th.sorting_asc:after,
 div.dataTables_scrollBody table.dataTable thead th.sorting_desc:after {
 	content: "";
+}
+
+div#modules-list {
+    span.module-name {
+        position: relative;
+        top: -6px;
+        left: 7px;
+    }
 }

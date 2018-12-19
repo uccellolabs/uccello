@@ -158,4 +158,14 @@ class Module extends Model
     {
         return $this->data->menu ?? true;
     }
+
+    /**
+     * Check if the module is mandatory.
+     *
+     * @return boolean
+     */
+    public function isMandatory() : bool
+    {
+        return $this->data->mandatory ?? false;
+    }
 }

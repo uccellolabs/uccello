@@ -141,7 +141,7 @@ abstract class Controller extends BaseController
     {
         $modules = [];
 
-        $allModules = Module::all();
+        $allModules = Module::orderBy('name')->get();
 
         if ($getAdminModules) {
             $modules = $allModules;

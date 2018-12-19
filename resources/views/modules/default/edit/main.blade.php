@@ -14,7 +14,7 @@
                 </a>
 
                 <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                     <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
                     @if ($record->getKey())<li><a href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]) }}">{{ $record->recordLabel ?? $record->getKey() }}</a></li>@endif
                     <li class="active">{{ $record->getKey() ? uctrans('edit', $module) : uctrans('create', $module) }}</li>

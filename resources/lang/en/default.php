@@ -12,6 +12,7 @@ return [
 
     // Menu
     'menu.title' => 'Menu',
+    'menu.return' => 'Return',
 
     // Domain
     'domain.search' => 'Search a domain',

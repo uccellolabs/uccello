@@ -12,6 +12,10 @@
         color: $theme-uccello !important;
     }
 
+    .text-danger {
+        color: $theme-red;
+    }
+
     .navbar {
         background-color: $theme-uccello;
     }
@@ -196,6 +200,11 @@
 
     .form-group .form-line:after {
         border-bottom: 2px solid $theme-uccello;
+    }
+
+    .form-group .form-line.error:after {
+        border-bottom: 2px solid $theme-red;
+
     }
 
     .nav-tabs {

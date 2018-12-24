@@ -16,7 +16,7 @@ mix.js('./resources/assets/js/app.js', 'public/js')
     .sass('./resources/assets/sass/app.scss', 'public/css');
 
 mix.js('./resources/assets/js/core/autoloader.js', 'public/js')
-    .js('./resources/assets/js/module/autoloader.js', 'public/js/module')
+    .js('./resources/assets/js/settings/autoloader.js', 'public/js/settings')
 
 mix.copy('./resources/assets/images', 'public/images');
 

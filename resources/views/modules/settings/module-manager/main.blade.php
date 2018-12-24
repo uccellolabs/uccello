@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('page', 'index')
+@section('page', 'module-manager')
 
 @section('content')
 
@@ -14,8 +14,8 @@
                 </a>
 
                 <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li class="active">{{ uctrans($module->name, $module) }}</li>
+                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                    <li class="active">{{ uctrans('module.manager', $module) }}</li>
                 </ol>
             </div>
         </div>
@@ -29,9 +29,9 @@
                     <h2>
                         <div class="block-label-with-icon">
                             <i class="material-icons">extension</i>
-                            <span>{{ uctrans('modules.list', $module) }}</span>
+                            <span>{{ uctrans('module.manager', $module) }}</span>
                         </div>
-                        <small>{{ uctrans('modules.list.description', $module) }}</small>
+                        <small>{{ uctrans('module.manager.description', $module) }}</small>
                     </h2>
                 </div>
                 <div class="body">
@@ -47,7 +47,7 @@
                                         @if($_module->isMandatory() || !Auth::user()->canAdmin($domain, $_module))disabled="disabled"@endif>
                                     <label for="checkbox-{{ $_module->id }}" class="checkbox-label">
                                         <i class="material-icons">{{ $_module->icon ?? 'extension' }}</i>
-                                        <span class="module-name">{{ uctrans($_module->name, $_module) }}</span>
+                                        <span class="icon-label">{{ uctrans($_module->name, $_module) }}</span>
                                     </label>
                                 </div>
 
@@ -61,5 +61,5 @@
 @endsection
 
 @section('extra-script')
-    {{ Html::script(ucasset('js/module/autoloader.js')) }}
+    {{ Html::script(ucasset('js/settings/autoloader.js')) }}
 @endsection

@@ -26,6 +26,7 @@ return [
     'button.delete' => 'Delete',
     'button.clear_search' => 'Clear',
     'button.action' => 'Actions',
+    'button.cancel' => 'Cancel',
 
     // Block
     'block.general' => 'General information',

@@ -14,7 +14,7 @@
                 </a>
 
                 <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                     <li class="active">{{ uctrans($module->name, $module) }}</li>
                 </ol>
             </div>
@@ -69,7 +69,7 @@
     @endif
 
     {{-- Modules --}}
-    @if (Auth::user()->canAdmin($domain, ucmodule('module')))
+    @if (Auth::user()->canAdmin($domain, ucmodule('settings')))
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box">
             <div class="icon bg-orange">

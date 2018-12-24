@@ -10,7 +10,7 @@ export class Link {
     }
 
     initClickListener() {
-        $("a[data-config]").on('click', (event) => {
+        $("a[data-config], button[data-config]").on('click', (event) => {
             event.preventDefault();
 
             this.element = $(event.currentTarget)

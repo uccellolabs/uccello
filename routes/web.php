@@ -30,13 +30,27 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'domain')
         ->name('domain.save');
 
-    Route::get($domainParam.'/settings', 'Settings\IndexController@process')
+    // Settings
+    Route::get($domainParam.'/settings', 'Settings\SettingsController@dashboard')
         ->defaults('module', 'settings')
-        ->name('settings');
+        ->name('settings.dashboard');
 
-    Route::get($domainParam.'/module/activation', 'Module\ActivationController@process')
-        ->defaults('module', 'module')
-        ->name('module.activation');
+    Route::get($domainParam.'/settings/module/manager', 'Settings\SettingsController@moduleManager')
+        ->defaults('module', 'settings')
+        ->name('settings.module.manager');
+
+    Route::get($domainParam.'/settings/module/activation', 'Settings\SettingsController@moduleActivation')
+        ->defaults('module', 'settings')
+        ->name('settings.module.activation');
+
+    Route::get($domainParam.'/settings/menu/manager', 'Settings\MenuController@index')
+        ->defaults('module', 'settings')
+        ->name('settings.menu.manager');
+
+    Route::post($domainParam.'/settings/menu/store', 'Settings\MenuController@store')
+        ->defaults('module', 'settings')
+        ->name('settings.menu.store');
+
 
     // Default routes
     Route::get($domainParam.'/home', 'Core\IndexController@process')

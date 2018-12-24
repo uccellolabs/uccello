@@ -36,6 +36,7 @@
         "jstree": "^3.3.5",
         "materialize-css": "^1.0.0-rc.2",
         "moment": "^2.22.2",
+        "nestable2": "^1.6.0",
         "wnumb": "^1.1.0"
     }
 }

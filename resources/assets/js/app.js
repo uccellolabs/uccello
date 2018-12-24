@@ -27,8 +27,11 @@ import 'adminbsb-materialdesign/plugins/bootstrap-notify/bootstrap-notify'
 // Sweetalert
 import 'adminbsb-materialdesign/plugins/sweetalert/sweetalert.min.js'
 
-// JQuery Count To
+// jQuery Count To
 import 'adminbsb-materialdesign/plugins/jquery-countto/jquery.countTo.js'
+
+// jQuery Nestable 2
+import 'nestable2'
 
 // Autosize
 import autosize from 'adminbsb-materialdesign/plugins/autosize/autosize.js';

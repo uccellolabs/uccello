@@ -91,6 +91,11 @@ class Domain extends Model
         return $this->belongsToMany(Module::class, $this->tablePrefix . 'domains_modules');
     }
 
+    public function menus()
+    {
+        return $this->hasMany(Menu::class);
+    }
+
     /**
      * Returns all parents of a domain and insert also this domain if necessary.
      *
@@ -123,5 +128,33 @@ class Domain extends Model
     public function getRecordLabelAttribute() : string
     {
         return $this->name;
+    }
+
+    public function getClassicMenuAttribute()
+    {
+        $userMenu = auth()->user()->menus()->where('type', 'classic')->where('domain_id', $this->id)->first();
+        $domainMenu = $this->menus()->where('type', 'classic')->whereNull('user_id')->first();
+
+        if (!is_null($userMenu)) {
+            return $userMenu;
+        } elseif (!is_null($domainMenu)) {
+            return $domainMenu;
+        } else {
+            return null;
+        }
+    }
+
+    public function getSettingsMenuAttribute()
+    {
+        $userMenu = auth()->user()->menus()->where('type', 'settings')->where('domain_id', $this->id)->first();
+        $domainMenu = $this->menus()->where('type', 'settings')->whereNull('user_id')->first();
+
+        if (!is_null($userMenu)) {
+            return $userMenu;
+        } elseif (!is_null($domainMenu)) {
+            return $domainMenu;
+        } else {
+            return null;
+        }
     }
 }

@@ -27,6 +27,9 @@
 // Sweet Alert
 @import '~adminbsb-materialdesign/plugins/sweetalert/sweetalert.css';
 
+// jQuery Nestable
+@import '~nestable2/dist/jquery.nestable.min.css';
+
 // JS Tree
 @import '~jstree/dist/themes/default/style.css';
 
@@ -34,7 +37,7 @@
 @import 'adminbsb/_adminbsb';
 
 // Custom
-.card {
+.card, .modal-dialog {
     &.block {
         .block-label-with-icon {
             margin-bottom: 5px;
@@ -499,10 +502,9 @@ div.dataTables_scrollBody table.dataTable thead th.sorting_desc:after {
 	content: "";
 }
 
-div#modules-list {
-    span.module-name {
+
+    .material-icons + span.icon-label {
         position: relative;
         top: -6px;
         left: 7px;
     }
-}

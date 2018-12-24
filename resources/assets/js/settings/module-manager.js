@@ -1,4 +1,4 @@
-export class Index {
+export class ModuleManager {
     constructor() {
         this.initCheckboxListener()
     }
@@ -11,7 +11,7 @@ export class Index {
             let moduleName = $(element).data('module')
             let active = $(element).is(':checked') === true ? '1' : '0'
 
-            document.location.href = laroute.route('uccello.module.activation', { domain: domainSlug, src_module: moduleName, active: active })
+            document.location.href = laroute.route('uccello.settings.module.activation', { domain: domainSlug, src_module: moduleName, active: active })
         })
     }
 }

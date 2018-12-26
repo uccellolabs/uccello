@@ -45,7 +45,8 @@
             ) {
                 $isCurrentModuleDisplayed = true; // Check if the module is displayed in the menu
                 continue; // Don't display the link twice
-            } elseif ($module->name === $_module->name && request()->route()->getName() === $menuLink->route) {
+            // } elseif ($module->name === $_module->name && request()->route()->getName() === $menuLink->route) {
+            } elseif ($module->name === $_module->name) {
                 $isCurrentModuleDisplayed = true; // Check if the module is displayed in the menu
                 $isActive = true;
             } else {

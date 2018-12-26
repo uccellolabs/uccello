@@ -3,7 +3,9 @@
 @section('page', 'menu-manager')
 
 @section('extra-meta')
-<meta name="menu-structure" content='{!! json_encode($menu->data ?? '') !!}'>
+<meta name="classic-menu-structure" content='{!! json_encode($classicMenu->data ?? '') !!}'>
+<meta name="admin-menu-structure" content='{!! json_encode($adminMenu->data ?? '') !!}'>
+<meta name="save-url" content="{{ ucroute('uccello.settings.menu.store', $domain) }}">
 @endsection
 
 @section('content')
@@ -41,18 +43,51 @@
                 <div class="body">
                     <div class="row">
                         <div class="col-md-6">
-                            <div class="menu-manager dd">
+                            {{-- Field --}}
+                            <div class="form-switch text-right">
+                                <div class="switch" style="padding-top: 10px; padding-bottom: 5px;">
+                                    <label class="switch-label">
+                                        {{ uctrans('menu.type.classic', $module) }}
+                                        <input type="checkbox" name="menu-switcher" id="menu-switcher" value="admin" />
+                                        <span class="lever switch-col-primary"></span>
+                                        {{ uctrans('menu.type.admin', $module) }}
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="menu-manager menu-classic dd" data-type="classic">
                                 <ol class="dd-list">
                                     @if (empty($menu->data))
                                         @foreach ($modules as $_module)
                                             @continue (!$_module->isActiveOnDomain($domain) || $_module->isAdminModule())
-                                            <li class="dd-item dd-nochildren" data-module="{{ $_module->name }}" data-type="module" data-label="{{ uctrans($_module->name, $_module) }}" data-icon="{{ $_module->icon ?? 'extension' }}" data-module="{{ $_module->name }}" data-color="grey">
+                                            @foreach ($_module->menuLinks as $link)
+                                            <li class="dd-item dd-nochildren" data-module="{{ $_module->name }}" data-type="module" data-label="{{ uctrans($link->label, $_module) }}" data-icon="{{ $link->icon ?? 'extension' }}" data-route="{{ $link->route }}" data-module="{{ $_module->name }}" data-color="grey">
                                                 <div class="dd-handle">
-                                                    <i class="material-icons">{{ $_module->icon ?? 'extension' }}</i>
-                                                    <span class="icon-label">{{ uctrans($_module->name, $_module) }}</span>
+                                                    <i class="material-icons">{{ $link->icon ?? 'extension' }}</i>
+                                                    <span class="icon-label">{{ uctrans($link->label, $_module) }}</span>
                                                     <span class="pull-right col-grey">{{ uctrans('menu.link.type.module', $module) }}</span>
                                                 </div>
                                             </li>
+                                            @endforeach
+                                        @endforeach
+                                    @endif
+                                </ol>
+                            </div>
+
+                            <div class="menu-manager menu-admin dd" data-type="admin" style="display: none">
+                                <ol class="dd-list">
+                                    @if (empty($menu->data))
+                                        @foreach ($modules as $_module)
+                                            @continue (!$_module->isActiveOnDomain($domain) || ($_module->name !== 'home' && !$_module->isAdminModule()))
+                                            @foreach ($_module->menuLinks as $link)
+                                            <li class="dd-item dd-nochildren" data-module="{{ $_module->name }}" data-type="module" data-label="{{ uctrans($link->label, $_module) }}" data-icon="{{ $link->icon ?? 'extension' }}" data-route="{{ $link->route }}" data-module="{{ $_module->name }}" data-color="grey">
+                                                <div class="dd-handle">
+                                                    <i class="material-icons">{{ $link->icon ?? 'extension' }}</i>
+                                                    <span class="icon-label">{{ uctrans($link->label, $_module) }}</span>
+                                                    <span class="pull-right col-grey">{{ uctrans('menu.link.type.module', $module) }}</span>
+                                                </div>
+                                            </li>
+                                            @endforeach
                                         @endforeach
                                     @endif
                                 </ol>

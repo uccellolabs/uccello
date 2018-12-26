@@ -144,10 +144,10 @@ class Domain extends Model
         }
     }
 
-    public function getSettingsMenuAttribute()
+    public function getAdminMenuAttribute()
     {
-        $userMenu = auth()->user()->menus()->where('type', 'settings')->where('domain_id', $this->id)->first();
-        $domainMenu = $this->menus()->where('type', 'settings')->whereNull('user_id')->first();
+        $userMenu = auth()->user()->menus()->where('type', 'admin')->where('domain_id', $this->id)->first();
+        $domainMenu = $this->menus()->where('type', 'admin')->whereNull('user_id')->first();
 
         if (!is_null($userMenu)) {
             return $userMenu;

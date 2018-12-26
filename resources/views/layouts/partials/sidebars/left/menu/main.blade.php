@@ -6,7 +6,7 @@
             @yield('sidebar-main-menu-before')
 
             @if ($admin_env)
-                <?php $menuItems = $domain->settingsMenu->data ?? null; ?>
+                <?php $menuItems = $domain->adminMenu->data ?? null; ?>
             @else
                 <?php $menuItems = $domain->classicMenu->data ?? null; ?>
             @endif
@@ -15,20 +15,6 @@
                 @include('uccello::layouts.partials.sidebars.left.menu.custom')
             @else
                 @include('uccello::layouts.partials.sidebars.left.menu.default')
-            @endif
-
-            {{-- All modules except if there are not displayed in menu --}}
-            @if (isset($modules) && isset($domain) && isset($module))
-
-                {{-- If we are on a module not displayed in the menu, add it without link --}}
-                @if (!$module->isDisplayedInMenu())
-                    <li class="active">
-                        <a href="javascript:void(0)">
-                            @if ($module->icon)<i class="material-icons">{{ $module->icon ?? 'list' }}</i>@endif
-                            <span>{{ uctrans($module->name, $module) }}</span>
-                        </a>
-                    </li>
-                @endif
             @endif
 
             @yield('sidebar-main-menu-after')

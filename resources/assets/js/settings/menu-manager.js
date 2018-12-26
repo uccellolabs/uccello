@@ -2,22 +2,16 @@ const _ = require('lodash');
 
 export class MenuManager {
     constructor() {
-        this.initMenu()
+        this.initMenus()
         this.initListeners()
     }
 
-    initMenu() {
+    initMenus() {
 
-        let menuStructure = JSON.parse($("meta[name='menu-structure']").attr('content'))
+        // Init HTML
+        this.initMenuHtml('classic-menu-structure', 'menu-classic')
+        this.initMenuHtml('admin-menu-structure', 'menu-admin')
 
-        if (typeof menuStructure === 'object') {
-            let menuHtml = ''
-            for(let item of menuStructure) {
-                menuHtml += this.buildItem(item)
-            }
-
-            $('.menu-manager ol.dd-list:first').html(menuHtml)
-        }
 
         $('.menu-manager').nestable({
             maxDepth: 3
@@ -29,7 +23,21 @@ export class MenuManager {
         $('.menu-manager').on('change', (event) => {
             // Save change
             this.menuToJson()
+            this.save()
         });
+    }
+
+    initMenuHtml(metaName, listClass) {
+        let menuStructure = JSON.parse($(`meta[name='${metaName}']`).attr('content'))
+
+        if (typeof menuStructure === 'object') {
+            let menuHtml = ''
+            for(let item of menuStructure) {
+                menuHtml += this.buildItem(item)
+            }
+
+            $(`.menu-manager.${listClass} ol.dd-list:first`).html(menuHtml)
+        }
     }
 
     initListeners() {
@@ -37,26 +45,49 @@ export class MenuManager {
         this.initAddGroupListener()
         this.initAddRouteLinkListener()
         this.initAddLinkListener()
+        this.initMenuSwitcherListener()
+    }
+
+    initMenuSwitcherListener() {
+        $('input#menu-switcher').on('change', (event) => {
+            let showAdminMenu = $(event.currentTarget).is(':checked')
+
+            if (showAdminMenu) {
+                $('.menu-manager.menu-admin').show()
+                $('.menu-manager.menu-classic').hide()
+            } else {
+                $('.menu-manager.menu-admin').hide()
+                $('.menu-manager.menu-classic').show()
+            }
+
+            // Save active menu structure
+            this.menuToJson()
+        })
     }
 
     initSaveListener() {
         $('a.save-menu').on('click', (event) => {
             event.preventDefault()
 
-            let url = $(event.currentTarget).attr('href')
+            this.save()
+        })
+    }
 
-            $.ajax({
-                url: url,
-                method: "post",
-                data: {
-                    _token: $("meta[name='csrf-token']").attr('content'),
-                    structure: this.menuStructure
-                }
-            }).then((response) => {
-                swal("Success", response.message, "success")
-            }).fail((error) => {
-                swal("Error", error.message, "error")
-            })
+    save() {
+        let url = $("meta[name='save-url']").attr('content')
+
+        $.ajax({
+            url: url,
+            method: "post",
+            data: {
+                _token: $("meta[name='csrf-token']").attr('content'),
+                structure: this.menuStructure,
+                type: $(".menu-manager:visible").data('type')
+            }
+        }).then((response) => {
+            // swal("Success", response.message, "success")
+        }).fail((error) => {
+            swal("Error", error.message, "error")
         })
     }
 
@@ -175,7 +206,7 @@ export class MenuManager {
     }
 
     menuToJson() {
-        this.menuStructure = JSON.stringify($('.menu-manager').nestable('serialize'))
+        this.menuStructure = JSON.stringify($('.menu-manager:visible').nestable('serialize'))
     }
 
     addGroup(label, icon) {
@@ -186,8 +217,9 @@ export class MenuManager {
             color: 'green'
         })
 
-        $('.menu-manager .dd-list:first').append(itemHtml);
+        $('.menu-manager:visible .dd-list:first').append(itemHtml);
         this.menuToJson()
+        this.save()
     }
 
     addRouteLink(label, icon, moduleName, route) {
@@ -200,8 +232,9 @@ export class MenuManager {
             route: route
         })
 
-        $('.menu-manager .dd-list:first').append(itemHtml);
+        $('.menu-manager:visible .dd-list:first').append(itemHtml);
         this.menuToJson()
+        this.save()
     }
 
     addLink(label, icon, url) {
@@ -213,8 +246,9 @@ export class MenuManager {
             url: url
         })
 
-        $('.menu-manager .dd-list:first').append(itemHtml);
+        $('.menu-manager:visible .dd-list:first').append(itemHtml);
         this.menuToJson()
+        this.save()
     }
 
     buildItem(item) {

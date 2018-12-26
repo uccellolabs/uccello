@@ -40,9 +40,10 @@ class MenuController extends Controller
 
         $this->viewName = 'menu-manager.main';
 
-        $menu = Menu::first();
+        $classicMenu = $domain->classicMenu;
+        $adminMenu = $domain->adminMenu;
 
-        return $this->autoView(compact('menu'));
+        return $this->autoView(compact('classicMenu', 'adminMenu'));
     }
 
     public function store(?Domain $domain)
@@ -50,7 +51,7 @@ class MenuController extends Controller
         $menu = Menu::firstOrNew([
             'domain_id' => $domain->id,
             'user_id' => null,
-            'type' => 'classic',
+            'type' => request('type'),
             ]);
         $menu->data = json_decode(request('structure'));
         $menu->save();

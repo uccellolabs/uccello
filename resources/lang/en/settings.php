@@ -24,4 +24,6 @@ return [
     'menu.link.url' => 'URL',
     'menu.link.module' => 'Module',
     'menu.link.route' => 'Route',
+    'menu.type.classic' => 'Classic',
+    'menu.type.admin' => 'Admin',
 ];

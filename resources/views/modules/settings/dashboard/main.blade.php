@@ -15,7 +15,7 @@
 
                 <ol class="breadcrumb pull-left">
                     @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li class="active">{{ uctrans($module->name, $module) }}</li>
+                    <li class="active">{{ uctrans('dashboard', $module) }}</li>
                 </ol>
             </div>
         </div>

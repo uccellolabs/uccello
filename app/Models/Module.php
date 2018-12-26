@@ -90,17 +90,6 @@ class Module extends Model
     }
 
     /**
-     * Searches in the module a field by name.
-     *
-     * @param string $name
-     * @return Field|null
-     */
-    public function getField($name) : ?Field
-    {
-        return $this->fields()->where('name', $name)->first();
-    }
-
-    /**
      * Returns module package name
      *
      * @return string|null
@@ -117,6 +106,53 @@ class Module extends Model
         }
 
         return $package;
+    }
+
+    /**
+     * Return all module links to display in the menu
+     *
+     * @return array
+     */
+    public function getMenuLinksAttribute() : array
+    {
+        $menuLinks = [];
+
+        if (!empty($this->data->menu)) {
+            if (is_string($this->data->menu)) {
+                $link = new \StdClass;
+                $link->label = $this->name;
+                $link->route = $this->data->menu;
+                $link->icon = $this->icon;
+                $menuLinks[] = $link;
+            } elseif (is_array($this->data->menu)) {
+
+                foreach ($this->data->menu as $link) {
+                    if (empty($link->icon)) {
+                        $link->icon = $this->icon;
+                    }
+                    $menuLinks[] = $link;
+                }
+            }
+        } else {
+            $link = new \StdClass;
+            $link->label = $this->name;
+            $link->route = 'uccello.list';
+            $link->icon = $this->icon;
+            $menuLinks[] = $link;
+        }
+
+        return $menuLinks;
+    }
+
+    /**
+     * Searches in the module a field by name.
+     *
+     * @param string $name
+     * @return Field|null
+     */
+    public function getField($name) : ?Field
+    {
+        return $this->fields()->where('name', $name)->first();
     }
 
     /**
@@ -156,7 +192,7 @@ class Module extends Model
      */
     public function isDisplayedInMenu() : bool
     {
-        return $this->data->menu ?? true;
+        return true; // isset($this->data->menu) && $this->data->menu !== false;
     }
 
     /**

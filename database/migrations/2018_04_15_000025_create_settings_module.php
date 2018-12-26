@@ -38,7 +38,30 @@ class CreateSettingsModule extends Migration
             'name' => 'settings',
             'icon' => 'settings',
             'model_class' => null,
-            'data' => ['package' => 'uccello/uccello', 'admin' => true, 'route' => 'uccello.index', 'mandatory' => true]
+            'data' => [
+                'package' => 'uccello/uccello',
+                'admin' => true,
+                'mandatory' => true,
+                'menu' => [
+                    // Dashboard
+                    [
+                        'label' => 'dashboard',
+                        'route' => 'uccello.settings.dashboard'
+                    ],
+                    // Module manager
+                    [
+                        'label' => 'module.manager',
+                        'route' => 'uccello.settings.module.manager',
+                        'icon' => 'extension'
+                    ],
+                    // Menu manager
+                    [
+                        'label' => 'menu.manager',
+                        'route' => 'uccello.settings.menu.manager',
+                        'icon' => 'menu'
+                    ]
+                ]
+            ]
         ]);
         $module->save();
         return $module;

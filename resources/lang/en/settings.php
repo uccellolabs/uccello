@@ -2,6 +2,7 @@
 
 return [
     'settings' => 'Settings',
+    'dashboard' => 'Dashboard',
     'domains.count' => 'Domains',
     'users.count' => 'Users',
     'roles.count' => 'Roles',

@@ -98,12 +98,6 @@
             }
         }
     }
-
-    .menu {
-        .list {
-            //margin-top: 15px;
-        }
-    }
 }
 
 section.content {
@@ -443,7 +437,7 @@ table.dataTable {
 
     tr {
         td:last-child {
-            padding: 6px;
+            padding: 3px;
         }
 
         a.edit-btn,
@@ -460,8 +454,15 @@ table.dataTable {
     }
 
     tbody {
-        td.dataTables_empty {
-            text-align: center;
+        tr {
+
+            td.dataTables_empty {
+                text-align: center;
+            }
+
+            td {
+                padding: 8px;
+            }
         }
     }
 }

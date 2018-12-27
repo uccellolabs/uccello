@@ -23,6 +23,7 @@ export class Datatable {
                 url: this.url,
                 type: "POST"
             },
+            pageLength: 15, // Default length
             order: [[1, 'asc']],
             columnDefs: this.getDatatableColumnDefs(element),
             createdRow: (row, data, index) => {

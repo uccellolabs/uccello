@@ -8,6 +8,8 @@ return [
     'roles.count' => 'Roles',
     'modules.count' => 'Modules',
     'module.manager' => 'Module manager',
+    'module.manager.main_modules' => 'Main modules',
+    'module.manager.admin_modules' => 'Settings modules',
     'module.manager.description' => 'You can activate or deactivate a module by clicking on a checkbox.',
     'menu.manager' => 'Menu manager',
     'menu.manager.description' => 'Configure menu to access easily to all functionalities.',
@@ -24,6 +26,7 @@ return [
     'menu.link.url' => 'URL',
     'menu.link.module' => 'Module',
     'menu.link.route' => 'Route',
-    'menu.type.classic' => 'Classic',
+    'menu.type.main' => 'Main',
     'menu.type.admin' => 'Admin',
+    'menu.icon.see' => 'See'
 ];

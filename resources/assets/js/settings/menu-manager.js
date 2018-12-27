@@ -9,7 +9,7 @@ export class MenuManager {
     initMenus() {
 
         // Init HTML
-        this.initMenuHtml('classic-menu-structure', 'menu-classic')
+        this.initMenuHtml('main-menu-structure', 'menu-main')
         this.initMenuHtml('admin-menu-structure', 'menu-admin')
 
 
@@ -54,10 +54,10 @@ export class MenuManager {
 
             if (showAdminMenu) {
                 $('.menu-manager.menu-admin').show()
-                $('.menu-manager.menu-classic').hide()
+                $('.menu-manager.menu-main').hide()
             } else {
                 $('.menu-manager.menu-admin').hide()
-                $('.menu-manager.menu-classic').show()
+                $('.menu-manager.menu-main').show()
             }
 
             // Save active menu structure
@@ -272,10 +272,17 @@ export class MenuManager {
             dataRoute = `data-route="${item.route}"`
         }
 
-        let html = `<li class="dd-item ${noChildrenClass}" ${dataModule} ${dataRoute} ${dataUrl} data-type="${item.type}" data-label="${item.label}" data-icon="${item.icon}" data-nochildren="${item.noChildren ? true : false}" data-color="${item.color}">
+        let dataTranslation = ''
+        let translation = item.label
+        if (item.translation) {
+            dataTranslation = `data-translation="${item.translation}"`
+            translation = item.translation
+        }
+
+        let html = `<li class="dd-item ${noChildrenClass}" ${dataModule} ${dataRoute} ${dataUrl} data-type="${item.type}" data-label="${item.label}" ${dataTranslation} data-icon="${item.icon}" data-nochildren="${item.noChildren ? true : false}" data-color="${item.color}">
             <div class="dd-handle">
                 <i class="material-icons">${item.icon}</i>
-                <span class="icon-label">${item.label}</span>
+                <span class="icon-label">${translation}</span>
                 <span class="pull-right col-${item.color}">${_.capitalize(item.type)}</span>
             </div>`
 

@@ -130,29 +130,89 @@ class Domain extends Model
         return $this->name;
     }
 
-    public function getClassicMenuAttribute()
+    /**
+     * Returns all admin modules activated in the domain
+     *
+     * @return array
+     */
+    protected function getAdminModulesAttribute() : array
     {
-        $userMenu = auth()->user()->menus()->where('type', 'classic')->where('domain_id', $this->id)->first();
-        $domainMenu = $this->menus()->where('type', 'classic')->whereNull('user_id')->first();
+        $modules = [];
+
+        foreach ($this->modules()->get() as $module) {
+            if ($module->isAdminModule()) {
+                $modules[] = $module;
+            }
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Returns all not admin modules activated in the domain
+     *
+     * @return array
+     */
+    protected function getNotAdminModulesAttribute() : array
+    {
+        $modules = [];
+
+        foreach ($this->modules()->get() as $module) {
+            if (!$module->isAdminModule()) {
+                $modules[] = $module;
+            }
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Return main menu
+     * Priority:
+     * 1. User menu
+     * 2. Domain menu
+     * 3. Default menu
+     *
+     * @return \Uccello\Core\Models\Menu|null
+     */
+    public function getMainMenuAttribute()
+    {
+        $userMenu = auth()->user()->menus()->where('type', 'main')->where('domain_id', $this->id)->first();
+        $domainMenu = $this->menus()->where('type', 'main')->whereNull('user_id')->first();
+        $defaultMenu = $this->menus()->where('type', 'main')->whereNull('domain_id')->whereNull('user_id')->first();
 
         if (!is_null($userMenu)) {
             return $userMenu;
         } elseif (!is_null($domainMenu)) {
             return $domainMenu;
+        } elseif (!is_null($defaultMenu)) {
+            return $defaultMenu;
         } else {
             return null;
         }
     }
 
+    /**
+     * Return admin menu
+     * Priority:
+     * 1. User menu
+     * 2. Domain menu
+     * 3. Default menu
+     *
+     * @return \Uccello\Core\Models\Menu|null
+     */
     public function getAdminMenuAttribute()
     {
         $userMenu = auth()->user()->menus()->where('type', 'admin')->where('domain_id', $this->id)->first();
         $domainMenu = $this->menus()->where('type', 'admin')->whereNull('user_id')->first();
+        $defaultMenu = $this->menus()->where('type', 'admin')->whereNull('domain_id')->whereNull('user_id')->first();
 
         if (!is_null($userMenu)) {
             return $userMenu;
         } elseif (!is_null($domainMenu)) {
             return $domainMenu;
+        } elseif (!is_null($defaultMenu)) {
+            return $defaultMenu;
         } else {
             return null;
         }

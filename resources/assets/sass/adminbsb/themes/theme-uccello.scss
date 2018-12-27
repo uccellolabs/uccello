@@ -112,13 +112,13 @@
                 }
 
                 li.active {
-                    background-color: $theme-uccello-menu-list-active;
 
-                    a {
-                        padding-left: 8px;
+                    a.toggled:not(.menu-toggle) {
+                        background-color: $theme-uccello-menu-list-active;
                     }
 
                     > :first-child {
+
                         i, span {
                             color: $theme-uccello-menu-list-color;
                         }
@@ -131,7 +131,12 @@
                 }
 
                 .ml-menu {
-                    background-color: $theme-uccello-menu-list-submenu;
+
+                    li.active {
+                        a.toggled:not(.menu-toggle) {
+                            margin-left: 0;
+                        }
+                    }
                 }
             }
         }

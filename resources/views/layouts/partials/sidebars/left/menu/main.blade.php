@@ -5,17 +5,19 @@
         <ul class="list">
             @yield('sidebar-main-menu-before')
 
-            @if ($admin_env)
-                <?php $menuItems = $domain->adminMenu->data ?? null; ?>
-            @else
-                <?php $menuItems = $domain->classicMenu->data ?? null; ?>
+            <?php $homeModule = ucmodule('home'); ?>
+            @if ($admin_env && isset($domain) && $homeModule->isActiveOnDomain($domain) && Auth::user()->canRetrieve($domain, $homeModule))
+            {{-- Home module --}}
+            <li @if ('home' === $module->name)class="active"@endif>
+                <a href="{{ ucroute('uccello.home', $domain) }}">
+                    <i class="material-icons col-primary">arrow_back_ios</i>
+                    <span class="col-primary">{{ uctrans('menu.return', $module) }}</span>
+                </a>
+            </li>
             @endif
 
-            @if (!empty($menuItems))
-                @include('uccello::layouts.partials.sidebars.left.menu.custom')
-            @else
-                @include('uccello::layouts.partials.sidebars.left.menu.default')
-            @endif
+            {{-- Render menu --}}
+            {!! $menu->render() !!}
 
             @yield('sidebar-main-menu-after')
 

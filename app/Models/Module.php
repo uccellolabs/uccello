@@ -117,15 +117,19 @@ class Module extends Model
     {
         $menuLinks = [];
 
-        if (!empty($this->data->menu)) {
+        //TODO: Adds capability needed
+
+        if (isset($this->data->menu)) {
+            // One route
             if (is_string($this->data->menu)) {
                 $link = new \StdClass;
                 $link->label = $this->name;
                 $link->route = $this->data->menu;
                 $link->icon = $this->icon;
                 $menuLinks[] = $link;
-            } elseif (is_array($this->data->menu)) {
-
+            }
+            // Several routes
+            elseif (is_array($this->data->menu)) {
                 foreach ($this->data->menu as $link) {
                     if (empty($link->icon)) {
                         $link->icon = $this->icon;
@@ -133,7 +137,13 @@ class Module extends Model
                     $menuLinks[] = $link;
                 }
             }
-        } else {
+            // No route wanted
+            elseif ($this->data->menu === false) {
+                // Nothing to do
+            }
+        }
+        // No route defined, add it automaticaly
+        else {
             $link = new \StdClass;
             $link->label = $this->name;
             $link->route = 'uccello.list';
@@ -183,16 +193,6 @@ class Module extends Model
     public function isAdminModule() : bool
     {
         return $this->data->admin ?? false;
-    }
-
-    /**
-     * Check if the module can be displayed in the menu.
-     *
-     * @return boolean
-     */
-    public function isDisplayedInMenu() : bool
-    {
-        return true; // isset($this->data->menu) && $this->data->menu !== false;
     }
 
     /**

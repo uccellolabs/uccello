@@ -129,7 +129,7 @@ export class Link {
         let modalElement = this.config.modal // e.g: #modal
 
         // Show modal
-        $(modalElement).modal('show');
+        $(modalElement).modal('show')
     }
 
     /**

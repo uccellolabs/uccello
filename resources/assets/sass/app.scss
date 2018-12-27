@@ -503,8 +503,12 @@ div.dataTables_scrollBody table.dataTable thead th.sorting_desc:after {
 }
 
 
-    .material-icons + span.icon-label {
-        position: relative;
-        top: -6px;
-        left: 7px;
-    }
+.material-icons + span.icon-label {
+    position: relative;
+    top: -6px;
+    left: 7px;
+}
+
+.menu-manager.dd {
+    max-width: 100%;
+}

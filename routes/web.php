@@ -35,19 +35,19 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'settings')
         ->name('settings.dashboard');
 
-    Route::get($domainParam.'/settings/module/manager', 'Settings\SettingsController@moduleManager')
+    Route::get($domainParam.'/settings/module/manager', 'Settings\ModuleManagerController@process')
         ->defaults('module', 'settings')
         ->name('settings.module.manager');
 
-    Route::get($domainParam.'/settings/module/activation', 'Settings\SettingsController@moduleActivation')
+    Route::get($domainParam.'/settings/module/activation', 'Settings\ModuleManagerController@activation')
         ->defaults('module', 'settings')
         ->name('settings.module.activation');
 
-    Route::get($domainParam.'/settings/menu/manager', 'Settings\MenuController@index')
+    Route::get($domainParam.'/settings/menu/manager', 'Settings\MenuManagerController@process')
         ->defaults('module', 'settings')
         ->name('settings.menu.manager');
 
-    Route::post($domainParam.'/settings/menu/store', 'Settings\MenuController@store')
+    Route::post($domainParam.'/settings/menu/store', 'Settings\MenuManagerController@store')
         ->defaults('module', 'settings')
         ->name('settings.menu.store');
 

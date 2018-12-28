@@ -111,9 +111,13 @@ export class Link {
                     swal("Error", response.message, "error"); // TODO: translate
                 } else {
                     swal("Success", response.message, "success"); // TODO: translate
+
+                    // Reload page if needed
+                    if (ajaxConfig.refresh === true) {
+                        document.location.reload()
+                    }
                 }
             }
-
         })
         // Impossible to reach the URL. Display error
         .catch((error) => {

@@ -129,15 +129,6 @@
                     background-color: $theme-uccello-menu-list-toggled;
                     border-left: solid 3px $theme-uccello;
                 }
-
-                .ml-menu {
-
-                    li.active {
-                        a.toggled:not(.menu-toggle) {
-                            margin-left: 0;
-                        }
-                    }
-                }
             }
         }
 

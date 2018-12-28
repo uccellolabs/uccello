@@ -69,6 +69,17 @@ class MenuManagerController extends Controller
     }
 
     /**
+     * Reset domain menu into database
+     *
+     * @param Domain|null $domain
+     * @return \Uccello\Core\Models\Menu
+     */
+    public function reset(?Domain $domain)
+    {
+        Menu::where('domain_id', $domain->id)->delete();
+    }
+
+    /**
      * Add to menu links, the links added after the creation of the menu
      * (e.g. new modules or modules activated after the creation)
      *

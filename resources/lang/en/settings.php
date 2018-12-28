@@ -18,7 +18,7 @@ return [
     'menu.button.add_group' => 'Add a group',
     'menu.button.add_route_link' => 'Add a route link',
     'menu.button.add_link' => 'Add a link',
-    'menu.button.save' => 'Save',
+    'menu.button.reset' => 'Reset',
     'menu.group.label' => 'Label',
     'menu.group.icon' => 'Icon',
     'menu.link.label' => 'Label',
@@ -28,5 +28,8 @@ return [
     'menu.link.route' => 'Route',
     'menu.type.main' => 'Main',
     'menu.type.admin' => 'Admin',
-    'menu.icon.see' => 'See'
+    'menu.icon.see' => 'See',
+    'menu.saved' => 'Saved',
+    'menu.reset.title' => 'Do you want to reset the menu?',
+    'menu.reset.text' => 'The menu will be replaced by the default one.',
 ];

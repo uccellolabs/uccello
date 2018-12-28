@@ -80,27 +80,32 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-lg-2 p-t-45">
-                            <a class="waves-effect waves-block btn icon-right bg-green m-b-10" data-config='{"actionType":"modal","modal":"#addGroupModal"}'>
+                        <div class="col-md-3 col-lg-2 p-t-45 btn-actions">
+                            <a class="waves-effect waves-block btn icon-right bg-green m-b-10" data-config='{"actionType":"modal","modal":"#groupModal"}'>
                                 <i class="material-icons">folder</i>
                                 {{ uctrans('menu.button.add_group', $module) }}
                             </a>
 
-                            {{-- <a class="waves-effect waves-block btn icon-right bg-red m-b-10" data-config='{"actionType":"modal","modal":"#addRouteLinkModal"}'>
+                            {{-- <a class="waves-effect waves-block btn icon-right bg-red m-b-10" data-config='{"actionType":"modal","modal":"#routeLinkModal"}'>
                                 <i class="material-icons">link</i>
                                 {{ uctrans('menu.button.add_route_link', $module) }}
                             </a> --}}
 
-                            <a class="waves-effect waves-block btn icon-right bg-primary m-b-10" data-config='{"actionType":"modal","modal":"#addLinkModal"}'>
+                            <a class="waves-effect waves-block btn icon-right bg-primary m-b-10" data-config='{"actionType":"modal","modal":"#linkModal"}'>
                                 <i class="material-icons">link</i>
                                 {{ uctrans('menu.button.add_link', $module) }}
                             </a>
 
-                            {{-- <a href="{{ ucroute('uccello.settings.menu.store', $domain) }}"
-                                class="save-menu waves-effect waves-block btn icon-right bg-orange">
-                                <i class="material-icons">save</i>
-                                {{ uctrans('menu.button.save', $module) }}
-                            </a> --}}
+                            <a href="{{ ucroute('uccello.settings.menu.reset', $domain) }}"
+                        data-config='{"actionType":"ajax","confirm":true,"ajax":{"method":"post","params":{"type":"main"},"refresh":true},"dialog":{"title":"{{ uctrans('menu.reset.title', $module) }}","text":"{{ uctrans('menu.reset.text', $module) }}"}}'
+                                class="btn-reset waves-effect waves-block btn icon-right bg-orange">
+                                <i class="material-icons">cancel</i>
+                                {{ uctrans('menu.button.reset', $module) }}
+                            </a>
+
+                            <div class="m-t-10 text-center">
+                                <span class="col-green saved" style="display: none">{{ uctrans('menu.saved', $module) }}</span>
+                            </div>
                         </div>
                     </div>
                 </div>

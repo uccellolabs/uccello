@@ -179,7 +179,7 @@ class Domain extends Model
     {
         $userMenu = auth()->user()->menus()->where('type', 'main')->where('domain_id', $this->id)->first();
         $domainMenu = $this->menus()->where('type', 'main')->whereNull('user_id')->first();
-        $defaultMenu = $this->menus()->where('type', 'main')->whereNull('domain_id')->whereNull('user_id')->first();
+        $defaultMenu = Menu::where('type', 'main')->whereNull('domain_id')->whereNull('user_id')->first();
 
         if (!is_null($userMenu)) {
             return $userMenu;
@@ -205,7 +205,7 @@ class Domain extends Model
     {
         $userMenu = auth()->user()->menus()->where('type', 'admin')->where('domain_id', $this->id)->first();
         $domainMenu = $this->menus()->where('type', 'admin')->whereNull('user_id')->first();
-        $defaultMenu = $this->menus()->where('type', 'admin')->whereNull('domain_id')->whereNull('user_id')->first();
+        $defaultMenu = Menu::where('type', 'admin')->whereNull('domain_id')->whereNull('user_id')->first();
 
         if (!is_null($userMenu)) {
             return $userMenu;

@@ -51,6 +51,10 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'settings')
         ->name('settings.menu.store');
 
+    Route::post($domainParam.'/settings/menu/reset', 'Settings\MenuManagerController@reset')
+        ->defaults('module', 'settings')
+        ->name('settings.menu.reset');
+
 
     // Default routes
     Route::get($domainParam.'/home', 'Core\IndexController@process')

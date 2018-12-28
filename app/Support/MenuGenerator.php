@@ -246,8 +246,10 @@ class MenuGenerator
         // Link html
         $link = Html::raw(
             '<a href="'. $url .'" class="'. $class .'">'.
-                (!$isInSubMenu ? '<i class="material-icons">'. $icon .'</i>' : '').
-                (!$isInSubMenu ? '<span>'. $label .'</span>' : $label).
+                // (!$isInSubMenu ? '<i class="material-icons">'. $icon .'</i>' : '').
+                // (!$isInSubMenu ? '<span>'. $label .'</span>' : $label).
+                '<i class="material-icons">'. $icon .'</i>'.
+                '<span>'. $label .'</span>'.
             '</a>'
         )->setActive($isActive);
 

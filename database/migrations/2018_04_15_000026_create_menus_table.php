@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Uccello\Core\Database\Migrations\Migration;
 use Uccello\Core\Database\Migrations\Traits\TablePrefixTrait;
+use Uccello\Core\Models\Menu;
 
 class CreateMenusTable extends Migration
 {
@@ -26,13 +27,117 @@ class CreateMenusTable extends Migration
 
             // Foreign keys
             $table->foreign('domain_id')
-                    ->references('id')->on($this->tablePrefix . 'domains')
-                    ->onDelete('cascade');
+                ->references('id')->on($this->tablePrefix . 'domains')
+                ->onDelete('cascade');
 
             $table->foreign('user_id')
-                    ->references('id')->on('users')
-                    ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
         });
+
+        // Add default admin menu
+        Menu::create([
+            'type' => 'admin',
+            'data' => json_decode('[
+                {
+                    "color":"grey",
+                    "nochildren":false,
+                    "icon":"settings",
+                    "translation":"Dashboard",
+                    "label":"dashboard",
+                    "type":"module",
+                    "route":"uccello.settings.dashboard",
+                    "module":"settings",
+                    "id":1
+                },
+                {
+                    "color":"green",
+                    "nochildren":false,
+                    "icon":"lock",
+                    "label":"Security",
+                    "type":"group",
+                    "id":2,
+                    "children":[
+                        {
+                            "color":"grey",
+                            "nochildren":false,
+                            "icon":"person",
+                            "translation":"Users",
+                            "label":"user",
+                            "type":"module",
+                            "route":"uccello.list",
+                            "module":"user",
+                            "id":3
+                        },
+                        {
+                            "color":"grey",
+                            "nochildren":false,
+                            "icon":"domain",
+                            "translation":"Domains",
+                            "label":"domain",
+                            "type":"module",
+                            "route":"uccello.list",
+                            "module":"domain",
+                            "id":4
+                        },
+                        {
+                            "color":"grey",
+                            "nochildren":false,
+                            "icon":"lock",
+                            "translation":"Roles",
+                            "label":"role",
+                            "type":"module",
+                            "route":"uccello.list",
+                            "module":"role",
+                            "id":5
+                        },
+                        {
+                            "color":"grey",
+                            "nochildren":false,
+                            "icon":"lock",
+                            "translation":"Profiles",
+                            "label":"profile",
+                            "type":"module",
+                            "route":"uccello.list",
+                            "module":"profile",
+                            "id":6
+                        }
+                    ]
+                },
+                {
+                    "color":"green",
+                    "nochildren":false,
+                    "icon":"settings",
+                    "label":"Settings",
+                    "type":"group",
+                    "id":7,
+                    "children":[
+                        {
+                            "color":"grey",
+                            "nochildren":false,
+                            "icon":"extension",
+                            "translation":"Module manager",
+                            "label":"module.manager",
+                            "type":"module",
+                            "route":"uccello.settings.module.manager",
+                            "module":"settings",
+                            "id":8
+                        },
+                        {
+                            "color":"grey",
+                            "nochildren":false,
+                            "icon":"menu",
+                            "translation":"Menu manager",
+                            "label":"menu.manager",
+                            "type":"module",
+                            "route":"uccello.settings.menu.manager",
+                            "module":"settings",
+                            "id":9
+                        }
+                    ]
+                }
+             ]')
+        ]);
     }
 
     /**

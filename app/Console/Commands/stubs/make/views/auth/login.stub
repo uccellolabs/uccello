@@ -20,7 +20,7 @@ login-page
                         <i class="material-icons">person</i>
                     </span>
                     <div class="form-line">
-                        <input id="identity" type="identity" class="form-control{{ $errors->has('identity') ? ' is-invalid' : '' }}" name="identity" value="{{ old('identity') }}" required autofocus>
+                        <input id="identity" type="text" class="form-control{{ $errors->has('identity') ? ' is-invalid' : '' }}" name="identity" value="{{ old('identity') }}" required autofocus>
                     </div>
                     @if ($errors->has('identity'))
                         <span class="invalid-feedback">

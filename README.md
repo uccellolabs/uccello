@@ -14,7 +14,7 @@ Uccello is a Laravel Package for providing a way to make easily complete web app
 Via Composer
 
 ``` bash
-$ composer require uccello/uccello
+$ composer require uccello/uccello:1.0.*
 ```
 
 If you are using Laravel 5.5 or above skip this step, but if aren't then add this code on ```config/app.php```, on providers
@@ -37,7 +37,7 @@ If you are using Laravel 5.5 or above skip this step, but if aren't then add thi
 And then run,
 
 ``` bash
-$ php artisan make:uccello
+$ php artisan uccello:install
 ```
 
 This command will extract needed views for **auth**, and **errors**.
@@ -52,16 +52,6 @@ protected $routeMiddleware = [
   'uccello.settings' => \Uccello\Core\Http\Middleware\CheckSettingsPanel::class,
 ];
 ```
-
-### Generate routes for javascript
-Uccello uses [laroute](https://github.com/aaronlord/laroute) to port the routes over to JavaScript.
-It is important to launch this command every times you modify the routes.
-
-``` bash
-$ php artisan laroute:generate
-```
-
-It will generate the file ```public/js/laroute.js``` used by Uccello.
 
 ### Migrate and seed the database
 Configure ```.env``` file then run this command to migrate the database
@@ -91,13 +81,23 @@ UCCELLO_MULTI_DOMAINS=false
 
 __Important__ : Don't forget to launch the command ```php artisan laroute:generate``` each times you change the value of ```UCCELLO_MULTI_DOMAINS```.
 
+### Generate routes for javascript
+Uccello uses [laroute](https://github.com/aaronlord/laroute) to port the routes over to JavaScript.
+It is important to launch this command every times you modify the routes.
+
+``` bash
+$ php artisan laroute:generate
+```
+
+It will generate the file ```public/js/laroute.js``` used by Uccello.
+
 
 ### Enjoy!
 Go to your **homepage**. You must be redirected to the **login page**.
 You can easily **sign in** with the following credentials:
 
 ```
-Login: admin@uccello.io
+Login: admin
 Password: admin
 ```
 

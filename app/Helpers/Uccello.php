@@ -149,12 +149,16 @@ class Uccello
             $module = $module->name;
         }
 
-        // Add domain to route if we use multi domains
-        if (!is_null($domain) && uccello()->useMultiDomains()) {
+        // Get route uri to check if domain and module parameters are needed
+        $routeUri = \Route::getRoutes()->getByName($name)->uri ?? null;
+
+        // Add domain to route if we use multi domains and if the parameter is needed
+        if (!is_null($domain) && uccello()->useMultiDomains() && preg_match('`{domain}`', $routeUri)) {
             $parameters['domain'] = $domain;
         }
 
-        if (!is_null($module)) {
+        // Add module to route if the parameter is needed
+        if (!is_null($module) && preg_match('`{module}`', $routeUri)) {
             $parameters['module'] = $module;
         }
 

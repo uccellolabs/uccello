@@ -2,7 +2,6 @@
 
 namespace Uccello\Core\Http\Controllers\Domain;
 
-use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Http\Request;
 use Uccello\Core\Http\Controllers\Core\EditController as CoreEditController;
 use Uccello\Core\Models\Domain;

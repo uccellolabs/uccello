@@ -27,7 +27,7 @@
         "doctrine/dbal": "^2.7",
         "kris/laravel-form-builder": "^1.14",
         "lord/laroute": "2.*",
-        "spatie/laravel-menu": "~3.1",
+        "spatie/laravel-menu": "^3.2",
         "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
@@ -67,8 +67,6 @@
             "aliases": {
                 "Uccello": "Uccello\\Core\\Facades\\Uccello"
             }
-
-
         }
     },
     "config": {

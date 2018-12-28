@@ -49,6 +49,7 @@ Open ```app/Http/Kernel.php``` file and add the following code:
 protected $routeMiddleware = [
   ...
   'uccello.permissions' => \Uccello\Core\Http\Middleware\CheckPermissions::class,
+  'uccello.settings' => \Uccello\Core\Http\Middleware\CheckSettingsPanel::class,
 ];
 ```
 

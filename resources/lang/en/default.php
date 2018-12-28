@@ -12,6 +12,7 @@ return [
 
     // Menu
     'menu.title' => 'Menu',
+    'menu.return' => 'Return',
 
     // Domain
     'domain.search' => 'Search a domain',
@@ -25,6 +26,7 @@ return [
     'button.delete' => 'Delete',
     'button.clear_search' => 'Clear',
     'button.action' => 'Actions',
+    'button.cancel' => 'Cancel',
 
     // Block
     'block.general' => 'General information',

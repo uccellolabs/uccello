@@ -2,12 +2,10 @@
 
 namespace Uccello\Core\Http\Controllers\User;
 
-use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Http\Request;
 use Uccello\Core\Http\Controllers\Core\EditController as CoreEditController;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Models\Profile;
 
 class EditController extends CoreEditController
 {

@@ -9,6 +9,7 @@
 
 @section('content')
 <div class="dataTable-container">
+
     @section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
@@ -21,7 +22,7 @@
                         </a>
 
                         <ol class="breadcrumb pull-left">
-                            @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                            @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                             <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
                             <li class="active">{{ uctrans('filter.all', $module) }}</li>
                         </ol>
@@ -31,12 +32,12 @@
                 <div class="action-buttons col-sm-8 col-xs-12">
                     <div class="btn-group m-l-10">
                         <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">10</strong>']) !!}
+                            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">15</strong>']) !!}
                             <i class="material-icons">keyboard_arrow_down</i>
                         </button>
                         <ul id="items-number" class="dropdown-menu">
-                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="10">10</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="20">20</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="15">15</a></li>
+                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="30">30</a></li>
                             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
                             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
                         </ul>
@@ -50,7 +51,7 @@
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="min-height: 600px">
             <div class="card">
-                <div class="body">
+                <div class="body p-t-0">
                     <div class="table-responsive">
                         <table class="table table-striped table-hover dataTable">
                             <thead>
@@ -82,7 +83,7 @@
                 </div>
             </div>
 
-            <div class="paginator">
+            <div class="paginator m-b-25">
             </div>
         </div>
     </div>

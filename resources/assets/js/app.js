@@ -27,6 +27,12 @@ import 'adminbsb-materialdesign/plugins/bootstrap-notify/bootstrap-notify'
 // Sweetalert
 import 'adminbsb-materialdesign/plugins/sweetalert/sweetalert.min.js'
 
+// jQuery Count To
+import 'adminbsb-materialdesign/plugins/jquery-countto/jquery.countTo.js'
+
+// jQuery Nestable 2
+import 'nestable2'
+
 // Autosize
 import autosize from 'adminbsb-materialdesign/plugins/autosize/autosize.js';
 autosize($('textarea.auto-growth'));
@@ -43,6 +49,7 @@ $('.timepicker').bootstrapMaterialDatePicker({ date: false, format : 'HH:mm' });
 $('.datetimepicker').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm' });
 $('.monthpicker').bootstrapMaterialDatePicker({ format : 'MM', time: false });
 $('.weekpicker').bootstrapMaterialDatePicker({ format : 'w', time: false });
+$('.count-to').countTo();
 
 
 var rangeSliders = $('.nouislider_range');

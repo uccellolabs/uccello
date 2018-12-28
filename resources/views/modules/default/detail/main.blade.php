@@ -18,7 +18,7 @@
                 </a>
 
                 <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                     <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
                     <li class="active">{{ $record->recordLabel ?? $record->getKey() }}</li>
                 </ol>
@@ -313,13 +313,17 @@
 
     @section('page-action-buttons')
     <div id="page-action-buttons">
+        @if (Auth::user()->canUpdate($domain, $module))
         <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->getKey()]) }}" class="btn bg-green btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">edit</i>
         </a>
+        @endif
 
+        @if (Auth::user()->canDelete($domain, $module))
         <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->getKey()]) }}" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
             <i class="material-icons">delete</i>
         </a>
+        @endif
     </div>
     @show
 @endsection

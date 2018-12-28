@@ -8,6 +8,14 @@
         background-color: $theme-uccello;
     }
 
+    .col-primary {
+        color: $theme-uccello !important;
+    }
+
+    .text-danger {
+        color: $theme-red;
+    }
+
     .navbar {
         background-color: $theme-uccello;
     }
@@ -104,13 +112,13 @@
                 }
 
                 li.active {
-                    background-color: $theme-uccello-menu-list-active;
 
-                    a {
-                        padding-left: 8px;
+                    a.toggled:not(.menu-toggle) {
+                        background-color: $theme-uccello-menu-list-active;
                     }
 
                     > :first-child {
+
                         i, span {
                             color: $theme-uccello-menu-list-color;
                         }
@@ -120,10 +128,6 @@
                 .toggled {
                     background-color: $theme-uccello-menu-list-toggled;
                     border-left: solid 3px $theme-uccello;
-                }
-
-                .ml-menu {
-                    background-color: $theme-uccello-menu-list-submenu;
                 }
             }
         }
@@ -192,6 +196,11 @@
 
     .form-group .form-line:after {
         border-bottom: 2px solid $theme-uccello;
+    }
+
+    .form-group .form-line.error:after {
+        border-bottom: 2px solid $theme-red;
+
     }
 
     .nav-tabs {

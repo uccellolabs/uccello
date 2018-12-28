@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Support\MenuGenerator;
 
 abstract class Controller extends BaseController
 {
@@ -122,6 +123,11 @@ abstract class Controller extends BaseController
 
         // Admin environment
         View::share('admin_env', $this->module->isAdminModule());
+
+        // Menu
+        $menuGenerator = new MenuGenerator();
+        $menuGenerator->makeMenu($this->domain, $this->module);
+        View::share('menu', $menuGenerator->getMenu());
     }
 
     /**

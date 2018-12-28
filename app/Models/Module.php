@@ -90,17 +90,6 @@ class Module extends Model
     }
 
     /**
-     * Searches in the module a field by name.
-     *
-     * @param string $name
-     * @return Field|null
-     */
-    public function getField($name) : ?Field
-    {
-        return $this->fields()->where('name', $name)->first();
-    }
-
-    /**
      * Returns module package name
      *
      * @return string|null
@@ -117,6 +106,63 @@ class Module extends Model
         }
 
         return $package;
+    }
+
+    /**
+     * Return all module links to display in the menu
+     *
+     * @return array
+     */
+    public function getMenuLinksAttribute() : array
+    {
+        $menuLinks = [];
+
+        //TODO: Adds capability needed
+
+        if (isset($this->data->menu)) {
+            // One route
+            if (is_string($this->data->menu)) {
+                $link = new \StdClass;
+                $link->label = $this->name;
+                $link->route = $this->data->menu;
+                $link->icon = $this->icon;
+                $menuLinks[] = $link;
+            }
+            // Several routes
+            elseif (is_array($this->data->menu)) {
+                foreach ($this->data->menu as $link) {
+                    if (empty($link->icon)) {
+                        $link->icon = $this->icon;
+                    }
+                    $menuLinks[] = $link;
+                }
+            }
+            // No route wanted
+            elseif ($this->data->menu === false) {
+                // Nothing to do
+            }
+        }
+        // No route defined, add it automaticaly
+        else {
+            $link = new \StdClass;
+            $link->label = $this->name;
+            $link->route = 'uccello.list';
+            $link->icon = $this->icon;
+            $menuLinks[] = $link;
+        }
+
+        return $menuLinks;
+    }
+
+    /**
+     * Searches in the module a field by name.
+     *
+     * @param string $name
+     * @return Field|null
+     */
+    public function getField($name) : ?Field
+    {
+        return $this->fields()->where('name', $name)->first();
     }
 
     /**
@@ -150,12 +196,12 @@ class Module extends Model
     }
 
     /**
-     * Check if the module can be displayed in the menu.
+     * Check if the module is mandatory.
      *
      * @return boolean
      */
-    public function isDisplayedInMenu() : bool
+    public function isMandatory() : bool
     {
-        return $this->data->menu ?? true;
+        return $this->data->mandatory ?? false;
     }
 }

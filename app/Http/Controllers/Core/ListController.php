@@ -9,7 +9,6 @@ use Uccello\Core\Models\Module;
 use Uccello\Core\Facades\Uccello;
 use Uccello\Core\Models\Relatedlist;
 
-
 class ListController extends Controller
 {
     protected $viewName = 'list.main';
@@ -92,13 +91,13 @@ class ListController extends Controller
                 $total = $modelClass::where('domain_id', $domain->id)->count();
 
                 // Paginate results
-                $query = $modelClass::where('domain_id', $domain->id)->skip($start)->take($length);
+                $query = $modelClass::where('domain_id', $domain->id);
             } else {
                 // Count all results
                 $total = $modelClass::count();
 
                 // Paginate results
-                $query = $modelClass::skip($start)->take($length);
+                $query = $modelClass::whereRaw('1');
             }
 
             // Search by column
@@ -112,6 +111,11 @@ class ListController extends Controller
                     $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
                 }
             }
+
+            // Count filtered results
+            $totalFiltered = $query->count();
+
+            $query = $query->skip($start)->take($length);
 
             // Order results
             foreach ($order as $orderInfo) {
@@ -142,6 +146,7 @@ class ListController extends Controller
 
                     // Count all results
                     $total = $model->$countMethod($relatedList, $recordId);
+                    $totalFiltered = $total;
                 }
             } else {
                 // Make the query
@@ -163,13 +168,14 @@ class ListController extends Controller
         } else {
             $data = [];
             $total = 0;
+            $totalFiltered = 0;
         }
 
         return [
             "data" => $data->toArray(),
             "draw" => $draw,
             "recordsTotal" => $total,
-            "recordsFiltered" => $total,
+            "recordsFiltered" => $totalFiltered,
         ];
     }
 }

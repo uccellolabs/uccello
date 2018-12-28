@@ -40,7 +40,7 @@ class CreateDomainStructure extends Migration
         $module->name = 'domain';
         $module->icon = 'domain';
         $module->model_class = 'Uccello\Core\Models\Domain';
-        $module->data = ["package" => "uccello/uccello", "admin" => true];
+        $module->data = ["package" => "uccello/uccello", "admin" => true, "mandatory" => true];
         $module->save();
 
         return $module;

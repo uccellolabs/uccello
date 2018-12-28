@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('page', 'index')
+@extends('uccello::modules.default.index.main')
 
 @section('content')
 <div class="row clearfix">

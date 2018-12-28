@@ -10,7 +10,7 @@ export class Link {
     }
 
     initClickListener() {
-        $("a[data-config]").on('click', (event) => {
+        $("a[data-config], button[data-config]").on('click', (event) => {
             event.preventDefault();
 
             this.element = $(event.currentTarget)
@@ -111,9 +111,13 @@ export class Link {
                     swal("Error", response.message, "error"); // TODO: translate
                 } else {
                     swal("Success", response.message, "success"); // TODO: translate
+
+                    // Reload page if needed
+                    if (ajaxConfig.refresh === true) {
+                        document.location.reload()
+                    }
                 }
             }
-
         })
         // Impossible to reach the URL. Display error
         .catch((error) => {
@@ -129,7 +133,7 @@ export class Link {
         let modalElement = this.config.modal // e.g: #modal
 
         // Show modal
-        $(modalElement).modal('show');
+        $(modalElement).modal('show')
     }
 
     /**

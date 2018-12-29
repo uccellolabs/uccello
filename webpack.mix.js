@@ -30,3 +30,5 @@ mix.version();
 
 // Copy all compiled files into main project (auto publishing)
 mix.copyDirectory('public', '../../../public/vendor/uccello/uccello');
+mix.copyDirectory('public/fonts/vendor', '../../../public/fonts/vendor');
+mix.copyDirectory('public/images/vendor', '../../../public/images/vendor');

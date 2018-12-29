@@ -477,31 +477,10 @@ table.dataTable {
 	background-image: none !important; /* Remove the DataTables bootstrap integration styling */
 }
 
-table.dataTable thead th.sorting:after,
-table.dataTable thead th.sorting_asc:after,
-table.dataTable thead th.sorting_desc:after {
-	display: block;
-	font-family: 'Font Awesome 5 Free';
-}
-
 table.dataTable thead th.sorting:after {
-	content: "\f077";
-	color: #ddd;
-	font-size: 0.8em;
 	padding-top: 0.12em;
 }
-table.dataTable thead th.sorting_asc:after {
-	content: "\f077";
-}
-table.dataTable thead th.sorting_desc:after {
-	content: "\f078";
-}
 
-div.dataTables_scrollBody table.dataTable thead th.sorting:after,
-div.dataTables_scrollBody table.dataTable thead th.sorting_asc:after,
-div.dataTables_scrollBody table.dataTable thead th.sorting_desc:after {
-	content: "";
-}
 
 
 .material-icons + span.icon-label {

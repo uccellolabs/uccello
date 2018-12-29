@@ -38,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
     // Publish assets
     $this->publishes([
       __DIR__ . '/../../public' => public_path('vendor/uccello/uccello'),
+      __DIR__ . '/../../public/fonts/vendor' => public_path('fonts/vendor'),
+      __DIR__ . '/../../public/images/vendor' => public_path('images/vendor')
     ], 'assets');
 
     // Translations

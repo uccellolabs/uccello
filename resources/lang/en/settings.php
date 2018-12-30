@@ -3,9 +3,6 @@
 return [
     'settings' => 'Settings',
     'dashboard' => 'Dashboard',
-    'domains.count' => 'Domains',
-    'users.count' => 'Users',
-    'roles.count' => 'Roles',
     'modules.count' => 'Modules',
     'module.manager' => 'Module manager',
     'module.manager.main_modules' => 'Main modules',

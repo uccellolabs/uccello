@@ -31,7 +31,7 @@
                 <i class="material-icons">domain</i>
             </div>
             <div class="content">
-                <div class="text uppercase">{{ uctrans('domains.count', $module)}}</div>
+                <div class="text uppercase">{{ uctrans('domain', ucmodule('domain'))}}</div>
                 <div class="number count-to" data-from="0" data-to="{{ $count['domains'] }}" data-speed="1000" data-fresh-interval="20">{{ $count['domains'] }}</div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 <i class="material-icons">person</i>
             </div>
             <div class="content">
-                <div class="text uppercase">{{ uctrans('users.count', $module)}}</div>
+                <div class="text uppercase">{{ uctrans('user', ucmodule('user'))}}</div>
                 <div class="number count-to" data-from="0" data-to="{{ $count['users'] }}" data-speed="1000" data-fresh-interval="20">{{ $count['users'] }}</div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <i class="material-icons">lock</i>
             </div>
             <div class="content">
-                <div class="text uppercase">{{ uctrans('roles.count', $module)}}</div>
+                <div class="text uppercase">{{ uctrans('role', ucmodule('role'))}}</div>
                 <div class="number count-to" data-from="0" data-to="{{ $count['roles'] }}" data-speed="1000" data-fresh-interval="20">{{ $count['roles'] }}</div>
             </div>
         </div>

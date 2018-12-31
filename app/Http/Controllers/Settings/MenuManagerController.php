@@ -85,7 +85,7 @@ class MenuManagerController extends Controller
      *
      * @param array $links
      * @param array $domainModules
-     * @return void
+     * @return array
      */
     protected function addLinksAddedAfterMenuCreation($links, $domainModules)
     {

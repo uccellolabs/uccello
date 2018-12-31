@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Uccello\Core\Http\Controllers\Core\Controller;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Models\Menu;
 
 class ModuleManagerController extends Controller
 {
@@ -57,7 +56,7 @@ class ModuleManagerController extends Controller
      * @param \Uccello\Core\Models\Domain|null $domain
      * @param \Uccello\Core\Models\Module $module
      * @param \Illuminate\Http\Request $request
-     * @return void
+     * @return array
      */
     public function activation(?Domain $domain, Module $module, Request $request)
     {

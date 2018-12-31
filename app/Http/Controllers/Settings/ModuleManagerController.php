@@ -65,25 +65,50 @@ class ModuleManagerController extends Controller
         $this->preProcess($domain, $module, $request);
 
         // Activate or deactivate a module on the current domain
-        if ($request->input('src_module')) {
-            $sourceModule = ucmodule($request->input('src_module'));
-            $isActive = $request->input('active') === '1';
+        $success = false;
+        $error = '';
+        if (request('src_module')) {
+            $sourceModule = ucmodule(request('src_module'));
+            $isActive = request('active') == 1;
 
             if ($sourceModule) {
                 // Activate the module on the current domain
                 if ($isActive === true) {
                     $domain->modules()->attach($sourceModule);
+                    $success = true;
+                    $message = 'message.module_activated';
                 }
-                // Deactivate the module on the current domain
-                else {
+                // Deactivate the module on the current domain only if it is not mandatory
+                elseif (!$sourceModule->isMandatory()) {
                     $domain->modules()->detach($sourceModule);
+                    $success = true;
+                    $message = 'message.module_deactivated';
+                }
+                // Impossible to deactivate a mandatory module
+                else {
+                    $error = 'error.module_is_mandatory';
                 }
             }
         }
+        // Module name is not defined
+        else {
+            $error = 'error.module_not_defined';
+        }
 
-        // Redirect on modules list
-        $route = ucroute('uccello.settings.module.manager', $domain);
+        $result = [
+            'success' => $success
+        ];
 
-        return redirect($route);
+        // Add message if defined
+        if (!empty($message)) {
+            $result['message'] = uctrans($message, $module);
+        }
+
+        // Add error if defined
+        if (!empty($error)) {
+            $result['error'] = uctrans($error, $module);
+        }
+
+        return $result;
     }
 }

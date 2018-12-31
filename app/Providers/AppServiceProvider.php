@@ -3,9 +3,10 @@
 namespace Uccello\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Uccello\Core\Console\Commands\UccelloInstallCommand;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use Uccello\Core\Console\Commands\UccelloInstallCommand;
 
 /**
  * App Service Provider
@@ -68,5 +69,19 @@ class AppServiceProvider extends ServiceProvider
     App::bind('uccello', function () {
       return new \Uccello\Core\Helpers\Uccello;
     });
+
+    // Factories
+    $this->registerEloquentFactoriesFrom(__DIR__.'/../../database/factories');
+  }
+
+  /**
+   * Register factories.
+   *
+   * @param  string  $path
+   * @return void
+   */
+  protected function registerEloquentFactoriesFrom($path)
+  {
+      $this->app->make(EloquentFactory::class)->load($path);
   }
 }

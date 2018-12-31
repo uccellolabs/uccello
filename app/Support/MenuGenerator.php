@@ -80,7 +80,7 @@ class MenuGenerator
         // Get the menu to display according to the environment (main or admin)
         $domainMenu = $this->getDomainMenuToDisplay();
 
-        $this->menuAccessibleModules = [];
+        $this->menuAddedModules = [];
 
         // If a menu was created, use it
         if (!is_null($domainMenu)) {
@@ -140,7 +140,7 @@ class MenuGenerator
      */
     protected function addActiveModuleIfNotInMenu()
     {
-        if (!in_array($this->module->name, $this->menuAccessibleModules)) {
+        if (!in_array($this->module->name, $this->menuAddedModules)) {
             $menuLink = new \StdClass;
             $menuLink->label = $this->module->name;
             $menuLink->icon = $this->module->icon ?? 'extension';
@@ -161,7 +161,7 @@ class MenuGenerator
         $modules = $this->getModulesVisibleInMenu();
 
         foreach ($modules as $module) {
-            if (!in_array($module->name, $this->menuAccessibleModules)) {
+            if (!in_array($module->name, $this->menuAddedModules)) {
                 foreach ($module->menuLinks as $menuLink) {
                     $menuLink->type = 'module';
                     $menuLink->module = $module->name;
@@ -182,10 +182,12 @@ class MenuGenerator
      */
     protected function addLink($menu, $menuLink, $isInSubMenu = false, $checkCapacity = true)
     {
+        // Retrieve module if defined
+        $module = isset($menuLink->module) ? ucmodule($menuLink->module) : null;
+
         //TODO: Check needed capacity
-        if ($menuLink->type === 'module') {
-            $module = ucmodule($menuLink->module);
-            if (!$module->isActiveOnDomain($this->domain, $module)) {
+        if ($menuLink->type === 'module' && !is_null($module)) {
+            if (!$module->isActiveOnDomain($this->domain)) {
                 return;
             }
             if ($checkCapacity && !auth()->user()->canRetrieve($this->domain, $module)) {
@@ -194,16 +196,15 @@ class MenuGenerator
         }
 
         if (!empty($menuLink->module)) {
-            if (!in_array($menuLink->module, $this->menuAccessibleModules)) {
-                $this->menuAccessibleModules[] = $menuLink->module;
+            if (!in_array($menuLink->module, $this->menuAddedModules)) {
+                $this->menuAddedModules[] = $menuLink->module;
             }
         }
 
         // Url
         if (!empty($menuLink->url)) { // Prioritary to be compatible with addActiveModuleIfNotInMenu()
             $url = $menuLink->url;
-        } elseif (!empty($menuLink->route) && !empty($menuLink->module)) {
-            $module = ucmodule($menuLink->module);
+        } elseif (!empty($menuLink->route) && !is_null($module)) {
             $url = ucroute($menuLink->route, $this->domain, $module);
         } else {
             $url = 'javascript:void(0)';
@@ -224,7 +225,7 @@ class MenuGenerator
         $icon = $menuLink->icon ?? $fallbackIcon;
 
         // Is active. If the current route is in the menu, compare also the routes
-        if ($menuLink->type === 'module') {
+        if ($menuLink->type === 'module' && !is_null($module)) {
             if ($this->isCurrentRouteInMenu()) {
                 $isActive = $this->module->id === $module->id && request()->route()->getName() === $menuLink->route;
             } else {

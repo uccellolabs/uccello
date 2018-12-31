@@ -25,7 +25,16 @@ class Uccello
     }
 
     /**
-     * Retrieve prefix and translate the given message. If the default translation does not exist try to find a fallback one.
+     * Retrieve prefix and translate the given message.
+     * If the translation does not exist try to find a default one.
+     * If no translation exists display only the key.
+     *
+     * Priority:
+     * 1 - Translation overrided in app
+     * 2 - Translation in package
+     * 3 - Default translation overrided in app
+     * 4 - Default translation in uccello
+     * 5 - No translation
      *
      * @param  string  $key
      * @param  Module|null  $module
@@ -35,8 +44,10 @@ class Uccello
      */
     public function trans($key = null, ?Module $module = null, $replace = [], $locale = null)
     {
+        $translator = app('translator');
+
         if (is_null($key)) {
-            return app('translator');
+            return $translator;
         }
 
         // If $module is an instance of Module class, add a prefix before the key
@@ -45,35 +56,47 @@ class Uccello
             // By default prefix is same as the module's name
             $prefix = $module->name.'.';
 
-            // If a package name is defined add it before
-            if (!empty($module->package)) {
-                $prefix = $module->package . '::'. $prefix;
+            // 1. Get translation in app
+            $translation = $translator->trans($prefix.$key, $replace, $locale);
+
+            if ($translation !== $prefix.$key) {
+                return $translation;
             }
 
-            // Get translation
-            $translation = app('translator')->trans($prefix.$key, $replace, $locale);
+            // 2. Get translation in package
+            if (!empty($module->package)) {
+                // If a package name is defined add it before
+                $prefix = $module->package . '::'. $prefix;
 
-            // If translation does not exist, try with fallback one
-            if ($translation === $prefix.$key) {
-
-                // Get fallback translation
-                $fallbackTranslation = app('translator')->trans('uccello::default.'.$key, $replace, $locale);
-
-                // If fallback translation exists then use it
-                if ($fallbackTranslation !== 'uccello::default.'.$key) {
-                    $translation = $fallbackTranslation;
+                $translation = $translator->trans($prefix.$key, $replace, $locale);
+                if ($translation !== $prefix.$key) {
+                    return $translation;
                 }
             }
 
-            return $translation;
+            // 3. Try with default translation in app
+            $appDefaultTranslation = $translator->trans('default.'.$key, $replace, $locale);
+            if ($appDefaultTranslation !== 'default.'.$key) { // If default translation exists then use it
+                return $appDefaultTranslation;
+            }
+
+            // 4. Try with default translation in uccello
+            $uccelloDefaultTranslation = $translator->trans('uccello::default.'.$key, $replace, $locale);
+            if ($uccelloDefaultTranslation !== 'uccello::default.'.$key) { // If default translation exists then use it
+                return $uccelloDefaultTranslation;
+            }
+
+            // 5. If translation does not exist, display only the key
+            return $key;
         }
 
         // Default behaviour
-        return app('translator')->trans($key, $replace, $locale);
+        return $translator->trans($key, $replace, $locale);
     }
 
     /**
      * Detects which view it must use and returns the evaluated view contents.
+     *
      * Priority:
      * 1 - Module view overrided in app
      * 2 - Default view overrided in app

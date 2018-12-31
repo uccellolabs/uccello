@@ -39,7 +39,7 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'settings')
         ->name('settings.module.manager');
 
-    Route::get($domainParam.'/settings/module/activation', 'Settings\ModuleManagerController@activation')
+    Route::post($domainParam.'/settings/module/activation', 'Settings\ModuleManagerController@activation')
         ->defaults('module', 'settings')
         ->name('settings.module.activation');
 

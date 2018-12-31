@@ -8,10 +8,15 @@ export class ModuleManager {
 
         $("input[type='checkbox'].module-activation").on('click', (event) => {
             let element = event.currentTarget
-            let moduleName = $(element).data('module')
-            let active = $(element).is(':checked') === true ? '1' : '0'
+            let url = laroute.route('uccello.settings.module.activation', { domain: domainSlug })
 
-            document.location.href = laroute.route('uccello.settings.module.activation', { domain: domainSlug, src_module: moduleName, active: active })
+            $.post(url, {
+                _token: $("meta[name='csrf-token']").attr('content'),
+                src_module: $(element).data('module'),
+                active: $(element).is(':checked') === true ? '1' : '0'
+            }).fail((error) => {
+                swal('Error', null, 'error')
+            })
         })
     }
 }

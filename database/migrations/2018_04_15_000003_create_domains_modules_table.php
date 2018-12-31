@@ -17,7 +17,6 @@ class CreateDomainsModulesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('domain_id');
             $table->unsignedInteger('module_id');
-            $table->timestamps();
 
             // Foreign keys
             $table->foreign('domain_id')

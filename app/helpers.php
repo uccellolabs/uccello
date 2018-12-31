@@ -122,9 +122,9 @@ if (!function_exists('ucasset')) {
      * @param string $package
      * @return void
      */
-    function ucasset($path, $package='uccello')
+    function ucasset($path, $package='uccello/uccello')
     {
-        return asset("vendor/uccello/$package/$path");
+        return asset("vendor/$package/$path");
     }
 }
 

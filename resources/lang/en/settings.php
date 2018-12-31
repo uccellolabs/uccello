@@ -3,9 +3,6 @@
 return [
     'settings' => 'Settings',
     'dashboard' => 'Dashboard',
-    'domains.count' => 'Domains',
-    'users.count' => 'Users',
-    'roles.count' => 'Roles',
     'modules.count' => 'Modules',
     'module.manager' => 'Module manager',
     'module.manager.main_modules' => 'Main modules',
@@ -32,4 +29,10 @@ return [
     'menu.saved' => 'Saved',
     'menu.reset.title' => 'Do you want to reset the menu?',
     'menu.reset.text' => 'The menu will be replaced by the default one.',
+
+    'message.module_activated' => 'Module activated',
+    'message.module_deactivated' => 'Module deactivated',
+
+    'error.module_is_mandatory' => 'This module is mandatory and cannot be deactivated.',
+    'error.module_not_defined' => 'You must define a module name.',
 ];

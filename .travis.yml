@@ -15,7 +15,7 @@ before_script:
   - mkdir vendor/uccello
   - mv ../uccello vendor/uccello && cd vendor/uccello/uccello
   - sh -c "mysql -e 'CREATE DATABASE laravel_test;'"
-  - mv .env.travis .env
+  - mv .env.travis .env.testing
   - composer install
 
 script:

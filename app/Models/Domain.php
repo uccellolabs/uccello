@@ -24,7 +24,7 @@ class Domain extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [ 'deleted_at' ];
 
     /**
      * The attributes that should be casted to native types.
@@ -88,7 +88,7 @@ class Domain extends Model
 
     public function modules()
     {
-        return $this->belongsToMany(Module::class, $this->tablePrefix . 'domains_modules');
+        return $this->belongsToMany(Module::class, $this->tablePrefix.'domains_modules');
     }
 
     public function menus()
@@ -102,19 +102,19 @@ class Domain extends Model
      * @param boolean $includeItself
      * @return Collection
      */
-    public function parents($includeItself=true) : Collection
+    public function parents($includeItself = true) : Collection
     {
         $parents = new Collection();
 
         if ($includeItself) {
-            $parents[] = $this;
+            $parents[ ] = $this;
         }
 
         $domain = $this;
 
         while (!is_null($domain->parent)) {
             $domain = $domain->parent;
-            $parents[] = $domain;
+            $parents[ ] = $domain;
         }
 
         return $parents;
@@ -137,11 +137,11 @@ class Domain extends Model
      */
     protected function getAdminModulesAttribute() : array
     {
-        $modules = [];
+        $modules = [ ];
 
         foreach ($this->modules()->get() as $module) {
             if ($module->isAdminModule()) {
-                $modules[] = $module;
+                $modules[ ] = $module;
             }
         }
 
@@ -155,11 +155,11 @@ class Domain extends Model
      */
     protected function getNotAdminModulesAttribute() : array
     {
-        $modules = [];
+        $modules = [ ];
 
         foreach ($this->modules()->get() as $module) {
             if (!$module->isAdminModule()) {
-                $modules[] = $module;
+                $modules[ ] = $module;
             }
         }
 

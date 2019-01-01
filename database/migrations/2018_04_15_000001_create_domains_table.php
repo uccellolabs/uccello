@@ -13,7 +13,7 @@ class CreateDomainsTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'domains', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'domains', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('slug');
@@ -25,7 +25,7 @@ class CreateDomainsTable extends Migration
 
             // Foreign keys
             $table->foreign('parent_id')
-                    ->references('id')->on($this->tablePrefix . 'domains');
+                    ->references('id')->on($this->tablePrefix.'domains');
         });
     }
 
@@ -36,6 +36,6 @@ class CreateDomainsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'domains');
+        Schema::dropIfExists($this->tablePrefix.'domains');
     }
 }

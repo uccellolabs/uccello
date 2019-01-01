@@ -15,7 +15,7 @@ class ApiAuthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', [ 'except' => [ 'login' ] ]);
     }
 
     /**
@@ -34,9 +34,9 @@ class ApiAuthController extends BaseController
         $input = $request->only('email', 'password');
         $validator = Validator::make($input, $rules);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             $error = $validator->messages();
-            return response()->json(['success'=> false, 'error'=> $error]);
+            return response()->json([ 'success'=> false, 'error'=> $error ]);
         }
 
         $credentials = [
@@ -46,7 +46,7 @@ class ApiAuthController extends BaseController
 
         try {
             // attempt to verify the credentials and create a token for the user
-            if (! $token = JWTAuth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials)) {
 
                 //Check if it exists a user to validate
                 $user = User::where('email', $request->email)->first();
@@ -58,15 +58,15 @@ class ApiAuthController extends BaseController
 
                 return $user;
 
-                return response()->json(['success' => false, 'error' => 'Invalid Credentials. Please make sure you entered the right information and you have verified your email address.'], 401);
+                return response()->json([ 'success' => false, 'error' => 'Invalid Credentials. Please make sure you entered the right information and you have verified your email address.' ], 401);
             }
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
-            return response()->json(['success' => false, 'error' => 'could_not_create_token'], 500);
+            return response()->json([ 'success' => false, 'error' => 'could_not_create_token' ], 500);
         }
 
         // all good so return the token
-        return response()->json(['success' => true, 'result'=>  $token]);
+        return response()->json([ 'success' => true, 'result'=>  $token ]);
     }
 
     /**
@@ -85,20 +85,20 @@ class ApiAuthController extends BaseController
         $input = request()->only('login', 'password');
         $validator = Validator::make($input, $rules);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             $error = $validator->messages();
-            return response()->json(['success'=> false, 'error'=> $error], 400);
+            return response()->json([ 'success'=> false, 'error'=> $error ], 400);
         }
 
         // Detect if it is an email or an username
         $login = request()->get('login');
         $loginFieldName = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        request()->merge([$loginFieldName => $login]);
+        request()->merge([ $loginFieldName => $login ]);
 
-        $credentials = request([$loginFieldName, 'password']);
+        $credentials = request([ $loginFieldName, 'password' ]);
 
-        if (! $token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'User unauthorized'], 401);
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json([ 'error' => 'User unauthorized' ], 401);
         }
 
         return $this->respondWithToken($token);
@@ -123,7 +123,7 @@ class ApiAuthController extends BaseController
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([ 'message' => 'Successfully logged out' ]);
     }
 
     /**

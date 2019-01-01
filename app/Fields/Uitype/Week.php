@@ -33,7 +33,7 @@ class Week implements Uitype
      */
     public function getFormOptions($record, Field $field, Module $module) : array
     {
-        $options['attr'] = ['class' => 'form-control weekpicker'];
+        $options[ 'attr' ] = [ 'class' => 'form-control weekpicker' ];
 
         return $options;
     }

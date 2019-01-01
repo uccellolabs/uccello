@@ -13,34 +13,34 @@ use Uccello\Core\Console\Commands\UccelloInstallCommand;
  */
 class AppServiceProvider extends ServiceProvider
 {
-  /**
-   * Indicates if loading of the provider is deferred.
-   *
-   * @var bool
-   */
-  protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-  public function boot()
-  {
+    public function boot()
+    {
     // For compatibility
     Schema::defaultStringLength(191);
 
     // Config
     $this->publishes([
-      __DIR__ . '/../../config/uccello.php' => config_path('uccello.php'),
+        __DIR__ . '/../../config/uccello.php' => config_path('uccello.php'),
     ], 'config');
 
     // Views
     $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
     $this->publishes([
-      __DIR__ . '/../../resources/views' => resource_path('views/vendor/uccello')
+        __DIR__ . '/../../resources/views' => resource_path('views/vendor/uccello')
     ], 'views');
 
     // Publish assets
     $this->publishes([
-      __DIR__ . '/../../public' => public_path('vendor/uccello/uccello'),
-      __DIR__ . '/../../public/fonts/vendor' => public_path('fonts/vendor'),
-      __DIR__ . '/../../public/images/vendor' => public_path('images/vendor')
+        __DIR__ . '/../../public' => public_path('vendor/uccello/uccello'),
+        __DIR__ . '/../../public/fonts/vendor' => public_path('fonts/vendor'),
+        __DIR__ . '/../../public/images/vendor' => public_path('images/vendor')
     ], 'assets');
 
     // Translations
@@ -51,37 +51,37 @@ class AppServiceProvider extends ServiceProvider
 
     // Commands
     if ($this->app->runningInConsole()) {
-      $this->commands([
+        $this->commands([
         UccelloInstallCommand::class,
-      ]);
+        ]);
     }
-  }
+    }
 
-  public function register()
-  {
+    public function register()
+    {
     // Config
     $this->mergeConfigFrom(
-      __DIR__ . '/../../config/uccello.php',
-      'uccello'
+        __DIR__ . '/../../config/uccello.php',
+        'uccello'
     );
 
     // Helper
     App::bind('uccello', function () {
-      return new \Uccello\Core\Helpers\Uccello;
+        return new \Uccello\Core\Helpers\Uccello;
     });
 
     // Factories
     $this->registerEloquentFactoriesFrom(__DIR__.'/../../database/factories');
-  }
+    }
 
-  /**
-   * Register factories.
-   *
-   * @param  string  $path
-   * @return void
-   */
-  protected function registerEloquentFactoriesFrom($path)
-  {
-      $this->app->make(EloquentFactory::class)->load($path);
-  }
+    /**
+     * Register factories.
+     *
+     * @param  string  $path
+     * @return void
+     */
+    protected function registerEloquentFactoriesFrom($path)
+    {
+        $this->app->make(EloquentFactory::class)->load($path);
+    }
 }

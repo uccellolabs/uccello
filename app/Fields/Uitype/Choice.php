@@ -29,13 +29,13 @@ class Choice extends Select implements Uitype
     public function getFormOptions($record, Field $field, Module $module) : array
     {
         if (!is_object($field->data)) {
-            return [];
+            return [ ];
         }
 
         $options = parent::getFormOptions($record, $field, $module);
 
-        $options['expanded'] = true;
-        $options['multiple'] = $field->data->multiple ?? false;
+        $options[ 'expanded' ] = true;
+        $options[ 'multiple' ] = $field->data->multiple ?? false;
 
         return $options;
     }

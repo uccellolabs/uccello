@@ -82,12 +82,12 @@ class Relatedlist extends Model
 
         // If it is a N-1 related list, add value of the linked field
         if ($this->type === 'n-1') {
-            $params[$this->relatedField->name] = $sourceRecordId;
+            $params[ $this->relatedField->name ] = $sourceRecordId;
         }
 
         // Add tab id if defined
         if ($this->tab_id) {
-            $params['tab'] = $this->tab_id;
+            $params[ 'tab' ] = $this->tab_id;
         }
 
         return ucroute('uccello.edit', $domain, $this->relatedModule, $params);
@@ -111,7 +111,7 @@ class Relatedlist extends Model
 
         // Add tab id if defined
         if ($this->tab_id) {
-            $params['tab'] = $this->tab_id;
+            $params[ 'tab' ] = $this->tab_id;
         }
 
         return ucroute('uccello.edit', $domain, $this->relatedModule, $params);
@@ -136,12 +136,12 @@ class Relatedlist extends Model
 
         // Add tab id if defined
         if ($this->tab_id) {
-            $params['tab'] = $this->tab_id;
+            $params[ 'tab' ] = $this->tab_id;
         }
 
         // If it is a N-N related list and if necessary add the relation id. It will delete the relation instead of the record
         if ($this->type === 'n-n' && $preferDeleteRelation === true) {
-            $params['relation_id'] = 'RELATION_ID'; // RELATION_ID will be replaced automaticaly by the relation id in the datatable
+            $params[ 'relation_id' ] = 'RELATION_ID'; // RELATION_ID will be replaced automaticaly by the relation id in the datatable
         }
 
         return ucroute('uccello.delete', $domain, $this->relatedModule, $params);

@@ -40,7 +40,7 @@ class CreateDomainStructure extends Migration
         $module->name = 'domain';
         $module->icon = 'domain';
         $module->model_class = 'Uccello\Core\Models\Domain';
-        $module->data = ["package" => "uccello/uccello", "admin" => true, "mandatory" => true];
+        $module->data = [ "package" => "uccello/uccello", "admin" => true, "mandatory" => true ];
         $module->save();
 
         return $module;
@@ -70,7 +70,7 @@ class CreateDomainStructure extends Migration
         $field->name = 'name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['rules' => 'required|unique:' . $this->getTablePrefix() . 'domains,name,%id%'];
+        $field->data = [ 'rules' => 'required|unique:'.$this->getTablePrefix().'domains,name,%id%' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -81,7 +81,7 @@ class CreateDomainStructure extends Migration
         $field->name = 'parent';
         $field->uitype_id = uitype('entity')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['module' => 'domain', 'field' => 'name'];
+        $field->data = [ 'module' => 'domain', 'field' => 'name' ];
         $field->sequence = 1;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -92,7 +92,7 @@ class CreateDomainStructure extends Migration
         $field->name = 'description';
         $field->uitype_id = uitype('textarea')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['large' => true];
+        $field->data = [ 'large' => true ];
         $field->sequence = 2;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -107,7 +107,7 @@ class CreateDomainStructure extends Migration
         $filter->user_id = null;
         $filter->name = 'filter.all';
         $filter->type = 'list';
-        $filter->columns = ['id', 'name', 'description', 'parent', 'created_at', 'updated_at'];
+        $filter->columns = [ 'id', 'name', 'description', 'parent', 'created_at', 'updated_at' ];
         $filter->conditions = null;
         $filter->order_by = null;
         $filter->is_default = true;

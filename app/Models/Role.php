@@ -21,7 +21,7 @@ class Role extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [ 'deleted_at' ];
 
     protected function initTablePrefix()
     {
@@ -50,7 +50,7 @@ class Role extends Model
 
     public function profiles()
     {
-        return $this->belongsToMany(Profile::class, $this->tablePrefix . 'profiles_roles');
+        return $this->belongsToMany(Profile::class, $this->tablePrefix.'profiles_roles');
     }
 
     /**

@@ -20,9 +20,9 @@ class SwaggerController extends BaseController
     public function docs($jsonFile = null)
     {
         $filePath = config('l5-swagger.paths.docs').'/'.
-            (! is_null($jsonFile) ? $jsonFile : config('l5-swagger.paths.docs_json', 'api-docs.json'));
+            (!is_null($jsonFile) ? $jsonFile : config('l5-swagger.paths.docs_json', 'api-docs.json'));
 
-        if (! File::exists($filePath)) {
+        if (!File::exists($filePath)) {
             try {
                 Generator::generateDocs();
             } catch (\Exception $e) {
@@ -49,8 +49,8 @@ class SwaggerController extends BaseController
         }
 
         if ($proxy = config('l5-swagger.proxy')) {
-            if (! is_array($proxy)) {
-                $proxy = [$proxy];
+            if (!is_array($proxy)) {
+                $proxy = [ $proxy ];
             }
 
             Request::setTrustedProxies($proxy, \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL);

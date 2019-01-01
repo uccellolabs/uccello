@@ -45,7 +45,7 @@ class DateTime implements Uitype
      */
     public function getFormOptions($record, Field $field, Module $module) : array
     {
-        $options['attr'] = ['class' => 'form-control datetimepicker'];
+        $options[ 'attr' ] = [ 'class' => 'form-control datetimepicker' ];
 
         return $options;
     }

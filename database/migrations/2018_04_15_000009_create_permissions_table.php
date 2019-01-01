@@ -13,7 +13,7 @@ class CreatePermissionsTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'permissions', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'permissions', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('profile_id');
@@ -22,19 +22,19 @@ class CreatePermissionsTable extends Migration
 
             // Foreign keys
             $table->foreign('module_id')
-                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->references('id')->on($this->tablePrefix.'modules')
                     ->onDelete('cascade');
 
             $table->foreign('profile_id')
-                    ->references('id')->on($this->tablePrefix . 'profiles')
+                    ->references('id')->on($this->tablePrefix.'profiles')
                     ->onDelete('cascade');
 
             $table->foreign('capability_id')
-                    ->references('id')->on($this->tablePrefix . 'capabilities')
+                    ->references('id')->on($this->tablePrefix.'capabilities')
                     ->onDelete('cascade');
 
             // Unique keys
-            $table->unique(['module_id', 'profile_id', 'capability_id']);
+            $table->unique([ 'module_id', 'profile_id', 'capability_id' ]);
         });
     }
 
@@ -45,6 +45,6 @@ class CreatePermissionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'permissions');
+        Schema::dropIfExists($this->tablePrefix.'permissions');
     }
 }

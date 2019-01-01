@@ -11,7 +11,7 @@ class Model extends DefaultModel
 
     protected $tablePrefix;
 
-    public function __construct(array $attributes = [])
+    public function __construct(array $attributes = [ ])
     {
         parent::__construct($attributes);
 
@@ -34,9 +34,9 @@ class Model extends DefaultModel
 
     protected function initTableName()
     {
-        if($this->table)
+        if ($this->table)
         {
-            $this->table = $this->tablePrefix . $this->table;
+            $this->table = $this->tablePrefix.$this->table;
         }
     }
 }

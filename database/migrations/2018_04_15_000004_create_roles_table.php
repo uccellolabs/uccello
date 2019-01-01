@@ -13,7 +13,7 @@ class CreateRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'roles', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'roles', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
@@ -24,10 +24,10 @@ class CreateRolesTable extends Migration
 
             // Foreign keys
             $table->foreign('parent_id')
-                    ->references('id')->on($this->tablePrefix . 'roles');
+                    ->references('id')->on($this->tablePrefix.'roles');
 
             $table->foreign('domain_id')
-                    ->references('id')->on($this->tablePrefix . 'domains')
+                    ->references('id')->on($this->tablePrefix.'domains')
                     ->onDelete('cascade');
         });
     }
@@ -39,6 +39,6 @@ class CreateRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'roles');
+        Schema::dropIfExists($this->tablePrefix.'roles');
     }
 }

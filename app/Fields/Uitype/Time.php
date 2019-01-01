@@ -41,7 +41,7 @@ class Time extends DateTime implements Uitype
      */
     public function getFormOptions($record, Field $field, Module $module) : array
     {
-        $options['attr'] = ['class' => 'form-control timepicker'];
+        $options[ 'attr' ] = [ 'class' => 'form-control timepicker' ];
 
         return $options;
     }

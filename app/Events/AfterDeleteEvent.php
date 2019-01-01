@@ -28,7 +28,7 @@ class AfterDeleteEvent
      *
      * @return void
      */
-    public function __construct(Domain $domain, Module $module, Request $request, $record, $isFromApi=false)
+    public function __construct(Domain $domain, Module $module, Request $request, $record, $isFromApi = false)
     {
         $this->domain = $domain;
         $this->module = $module;

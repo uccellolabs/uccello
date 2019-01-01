@@ -16,7 +16,7 @@ class CreateTabsTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'tabs', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'tabs', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('module_id');
             $table->string('label');
@@ -27,7 +27,7 @@ class CreateTabsTable extends Migration
 
             // Foreign keys
             $table->foreign('module_id')
-                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->references('id')->on($this->tablePrefix.'modules')
                     ->onDelete('cascade');
         });
     }
@@ -39,6 +39,6 @@ class CreateTabsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'tabs');
+        Schema::dropIfExists($this->tablePrefix.'tabs');
     }
 }

@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(\Uccello\Core\Models\Domain::class, function (Faker $faker) {
+$factory->define(\Uccello\Core\Models\Domain::class, function(Faker $faker) {
     $name = $faker->company;
 
     return [

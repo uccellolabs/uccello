@@ -63,9 +63,9 @@
                                         {{ uctrans('field.'.$column['name'], $module) }}
                                         <?php
                                             // If a special template exists, use it. Else use the generic template
-                                            $uitypeViewName = sprintf('uitypes.search.%s', $column['uitype']);
+                                            $uitypeViewName = sprintf('uitypes.search.%s', $column[ 'uitype' ]);
                                             $uitypeFallbackView = 'uccello::modules.default.uitypes.search.text';
-                                            $uitypeViewToInclude = uccello()->view($column['package'], $module, $uitypeViewName, $uitypeFallbackView);
+                                            $uitypeViewToInclude = uccello()->view($column[ 'package' ], $module, $uitypeViewName, $uitypeFallbackView);
                                         ?>
                                         @include($uitypeViewToInclude)
                                     </th>

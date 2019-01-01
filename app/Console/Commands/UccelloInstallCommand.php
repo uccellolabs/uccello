@@ -70,7 +70,7 @@ class UccelloInstallCommand extends Command
 
         $this->info('Copying login controller...');
         copy(
-            __DIR__ . '/stubs/make/app/Http/Controllers/Auth/LoginController.stub',
+            __DIR__.'/stubs/make/app/Http/Controllers/Auth/LoginController.stub',
             app_path('Http/Controllers/Auth/LoginController.php')
         );
 
@@ -120,7 +120,7 @@ class UccelloInstallCommand extends Command
      */
     protected function createDirectories()
     {
-        if (! is_dir(resource_path('views/errors'))) {
+        if (!is_dir(resource_path('views/errors'))) {
             mkdir(resource_path('views/errors'), 0755, true);
         }
     }

@@ -13,7 +13,7 @@ class CreateFiltersTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'filters', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'filters', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('domain_id')->nullable();
@@ -29,11 +29,11 @@ class CreateFiltersTable extends Migration
 
             // Foreign keys
             $table->foreign('module_id')
-                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->references('id')->on($this->tablePrefix.'modules')
                     ->onDelete('cascade');
 
             $table->foreign('domain_id')
-                    ->references('id')->on($this->tablePrefix . 'domains')
+                    ->references('id')->on($this->tablePrefix.'domains')
                     ->onDelete('cascade');
 
             $table->foreign('user_id')
@@ -49,6 +49,6 @@ class CreateFiltersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'filters');
+        Schema::dropIfExists($this->tablePrefix.'filters');
     }
 }

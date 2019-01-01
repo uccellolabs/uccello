@@ -67,7 +67,7 @@ interface Uitype
      * @param \Uccello\Core\Models\Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string;
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string;
 
     /**
      * Returns formatted value to search.

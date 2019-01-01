@@ -1,5 +1,5 @@
 <?php
 
 return [
-  'skin' => 'uccello',
+    'skin' => 'uccello',
 ];

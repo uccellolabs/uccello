@@ -13,7 +13,7 @@ class CreateModulesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'modules', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'modules', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('icon')->nullable();
@@ -30,6 +30,6 @@ class CreateModulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'modules');
+        Schema::dropIfExists($this->tablePrefix.'modules');
     }
 }

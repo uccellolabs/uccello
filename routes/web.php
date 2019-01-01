@@ -2,7 +2,7 @@
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
-Route::name('uccello.')->group(function () {
+Route::name('uccello.')->group(function() {
 
     // Adapt params if we use or not multi domains
     if (!uccello()->useMultiDomains()) {
@@ -26,7 +26,7 @@ Route::name('uccello.')->group(function () {
         ->defaults('module', 'user')
         ->name('user.edit');
 
-    Route::post($domainParam . '/domain', 'Domain\EditController@save')
+    Route::post($domainParam.'/domain', 'Domain\EditController@save')
         ->defaults('module', 'domain')
         ->name('domain.save');
 

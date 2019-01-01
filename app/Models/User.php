@@ -27,7 +27,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [ 'deleted_at' ];
 
     /**
      * The attributes that are mass assignable.
@@ -84,7 +84,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return [];
+        return [ ];
     }
 
     /**
@@ -94,7 +94,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getRecordLabelAttribute() : string
     {
-        return trim($this->first_name . ' ' .$this->last_name) ?? $this->username;
+        return trim($this->first_name.' '.$this->last_name) ?? $this->username;
     }
 
     // public function getAccessibleDomainsAttribute() : Collection
@@ -121,7 +121,7 @@ class User extends Authenticatable implements JWTSubject
         $roles = new Collection();
 
         foreach ($this->privileges->where('domain_id', $domain->id) as $privilege) {
-            $roles[] = $privilege->role;
+            $roles[ ] = $privilege->role;
         }
 
         return $roles;

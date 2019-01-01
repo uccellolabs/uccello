@@ -90,7 +90,7 @@ class MenuManagerController extends Controller
     protected function addLinksAddedAfterMenuCreation($links, $domainModules)
     {
         if (!empty($links)) {
-            $addedModules = [];
+            $addedModules = [ ];
             $this->getAddedModules($links, $addedModules);
 
             foreach ($domainModules as $module) {
@@ -104,7 +104,7 @@ class MenuManagerController extends Controller
                     $link->module = $module->name;
                     $link->color = 'grey';
                     $link->translation = uctrans($module->name, $module);
-                    $links[] = $link;
+                    $links[ ] = $link;
                 }
             }
         }
@@ -123,7 +123,7 @@ class MenuManagerController extends Controller
     {
         foreach ($links as $link) {
             if (!empty($link->module) && !in_array($link->module, $addedModules)) {
-                $addedModules[] = $link->module;
+                $addedModules[ ] = $link->module;
             }
 
             if (isset($link->children) && is_array($link->children)) {

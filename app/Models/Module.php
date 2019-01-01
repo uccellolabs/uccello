@@ -46,7 +46,7 @@ class Module extends Model
 
     public function domains()
     {
-        return $this->belongsToMany(Domain::class, $this->tablePrefix . 'domains_modules');
+        return $this->belongsToMany(Domain::class, $this->tablePrefix.'domains_modules');
     }
 
     public function tabs()
@@ -115,7 +115,7 @@ class Module extends Model
      */
     public function getMenuLinksAttribute() : array
     {
-        $menuLinks = [];
+        $menuLinks = [ ];
 
         //TODO: Adds capability needed
 
@@ -126,7 +126,7 @@ class Module extends Model
                 $link->label = $this->name;
                 $link->route = $this->data->menu;
                 $link->icon = $this->icon;
-                $menuLinks[] = $link;
+                $menuLinks[ ] = $link;
             }
             // Several routes
             elseif (is_array($this->data->menu)) {
@@ -134,7 +134,7 @@ class Module extends Model
                     if (empty($link->icon)) {
                         $link->icon = $this->icon;
                     }
-                    $menuLinks[] = $link;
+                    $menuLinks[ ] = $link;
                 }
             }
             // No route wanted
@@ -148,7 +148,7 @@ class Module extends Model
             $link->label = $this->name;
             $link->route = 'uccello.list';
             $link->icon = $this->icon;
-            $menuLinks[] = $link;
+            $menuLinks[ ] = $link;
         }
 
         return $menuLinks;

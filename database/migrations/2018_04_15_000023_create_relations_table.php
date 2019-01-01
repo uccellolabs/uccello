@@ -13,7 +13,7 @@ class CreateRelationsTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'relations', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'relations', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('relatedlist_id');
             $table->unsignedInteger('module_id');
@@ -25,19 +25,19 @@ class CreateRelationsTable extends Migration
 
             // Foreign keys
             $table->foreign('module_id')
-                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->references('id')->on($this->tablePrefix.'modules')
                     ->onDelete('cascade');
 
             $table->foreign('related_module_id')
-                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->references('id')->on($this->tablePrefix.'modules')
                     ->onDelete('cascade');
 
             $table->foreign('relatedlist_id')
-                    ->references('id')->on($this->tablePrefix . 'relatedlists')
+                    ->references('id')->on($this->tablePrefix.'relatedlists')
                     ->onDelete('cascade');
 
             // Unique keys
-            $table->unique(['module_id', 'record_id', 'related_record_id', 'related_module_id', 'relatedlist_id'], 'relations_unique_key');
+            $table->unique([ 'module_id', 'record_id', 'related_record_id', 'related_module_id', 'relatedlist_id' ], 'relations_unique_key');
         });
     }
 
@@ -48,6 +48,6 @@ class CreateRelationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'relations');
+        Schema::dropIfExists($this->tablePrefix.'relations');
     }
 }

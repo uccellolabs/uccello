@@ -21,18 +21,18 @@ class EditController extends CoreEditController
         $record = $this->getRecordFromRequest();
 
         // Get roles already linked to the role
-        $selectedRoleIds = [];
+        $selectedRoleIds = [ ];
 
         if ($record) {
             foreach ($record->rolesOnDomain($domain) as $role) {
-                $selectedRoleIds[] = $role->id;
+                $selectedRoleIds[ ] = $role->id;
             }
         }
 
         // Get all domain roles
-        $roles = [];
+        $roles = [ ];
         foreach ($domain->roles as $role) {
-            $roles[$role->id] = $role->name;
+            $roles[ $role->id ] = $role->name;
         }
 
         // Add data to the view

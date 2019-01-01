@@ -2,7 +2,7 @@
 
 namespace Uccello\Core\Support\Traits;
 
-use Illuminate\Database\Eloquent\Builder ;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Uccello\Core\Models\Relatedlist;
 use Uccello\Core\Models\Relation;
@@ -88,11 +88,11 @@ trait RelatedlistTrait
 
         // Retrieve all related records and add the relation id to be able to delete the relation instead of the record
         $relatedRecords = new Collection();
-        foreach($relations as $relation)
+        foreach ($relations as $relation)
         {
             $relatedRecord = $relatedModel::find($relation->related_record_id);
             $relatedRecord->relation_id = $relation->id; // Add relation id
-            $relatedRecords[] = $relatedRecord;
+            $relatedRecords[ ] = $relatedRecord;
         }
 
         return $relatedRecords;

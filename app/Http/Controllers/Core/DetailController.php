@@ -31,10 +31,10 @@ class DetailController extends Controller
         $recordId = $request->input('id');
 
         // Selected tab
-        $selectedTabId = (int) $request->input('tab');
+        $selectedTabId = (int)$request->input('tab');
 
         // Selected related list
-        $selectedRelatedlistId = (int) $request->input('relatedlist');
+        $selectedRelatedlistId = (int)$request->input('relatedlist');
 
         return $this->autoView([
             'record' => $this->getRecord($recordId),

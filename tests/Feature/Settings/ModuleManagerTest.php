@@ -31,7 +31,7 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson(['success' => true, 'message' => uctrans('message.module_deactivated', ucmodule('settings'))]);
+        $response->assertJson([ 'success' => true, 'message' => uctrans('message.module_deactivated', ucmodule('settings')) ]);
 
         // Activation status wash changed
         $module = $module->refresh();
@@ -45,7 +45,7 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson(['success' => true, 'message' => uctrans('message.module_activated', ucmodule('settings'))]);
+        $response->assertJson([ 'success' => true, 'message' => uctrans('message.module_activated', ucmodule('settings')) ]);
 
         // Test if activation status was changed
         $module = $module->refresh();
@@ -73,7 +73,7 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson(['success' => false, 'error' => uctrans('error.module_is_mandatory', ucmodule('settings'))]);
+        $response->assertJson([ 'success' => false, 'error' => uctrans('error.module_is_mandatory', ucmodule('settings')) ]);
 
         // Test if activation status was not changed
         $module = $module->refresh();
@@ -95,6 +95,6 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson(['success' => false, 'error' => uctrans('error.module_not_defined', ucmodule('settings'))]);
+        $response->assertJson([ 'success' => false, 'error' => uctrans('error.module_not_defined', ucmodule('settings')) ]);
     }
 }

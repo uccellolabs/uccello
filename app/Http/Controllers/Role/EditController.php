@@ -21,21 +21,21 @@ class EditController extends CoreEditController
         $record = $this->getRecordFromRequest();
 
         // Get profiles already linked to the role
-        $selectedProfileIds = [];
+        $selectedProfileIds = [ ];
         if ($record) {
             foreach ($record->profiles as $profile) {
                 // Check if the profile is still in the domain
                 // It is just a security because $profiles (see below) is filtered on the domain
                 if ($profile->domain->id === $domain->id) {
-                    $selectedProfileIds[] = $profile->id;
+                    $selectedProfileIds[ ] = $profile->id;
                 }
             }
         }
 
         // Get all domain profiles
-        $profiles = [];
+        $profiles = [ ];
         foreach ($domain->profiles as $profile) {
-            $profiles[$profile->id] = $profile->name;
+            $profiles[ $profile->id ] = $profile->name;
         }
 
         // Add data to the view

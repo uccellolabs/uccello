@@ -68,15 +68,15 @@ class DeleteController extends Controller
 
         // Redirect to source record if a relation was deleted
         if (isset($relatedlist) && $request->input('src_id')) {
-            $params = ['id' => $request->input('src_id')];
+            $params = [ 'id' => $request->input('src_id') ];
 
             // Add tab id if defined to select it automaticaly
             if ($request->input('tab')) {
-                $params['tab'] = $request->input('tab');
+                $params[ 'tab' ] = $request->input('tab');
             }
             // Add related list id to select the related tab automaticaly
             else {
-                $params['relatedlist'] = $relatedlist->id;
+                $params[ 'relatedlist' ] = $relatedlist->id;
             }
 
             $route = ucroute('uccello.detail', $domain, $relatedlist->module, $params);

@@ -33,7 +33,7 @@ class Month implements Uitype
      */
     public function getFormOptions($record, Field $field, Module $module) : array
     {
-        $options['attr'] = ['class' => 'form-control monthpicker'];
+        $options[ 'attr' ] = [ 'class' => 'form-control monthpicker' ];
 
         return $options;
     }

@@ -145,7 +145,7 @@ abstract class Controller extends BaseController
      */
     protected function getAllModules($getAdminModules = false)
     {
-        $modules = [];
+        $modules = [ ];
 
         $allModules = Module::all();
 
@@ -154,7 +154,7 @@ abstract class Controller extends BaseController
         } else {
             foreach ($allModules as $module) {
                 if (!$module->isAdminModule()) {
-                    $modules[] = $module;
+                    $modules[ ] = $module;
                 }
             }
         }
@@ -178,7 +178,7 @@ abstract class Controller extends BaseController
 
         // An id is defined, retrieve the record from the database fail (404)
         if ($this->request->has('id')) {
-            $recordId = (int) $this->request->input('id');
+            $recordId = (int)$this->request->input('id');
             $record = $modelClass::findOrFail($recordId);
         }
         // Make a new empty instance
@@ -201,7 +201,7 @@ abstract class Controller extends BaseController
      * @param  array   $mergeData
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    protected function autoView($data = [], $mergeData = [])
+    protected function autoView($data = [ ], $mergeData = [ ])
     {
         $viewToUse = uccello()->view($this->module->package, $this->module, $this->viewName);
 

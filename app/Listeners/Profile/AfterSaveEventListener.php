@@ -41,9 +41,9 @@ class AfterSaveEventListener
         $user = $this->auth->user();
 
         $oldPermissions = $this->getProfilePermissions($event);
-        $newPermissions = [];
+        $newPermissions = [ ];
 
-        $permissions = (array) $request->input('permissions');
+        $permissions = (array)$request->input('permissions');
 
         foreach ($permissions as $moduleName => $capabilities) {
             // Retrieve module from name
@@ -64,7 +64,7 @@ class AfterSaveEventListener
                 }
 
                 // Create a new permisison and ignore duplicates
-                $newPermissions[] = Permission::firstOrCreate([
+                $newPermissions[ ] = Permission::firstOrCreate([
                     'profile_id' => $profile->id,
                     'module_id' => $module->id,
                     'capability_id' => $capability->id
@@ -84,7 +84,7 @@ class AfterSaveEventListener
      */
     protected function getProfilePermissions(AfterSaveEvent $event) : array
     {
-        $permissions = [];
+        $permissions = [ ];
 
         $domain = $event->domain;
         $profile = $event->record;
@@ -94,7 +94,7 @@ class AfterSaveEventListener
 
         foreach ($profilePermissions as $permission) {
             if ($user->canAdmin($domain, $permission->module)) {
-                $permissions[] = $permission;
+                $permissions[ ] = $permission;
             }
         }
 

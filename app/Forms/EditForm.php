@@ -24,12 +24,12 @@ class EditForm extends Form
         $request = $this->getData('request');
 
         // Make route params
-        $routeParams = [];
+        $routeParams = [ ];
 
         // Get and add record id to route params if defined
         $recordId = $this->getModel()->getKey() ?? null;
         if ($recordId ?? false) {
-            $routeParams['id'] = $recordId;
+            $routeParams[ 'id' ] = $recordId;
         }
 
         // Get mode
@@ -93,15 +93,15 @@ class EditForm extends Form
             $relatedlistId = $request->input('relatedlist');
             $sourceRecordId = $request->input('src_id');
 
-            $this->add('relatedlist', 'hidden', ['value' => $relatedlistId]);
-            $this->add('src_id', 'hidden', ['value' => $sourceRecordId]);
+            $this->add('relatedlist', 'hidden', [ 'value' => $relatedlistId ]);
+            $this->add('src_id', 'hidden', [ 'value' => $sourceRecordId ]);
         }
 
         // Add selected tab data
         if ($request->input('tab')) {
             $tabId = $request->input('tab');
 
-            $this->add('tab', 'hidden', ['value' => $tabId]);
+            $this->add('tab', 'hidden', [ 'value' => $tabId ]);
         }
     }
 
@@ -126,7 +126,7 @@ class EditForm extends Form
      */
     protected function getFieldOptions(Field $field): array
     {
-        $options = [];
+        $options = [ ];
 
         if ($field->data->repeated ?? false) {
             $options = $this->getRepeatedFieldOptions($field);
@@ -156,7 +156,7 @@ class EditForm extends Form
 
         $options = [
             'label' => uctrans($field->label, $module),
-            'label_attr' => ['class' => 'form-label' . $requiredClass],
+            'label_attr' => [ 'class' => 'form-label'.$requiredClass ],
             'rules' => $this->getFieldRules($field),
             'attr' => [
                 'class' => 'form-control'
@@ -169,7 +169,7 @@ class EditForm extends Form
 
         // Set default value only if it is a creation (record id doen't exist)
         if (is_null($this->getModel()->getKey())) {
-            $options['default_value'] = $selectedValue ?? $field->data->default ?? null;
+            $options[ 'default_value' ] = $selectedValue ?? $field->data->default ?? null;
         }
 
         // Add other options
@@ -210,8 +210,8 @@ class EditForm extends Form
 
         // Second field have default options too, except label and rules (already verified in the first field)
         $secondFieldOptions = $firstFieldOptions;
-        $secondFieldOptions['label'] = uctrans($field->label.'_confirmation', $module);
-        $secondFieldOptions['rules'] = null;
+        $secondFieldOptions[ 'label' ] = uctrans($field->label.'_confirmation', $module);
+        $secondFieldOptions[ 'rules' ] = null;
 
         return [
             'type' => $this->getFormBuilderType($field),

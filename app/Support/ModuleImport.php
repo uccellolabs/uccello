@@ -50,7 +50,7 @@ class ModuleImport
      *
      * @var array
      */
-    protected $fieldsToDelete = [];
+    protected $fieldsToDelete = [ ];
 
     /**
      * Constructor
@@ -123,7 +123,7 @@ class ModuleImport
             $packageParts = explode('/', $this->structure->data->package);
 
             if (count($packageParts) === 2) {
-                $this->filePath = 'packages/' . $packageParts[0] . '/' . $packageParts[1] . '/';
+                $this->filePath = 'packages/'.$packageParts[ 0 ].'/'.$packageParts[ 1 ].'/';
             }
         }
     }
@@ -199,7 +199,7 @@ class ModuleImport
                 $statusMessage = 'was created.';
             }
 
-            $this->command->line('The module <info>' . $module->name . '</info> '. $statusMessage);
+            $this->command->line('The module <info>'.$module->name.'</info> '.$statusMessage);
         }
 
         return $module;
@@ -306,7 +306,7 @@ class ModuleImport
 
             if (!$found) {
                 $field->delete();
-                $this->fieldsToDelete[] = $field;
+                $this->fieldsToDelete[ ] = $field;
             }
         }
     }
@@ -369,11 +369,11 @@ class ModuleImport
      */
     protected function createTable(Module $module)
     {
-        $tableName = $this->structure->tablePrefix . $this->structure->tableName;
+        $tableName = $this->structure->tablePrefix.$this->structure->tableName;
 
         if (!Schema::hasTable($tableName)) {
             // Create table
-            Schema::create($tableName, function (Blueprint $table) use ($module) {
+            Schema::create($tableName, function(Blueprint $table) use ($module) {
                 $table->increments('id');
 
                 // Create each column according to the selected uitype
@@ -388,7 +388,7 @@ class ModuleImport
                                             continue;
                                         }
 
-                                        if (!empty((array) $_field->data)) {
+                                        if (!empty((array)$_field->data)) {
                                             $data = $_field->data;
                                         } else {
                                             $data = null;
@@ -416,7 +416,7 @@ class ModuleImport
             });
 
             if (!is_null($this->command)) {
-                $this->command->line('The table <info>' . $tableName . '</info> was created.');
+                $this->command->line('The table <info>'.$tableName.'</info> was created.');
             }
 
         } else {
@@ -434,7 +434,7 @@ class ModuleImport
                                             continue;
                                         }
 
-                                        if (!empty((array) $_field->data)) {
+                                        if (!empty((array)$_field->data)) {
                                             $data = $_field->data;
                                         } else {
                                             $data = null;
@@ -479,7 +479,7 @@ class ModuleImport
             });
 
             if (!is_null($this->command)) {
-                $this->command->line('The table <info>' . $tableName . '</info> already exists. It was <comment>updated</comment>.');
+                $this->command->line('The table <info>'.$tableName.'</info> already exists. It was <comment>updated</comment>.');
             }
         }
     }
@@ -494,7 +494,7 @@ class ModuleImport
      */
     protected function createColumn(Field $field, Blueprint $table, bool $updateColumn = false)
     {
-        $tableName = $this->structure->tablePrefix . $this->structure->tableName;
+        $tableName = $this->structure->tablePrefix.$this->structure->tableName;
 
         // Create column
         $column = uitype($field->uitype->id)->createFieldColumn($field, $table);
@@ -529,10 +529,10 @@ class ModuleImport
     protected function createDefaultFilter(Module $module)
     {
         // Add all field in the filter
-        $columns = [];
+        $columns = [ ];
         foreach ($this->getAllFields() as $field) {
             if ($field->displayInFilter === true) {
-                $columns[] = $field->name;
+                $columns[ ] = $field->name;
             }
         }
 
@@ -629,7 +629,7 @@ class ModuleImport
     {
         $domains = Domain::all();
 
-        foreach($domains as $domain) {
+        foreach ($domains as $domain) {
             $domain->modules()->detach($module); // Useful if it exists yet
             $domain->modules()->attach($module);
         }
@@ -645,7 +645,7 @@ class ModuleImport
     {
         foreach ($this->structure->lang as $locale => $translations) {
 
-            $languageFile = $this->filePath . 'resources/lang/' . $locale . '/' . $this->structure->name . '.php';
+            $languageFile = $this->filePath.'resources/lang/'.$locale.'/'.$this->structure->name.'.php';
 
             // If file exists then update translations
             if ($this->files->exists($languageFile)) {
@@ -654,11 +654,11 @@ class ModuleImport
                 $fileTranslations = $this->files->getRequire($languageFile);
 
                 // Add or update translations ($translations have priority)
-                $translations = array_merge($fileTranslations, (array) $translations);
+                $translations = array_merge($fileTranslations, (array)$translations);
 
-                $message = 'The file <info>' . $languageFile . '</info> already exists. It was <comment>updated</comment>.';
+                $message = 'The file <info>'.$languageFile.'</info> already exists. It was <comment>updated</comment>.';
             } else {
-                $message = 'The file <info>' . $languageFile . '</info> was created.';
+                $message = 'The file <info>'.$languageFile.'</info> was created.';
             }
 
             // Write language file
@@ -688,7 +688,7 @@ class ModuleImport
                 continue;
             }
 
-            $content .= "    '$label' => '". str_replace("'", "\'", $translation) ."',\n";
+            $content .= "    '$label' => '".str_replace("'", "\'", $translation)."',\n";
         }
 
         $content .= "];";
@@ -713,7 +713,7 @@ class ModuleImport
         // Check model stub file existence (from module-designer package)
         $stubsDirectory = base_path('vendor/uccello/module-designer/app/Console/Commands/stubs');
 
-        if (!$this->files->exists($stubsDirectory . '/model.stub')) {
+        if (!$this->files->exists($stubsDirectory.'/model.stub')) {
             if (!is_null($this->command)) {
                 $this->command->line('<error>You have to install module-designer to generate the model file</error> : <comment>composer require uccello/module-designer</comment>');
             }
@@ -738,8 +738,8 @@ class ModuleImport
             $subDirectories = implode('/', $modelClassData);
 
             // Create sub directories if not exist
-            if (!$this->files->isDirectory($this->filePath . '/app/' . $subDirectories)) {
-                $this->files->makeDirectory($this->filePath . '/app/' . $subDirectories, 0755, true); // Recursive
+            if (!$this->files->isDirectory($this->filePath.'/app/'.$subDirectories)) {
+                $this->files->makeDirectory($this->filePath.'/app/'.$subDirectories, 0755, true); // Recursive
             }
 
             $subDirectories .= '/';
@@ -752,15 +752,15 @@ class ModuleImport
         $tablePrefix = $this->structure->tablePrefix;
 
         // File path
-        $modelFile = $this->filePath .  'app/' . $subDirectories . $className . '.php';
+        $modelFile = $this->filePath.'app/'.$subDirectories.$className.'.php';
 
         // Check if file already exists
         if ($this->files->exists($modelFile)) {
             if (!is_null($this->command)) {
                 $modelFileCopy = str_replace('.php', '.prev.php', $modelFile);
                 $this->files->move($modelFile, $modelFileCopy);
-                $this->command->line('<error>WARNING:</error> The file <info>' . $modelFile . '</info> already exists. '.
-                    'It was <comment>renamed</comment> into <info>' . $this->files->basename($modelFileCopy). '</info>.'
+                $this->command->line('<error>WARNING:</error> The file <info>'.$modelFile.'</info> already exists. '.
+                    'It was <comment>renamed</comment> into <info>'.$this->files->basename($modelFileCopy).'</info>.'
                 );
             }
         }
@@ -782,16 +782,16 @@ class ModuleImport
                 $relatedModule = Module::where('name', $field->data->module)->first();
 
                 if ($relatedModule) {
-                    $relations .= "\n    public function ". $field->name . "()\n".
+                    $relations .= "\n    public function ".$field->name."()\n".
                                 "    {\n".
-                                "        return \$this->belongsTo(\\". $relatedModule->model_class . "::class);\n".
+                                "        return \$this->belongsTo(\\".$relatedModule->model_class."::class);\n".
                                 "    }\n";
                 }
             }
         }
 
         // Generate content
-        $fileContent = $this->files->get($stubsDirectory . '/model.stub');
+        $fileContent = $this->files->get($stubsDirectory.'/model.stub');
 
         $content = str_replace(
             [
@@ -814,7 +814,7 @@ class ModuleImport
         $this->files->put($modelFile, $content);
 
         if (!is_null($this->command)) {
-            $this->command->line('The file <info>' . $modelFile . '</info> was created.');
+            $this->command->line('The file <info>'.$modelFile.'</info> was created.');
         }
     }
 
@@ -841,14 +841,14 @@ class ModuleImport
      */
     protected function getAllFields()
     {
-        $fields = [];
+        $fields = [ ];
 
         if (isset($this->structure->tabs)) {
             foreach ($this->structure->tabs as $tab) {
                 foreach ($tab->blocks as $block) {
                     if (isset($block->fields)) {
                         foreach ($block->fields as $field) {
-                            $fields[] = $field;
+                            $fields[ ] = $field;
                         }
                     }
                 }

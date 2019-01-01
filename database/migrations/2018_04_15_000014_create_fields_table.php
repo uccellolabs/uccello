@@ -13,7 +13,7 @@ class CreateFieldsTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'fields', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'fields', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('module_id')->comment('Decrease queries');
             $table->unsignedInteger('block_id');
@@ -26,18 +26,18 @@ class CreateFieldsTable extends Migration
 
             // Foreign keys
             $table->foreign('module_id')
-                ->references('id')->on($this->tablePrefix . 'modules')
+                ->references('id')->on($this->tablePrefix.'modules')
                 ->onDelete('cascade');
 
             $table->foreign('block_id')
-                    ->references('id')->on($this->tablePrefix . 'blocks')
+                    ->references('id')->on($this->tablePrefix.'blocks')
                     ->onDelete('cascade');
 
             $table->foreign('uitype_id')
-                    ->references('id')->on($this->tablePrefix . 'uitypes');
+                    ->references('id')->on($this->tablePrefix.'uitypes');
 
             $table->foreign('displaytype_id')
-                    ->references('id')->on($this->tablePrefix . 'displaytypes');
+                    ->references('id')->on($this->tablePrefix.'displaytypes');
         });
     }
 
@@ -48,6 +48,6 @@ class CreateFieldsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'fields');
+        Schema::dropIfExists($this->tablePrefix.'fields');
     }
 }

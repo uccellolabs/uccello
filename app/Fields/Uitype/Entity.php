@@ -39,10 +39,10 @@ class Entity implements Uitype
     public function getFormOptions($record, Field $field, Module $module) : array
     {
         if (!is_object($field->data)) {
-            return [];
+            return [ ];
         }
 
-        $options = [];
+        $options = [ ];
 
         if ($field->data->module) {
             $options = [
@@ -50,8 +50,8 @@ class Entity implements Uitype
                 'property' => $field->data->field ?? 'recordLabel',
                 'empty_value' => uctrans('select_empty_value', $module),
                 'selected' => $record->{$field->column} ?? null,
-                'attr' => ['class' => 'form-control show-tick', 'data-live-search' => 'true'],
-                'query_builder' => function ($relatedRecord) use($record) {
+                'attr' => [ 'class' => 'form-control show-tick', 'data-live-search' => 'true' ],
+                'query_builder' => function($relatedRecord) use($record) {
                     // If related record class is the same as the record one, ignore the current record
                     if (get_class($relatedRecord) === get_class($record)) {
                         return $relatedRecord->where($relatedRecord->getKeyName(), '!=', $record->getKey());
@@ -72,7 +72,7 @@ class Entity implements Uitype
      */
     public function getDefaultDatabaseColumn(Field $field) : string
     {
-        return $field->name . '_id';
+        return $field->name.'_id';
     }
 
     /**
@@ -147,14 +147,14 @@ class Entity implements Uitype
         // Get all modules
         $modules = Module::orderBy('name')->get();
 
-        $choices = [];
+        $choices = [ ];
         foreach ($modules as $_module) {
-            $choices[] = $_module->name;
+            $choices[ ] = $_module->name;
         }
 
         // Add module itself if necessary
         if (!in_array($module->name, $choices)) {
-            $choices[] = $module->name;
+            $choices[ ] = $module->name;
         }
 
         // Sort

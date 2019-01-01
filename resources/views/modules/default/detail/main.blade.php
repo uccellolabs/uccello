@@ -83,7 +83,7 @@
                 {{-- Badge --}}
                 <?php
                     $relatedModule = $relatedlist->relatedModule;
-                    $countMethod = $relatedlist->method . 'Count';
+                    $countMethod = $relatedlist->method.'Count';
 
                     $model = new $relatedModule->model_class;
                     $count = $model->$countMethod($relatedlist, $record->id);

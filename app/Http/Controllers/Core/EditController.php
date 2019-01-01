@@ -68,7 +68,7 @@ class EditController extends Controller
      * @param boolean $redirect
      * @return void
      */
-    public function save(?Domain $domain, Module $module, Request $request, bool $redirect=true)
+    public function save(?Domain $domain, Module $module, Request $request, bool $redirect = true)
     {
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -109,15 +109,15 @@ class EditController extends Controller
         if ($redirect === true) {
             // Redirect to source record if a relation was made
             if (isset($relatedlist) && $redirectToSourceRecord === true) {
-                $params = ['id' => $sourceRecordId];
+                $params = [ 'id' => $sourceRecordId ];
 
                 // Add tab id if defined to select it automaticaly
                 if ($tabId) {
-                    $params['tab'] = $tabId;
+                    $params[ 'tab' ] = $tabId;
                 }
                 // Add related list id to select the related tab automaticaly
                 else {
-                    $params['relatedlist'] = $relatedlist->id;
+                    $params[ 'relatedlist' ] = $relatedlist->id;
                 }
 
                 $route = ucroute('uccello.detail', $domain, $relatedlist->module, $params);
@@ -129,7 +129,7 @@ class EditController extends Controller
             }
             // Else redirect to detail
             else {
-                $route = ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]);
+                $route = ucroute('uccello.detail', $domain, $module, [ 'id' => $record->getKey() ]);
             }
 
             return redirect($route);

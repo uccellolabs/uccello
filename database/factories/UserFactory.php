@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(\Uccello\Core\Models\User::class, function (Faker $faker) {
+$factory->define(\Uccello\Core\Models\User::class, function(Faker $faker) {
     return [
         'username' => $faker->name,
         'first_name' => $faker->firstName,

@@ -37,13 +37,13 @@ class ModuleManagerController extends Controller
         // Pre-process
         $this->preProcess($domain, $module, $request);
 
-        $mainModules = [];
-        $adminModules = [];
+        $mainModules = [ ];
+        $adminModules = [ ];
         foreach (Module::orderBy('id')->get() as $_module) {
             if ($_module->isAdminModule()) {
-                $adminModules[] = $_module;
+                $adminModules[ ] = $_module;
             } else {
-                $mainModules[] = $_module;
+                $mainModules[ ] = $_module;
             }
         }
 
@@ -100,12 +100,12 @@ class ModuleManagerController extends Controller
 
         // Add message if defined
         if (!empty($message)) {
-            $result['message'] = uctrans($message, $module);
+            $result[ 'message' ] = uctrans($message, $module);
         }
 
         // Add error if defined
         if (!empty($error)) {
-            $result['error'] = uctrans($error, $module);
+            $result[ 'error' ] = uctrans($error, $module);
         }
 
         return $result;

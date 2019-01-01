@@ -14,7 +14,7 @@ class CreateDisplaytypesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'displaytypes', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'displaytypes', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('class');
@@ -31,7 +31,7 @@ class CreateDisplaytypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'displaytypes');
+        Schema::dropIfExists($this->tablePrefix.'displaytypes');
     }
 
     protected function addDisplaytypes()

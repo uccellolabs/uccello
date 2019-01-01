@@ -33,6 +33,9 @@ import 'adminbsb-materialdesign/plugins/jquery-countto/jquery.countTo.js'
 // jQuery Nestable 2
 import 'nestable2'
 
+// jQuery Spinner
+import 'adminbsb-materialdesign/plugins/jquery-spinner/js/jquery.spinner.js'
+
 // Autosize
 import autosize from 'adminbsb-materialdesign/plugins/autosize/autosize.js';
 autosize($('textarea.auto-growth'));
@@ -41,7 +44,25 @@ autosize($('textarea.auto-growth'));
 $("[data-toggle='tooltip']").tooltip();
 
 // Color picker
-$('.colorpicker').colorpicker();
+$('.colorpicker').colorpicker({
+    customClass: 'colorpicker-2x',
+    sliders: {
+        saturation: {
+            maxLeft: 200,
+            maxTop: 200
+        },
+        hue: {
+            maxTop: 200
+        },
+        alpha: {
+            maxTop: 200
+        }
+    }
+}).on('changeColor', function (e) {
+    let rbga = e.color.toRGB()
+    $(e.currentTarget).parents('.input-group').find('.input-group-addon i')
+        .css('color', `rgba(${rbga.r},${rbga.g},${rbga.b},${rbga.a})`);
+  });
 
 // Datetime picker
 $('.datepicker').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
@@ -49,8 +70,9 @@ $('.timepicker').bootstrapMaterialDatePicker({ date: false, format : 'HH:mm' });
 $('.datetimepicker').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm' });
 $('.monthpicker').bootstrapMaterialDatePicker({ format : 'MM', time: false });
 $('.weekpicker').bootstrapMaterialDatePicker({ format : 'w', time: false });
-$('.count-to').countTo();
 
+$('.count-to').countTo();
+$('[data-trigger="spinner"]').spinner();
 
 var rangeSliders = $('.nouislider_range');
 if (rangeSliders.length > 0) {

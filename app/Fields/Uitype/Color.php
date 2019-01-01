@@ -7,6 +7,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
+use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Field;
 
 class Color implements Uitype
 {
@@ -21,6 +23,24 @@ class Color implements Uitype
     public function getFormType() : string
     {
         return 'text';
+    }
+
+    /**
+     * Returns options for Form builder.
+     *
+     * @param mixed $record
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Module $module
+     * @return array
+     */
+    public function getFormOptions($record, Field $field, Module $module) : array
+    {
+        return [
+            'attr' => [
+                'class' => 'form-control colorpicker',
+                'autocomplete' => 'off'
+            ]
+        ];
     }
 
     /**

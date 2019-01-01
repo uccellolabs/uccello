@@ -32,6 +32,24 @@ class Password extends Text implements Uitype
     }
 
     /**
+     * Returns options for Form builder.
+     *
+     * @param mixed $record
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Module $module
+     * @return array
+     */
+    public function getFormOptions($record, Field $field, Module $module) : array
+    {
+        return [
+            'attr' => [
+                'class' => 'form-control',
+                'autocomplete' => 'new-password' // Stop browser auto-fill
+            ]
+        ];
+    }
+
+    /**
      * Returns formatted value to save.
      *
      * @param \Illuminate\Http\Request $request

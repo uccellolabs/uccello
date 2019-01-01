@@ -3,8 +3,6 @@
 namespace Uccello\Core\Forms;
 
 use Kris\LaravelFormBuilder\Form As DefaultForm;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Schema;
 
 class Form extends DefaultForm
 {

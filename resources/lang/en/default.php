@@ -35,6 +35,7 @@ return [
     'field.id' => 'Id',
     'field.created_at' => 'Created at',
     'field.updated_at' => 'Updated at',
+    'field.info.new_line' => 'Press ENTER to create a new line.',
 
     // Filter
     'filter.all' => 'All',

@@ -12,7 +12,7 @@
             @endif
 
             {{-- Field --}}
-            <div style="margin-top: 20px;">
+            <div class="m-t-20">
                 {{-- Field --}}
                 {!! form_widget($form->{$field->name}) !!}
                 {{-- Label --}}
@@ -21,8 +21,15 @@
         </div>
 
         @if($isError)
-        <div class="help-info">
+        <div class="help-info m-l-5">
             {!! form_errors($form->{$field->name}) !!}
+        </div>
+        @endif
+
+        {{-- Add help info if defined --}}
+        @if($field->data->info ?? false)
+        <div class="help-info">
+            {{ uctrans($field->data->info, $module) }}
         </div>
         @endif
     </div>

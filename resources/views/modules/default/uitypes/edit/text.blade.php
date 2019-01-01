@@ -29,7 +29,7 @@
             </div>
 
             @if($isError)
-            <div class="help-info">
+            <div class="help-info m-l-5">
                 {{-- if it is a repeated field display only the first error --}}
                 @if($field->data->repeated ?? false)
                 {!! form_errors($form->{$field->name}->first) !!}
@@ -37,6 +37,13 @@
                 {{-- else display the error normally --}}
                 {!! form_errors($form->{$field->name}) !!}
                 @endif
+            </div>
+            @endif
+
+            {{-- Add help info if defined --}}
+            @if($field->data->info ?? false)
+            <div class="help-info">
+                {{ uctrans($field->data->info, $module) }}
             </div>
             @endif
         </div>

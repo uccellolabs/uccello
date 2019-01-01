@@ -35,6 +35,7 @@ return [
     'field.id' => 'Id',
     'field.created_at' => 'Created at',
     'field.updated_at' => 'Updated at',
+    'field.info.new_line' => 'Press ENTER to create a new line.',
 
     // Filter
     'filter.all' => 'All',
@@ -52,5 +53,8 @@ return [
 
     // Related list
     'relatedlist.button.add' => 'Add',
-    'relatedlist.button.select' => 'Select'
+    'relatedlist.button.select' => 'Select',
+
+    // Confirm
+    'button.delete.confirm' => 'Do you really want to delete this record?',
 ];

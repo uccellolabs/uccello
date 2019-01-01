@@ -12,7 +12,7 @@
             @endif
 
             {{-- Field --}}
-            <div class="switch" style="padding-top: 10px; padding-bottom: 5px;">
+            <div class="switch p-t-10 p-b-5">
                 <label class="switch-label">
                     {{ uctrans('no', $module) }}
                     {!! form_widget($form->{$field->name}) !!}
@@ -23,8 +23,15 @@
         </div>
 
         @if($isError)
-        <div class="help-info">
+        <div class="help-info m-l-5">
             {!! form_errors($form->{$field->name}) !!}
+        </div>
+        @endif
+
+        {{-- Add help info if defined --}}
+        @if($field->data->info ?? false)
+        <div class="help-info">
+            {{ uctrans($field->data->info, $module) }}
         </div>
         @endif
     </div>

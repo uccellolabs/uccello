@@ -23,7 +23,7 @@
             <div class="img-container">
                 {{-- Link to delete current file --}}
                 <div class="delete-file">
-                    <a href="" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="bottom"><i class="material-icons">delete</i></a>
+                    <a href="javascript:void(0);" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="bottom"><i class="material-icons">delete</i></a>
                 </div>
 
                 {{-- Display image if it is public else display a link to download it --}}
@@ -37,8 +37,15 @@
         @endif
 
         @if($isError)
-        <div class="help-info">
+        <div class="help-info m-l-5">
             {!! form_errors($form->{$field->name}) !!}
+        </div>
+        @endif
+
+        {{-- Add help info if defined --}}
+        @if($field->data->info ?? false)
+        <div class="help-info">
+            {{ uctrans($field->data->info, $module) }}
         </div>
         @endif
     </div>

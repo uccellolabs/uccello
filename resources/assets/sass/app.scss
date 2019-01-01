@@ -24,6 +24,9 @@
 // Colorpicker
 @import '~adminbsb-materialdesign/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css';
 
+// Spinner
+@import '~adminbsb-materialdesign/plugins/jquery-spinner/css/bootstrap-spinner.css';
+
 // Sweet Alert
 @import '~adminbsb-materialdesign/plugins/sweetalert/sweetalert.css';
 
@@ -623,5 +626,30 @@ table.dataTable thead th.sorting:after {
                 }
             }
         }
+    }
+}
+
+
+.bootstrap-select .bs-actionsbox .form-control,
+.bootstrap-select .bs-donebutton .form-control,
+.bootstrap-select .bs-searchbox .form-control {
+    margin-left: 40px;
+}
+
+.colorpicker-2x {
+    .colorpicker-saturation {
+        width: 200px;
+        height: 200px;
+    }
+
+    .colorpicker-hue,
+    .colorpicker-alpha {
+        width: 30px;
+        height: 200px;
+    }
+
+    .colorpicker-color,
+    .colorpicker-color div {
+        height: 30px;
     }
 }

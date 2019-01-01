@@ -6,6 +6,7 @@ import 'datatables.net-fixedcolumns';
 import 'datatables.net-responsive-bs';
 import 'datatables.net-select';
 import { sprintf } from 'sprintf-js'
+import { Link } from './link'
 
 export class Datatable {
     /**
@@ -13,6 +14,8 @@ export class Datatable {
      * @param {Element} element
      */
     init(element) {
+        let linkManager = new Link(false)
+
         let table = $(element).DataTable({
             dom: 'Brtp',
             autoWidth: false, // Else the width is not refreshed on window resize
@@ -31,6 +34,9 @@ export class Datatable {
                 $('td:gt(0):lt(-1)', row).click(() => {
                     document.location.href = sprintf(this.rowUrl, data.id);
                 })
+
+                // Init click listener on delete button
+                linkManager.initClickListener(row)
             },
             buttons: [
                 {

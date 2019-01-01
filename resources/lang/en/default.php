@@ -53,5 +53,8 @@ return [
 
     // Related list
     'relatedlist.button.add' => 'Add',
-    'relatedlist.button.select' => 'Select'
+    'relatedlist.button.select' => 'Select',
+
+    // Confirm
+    'button.delete.confirm' => 'Do you really want to delete this record?',
 ];

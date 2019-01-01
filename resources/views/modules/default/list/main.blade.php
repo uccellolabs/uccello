@@ -106,7 +106,7 @@
         @endif
 
         @if (Auth::user()->canDelete($domain, $module))
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn"><i class="material-icons">delete</i></a>
+        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
         @endif
     </div>
 </div>

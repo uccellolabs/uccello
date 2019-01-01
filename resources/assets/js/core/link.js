@@ -1,16 +1,22 @@
 import { Dialog } from './dialog'
 
 export class Link {
-    constructor() {
-        this.initListeners()
+    constructor(initListeners) {
+        if (initListeners !== false) {
+            this.initListeners()
+        }
     }
 
     initListeners() {
         this.initClickListener()
     }
 
-    initClickListener() {
-        $("a[data-config], button[data-config]").on('click', (event) => {
+    initClickListener(parentElement) {
+        if (typeof parentElement === 'undefined') {
+            parentElement = null
+        }
+
+        $("a[data-config], button[data-config]", parentElement).on('click', (event) => {
             event.preventDefault();
 
             this.element = $(event.currentTarget)

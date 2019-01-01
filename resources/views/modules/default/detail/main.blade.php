@@ -216,7 +216,7 @@
                         @endif
 
                         @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
-                        <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
+                        <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
                         @endif
                     </div>
                 </div>
@@ -299,7 +299,7 @@
                     @endif
 
                     @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
-                    <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn"><i class="material-icons">delete</i></a>
+                    <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
                     @endif
                 </div>
             </div>
@@ -320,7 +320,7 @@
         @endif
 
         @if (Auth::user()->canDelete($domain, $module))
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->getKey()]) }}" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
+        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->getKey()]) }}" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'>
             <i class="material-icons">delete</i>
         </a>
         @endif

@@ -36,6 +36,7 @@ class CreateMenusTable extends Migration
         });
 
         // Add default admin menu
+        // TODO: Translate
         Menu::create([
             'type' => 'admin',
             'data' => json_decode('[

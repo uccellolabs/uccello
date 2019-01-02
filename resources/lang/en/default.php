@@ -47,6 +47,9 @@ return [
     // Menu
     'menu.admin' => 'Admin',
     'menu.settings' => 'Settings',
+    'menu.group.security' => 'Security',
+    'menu.group.settings' => 'Settings',
+    'menu.group.test' => 'Test',
 
     // Breadcrumb
     'breadcrumb.admin' => 'Admin',

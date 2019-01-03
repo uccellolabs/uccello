@@ -82,7 +82,7 @@ trait RelatedlistTrait
         $relatedField = $relatedList->relatedField;
 
         return $relatedModel->where($relatedField->column, $recordId)
-            ->pluck($relatedModel->getKey());
+            ->pluck($relatedModel->getKeyName());
     }
 
     /**

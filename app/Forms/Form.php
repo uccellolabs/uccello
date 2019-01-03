@@ -31,6 +31,11 @@ class Form extends DefaultForm
             }
         }
 
+        // If the form is not valid display a notification
+        if (! $this->isValid()) {
+            ucnotify(uctrans('notification.form.not.valid', $module), 'error');
+        }
+
         parent::redirectIfNotValid($destination);
     }
 }

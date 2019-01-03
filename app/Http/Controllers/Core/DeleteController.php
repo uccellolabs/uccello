@@ -42,6 +42,9 @@ class DeleteController extends Controller
         // Delete record if exists
         if ($record) {
             $record->delete();
+
+            // Notification
+            ucnotify(uctrans('notification.record.deleted', $module), 'success');
         }
 
         // Redirect to the previous page

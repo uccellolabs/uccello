@@ -60,4 +60,16 @@ return [
 
     // Confirm
     'button.delete.confirm' => 'Do you really want to delete this record?',
+
+    // Notification
+    'notification.record.created' => 'The record was correctly created.',
+    'notification.record.deleted' => 'The record was correctly deleted.',
+    'notification.form.not.valid' => 'Some fields are not valid!',
+
+    // Errors
+    'error.homepage' => 'Homepage',
+    'error.logout' => 'Logout',
+    'error.not.allowed' => 'You are not allowed',
+    'error.not.exist' => 'This page doesn\'t exist',
+    'error.server' => 'Internal Server Error',
 ];

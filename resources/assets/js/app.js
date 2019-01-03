@@ -173,6 +173,4 @@ $('.domain-search-bar #domain-name').keyup(() => {
 
 $('table.dataTable thead th input, table.dataTable thead th select').on('click', (e) => {
     e.stopImmediatePropagation();
-
-
 })

@@ -126,6 +126,9 @@ class EditController extends Controller
             // Redirect to edit if the user want to create a new record
             elseif ($request->input('save_new_hdn') === '1') {
                 $route = ucroute('uccello.edit', $domain, $module);
+
+                // Notification
+                ucnotify(uctrans('notification.record.created', $module), 'success');
             }
             // Else redirect to detail
             else {

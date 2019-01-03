@@ -8,11 +8,19 @@ four-zero-four
 @endsection
 
 @section('content-container')
-<div class="four-zero-four-container">
+<div class="four-zero-four-container p-t-100">
     <div class="error-code">403</div>
-    <div class="error-message">You are not allowed</div>
+    <div class="error-message">{{ trans('uccello::default.error.not.allowed') }}</div>
     <div class="button-place">
-        <a href="/" class="btn btn-default btn-lg waves-effect">GO TO HOMEPAGE</a>
+        <a href="/" class="btn bg-green btn-lg waves-effect icon-right">
+            <i class="material-icons">home</i>
+            {{ trans('uccello::default.error.homepage') }}
+        </a>
+
+        <a href="/logout" class="btn bg-red btn-lg waves-effect icon-right">
+            <i class="material-icons">logout</i>
+            {{ trans('uccello::default.error.logout') }}
+        </a>
     </div>
 </div>
 @endsection

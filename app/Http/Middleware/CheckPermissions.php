@@ -33,7 +33,7 @@ class CheckPermissions
         $isModuleActive = $module->isActiveOnDomain($domain);
 
         // An user is allowed if he has the capability or if it is an admin module and the user can admin it
-        $isUserAllowed =  $user->hasCapabilityOnModule($capability, $domain, $module) || ($module->isAdminModule() && $user->canAdmin($domain, $module));
+        $isUserAllowed = $user->hasCapabilityOnModule($capability, $domain, $module) || ($module->isAdminModule() && $user->canAdmin($domain, $module));
 
         if (!$isModuleActive) {
             return abort(404);

@@ -140,14 +140,14 @@ class ModuleExport
      */
     protected function generateTabsBlocksFieldsStructure(Module $module) {
         if (empty($this->structure->tabs)) {
-            $this->structure->tabs = [];
+            $this->structure->tabs = [ ];
         }
 
         $defaultFilter = $module->filters->where('name', 'filter.all')->first();
 
         foreach ($module->tabs as $tab) {
             $_tab = new \StdClass();
-            $_tab->blocks = [];
+            $_tab->blocks = [ ];
             $_tab->id = $tab->id;
             $_tab->label = $tab->label;
             $_tab->icon = $tab->icon;
@@ -156,14 +156,14 @@ class ModuleExport
 
             foreach ($tab->blocks as $block) {
                 $_block = new \StdClass();
-                $_block->fields = [];
+                $_block->fields = [ ];
                 $_block->id = $block->id;
                 $_block->label = $block->label;
                 $_block->icon = $block->icon;
                 $_block->sequence = $block->sequence;
                 $_block->data = $block->data;
 
-                $_tab->blocks[] = $_block;
+                $_tab->blocks[ ] = $_block;
 
                 foreach ($block->fields as $field) {
                     $_field = new \StdClass();
@@ -175,11 +175,11 @@ class ModuleExport
                     $_field->data = $field->data;
                     $_field->displayInFilter = !empty($defaultFilter) ? in_array($field->name, $defaultFilter->columns) : false;
 
-                    $_block->fields[] = $_field;
+                    $_block->fields[ ] = $_field;
                 }
             }
 
-            $this->structure->tabs[] = $_tab;
+            $this->structure->tabs[ ] = $_tab;
         }
     }
 
@@ -191,7 +191,7 @@ class ModuleExport
      */
     protected function generateRelatedListsStructure(Module $module) {
         if (empty($this->structure->relatedlists)) {
-            $this->structure->relatedlists = [];
+            $this->structure->relatedlists = [ ];
         }
 
         foreach ($module->relatedlists as $relatedlist) {
@@ -208,7 +208,7 @@ class ModuleExport
             $_relatedlist->sequence = $relatedlist->sequence;
             $_relatedlist->data = $relatedlist->data;
 
-            $this->structure->relatedlists[] = $_relatedlist;
+            $this->structure->relatedlists[ ] = $_relatedlist;
         }
     }
 
@@ -220,7 +220,7 @@ class ModuleExport
      */
     protected function generateLinksStructure(Module $module) {
         if (empty($this->structure->links)) {
-            $this->structure->links = [];
+            $this->structure->links = [ ];
         }
 
         foreach ($module->links as $link) {
@@ -233,7 +233,7 @@ class ModuleExport
             $_link->sequence = $link->sequence;
             $_link->data = $link->data;
 
-            $this->structure->links[] = $_link;
+            $this->structure->links[ ] = $_link;
         }
     }
 
@@ -249,12 +249,12 @@ class ModuleExport
             $this->structure->lang = new \StdClass();
         }
 
-        if (!$this->files->exists($this->filePath . 'resources/lang')) {
+        if (!$this->files->exists($this->filePath.'resources/lang')) {
             return;
         }
 
         // Retrieve all languages (one directory represents one language)
-        $languageDirectories = $this->files->directories($this->filePath . 'resources/lang');
+        $languageDirectories = $this->files->directories($this->filePath.'resources/lang');
 
         foreach ($languageDirectories as $languageDirectory) {
             $lang = $this->files->basename($languageDirectory);
@@ -262,7 +262,7 @@ class ModuleExport
             $this->structure->lang->{$lang} = new \StdClass();
 
             // Get module translations
-            $moduleTranslationFile = $this->filePath . 'resources/lang/' . $lang . '/' . $this->structure->name . '.php';
+            $moduleTranslationFile = $this->filePath.'resources/lang/'.$lang.'/'.$this->structure->name.'.php';
 
             if ($this->files->exists($moduleTranslationFile)) {
                 $translations = $this->files->getRequire($moduleTranslationFile);
@@ -289,7 +289,7 @@ class ModuleExport
             $packageParts = explode('/', $module->data->package);
 
             if (count($packageParts) === 2) {
-                $this->filePath = 'packages/' . $packageParts[0] . '/' . $packageParts[1] . '/';
+                $this->filePath = 'packages/'.$packageParts[ 0 ].'/'.$packageParts[ 1 ].'/';
             }
         }
     }

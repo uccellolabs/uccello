@@ -12,7 +12,7 @@ class EditController extends CoreEditController
     /**
      * {@inheritdoc}
      */
-    public function save(?Domain $domain, Module $module, Request $request, bool $redirect=true)
+    public function save(?Domain $domain, Module $module, Request $request, bool $redirect = true)
     {
         // Default behaviour without redirection
         $record = parent::save($domain, $module, $request, false);
@@ -24,7 +24,7 @@ class EditController extends CoreEditController
 
         // Redirect to detail view (we use $this->domain instead of $domain because slug could have been changed)
         if ($redirect === true) {
-            $route = ucroute('uccello.detail', $this->domain, $module, ['id' => $record->getKey()]);
+            $route = ucroute('uccello.detail', $this->domain, $module, [ 'id' => $record->getKey() ]);
 
             return redirect($route);
         }

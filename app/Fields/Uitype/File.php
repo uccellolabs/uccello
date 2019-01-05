@@ -50,7 +50,7 @@ class File implements Uitype
      * @param \Uccello\Core\Models\Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
     {
         //TODO: Delete old file
 
@@ -62,7 +62,7 @@ class File implements Uitype
 
             // Make directory path
             $directoryPath = isset($fieldData->public) && $fieldData->public === true ? 'public/' : ''; // Public or Private
-            $directoryPath .= isset($domain) ? $domain->slug . '/' : ''; // Domain
+            $directoryPath .= isset($domain) ? $domain->slug.'/' : ''; // Domain
             $directoryPath .= isset($fieldData->path) ? trim($fieldData->path, '/') : ''; // Custom directory
 
             // Save file
@@ -71,7 +71,7 @@ class File implements Uitype
 
         }
         // Delete file
-        elseif ($request->input('delete-' . $field->name)) {
+        elseif ($request->input('delete-'.$field->name)) {
             $value = null;
 
         }
@@ -98,7 +98,7 @@ class File implements Uitype
         $fieldData = $field->data;
 
         // If the file is defined and is public, get its url
-        if ($value && isset($fieldData->public) && $fieldData->public === true ) {
+        if ($value && isset($fieldData->public) && $fieldData->public === true) {
             $value = Storage::url($value);
         }
 

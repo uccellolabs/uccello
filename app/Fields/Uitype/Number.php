@@ -62,13 +62,13 @@ class Number implements Uitype
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
     {
         // Minimum value
-        $field->data->min = (int) $output->ask('What is the minimum value?');
+        $field->data->min = (int)$output->ask('What is the minimum value?');
 
         // Maximum value
-        $field->data->max = (int) $output->ask('What is the maximum value?');
+        $field->data->max = (int)$output->ask('What is the maximum value?');
 
         // Increment
-        $field->data->step = (int) $output->ask('What is the increment?', 0.01);
+        $field->data->step = (int)$output->ask('What is the increment?', 0.01);
 
         // Precision
         $field->data->precision = $output->ask('What is the precision? (e.g: Type 2 for having 0.01)', 2);

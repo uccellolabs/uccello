@@ -71,9 +71,9 @@ class ListController extends Controller
      */
     protected function getResultForDatatable(Domain $domain, Module $module, Request $request)
     {
-        $draw = (int) $request->get('draw');
-        $start = (int) $request->get('start');
-        $length = (int) $request->get('length');
+        $draw = (int)$request->get('draw');
+        $start = (int)$request->get('start');
+        $length = (int)$request->get('length');
         $order = $request->get('order');
         $columns = $request->get('columns');
         $recordId = $request->get('id');
@@ -103,8 +103,8 @@ class ListController extends Controller
 
             // Search by column
             foreach ($columns as $column) {
-                $fieldName = $column["data"];
-                $searchValue = $column["search"]["value"];
+                $fieldName = $column[ "data" ];
+                $searchValue = $column[ "search" ][ "value" ];
 
                 // Get field by name and search by field column
                 $field = $module->getField($fieldName);
@@ -121,14 +121,14 @@ class ListController extends Controller
 
             // Order results
             foreach ($order as $orderInfo) {
-                $columnIndex = (int) $orderInfo["column"];
-                $column = $columns[$columnIndex];
-                $fieldName = $column["data"];
+                $columnIndex = (int)$orderInfo[ "column" ];
+                $column = $columns[ $columnIndex ];
+                $fieldName = $column[ "data" ];
 
                 // Get field by name and order by field column
                 $field = $module->getField($fieldName);
                 if (!is_null($field)) {
-                    $query = $query->orderBy($field->column, $orderInfo["dir"]);
+                    $query = $query->orderBy($field->column, $orderInfo[ "dir" ]);
                 }
             }
 
@@ -140,7 +140,7 @@ class ListController extends Controller
                 if ($relatedList && $relatedList->method) {
                     // Related list method
                     $method = $relatedList->method;
-                    $countMethod = $method . 'Count';
+                    $countMethod = $method.'Count';
 
                     // Update query
                     $model = new $modelClass;
@@ -195,7 +195,7 @@ class ListController extends Controller
             $data = $records;
 
         } else {
-            $data = [];
+            $data = [ ];
             $total = 0;
             $totalFiltered = 0;
         }

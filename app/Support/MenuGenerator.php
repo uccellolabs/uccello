@@ -80,7 +80,7 @@ class MenuGenerator
         // Get the menu to display according to the environment (main or admin)
         $domainMenu = $this->getDomainMenuToDisplay();
 
-        $this->menuAddedModules = [];
+        $this->menuAddedModules = [ ];
 
         // If a menu was created, use it
         if (!is_null($domainMenu)) {
@@ -197,7 +197,7 @@ class MenuGenerator
 
         if (!empty($menuLink->module)) {
             if (!in_array($menuLink->module, $this->menuAddedModules)) {
-                $this->menuAddedModules[] = $menuLink->module;
+                $this->menuAddedModules[ ] = $menuLink->module;
             }
         }
 
@@ -246,11 +246,11 @@ class MenuGenerator
 
         // Link html
         $link = Html::raw(
-            '<a href="'. $url .'" class="'. $class .'">'.
+            '<a href="'.$url.'" class="'.$class.'">'.
                 // (!$isInSubMenu ? '<i class="material-icons">'. $icon .'</i>' : '').
                 // (!$isInSubMenu ? '<span>'. $label .'</span>' : $label).
-                '<i class="material-icons">'. $icon .'</i>'.
-                '<span>'. $label .'</span>'.
+                '<i class="material-icons">'.$icon.'</i>'.
+                '<span>'.$label.'</span>'.
             '</a>'
         )->setActive($isActive);
 

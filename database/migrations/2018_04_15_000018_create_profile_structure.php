@@ -37,7 +37,7 @@ class CreateProfileStructure extends Migration
         $module->name = 'profile';
         $module->icon = 'lock';
         $module->model_class = 'Uccello\Core\Models\Profile';
-        $module->data = ["package" => "uccello/uccello", "admin" => true, "mandatory" => true];
+        $module->data = [ "package" => "uccello/uccello", "admin" => true, "mandatory" => true ];
         $module->save();
 
         return $module;
@@ -67,7 +67,7 @@ class CreateProfileStructure extends Migration
         $field->name = 'name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['rules' => 'required'];
+        $field->data = [ 'rules' => 'required' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -78,7 +78,7 @@ class CreateProfileStructure extends Migration
         $field->name = 'description';
         $field->uitype_id = uitype('textarea')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['large' => true];
+        $field->data = [ 'large' => true ];
         $field->sequence = 1;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -93,7 +93,7 @@ class CreateProfileStructure extends Migration
         $filter->user_id = null;
         $filter->name = 'filter.all';
         $filter->type = 'list';
-        $filter->columns = ['id', 'name', 'description', 'created_at', 'updated_at'];
+        $filter->columns = [ 'id', 'name', 'description', 'created_at', 'updated_at' ];
         $filter->conditions = null;
         $filter->order_by = null;
         $filter->is_default = true;

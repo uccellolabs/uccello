@@ -26,7 +26,7 @@ if (!function_exists('uctrans')) {
      *
      * @see Uccello\Core\Helpers\Uccello
      */
-    function uctrans($key = null, ? Module $module = null, $replace = [], $locale = null)
+    function uctrans($key = null, ? Module $module = null, $replace = [ ], $locale = null)
     {
         return app('uccello')->trans($key, $module, $replace, $locale);
     }
@@ -56,7 +56,7 @@ if (!function_exists('ucroute')) {
      * @param boolean $absolute
      * @return string
      */
-    function ucroute($name, $domain = null, $module = null, $parameters = [], $absolute = true) : string
+    function ucroute($name, $domain = null, $module = null, $parameters = [ ], $absolute = true) : string
     {
         return app('uccello')->route($name, $domain, $module, $parameters, $absolute);
     }
@@ -122,7 +122,7 @@ if (!function_exists('ucasset')) {
      * @param string $package
      * @return void
      */
-    function ucasset($path, $package='uccello/uccello')
+    function ucasset($path, $package = 'uccello/uccello')
     {
         return asset("vendor/$package/$path");
     }

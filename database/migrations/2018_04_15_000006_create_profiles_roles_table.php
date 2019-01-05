@@ -13,7 +13,7 @@ class CreateProfilesRolesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'profiles_roles', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'profiles_roles', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('profile_id');
             $table->unsignedInteger('role_id');
@@ -21,15 +21,15 @@ class CreateProfilesRolesTable extends Migration
 
             // Foreign keys
             $table->foreign('profile_id')
-                    ->references('id')->on($this->tablePrefix . 'profiles')
+                    ->references('id')->on($this->tablePrefix.'profiles')
                     ->onDelete('cascade');
 
             $table->foreign('role_id')
-                    ->references('id')->on($this->tablePrefix . 'roles')
+                    ->references('id')->on($this->tablePrefix.'roles')
                     ->onDelete('cascade');
 
             // Unique keys
-            $table->unique(['profile_id', 'role_id']);
+            $table->unique([ 'profile_id', 'role_id' ]);
         });
     }
 
@@ -40,6 +40,6 @@ class CreateProfilesRolesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'profiles_roles');
+        Schema::dropIfExists($this->tablePrefix.'profiles_roles');
     }
 }

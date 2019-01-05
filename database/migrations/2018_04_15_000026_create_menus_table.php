@@ -17,7 +17,7 @@ class CreateMenusTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'menus', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'menus', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('domain_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
@@ -27,7 +27,7 @@ class CreateMenusTable extends Migration
 
             // Foreign keys
             $table->foreign('domain_id')
-                ->references('id')->on($this->tablePrefix . 'domains')
+                ->references('id')->on($this->tablePrefix.'domains')
                 ->onDelete('cascade');
 
             $table->foreign('user_id')
@@ -148,6 +148,6 @@ class CreateMenusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'menus');
+        Schema::dropIfExists($this->tablePrefix.'menus');
     }
 }

@@ -36,13 +36,13 @@ class Select implements Uitype
     public function getFormOptions($record, Field $field, Module $module) : array
     {
         if (!is_object($field->data)) {
-            return [];
+            return [ ];
         }
 
-        $choices = [];
+        $choices = [ ];
         if ($field->data->choices) {
             foreach ($field->data->choices as $choice) {
-                $choices[$choice] = uctrans($choice, $module);
+                $choices[ $choice ] = uctrans($choice, $module);
             }
         }
 

@@ -24,7 +24,7 @@ trait DefaultUitype
      */
     public function getFormOptions($record, Field $field, Module $module) : array
     {
-        return [];
+        return [ ];
     }
 
     /**
@@ -70,7 +70,7 @@ trait DefaultUitype
      * @param \Uccello\Core\Models\Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
     {
         return $value;
     }

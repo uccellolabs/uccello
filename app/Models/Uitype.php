@@ -63,7 +63,7 @@ class Uitype extends Model
      * @param Module|null $module
      * @return string|null
      */
-    public function getFormattedValueToSave(Request $request, Field $field, $value, $record=null, ?Domain $domain=null, ?Module $module=null) : ?string
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
     {
         $uitypeClass = $this->class;
         return (new $uitypeClass())->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);

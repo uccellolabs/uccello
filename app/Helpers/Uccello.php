@@ -42,7 +42,7 @@ class Uccello
      * @param  string  $locale
      * @return \Illuminate\Contracts\Translation\Translator|string|array|null
      */
-    public function trans($key = null, ?Module $module = null, $replace = [], $locale = null)
+    public function trans($key = null, ?Module $module = null, $replace = [ ], $locale = null)
     {
         $translator = app('translator');
 
@@ -66,7 +66,7 @@ class Uccello
             // 2. Get translation in package
             if (!empty($module->package)) {
                 // If a package name is defined add it before
-                $prefix = $module->package . '::'. $prefix;
+                $prefix = $module->package.'::'.$prefix;
 
                 $translation = $translator->trans($prefix.$key, $replace, $locale);
                 if ($translation !== $prefix.$key) {
@@ -115,22 +115,22 @@ class Uccello
     public function view(string $package, Module $module, string $viewName, ?string $fallbackView = null): ?string
     {
         // Module view overrided in app
-        $appModuleView = 'modules.' . $module->name . '.' . $viewName;
+        $appModuleView = 'modules.'.$module->name.'.'.$viewName;
 
         // Default view overrided in app
-        $appDefaultView = 'modules.default.' . $viewName;
+        $appDefaultView = 'modules.default.'.$viewName;
 
         // Module view ovverrided in package
-        $packageModuleView = $package . '::modules.' . $module->name . '.' . $viewName;
+        $packageModuleView = $package.'::modules.'.$module->name.'.'.$viewName;
 
         // Default view defined in package
-        $packageDefaultView = $package . '::modules.default.' . $viewName;
+        $packageDefaultView = $package.'::modules.default.'.$viewName;
 
         // Module view ovverrided in uccello
-        $uccelloModuleView = 'uccello::modules.' . $module->name . '.' . $viewName;
+        $uccelloModuleView = 'uccello::modules.'.$module->name.'.'.$viewName;
 
         // Default view defined in uccello
-        $uccelloDefaultView = 'uccello::modules.default.' . $viewName;
+        $uccelloDefaultView = 'uccello::modules.default.'.$viewName;
 
         $viewToInclude = null;
         if (view()->exists($appModuleView)) {
@@ -141,7 +141,7 @@ class Uccello
             $viewToInclude = $packageModuleView;
         } elseif (view()->exists($packageDefaultView)) {
             $viewToInclude = $packageDefaultView;
-        }  elseif (view()->exists($uccelloModuleView)) {
+        } elseif (view()->exists($uccelloModuleView)) {
             $viewToInclude = $uccelloModuleView;
         } elseif (view()->exists($uccelloDefaultView)) {
             $viewToInclude = $uccelloDefaultView;
@@ -162,7 +162,7 @@ class Uccello
      * @param boolean $absolute
      * @return string
      */
-    public function route($name, $domain = null, $module = null, $parameters = [], $absolute = true) : string
+    public function route($name, $domain = null, $module = null, $parameters = [ ], $absolute = true) : string
     {
         if (is_a($domain, Domain::class)) {
             $domain = $domain->slug;
@@ -177,12 +177,12 @@ class Uccello
 
         // Add domain to route if we use multi domains and if the parameter is needed
         if (!is_null($domain) && uccello()->useMultiDomains() && preg_match('`{domain}`', $routeUri)) {
-            $parameters['domain'] = $domain;
+            $parameters[ 'domain' ] = $domain;
         }
 
         // Add module to route if the parameter is needed
         if (!is_null($module) && preg_match('`{module}`', $routeUri)) {
-            $parameters['module'] = $module;
+            $parameters[ 'module' ] = $module;
         }
 
         return route($name, $parameters, $absolute);
@@ -211,7 +211,7 @@ class Uccello
         if (is_numeric($nameOrId)) {
             return Module::find($nameOrId);
         } else {
-            return Module::where('name', (string) $nameOrId)->first();
+            return Module::where('name', (string)$nameOrId)->first();
         }
     }
 
@@ -226,7 +226,7 @@ class Uccello
         if (is_numeric($nameOrId)) {
             return Uitype::find($nameOrId);
         } else {
-            return Uitype::where('name', (string) $nameOrId)->first();
+            return Uitype::where('name', (string)$nameOrId)->first();
         }
     }
 
@@ -241,7 +241,7 @@ class Uccello
         if (is_numeric($nameOrId)) {
             return Displaytype::find($nameOrId);
         } else {
-            return Displaytype::where('name', (string) $nameOrId)->first();
+            return Displaytype::where('name', (string)$nameOrId)->first();
         }
     }
 
@@ -256,7 +256,7 @@ class Uccello
         if (is_numeric($nameOrId)) {
             return Capability::find($nameOrId);
         } else {
-            return Capability::where('name', (string) $nameOrId)->first();
+            return Capability::where('name', (string)$nameOrId)->first();
         }
     }
 
@@ -280,7 +280,7 @@ class Uccello
         $domain = Auth::user()->lastDomain ?? null; // On login page user is not authenticated
 
         if (!$domain) {
-            $domain = $this->getRootDomains()[0];
+            $domain = $this->getRootDomains()[ 0 ];
         }
 
         return $domain;
@@ -294,7 +294,7 @@ class Uccello
      */
     public function getDatatableColumns(Module $module): array
     {
-        $columns = [];
+        $columns = [ ];
 
         // Get default filter
         $filter = Filter::where('module_id', $module->id)
@@ -306,12 +306,12 @@ class Uccello
 
         foreach ($fields as $field) {
             // If the field is not listable, continue
-            if (!$field->isListable()){
+            if (!$field->isListable()) {
                 continue;
             }
 
             // Add the field as a new column
-            $columns[] = [
+            $columns[ ] = [
                 'name' => $field->name,
                 'db_column' => $field->column,
                 'uitype' => $field->uitype->name,

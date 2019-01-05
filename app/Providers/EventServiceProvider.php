@@ -9,29 +9,29 @@ use App\Providers\EventServiceProvider as DefaultEventServiceProvider;
  */
 class EventServiceProvider extends DefaultEventServiceProvider
 {
-  /**
+    /**
      * The event listener mappings for the application.
      *
      * @var array
      */
     protected $listen = [
-      'Uccello\Core\Events\AfterSaveEvent' => [
-          'Uccello\Core\Listeners\Profile\AfterSaveEventListener',
-          'Uccello\Core\Listeners\Role\AfterSaveEventListener',
-          'Uccello\Core\Listeners\User\AfterSaveEventListener',
-          'Uccello\Core\Listeners\Domain\AfterSaveEventListener',
-      ],
-  ];
+        'Uccello\Core\Events\AfterSaveEvent' => [
+            'Uccello\Core\Listeners\Profile\AfterSaveEventListener',
+            'Uccello\Core\Listeners\Role\AfterSaveEventListener',
+            'Uccello\Core\Listeners\User\AfterSaveEventListener',
+            'Uccello\Core\Listeners\Domain\AfterSaveEventListener',
+        ],
+    ];
 
-  /**
-   * Register any events for your application.
-   *
-   * @return void
-   */
-  public function boot()
-  {
-      parent::boot();
+    /**
+     * Register any events for your application.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
 
-      //
-  }
+        //
+    }
 }

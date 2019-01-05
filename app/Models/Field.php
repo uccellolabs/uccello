@@ -70,7 +70,7 @@ class Field extends Model
      */
     public function getLabelAttribute() : string
     {
-        return $this->data->label ?? 'field.' . $this->name;
+        return $this->data->label ?? 'field.'.$this->name;
     }
 
     /**

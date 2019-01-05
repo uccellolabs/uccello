@@ -13,13 +13,13 @@
             $cssClass .= 'btn ';
 
             // Icon
-            if($link->icon) {
+            if ($link->icon) {
                 $cssClass .= 'icon-right ';
             }
 
             // Color
             if (!empty($link->data->color)) {
-                $cssClass .= 'bg-' . $link->data->color . ' ';
+                $cssClass .= 'bg-'.$link->data->color.' ';
             } else {
                 $cssClass .= 'bg-primary ';
             }
@@ -34,12 +34,12 @@
         // Get all variables from the URL (e.g. http://domain.tld?id=$id$)
         preg_match_all('`\$(.+?)\$`', $linkUrl, $matches);
 
-        foreach ($matches[1] as $i => $attribute) {
+        foreach ($matches[ 1 ] as $i => $attribute) {
             // Get
             $value = ucattribute($record, $attribute);
 
             // Replace the variable by its value
-            $linkUrl = str_replace($matches[0][$i], urlencode($value), $linkUrl);
+            $linkUrl = str_replace($matches[ 0 ][ $i ], urlencode($value), $linkUrl);
         }
     }
 ?>

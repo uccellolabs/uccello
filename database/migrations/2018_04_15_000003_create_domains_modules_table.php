@@ -13,22 +13,22 @@ class CreateDomainsModulesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'domains_modules', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'domains_modules', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('domain_id');
             $table->unsignedInteger('module_id');
 
             // Foreign keys
             $table->foreign('domain_id')
-                    ->references('id')->on($this->tablePrefix . 'domains')
+                    ->references('id')->on($this->tablePrefix.'domains')
                     ->onDelete('cascade');
 
             $table->foreign('module_id')
-                    ->references('id')->on($this->tablePrefix . 'modules')
+                    ->references('id')->on($this->tablePrefix.'modules')
                     ->onDelete('cascade');
 
             // Unique keys
-            $table->unique(['domain_id', 'module_id']);
+            $table->unique([ 'domain_id', 'module_id' ]);
         });
     }
 
@@ -39,6 +39,6 @@ class CreateDomainsModulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'domains_modules');
+        Schema::dropIfExists($this->tablePrefix.'domains_modules');
     }
 }

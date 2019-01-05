@@ -26,7 +26,7 @@ class CreateSettingsModule extends Migration
     public function down()
     {
         // Drop table
-        Schema::dropIfExists($this->tablePrefix . 'settings');
+        Schema::dropIfExists($this->tablePrefix.'settings');
 
         // Delete module
         Module::where('name', 'settings')->forceDelete();

@@ -29,7 +29,7 @@ class BeforeSaveEvent
      *
      * @return void
      */
-    public function __construct(Domain $domain, Module $module, Request $request, $record, $mode=null, $isFromApi=false)
+    public function __construct(Domain $domain, Module $module, Request $request, $record, $mode = null, $isFromApi = false)
     {
         $this->domain = $domain;
         $this->module = $module;

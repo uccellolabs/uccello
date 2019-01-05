@@ -178,12 +178,16 @@ class User extends Authenticatable implements JWTSubject
      * Checks if the user can access to settings panel.
      * Checks if the user has at least one admin capability on admin modules in a domain.
      *
-     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Domain|null $domain
      * @return boolean
      */
-    public function canAccessToSettingsPanel(Domain $domain) : bool
+    public function canAccessToSettingsPanel(?Domain $domain) : bool
     {
         $hasCapability = false;
+
+        if (empty($domain)) {
+            $domain = Domain::first();
+        }
 
         foreach (Module::all() as $module) {
             if ($module->isAdminModule() === true && $this->canAdmin($domain, $module)) {

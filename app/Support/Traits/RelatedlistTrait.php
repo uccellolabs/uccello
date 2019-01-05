@@ -30,7 +30,7 @@ trait RelatedlistTrait
      * @param int $length
      * @return Collection
      */
-    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start, int $length) : Collection
+    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15) : Collection
     {
         // Related field
         $relatedField = $relatedList->relatedField;
@@ -48,7 +48,7 @@ trait RelatedlistTrait
      * @param integer $recordId
      * @return int
      */
-    public function getDependentListCount(Relatedlist $relatedList, int $recordId, int $start = 0, int $length = 10) : int
+    public function getDependentListCount(Relatedlist $relatedList, int $recordId) : int
     {
         // Related module
         $relatedModule = $relatedList->relatedModule;
@@ -59,7 +59,30 @@ trait RelatedlistTrait
         // Related field
         $relatedField = $relatedList->relatedField;
 
-        return $relatedModel->where($relatedField->column, $recordId)->count();
+        return $relatedModel->where($relatedField->column, $recordId)
+            ->count();
+    }
+
+    /**
+     * Get ids of related records linked by an entity field
+     *
+     * @param Relatedlist $relatedList
+     * @param integer $recordId
+     * @return Collection
+     */
+    public function getDependentListRecordIds(Relatedlist $relatedList, int $recordId) : Collection
+    {
+        // Related module
+        $relatedModule = $relatedList->relatedModule;
+
+        // Model
+        $relatedModel = new $relatedList->relatedModule->model_class;
+
+        // Related field
+        $relatedField = $relatedList->relatedField;
+
+        return $relatedModel->where($relatedField->column, $recordId)
+            ->pluck($relatedModel->getKeyName());
     }
 
     /**
@@ -72,7 +95,7 @@ trait RelatedlistTrait
      * @param int $length
      * @return Collection
      */
-    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 10) : Collection
+    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15) : Collection
     {
         // Get related record ids
         $relations = Relation::where('relatedlist_id', $relatedList->id)
@@ -112,5 +135,21 @@ trait RelatedlistTrait
             ->where('related_module_id', $relatedList->related_module_id)
             ->where('record_id', $recordId)
             ->count();
+    }
+
+    /**
+     * Get ids of related records for n-n relations
+     *
+     * @param Relatedlist $relatedList
+     * @param integer $recordId
+     * @return Collection
+     */
+    public function getRelatedListRecordIds(Relatedlist $relatedList, int $recordId) : Collection
+    {
+        return Relation::where('relatedlist_id', $relatedList->id)
+            ->where('module_id', $relatedList->module_id)
+            ->where('related_module_id', $relatedList->related_module_id)
+            ->where('record_id', $recordId)
+            ->pluck('id');
     }
 }

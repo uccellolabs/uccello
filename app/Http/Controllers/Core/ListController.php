@@ -78,6 +78,7 @@ class ListController extends Controller
         $columns = $request->get('columns');
         $recordId = $request->get('id');
         $relatedListId = $request->get('relatedlist');
+        $action = $request->get('action');
 
         // Get model model class
         $modelClass = $module->model_class;
@@ -115,6 +116,7 @@ class ListController extends Controller
             // Count filtered results
             $totalFiltered = $query->count();
 
+            $initialQuery = $query;
             $query = $query->skip($start)->take($length);
 
             // Order results
@@ -131,7 +133,7 @@ class ListController extends Controller
             }
 
             // If the query is for a related list, add conditions
-            if ($relatedListId) {
+            if ($relatedListId && $action !== 'select') {
                 // Get related list
                 $relatedList = Relatedlist::find($relatedListId);
 
@@ -148,7 +150,34 @@ class ListController extends Controller
                     $total = $model->$countMethod($relatedList, $recordId);
                     $totalFiltered = $total;
                 }
-            } else {
+            }
+            elseif ($relatedListId && $action === 'select') {
+                // Get related list
+                $relatedList = Relatedlist::find($relatedListId);
+
+                if ($relatedList && $relatedList->method) {
+                    // Related list method
+                    $method = $relatedList->method;
+                    $recordIdsMethod = $method . 'RecordIds';
+
+                    // Get related records ids
+                    $model = new $modelClass;
+                    $filteredRecordIds = $model->$recordIdsMethod($relatedList, $recordId);
+
+                    // Add the record id itself to be filtered
+                    if ($recordId && !$filteredRecordIds->contains($recordId)) {
+                        $filteredRecordIds[] = (int)$recordId;
+                    }
+
+                    // Make the query
+                    $records = $query->whereNotIn($model->getKeyName(), $filteredRecordIds)->get();
+
+                    // Count all results
+                    $total = $initialQuery->whereNotIn($model->getKeyName(), $filteredRecordIds)->count();
+                    $totalFiltered = $total;
+                }
+            }
+            else {
                 // Make the query
                 $records = $query->get();
             }

@@ -43,8 +43,11 @@
 
     @yield('extra-content')
 
+    {{-- Flash notifications --}}
+    @include('uccello::layouts.partials.notifications.main')
+
     @section('script')
-    {{ Html::script('http://momentjs.com/downloads/moment-with-locales.min.js') }}
+    {{ Html::script('//momentjs.com/downloads/moment-with-locales.min.js') }}
     {{ Html::script(ucasset('js/manifest.js')) }}
     {{ Html::script(ucasset('js/vendor.js')) }}
     {{ Html::script(ucasset('js/app.js')) }}

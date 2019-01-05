@@ -146,6 +146,9 @@ export class Datatable {
         // Retrieve container
         var dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
 
+        // Remove old buttons if datatable was initialized before (e.g. in related list selection modal)
+        $('.action-buttons .buttons-colvis', dataTableContainer).remove()
+
         // Display mini buttons (related lists)
         if (dataTableContainer.data('button-size') === 'mini') {
 

@@ -13,7 +13,7 @@ export class List {
         const datatableColumns = $('meta[name="datatable-columns"]').attr('content')
 
         let datatable = new Datatable()
-        datatable.url = `${datatableUrl}?datatable=1&_token=${csrfToken}`
+        datatable.url = `${datatableUrl}?_token=${csrfToken}`
         datatable.domainSlug = domainSlug
         datatable.moduleName = moduleName
         datatable.columns = JSON.parse(datatableColumns)

@@ -142,3 +142,16 @@ if (!function_exists('ucattribute')) {
         return app('uccello')->getRecordAttribute($record, $attribute);
     }
 }
+
+if (!function_exists('ucnotify')) {
+    /**
+     * Uses flash session to display a notification.
+     *
+     * @param string $message
+     * @param string $type
+     * @return void
+     */
+    function ucnotify($message, $type = 'info') {
+        session()->flash('notification-'.$type, $message);
+    }
+}

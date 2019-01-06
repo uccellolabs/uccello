@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'settings' => 'Paramètres',
+    'dashboard' => 'Tableau de bord',
+    'modules.count' => 'Modules',
+    'module.manager' => 'Gestion des modules',
+    'module.manager.main_modules' => 'Modules principaux',
+    'module.manager.admin_modules' => 'Modules d\'administration',
+    'module.manager.description' => 'Vous pouvez activer ou désactiver un module en cliquant sur une case à cocher.',
+    'menu.manager' => 'Gestion du menu',
+    'menu.manager.description' => 'Configurez le menu pour accéder facilement à toutes les fonctionnalités.',
+    'menu.link.type.group' => 'Groupe',
+    'menu.link.type.module' => 'Module',
+    'menu.button.add_group' => 'Ajouter un groupe',
+    'menu.button.add_route_link' => 'Ajouter une route',
+    'menu.button.add_link' => 'Ajouter un lien',
+    'menu.button.reset' => 'Réinitialiser',
+    'menu.group.label' => 'Libellé',
+    'menu.group.icon' => 'Icône',
+    'menu.link.label' => 'Libellé',
+    'menu.link.icon' => 'Icône',
+    'menu.link.url' => 'URL',
+    'menu.link.module' => 'Module',
+    'menu.link.route' => 'Route',
+    'menu.type.main' => 'Principal',
+    'menu.type.admin' => 'Administration',
+    'menu.icon.see' => 'Voir',
+    'menu.saved' => 'Sauvegardé',
+    'menu.reset.title' => 'Voulez-vous vraiment réinitialiser le menu ?',
+    'menu.reset.text' => 'Le menu sera remplacé par le menu par défaut.',
+
+    'message.module_activated' => 'Module activé',
+    'message.module_deactivated' => 'Module désactivé',
+
+    'error.module_is_mandatory' => 'Ce module est obligatoire et ne peut pas être désactivé.',
+    'error.module_not_defined' => 'Vous devez définir un nom de module.',
+];

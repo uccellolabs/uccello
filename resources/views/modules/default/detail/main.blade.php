@@ -10,7 +10,7 @@
 
     @section('breadcrumb')
     <div class="row">
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-sm-6 col-xs-12">
             <div class="breadcrumb pull-left">
                 {{-- Redirect to previous page. If there is not previous page, redirect to list view --}}
                 <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.list', $domain, $module) }}" class="pull-left">

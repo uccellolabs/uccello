@@ -1,6 +1,5 @@
 const mix = require('laravel-mix');
 const path = require('path');
-
 const uitypePath = path.resolve('./resources/assets/js/uitype-selector.js')
 
 var autoload = {

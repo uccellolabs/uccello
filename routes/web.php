@@ -66,6 +66,7 @@ Route::name('uccello.')->group(function() {
     Route::post($domainAndModuleParams.'/list/datatable', 'Core\ListController@processForDatatable')->name('datatable');
     Route::get($domainAndModuleParams.'/detail', 'Core\DetailController@process')->name('detail');
     Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
+    Route::get($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
 });

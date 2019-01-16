@@ -62,10 +62,12 @@ return [
 
     // Confirm
     'button.delete.confirm' => 'Voulez-vous supprimer cet enregistrement ?',
+    'button.delete.relation.confirm' => 'Voulez-vous supprimer cette relation ?',
 
     // Notification
     'notification.record.created' => 'L\'enregistrement a bien été créé.',
-    'notification.record.deleted' => 'L\enregistrement a bien été supprimé.',
+    'notification.record.deleted' => 'L\'enregistrement a bien été supprimé.',
+    'notification.relation.deleted' => 'La relation a bien été supprimée.',
     'notification.form.not.valid' => 'Certains champs ne sont pas valides !',
 
     // Errors
@@ -74,4 +76,5 @@ return [
     'error.not.allowed' => 'Vous n\'êtes pas autorisés',
     'error.not.exist' => 'Cette page n\'existe pas.',
     'error.server' => 'Erreur interne au serveur.',
+    'error.mandatory.fields' => 'Certains champs obligatoires ne sont pas définis.',
 ];

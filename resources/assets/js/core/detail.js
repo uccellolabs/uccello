@@ -64,11 +64,16 @@ export class Detail {
 
         let rowUrl = ''
         let url = `${datatableUrl}?id=${recordId}&relatedlist=${relatedListId}`
+        let rowClickCallback
 
         // Specify if it is for selection only
         if (forSelection === true) {
             url += '&action=select'
             rowUrl = 'javascript:void(0)' // No link
+
+            rowClickCallback = (event, table, data) => {
+                this.relatedListNNRowClickCallback(event, table, data, relatedListId)
+            }
         } else {
             rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: relatedModuleName })
         }
@@ -79,6 +84,38 @@ export class Detail {
         datatable.moduleName = relatedModuleName
         datatable.columns = datatableColumns
         datatable.rowUrl = rowUrl
+        datatable.rowClickCallback = rowClickCallback
         datatable.init(element)
+    }
+
+    /**
+     * Callback to call when a row is clicked in a datatable for a N-N related list
+     * @param {Event} event
+     * @param {Datatable} table
+     * @param {object} data Selected row data
+     * @param {integer} relatedListId
+     */
+    relatedListNNRowClickCallback(event, table, data, relatedListId) {
+        const domainSlug = $('meta[name="domain"]').attr('content')
+        const moduleName = $('meta[name="module"]').attr('content')
+        const recordId = $('meta[name="record"]').attr('content')
+
+        const url = laroute.route('uccello.edit.relation.add', {domain: domainSlug, module: moduleName, id: recordId, relatedlist: relatedListId, related_id: data.id})
+
+        // Ajax call to make a relation between two records
+        $.get(url)
+        .then((response) => {
+            // Display an alert if an error occured
+            if (response.success === false) {
+                swal('Error', response.message, 'error') //TODO: transate
+            }
+            else {
+                // Hide modal
+                $('#relatedListSelectionModal').modal('hide')
+
+                // Refresh relatedlist datatable
+                $(`.relatedlist table[data-relatedlist=${relatedListId}]`).DataTable().draw()
+            }
+        })
     }
 }

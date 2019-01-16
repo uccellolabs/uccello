@@ -16,7 +16,7 @@ export class Datatable {
     init(element) {
         let linkManager = new Link(false)
 
-        let table = $(element).DataTable({
+        this.table = $(element).DataTable({
             dom: 'Brtp',
             autoWidth: false, // Else the width is not refreshed on window resize
             responsive: true,
@@ -37,6 +37,13 @@ export class Datatable {
 
                 // Init click listener on delete button
                 linkManager.initClickListener(row)
+
+                // Init click listener on the row if a callback is defined
+                if (typeof this.rowClickCallback !== 'undefined') {
+                    $(row).on('click', (event) => {
+                        this.rowClickCallback(event, this.table, data)
+                    })
+                }
             },
             buttons: [
                 {
@@ -53,10 +60,10 @@ export class Datatable {
         });
 
         // Config buttons
-        this.configButtons(table)
+        this.configButtons()
 
         // Init search
-        this.initDatatableColumnSearch(table)
+        this.initDatatableColumnSearch()
     }
 
     /**
@@ -137,14 +144,15 @@ export class Datatable {
 
     /**
      * Config buttons to display them correctly
-     * @param {Datatable} table
      */
-    configButtons(table) {
+    configButtons() {
+        let table = this.table
+
         // Get buttons container
-        var buttonsContainer = table.buttons().container()
+        let buttonsContainer = table.buttons().container()
 
         // Retrieve container
-        var dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
+        let dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
 
         // Remove old buttons if datatable was initialized before (e.g. in related list selection modal)
         $('.action-buttons .buttons-colvis', dataTableContainer).remove()
@@ -154,7 +162,7 @@ export class Datatable {
 
             $('button', buttonsContainer).each((index, element) => {
                 // Get content and use it as a title
-                var title = $('span', element).html()
+                let title = $('span', element).html()
 
                 // Add icon and effect
                 $(element)
@@ -193,7 +201,7 @@ export class Datatable {
         $('ul#items-number a').on('click', (event) => {
             let recordsNumber = $(event.target).data('number')
             $('strong.records-number').text(recordsNumber)
-            table.page.len(recordsNumber).draw();
+            table.page.len(recordsNumber).draw()
         })
 
         $(".dataTables_paginate", dataTableContainer).appendTo($('.paginator', dataTableContainer))
@@ -201,10 +209,11 @@ export class Datatable {
 
     /**
      * Config column search.
-     * @param {Datatable} table
      */
-    initDatatableColumnSearch(table)
+    initDatatableColumnSearch()
     {
+        let table = this.table
+
         let timer = 0
 
         // Config each column
@@ -230,15 +239,16 @@ export class Datatable {
         })
 
         // Add clear search button listener
-        this.addClearSearchButtonListener(table)
+        this.addClearSearchButtonListener()
     }
 
     /**
      * Clear datatable search
-     * @param {Datatable} table
      */
-    addClearSearchButtonListener(table)
+    addClearSearchButtonListener()
     {
+        let table = this.table
+
         $('.actions-column .clear-search').on('click', (event) => {
             // Clear all search fields
             $('.dataTable thead input, .dataTable thead select').val(null).change()

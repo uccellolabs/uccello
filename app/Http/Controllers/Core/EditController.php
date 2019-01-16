@@ -96,7 +96,7 @@ class EditController extends Controller
 
         // Save relation if necessary
         if ($request->input('relatedlist') && $request->input('src_id')) {
-            $relatedlist = Relatedlist::find($request->input('relatedlist'));
+            $relatedlist = Relatedlist::findOrFail($request->input('relatedlist'));
             $sourceRecordId = $request->input('src_id');
             $tabId = $request->input('tab');
 
@@ -141,6 +141,42 @@ class EditController extends Controller
         else {
             return $form->getModel();
         }
+    }
+
+    /**
+     * Add a relation between two records
+     *
+     * @param Domain|null $domain
+     * @param Module $module
+     * @param Request $request
+     * @return integer|null
+     */
+    public function addRelation(?Domain $domain, Module $module, Request $request)
+    {
+        // Pre-process
+        $this->preProcess($domain, $module, $request);
+
+        // Retrieve record or get a new empty instance
+        $record = $this->getRecordFromRequest();
+
+        if ($request->input('relatedlist') && $request->input('related_id')) {
+            $relatedlist = Relatedlist::findOrFail($request->input('relatedlist'));
+            $relatedRecordId = $request->input('related_id');
+
+            $relationId = $this->saveRelation($relatedlist, $record->id, $relatedRecordId);
+
+            $response = [
+                'success' => true,
+                'data' => $relationId
+            ];
+        } else {
+            $response = [
+                'success' => false,
+                'message' => uctrans('error.mandatory.fields', $module)
+            ];
+        }
+
+        return $response;
     }
 
     public function getForm($record = null)

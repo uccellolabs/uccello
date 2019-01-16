@@ -39,6 +39,7 @@
     @endif
 
     @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
-    <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
+    <?php $confirmMessage = $relatedlist->type === 'n-1' ? 'button.delete.confirm' : 'button.delete.relation.confirm'; ?>
+    <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans($confirmMessage, $module) }}"}}'><i class="material-icons">delete</i></a>
     @endif
 </div>

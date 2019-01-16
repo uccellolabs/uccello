@@ -1,5 +1,5 @@
 
-<div class="col-sm-8 col-xs-12 text-right">
+<div class="col-sm-6 col-xs-12 text-right">
 
     @yield('other-links')
 

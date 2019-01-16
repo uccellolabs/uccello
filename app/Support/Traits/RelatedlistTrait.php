@@ -64,28 +64,6 @@ trait RelatedlistTrait
     }
 
     /**
-     * Get ids of related records linked by an entity field
-     *
-     * @param Relatedlist $relatedList
-     * @param integer $recordId
-     * @return Collection
-     */
-    public function getDependentListRecordIds(Relatedlist $relatedList, int $recordId) : Collection
-    {
-        // Related module
-        $relatedModule = $relatedList->relatedModule;
-
-        // Model
-        $relatedModel = new $relatedList->relatedModule->model_class;
-
-        // Related field
-        $relatedField = $relatedList->relatedField;
-
-        return $relatedModel->where($relatedField->column, $recordId)
-            ->pluck($relatedModel->getKeyName());
-    }
-
-    /**
      * Retrieves related records for n-n relations
      *
      * @param Relatedlist $relatedList
@@ -150,6 +128,6 @@ trait RelatedlistTrait
             ->where('module_id', $relatedList->module_id)
             ->where('related_module_id', $relatedList->related_module_id)
             ->where('record_id', $recordId)
-            ->pluck('id');
+            ->pluck('related_record_id');
     }
 }

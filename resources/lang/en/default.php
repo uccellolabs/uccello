@@ -60,10 +60,12 @@ return [
 
     // Confirm
     'button.delete.confirm' => 'Do you really want to delete this record?',
+    'button.delete.relation.confirm' => 'Do you really want to delete this relation?',
 
     // Notification
     'notification.record.created' => 'The record was correctly created.',
     'notification.record.deleted' => 'The record was correctly deleted.',
+    'notification.relation.deleted' => 'The relation was correctly deleted.',
     'notification.form.not.valid' => 'Some fields are not valid!',
 
     // Errors
@@ -72,4 +74,5 @@ return [
     'error.not.allowed' => 'You are not allowed',
     'error.not.exist' => 'This page doesn\'t exist',
     'error.server' => 'Internal Server Error',
+    'error.mandatory.fields' => 'Some mandatory fields are not defined.',
 ];

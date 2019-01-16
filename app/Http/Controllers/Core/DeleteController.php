@@ -33,10 +33,12 @@ class DeleteController extends Controller
         if ($request->input('relation_id')) {
             $relationId = $request->input('relation_id');
             $record = Relation::find($relationId);
+            $message = 'notification.relation.deleted';
         }
         // Else retrieve a record by its id
         else {
             $record = $this->getRecordFromRequest();
+            $message = 'notification.record.deleted';
         }
 
         // Delete record if exists
@@ -44,7 +46,7 @@ class DeleteController extends Controller
             $record->delete();
 
             // Notification
-            ucnotify(uctrans('notification.record.deleted', $module), 'success');
+            ucnotify(uctrans($message, $module), 'success');
         }
 
         // Redirect to the previous page

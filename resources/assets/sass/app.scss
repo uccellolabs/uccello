@@ -599,6 +599,20 @@ table.dataTable thead th.sorting:after {
 }
 
 .sidebar {
+    .user-info {
+        border-bottom: none;
+        height: 100px;
+
+        .image {
+            margin-top: 18px;
+        }
+
+        .info-container {
+            padding-left: 15px;
+            border-left: solid 1px #7a7a7a;
+        }
+    }
+
     .menu {
         .list {
             .ml-menu {

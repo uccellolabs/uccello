@@ -21,6 +21,7 @@ class Filter extends Model
     protected $casts = [
         'columns' => 'object',
         'conditions' => 'object',
+        'order_by' => 'object',
     ];
 
     /**
@@ -36,6 +37,7 @@ class Filter extends Model
         'type',
         'columns',
         'conditions',
+        'rows_number',
         'order_by',
         'is_default',
         'is_public',

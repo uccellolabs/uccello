@@ -25,6 +25,7 @@ return [
     'button.edit' => 'Éditer',
     'button.delete' => 'Supprimer',
     'button.clear_search' => 'Effacer',
+    'button.add_filter' => 'Ajouter un filtre',
     'button.action' => 'Actions',
     'button.cancel' => 'Annuler',
 
@@ -77,4 +78,15 @@ return [
     'error.not.exist' => 'Cette page n\'existe pas.',
     'error.server' => 'Erreur interne au serveur.',
     'error.mandatory.fields' => 'Certains champs obligatoires ne sont pas définis.',
+
+    // Modal
+    'modal.add_filter.title' => 'Ajouter un filtre',
+    'modal.add_filter.description' => 'Vous pouvez créer un nouveau filtre à partir de la configuration actuelle de la liste.',
+    'modal.add_filter.name' => 'Nom du filtre',
+    'modal.add_filter.save_columns' => 'Sauvegarder les colonnes affichées',
+    'modal.add_filter.save_conditions' => 'Sauvegarder les conditions de recherche',
+    'modal.add_filter.save_sort' => 'Sauvegarder l\'ordre de tri',
+    'modal.add_filter.save_rows_number' => 'Sauvegarder le nombre de lignes affichées',
+    'modal.add_filter.is_public' => 'Partager le filtre avec les autres utilisateurs',
+    'modal.add_filter.is_default' => 'Appliquer ce filtre par défaut',
 ];

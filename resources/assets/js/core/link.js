@@ -140,6 +140,10 @@ export class Link {
 
         // Show modal
         $(modalElement).modal('show')
+
+        // Empty fields and remove focus or error classes
+        $('input', modalElement).val('')
+        $('.form-line', modalElement).removeClass('focused').removeClass('error')
     }
 
     /**

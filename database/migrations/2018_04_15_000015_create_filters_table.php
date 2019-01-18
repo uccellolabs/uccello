@@ -23,6 +23,7 @@ class CreateFiltersTable extends Migration
             $table->text('columns');
             $table->text('conditions')->nullable();
             $table->string('order_by')->nullable();
+            $table->integer('rows_number')->nullable();
             $table->boolean('is_default')->default(false);
             $table->boolean('is_public')->default(false);
             $table->timestamps();

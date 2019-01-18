@@ -158,8 +158,10 @@
                     color: $theme-uccello;
                 }
             }
+        }
 
-
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: $theme-uccello;
         }
     }
 

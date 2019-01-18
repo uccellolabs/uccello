@@ -8,28 +8,38 @@
 @endsection
 
 @section('content')
-<div class="dataTable-container">
+<div class="dataTable-container listview">
 
     @section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-sm-4 col-xs-12">
+                <div class="col-sm-6 col-xs-12">
                     <div class="breadcrumb pull-left">
                         {{-- Redirect to previous page. If there is not previous page, redirect to home page --}}
                         <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.home', $domain, $module) }}" class="pull-left">
                             <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
                         </a>
 
-                        <ol class="breadcrumb pull-left">
+                        <ol class="breadcrumb filters pull-left">
                             @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                             <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                            <li class="active">{{ uctrans('filter.all', $module) }}</li>
+                            <li>
+                                <select class="filter show-tick">
+                                    @foreach ($filters as $filter)
+                                    <option value="{{ $filter->id }}" @if($filter->id == $selectedFilterId)selected="selected"@endif>{{ uctrans($filter->name, $module) }}</option>
+                                    @endforeach
+                                </select>
+                            </li>
                         </ol>
+
+                        <a href="#" class="pull-right" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
+                            <i class="material-icons add-filter bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.add_filter', $module) }}">add</i>
+                        </a>
                     </div>
                 </div>
 
-                <div class="action-buttons col-sm-8 col-xs-12">
+                <div class="action-buttons col-sm-6 col-xs-12">
                     <div class="btn-group m-l-10">
                         <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">15</strong>']) !!}
@@ -72,9 +82,7 @@
                                     @endforeach
 
                                     <th class="actions-column">
-                                        <a class="clear-search" title="{{ uctrans('button.clear_search', $module) }}" data-toggle="tooltip" data-placement="top">
-                                            <i class="material-icons">close</i>
-                                        </a>
+                                        <a class="clear-search pull-left col-red" title="{{ uctrans('button.clear_search', $module) }}" data-toggle="tooltip" data-placement="top"><i class="material-icons">close</i></a>
                                     </th>
                                 </tr>
                             </thead>
@@ -110,4 +118,9 @@
         @endif
     </div>
 </div>
+@endsection
+
+@section('extra-content')
+    {{-- Add filter modal --}}
+    @include("uccello::modules.default.list.modal.add-filter")
 @endsection

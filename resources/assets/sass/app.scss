@@ -168,6 +168,11 @@ div.breadcrumb {
         font-size: 18px;
         margin-right: 25px;
         margin-top: 2px;
+
+        &.add-filter {
+            margin-right: 0;
+            color: #ffffff;
+        }
     }
 
     ol.breadcrumb {
@@ -175,10 +180,30 @@ div.breadcrumb {
         padding: 5px 0 0 0;
         margin-right: 25px;
 
+        &.filters {
+            margin-right: 5px;
+        }
+
         li a {
             font-weight: bold;
             color: #333;
         }
+    }
+
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: 120px;
+    }
+
+    .btn:not(.btn-link):not(.btn-circle),
+    .btn-group,
+    .btn-group-vertical {
+        border-radius: 0;
+        padding: 0;
+        border: none !important;
+    }
+
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+        padding-top: 2px;
     }
 }
 
@@ -410,6 +435,11 @@ div.detail-blocks {
 table.dataTable {
     // min-height: 200px;
 
+    thead > tr > th,
+    thead > tr > td {
+        padding-right: 0;
+    }
+
     thead {
         .sorting:after,
         .sorting_asc:after,
@@ -425,7 +455,7 @@ table.dataTable {
         }
 
         th.actions-column {
-            width: 30px;
+            width: 60px;
             text-align: right;
 
             .clear-search {

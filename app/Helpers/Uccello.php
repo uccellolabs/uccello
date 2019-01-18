@@ -290,16 +290,26 @@ class Uccello
      * Retrieve columns to display in a datatable table
      *
      * @param Module $module
+     * @param integer $filterId
+     * @param string $type
      * @return array
      */
-    public function getDatatableColumns(Module $module): array
+    public function getDatatableColumns(Module $module, $filterId=null, $type='list'): array
     {
         $columns = [ ];
 
         // Get default filter
-        $filter = Filter::where('module_id', $module->id)
-            ->where('type', 'list')
-            ->first();
+        if ($filterId) {
+            $filter = Filter::find($filterId);
+        } else {
+            $filter = Filter::where('module_id', $module->id)
+                ->where('type', $type)
+                ->first();
+        }
+
+        if (empty($filter)) {
+            return [ ];
+        }
 
         // Get all fields
         $fields = $module->fields;

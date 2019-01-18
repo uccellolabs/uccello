@@ -8,6 +8,7 @@ use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Facades\Uccello;
 use Uccello\Core\Models\Relatedlist;
+use Uccello\Core\Models\Filter;
 
 class ListController extends Controller
 {
@@ -29,26 +30,31 @@ class ListController extends Controller
         // Pre-process
         $this->preProcess($domain, $module, $request);
 
-        // Get datatable columns
-        $datatableColumns = Uccello::getDatatableColumns($module);
+        // Selected filter
+        $selectedFilterId = $request->input('filter') ?? null;
 
-        return $this->autoView(compact('datatableColumns'));
+        // Get datatable columns
+        $datatableColumns = Uccello::getDatatableColumns($module, $selectedFilterId);
+
+        // Get filters
+        $filters = Filter::where('module_id', $module->id)
+            ->where('type', 'list')
+            ->get();
+
+        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilterId'));
     }
 
     /**
      * Display a listing of the resources.
      * The result is formated differently if it is a classic query or one requested by datatable.
      * Filter on domain if domain_id column exists.
-     * @param  \Uccello\Core\Models\Domain $domain
+     * @param  \Uccello\Core\Models\Domain|null $domain
      * @param  \Uccello\Core\Models\Module $module
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function processForDatatable(Domain $domain, Module $module, Request $request)
+    public function processForDatatable(?Domain $domain, Module $module, Request $request)
     {
-        // Check user permissions
-        $this->middleware('uccello.permissions:retrieve');
-
         // If we don't use multi domains, find the first one
         if (!uccello()->useMultiDomains()) {
             $domain = Domain::first();
@@ -57,8 +63,38 @@ class ListController extends Controller
         // Get data formated for Datatable
         $result = $this->getResultForDatatable($domain, $module, $request);
 
-
         return $result;
+    }
+
+    /**
+     * Save list filter into database
+     *
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module $module
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function saveFilter(?Domain $domain, Module $module, Request $request)
+    {
+        $saveOrder = $request->input('save_order');
+        $saveRowsNumber = $request->input('save_rows_number');
+
+        $filter = Filter::firstOrNew([
+            'domain_id' => $domain->id,
+            'module_id' => $module->id,
+            'user_id' => auth()->id(),
+            'name' => $request->input('name'),
+            'type' => $request->input('type')
+        ]);
+        $filter->columns = $request->input('columns');
+        $filter->conditions = []; //TODO: Save conditions
+        $filter->order_by = $saveOrder ? $request->input('order') : null;
+        $filter->rows_number = $saveRowsNumber ? $request->input('rows_number') : null;
+        $filter->is_default = $request->input('default');
+        $filter->is_public = $request->input('public');
+        $filter->save();
+
+        return $filter;
     }
 
     /**

@@ -5,34 +5,62 @@
 @section('extra-meta')
     <meta name="datatable-url" content="{{ ucroute('uccello.datatable', $domain, $module) }}">
     <meta name="datatable-columns" content='{!! json_encode($datatableColumns) !!}'>
+    <meta name="selected-filter" content='{!! json_encode($selectedFilter) !!}'>
 @endsection
 
 @section('content')
-<div class="dataTable-container">
+<div class="dataTable-container listview">
 
     @section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-sm-4 col-xs-12">
+                <div class="col-sm-6 col-xs-12">
                     <div class="breadcrumb pull-left">
-                        {{-- Redirect to previous page. If there is not previous page, redirect to home page --}}
-                        <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.home', $domain, $module) }}" class="pull-left">
-                            <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
+                        {{-- Module icon --}}
+                        <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
+                            <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
                         </a>
 
-                        <ol class="breadcrumb pull-left">
+                        <ol class="breadcrumb filters pull-left">
                             @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                             <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                            <li class="active">{{ uctrans('filter.all', $module) }}</li>
+                            <li>
+                                <select class="filter show-tick" data-live-search="true">
+                                    @foreach ($filters as $filter)
+                                    <option value="{{ $filter->id }}" @if($selectedFilter && $filter->id == $selectedFilter->id)selected="selected"@endif>{{ uctrans($filter->name, $module) }}</option>
+                                    @endforeach
+                                </select>
+                            </li>
                         </ol>
+
+                        {{-- Manage filters --}}
+                        <div class="pull-right manage-filters">
+                        <a href="javascript:void(0);" class="action-button dropdown-toggle" data-toggle="dropdown">
+                            <i class="material-icons bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.manage_filters', $module) }}">filter_list</i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <button class="btn btn-link btn-block add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
+                                    <i class="material-icons">add</i>
+                                    <span>{{ uctrans('button.add_filter', $module) }}</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-link btn-block delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
+                                    <i class="material-icons">delete</i>
+                                    <span>{{ uctrans('button.delete_filter', $module) }}</span>
+                                </button>
+                            </li>
+                        </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="action-buttons col-sm-8 col-xs-12">
+                <div class="action-buttons col-sm-6 col-xs-12">
                     <div class="btn-group m-l-10">
                         <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">15</strong>']) !!}
+                            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
                             <i class="material-icons">keyboard_arrow_down</i>
                         </button>
                         <ul id="items-number" class="dropdown-menu">
@@ -62,6 +90,11 @@
                                     <th>
                                         {{ uctrans('field.'.$column['name'], $module) }}
                                         <?php
+                                            $searchValue = null;
+                                            if ($selectedFilter && !empty($selectedFilter->conditions->search->{$column['name']})) {
+                                                $searchValue = $selectedFilter->conditions->search->{$column['name']};
+                                            }
+
                                             // If a special template exists, use it. Else use the generic template
                                             $uitypeViewName = sprintf('uitypes.search.%s', $column[ 'uitype' ]);
                                             $uitypeFallbackView = 'uccello::modules.default.uitypes.search.text';
@@ -72,9 +105,7 @@
                                     @endforeach
 
                                     <th class="actions-column">
-                                        <a class="clear-search" title="{{ uctrans('button.clear_search', $module) }}" data-toggle="tooltip" data-placement="top">
-                                            <i class="material-icons">close</i>
-                                        </a>
+                                        <a class="clear-search pull-left col-red" title="{{ uctrans('button.clear_search', $module) }}" data-toggle="tooltip" data-placement="top"><i class="material-icons">close</i></a>
                                     </th>
                                 </tr>
                             </thead>
@@ -110,4 +141,9 @@
         @endif
     </div>
 </div>
+@endsection
+
+@section('extra-content')
+    {{-- Add filter modal --}}
+    @include("uccello::modules.default.list.modal.add-filter")
 @endsection

@@ -21,6 +21,8 @@ class Filter extends Model
     protected $casts = [
         'columns' => 'object',
         'conditions' => 'object',
+        'order_by' => 'object',
+        'data' => 'object',
     ];
 
     /**
@@ -39,6 +41,7 @@ class Filter extends Model
         'order_by',
         'is_default',
         'is_public',
+        'data'
     ];
 
     protected function initTablePrefix()
@@ -49,5 +52,15 @@ class Filter extends Model
     public function module()
     {
         return $this->belongsTo(Module::class);
+    }
+
+    /**
+     * Check if the filter is for read only
+     *
+     * @return boolean
+     */
+    public function getReadOnlyAttribute()
+    {
+        return $this->data->readonly ?? false;
     }
 }

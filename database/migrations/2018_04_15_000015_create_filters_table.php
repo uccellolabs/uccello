@@ -25,6 +25,7 @@ class CreateFiltersTable extends Migration
             $table->string('order_by')->nullable();
             $table->boolean('is_default')->default(false);
             $table->boolean('is_public')->default(false);
+            $table->text('data')->nullable();
             $table->timestamps();
 
             // Foreign keys

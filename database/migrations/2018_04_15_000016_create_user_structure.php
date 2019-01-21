@@ -157,11 +157,12 @@ class CreateUserStructure extends Migration
         $filter->user_id = null;
         $filter->name = 'filter.all';
         $filter->type = 'list';
-        $filter->columns = [ 'id', 'username', 'first_name', 'last_name', 'email', 'created_at', 'updated_at' ];
+        $filter->columns = [ 'username', 'first_name', 'last_name', 'email' ];
         $filter->conditions = null;
         $filter->order_by = null;
         $filter->is_default = true;
         $filter->is_public = false;
+        $filter->data = [ 'readonly' => true ];
         $filter->save();
     }
 }

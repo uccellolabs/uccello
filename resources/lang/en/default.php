@@ -25,6 +25,9 @@ return [
     'button.edit' => 'Edit',
     'button.delete' => 'Delete',
     'button.clear_search' => 'Clear',
+    'button.manage_filters' => 'Filters',
+    'button.add_filter' => 'Add a filter',
+    'button.delete_filter' => 'Delete filter',
     'button.action' => 'Actions',
     'button.cancel' => 'Cancel',
 
@@ -75,4 +78,20 @@ return [
     'error.not.exist' => 'This page doesn\'t exist',
     'error.server' => 'Internal Server Error',
     'error.mandatory.fields' => 'Some mandatory fields are not defined.',
+    'error.filter.not.found' => 'The filter does not exist.',
+    'error.filter.read.only' => 'The filter is for read only.',
+
+    // Success
+    'success.filter.deleted' => 'The filter was correctly deleted.',
+
+    // Modal
+    'modal.add_filter.title' => 'Add filter',
+    'modal.add_filter.description' => 'You can create a new filter from the configuration of the current list.',
+    'modal.add_filter.name' => 'Filter name',
+    'modal.add_filter.save_columns' => 'Save columns displayed',
+    'modal.add_filter.save_sort' => 'Save sort order',
+    'modal.add_filter.save_page_length' => 'Save the number of rows displayed',
+    'modal.add_filter.is_public' => 'Share the filter with other users',
+    'modal.add_filter.is_default' => 'Apply this filter by default',
+
 ];

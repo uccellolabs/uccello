@@ -75,16 +75,9 @@
 
         .user-info {
             background-color: $theme-uccello-sidebar-user-info;
-            border-bottom: none;
-            height: 100px;
-
-            .image {
-                margin-top: 18px;
-            }
 
             .info-container {
                 border-left: solid 1px $theme-uccello;
-                padding-left: 15px;
             }
         }
 
@@ -165,8 +158,10 @@
                     color: $theme-uccello;
                 }
             }
+        }
 
-
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: $theme-uccello;
         }
     }
 

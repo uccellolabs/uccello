@@ -160,14 +160,26 @@ div.breadcrumb {
     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 
-    i {
-        color: black;
+    a.module-icon i {
+        color: #333;
         background-color: rgba(0,0,0,.2);
         border-radius: 20px;
         padding: 3px;
         font-size: 18px;
-        margin-right: 25px;
+        margin-right: 10px;
         margin-top: 2px;
+    }
+
+    a.action-button {
+        i {
+            margin-left: 5px;
+            margin-right: 0;
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 3px;
+            font-size: 18px;
+            margin-top: 2px;
+        }
     }
 
     ol.breadcrumb {
@@ -175,9 +187,39 @@ div.breadcrumb {
         padding: 5px 0 0 0;
         margin-right: 25px;
 
-        li a {
+        &.filters {
+            margin-right: 0;
+        }
+
+        &>li>a {
             font-weight: bold;
             color: #333;
+        }
+    }
+
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: auto !important;
+    }
+
+    .btn:not(.btn-link):not(.btn-circle),
+    .btn-group,
+    .btn-group-vertical {
+        border-radius: 0;
+        padding: 0;
+        border: none !important;
+    }
+
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+        padding-top: 2px;
+        padding-right: 15px;
+    }
+
+    .manage-filters {
+        position: relative;
+
+        button {
+            font-weight: normal !important;
+            text-align: left !important;
         }
     }
 }
@@ -302,11 +344,11 @@ button {
 
 form.edit-form {
     margin-bottom: 90px;
+}
 
-    label.required::before {
-        content: '* ';
-        color: red;
-    }
+label.required::before {
+    content: '* ';
+    color: red;
 }
 
 div.detail-blocks {
@@ -410,6 +452,11 @@ div.detail-blocks {
 table.dataTable {
     // min-height: 200px;
 
+    thead > tr > th,
+    thead > tr > td {
+        padding-right: 0;
+    }
+
     thead {
         .sorting:after,
         .sorting_asc:after,
@@ -425,7 +472,7 @@ table.dataTable {
         }
 
         th.actions-column {
-            width: 30px;
+            width: 60px;
             text-align: right;
 
             .clear-search {
@@ -599,6 +646,20 @@ table.dataTable thead th.sorting:after {
 }
 
 .sidebar {
+    .user-info {
+        border-bottom: none;
+        height: 100px;
+
+        .image {
+            margin-top: 18px;
+        }
+
+        .info-container {
+            padding-left: 15px;
+            border-left: solid 1px #7a7a7a;
+        }
+    }
+
     .menu {
         .list {
             .ml-menu {

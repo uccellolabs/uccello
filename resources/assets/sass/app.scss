@@ -160,18 +160,25 @@ div.breadcrumb {
     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 
-    i {
-        color: black;
+    a.module-icon i {
+        color: #333;
         background-color: rgba(0,0,0,.2);
         border-radius: 20px;
         padding: 3px;
         font-size: 18px;
-        margin-right: 25px;
+        margin-right: 10px;
         margin-top: 2px;
+    }
 
-        &.add-filter {
+    a.action-button {
+        i {
+            margin-left: 5px;
             margin-right: 0;
             color: #ffffff;
+            border-radius: 20px;
+            padding: 3px;
+            font-size: 18px;
+            margin-top: 2px;
         }
     }
 
@@ -181,17 +188,17 @@ div.breadcrumb {
         margin-right: 25px;
 
         &.filters {
-            margin-right: 5px;
+            margin-right: 0;
         }
 
-        li a {
+        &>li>a {
             font-weight: bold;
             color: #333;
         }
     }
 
     .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-        width: 120px;
+        width: auto !important;
     }
 
     .btn:not(.btn-link):not(.btn-circle),
@@ -204,6 +211,16 @@ div.breadcrumb {
 
     .bootstrap-select.btn-group .dropdown-toggle .filter-option {
         padding-top: 2px;
+        padding-right: 15px;
+    }
+
+    .manage-filters {
+        position: relative;
+
+        button {
+            font-weight: normal !important;
+            text-align: left !important;
+        }
     }
 }
 
@@ -327,11 +344,11 @@ button {
 
 form.edit-form {
     margin-bottom: 90px;
+}
 
-    label.required::before {
-        content: '* ';
-        color: red;
-    }
+label.required::before {
+    content: '* ';
+    color: red;
 }
 
 div.detail-blocks {

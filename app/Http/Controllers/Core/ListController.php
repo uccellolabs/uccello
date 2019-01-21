@@ -32,6 +32,7 @@ class ListController extends Controller
 
         // Selected filter
         $selectedFilterId = $request->input('filter') ?? null;
+        $selectedFilter = Filter::find($selectedFilterId);
 
         // Get datatable columns
         $datatableColumns = Uccello::getDatatableColumns($module, $selectedFilterId);
@@ -41,7 +42,7 @@ class ListController extends Controller
             ->where('type', 'list')
             ->get();
 
-        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilterId'));
+        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter'));
     }
 
     /**
@@ -77,7 +78,13 @@ class ListController extends Controller
     public function saveFilter(?Domain $domain, Module $module, Request $request)
     {
         $saveOrder = $request->input('save_order');
-        $saveRowsNumber = $request->input('save_rows_number');
+        $savePageLength = $request->input('save_page_length');
+
+        // Optional data
+        $data = [];
+        if ($savePageLength) {
+            $data["length"] = $request->input('page_length');
+        }
 
         $filter = Filter::firstOrNew([
             'domain_id' => $domain->id,
@@ -87,14 +94,53 @@ class ListController extends Controller
             'type' => $request->input('type')
         ]);
         $filter->columns = $request->input('columns');
-        $filter->conditions = []; //TODO: Save conditions
+        $filter->conditions = $request->input('conditions') ?? null;
         $filter->order_by = $saveOrder ? $request->input('order') : null;
-        $filter->rows_number = $saveRowsNumber ? $request->input('rows_number') : null;
         $filter->is_default = $request->input('default');
         $filter->is_public = $request->input('public');
+        $filter->data = !empty($data) ? $data : null;
         $filter->save();
 
         return $filter;
+    }
+
+    /**
+     * Retrieve a filter by its id and delete it
+     *
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module $module
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteFilter(?Domain $domain, Module $module, Request $request)
+    {
+        // Retrieve filter by id
+        $filterId = $request->input('id');
+        $filter = Filter::find($filterId);
+
+        if ($filter) {
+            if ($filter->readOnly) {
+                // Response
+                $success = false;
+                $message = uctrans('error.filter.read.only', $module);
+            } else {
+                // Delete
+                $filter->delete();
+
+                // Response
+                $success = true;
+                $message = uctrans('success.filter.deleted', $module);
+            }
+        } else {
+            // Response
+            $success = false;
+            $message = uctrans('error.filter.not.found', $module);
+        }
+
+        return [
+            'success' => $success,
+            'message' => $message
+        ];
     }
 
     /**

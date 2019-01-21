@@ -12,11 +12,11 @@
 
     @section('breadcrumb')
     <div class="row">
-        <div class="col-sm-4 col-xs-12">
+        <div class="col-xs-12">
             <div class="breadcrumb pull-left">
-                {{-- Redirect to previous page. If there is not previous page, redirect to list view --}}
-                <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.list', $domain, $module) }}" class="pull-left">
-                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
+                {{-- Module icon --}}
+                <a href="{{ ucroute('uccello.settings.dashboard', $domain) }}" class="pull-left module-icon">
+                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
                 </a>
 
                 <ol class="breadcrumb pull-left">

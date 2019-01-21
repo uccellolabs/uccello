@@ -49,11 +49,11 @@
                     </div>
 
                     <div class="col-sm-12">
-                        <input class="form-control chk-col-green" id="add_filter_save_rows_number" type="checkbox" checked>
-                        <label for="add_filter_save_rows_number" class="checkbox-label">{{ uctrans('modal.add_filter.save_rows_number', $module) }}</label>
+                        <input class="form-control chk-col-green" id="add_filter_save_page_length" type="checkbox" checked>
+                        <label for="add_filter_save_page_length" class="checkbox-label">{{ uctrans('modal.add_filter.save_page_length', $module) }}</label>
                     </div>
 
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <input class="form-control chk-col-green" id="add_filter_is_public" type="checkbox">
                         <label for="add_filter_is_public" class="checkbox-label">{{ uctrans('modal.add_filter.is_public', $module) }}</label>
                     </div>
@@ -61,7 +61,7 @@
                     <div class="col-sm-12">
                         <input class="form-control chk-col-green" id="add_filter_is_default" type="checkbox">
                         <label for="add_filter_is_default" class="checkbox-label">{{ uctrans('modal.add_filter.is_default', $module) }}</label>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="modal-footer">

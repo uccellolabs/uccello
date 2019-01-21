@@ -93,11 +93,12 @@ class CreateProfileStructure extends Migration
         $filter->user_id = null;
         $filter->name = 'filter.all';
         $filter->type = 'list';
-        $filter->columns = [ 'id', 'name', 'description', 'created_at', 'updated_at' ];
+        $filter->columns = [ 'name', 'description' ];
         $filter->conditions = null;
         $filter->order_by = null;
         $filter->is_default = true;
         $filter->is_public = false;
+        $filter->data = [ 'readonly' => true ];
         $filter->save();
     }
 }

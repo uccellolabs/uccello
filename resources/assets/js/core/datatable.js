@@ -26,8 +26,8 @@ export class Datatable {
                 url: this.url,
                 type: "POST"
             },
-            pageLength: 15, // Default length
-            order: [[1, 'asc']],
+            pageLength: this.getInitialPageLength(),
+            order: this.getInitialOrder(),
             columnDefs: this.getDatatableColumnDefs(element),
             createdRow: (row, data, index) => {
                 // Go to detail view when you click on a row
@@ -56,7 +56,8 @@ export class Datatable {
                     previous: '<',
                     next: '>'
                 }
-            }
+            },
+            aoSearchCols: this.getInitialSearch()
         });
 
         // Config buttons
@@ -69,6 +70,7 @@ export class Datatable {
     /**
      * Make datatable columns from filter.
      * @param {Element} element
+     * @return {array}
      */
     getDatatableColumnDefs(element) {
         let selector = new UccelloUitypeSelector.UitypeSelector() // UccelloUitypeSelector is replaced automaticaly by webpack. See webpack.mix.js
@@ -108,6 +110,63 @@ export class Datatable {
         })
 
         return datatableColumns;
+    }
+
+    /**
+     * Initialize initial columns search, according to selected filter conditions
+     * @return {array}
+     */
+    getInitialSearch() {
+        let search = []
+
+        if (this.selectedFilter && this.selectedFilter.conditions && this.selectedFilter.conditions.search) {
+            // First column
+            search.push(null)
+
+            for (let i in this.columns) {
+                let value = null
+
+                let column =  this.columns[i]
+                value = typeof this.selectedFilter.conditions.search[column.name] !== 'undefined' ? this.selectedFilter.conditions.search[column.name] : null
+
+                if (value) {
+                    search.push({sSearch: value})
+                } else {
+                    search.push(null)
+                }
+            }
+
+            // Last column
+            search.push(null)
+        }
+
+        return search
+    }
+
+    /**
+     * Get initial order
+     * @return {array}
+     */
+    getInitialOrder() {
+        let order = [[1, 'asc']] // Default
+        if (this.selectedFilter && this.selectedFilter.data && this.selectedFilter.data.order) {
+            order = this.selectedFilter.data.order
+        }
+
+        return order
+    }
+
+    /**
+     * Get initial page length
+     * @return {integer}
+     */
+    getInitialPageLength() {
+        let length = 15 // Default
+        if (this.selectedFilter && this.selectedFilter.data && this.selectedFilter.data.length) {
+            length = this.selectedFilter.data.length
+        }
+
+        return length
     }
 
     /**

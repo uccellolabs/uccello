@@ -38,9 +38,14 @@
     <div class="detail-blocks">
         @section('default-blocks')
             <div class="tab-content">
+                {{-- Summary --}}
+                <div role="tabpanel" id="summary" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')active @endif" >
+                    @include('uccello::modules.default.detail.summary')
+                </div>
+
                 {{-- Tabs and blocks --}}
                 @foreach ($module->tabs as $i => $tab)
-                <div role="tabpanel" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0) || $selectedTabId === $tab->id)active @endif" id="{{ $tab->id }}">
+                <div role="tabpanel" id="{{ $tab->id }}" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)active @endif">
                     {{-- Blocks --}}
                     @include('uccello::modules.default.detail.blocks')
 

@@ -89,6 +89,11 @@ class Module extends Model
         return $this->hasMany(Link::class, 'module_id')->where('type', 'detail.action')->orderBy('sequence');
     }
 
+    public function widgets()
+    {
+        return $this->belongsToMany(Widget::class, $this->tablePrefix.'modules_widgets')->withPivot('data');
+    }
+
     /**
      * Returns module package name
      *

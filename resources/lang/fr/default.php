@@ -30,6 +30,7 @@ return [
     'button.delete_filter' => 'Supprimer le filtre',
     'button.action' => 'Actions',
     'button.cancel' => 'Annuler',
+    'button.add_widget' => 'Ajouter widget',
 
     // Block
     'block.general' => 'Informations générales',
@@ -46,6 +47,7 @@ return [
 
     // Tabs
     'tab.main' => 'Détails',
+    'tab.summary' => 'Résumé',
 
     // Menu
     'menu.admin' => 'Administration',
@@ -96,4 +98,7 @@ return [
     'modal.add_filter.save_page_length' => 'Sauvegarder le nombre de lignes affichées',
     'modal.add_filter.is_public' => 'Partager le filtre avec les autres utilisateurs',
     'modal.add_filter.is_default' => 'Appliquer ce filtre par défaut',
+
+    // Widgets
+    'summary.no_widget' => 'Aucun widget pour le moment.',
 ];

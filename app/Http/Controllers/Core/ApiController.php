@@ -2,22 +2,38 @@
 
 namespace Uccello\Core\Http\Controllers\Core;
 
+use Schema;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Schema;
+use Uccello\Core\Models\Relatedlist;
+use Uccello\Core\Events\BeforeSaveEvent;
+use Uccello\Core\Events\AfterSaveEvent;
+use Uccello\Core\Events\BeforeDeleteEvent;
+use Uccello\Core\Events\AfterDeleteEvent;
 
-class ApiController extends Controller
+class ApiController extends BaseController
 {
     const ITEMS_PER_PAGE = 20;
+
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     /**
      * Display a listing of the resources.
      * The result is formated differently if it is a classic query or one requested by datatable.
      * Filter on domain if domain_id column exists.
-     * @param Domain $domain
-     * @param Module $module
-     *
+     * @param  \Uccello\Core\Models\Domain $domain
+     * @param  \Uccello\Core\Models\Module $module
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Domain $domain, Module $module, Request $request)
@@ -25,26 +41,18 @@ class ApiController extends Controller
         // Check user permissions
         $this->middleware('uccello.permissions:retrieve');
 
-        if ($request->get('datatable')) {
-            // If we don't use multi domains, find the first one
-            if (!uccello()->useMultiDomains()) {
-                $domain = Domain::first();
-            }
+        // Get model model class
+        $modelClass = $module->model_class;
 
-            // Get data formated for Datatable
-            $result = $this->getResultForDatatable($domain, $module, $request);
+        //TODO: Add search conditions
+
+        // Filter on domain if column exists
+        if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
+            // Paginate results
+            $result = $modelClass::where('domain_id', $domain->id)->paginate(self::ITEMS_PER_PAGE);
         } else {
-            // Get model model class
-            $modelClass = $module->model_class;
-
-            // Filter on domain if column exists
-            if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
-                // Paginate results
-                $result = $modelClass::where('domain_id', $domain->id)->paginate(self::ITEMS_PER_PAGE);
-            } else {
-                // Paginate results
-                $result = $modelClass::paginate(self::ITEMS_PER_PAGE);
-            }
+            // Paginate results
+            $result = $modelClass::paginate(self::ITEMS_PER_PAGE);
         }
 
         return $result;
@@ -53,134 +61,150 @@ class ApiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  \Uccello\Core\Models\Domain $domain
+     * @param  \Uccello\Core\Models\Module $module
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Domain $domain, Module $module, Request $request)
     {
         // Check user permissions
         $this->middleware('uccello.permissions:create');
 
+        // Get model model class
+        $modelClass = $module->model_class;
+        $record = new $modelClass();
+
+        if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
+            // Paginate results
+            $record->domain_id = $domain->id;
+        }
+
+        foreach ($request->all() as $fieldName => $value) {
+            $field = $module->getField($fieldName);
+
+            // If the field exists format the value and store it in the good model column
+            if (!is_null($field)) {
+                $column = $field->column;
+                $record->$column = $field->uitype->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
+            }
+        }
+
+        // Dispatch before save event
+        event(new BeforeSaveEvent($domain, $module, $request, $record, 'create', true));
+
+        // Save
+        $record->save();
+
+        // Dispatch after save event
+        event(new AfterSaveEvent($domain, $module, $request, $record, 'create', true));
+
+        return $modelClass::find($record->id); // We do this to display also empty fields
     }
 
     /**
      * Display the specified resource.
      *
+     * @param  \Uccello\Core\Models\Domain $domain
+     * @param  \Uccello\Core\Models\Module $module
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Domain $domain, Module $module, int $id)
     {
         // Check user permissions
         $this->middleware('uccello.permissions:retrieve');
 
+        // Get model model class
+        $modelClass = $module->model_class;
+
+        return $modelClass::find($id);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Uccello\Core\Models\Domain $domain
+     * @param  \Uccello\Core\Models\Module $module
      * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Domain $domain, Module $module, int $id, Request $request)
     {
         // Check user permissions
         $this->middleware('uccello.permissions:update');
+
+        // Get model model class
+        $modelClass = $module->model_class;
+        $record = $modelClass::find($id);
+
+        if (!$record) {
+            return false;
+        }
+
+        foreach ($request->all() as $fieldName => $value) {
+            $field = $module->getField($fieldName);
+
+            // If the field exists format the value and store it in the good model column
+            if (!is_null($field)) {
+                $column = $field->column;
+                $record->$column = $field->uitype->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
+            }
+        }
+
+        // Dispatch before save event
+        event(new BeforeSaveEvent($domain, $module, $request, $record, 'edit', true));
+
+        // Save
+        $record->save();
+
+        // Dispatch after save event
+        event(new AfterSaveEvent($domain, $module, $request, $record, 'edit', true));
+
+        return $record;
 
     }
 
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Uccello\Core\Models\Domain $domain
+     * @param  \Uccello\Core\Models\Module $module
      * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Domain $domain, Module $module, $id, Request $request)
     {
         // Check user permissions
         $this->middleware('uccello.permissions:delete');
-    }
-
-    protected function getResultForDatatable(Domain $domain, Module $module, Request $request)
-    {
-        $draw = (int) $request->get('draw');
-        $start = (int) $request->get('start');
-        $length = (int) $request->get('length');
-        $order = $request->get('order');
-        $columns = $request->get('columns');
 
         // Get model model class
         $modelClass = $module->model_class;
 
-        // If the class exists, make the query
-        if (class_exists($modelClass)) {
+        $record = $modelClass::find($id);
 
-            // Filter on domain if column exists
-            if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
-                // Count all results
-                $total = $modelClass::where('domain_id', $domain->id)->count();
-
-                // Paginate results
-                $query = $modelClass::where('domain_id', $domain->id)->skip($start)->take($length);
-            } else {
-                // Count all results
-                $total = $modelClass::count();
-
-                // Paginate results
-                $query = $modelClass::skip($start)->take($length);
-            }
-
-            // Search by column
-            foreach ($columns as $column) {
-                $fieldName = $column["data"];
-                $searchValue = $column["search"]["value"];
-
-                // Get field by name and search by field column
-                $field = $module->getField($fieldName);
-                if (isset($searchValue) && !is_null($field)) {
-                    $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
-                }
-            }
-
-            // Order results
-            foreach ($order as $orderInfo) {
-                $columnIndex = (int) $orderInfo["column"];
-                $column = $columns[$columnIndex];
-                $fieldName = $column["data"];
-
-                // Get field by name and order by field column
-                $field = $module->getField($fieldName);
-                if (!is_null($field)) {
-                    $query = $query->orderBy($field->column, $orderInfo["dir"]);
-                }
-            }
-
-            // Make the query
-            $records = $query->get();
-
-            foreach ($records as &$record) {
-                foreach ($module->fields as $field) {
-                    $displayedValue = $field->uitype->getFormattedValueToDisplay($field, $record);
-
-                    if ($displayedValue !== $record->{$field->column}) {
-                        $record->{$field->name} = $displayedValue;
-                    }
-                }
-            }
-
-            $data = $records;
-
-        } else {
-            $data = [];
-            $total = 0;
+        if (!$record) {
+            return [
+                "success" => false,
+                "message" => 'Record not found'
+            ];
         }
 
+        // Dispatch before delete event
+        event(new BeforeDeleteEvent($domain, $module, $request, $record, true));
+
+        // Delete
+        $record->delete();
+
+        // Dispatch after delete event
+        event(new AfterDeleteEvent($domain, $module, $request, $record, true));
+
         return [
-            "data" => $data,
-            "draw" => $draw,
-            "recordsTotal" => $total,
-            "recordsFiltered" => $total,
+            "success" => true,
+            "message" => 'Record deleted',
+            "id" => $id
         ];
     }
 }

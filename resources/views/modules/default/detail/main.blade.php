@@ -2,99 +2,72 @@
 
 @section('page', 'detail')
 
+@section('extra-meta')
+<meta name="record" content="{{ $record->id }}">
+@endsection
+
 @section('content')
 
     @section('breadcrumb')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-sm-6 col-xs-12">
             <div class="breadcrumb pull-left">
-                {{-- Redirect to previous page. If there is not previous page, redirect to list view --}}
-                <a href="{{ URL::previous() !== URL::current() ? URL::previous() : ucroute('uccello.list', $domain, $module) }}" class="pull-left">
-                    <i class="material-icons" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.return', $module) }}">chevron_left</i>
+                {{-- Module icon --}}
+                <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
+                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
                 </a>
 
                 <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
                     <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    <li class="active">{{ $record->recordLabel ?? $record->id }}</li>
+                    <li class="active">{{ $record->recordLabel ?? $record->getKey() }}</li>
                 </ol>
             </div>
         </div>
+
+        {{-- Custom links --}}
+        @section ('custom-links')
+            @include('uccello::modules.default.detail.links')
+        @show
     </div>
     @show
 
-    <ul class="nav nav-tabs m-b-25" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#home_with_icon_title" data-toggle="tab">
-            <i class="material-icons">view_headline</i> {{ uctrans('tabs.details', $module) }}
-            </a>
-        </li>
-        {{-- <li role="presentation">
-            <a href="#profile_with_icon_title" data-toggle="tab">
-                <i class="material-icons">face</i> PROFILE
-                <span class="badge bg-green">9</span>
-            </a>
-        </li> --}}
-    </ul>
+    {{-- Tab list --}}
+    @include('uccello::modules.default.detail.tabs')
 
     <div class="detail-blocks">
-    @section('default-blocks')
-        {{-- All defined blocks --}}
-        @foreach ($module->tabs as $tab)  {{-- TODO: Display all tabs --}}
-            @foreach ($tab->blocks as $block)
-            <div class="card block">
-                <div class="header">
-                    <h2>
-                        <div @if($block->icon)class="block-label-with-icon"@endif>
+        @section('default-blocks')
+            <div class="tab-content">
+                {{-- Tabs and blocks --}}
+                @foreach ($module->tabs as $i => $tab)
+                <div role="tabpanel" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0) || $selectedTabId === $tab->id)active @endif" id="{{ $tab->id }}">
+                    {{-- Blocks --}}
+                    @include('uccello::modules.default.detail.blocks')
 
-                            {{-- Icon --}}
-                            @if($block->icon)
-                            <i class="material-icons">{{ $block->icon }}</i>
-                            @endif
-
-                            {{-- Label --}}
-                            <span>{{ uctrans($block->label, $module) }}</span>
-                        </div>
-
-                        {{-- Description --}}
-                        @if ($block->description)
-                            <small>{{ uctrans($block->description, $module) }}</small>
-                        @endif
-                    </h2>
+                    {{-- Related lists as blocks --}}
+                    @include('uccello::modules.default.detail.relatedlists.as-blocks')
                 </div>
-                <div class="body">
-                    <div class="row">
-                    {{-- Display all block's fields --}}
-                    @foreach ($block->fields as $field)
-                        @continue(!$field->isDetailable())
-                        <?php
-                            // If a special template exists, use it. Else use the generic template
-                            $uitypeViewName = sprintf('uitypes.detail.%s', $field->uitype->name);
-                            $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
-                            $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
-                        ?>
-                        @include($uitypeViewToInclude)
-                    @endforeach
-                    </div>
-                </div>
+                @endforeach
+
+                {{-- Related lists as tabs --}}
+                @include('uccello::modules.default.detail.relatedlists.as-tabs')
+
+                {{-- Other tabs --}}
+                @yield('other-tabs')
             </div>
-            @endforeach
-        @endforeach
-    @show
+        @show
 
-    {{-- Other blocks --}}
-    @yield('other-blocks')
+        {{-- Other blocks --}}
+        @yield('other-blocks')
     </div>
 
+    {{-- Action buttons --}}
     @section('page-action-buttons')
-    <div id="page-action-buttons">
-        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => $record->id]) }}" class="btn bg-green btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.edit', $module) }}" data-toggle="tooltip" data-placement="top">
-            <i class="material-icons">edit</i>
-        </a>
-
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => $record->id]) }}" class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="top">
-            <i class="material-icons">delete</i>
-        </a>
-    </div>
+        @include('uccello::modules.default.detail.buttons')
     @show
+@endsection
+
+@section('extra-content')
+    {{-- Relatedlist selection modal --}}
+    @include('uccello::modules.default.detail.relatedlists.selection-modal.modal')
 @endsection

@@ -13,7 +13,7 @@ class CreatePrivilegesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'privileges', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'privileges', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('domain_id');
             $table->unsignedInteger('role_id');
@@ -22,11 +22,11 @@ class CreatePrivilegesTable extends Migration
 
             // Foreign keys
             $table->foreign('domain_id')
-                    ->references('id')->on($this->tablePrefix . 'domains')
+                    ->references('id')->on($this->tablePrefix.'domains')
                     ->onDelete('cascade');
 
             $table->foreign('role_id')
-                    ->references('id')->on($this->tablePrefix . 'roles')
+                    ->references('id')->on($this->tablePrefix.'roles')
                     ->onDelete('cascade');
 
             $table->foreign('user_id')
@@ -34,7 +34,7 @@ class CreatePrivilegesTable extends Migration
                     ->onDelete('cascade');
 
             // Unique keys
-            $table->unique(['domain_id', 'role_id', 'user_id']);
+            $table->unique([ 'domain_id', 'role_id', 'user_id' ]);
         });
     }
 
@@ -45,6 +45,6 @@ class CreatePrivilegesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'privileges');
+        Schema::dropIfExists($this->tablePrefix.'privileges');
     }
 }

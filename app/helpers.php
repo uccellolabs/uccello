@@ -26,7 +26,7 @@ if (!function_exists('uctrans')) {
      *
      * @see Uccello\Core\Helpers\Uccello
      */
-    function uctrans($key = null, ? Module $module = null, $replace = [], $locale = null)
+    function uctrans($key = null, ? Module $module = null, $replace = [ ], $locale = null)
     {
         return app('uccello')->trans($key, $module, $replace, $locale);
     }
@@ -56,7 +56,7 @@ if (!function_exists('ucroute')) {
      * @param boolean $absolute
      * @return string
      */
-    function ucroute($name, $domain = null, $module = null, $parameters = [], $absolute = true) : string
+    function ucroute($name, $domain = null, $module = null, $parameters = [ ], $absolute = true) : string
     {
         return app('uccello')->route($name, $domain, $module, $parameters, $absolute);
     }
@@ -111,5 +111,47 @@ if (!function_exists('capability')) {
     function capability($nameOrId)
     {
         return app('uccello')->getCapability($nameOrId);
+    }
+}
+
+if (!function_exists('ucasset')) {
+    /**
+     * Get complete path to asset
+     *
+     * @param string $path
+     * @param string $package
+     * @return void
+     */
+    function ucasset($path, $package = 'uccello/uccello')
+    {
+        return asset("vendor/$package/$path");
+    }
+}
+
+if (!function_exists('ucattribute')) {
+    /**
+     * Returns a record attribute value.
+     * It is able to follow a complex path according to models definition (e.g. 'domain.parent.name')
+     *
+     * @param Object $record
+     * @param string $attribute
+     * @return string|Object|Array|null
+     */
+    function ucattribute($record, $attribute)
+    {
+        return app('uccello')->getRecordAttribute($record, $attribute);
+    }
+}
+
+if (!function_exists('ucnotify')) {
+    /**
+     * Uses flash session to display a notification.
+     *
+     * @param string $message
+     * @param string $type
+     * @return void
+     */
+    function ucnotify($message, $type = 'info') {
+        session()->flash('notification-'.$type, $message);
     }
 }

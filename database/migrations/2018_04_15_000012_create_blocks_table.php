@@ -13,23 +13,23 @@ class CreateBlocksTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'blocks', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'blocks', function(Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('module_id')->comment('Decrease queries');
             $table->unsignedInteger('tab_id');
             $table->string('label');
             $table->string('icon')->nullable();
-            $table->string('description')->nullable();
             $table->unsignedInteger('sequence');
+            $table->text('data')->nullable();
             $table->timestamps();
 
             // Foreign keys
             $table->foreign('module_id')
-                ->references('id')->on($this->tablePrefix . 'modules')
+                ->references('id')->on($this->tablePrefix.'modules')
                 ->onDelete('cascade');
 
             $table->foreign('tab_id')
-                    ->references('id')->on($this->tablePrefix . 'tabs')
+                    ->references('id')->on($this->tablePrefix.'tabs')
                     ->onDelete('cascade');
         });
     }
@@ -41,6 +41,6 @@ class CreateBlocksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'blocks');
+        Schema::dropIfExists($this->tablePrefix.'blocks');
     }
 }

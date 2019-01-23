@@ -38,11 +38,11 @@ class AfterSaveEventListener
         $user = $event->record;
 
         $oldPrivileges = $this->getUserPrivileges($event);
-        $newPrivileges = [];
+        $newPrivileges = [ ];
 
-        $roleIds = (array) $event->request->input('roles');
+        $roleIds = (array)$event->request->input('roles');
 
-        foreach($roleIds as $roleId) {
+        foreach ($roleIds as $roleId) {
             $role = Role::find($roleId);
 
             if (is_null($role) || $role->domain->id !== $domain->id) {
@@ -50,7 +50,7 @@ class AfterSaveEventListener
             }
 
             // Create a new privilege and ignore duplicates
-            $newPrivileges[] = Privilege::firstOrCreate([
+            $newPrivileges[ ] = Privilege::firstOrCreate([
                 'domain_id' => $domain->id,
                 'role_id' => $role->id,
                 'user_id' => $user->id
@@ -69,13 +69,13 @@ class AfterSaveEventListener
      */
     protected function getUserPrivileges(AfterSaveEvent $event) : array
     {
-        $privileges = [];
+        $privileges = [ ];
 
         $domain = $event->domain;
         $user = $event->record;
 
         foreach ($user->privileges->where('domain_id', $domain->id) as $privilege) {
-            $privileges[] = $privilege;
+            $privileges[ ] = $privilege;
         }
 
         return $privileges;

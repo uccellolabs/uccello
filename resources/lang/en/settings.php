@@ -1,0 +1,38 @@
+<?php
+
+return [
+    'settings' => 'Settings',
+    'dashboard' => 'Dashboard',
+    'modules.count' => 'Modules',
+    'module.manager' => 'Module manager',
+    'module.manager.main_modules' => 'Main modules',
+    'module.manager.admin_modules' => 'Settings modules',
+    'module.manager.description' => 'You can activate or deactivate a module by clicking on a checkbox.',
+    'menu.manager' => 'Menu manager',
+    'menu.manager.description' => 'Configure menu to access easily to all functionalities.',
+    'menu.link.type.group' => 'Group',
+    'menu.link.type.module' => 'Module',
+    'menu.button.add_group' => 'Add a group',
+    'menu.button.add_route_link' => 'Add a route link',
+    'menu.button.add_link' => 'Add a link',
+    'menu.button.reset' => 'Reset',
+    'menu.group.label' => 'Label',
+    'menu.group.icon' => 'Icon',
+    'menu.link.label' => 'Label',
+    'menu.link.icon' => 'Icon',
+    'menu.link.url' => 'URL',
+    'menu.link.module' => 'Module',
+    'menu.link.route' => 'Route',
+    'menu.type.main' => 'Main',
+    'menu.type.admin' => 'Admin',
+    'menu.icon.see' => 'See',
+    'menu.saved' => 'Saved',
+    'menu.reset.title' => 'Do you want to reset the menu?',
+    'menu.reset.text' => 'The menu will be replaced by the default one.',
+
+    'message.module_activated' => 'Module activated',
+    'message.module_deactivated' => 'Module deactivated',
+
+    'error.module_is_mandatory' => 'This module is mandatory and cannot be deactivated.',
+    'error.module_not_defined' => 'You must define a module name.',
+];

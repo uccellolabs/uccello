@@ -2,12 +2,10 @@
 
 namespace Uccello\Core\Http\Controllers\User;
 
-use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Http\Request;
 use Uccello\Core\Http\Controllers\Core\EditController as CoreEditController;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Models\Profile;
 
 class EditController extends CoreEditController
 {
@@ -23,18 +21,18 @@ class EditController extends CoreEditController
         $record = $this->getRecordFromRequest();
 
         // Get roles already linked to the role
-        $selectedRoleIds = [];
+        $selectedRoleIds = [ ];
 
         if ($record) {
             foreach ($record->rolesOnDomain($domain) as $role) {
-                $selectedRoleIds[] = $role->id;
+                $selectedRoleIds[ ] = $role->id;
             }
         }
 
         // Get all domain roles
-        $roles = [];
+        $roles = [ ];
         foreach ($domain->roles as $role) {
-            $roles[$role->id] = $role->name;
+            $roles[ $role->id ] = $role->name;
         }
 
         // Add data to the view

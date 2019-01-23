@@ -6,11 +6,14 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Uccello\Core\Support\Traits\RelatedlistTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use SoftDeletes;
     use Notifiable;
+    use RelatedlistTrait;
 
     /**
      * The table associated with the model.
@@ -24,7 +27,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [ 'deleted_at' ];
 
     /**
      * The attributes that are mass assignable.
@@ -59,6 +62,31 @@ class User extends Authenticatable
         return $this->hasMany(Privilege::class);
     }
 
+    public function menus()
+    {
+        return $this->hasMany(Menu::class);
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [ ];
+    }
+
     /**
      * Returns record label
      *
@@ -66,7 +94,7 @@ class User extends Authenticatable
      */
     public function getRecordLabelAttribute() : string
     {
-        return trim($this->first_name . ' ' .$this->last_name) ?? $this->username;
+        return trim($this->first_name.' '.$this->last_name) ?? $this->username;
     }
 
     // public function getAccessibleDomainsAttribute() : Collection
@@ -85,7 +113,7 @@ class User extends Authenticatable
     /**
      * Returns user roles on a domain
      *
-     * @param Domain $domain
+     * @param \Uccello\Core\Models\Domain $domain
      * @return \Illuminate\Support\Collection
      */
     public function rolesOnDomain(Domain $domain) : Collection
@@ -93,7 +121,7 @@ class User extends Authenticatable
         $roles = new Collection();
 
         foreach ($this->privileges->where('domain_id', $domain->id) as $privilege) {
-            $roles[] = $privilege->role;
+            $roles[ ] = $privilege->role;
         }
 
         return $roles;
@@ -103,8 +131,8 @@ class User extends Authenticatable
      * Returns all user capabilities on a module in a domain.
      * If the user has a capability in one of the parents of a domain, he also has it in that domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return \Illuminate\Support\Collection
      */
     public function capabilitiesOnModule(Domain $domain, Module $module) : Collection
@@ -133,122 +161,149 @@ class User extends Authenticatable
      * Checks if the user has a capability on a module in a domain.
      *
      * @param string $capabilityName
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function hasCapabilityOnModule(string $capabilityName, Domain $domain, Module $module) : bool
     {
         $capability = capability($capabilityName);
 
-        return $this->is_admin || $this->capabilitiesOnModule($domain, $module)->contains($capability);
+        $userCapabilities = $this->capabilitiesOnModule($domain, $module);
+
+        return $this->is_admin || $userCapabilities->contains($capability);
+    }
+
+    /**
+     * Checks if the user can access to settings panel.
+     * Checks if the user has at least one admin capability on admin modules in a domain.
+     *
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @return boolean
+     */
+    public function canAccessToSettingsPanel(?Domain $domain) : bool
+    {
+        $hasCapability = false;
+
+        if (empty($domain)) {
+            $domain = Domain::first();
+        }
+
+        foreach (Module::all() as $module) {
+            if ($module->isAdminModule() === true && $this->canAdmin($domain, $module)) {
+                $hasCapability = true;
+                break;
+            }
+        }
+
+        return $hasCapability;
     }
 
     /**
      * Checks if the user can admin a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canAdmin(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('admin'), $domain, $module);
+        return $this->hasCapabilityOnModule('admin', $domain, $module);
     }
 
     /**
      * Checks if the user can create a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canCreate(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('create'), $domain, $module);
+        return $this->hasCapabilityOnModule('create', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 
     /**
      * Checks if the user can retrieve a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canRetrieve(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('retrieve'), $domain, $module);
+        return $this->hasCapabilityOnModule('retrieve', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 
     /**
      * Checks if the user can update a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canUpdate(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('update'), $domain, $module);
+        return $this->hasCapabilityOnModule('update', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 
     /**
      * Checks if the user can delete a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canDelete(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('delete'), $domain, $module);
+        return $this->hasCapabilityOnModule('delete', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 
     /**
      * Checks if the user can create by API a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canCreateByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('api-create'), $domain, $module);
+        return $this->hasCapabilityOnModule('api-create', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 
     /**
      * Checks if the user can retrieve by API a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canRetrieveByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('api-retrieve'), $domain, $module);
+        return $this->hasCapabilityOnModule('api-retrieve', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 
     /**
      * Checks if the user can update by API a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canUpdateByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('api-update'), $domain, $module);
+        return $this->hasCapabilityOnModule('api-update', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 
     /**
      * Checks if the user can delete by API a module in a domain.
      *
-     * @param Domain $domain
-     * @param Module $module
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
     public function canDeleteByApi(Domain $domain, Module $module) : bool
     {
-        return $this->hasCapabilityOnModule(capability('api-delete'), $domain, $module);
+        return $this->hasCapabilityOnModule('api-delete', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
 }

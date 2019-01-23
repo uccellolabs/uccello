@@ -22,7 +22,12 @@ class Profile extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [ 'deleted_at' ];
+
+    protected function initTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
 
     public function domain()
     {
@@ -31,7 +36,7 @@ class Profile extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, $this->tablePrefix . 'profiles_roles');
+        return $this->belongsToMany(Role::class, $this->tablePrefix.'profiles_roles');
     }
 
     public function permissions()
@@ -63,7 +68,7 @@ class Profile extends Model
         $permissions = $this->permissions->where('module_id', $module->id);
 
         foreach ($permissions as $permission) {
-            $capabilities[] = $permission->capability;
+            $capabilities[ ] = $permission->capability;
         }
 
         return $capabilities->unique();

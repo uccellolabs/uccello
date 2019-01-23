@@ -59,7 +59,7 @@ class AddDefaultData extends Migration
         $user->first_name = null;
         $user->last_name = 'Admin';
         $user->email = 'admin@uccello.io';
-        $user->password = Hash::make( 'admin');
+        $user->password = Hash::make('admin');
         $user->is_admin = true;
         $user->domain_id = Domain::first()->id;
         $user->save();

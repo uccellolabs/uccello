@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Support\MenuGenerator;
 
 abstract class Controller extends BaseController
 {
@@ -122,6 +123,11 @@ abstract class Controller extends BaseController
 
         // Admin environment
         View::share('admin_env', $this->module->isAdminModule());
+
+        // Menu
+        $menuGenerator = new MenuGenerator();
+        $menuGenerator->makeMenu($this->domain, $this->module);
+        View::share('menu', $menuGenerator->getMenu());
     }
 
     /**
@@ -139,7 +145,7 @@ abstract class Controller extends BaseController
      */
     protected function getAllModules($getAdminModules = false)
     {
-        $modules = [];
+        $modules = [ ];
 
         $allModules = Module::all();
 
@@ -148,7 +154,7 @@ abstract class Controller extends BaseController
         } else {
             foreach ($allModules as $module) {
                 if (!$module->isAdminModule()) {
-                    $modules[] = $module;
+                    $modules[ ] = $module;
                 }
             }
         }
@@ -172,7 +178,7 @@ abstract class Controller extends BaseController
 
         // An id is defined, retrieve the record from the database fail (404)
         if ($this->request->has('id')) {
-            $recordId = (int) $this->request->input('id');
+            $recordId = (int)$this->request->input('id');
             $record = $modelClass::findOrFail($recordId);
         }
         // Make a new empty instance
@@ -195,9 +201,9 @@ abstract class Controller extends BaseController
      * @param  array   $mergeData
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
-    protected function autoView($data = [], $mergeData = [])
+    protected function autoView($data = [ ], $mergeData = [ ])
     {
-        $viewToUse = uccello()->view('uccello', $this->module, $this->viewName);
+        $viewToUse = uccello()->view($this->module->package, $this->module, $this->viewName);
 
         return view($viewToUse, $data, $mergeData);
     }

@@ -3,8 +3,6 @@
 namespace Uccello\Core\Forms;
 
 use Kris\LaravelFormBuilder\Form As DefaultForm;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Schema;
 
 class Form extends DefaultForm
 {
@@ -31,6 +29,11 @@ class Form extends DefaultForm
                 $column = $field->column;
                 $this->getModel()->$column = $field->uitype->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
             }
+        }
+
+        // If the form is not valid display a notification
+        if (! $this->isValid()) {
+            ucnotify(uctrans('notification.form.not.valid', $module), 'error');
         }
 
         parent::redirectIfNotValid($destination);

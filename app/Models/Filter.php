@@ -21,10 +21,46 @@ class Filter extends Model
     protected $casts = [
         'columns' => 'object',
         'conditions' => 'object',
+        'order_by' => 'object',
+        'data' => 'object',
     ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'module_id',
+        'domain_id',
+        'user_id',
+        'name',
+        'type',
+        'columns',
+        'conditions',
+        'order_by',
+        'is_default',
+        'is_public',
+        'data'
+    ];
+
+    protected function initTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
 
     public function module()
     {
         return $this->belongsTo(Module::class);
+    }
+
+    /**
+     * Check if the filter is for read only
+     *
+     * @return boolean
+     */
+    public function getReadOnlyAttribute()
+    {
+        return $this->data->readonly ?? false;
     }
 }

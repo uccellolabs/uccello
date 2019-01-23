@@ -2,12 +2,16 @@
 
 namespace Uccello\Core\Fields\Uitype;
 
+use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Fluent;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Module;
-use Illuminate\Database\Eloquent\Builder;
 
 class Entity implements Uitype
 {
@@ -19,7 +23,7 @@ class Entity implements Uitype
      *
      * @return string
      */
-    public function getFormType(): string
+    public function getFormType() : string
     {
         return 'entity';
     }
@@ -28,25 +32,26 @@ class Entity implements Uitype
      * Returns options for Form builder.
      *
      * @param mixed $record
-     * @param Field $field
-     * @param Module $module
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module): array
+    public function getFormOptions($record, Field $field, Module $module) : array
     {
         if (!is_object($field->data)) {
-            return [];
+            return [ ];
         }
 
-        $options = [];
+        $options = [ ];
 
         if ($field->data->module) {
             $options = [
                 'class' => ucmodule($field->data->module)->model_class ?? null,
-                'property' => $field->data->field ?? 'id',
+                'property' => $field->data->field ?? 'recordLabel',
                 'empty_value' => uctrans('select_empty_value', $module),
                 'selected' => $record->{$field->column} ?? null,
-                'query_builder' => function ($relatedRecord) use($record) {
+                'attr' => [ 'class' => 'form-control show-tick', 'data-live-search' => 'true' ],
+                'query_builder' => function($relatedRecord) use($record) {
                     // If related record class is the same as the record one, ignore the current record
                     if (get_class($relatedRecord) === get_class($record)) {
                         return $relatedRecord->where($relatedRecord->getKeyName(), '!=', $record->getKey());
@@ -67,14 +72,14 @@ class Entity implements Uitype
      */
     public function getDefaultDatabaseColumn(Field $field) : string
     {
-        return $field->name . '_id';
+        return $field->name.'_id';
     }
 
     /**
      * Returns formatted value to display.
      * Uses recordLabel attribute if defined, id else.
      *
-     * @param Field $field
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $record
      * @return string
      */
@@ -105,12 +110,11 @@ class Entity implements Uitype
 
     /**
      * Returns updated query after adding a new search condition.
-     * Uses field data to know in which attribute make the search.
      *
-     * @param Builder query
-     * @param Field $field
+     * @param \Illuminate\Database\Eloquent\Builder query
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $value
-     * @return Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
@@ -127,5 +131,62 @@ class Entity implements Uitype
         }
 
         return $query;
+    }
+
+    /**
+     * Ask the user some specific options relative to a field
+     *
+     * @param \StdClass $module
+     * @param \StdClass $field
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Input\OutputInterface $output
+     * @return void
+     */
+    public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
+    {
+        // Get all modules
+        $modules = Module::orderBy('name')->get();
+
+        $choices = [ ];
+        foreach ($modules as $_module) {
+            $choices[ ] = $_module->name;
+        }
+
+        // Add module itself if necessary
+        if (!in_array($module->name, $choices)) {
+            $choices[ ] = $module->name;
+        }
+
+        // Sort
+        sort($choices);
+
+        // Related module
+        $relatedModule = $output->choice('What is the related module', $choices);
+
+        $field->data->module = $relatedModule;
+    }
+
+    /**
+     * Create field column in the module table
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Illuminate\Database\Schema\Blueprint $table
+     * @return \Illuminate\Support\Fluent
+     */
+    public function createFieldColumn(Field $field, Blueprint $table) : Fluent
+    {
+        return $table->unsignedInteger($this->getDefaultDatabaseColumn($field));
+    }
+
+    /**
+     * Get field column creation in string format (for make:module)
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @return string
+     */
+    public function createFieldColumnStr(Field $field) : string
+    {
+        $column = $this->getDefaultDatabaseColumn($field);
+        return "\$table->unsignedInteger('$column')";
     }
 }

@@ -33,11 +33,11 @@ class CreateUserStructure extends Migration
 
     protected function createModule()
     {
-        $module = new  Module();
+        $module = new Module();
         $module->name = 'user';
         $module->icon = 'person';
         $module->model_class = 'Uccello\Core\Models\User';
-        $module->data = ["admin" => true];
+        $module->data = [ "package" => "uccello/uccello", "admin" => true, "mandatory" => true ];
         $module->save();
 
         return $module;
@@ -57,7 +57,7 @@ class CreateUserStructure extends Migration
         $block = new Block();
         $block->label = 'block.auth';
         $block->icon = 'lock';
-        $block->description = 'block.auth.description';
+        $block->data = [ 'description' => 'block.auth.description' ];
         $block->sequence = 0;
         $block->tab_id = $tab->id;
         $block->module_id = $module->id;
@@ -68,7 +68,7 @@ class CreateUserStructure extends Migration
         $field->name = 'username';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['rules' => 'required|alpha_dash|unique:users,username,%id%'];
+        $field->data = [ 'rules' => 'required|regex:/^[a-zA-Z0-9.-_]+$/|unique:users,username,%id%' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -90,7 +90,7 @@ class CreateUserStructure extends Migration
         $field->name = 'last_name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['rules' => 'required'];
+        $field->data = [ 'rules' => 'required' ];
         $field->sequence = 2;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -101,7 +101,7 @@ class CreateUserStructure extends Migration
         $field->name = 'is_admin';
         $field->uitype_id = uitype('boolean')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['module' => 'domain', 'field' => 'name'];
+        $field->data = [ 'module' => 'domain', 'field' => 'name' ];
         $field->sequence = 3;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -112,7 +112,7 @@ class CreateUserStructure extends Migration
         $field->name = 'password';
         $field->uitype_id = uitype('password')->id;
         $field->displaytype_id = displaytype('create')->id;
-        $field->data = ['rules' => 'required|min:6', 'repeated' => true];
+        $field->data = [ 'rules' => 'required|min:6', 'repeated' => true ];
         $field->sequence = 4;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -132,7 +132,7 @@ class CreateUserStructure extends Migration
         $field->name = 'email';
         $field->uitype_id = uitype('email')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = ['rules' => 'required|email|unique:users,email,%id%'];
+        $field->data = [ 'rules' => 'required|email|unique:users,email,%id%' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -157,11 +157,12 @@ class CreateUserStructure extends Migration
         $filter->user_id = null;
         $filter->name = 'filter.all';
         $filter->type = 'list';
-        $filter->columns = ['id', 'username', 'first_name', 'last_name', 'email', 'created_at', 'updated_at'];
+        $filter->columns = [ 'username', 'first_name', 'last_name', 'email' ];
         $filter->conditions = null;
         $filter->order_by = null;
         $filter->is_default = true;
         $filter->is_public = false;
+        $filter->data = [ 'readonly' => true ];
         $filter->save();
     }
 }

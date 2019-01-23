@@ -5,6 +5,7 @@ export class Edit {
 
     initListeners() {
         this.initDeleteCurrentFileListener()
+        this.initSaveAndNewListener()
     }
 
     initDeleteCurrentFileListener() {
@@ -19,6 +20,16 @@ export class Edit {
             $(event.currentTarget).parents('.current-file:first').remove()
 
 
+        })
+    }
+
+    initSaveAndNewListener() {
+        $('.btn-save-new').on('click', () => {
+            // Set we want to create a new record after save
+            $("input[name='save_new_hdn']").val(1);
+
+            // Submit form
+            $('form.edit-form').submit();
         })
     }
 }

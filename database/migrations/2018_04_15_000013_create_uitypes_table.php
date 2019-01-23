@@ -14,14 +14,14 @@ class CreateUitypesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'uitypes', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'uitypes', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('class');
             $table->timestamps();
 
             // Unique keys
-            $table->unique(['name']);
+            $table->unique([ 'name' ]);
         });
 
         $this->addUitypes();
@@ -34,7 +34,7 @@ class CreateUitypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'uitypes');
+        Schema::dropIfExists($this->tablePrefix.'uitypes');
     }
 
     /**

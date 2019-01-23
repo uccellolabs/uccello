@@ -5,7 +5,13 @@ export class UitypeEntity
         const moduleName = columnData.data.module;
         const recordId = rowData[columnData.db_column]
 
-        let link = `<a href="/${domainSlug}/${moduleName}/detail?id=${recordId}">${cellData}</a>`;
+        let route = laroute.route('uccello.detail', { id: recordId, domain: domainSlug, module: moduleName })
+
+        if(typeof cellData === 'object') {
+            cellData = cellData[columnData.name]
+        }
+
+        let link = `<a href="${route}">${cellData}</a>`;
 
         $(td).html(link)
     }

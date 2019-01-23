@@ -6,14 +6,17 @@ import 'datatables.net-fixedcolumns';
 import 'datatables.net-responsive-bs';
 import 'datatables.net-select';
 import { sprintf } from 'sprintf-js'
+import { Link } from './link'
 
 export class Datatable {
     /**
      * Init Datatable configuration
-     * @param {Element} selector
+     * @param {Element} element
      */
-    init(selector) {
-        let table = $(selector).DataTable({
+    init(element) {
+        let linkManager = new Link(false)
+
+        this.table = $(element).DataTable({
             dom: 'Brtp',
             autoWidth: false, // Else the width is not refreshed on window resize
             responsive: true,
@@ -23,13 +26,24 @@ export class Datatable {
                 url: this.url,
                 type: "POST"
             },
-            order: [[1, 'asc']],
-            columnDefs: this.getDatatableColumnDefs(),
+            pageLength: this.getInitialPageLength(),
+            order: this.getInitialOrder(),
+            columnDefs: this.getDatatableColumnDefs(element),
             createdRow: (row, data, index) => {
                 // Go to detail view when you click on a row
                 $('td:gt(0):lt(-1)', row).click(() => {
                     document.location.href = sprintf(this.rowUrl, data.id);
                 })
+
+                // Init click listener on delete button
+                linkManager.initClickListener(row)
+
+                // Init click listener on the row if a callback is defined
+                if (typeof this.rowClickCallback !== 'undefined') {
+                    $(row).on('click', (event) => {
+                        this.rowClickCallback(event, this.table, data)
+                    })
+                }
             },
             buttons: [
                 {
@@ -42,20 +56,23 @@ export class Datatable {
                     previous: '<',
                     next: '>'
                 }
-            }
+            },
+            aoSearchCols: this.getInitialSearch()
         });
 
         // Config buttons
-        this.configButtons(table)
+        this.configButtons()
 
         // Init search
-        this.initDatatableColumnSearch(table)
+        this.initDatatableColumnSearch()
     }
 
     /**
      * Make datatable columns from filter.
+     * @param {Element} element
+     * @return {array}
      */
-    getDatatableColumnDefs() {
+    getDatatableColumnDefs(element) {
         let selector = new UccelloUitypeSelector.UitypeSelector() // UccelloUitypeSelector is replaced automaticaly by webpack. See webpack.mix.js
 
         let datatableColumns = [];
@@ -89,71 +106,173 @@ export class Datatable {
             defaultContent: '',
             orderable: false,
             searchable: false,
-            createdCell: this.getActionsColumnCreatedCell()
+            createdCell: this.getActionsColumnCreatedCell(element)
         })
 
         return datatableColumns;
     }
 
     /**
-     * Make datatable action column.
+     * Initialize initial columns search, according to selected filter conditions
+     * @return {array}
      */
-    getActionsColumnCreatedCell() {
+    getInitialSearch() {
+        let search = []
+
+        if (this.selectedFilter && this.selectedFilter.conditions && this.selectedFilter.conditions.search) {
+            // First column
+            search.push(null)
+
+            for (let i in this.columns) {
+                let value = null
+
+                let column =  this.columns[i]
+                value = typeof this.selectedFilter.conditions.search[column.name] !== 'undefined' ? this.selectedFilter.conditions.search[column.name] : null
+
+                if (value) {
+                    search.push({sSearch: value})
+                } else {
+                    search.push(null)
+                }
+            }
+
+            // Last column
+            search.push(null)
+        }
+
+        return search
+    }
+
+    /**
+     * Get initial order
+     * @return {array}
+     */
+    getInitialOrder() {
+        let order = [[1, 'asc']] // Default
+        if (this.selectedFilter && this.selectedFilter.data && this.selectedFilter.data.order) {
+            order = this.selectedFilter.data.order
+        }
+
+        return order
+    }
+
+    /**
+     * Get initial page length
+     * @return {integer}
+     */
+    getInitialPageLength() {
+        let length = 15 // Default
+        if (this.selectedFilter && this.selectedFilter.data && this.selectedFilter.data.length) {
+            length = this.selectedFilter.data.length
+        }
+
+        return length
+    }
+
+    /**
+     * Make datatable action column.
+     * @param {Element} element
+     */
+    getActionsColumnCreatedCell(element) {
         return (td, cellData, rowData, row, col) => {
+            var dataTableContainer = $(element).parents('.dataTable-container:first');
+
             // Copy buttons from template
-            let editButton = $("#template .edit-btn").clone().tooltip().appendTo($(td))
-            let deleteButton = $("#template .delete-btn").clone().tooltip().appendTo($(td))
+            let editButton = $(".template .edit-btn", dataTableContainer).clone().tooltip().appendTo($(td))
+            let deleteButton = $(".template .delete-btn", dataTableContainer).clone().tooltip().appendTo($(td))
 
             // Config edit link url
-            let editLink = editButton.attr('href').replace('RECORD_ID', rowData.id)
-            editButton.attr('href', editLink)
+            if (editButton.attr('href')) {
+                let editLink = editButton.attr('href').replace('RECORD_ID', rowData.id)
+                editButton.attr('href', editLink)
+            }
 
             // Config delete link url
-            let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
-            deleteButton.attr('href', deleteLink)
+            if (deleteButton.attr('href')) {
+                let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
+
+                // if relation_id is defined, replace RELATION_ID
+                if (rowData.relation_id) {
+                    deleteLink = deleteLink.replace('RELATION_ID', rowData.relation_id)
+                }
+
+                deleteButton.attr('href', deleteLink)
+            }
         }
     }
 
     /**
      * Config buttons to display them correctly
-     * @param {Datatable} table
      */
-    configButtons(table) {
+    configButtons() {
+        let table = this.table
+
         // Get buttons container
-        var buttonsContainer = table.buttons().container()
+        let buttonsContainer = table.buttons().container()
 
-        // Move buttons
-        buttonsContainer.appendTo('#action-buttons');
+        // Retrieve container
+        let dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
 
-        $('button', buttonsContainer).each((index, element) => {
-            // Replace <span>...</span> by its content
-            $(element).html($('span', element).html())
+        // Remove old buttons if datatable was initialized before (e.g. in related list selection modal)
+        $('.action-buttons .buttons-colvis', dataTableContainer).remove()
 
-            // Add icon and effect
-            $(element).addClass('icon-right waves-effect bg-primary')
-            $(element).removeClass('btn-default')
-            $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
-        })
+        // Display mini buttons (related lists)
+        if (dataTableContainer.data('button-size') === 'mini') {
 
-        // Move to the right
-        $('#action-buttons .btn-group').addClass('pull-right')
+            $('button', buttonsContainer).each((index, element) => {
+                // Get content and use it as a title
+                let title = $('span', element).html()
+
+                // Add icon and effect
+                $(element)
+                    .addClass('btn-circle waves-effect waves-circle waves-float bg-primary')
+                    .removeClass('btn-default')
+                    .html('<i class="material-icons">view_column</i>')
+                    .attr('title', title)
+                    .tooltip({
+                        placement: 'top'
+                    })
+
+                // Move button
+                $(element).prependTo($('.action-buttons', dataTableContainer))
+            })
+        }
+        // Display classic buttons (list)
+        else {
+            // Move buttons
+            buttonsContainer.appendTo($('.action-buttons', dataTableContainer));
+
+            $('button', buttonsContainer).each((index, element) => {
+                // Replace <span>...</span> by its content
+                $(element).html($('span', element).html())
+
+                // Add icon and effect
+                $(element).addClass('icon-right waves-effect bg-primary')
+                $(element).removeClass('btn-default')
+                $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
+            })
+
+            // Move to the right
+            $('.action-buttons .btn-group', dataTableContainer).addClass('pull-right')
+        }
 
         // Change records number
         $('ul#items-number a').on('click', (event) => {
             let recordsNumber = $(event.target).data('number')
             $('strong.records-number').text(recordsNumber)
-            table.page.len(recordsNumber).draw();
+            table.page.len(recordsNumber).draw()
         })
 
-        $(".dataTables_paginate").appendTo(".paginator")
+        $(".dataTables_paginate", dataTableContainer).appendTo($('.paginator', dataTableContainer))
     }
 
     /**
      * Config column search.
-     * @param {Datatable} table
      */
-    initDatatableColumnSearch(table)
+    initDatatableColumnSearch()
     {
+        let table = this.table
+
         let timer = 0
 
         // Config each column
@@ -179,15 +298,16 @@ export class Datatable {
         })
 
         // Add clear search button listener
-        this.addClearSearchButtonListener(table)
+        this.addClearSearchButtonListener()
     }
 
     /**
      * Clear datatable search
-     * @param {Datatable} table
      */
-    addClearSearchButtonListener(table)
+    addClearSearchButtonListener()
     {
+        let table = this.table
+
         $('.actions-column .clear-search').on('click', (event) => {
             // Clear all search fields
             $('.dataTable thead input, .dataTable thead select').val(null).change()

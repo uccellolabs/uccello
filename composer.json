@@ -1,17 +1,22 @@
 {
     "name": "uccello/uccello",
     "type": "library",
-    "description": "CRUD core fore Laravel projects.",
+    "description": "Uccello is a Laravel Package for providing a way to make easily complete web applications.",
     "keywords": [
-        "sardoj",
-        "uccello"
+        "uccellolabs",
+        "uccello",
+        "laravel",
+        "application",
+        "crud",
+        "admin",
+        "panel"
     ],
-    "homepage": "https://github.com/sardoj/uccello",
+    "homepage": "https://github.com/uccello-io/uccello",
     "license": "MIT",
     "authors": [
         {
             "name": "Jonathan SARDO",
-            "email": "sardoj@gmail.com",
+            "email": "jonathan@uccellolabs.com",
             "homepage": "https://github.com/sardoj",
             "role": "Developer"
         }
@@ -21,15 +26,22 @@
         "cviebrock/eloquent-sluggable": "^4.5",
         "doctrine/dbal": "^2.7",
         "kris/laravel-form-builder": "^1.14",
-        "lord/laroute" : "2.*",
-        "spatie/laravel-menu": "~3.1"
+        "lord/laroute": "2.*",
+        "spatie/laravel-menu": "^3.2",
+        "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.1",
+        "laravel/dusk": "^3.0",
+        "orchestra/testbench": "^3.7",
         "phpunit/phpunit": "^7.1",
         "squizlabs/php_codesniffer": "^2.3"
     },
     "autoload": {
+        "classmap": [
+            "database/seeds",
+            "database/factories"
+        ],
         "psr-4": {
             "Uccello\\Core\\": "app/",
             "Uccello\\Core\\Seeds\\": "database/seeds/"
@@ -44,13 +56,14 @@
         }
     },
     "scripts": {
-        "test": "../../../vendor/bin/phpunit",
+        "test": "../../../vendor/bin/phpunit --bootstrap=./vendor/autoload.php",
+        "test-coverage": "../../../vendor/bin/phpunit --bootstrap=./vendor/autoload.php --coverage-html=coverage",
         "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
         "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.4.1-dev"
+            "dev-master": "1.0.x-dev"
         },
         "laravel": {
             "providers": [
@@ -61,11 +74,13 @@
             "aliases": {
                 "Uccello": "Uccello\\Core\\Facades\\Uccello"
             }
-
-
         }
     },
     "config": {
-        "sort-packages": true
-    }
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

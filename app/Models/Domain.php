@@ -24,7 +24,7 @@ class Domain extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = [ 'deleted_at' ];
 
     /**
      * The attributes that should be casted to native types.
@@ -51,6 +51,11 @@ class Domain extends Model
         ];
     }
 
+    protected function initTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function parent()
     {
         return $this->belongsTo(self::class);
@@ -66,6 +71,11 @@ class Domain extends Model
         return $this->hasMany(Privilege::class);
     }
 
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     public function roles()
     {
         return $this->hasMany(Role::class);
@@ -78,7 +88,12 @@ class Domain extends Model
 
     public function modules()
     {
-        return $this->belongsToMany(Module::class, $this->tablePrefix . 'domains_modules');
+        return $this->belongsToMany(Module::class, $this->tablePrefix.'domains_modules');
+    }
+
+    public function menus()
+    {
+        return $this->hasMany(Menu::class);
     }
 
     /**
@@ -87,19 +102,19 @@ class Domain extends Model
      * @param boolean $includeItself
      * @return Collection
      */
-    public function parents($includeItself=true) : Collection
+    public function parents($includeItself = true) : Collection
     {
         $parents = new Collection();
 
         if ($includeItself) {
-            $parents[] = $this;
+            $parents[ ] = $this;
         }
 
         $domain = $this;
 
         while (!is_null($domain->parent)) {
             $domain = $domain->parent;
-            $parents[] = $domain;
+            $parents[ ] = $domain;
         }
 
         return $parents;
@@ -113,5 +128,93 @@ class Domain extends Model
     public function getRecordLabelAttribute() : string
     {
         return $this->name;
+    }
+
+    /**
+     * Returns all admin modules activated in the domain
+     *
+     * @return array
+     */
+    protected function getAdminModulesAttribute() : array
+    {
+        $modules = [ ];
+
+        foreach ($this->modules()->get() as $module) {
+            if ($module->isAdminModule()) {
+                $modules[ ] = $module;
+            }
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Returns all not admin modules activated in the domain
+     *
+     * @return array
+     */
+    protected function getNotAdminModulesAttribute() : array
+    {
+        $modules = [ ];
+
+        foreach ($this->modules()->get() as $module) {
+            if (!$module->isAdminModule()) {
+                $modules[ ] = $module;
+            }
+        }
+
+        return $modules;
+    }
+
+    /**
+     * Return main menu
+     * Priority:
+     * 1. User menu
+     * 2. Domain menu
+     * 3. Default menu
+     *
+     * @return \Uccello\Core\Models\Menu|null
+     */
+    public function getMainMenuAttribute()
+    {
+        $userMenu = auth()->user()->menus()->where('type', 'main')->where('domain_id', $this->id)->first();
+        $domainMenu = $this->menus()->where('type', 'main')->whereNull('user_id')->first();
+        $defaultMenu = Menu::where('type', 'main')->whereNull('domain_id')->whereNull('user_id')->first();
+
+        if (!is_null($userMenu)) {
+            return $userMenu;
+        } elseif (!is_null($domainMenu)) {
+            return $domainMenu;
+        } elseif (!is_null($defaultMenu)) {
+            return $defaultMenu;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Return admin menu
+     * Priority:
+     * 1. User menu
+     * 2. Domain menu
+     * 3. Default menu
+     *
+     * @return \Uccello\Core\Models\Menu|null
+     */
+    public function getAdminMenuAttribute()
+    {
+        $userMenu = auth()->user()->menus()->where('type', 'admin')->where('domain_id', $this->id)->first();
+        $domainMenu = $this->menus()->where('type', 'admin')->whereNull('user_id')->first();
+        $defaultMenu = Menu::where('type', 'admin')->whereNull('domain_id')->whereNull('user_id')->first();
+
+        if (!is_null($userMenu)) {
+            return $userMenu;
+        } elseif (!is_null($domainMenu)) {
+            return $domainMenu;
+        } elseif (!is_null($defaultMenu)) {
+            return $defaultMenu;
+        } else {
+            return null;
+        }
     }
 }

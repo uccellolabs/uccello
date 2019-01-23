@@ -22,6 +22,11 @@ class Permission extends Model
         'profile_id', 'module_id', 'capability_id',
     ];
 
+    protected function initTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function profile()
     {
         return $this->belongsTo(Profile::class);

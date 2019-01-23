@@ -22,6 +22,26 @@ class Field extends Model
         'data' => 'object',
     ];
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'module_id',
+        'block_id',
+        'uitype_id',
+        'displaytype_id',
+        'name',
+        'sequence',
+        'data',
+    ];
+
+    protected function initTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function block()
     {
         return $this->belongsTo(Block::class);
@@ -50,7 +70,7 @@ class Field extends Model
      */
     public function getLabelAttribute() : string
     {
-        return $this->data->label ?? 'field.' . $this->name;
+        return $this->data->label ?? 'field.'.$this->name;
     }
 
     /**

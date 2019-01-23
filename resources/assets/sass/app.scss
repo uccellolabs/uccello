@@ -1,6 +1,7 @@
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://use.fontawesome.com/releases/v5.5.0/css/all.css");
 
 // Bootstrap
 @import '~adminbsb-materialdesign/plugins/bootstrap/css/bootstrap.css';
@@ -23,6 +24,15 @@
 // Colorpicker
 @import '~adminbsb-materialdesign/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css';
 
+// Spinner
+@import '~adminbsb-materialdesign/plugins/jquery-spinner/css/bootstrap-spinner.css';
+
+// Sweet Alert
+@import '~adminbsb-materialdesign/plugins/sweetalert/sweetalert.css';
+
+// jQuery Nestable
+@import '~nestable2/dist/jquery.nestable.min.css';
+
 // JS Tree
 @import '~jstree/dist/themes/default/style.css';
 
@@ -30,7 +40,7 @@
 @import 'adminbsb/_adminbsb';
 
 // Custom
-.card {
+.card, .modal-dialog {
     &.block {
         .block-label-with-icon {
             margin-bottom: 5px;
@@ -47,6 +57,18 @@
             }
         }
     }
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.lowercase {
+    text-transform: lowercase;
 }
 
 .dataTable tr {
@@ -77,12 +99,6 @@
             .email {
                 max-width: 130px;
             }
-        }
-    }
-
-    .menu {
-        .list {
-            //margin-top: 15px;
         }
     }
 }
@@ -144,14 +160,26 @@ div.breadcrumb {
     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 
-    i {
-        color: black;
+    a.module-icon i {
+        color: #333;
         background-color: rgba(0,0,0,.2);
         border-radius: 20px;
         padding: 3px;
         font-size: 18px;
-        margin-right: 25px;
+        margin-right: 10px;
         margin-top: 2px;
+    }
+
+    a.action-button {
+        i {
+            margin-left: 5px;
+            margin-right: 0;
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 3px;
+            font-size: 18px;
+            margin-top: 2px;
+        }
     }
 
     ol.breadcrumb {
@@ -159,9 +187,39 @@ div.breadcrumb {
         padding: 5px 0 0 0;
         margin-right: 25px;
 
-        li a {
+        &.filters {
+            margin-right: 0;
+        }
+
+        &>li>a {
             font-weight: bold;
             color: #333;
+        }
+    }
+
+    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+        width: auto !important;
+    }
+
+    .btn:not(.btn-link):not(.btn-circle),
+    .btn-group,
+    .btn-group-vertical {
+        border-radius: 0;
+        padding: 0;
+        border: none !important;
+    }
+
+    .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+        padding-top: 2px;
+        padding-right: 15px;
+    }
+
+    .manage-filters {
+        position: relative;
+
+        button {
+            font-weight: normal !important;
+            text-align: left !important;
         }
     }
 }
@@ -286,11 +344,11 @@ button {
 
 form.edit-form {
     margin-bottom: 90px;
+}
 
-    label.required::before {
-        content: '* ';
-        color: red;
-    }
+label.required::before {
+    content: '* ';
+    color: red;
 }
 
 div.detail-blocks {
@@ -356,6 +414,10 @@ div.detail-blocks {
     }
 }
 
+.navbar {
+    z-index: 1001;
+}
+
 .navbar-nav > li > a.current-domain {
     position: relative;
     padding-right: 40px;
@@ -390,6 +452,11 @@ div.detail-blocks {
 table.dataTable {
     // min-height: 200px;
 
+    thead > tr > th,
+    thead > tr > td {
+        padding-right: 0;
+    }
+
     thead {
         .sorting:after,
         .sorting_asc:after,
@@ -405,7 +472,7 @@ table.dataTable {
         }
 
         th.actions-column {
-            width: 30px;
+            width: 60px;
             text-align: right;
 
             .clear-search {
@@ -420,7 +487,7 @@ table.dataTable {
 
     tr {
         td:last-child {
-            padding: 6px;
+            padding: 3px;
         }
 
         a.edit-btn,
@@ -437,8 +504,221 @@ table.dataTable {
     }
 
     tbody {
-        td.dataTables_empty {
-            text-align: center;
+        tr {
+
+            td.dataTables_empty {
+                text-align: center;
+            }
+
+            td {
+                padding: 8px;
+            }
         }
     }
+}
+
+
+
+/*
+ * Datatable sort styling
+ */
+ table.dataTable thead th {
+	position: relative;
+	background-image: none !important; /* Remove the DataTables bootstrap integration styling */
+}
+
+table.dataTable thead th.sorting:after {
+	padding-top: 0.12em;
+}
+
+
+
+.material-icons + span.icon-label {
+    position: relative;
+    top: -6px;
+    left: 7px;
+}
+
+.menu-manager.dd {
+    max-width: 100%;
+}
+
+/**
+* Nestable Draggable Handles
+*/
+
+.dd3-content {
+    display: block;
+    cursor: move;
+    height: 30px;
+    margin: 5px 0;
+    padding: 5px 10px 5px 10px;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+
+    i.material-icons {
+        font-size: 20px;
+    }
+}
+
+.dd3-content:hover {
+    color: #2ea8e5;
+    background: #fff;
+}
+
+.dd-dragel > .dd3-item > .dd3-content {
+    margin: 0;
+}
+
+.dd3-item {
+    &[data-type="group"] {
+        > .dd3-content {
+            background-color: #e8f7e9 !important;
+        }
+    }
+
+    &[data-type="link"] {
+        > .dd3-content {
+            background-color: #e8eff7 !important;
+        }
+    }
+
+    &[data-type="route"] {
+        > .dd3-content {
+            background-color: #f7e8e8 !important;
+        }
+    }
+}
+
+.dd3-item > button {
+    margin-left: 30px;
+}
+
+.dd3-handle {
+    position: absolute;
+    margin: 0;
+    left: 0;
+    top: 0;
+    cursor: move;
+    width: 30px;
+    text-indent: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    border: 1px solid #aaa;
+    background: #ddd;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.dd3-actions {
+    display: none;
+    position: absolute;
+    margin: 0;
+    padding: 5px 2px;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    width: 50px;
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+
+    i.material-icons {
+        font-size: 20px;
+    }
+}
+
+.dd3-item[data-type="group"]:hover, .dd3-item[data-type="link"]:hover, .dd3-item[data-type="route"]:hover {
+    > .dd3-content {
+        padding-right: 60px;
+    }
+
+    > .dd3-actions {
+        display: block;
+    }
+}
+
+.sidebar {
+    .user-info {
+        border-bottom: none;
+        height: 100px;
+
+        .image {
+            margin-top: 18px;
+        }
+
+        .info-container {
+            padding-left: 15px;
+            border-left: solid 1px #7a7a7a;
+        }
+    }
+
+    .menu {
+        .list {
+            .ml-menu {
+                li {
+                    a {
+                        padding-left: 50px;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+
+                        span {
+                            padding-top: 3px;
+                            padding-left: 10px;
+                        }
+                    }
+
+                    &.active {
+                        a.toggled:not(.menu-toggle) {
+                            margin-left: 0;
+
+                            &:before {
+                                content: '' // Remove > before
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.bootstrap-select .bs-actionsbox .form-control,
+.bootstrap-select .bs-donebutton .form-control,
+.bootstrap-select .bs-searchbox .form-control {
+    margin-left: 40px;
+}
+
+.colorpicker-2x {
+    .colorpicker-saturation {
+        width: 200px;
+        height: 200px;
+    }
+
+    .colorpicker-hue,
+    .colorpicker-alpha {
+        width: 30px;
+        height: 200px;
+    }
+
+    .colorpicker-color,
+    .colorpicker-color div {
+        height: 30px;
+    }
+}
+
+.selection-modal-content {
+    display: none;
+}
+
+.notification-container {
+    display: none;
 }

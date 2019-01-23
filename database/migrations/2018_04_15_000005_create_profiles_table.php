@@ -13,7 +13,7 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->tablePrefix . 'profiles', function (Blueprint $table) {
+        Schema::create($this->tablePrefix.'profiles', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
@@ -23,7 +23,7 @@ class CreateProfilesTable extends Migration
 
             // Foreign keys
             $table->foreign('domain_id')
-                    ->references('id')->on($this->tablePrefix . 'domains')
+                    ->references('id')->on($this->tablePrefix.'domains')
                     ->onDelete('cascade');
         });
     }
@@ -35,6 +35,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists($this->tablePrefix . 'profiles');
+        Schema::dropIfExists($this->tablePrefix.'profiles');
     }
 }

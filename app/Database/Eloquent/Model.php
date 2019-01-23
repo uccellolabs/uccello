@@ -3,43 +3,40 @@
 namespace Uccello\Core\Database\Eloquent;
 
 use Illuminate\Database\Eloquent\Model as DefaultModel;
+use Uccello\Core\Support\Traits\RelatedlistTrait;
 
 class Model extends DefaultModel
 {
+    use RelatedlistTrait;
+
     protected $tablePrefix;
 
-    public function __construct(array $attributes = [])
+    public function __construct(array $attributes = [ ])
     {
         parent::__construct($attributes);
 
-        // Set table prefix
-        $this->setTablePrefix();
+        // Init table prefix
+        $this->initTablePrefix();
 
-        // Set table name
-        $this->setTableName();
+        // Init table name
+        $this->initTableName();
     }
 
-    protected function setTablePrefix()
+    public function getTablePrefix()
     {
-        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+        return $this->tablePrefix;
     }
 
-    protected function setTableName()
+    protected function initTablePrefix()
     {
-        if($this->table)
+        $this->tablePrefix = '';
+    }
+
+    protected function initTableName()
+    {
+        if ($this->table)
         {
-            $this->table = $this->tablePrefix . $this->table;
+            $this->table = $this->tablePrefix.$this->table;
         }
-    }
-
-    /**
-     * Returns record label
-     * Default: id
-     *
-     * @return string
-     */
-    public function getRecordLabelAttribute() : string
-    {
-        return $this->getKey();
     }
 }

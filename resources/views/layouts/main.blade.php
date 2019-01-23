@@ -20,12 +20,12 @@
     @yield('extra-meta')
 
     {{-- Favicon --}}
-    <link rel="icon" href="img/favicon.png" type="image/x-icon">
+    <link rel="icon" href="{{ ucasset('images/favicon.png') }}" type="image/x-icon">
     <base href="/">
 
     {{-- CSS --}}
     @section('css')
-        {{ Html::style('css/app.css') }}
+        {{ Html::style(ucasset('css/app.css')) }}
     @show
 
     {{-- Extra CSS --}}
@@ -41,19 +41,24 @@
     </section>
     @show
 
+    @yield('extra-content')
+
+    {{-- Flash notifications --}}
+    @include('uccello::layouts.partials.notifications.main')
+
     @section('script')
-    {{ Html::script('http://momentjs.com/downloads/moment-with-locales.min.js') }}
-    {{ Html::script(mix('js/manifest.js')) }}
-    {{ Html::script(mix('js/vendor.js')) }}
-    {{ Html::script(mix('js/app.js')) }}
+    {{ Html::script('//momentjs.com/downloads/moment-with-locales.min.js') }}
+    {{ Html::script(ucasset('js/manifest.js')) }}
+    {{ Html::script(ucasset('js/vendor.js')) }}
+    {{ Html::script(ucasset('js/app.js')) }}
     {{ Html::script('js/laroute.js') }}
     @show
 
-    @yield('extra-script')
-
     @section('autoloader-script')
-    {{ Html::script(mix('js/autoloader.js')) }}
+    {{ Html::script(ucasset('js/autoloader.js')) }}
     @show
+
+    @yield('extra-script')
 </body>
 
 </html>

@@ -8,6 +8,14 @@
         background-color: $theme-uccello;
     }
 
+    .col-primary {
+        color: $theme-uccello !important;
+    }
+
+    .text-danger {
+        color: $theme-red;
+    }
+
     .navbar {
         background-color: $theme-uccello;
     }
@@ -67,16 +75,9 @@
 
         .user-info {
             background-color: $theme-uccello-sidebar-user-info;
-            border-bottom: none;
-            height: 100px;
-
-            .image {
-                margin-top: 18px;
-            }
 
             .info-container {
                 border-left: solid 1px $theme-uccello;
-                padding-left: 15px;
             }
         }
 
@@ -104,13 +105,13 @@
                 }
 
                 li.active {
-                    background-color: $theme-uccello-menu-list-active;
 
-                    a {
-                        padding-left: 8px;
+                    a.toggled:not(.menu-toggle) {
+                        background-color: $theme-uccello-menu-list-active;
                     }
 
                     > :first-child {
+
                         i, span {
                             color: $theme-uccello-menu-list-color;
                         }
@@ -120,10 +121,6 @@
                 .toggled {
                     background-color: $theme-uccello-menu-list-toggled;
                     border-left: solid 3px $theme-uccello;
-                }
-
-                .ml-menu {
-                    background-color: $theme-uccello-menu-list-submenu;
                 }
             }
         }
@@ -161,24 +158,29 @@
                     color: $theme-uccello;
                 }
             }
+        }
 
-
+        .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+            color: $theme-uccello;
         }
     }
 
-    .card {
-        .header {
-            h2 {
-                div.block-label-with-icon {
-                    i {
-                        color: $theme-uccello;
-                    }
-                }
-
-                small {
-                    margin-left: 35px;
-                }
+    .card .header h2,
+    .modal .modal-header h4 {
+        div.block-label-with-icon {
+            i {
+                color: $theme-uccello;
             }
+        }
+
+        small {
+            margin-left: 35px;
+        }
+    }
+
+    .modal .modal-header h4 {
+        span {
+            margin-left: 7px;
         }
     }
 
@@ -192,6 +194,11 @@
 
     .form-group .form-line:after {
         border-bottom: 2px solid $theme-uccello;
+    }
+
+    .form-group .form-line.error:after {
+        border-bottom: 2px solid $theme-red;
+
     }
 
     .nav-tabs {

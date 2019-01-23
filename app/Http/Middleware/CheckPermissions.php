@@ -4,10 +4,7 @@ namespace Uccello\Core\Http\Middleware;
 
 use Closure;
 use Auth;
-use Uccello\Core\Models\User;
-use Uccello\Core\Models\Permission;
 use Uccello\Core\Models\Domain;
-use Uccello\Core\Models\Module;
 
 class CheckPermissions
 {
@@ -34,7 +31,9 @@ class CheckPermissions
         }
 
         $isModuleActive = $module->isActiveOnDomain($domain);
-        $isUserAllowed =  $user->hasCapabilityOnModule($capability, $domain, $module);
+
+        // An user is allowed if he has the capability or if it is an admin module and the user can admin it
+        $isUserAllowed = $user->hasCapabilityOnModule($capability, $domain, $module) || ($module->isAdminModule() && $user->canAdmin($domain, $module));
 
         if (!$isModuleActive) {
             return abort(404);

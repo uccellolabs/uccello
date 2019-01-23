@@ -20,13 +20,16 @@ class EditForm extends Form
         // Get module data
         $module = $this->getData('module');
 
+        // Get request data
+        $request = $this->getData('request');
+
         // Make route params
-        $routeParams = [];
+        $routeParams = [ ];
 
         // Get and add record id to route params if defined
         $recordId = $this->getModel()->getKey() ?? null;
         if ($recordId ?? false) {
-            $routeParams['id'] = $recordId;
+            $routeParams[ 'id' ] = $recordId;
         }
 
         // Get mode
@@ -69,16 +72,37 @@ class EditForm extends Form
             ]
         ]);
 
-        // Add a save and new button
-        $this->add('save_new_btn', 'submit', [
-            'label' => '<i class="material-icons">add</i>',
-            'attr' => [
-                'class' => 'btn bg-primary btn-circle-lg waves-effect waves-circle waves-float btn-save-new',
-                'title' => uctrans('button.save_new', $module),
-                'data-toggle' => 'tooltip',
-                'data-placement' => 'top',
-            ]
-        ]);
+        // Add a save and new button if we are not making a relation (else it will be difficult to redirect to the source record)
+        if (!$request->input('relatedlist')) {
+            $this->add('save_new_btn', 'button', [
+                'label' => '<i class="material-icons">add</i>',
+                'attr' => [
+                    'class' => 'btn bg-primary btn-circle-lg waves-effect waves-circle waves-float btn-save-new',
+                    'title' => uctrans('button.save_new', $module),
+                    'data-toggle' => 'tooltip',
+                    'data-placement' => 'top',
+                ]
+            ]);
+
+            // Add a save and new hidden value
+            $this->add('save_new_hdn', 'hidden');
+        }
+
+        // Add related list data
+        if ($request->input('relatedlist') && $request->input('src_id')) {
+            $relatedlistId = $request->input('relatedlist');
+            $sourceRecordId = $request->input('src_id');
+
+            $this->add('relatedlist', 'hidden', [ 'value' => $relatedlistId ]);
+            $this->add('src_id', 'hidden', [ 'value' => $sourceRecordId ]);
+        }
+
+        // Add selected tab data
+        if ($request->input('tab')) {
+            $tabId = $request->input('tab');
+
+            $this->add('tab', 'hidden', [ 'value' => $tabId ]);
+        }
     }
 
     /**
@@ -102,7 +126,7 @@ class EditForm extends Form
      */
     protected function getFieldOptions(Field $field): array
     {
-        $options = [];
+        $options = [ ];
 
         if ($field->data->repeated ?? false) {
             $options = $this->getRepeatedFieldOptions($field);
@@ -124,21 +148,28 @@ class EditForm extends Form
         // Get module data
         $module = $this->getData('module');
 
+        // Request
+        $request = $this->getData('request');
+
         // Check if required CSS class must be added
         $requiredClass = $field->required ? 'required' : '';
 
         $options = [
             'label' => uctrans($field->label, $module),
-            'label_attr' => ['class' => 'form-label' . $requiredClass],
+            'label_attr' => [ 'class' => 'form-label'.$requiredClass ],
             'rules' => $this->getFieldRules($field),
             'attr' => [
                 'class' => 'form-control'
             ]
         ];
 
+        if ($request->input($field->name)) {
+            $selectedValue = $request->input($field->name);
+        }
+
         // Set default value only if it is a creation (record id doen't exist)
         if (is_null($this->getModel()->getKey())) {
-            $options['default_value'] = $field->data->default ?? null;
+            $options[ 'default_value' ] = $selectedValue ?? $field->data->default ?? null;
         }
 
         // Add other options
@@ -179,8 +210,8 @@ class EditForm extends Form
 
         // Second field have default options too, except label and rules (already verified in the first field)
         $secondFieldOptions = $firstFieldOptions;
-        $secondFieldOptions['label'] = uctrans($field->label.'_confirmation', $module);
-        $secondFieldOptions['rules'] = null;
+        $secondFieldOptions[ 'label' ] = uctrans($field->label.'_confirmation', $module);
+        $secondFieldOptions[ 'rules' ] = null;
 
         return [
             'type' => $this->getFormBuilderType($field),
@@ -196,7 +227,7 @@ class EditForm extends Form
      * @param Field $field
      * @return string|null
      */
-    protected function getFieldRules(Field $field) : ?string
+    protected function getFieldRules(Field $field) : ?array
     {
         $rules = null;
 
@@ -216,7 +247,7 @@ class EditForm extends Form
             }
         }
 
-        return $rules;
+        return explode('|', $rules); // We transform into array because specify validation rules with regex separated by pipeline can lead to undesired behavior (see: https://stackoverflow.com/questions/42577045/laravel-5-4-validation-with-regex)
     }
 
     /**

@@ -1,19 +1,47 @@
 language: php
 
 php:
-  - 7.1
+  - 7.3
   - 7.2
+  - 7.1
+
+services:
+  - mysql
+  - memcached
 
 env:
-  - LARAVEL_VERSION="5.6"
-  - LARAVEL_VERSION="5.5"
+  - LARAVEL_VERSION="5.7"
 
 before_script:
+  - composer self-update
   - composer create-project --prefer-dist laravel/laravel ../laravel $LARAVEL_VERSION && cd ../laravel
-  - mkdir vendor/uccello
-  - mv ../uccello vendor/uccello && cd vendor/uccello/uccello
-  - sh -c "mysql -e 'CREATE DATABASE laravel_test;'"
-  - mv .env.travis .env
+  - mv ../uccello/.travis/.env.testing ./.env
+  - mv ../uccello/.travis/composer.json .
+  - mv ../uccello/.travis/phpunit.xml .
+  - mv ../uccello/.travis/app/Http/Kernel.php ./app/Http
+  - mv ../uccello/.travis/config/app.php ./config
+  - mkdir packages && mkdir packages/uccello
+  - mv ../uccello packages/uccello
+  - composer update uccello/uccello
+  - sh -c "mysql -e 'CREATE DATABASE uccello_test;'"
+  - php artisan key:generate
+  - php artisan config:clear
+  - php artisan migrate
+  - php artisan uccello:install
+  - cd packages/uccello/uccello
+  - composer install --no-interaction
 
 script:
-  - composer run test
+  - composer test
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client

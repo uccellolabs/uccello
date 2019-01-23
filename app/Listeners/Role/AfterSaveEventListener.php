@@ -37,7 +37,7 @@ class AfterSaveEventListener
         $role = $event->record;
 
         $oldProfileIds = $role->profiles->pluck('id')->toArray();
-        $selectedProfileIds = (array) $event->request->input('profiles');
+        $selectedProfileIds = (array)$event->request->input('profiles');
 
         // Note: All selected profiles - Old profiles = New profiles
         $newProfileIds = array_diff($selectedProfileIds, $oldProfileIds);

@@ -13,6 +13,35 @@ class Block extends Model
      */
     protected $table = 'blocks';
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'object',
+    ];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'module_id',
+        'tab_id',
+        'label',
+        'icon',
+        'description',
+        'sequence',
+        'data',
+    ];
+
+    protected function initTablePrefix()
+    {
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
     public function tab()
     {
         return $this->belongsTo(Tab::class);
@@ -21,5 +50,10 @@ class Block extends Model
     public function fields()
     {
         return $this->hasMany(Field::class)->orderBy('sequence');
+    }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->data->description ?? null;
     }
 }

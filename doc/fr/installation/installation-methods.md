@@ -6,12 +6,12 @@ Il existe pour le moment **deux moyens** d'installer Uccello :
 
 > **Pré-requis :** [Composer](https://getcomposer.org/) doit être installé sur le serveur web sur lequel se trouvera votre installation d'Uccello.
 
-- [Installer une version pré-configurée d'Uccello](#uccello-project)
-- [Ajouter Uccello à un projet Laravel](#from-laravel)
+- [Installer une version pré-configurée d'Uccello](#installer-une-version-pré-configurée-duccello)
+- [Ajouter Uccello à un projet Laravel](#ajouter-uccello-à-un-projet-laravel)
 
 
 
-## Installer une version pré-configurée d'Uccello {#uccello-project}
+## Installer une version pré-configurée d'Uccello
 
 ### 1. Créer le projet
 
@@ -72,11 +72,11 @@ Mot de passe : admin
 
 
 
-## Ajouter Uccello à un projet Laravel {#from-laravel}
+## Ajouter Uccello à un projet Laravel
 
 Il est tout à fait possible d'utiliser Uccello sur un projet **Laravel** existant.
 
-> **Attention :** Étant donné qu'Uccello possède sa propre interface d'authentification et d'erreurs, pensez à faire une sauvegarde des fichiers suivants et à les réadapter si nécessaire : 
+> **Attention :** Étant donné qu'Uccello possède sa propre interface d'authentification et d'erreurs, pensez à faire une sauvegarde des fichiers suivants et à les réadapter si nécessaire :
 >
 > <u>Pour la mise en page générale</u>
 >
@@ -129,7 +129,7 @@ Dans tous les cas, il sera nécessaire d'ajouter le code suivant dans le fichier
 ],
 ```
 
-Exécutez ensuite la commande suivante afin d'extraire tous les fichiers nécessaires au bon fonctionnement d'Uccello : 
+Exécutez ensuite la commande suivante afin d'extraire tous les fichiers nécessaires au bon fonctionnement d'Uccello :
 
 ```bash
 $ php artisan uccello:install
@@ -149,7 +149,7 @@ protected $routeMiddleware = [
 
 ### 3. Configurer les routes
 
-Ajoutez le code suivant dans le fichier `routes/web.php` afin de générer automatiquement la route pour la page d'accueil : 
+Ajoutez le code suivant dans le fichier `routes/web.php` afin de générer automatiquement la route pour la page d'accueil :
 
 ```
 Route::get('/', function() {

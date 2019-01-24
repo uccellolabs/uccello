@@ -14,8 +14,8 @@ Découvrez comment créer facilement avec Uccello, **l'application qui fera déc
   - Programmation Orientée Fonctionnalité
   - Génération automatique de l'interface graphique
 - Installation
-  - [Installer une version pré-configurée d'Uccello](./installation/installation-methods#uccello-project)
-  - [Ajouter Uccello à un projet Laravel](./installation/installation-methods#from-laravel)
+  - [Installer une version pré-configurée d'Uccello](./installation/installation-methods.md#installer-une-version-pré-configurée-duccello)
+  - [Ajouter Uccello à un projet Laravel](./installation/installation-methods.md#ajouter-uccello-à-un-projet-laravel)
 - Base de données
   - [Structure de la base de données](./database/structure.md)
 - Définition

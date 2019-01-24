@@ -151,7 +151,7 @@ class Text implements Uitype
 }
 ```
 
-#### Classe javascript
+#### Classe JavasSript
 La représentation de l'uitype `text` dans les cellules de tableaux `Datatables` est assurée par le fichier `resources/assets/js/uitypes/text.js`.
 
 ``` javascript

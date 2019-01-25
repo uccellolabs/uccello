@@ -5,6 +5,8 @@
 Il existe pour le moment **deux moyens** d'installer Uccello :
 
 > **Pré-requis :** [Composer](https://getcomposer.org/) doit être installé sur le serveur web sur lequel se trouvera votre installation d'Uccello.
+>
+> Si vous souhaitez avoir un environnement de développement facile à mettre en place, nous vous encourageons à utiliser [Homestead](https://laravel.com/docs/5.7/homestead) ou [Valet](https://laravel.com/docs/5.7/valet) qui ont été prévus pour cela.
 
 - [Installer une version pré-configurée d'Uccello](#installer-une-version-pré-configurée-duccello)
 - [Ajouter Uccello à un projet Laravel](#ajouter-uccello-à-un-projet-laravel)

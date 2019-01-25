@@ -6,7 +6,7 @@ Les outils existants sont bien souvent **trop coûteux** ou alors **pas vraiment
 
 Découvrez comment créer facilement avec Uccello, **l'application qui fera décoller votre activité** !
 
-
+![Logo Uccello](./assets/logo-uccello.png)
 
 ## Sommaire
 
@@ -49,4 +49,8 @@ Découvrez comment créer facilement avec Uccello, **l'application qui fera déc
   - Avec composer
   - À partir d'un fichier zip
   - Depuis le marketplace
+- Tutoriel (Clockify)
+  - [Création des modules](./tutorial/clockify/get-started.md)
+  - [Personnalisation de l'interface](./tutorial/clockify/custom-interface.md)
+  - Un peu de JavaScript
 

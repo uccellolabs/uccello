@@ -722,3 +722,7 @@ table.dataTable thead th.sorting:after {
 .notification-container {
     display: none;
 }
+
+.form-group.form-choice label:not(.control-label), .form-group.form-fixed label:not(.checkbox-label), .form-group.form-switch label:not(.switch-label) {
+    z-index: 100;
+}

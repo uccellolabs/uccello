@@ -6,9 +6,7 @@
 <meta name="record" content="{{ $record->id }}">
 @endsection
 
-@section('content')
-
-    @section('breadcrumb')
+@section('breadcrumb')
     <div class="row">
         <div class="col-sm-6 col-xs-12">
             <div class="breadcrumb pull-left">
@@ -30,8 +28,9 @@
             @include('uccello::modules.default.detail.links')
         @show
     </div>
-    @show
+@endsection
 
+@section('content')
     {{-- Tab list --}}
     @include('uccello::modules.default.detail.tabs')
 

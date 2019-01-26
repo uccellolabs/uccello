@@ -449,11 +449,11 @@ What is the module name? (e.g. book-type):
  Default route [uccello.list]:
  >
 
-+---------+---------+-------------+----------+--------+--------+-----------+-------------+
-| Name    | Package | Model       | Table    | Prefix | Icon   | For admin |Default route|
-+---------+---------+-------------+----------+--------+--------+-----------+-------------+
-| project |         | App\Project | projects |        | folder | No        |uccello.list |
-+---------+---------+-------------+----------+--------+--------+-----------+-------------+
++---------+---------+-------------+----------+--------+--------+-----------+---------------+
+| Name    | Package | Model       | Table    | Prefix | Icon   | For admin | Default route |
++---------+---------+-------------+----------+--------+--------+-----------+---------------+
+| project |         | App\Project | projects |        | folder | No        | uccello.list |
++---------+---------+-------------+----------+--------+--------+-----------+---------------+
 
  Is this information correct? (yes/no) [yes]:
  >
@@ -755,7 +755,7 @@ $ php artisan make:module
  Default route [uccello.list]:
  >
 
-+-----------------+---------+--------------------+------------------+--------+-----------+
++-----------------+---------+--------------------+------------------+--------+-------------+-----------+---------------+
 | Name            | Package | Model              | Table            | Prefix | Icon        | For admin | Default route |
 +-----------------+---------+--------------------+------------------+--------+-------------+-----------+---------------+
 | working-session |         | App\WorkingSession | working-sessions |        | access_time | No        | uccello.list  |

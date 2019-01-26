@@ -1,4 +1,4 @@
-<?php $isLarge = $field->data->large ?? false; ?>
+<?php $isLarge = $forceLarge ?? $field->data->large ?? false; ?>
 <?php $color = $record->{$field->name} ?? 'transparent'; ?>
 <div class="col-sm-2 col-xs-5">
     <strong>{{ uctrans($field->label, $module) }}</strong>

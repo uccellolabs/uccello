@@ -2,9 +2,7 @@
 
 @section('page', 'module-manager')
 
-@section('content')
-
-    @section('breadcrumb')
+@section('breadcrumb')
     <div class="row">
         <div class="col-xs-12">
             <div class="breadcrumb pull-left">
@@ -20,8 +18,9 @@
             </div>
         </div>
     </div>
-    @show
+@endsection
 
+@section('content')
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="card block" id="modules-list">

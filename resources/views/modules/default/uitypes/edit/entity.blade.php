@@ -12,7 +12,7 @@
             @endif
 
             {{-- Field --}}
-            <div class="p-t-10 p-b-5">
+            <div class="p-b-5">
                 {!! form_widget($form->{$field->name}) !!}
             </div>
         </div>

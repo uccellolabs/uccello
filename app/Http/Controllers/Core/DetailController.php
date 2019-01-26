@@ -5,6 +5,7 @@ namespace Uccello\Core\Http\Controllers\Core;
 use Illuminate\Http\Request;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Widget;
 
 
 class DetailController extends Controller
@@ -36,10 +37,16 @@ class DetailController extends Controller
         // Selected related list
         $selectedRelatedlistId = (int)$request->input('relatedlist');
 
+        // Widgets
+        $availableWidgets = Widget::where('type', 'summary')->get(); // TODO: Don't display widgets already added
+        $widgets = $module->widgets()->get(); // TODO: Get wigets with priority (1. User 2. Domain 3. Default)
+
         return $this->autoView([
             'record' => $this->getRecord($recordId),
             'selectedTabId' => $selectedTabId,
-            'selectedRelatedlistId' => $selectedRelatedlistId
+            'selectedRelatedlistId' => $selectedRelatedlistId,
+            'widgets' => $widgets,
+            'availableWidgets' => $availableWidgets,
         ]);
     }
 

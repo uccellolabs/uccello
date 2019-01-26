@@ -4,7 +4,7 @@
     @yield('other-links')
 
     {{-- Add widget --}}
-    @if (Auth()->user()->canAdmin($domain, $module))
+    {{-- @if (Auth()->user()->canAdmin($domain, $module))
     <div class="btn-group add-widget m-l-10">
         <button type="button" class="btn bg-orange icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             {{ uctrans('button.add_widget', $module) }}
@@ -16,7 +16,7 @@
             @endforeach
         </ul>
     </div>
-    @endif
+    @endif --}}
 
     @if (count($module->detailLinks) > 0)
     @foreach ($module->detailLinks as $link)

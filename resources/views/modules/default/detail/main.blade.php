@@ -39,9 +39,11 @@
         @section('default-blocks')
             <div class="tab-content">
                 {{-- Summary --}}
+                @if ($widgets->count() > 0)
                 <div role="tabpanel" id="summary" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')active @endif" >
                     @include('uccello::modules.default.detail.summary')
                 </div>
+                @endif
 
                 {{-- Tabs and blocks --}}
                 @foreach ($module->tabs as $i => $tab)

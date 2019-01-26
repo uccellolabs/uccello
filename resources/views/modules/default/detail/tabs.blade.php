@@ -1,10 +1,12 @@
 <ul class="nav nav-tabs m-b-25" role="tablist">
     {{-- Summary --}}
+    @if ($widgets->count() > 0)
     <li role="presentation" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
         <a href="#summary" data-toggle="tab">
             <i class="material-icons">dashboard</i> {{ uctrans('tab.summary', $module) }}
         </a>
     </li>
+    @endif
     {{-- Tabs --}}
     @foreach ($module->tabs as $i => $tab)
     <li role="presentation" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>

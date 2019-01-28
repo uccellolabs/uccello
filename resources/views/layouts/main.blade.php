@@ -36,7 +36,10 @@
     @yield('pre-content')
 
     @section('content-container')
-    <section class="content">
+    <section class="content @yield('content-class')">
+        {{-- Breadcrumb --}}
+        @yield('breadcrumb')
+        {{-- Content --}}
         @yield('content')
     </section>
     @show

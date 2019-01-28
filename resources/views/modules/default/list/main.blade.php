@@ -8,10 +8,9 @@
     <meta name="selected-filter" content='{!! json_encode($selectedFilter) !!}'>
 @endsection
 
-@section('content')
-<div class="dataTable-container listview">
+@section('content-class', 'dataTable-container listview')
 
-    @section('breadcrumb')
+@section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
             <div class="row">
@@ -74,7 +73,10 @@
             </div>
         </div>
     </div>
-    @show
+@endsection
+
+@section('content')
+    @yield('before-table')
 
     <div class="row clearfix">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="min-height: 600px">
@@ -119,6 +121,8 @@
         </div>
     </div>
 
+    @yield('after-table')
+
     @section('page-action-buttons')
         {{-- Create button --}}
         @if (Auth::user()->canCreate($domain, $module))
@@ -140,7 +144,6 @@
         <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
         @endif
     </div>
-</div>
 @endsection
 
 @section('extra-content')

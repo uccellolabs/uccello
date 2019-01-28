@@ -2,9 +2,7 @@
 
 @section('page', 'edit')
 
-@section('content')
-
-    @section('breadcrumb')
+@section('breadcrumb')
     <div class="row">
         <div class="col-md-12">
             <div class="breadcrumb pull-left">
@@ -22,8 +20,9 @@
             </div>
         </div>
     </div>
-    @show
+@endsection
 
+@section('content')
     {!! form_start($form) !!}
     @section('default-blocks')
         {{-- All defined blocks --}}

@@ -30,6 +30,7 @@ return [
     'button.delete_filter' => 'Delete filter',
     'button.action' => 'Actions',
     'button.cancel' => 'Cancel',
+    'button.add_widget' => 'Add widget',
 
     // Block
     'block.general' => 'General information',
@@ -45,6 +46,7 @@ return [
     'filter.show_n_records' => 'Show :number records',
 
     // Tabs
+    'tab.summary' => 'Summary',
     'tab.main' => 'Details',
 
     // Menu
@@ -94,4 +96,6 @@ return [
     'modal.add_filter.is_public' => 'Share the filter with other users',
     'modal.add_filter.is_default' => 'Apply this filter by default',
 
+    // Summary
+    'summary.no_widget' => 'No widget for the moment.',
 ];

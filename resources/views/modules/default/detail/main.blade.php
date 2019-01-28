@@ -6,9 +6,7 @@
 <meta name="record" content="{{ $record->id }}">
 @endsection
 
-@section('content')
-
-    @section('breadcrumb')
+@section('breadcrumb')
     <div class="row">
         <div class="col-sm-6 col-xs-12">
             <div class="breadcrumb pull-left">
@@ -30,17 +28,25 @@
             @include('uccello::modules.default.detail.links')
         @show
     </div>
-    @show
+@endsection
 
+@section('content')
     {{-- Tab list --}}
     @include('uccello::modules.default.detail.tabs')
 
     <div class="detail-blocks">
         @section('default-blocks')
             <div class="tab-content">
+                {{-- Summary --}}
+                @if ($widgets->count() > 0)
+                <div role="tabpanel" id="summary" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')active @endif" >
+                    @include('uccello::modules.default.detail.summary')
+                </div>
+                @endif
+
                 {{-- Tabs and blocks --}}
                 @foreach ($module->tabs as $i => $tab)
-                <div role="tabpanel" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0) || $selectedTabId === $tab->id)active @endif" id="{{ $tab->id }}">
+                <div role="tabpanel" id="{{ $tab->id }}" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)active @endif">
                     {{-- Blocks --}}
                     @include('uccello::modules.default.detail.blocks')
 

@@ -13,7 +13,7 @@
 
             <div class="form-line {{ $isError ? 'focused error' : ''}}">
                 {{-- Field --}}
-                <div class="p-t-5">
+                <div class="p-t-10">
                     {!! form_widget($form->{$field->name}) !!}
                 </div>
             </div>

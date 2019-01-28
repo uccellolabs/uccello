@@ -70,7 +70,7 @@ class CreateDomainStructure extends Migration
         $field->name = 'name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'rules' => 'required|unique:'.$this->getTablePrefix().'domains,name,%id%' ];
+        $field->data = [ 'rules' => 'required|regex:/(?!^\d+$)^.+$/|unique:'.$this->getTablePrefix().'domains,name,%id%' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;

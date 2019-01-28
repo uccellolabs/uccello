@@ -107,7 +107,7 @@ data-config='{"actionType":"modal", "modal":"#addSessionModal"}'
 - `"actionType":"modal"` - On veut ouvrir une fenêtre modale lors du clic sur le bouton
 - `"modal":"#addSessionModal" ` - L'identifiant de la `div` contenant la modale est `id="addSessionModal"`
 
-Grâce à cette instruction, Uccello pourra ouvrir automatiquement une fenêtre modale lors d'un clic sur le bouton `+`. 
+Grâce à cette instruction, Uccello pourra ouvrir automatiquement une fenêtre modale lors d'un clic sur le bouton `+`.
 
 #### Configuration de la fenêtre modale
 
@@ -181,8 +181,11 @@ Nous devons donc créer le fichier `resources/views/modules/working-session/list
 
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <a class="btn bg-green btn-circle-lg waves-effect waves-circle waves-float">
+                        <a class="btn bg-green btn-circle-lg waves-effect waves-circle waves-float timer-play">
                             <i class="material-icons">play_arrow</i>
+                        </a>
+                        <a class="btn bg-red btn-circle-lg waves-effect waves-circle waves-float timer-stop" style="display: none">
+                            <i class="material-icons">stop</i>
                         </a>
                         <span class="m-l-15 timer">00:00:00</span>
                     </div>
@@ -203,7 +206,7 @@ Nous devons modifier le fichier `resources/lang/fr/working-session.php` et ajout
 ```php
 // resources/lang/fr/working-session.php
 return [
-...
+    ...
     // Button
     'button.close' => 'Fermer',
 

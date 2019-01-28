@@ -10,7 +10,7 @@ Dans le module **Session de travail**, nous allons modifier le comportement de l
 
 Voici le résultat que nous voulons obtenir :
 
-![Modale](/Users/jonathan/Downloads/override-show-modal.jpg)
+![Modale](../../assets/tutorial/clockify/override-show-modal.jpg)
 
 
 

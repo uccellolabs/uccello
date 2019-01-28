@@ -18,7 +18,7 @@ Voici le résultat que nous voulons obtenir :
 
 Pour modifier le comportement de la vue **Liste**, nous devons créer le fichier `resources/views/modules/working-session/list/main.blade.php`. Uccello va détecter automatiquement que la vue a été surchargée et c'est celle-ci qui sera utilisée pour le module **Session de travail**.
 
-```php+HTML
+```html
 <!-- resources/views/modules/working-session/list/main.blade.php -->
 @extends('uccello::modules.default.list.main')
 
@@ -58,7 +58,7 @@ On étend la vue Liste par défaut pour pouvoir la surcharger.
 
 On surcharge la section `page-action-buttons` pour modifier le comportement du bouton d'ajout.
 
-```php+HTML
+```html
 <!-- resources/views/modules/working-session/list/main.blade.php -->
 @section('page-action-buttons')
     {{-- Create button --}}
@@ -78,7 +78,7 @@ On surcharge la section `page-action-buttons` pour modifier le comportement du b
 
 Voici à quoi ressemble cette section sur la **vue par défaut** utilisée par Uccello :
 
-```php+HTML
+```html
 <!-- vendor/uccello/uccello/resources/views/modules/default/list/main.blade.php -->
 @section('page-action-buttons')
     {{-- Create button --}}
@@ -113,7 +113,7 @@ Grâce à cette instruction, Uccello pourra ouvrir automatiquement une fenêtre 
 
 On surcharge la section `extra-content` pour ajouter le code de la fenêtre modale.
 
-```php+HTML
+```html
 <!-- resources/views/modules/working-session/list/main.blade.php -->
 @section('extra-content')
     {{-- Add filter modal --}}
@@ -126,7 +126,7 @@ On surcharge la section `extra-content` pour ajouter le code de la fenêtre moda
 
  Voici à quoi ressemble cette section sur la **vue par défaut** utilisée par Uccello :
 
-```php+HTML
+```html
 <!-- vendor/uccello/uccello/resources/views/modules/default/list/main.blade.php -->
 @section('extra-content')
     {{-- Add filter modal --}}
@@ -136,7 +136,7 @@ On surcharge la section `extra-content` pour ajouter le code de la fenêtre moda
 
 Nous devons donc créer le fichier `resources/views/modules/working-session/list/modal/add-session.blade.php`.
 
-```php+HTML
+```html
 <!-- resources/views/modules/working-session/list/modal/add-session.blade.php -->
 <div class="modal fade" id="addSessionModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">

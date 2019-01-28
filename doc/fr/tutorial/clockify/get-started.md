@@ -588,7 +588,7 @@ What is the module name? (e.g. book-type):
  Would you like to repeat this field (for confirmation)? (yes/no) [no]:
  >
 
- # Champ Projet
+ # Champ Client
  What action do you want to perform? [Add a field]:
   [1] Add a tab
   [2] Add a block
@@ -606,10 +606,10 @@ What is the module name? (e.g. book-type):
  >
 
  Field name:
- > project
+ > client
 
  Translation [fr]:
- > Projet
+ > Client
 
  Choose an uitype [text]:
   [0 ] boolean

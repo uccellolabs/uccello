@@ -35,7 +35,7 @@ Découvrez comment créer facilement avec Uccello, **l'application qui fera déc
   - Contrôleurs par défaut
   - Créer de nouvelles routes
 - Surcharge
-  - Vue
+  - [Vue](./overriding/vue.md)
   - Contrôleur
   - Traductions
 - Events
@@ -52,5 +52,6 @@ Découvrez comment créer facilement avec Uccello, **l'application qui fera déc
 - Tutoriel (Clockify)
   - [Création des modules](./tutorial/clockify/get-started.md)
   - [Personnalisation de l'interface](./tutorial/clockify/custom-interface.md)
-  - Un peu de JavaScript
+  - [Un peu de JavaScript](./tutorial/clockify/javascript.md)
+  - Ajout d'un Widget
 

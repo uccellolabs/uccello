@@ -33,25 +33,32 @@
                             </li>
                         </ol>
 
+                        {{-- Export --}}
+                        <div class="pull-right export">
+                            <a href="javascript:void(0)" class="action-button" data-config='{"actionType":"modal", "modal":"#exportModal"}'>
+                                <i class="material-icons bg-primary" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.export', $module) }}">cloud_download</i>
+                            </a>
+                        </div>
+
                         {{-- Manage filters --}}
                         <div class="pull-right manage-filters">
-                        <a href="javascript:void(0);" class="action-button dropdown-toggle" data-toggle="dropdown">
-                            <i class="material-icons bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.manage_filters', $module) }}">filter_list</i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <button class="btn btn-link btn-block add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
-                                    <i class="material-icons">add</i>
-                                    <span>{{ uctrans('button.add_filter', $module) }}</span>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-link btn-block delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
-                                    <i class="material-icons">delete</i>
-                                    <span>{{ uctrans('button.delete_filter', $module) }}</span>
-                                </button>
-                            </li>
-                        </ul>
+                            <a href="javascript:void(0);" class="action-button dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.manage_filters', $module) }}">filter_list</i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button class="btn btn-link btn-block add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
+                                        <i class="material-icons">add</i>
+                                        <span>{{ uctrans('button.add_filter', $module) }}</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-link btn-block delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
+                                        <i class="material-icons">delete</i>
+                                        <span>{{ uctrans('button.delete_filter', $module) }}</span>
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -149,4 +156,6 @@
 @section('extra-content')
     {{-- Add filter modal --}}
     @include("uccello::modules.default.list.modal.add-filter")
+    {{-- Export modal --}}
+    @include("uccello::modules.default.list.modal.export")
 @endsection

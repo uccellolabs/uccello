@@ -34,6 +34,7 @@ export class List {
         this.initSelectFilterListener()
         this.initSaveFilterListener()
         this.initDeleteFilterListener()
+        this.initExportListener()
     }
 
     /**
@@ -91,6 +92,9 @@ export class List {
         })
     }
 
+    /**
+     * Delete a filter
+     */
     initDeleteFilterListener() {
         $('button.delete-filter').on('click', () => {
             let selectedFilterId = $('select.filter').val()
@@ -115,6 +119,48 @@ export class List {
     }
 
     /**
+     * Export records
+     */
+    initExportListener() {
+        $('#exportModal .export').on('click', (event) => {
+            const domainSlug = $('meta[name="domain"]').attr('content')
+            const moduleName = $('meta[name="module"]').attr('content')
+            const table = $('.listview .dataTable').DataTable()
+            const modal = $('#exportModal')
+
+            // Export config
+            let data = {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                extension: $('#export_format', modal).val(),
+                columns: this.getVisibleColumns(table),
+                conditions: this.getSearchConditions(table),
+                order: this.getOrderWithFieldColumn(table),
+                hide_columns: $('#export_hide_columns', modal).is(':checked') ? 1 : 0,
+                with_id: $('#export_with_id', modal).is(':checked') ? 1 : 0,
+                with_conditions: $('#export_keep_conditions', modal).is(':checked') ? 1 : 0,
+                with_order: $('#export_keep_order', modal).is(':checked') ? 1 : 0,
+                with_timestamps: $('#export_with_timestamps', modal).is(':checked') ? 1 : 0,
+            }
+
+            // URL
+            const url = laroute.route('uccello.export', {domain: domainSlug, module: moduleName})
+
+            // Make a fake form to be able to download the file
+            let fakeFormHtml = this.getFakeFormHtml(data, url)
+
+            // Add the fake form into the page
+            let fakeFormDom = $(fakeFormHtml);
+            $("body").append(fakeFormDom);
+
+            // Submit fake form to download the file
+            fakeFormDom.submit();
+
+            // Remove the fake form from the page
+            fakeFormDom.remove()
+        })
+    }
+
+    /**
      * Get datatable visible columns
      * @param {Datatable} table
      * @return {array}
@@ -134,6 +180,11 @@ export class List {
         return visibleColumns
     }
 
+    /**
+     * Get search conditions
+     * @param {Datatable} table
+     * @return {Object}
+     */
     getSearchConditions(table) {
         const datatableColumns = JSON.parse($('meta[name="datatable-columns"]').attr('content'))
 
@@ -150,25 +201,43 @@ export class List {
     }
 
     /**
+     * Get order with field colunm instead of column index
+     * @param {Datatable} table
+     * @return {Object}
+     */
+    getOrderWithFieldColumn(table) {
+        const datatableColumns = JSON.parse($('meta[name="datatable-columns"]').attr('content'))
+
+        let order = {}
+        for (let sortOrder of table.order()) {
+            let index = sortOrder[0]
+            order[datatableColumns[index-1].db_column] = sortOrder[1]
+        }
+
+        return order
+    }
+
+    /**
      * Save filter into database
      */
     saveFilter() {
         const domainSlug = $('meta[name="domain"]').attr('content')
         const moduleName = $('meta[name="module"]').attr('content')
         const table = $('.listview .dataTable').DataTable()
+        const modal = $('#addFilterModal')
 
         // Save filter
         let data = {
             _token: $('meta[name="csrf-token"]').attr('content'),
-            name: $('#add_filter_filter_name').val(),
+            name: $('#add_filter_filter_name', modal).val(),
             type: 'list',
-            save_order: $('#add_filter_save_order').is(':checked') ? 1 : 0,
-            save_page_length: $('#add_filter_save_page_length').is(':checked') ? 1 : 0,
+            save_order: $('#add_filter_save_order', modal).is(':checked') ? 1 : 0,
+            save_page_length: $('#add_filter_save_page_length', modal).is(':checked') ? 1 : 0,
             columns: this.getVisibleColumns(table),
             order: table.order(),
             page_length: parseInt($('button .records-number').text()),
-            public: $('#add_filter_is_public').is(':checked') ? 1 : 0,
-            default: $('#add_filter_is_default').is(':checked') ? 1 : 0,
+            public: $('#add_filter_is_public', modal).is(':checked') ? 1 : 0,
+            default: $('#add_filter_is_default', modal).is(':checked') ? 1 : 0,
         }
 
         // Add search conditions if defined
@@ -234,5 +303,32 @@ export class List {
             .fail((error) => {
                 swal('Error', error.message, 'error') //TODO: Translate
             })
+    }
+
+    /**
+     * Make a fake form with data as hidden inputs
+     *
+     * @param {Object} data
+     * @param {String} url
+     */
+    getFakeFormHtml(data, url) {
+        let form = "<form style='display: none;' method='POST' action='"+url+"'>";
+
+        _.each(data, function(postValue, postKey){
+            // Convert into JSON if it is a complex data
+            var escapedValue = typeof postValue === 'object' ? JSON.stringify(postValue) : postValue;
+
+            // Escape string (not for numbers)
+            if (typeof escapedValue === 'string') {
+                escapedValue = escapedValue.replace("\\", "\\\\").replace("'", "\'")
+            }
+
+            // Add data to the fake form
+            form += "<input type='hidden' name='"+postKey+"' value='"+escapedValue+"'>";
+        });
+
+        form += "</form>";
+
+        return form
     }
 }

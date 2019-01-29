@@ -1,0 +1,73 @@
+<?php
+
+namespace Uccello\Core\Http\Controllers\Core;
+
+use Illuminate\Http\Request;
+use Uccello\Core\Exports\RecordsExport;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
+
+class ExportController extends Controller
+{
+    /**
+     * Check user permissions
+     */
+    protected function checkPermissions()
+    {
+        $this->middleware('uccello.permissions:retrieve');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function process(?Domain $domain, Module $module, Request $request)
+    {
+        // Pre-process
+        $this->preProcess($domain, $module, $request);
+
+        // File name
+        $fileName = uctrans($module->name, $module).'_'.date('Ymd_His');
+
+        // File extension
+        $fileExtension = $request->input('extension') ?? 'xlsx';
+
+        // Use special format for pdf file
+        $specialFormat = $fileExtension === 'pdf' ? \Maatwebsite\Excel\Excel::MPDF : null;
+
+        // Init export
+        $export = (new RecordsExport)
+                ->forDomain($domain)
+                ->forModule($module);
+
+        // With ID
+        if ($request->input('with_id') === '1') {
+            $export = $export->withId();
+        }
+
+        // With timestamps
+        if ($request->input('with_timestamps') === '1') {
+            $export = $export->withTimestamps();
+        }
+
+        // With columns
+        if ($request->input('hide_columns') === '1') {
+            $columns = json_decode($request->input('columns'));
+            $export = $export->withColumns($columns);
+        }
+
+        // With conditions
+        if ($request->input('with_conditions') === '1') {
+            $conditions = json_decode($request->input('conditions'));
+            $export = $export->withConditions($conditions);
+        }
+
+        // With order
+        if ($request->input('with_order') === '1') {
+            $order = json_decode($request->input('order'));
+            $export = $export->withOrder($order);
+        }
+
+        // Export records
+        return $export->download($fileName.'.'.$fileExtension, $specialFormat);
+    }
+}

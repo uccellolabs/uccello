@@ -64,4 +64,16 @@ class Password extends Text implements Uitype
     {
         return Hash::make($value);
     }
+
+    /**
+     * Returns formatted value to display.
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $record
+     * @return string
+     */
+    public function getFormattedValueToDisplay(Field $field, $record) : string
+    {
+        return '********';
+    }
 }

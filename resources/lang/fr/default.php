@@ -31,6 +31,7 @@ return [
     'button.action' => 'Actions',
     'button.cancel' => 'Annuler',
     'button.add_widget' => 'Ajouter widget',
+    'button.export' => 'Export',
 
     // Block
     'block.general' => 'Informations générales',
@@ -43,7 +44,7 @@ return [
 
     // Filter
     'filter.all' => 'Tous',
-    'filter.show_n_records' => 'Afficher :number lignes',
+    'filter.show_n_records' => ':number lignes',
 
     // Tabs
     'tab.main' => 'Détails',
@@ -98,6 +99,21 @@ return [
     'modal.add_filter.save_page_length' => 'Sauvegarder le nombre de lignes affichées',
     'modal.add_filter.is_public' => 'Partager le filtre avec les autres utilisateurs',
     'modal.add_filter.is_default' => 'Appliquer ce filtre par défaut',
+
+    'modal.export.title' => 'Export',
+    'modal.export.description' => 'Vous pouvez exporter vos données en définissant différentes options.',
+    'modal.export.format' => 'Format',
+    'modal.export.format.xlsx' => 'Microsoft Excel (.xlsx)',
+    'modal.export.format.xls' => 'Microsoft Excel 97-2003 (.xls)',
+    'modal.export.format.ods' => 'ODF Spreadsheet (.ods)',
+    'modal.export.format.csv' => 'Fichier CSV (.csv)',
+    'modal.export.format.pdf' => 'Fichier PDF (.pdf)',
+    'modal.export.format.html' => 'Fichier HTML (.html)',
+    'modal.export.keep_conditions' => 'Conserver les conditions de filtrage',
+    'modal.export.keep_sort' => 'Conserver l\'ordre de tri',
+    'modal.export.hide_columns' => 'Ne pas exporter les colonnes cachées',
+    'modal.export.with_id' => 'Exporter l\'id des enregistrements',
+    'modal.export.with_timestamps' => 'Exporter les dates de création et de modification',
 
     // Widgets
     'summary.no_widget' => 'Aucun widget pour le moment.',

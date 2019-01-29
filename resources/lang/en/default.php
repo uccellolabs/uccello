@@ -31,6 +31,7 @@ return [
     'button.action' => 'Actions',
     'button.cancel' => 'Cancel',
     'button.add_widget' => 'Add widget',
+    'button.export' => 'Export',
 
     // Block
     'block.general' => 'General information',
@@ -43,7 +44,7 @@ return [
 
     // Filter
     'filter.all' => 'All',
-    'filter.show_n_records' => 'Show :number records',
+    'filter.show_n_records' => ':number records',
 
     // Tabs
     'tab.summary' => 'Summary',
@@ -95,6 +96,21 @@ return [
     'modal.add_filter.save_page_length' => 'Save the number of rows displayed',
     'modal.add_filter.is_public' => 'Share the filter with other users',
     'modal.add_filter.is_default' => 'Apply this filter by default',
+
+    'modal.export.title' => 'Export',
+    'modal.export.description' => 'You can export your data by define several options.',
+    'modal.export.format' => 'Format',
+    'modal.export.format.xlsx' => 'Microsoft Excel (.xlsx)',
+    'modal.export.format.xls' => 'Microsoft Excel 97-2003 (.xls)',
+    'modal.export.format.ods' => 'ODF Spreadsheet (.ods)',
+    'modal.export.format.csv' => 'CSV Document (.csv)',
+    'modal.export.format.pdf' => 'PDF Document (.pdf)',
+    'modal.export.format.html' => 'HTML Document (.html)',
+    'modal.export.keep_conditions' => 'Keep the filter conditions',
+    'modal.export.keep_sort' => 'Keep the sort order',
+    'modal.export.hide_columns' => 'Do not export the hidden columns',
+    'modal.export.with_id' => 'Export record id',
+    'modal.export.with_timestamps' => 'Export create and update dates',
 
     // Summary
     'summary.no_widget' => 'No widget for the moment.',

@@ -8,7 +8,6 @@ use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Relation;
 use Uccello\Core\Models\Relatedlist;
 
-
 class DeleteController extends Controller
 {
     protected $viewName = null;

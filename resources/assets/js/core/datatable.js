@@ -55,6 +55,9 @@ export class Datatable {
                 paginate: {
                     previous: '<',
                     next: '>'
+                },
+                buttons: {
+                    colvis: 'Columns' // TODO: Translate
                 }
             },
             aoSearchCols: this.getInitialSearch()

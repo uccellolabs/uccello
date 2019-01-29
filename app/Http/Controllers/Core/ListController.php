@@ -180,7 +180,7 @@ class ListController extends Controller
                 $total = $modelClass::count();
 
                 // Paginate results
-                $query = $modelClass::whereRaw('1');
+                $query = $modelClass::query();
             }
 
             // Search by column

@@ -75,14 +75,19 @@
     cursor: pointer;
 }
 
-.row {
-    &.display-flex {
-        display: flex;
-        flex-wrap: wrap;
-
-        > [class*='col-'] {
+@media (min-width: 481px) {
+    .row {
+        &.display-flex {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
             display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+
+            > [class*='col-'] {
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 }
@@ -282,39 +287,54 @@ div.breadcrumb {
     }
 }
 
-.form-group.form-switch {
-    label:not(.switch-label) {
-        top: 0px;
-        left: 15px;
-        position: absolute;
-        font-size: 12px;
-        font-weight: normal;
-        color: #aaa;
-        cursor: text;
+.form-group {
+    &.form-choice {
+        label:not(.control-label) {
+            top: 0px;
+            left: 15px;
+            position: absolute;
+            font-size: 12px;
+            font-weight: normal;
+            color: #aaa;
+            cursor: text;
+            z-index: 100;
+        }
     }
-}
 
-.form-group.form-choice {
-    label:not(.control-label) {
-        top: 0px;
-        left: 15px;
-        position: absolute;
-        font-size: 12px;
-        font-weight: normal;
-        color: #aaa;
-        cursor: text;
+    &.form-fixed {
+        label:not(.checkbox-label) {
+            top: 0px;
+            left: 15px;
+            position: absolute;
+            font-size: 12px;
+            font-weight: normal;
+            color: #aaa;
+            cursor: text;
+            z-index: 100;
+        }
     }
-}
 
-.form-group.form-fixed {
-    label:not(.checkbox-label) {
-        top: 0px;
-        left: 15px;
-        position: absolute;
-        font-size: 12px;
-        font-weight: normal;
-        color: #aaa;
-        cursor: text;
+    .form-switch {
+        label:not(.switch-label) {
+            top: 0px;
+            left: 15px;
+            position: absolute;
+            font-size: 12px;
+            font-weight: normal;
+            color: #aaa;
+            cursor: text;
+            z-index: 100;
+        }
+    }
+
+    .btn:not(.btn-link):not(.btn-circle),
+    .btn-group .btn  {
+        padding-top: 10px;
+        padding-bottom: 0px;
+    }
+
+    .dropdown-menu {
+        top: calc(100% + 1rem)
     }
 }
 
@@ -464,7 +484,7 @@ table.dataTable {
         .sorting_desc:after,
         .sorting_desc_disabled:after {
             bottom: 45px;
-            right: 30px;
+            right: 10px;
         }
 
         th.select-column {
@@ -723,6 +743,92 @@ table.dataTable thead th.sorting:after {
     display: none;
 }
 
-.form-group.form-choice label:not(.control-label), .form-group.form-fixed label:not(.checkbox-label), .form-group.form-switch label:not(.switch-label) {
-    z-index: 100;
+.listview {
+    tr.child {
+        .form-group {
+            display: none;
+        }
+
+        span.dtr-title {
+            font-weight: bold;
+            margin-right: 10px;
+
+            &:after {
+                content: ':';
+            }
+        }
+
+        .clear-search li:parent {
+            display: none;
+        }
+    }
+
+    .table-responsive {
+        border: none;
+    }
+}
+
+@media (max-width: 480px) {
+    section.content {
+        margin: 90px 0px 0 0;
+    }
+
+    .ls-closed section.content {
+        margin-left: 0px;
+    }
+
+    .breadcrumb-container > .row,
+    .listview > .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .listview {
+        .card-container {
+            padding-left: 0;
+            padding-right: 0;
+
+            .card {
+                .body {
+                    padding-left: 5px;
+                    padding-right: 5px;
+                }
+            }
+        }
+
+        /*Don't display search input*/
+        table.collapsed {
+            .form-group {
+                display: none;
+            }
+        }
+    }
+
+    .paginator {
+        margin-bottom: 80px;
+
+        .pagination > li > a,
+        .pagination > li > span {
+            margin: 0 4px;
+        }
+    }
+
+    .spinner.input-group .input-group-addon .spin-up,
+    .spinner.input-group .input-group-addon .spin-down {
+        width: 20px;
+        height: 20px;
+
+        .glyphicon {
+            font-size: 17px;
+        }
+    }
+
+    .spinner.input-group .input-group-addon .spin-up {
+        margin-top: -7px;
+    }
+
+    .input-group .form-line + .input-group-addon {
+        padding-left: 20px;
+        padding-bottom: 0;
+    }
 }

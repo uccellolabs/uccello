@@ -14,16 +14,18 @@
                 <div class="row clearfix">
                     <div class="col-sm-12">
                         <div class="form-group form-choice">
-                            <label class="form-label">{{ uctrans('modal.export.format', $module) }}</label>
+                            <label for="export_format" style="top: -7px">{{ uctrans('modal.export.format', $module) }}</label>
                             <div class="input-field">
-                                <select class="form-control" id="export_format">
-                                    <option value="xlsx">{{ uctrans('modal.export.format.xlsx', $module) }}</option>
-                                    <option value="xls">{{ uctrans('modal.export.format.xls', $module) }}</option>
-                                    <option value="ods">{{ uctrans('modal.export.format.ods', $module) }}</option>
-                                    <option value="csv">{{ uctrans('modal.export.format.csv', $module) }}</option>
-                                    <option value="html">{{ uctrans('modal.export.format.html', $module) }}</option>
-                                    <option value="pdf">{{ uctrans('modal.export.format.pdf', $module) }}</option>
-                                </select>
+                                <div class="p-b-5">
+                                    <select class="form-control" id="export_format">
+                                        <option value="xlsx">{{ uctrans('modal.export.format.xlsx', $module) }}</option>
+                                        <option value="xls">{{ uctrans('modal.export.format.xls', $module) }}</option>
+                                        <option value="ods">{{ uctrans('modal.export.format.ods', $module) }}</option>
+                                        <option value="csv">{{ uctrans('modal.export.format.csv', $module) }}</option>
+                                        <option value="html">{{ uctrans('modal.export.format.html', $module) }}</option>
+                                        <option value="pdf">{{ uctrans('modal.export.format.pdf', $module) }}</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 

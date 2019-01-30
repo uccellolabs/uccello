@@ -757,10 +757,8 @@ table.dataTable thead th.sorting:after {
                 content: ':';
             }
         }
-    }
 
-    table.collapsed {
-        .form-group {
+        .clear-search li:parent {
             display: none;
         }
     }
@@ -795,6 +793,13 @@ table.dataTable thead th.sorting:after {
                     padding-left: 5px;
                     padding-right: 5px;
                 }
+            }
+        }
+
+        /*Don't display search input*/
+        table.collapsed {
+            .form-group {
+                display: none;
             }
         }
     }

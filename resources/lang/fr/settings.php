@@ -29,10 +29,13 @@ return [
     'menu.saved' => 'Sauvegardé',
     'menu.reset.title' => 'Voulez-vous vraiment réinitialiser le menu ?',
     'menu.reset.text' => 'Le menu sera remplacé par le menu par défaut.',
+    'menu.error.not_empty.title' => 'Supprimez d\'abord les liens',
+    'menu.error.not_empty.description' => 'Vous ne pouvez pas supprimer un groupe qui n\'est pas vide.',
 
     'message.module_activated' => 'Module activé',
     'message.module_deactivated' => 'Module désactivé',
 
     'error.module_is_mandatory' => 'Ce module est obligatoire et ne peut pas être désactivé.',
     'error.module_not_defined' => 'Vous devez définir un nom de module.',
+    'error.save' => 'Une erreur s\'est produite lors de la sauvegarde.',
 ];

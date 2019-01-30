@@ -17,13 +17,13 @@ export class Link {
         }
 
         $("a[data-config], button[data-config]", parentElement).on('click', (event) => {
-            event.preventDefault();
+            event.preventDefault()
 
             this.element = $(event.currentTarget)
             this.config = this.element.data('config')
 
             // Remove focus
-            this.element.blur();
+            this.element.blur()
 
             if (this.config === null) {
                 this.config = {}
@@ -114,9 +114,9 @@ export class Link {
             // Display dialog displaying success or error
             else {
                 if (response.success === false) {
-                    swal("Error", response.message, "error"); // TODO: translate
+                    swal(uctrans('dialog.error.title'), response.message, "error")
                 } else {
-                    swal("Success", response.message, "success"); // TODO: translate
+                    swal(uctrans('dialog.success.title'), response.message, "success")
 
                     // Reload page if needed
                     if (ajaxConfig.refresh === true) {
@@ -127,7 +127,7 @@ export class Link {
         })
         // Impossible to reach the URL. Display error
         .catch((error) => {
-            swal("Error", error.message, "error"); // TODO: translate
+            swal(uctrans('dialog.error.title'), error.message, "error")
         })
     }
 
@@ -164,8 +164,8 @@ export class Link {
         }
 
         // Default config
-        if (!title) { title = 'Are you sure?' } // TODO: Translation
-        if (!confirmButtonText) { confirmButtonText = 'Yes' } // TODO: Translation
+        if (!title) { title = uctrans('dialog.confirm.title') }
+        if (!confirmButtonText) { confirmButtonText = uctrans('button.yes') }
         if (!confirmButtonColor) { confirmButtonColor = '#DD6B55' }
         if (!closeOnConfirm) { closeOnConfirm = true }
 
@@ -187,6 +187,7 @@ export class Link {
             showCancelButton: true,
             confirmButtonColor: confirmButtonColor,
             confirmButtonText: confirmButtonText,
+            cancelButtonText: uctrans('button.cancel'),
             closeOnConfirm: closeOnConfirm,
             showLoaderOnConfirm: showLoaderOnConfirm,
         },

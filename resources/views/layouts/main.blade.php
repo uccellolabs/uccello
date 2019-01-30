@@ -38,7 +38,10 @@
     @section('content-container')
     <section class="content @yield('content-class')">
         {{-- Breadcrumb --}}
-        @yield('breadcrumb')
+        <div class="breadcrumb-container">
+            @yield('breadcrumb')
+        </div>
+
         {{-- Content --}}
         @yield('content')
     </section>

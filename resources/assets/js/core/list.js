@@ -72,12 +72,14 @@ export class List {
             if ($(`select.filter option:contains(${filterName})`).length > 0) {
 
                 swal({
-                    title: 'A filter already exists with the same name', //TODO: translate
-                    text: 'Do you want to update it?', //TODO: translate
+                    title: uctrans('filter.exists.title'),
+                    text: uctrans('filter.exists.message'),
                     type: "warning",
                     showCancelButton: true,
                     closeOnConfirm: true,
-                    confirmButtonColor: '#DD6B55'
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: uctrans('button.yes'),
+                    cancelButtonText: uctrans('button.cancel')
                 },
                 (response) => {
                     if (response === true) {
@@ -101,13 +103,15 @@ export class List {
 
             if(selectedFilterId) {
                 swal({
-                    title: 'Are you sure?', //TODO: translate
-                    text: 'Do you want to delete this filter?', //TODO: translate
+                    title: uctrans('dialog.confirm.title'),
+                    text: uctrans('filter.delete.message'),
                     type: "warning",
                     showCancelButton: true,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true,
-                    confirmButtonColor: '#DD6B55'
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: uctrans('button.yes'),
+                    cancelButtonText: uctrans('button.cancel')
                 },
                 (response) => {
                     if (response === true) {
@@ -278,7 +282,7 @@ export class List {
                 $('button.delete-filter').removeAttr('disabled')
             })
             .fail((error) => {
-                swal('Error', error.message, 'error') //TODO: Translate
+                swal(uctrans('dialog.error.title'), error.message, 'error')
             })
     }
 
@@ -297,11 +301,11 @@ export class List {
                     // Refresh list without filter
                     document.location.href = laroute.route('uccello.list', { domain: domainSlug, module: moduleName })
                 } else {
-                    swal('Error', response.message, 'error') //TODO: Translate
+                    swal(uctrans('dialog.error.title'), response.message, 'error')
                 }
             })
             .fail((error) => {
-                swal('Error', error.message, 'error') //TODO: Translate
+                swal(uctrans('dialog.error.title'), error.message, 'error')
             })
     }
 

@@ -107,7 +107,7 @@ export class Detail {
         .then((response) => {
             // Display an alert if an error occured
             if (response.success === false) {
-                swal('Error', response.message, 'error') //TODO: transate
+                swal(uctrans('dialog.error.title'), response.message, 'error')
             }
             else {
                 // Hide modal

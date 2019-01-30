@@ -29,9 +29,11 @@ return [
     'button.add_filter' => 'Ajouter un filtre',
     'button.delete_filter' => 'Supprimer le filtre',
     'button.action' => 'Actions',
+    'button.yes' => 'Oui',
     'button.cancel' => 'Annuler',
     'button.add_widget' => 'Ajouter widget',
     'button.export' => 'Export',
+    'button.columns' => 'Colonnes',
 
     // Block
     'block.general' => 'Informations générales',
@@ -45,6 +47,9 @@ return [
     // Filter
     'filter.all' => 'Tous',
     'filter.show_n_records' => ':number lignes',
+    'filter.delete.message' => 'Voulez-vous supprimer ce filtre ?',
+    'filter.exists.title' => 'Un filtre du même nom existe déjà',
+    'filter.exists.message' => 'Voulez-vous le mettre à jour ?',
 
     // Tabs
     'tab.main' => 'Détails',
@@ -67,6 +72,7 @@ return [
     'relatedlist.button.select' => 'Sélectionner',
 
     // Confirm
+    'dialog.confirm.title' => 'Êtes-vous sûr?',
     'button.delete.confirm' => 'Voulez-vous supprimer cet enregistrement ?',
     'button.delete.relation.confirm' => 'Voulez-vous supprimer cette relation ?',
 
@@ -77,6 +83,7 @@ return [
     'notification.form.not.valid' => 'Certains champs ne sont pas valides !',
 
     // Errors
+    'dialog.error.title' => 'Erreur',
     'error.homepage' => 'Acceuil',
     'error.logout' => 'Déconnexion',
     'error.not.allowed' => 'Vous n\'êtes pas autorisés',
@@ -87,6 +94,7 @@ return [
     'error.filter.read.only' => 'Le filtre est en lecture seule.',
 
     // Success
+    'dialog.success.title' => 'Réussi',
     'success.filter.deleted' => 'Le filtre a bien été supprimé.',
 
     // Modal

@@ -57,7 +57,7 @@ export class Datatable {
                     next: '>'
                 },
                 buttons: {
-                    colvis: 'Columns' // TODO: Translate
+                    colvis: uctrans('button.columns')
                 }
             },
             aoSearchCols: this.getInitialSearch()

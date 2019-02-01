@@ -57,7 +57,7 @@ trait DefaultUitype
      */
     public function getDefaultValue(Field $field, $record)
     {
-        return isset($record->{$field->column}) ? $record->{$field->column} : null;
+        return isset($record->{$field->column}) ? $record->{$field->column} : $field->data->default ?? null;
     }
 
     /**

@@ -7,27 +7,25 @@ var autoload = {
 }
 autoload[uitypePath] = ['UccelloUitypeSelector']
 
-mix.autoload(autoload);
+mix.autoload(autoload)
+    .setPublicPath('public')
 
-mix.setPublicPath('public');
+    .js('./resources/assets/js/app.js', 'public/js')
+    .sass('./resources/assets/sass/app.scss', 'public/css')
 
-mix.js('./resources/assets/js/app.js', 'public/js')
-    .sass('./resources/assets/sass/app.scss', 'public/css');
-
-mix.js('./resources/assets/js/core/autoloader.js', 'public/js')
+    .js('./resources/assets/js/core/autoloader.js', 'public/js')
     .js('./resources/assets/js/settings/autoloader.js', 'public/js/settings')
 
-mix.copy('./resources/assets/images', 'public/images');
+    .extract([
+        'lodash', 'jquery', 'bootstrap',
+        'fastclick', 'adminbsb-materialdesign',
+        'vue', 'axios', 'node-waves', 'popper.js', 'moment'
+    ], 'public/js/vendor.js')
 
-mix.extract([
-    'lodash', 'jquery', 'bootstrap',
-    'fastclick', 'adminbsb-materialdesign',
-    'vue', 'axios', 'node-waves', 'popper.js', 'moment'
-], 'public/js/vendor.js');
+    .version()
 
-mix.version();
-
-// Copy all compiled files into main project (auto publishing)
-mix.copyDirectory('public', '../../../public/vendor/uccello/uccello');
-mix.copyDirectory('public/fonts/vendor', '../../../public/fonts/vendor');
-mix.copyDirectory('public/images/vendor', '../../../public/images/vendor');
+    // Copy all compiled files into main project (auto publishing)
+    .copy('./resources/assets/images', 'public/images')
+    .copyDirectory('public', '../../../public/vendor/uccello/uccello')
+    .copyDirectory('public/fonts/vendor', '../../../public/fonts/vendor')
+    .copyDirectory('public/images/vendor', '../../../public/images/vendor')

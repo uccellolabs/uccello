@@ -16,6 +16,7 @@ class EventServiceProvider extends DefaultEventServiceProvider
      */
     protected $listen = [
         'Uccello\Core\Events\AfterSaveEvent' => [
+            'Uccello\Core\Listeners\Core\AfterSaveEventListener',
             'Uccello\Core\Listeners\Profile\AfterSaveEventListener',
             'Uccello\Core\Listeners\Role\AfterSaveEventListener',
             'Uccello\Core\Listeners\User\AfterSaveEventListener',

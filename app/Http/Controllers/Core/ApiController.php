@@ -99,7 +99,7 @@ class ApiController extends BaseController
         // Dispatch after save event
         event(new AfterSaveEvent($domain, $module, $request, $record, 'create', true));
 
-        return $modelClass::find($record->id); // We do this to display also empty fields
+        return $modelClass::find($record->getKey()); // We do this to display also empty fields
     }
 
     /**

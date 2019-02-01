@@ -17,7 +17,6 @@ Route::name('uccello.')->group(function() {
     Route::get($domainParam.'/api/doc', 'Core\SwaggerController@api')
         ->name('api.doc');
 
-    // Overrided routes
     Route::get($domainParam.'/role/edit', 'Role\EditController@process')
         ->defaults('module', 'role')
         ->name('role.edit');
@@ -55,6 +54,22 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'settings')
         ->name('settings.menu.reset');
 
+    // Preference
+    Route::get($domainParam.'/preference/edit', 'Preference\EditController@process')
+        ->defaults('module', 'preference')
+        ->name('preference.edit');
+
+    Route::post($domainParam.'/preference', 'Preference\EditController@save')
+        ->defaults('module', 'preference')
+        ->name('preference.save');
+
+    Route::get($domainParam.'/preference/detail', 'Preference\DetailController@process')
+        ->defaults('module', 'preference')
+        ->name('preference.detail');
+
+    Route::get($domainParam.'/preference', 'Preference\DetailController@process')
+        ->defaults('module', 'preference')
+        ->name('preference');
 
     // Default routes
     Route::get($domainParam.'/home', 'Core\IndexController@process')

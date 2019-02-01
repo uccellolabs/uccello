@@ -2,6 +2,7 @@
 
 namespace Uccello\Core\Forms;
 
+use Schema;
 use Kris\LaravelFormBuilder\Form As DefaultForm;
 
 class Form extends DefaultForm
@@ -24,10 +25,13 @@ class Form extends DefaultForm
         foreach ($values as $fieldName => $value) {
             $field = $module->getField($fieldName);
 
-            // If the field exists format the value and store it in the good model column
+            // If the field exists and the column exists, formats the value and store it in the good model column
             if (!is_null($field)) {
                 $column = $field->column;
-                $this->getModel()->$column = $field->uitype->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
+
+                if (Schema::hasColumn($this->getModel()->getTable(), $column)) {
+                    $this->getModel()->$column = $field->uitype->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
+                }
             }
         }
 

@@ -58,7 +58,7 @@ class CreateUitypesTable extends Migration
             'color'     => 'Uccello\Core\Fields\Uitype\Color',
             'phone'     => 'Uccello\Core\Fields\Uitype\Phone',
             'email'     => 'Uccello\Core\Fields\Uitype\Email',
-            'search'    => 'Uccello\Core\Fields\Uitype\Search',
+            'reference' => 'Uccello\Core\Fields\Uitype\Reference',
             'choice'    => 'Uccello\Core\Fields\Uitype\Choice',
             'select'    => 'Uccello\Core\Fields\Uitype\Select',
             'url'       => 'Uccello\Core\Fields\Uitype\Url',

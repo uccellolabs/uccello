@@ -25,7 +25,7 @@ class AfterSaveEventListener
     /**
      * Update user roles list.
      *
-     * @param  AfterSaveEvent  $event
+     * @param  \Uccello\Core\Events\AfterSaveEvent  $event
      * @return void
      */
     public function handle(AfterSaveEvent $event)
@@ -64,7 +64,7 @@ class AfterSaveEventListener
     /**
      * Return all privilege for an on a domain.
      *
-     * @param AfterSaveEvent $event
+     * @param \Uccello\Core\Events\AfterSaveEvent $event
      * @return array
      */
     protected function getUserPrivileges(AfterSaveEvent $event) : array

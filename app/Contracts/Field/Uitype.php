@@ -18,10 +18,10 @@ interface Uitype
     /**
      * Returns field type used by Form builder.
      *
-     * @param Field $field
+     * @param \Uccello\Core\Models\Field $field
      * @return string
      */
-    public function getFormType(): string;
+    public function getFormType(Field $field) : string;
 
     /**
      * Returns options for Form builder.
@@ -43,9 +43,19 @@ interface Uitype
     /**
      * Returns default icon.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @return string|null
      */
-    public function getDefaultIcon() : ?string;
+    public function getDefaultIcon(Field $field) : ?string;
+
+    /**
+     * Returns default value.
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $record
+     * @return mixed|null
+     */
+    public function getDefaultValue(Field $field, $record);
 
     /**
      * Returns formatted value to display.
@@ -73,10 +83,11 @@ interface Uitype
      * Returns formatted value to search.
      * By default adds % at the beginning end the ending to make a 'like' query.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $value
      * @return string
      */
-    public function getFormattedValueToSearch($value) : string;
+    public function getFormattedValueToSearch(Field $field, $value) : string;
 
     /**
      * Returns updated query after adding a new search condition.

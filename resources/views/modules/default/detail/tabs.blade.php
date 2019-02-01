@@ -33,7 +33,7 @@
                 $countMethod = $relatedlist->method . 'Count';
 
                 $model = new $relatedModule->model_class;
-                $count = $model->$countMethod($relatedlist, $record->id);
+                $count = $model->$countMethod($relatedlist, $record->getKey());
             ?>
             @if ($count > 0)
             <span class="badge bg-green">{{ $count }}</span>

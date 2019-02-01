@@ -13,7 +13,7 @@
 
 {{-- Add button --}}
 @if ($relatedlist->canAdd() && Auth::user()->canCreate($domain, $relatedlist->relatedModule))
-    <a href="{{ $relatedlist->getAddLink($domain, $record->id) }}"
+    <a href="{{ $relatedlist->getAddLink($domain, $record->getKey()) }}"
         class="btn bg-green btn-circle waves-effect waves-circle waves-float btn-relatedlist-add"
         title="{{ uctrans('relatedlist.button.add', $module) }}"
         data-toggle="tooltip"

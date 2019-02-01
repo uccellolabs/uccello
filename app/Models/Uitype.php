@@ -72,13 +72,14 @@ class Uitype extends Model
     /**
      * Returns formatted value to search.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $value
      * @return string
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch(Field $field, $value) : string
     {
         $uitypeClass = $this->class;
-        return (new $uitypeClass())->getFormattedValueToSearch($value);
+        return (new $uitypeClass())->getFormattedValueToSearch($field, $value);
     }
 
     /**

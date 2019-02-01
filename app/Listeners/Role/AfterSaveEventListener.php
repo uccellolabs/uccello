@@ -25,7 +25,7 @@ class AfterSaveEventListener
     /**
      * Update role profiles list.
      *
-     * @param  AfterSaveEvent  $event
+     * @param  \Uccello\Core\Events\AfterSaveEvent  $event
      * @return void
      */
     public function handle(AfterSaveEvent $event)

@@ -68,7 +68,7 @@ class CreateUserStructure extends Migration
         $field->name = 'username';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'rules' => 'required|regex:/^[a-zA-Z0-9.-_]+$/|unique:users,username,%id%' ];
+        $field->data = [ 'rules' => 'required|regex:/^[a-zA-Z0-9.-_]+$/|unique:users,username,record:id' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -101,7 +101,7 @@ class CreateUserStructure extends Migration
         $field->name = 'is_admin';
         $field->uitype_id = uitype('boolean')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'module' => 'domain', 'field' => 'name' ];
+        $field->data = null;
         $field->sequence = 3;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -132,7 +132,7 @@ class CreateUserStructure extends Migration
         $field->name = 'email';
         $field->uitype_id = uitype('email')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'rules' => 'required|email|unique:users,email,%id%' ];
+        $field->data = [ 'rules' => 'required|email|unique:users,email,record:id' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;

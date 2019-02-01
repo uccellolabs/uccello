@@ -31,7 +31,7 @@ class Integer extends Number implements Uitype
                 'data-step' => $field->data->step ?? 1,
                 'autocomplete' => 'off',
             ],
-            'default_value' => request($field->name) ?? $field->data->default ?? 0,
+            'default_value' => request($field->name) ?? $this->getDefaultValue($field, $record) ?? 0,
         ];
     }
 

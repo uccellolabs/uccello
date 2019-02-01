@@ -23,9 +23,10 @@ class Checkbox implements Uitype
     /**
      * Returns field type used by Form builder.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @return string
      */
-    public function getFormType() : string
+    public function getFormType(Field $field) : string
     {
         return 'checkbox';
     }
@@ -66,11 +67,13 @@ class Checkbox implements Uitype
 
     /**
      * Returns formatted value to search.
+     * By default adds % at the beginning end the ending to make a 'like' query.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $value
      * @return string
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch(Field $field, $value) : string
     {
         $formattedValue = $value === 'true' ? true : false;
 
@@ -87,7 +90,7 @@ class Checkbox implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $formattedValue = $this->getFormattedValueToSearch($value);
+        $formattedValue = $this->getFormattedValueToSearch($field, $value);
         $query = $query->where($field->column, '=', $formattedValue);
 
         return $query;

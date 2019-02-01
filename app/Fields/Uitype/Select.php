@@ -18,9 +18,10 @@ class Select implements Uitype
     /**
      * Returns field type used by Form builder.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @return string
      */
-    public function getFormType() : string
+    public function getFormType(Field $field) : string
     {
         return 'select';
     }
@@ -48,7 +49,7 @@ class Select implements Uitype
 
         $options = [
             'choices' => $choices,
-            'selected' => $field->data->default ?? null,
+            'selected' => $this->getDefaultValue($field, $record) ?? null,
             'empty_value' => uctrans('select_empty_value', $module),
             'attr' => [
                 'class' => 'form-control show-tick',
@@ -69,7 +70,7 @@ class Select implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        $value = $record->{$field->column} ? uctrans($record->{$field->column}, $field->module) : '';
+        $value = isset($record->{$field->column}) ? uctrans($record->{$field->column}, $field->module) : '';
 
         return  $value;
     }

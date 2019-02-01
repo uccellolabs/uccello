@@ -16,9 +16,10 @@ class Week implements Uitype
     /**
      * Returns field type used by Form builder.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @return string
      */
-    public function getFormType() : string
+    public function getFormType(Field $field) : string
     {
         return 'text';
     }

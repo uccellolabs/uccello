@@ -101,11 +101,10 @@ class Field extends Model
     {
         if ($this->data->icon ?? false) {
             $icon = $this->data->icon;
-
         } else {
             $uitypeClass = $this->uitype->class;
             $uitype = new $uitypeClass();
-            $icon = $uitype->getDefaultIcon();
+            $icon = $uitype->getDefaultIcon($this);
         }
 
         return $icon;

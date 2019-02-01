@@ -79,7 +79,7 @@ class Text implements Uitype
     /**
      * Type correspondant dans Form Builder
      */
-    public function getFormType(): string
+    public function getFormType(Field $field): string
     {
         return 'text';
     }
@@ -103,9 +103,19 @@ class Text implements Uitype
     /**
      * Icône a utiliser par défaut dans le champ du formulaire
      */
-    public function getDefaultIcon() : ?string
+    public function getDefaultIcon(Field $field) : ?string
     {
         return null;
+    }
+
+    /**
+     * Valeur par défaut à utiliser dans le champ du formulaire.
+     * Si $record est défini on utilise sa valeur,
+     * sinon on vérifie s'il existe une valeur par défaut.
+     */
+    public function getDefaultValue(Field $field, $record)
+    {
+        return $record->{$field->column} ?? $field->data->default ?? null;
     }
 
     /**
@@ -127,7 +137,7 @@ class Text implements Uitype
     /**
      * Formatage de la valeur avant la recherche dans la base de données
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch(Field $field, $value) : string
     {
         $formattedValue = $value;
 
@@ -143,10 +153,41 @@ class Text implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value)
     {
-        $formattedValue = $this->getFormattedValueToSearch($value);
+        $formattedValue = $this->getFormattedValueToSearch($field, $value);
         $query = $query->where($field->column, 'like', $formattedValue);
 
         return $query;
+    }
+
+    /**
+     * Questions à poser dans la console pour que le package uccello/module-designer
+     * sache quelles options specifiques il faut ajouter dans l'attribut data du champ.
+     */
+    public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
+    {
+        $repeated = $output->confirm('Would you like to repeat this field (for confirmation)?', false);
+
+        if ($repeated) {
+            $field->data->repeated = true;
+        }
+    }
+
+    /**
+     * Définit le type de colonne à créer dans la base de donnée
+     */
+    public function createFieldColumn(Field $field, Blueprint $table) : Fluent
+    {
+        return $table->string($this->getDefaultDatabaseColumn($field));
+    }
+
+    /**
+     * Utilisé par le package uccello/module-designer pour savoir
+     * quel format de colonne ajouter dans le fichier de migration généré.
+     */
+    public function createFieldColumnStr(Field $field) : string
+    {
+        $column = $this->getDefaultDatabaseColumn($field);
+        return "\$table->string('$column')";
     }
 }
 ```

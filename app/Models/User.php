@@ -67,6 +67,11 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Menu::class);
     }
 
+    public function preference()
+    {
+        return $this->belongsTo(Preferences::class, 'id');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

@@ -35,11 +35,11 @@
 {{-- Template to use in the table --}}
 <div class="template hide">
     @if (Auth::user()->canUpdate($domain, $relatedlist->relatedModule))
-    <a href="{{ $relatedlist->getEditLink($domain, $record->id) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
+    <a href="{{ $relatedlist->getEditLink($domain, $record->getKey()) }}" title="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" class="edit-btn"><i class="material-icons">edit</i></a>
     @endif
 
     @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
     <?php $confirmMessage = $relatedlist->type === 'n-1' ? 'button.delete.confirm' : 'button.delete.relation.confirm'; ?>
-    <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans($confirmMessage, $module) }}"}}'><i class="material-icons">delete</i></a>
+    <a href="{{ $relatedlist->getDeleteLink($domain, $record->getKey()) }}" title="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans($confirmMessage, $module) }}"}}'><i class="material-icons">delete</i></a>
     @endif
 </div>

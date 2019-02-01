@@ -3,7 +3,7 @@
 @section('page', 'detail')
 
 @section('extra-meta')
-<meta name="record" content="{{ $record->id }}">
+<meta name="record" content="{{ $record->getKey() }}">
 @endsection
 
 @section('breadcrumb')

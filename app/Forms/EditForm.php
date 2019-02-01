@@ -73,7 +73,7 @@ class EditForm extends Form
         ]);
 
         // Add a save and new button if we are not making a relation (else it will be difficult to redirect to the source record)
-        if (!$request->input('relatedlist')) {
+        if (!$request->input('relatedlist') && (!isset($module->data->save_new) || $module->data->save_new !== false)) {
             $this->add('save_new_btn', 'button', [
                 'label' => '<i class="material-icons">add</i>',
                 'attr' => [
@@ -115,7 +115,7 @@ class EditForm extends Form
     {
         $uitype = $this->getUitypeInstance($field);
 
-        return $uitype->getFormType();
+        return $uitype->getFormType($field);
     }
 
     /**
@@ -148,9 +148,6 @@ class EditForm extends Form
         // Get module data
         $module = $this->getData('module');
 
-        // Request
-        $request = $this->getData('request');
-
         // Check if required CSS class must be added
         $requiredClass = $field->required ? 'required' : '';
 
@@ -160,22 +157,30 @@ class EditForm extends Form
             'rules' => $this->getFieldRules($field),
             'attr' => [
                 'class' => 'form-control'
-            ]
+            ],
+            'default_value' => $this->getDefaultValue($field)
         ];
-
-        if ($request->input($field->name)) {
-            $selectedValue = $request->input($field->name);
-        }
-
-        // Set default value only if it is a creation (record id doen't exist)
-        if (is_null($this->getModel()->getKey())) {
-            $options[ 'default_value' ] = $selectedValue ?? $field->data->default ?? null;
-        }
 
         // Add other options
         $otherOptions = $this->getSpecialFieldOptions($field);
 
         return array_merge($options, $otherOptions);
+    }
+
+    /**
+     * Return field default value
+     *
+     * @param Field $field
+     * @return mixed|null
+     */
+    protected function getDefaultValue(Field $field)
+    {
+        $selectedValue = request($field->name);
+        $uitype = $this->getUitypeInstance($field);
+
+        $defaultValue = $selectedValue ?? $uitype->getDefaultValue($field, $this->getModel()) ?? null;
+
+        return $defaultValue;
     }
 
     /**
@@ -222,14 +227,14 @@ class EditForm extends Form
 
     /**
      * Returns the rules defined for a field.
-     * In the rules %id% is replaced by the record id (usefull for unique key control).
+     * In the rules record:id is replaced by the record id and auth:id is replaced by the authenticated user id (usefull for unique key control).
      *
      * @param Field $field
      * @return string|null
      */
     protected function getFieldRules(Field $field) : ?array
     {
-        $rules = null;
+        $rules = $field->rules;
 
         if (!empty($field->data->rules)) {
             // Get the rules
@@ -239,12 +244,15 @@ class EditForm extends Form
             $record = $this->getModel();
 
             if (!is_null($record->getKey())) {
-                // Replace %id% by the record id
-                $rules = preg_replace('`%id%`', $record->getKey(), $rules);
+                // Replace record:id by the record id
+                $rules = preg_replace('`record:id`', $record->getKey(), $rules);
             } else {
-                // Remove ,%id% from the rules
-                $rules = preg_replace('`,%id%`', '', $rules);
+                // Remove ,record:id from the rules
+                $rules = preg_replace('`,record:id`', '', $rules);
             }
+
+            // Remove ,auth:id from the authenticated user id
+            $rules = preg_replace('`auth:id`', auth()->id(), $rules);
         }
 
         return explode('|', $rules); // We transform into array because specify validation rules with regex separated by pipeline can lead to undesired behavior (see: https://stackoverflow.com/questions/42577045/laravel-5-4-validation-with-regex)

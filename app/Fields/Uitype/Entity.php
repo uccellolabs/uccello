@@ -21,9 +21,10 @@ class Entity implements Uitype
     /**
      * Returns field type used by Form builder.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @return string
      */
-    public function getFormType() : string
+    public function getFormType(Field $field) : string
     {
         return 'entity';
     }
@@ -118,7 +119,7 @@ class Entity implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $formattedValue = $this->getFormattedValueToSearch($value);
+        $formattedValue = $this->getFormattedValueToSearch($field, $value);
 
         // Get field data
         $fieldData = $field->data;

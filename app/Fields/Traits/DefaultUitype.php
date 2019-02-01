@@ -40,11 +40,24 @@ trait DefaultUitype
     /**
      * Returns default icon.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @return string|null
      */
-    public function getDefaultIcon() : ?string
+    public function getDefaultIcon(Field $field) : ?string
     {
         return null;
+    }
+
+    /**
+     * Returns default value.
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $record
+     * @return mixed|null
+     */
+    public function getDefaultValue(Field $field, $record)
+    {
+        return isset($record->{$field->column}) ? $record->{$field->column} : null;
     }
 
     /**
@@ -79,10 +92,11 @@ trait DefaultUitype
      * Returns formatted value to search.
      * By default adds % at the beginning end the ending to make a 'like' query.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @param mixed $value
      * @return string
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch(Field $field, $value) : string
     {
         $formattedValue = $value;
 
@@ -103,7 +117,7 @@ trait DefaultUitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $formattedValue = $this->getFormattedValueToSearch($value);
+        $formattedValue = $this->getFormattedValueToSearch($field, $value);
         $query = $query->where($field->column, 'like', $formattedValue);
 
         return $query;

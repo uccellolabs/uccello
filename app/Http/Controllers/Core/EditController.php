@@ -100,7 +100,7 @@ class EditController extends Controller
             $sourceRecordId = $request->input('src_id');
             $tabId = $request->input('tab');
 
-            $this->saveRelation($relatedlist, $sourceRecordId, $record->id);
+            $this->saveRelation($relatedlist, $sourceRecordId, $record->getKey());
 
             $redirectToSourceRecord = true;
         }
@@ -163,7 +163,7 @@ class EditController extends Controller
             $relatedlist = Relatedlist::findOrFail($request->input('relatedlist'));
             $relatedRecordId = $request->input('related_id');
 
-            $relationId = $this->saveRelation($relatedlist, $record->id, $relatedRecordId);
+            $relationId = $this->saveRelation($relatedlist, $record->getKey(), $relatedRecordId);
 
             $response = [
                 'success' => true,

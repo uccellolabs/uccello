@@ -20,9 +20,10 @@ class Number implements Uitype
     /**
      * Returns field type used by Form builder.
      *
+     * @param \Uccello\Core\Models\Field $field
      * @return string
      */
-    public function getFormType() : string
+    public function getFormType(Field $field) : string
     {
         return 'text';
     }
@@ -46,7 +47,7 @@ class Number implements Uitype
                 'data-step' => $field->data->step ?? 0.01,
                 'autocomplete' => 'off',
             ],
-            'default_value' => request($field->name) ?? $field->data->default ?? 0,
+            'default_value' => request($field->name) ?? $this->getDefaultValue($field, $record) ?? 0,
         ];
     }
 

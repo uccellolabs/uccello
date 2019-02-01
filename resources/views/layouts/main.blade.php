@@ -36,7 +36,7 @@
     @yield('pre-content')
 
     @section('content-container')
-    <section class="content @yield('content-class')">
+    <section id="@section('vuejs-el'){{ 'app' }}@show" class="content @yield('content-class')">
         {{-- Breadcrumb --}}
         <div class="breadcrumb-container">
             @yield('breadcrumb')

@@ -1,7 +1,21 @@
 <div class="row">
-    @forelse($widgets as $widget)
-        @widget($widget->class, [ 'record' => $record, 'data' => json_decode($widget->pivot->data), 'labelForTranslation' => $widget->labelForTranslation ])
-    @empty
+    {{-- Widgets --}}
+    @if (count($widgets) > 0)
+    <div class="col-md-6">
+        @foreach($widgets as $i => $widget)
+            @continue($i % 2 !== 0)
+            @widget($widget->class, [ 'record' => $record, 'data' => json_decode($widget->pivot->data), 'labelForTranslation' => $widget->labelForTranslation ])
+        @endforeach
+    </div>
+
+    <div class="col-md-6">
+        @foreach($widgets as $i => $widget)
+            @continue($i % 2 !== 1)
+            @widget($widget->class, [ 'record' => $record, 'data' => json_decode($widget->pivot->data), 'labelForTranslation' => $widget->labelForTranslation ])
+        @endforeach
+    </div>
+    {{-- No widget --}}
+    @else
     <div class="col-sm-12">
         <div class="card block">
             <div class="body">

@@ -33,6 +33,14 @@ class CreateWidgetsTable extends Migration
             'class' => 'Uccello\Core\Widgets\SummaryFields',
             'data' => [ 'package' => 'uccello/uccello' ]
         ]);
+
+        // Add relatedlist widget
+        Widget::create([
+            'label' => 'widget.relatedlist',
+            'type' => 'summary',
+            'class' => 'Uccello\Core\Widgets\Relatedlist',
+            'data' => [ 'package' => 'uccello/uccello' ]
+        ]);
     }
 
     /**

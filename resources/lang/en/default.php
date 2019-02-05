@@ -29,8 +29,11 @@ return [
     'button.add_filter' => 'Add a filter',
     'button.delete_filter' => 'Delete filter',
     'button.action' => 'Actions',
+    'button.yes' => 'Yes',
     'button.cancel' => 'Cancel',
     'button.add_widget' => 'Add widget',
+    'button.export' => 'Export',
+    'button.columns' => 'Columns',
 
     // Block
     'block.general' => 'General information',
@@ -43,7 +46,10 @@ return [
 
     // Filter
     'filter.all' => 'All',
-    'filter.show_n_records' => 'Show :number records',
+    'filter.show_n_records' => ':number records',
+    'filter.delete.message' => 'Do you want to delete this filter?',
+    'filter.exists.title' => 'A filter already exists with the same name',
+    'filter.exists.message' => 'Do you want to update it?',
 
     // Tabs
     'tab.summary' => 'Summary',
@@ -64,6 +70,7 @@ return [
     'relatedlist.button.select' => 'Select',
 
     // Confirm
+    'dialog.confirm.title' => 'Are you sure?',
     'button.delete.confirm' => 'Do you really want to delete this record?',
     'button.delete.relation.confirm' => 'Do you really want to delete this relation?',
 
@@ -74,6 +81,7 @@ return [
     'notification.form.not.valid' => 'Some fields are not valid!',
 
     // Errors
+    'dialog.error.title' => 'Error',
     'error.homepage' => 'Homepage',
     'error.logout' => 'Logout',
     'error.not.allowed' => 'You are not allowed',
@@ -84,6 +92,7 @@ return [
     'error.filter.read.only' => 'The filter is for read only.',
 
     // Success
+    'dialog.success.title' => 'Success',
     'success.filter.deleted' => 'The filter was correctly deleted.',
 
     // Modal
@@ -91,10 +100,26 @@ return [
     'modal.add_filter.description' => 'You can create a new filter from the configuration of the current list.',
     'modal.add_filter.name' => 'Filter name',
     'modal.add_filter.save_columns' => 'Save columns displayed',
+    'modal.add_filter.save_conditions' => 'Save search conditions',
     'modal.add_filter.save_sort' => 'Save sort order',
     'modal.add_filter.save_page_length' => 'Save the number of rows displayed',
     'modal.add_filter.is_public' => 'Share the filter with other users',
     'modal.add_filter.is_default' => 'Apply this filter by default',
+
+    'modal.export.title' => 'Export',
+    'modal.export.description' => 'You can export your data by define several options.',
+    'modal.export.format' => 'Format',
+    'modal.export.format.xlsx' => 'Microsoft Excel (.xlsx)',
+    'modal.export.format.xls' => 'Microsoft Excel 97-2003 (.xls)',
+    'modal.export.format.ods' => 'ODF Spreadsheet (.ods)',
+    'modal.export.format.csv' => 'CSV Document (.csv)',
+    'modal.export.format.pdf' => 'PDF Document (.pdf)',
+    'modal.export.format.html' => 'HTML Document (.html)',
+    'modal.export.keep_conditions' => 'Keep the filter conditions',
+    'modal.export.keep_sort' => 'Keep the sort order',
+    'modal.export.hide_columns' => 'Do not export the hidden columns',
+    'modal.export.with_id' => 'Export record id',
+    'modal.export.with_timestamps' => 'Export create and update dates',
 
     // Summary
     'summary.no_widget' => 'No widget for the moment.',

@@ -15,7 +15,7 @@ export class ModuleManager {
                 src_module: $(element).data('module'),
                 active: $(element).is(':checked') === true ? '1' : '0'
             }).fail((error) => {
-                swal('Error', null, 'error')
+                swal(uctrans('dialog.error.title'), uctrans('error.save', 'settings'), 'error')
             })
         })
     }

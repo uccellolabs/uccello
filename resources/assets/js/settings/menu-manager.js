@@ -120,7 +120,7 @@ export class MenuManager {
         }).then((response) => {
             $('span.saved').fadeIn().delay(1000).fadeOut()
         }).fail((error) => {
-            swal("Impossible to save", error.message, "error") // TODO: translate
+            swal(uctrans('dialog.error.title', 'settings'), uctrans('error.save', 'settings'), "error")
         })
     }
 
@@ -305,7 +305,7 @@ export class MenuManager {
             this.retrieveCurrentItemJsonById(itemId, JSON.parse(this.menuStructure))
 
             if (this.currentItemJson && this.currentItemJson.children) { // There are children
-                swal('Remove children first!', 'Yan cannot delete an item with children.', 'error') // TODO: translate
+                swal(uctrans('menu.error.not_empty.title', 'settings'), uctrans('menu.error.not_empty.description', 'settings'), 'error')
             } else {
                 $('.menu-manager:visible').nestable('remove', itemId)
                 this.menuToJson()

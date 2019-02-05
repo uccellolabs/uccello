@@ -33,25 +33,32 @@
                             </li>
                         </ol>
 
+                        {{-- Export --}}
+                        <div class="pull-right export">
+                            <a href="javascript:void(0)" class="action-button" data-config='{"actionType":"modal", "modal":"#exportModal"}'>
+                                <i class="material-icons bg-primary" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.export', $module) }}">cloud_download</i>
+                            </a>
+                        </div>
+
                         {{-- Manage filters --}}
                         <div class="pull-right manage-filters">
-                        <a href="javascript:void(0);" class="action-button dropdown-toggle" data-toggle="dropdown">
-                            <i class="material-icons bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.manage_filters', $module) }}">filter_list</i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <button class="btn btn-link btn-block add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
-                                    <i class="material-icons">add</i>
-                                    <span>{{ uctrans('button.add_filter', $module) }}</span>
-                                </button>
-                            </li>
-                            <li>
-                                <button class="btn btn-link btn-block delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
-                                    <i class="material-icons">delete</i>
-                                    <span>{{ uctrans('button.delete_filter', $module) }}</span>
-                                </button>
-                            </li>
-                        </ul>
+                            <a href="javascript:void(0);" class="action-button dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.manage_filters', $module) }}">filter_list</i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <button class="btn btn-link btn-block add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
+                                        <i class="material-icons">add</i>
+                                        <span>{{ uctrans('button.add_filter', $module) }}</span>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="btn btn-link btn-block delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
+                                        <i class="material-icons">delete</i>
+                                        <span>{{ uctrans('button.delete_filter', $module) }}</span>
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -79,7 +86,7 @@
     @yield('before-table')
 
     <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="min-height: 600px">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-container" style="min-height: 600px">
             <div class="card">
                 <div class="body p-t-0">
                     <div class="table-responsive">
@@ -106,7 +113,7 @@
                                     </th>
                                     @endforeach
 
-                                    <th class="actions-column">
+                                    <th class="actions-column hidden-xs">
                                         <a class="clear-search pull-left col-red" title="{{ uctrans('button.clear_search', $module) }}" data-toggle="tooltip" data-placement="top"><i class="material-icons">close</i></a>
                                     </th>
                                 </tr>
@@ -137,11 +144,11 @@
     {{-- Template to use in the table --}}
     <div class="template hide">
         @if (Auth::user()->canUpdate($domain, $module))
-        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $module) }}" class="edit-btn"><i class="material-icons">edit</i></a>
+        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $module) }}" class="edit-btn hidden-xs"><i class="material-icons">edit</i></a>
         @endif
 
         @if (Auth::user()->canDelete($domain, $module))
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
+        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn hidden-xs" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
         @endif
     </div>
 @endsection
@@ -149,4 +156,6 @@
 @section('extra-content')
     {{-- Add filter modal --}}
     @include("uccello::modules.default.list.modal.add-filter")
+    {{-- Export modal --}}
+    @include("uccello::modules.default.list.modal.export")
 @endsection

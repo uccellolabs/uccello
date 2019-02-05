@@ -55,6 +55,9 @@ export class Datatable {
                 paginate: {
                     previous: '<',
                     next: '>'
+                },
+                buttons: {
+                    colvis: uctrans('button.columns')
                 }
             },
             aoSearchCols: this.getInitialSearch()

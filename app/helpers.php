@@ -1,5 +1,6 @@
 <?php
 
+use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 
 if (!function_exists('uccello')) {
@@ -29,6 +30,19 @@ if (!function_exists('uctrans')) {
     function uctrans($key = null, ? Module $module = null, $replace = [ ], $locale = null)
     {
         return app('uccello')->trans($key, $module, $replace, $locale);
+    }
+}
+
+if (!function_exists('ucdomain')) {
+    /**
+     * Get a module instance by name or id
+     *
+     * @param string|int $slugOrId
+     * @return Domain|null
+     */
+    function ucdomain($slugOrId): ?Domain
+    {
+        return app('uccello')->getDomain($slugOrId);
     }
 }
 

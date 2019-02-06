@@ -3,13 +3,13 @@
 namespace Uccello\Core\Helpers;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Permission;
-use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;
-use Illuminate\Support\Facades\Auth;
 use Uccello\Core\Models\Filter;
 
 class Uccello
@@ -198,6 +198,21 @@ class Uccello
     public function getCapabilities(): Collection
     {
         return Capability::all();
+    }
+
+    /**
+     * Get a domain instance by slug or id
+     *
+     * @param string|int $slugOrId
+     * @return Domain|null
+     */
+    public function getDomain($slugOrId): ?Domain
+    {
+        if (is_numeric($slugOrId)) {
+            return Domain::find($slugOrId);
+        } else {
+            return Domain::where('slug', (string)$slugOrId)->first();
+        }
     }
 
     /**

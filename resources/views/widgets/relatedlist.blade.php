@@ -1,7 +1,3 @@
-<?php
-    $record = $config['record'];
-    $data = $config['data'];
-?>
 @if (!empty($data->id))
     <?php
         $relatedlist = \Uccello\Core\Models\Relatedlist::find($data->id);

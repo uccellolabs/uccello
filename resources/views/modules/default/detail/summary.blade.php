@@ -4,14 +4,14 @@
     <div class="col-md-6">
         @foreach($widgets as $i => $widget)
             @continue($i % 2 !== 0)
-            @widget($widget->class, [ 'record' => $record, 'data' => json_decode($widget->pivot->data), 'labelForTranslation' => $widget->labelForTranslation ])
+            @widget($widget->class, [ 'domain' => $domain->slug, 'module' => $module->name, 'record_id' => $record->id, 'data' => json_decode($widget->pivot->data), 'labelForTranslation' => $widget->labelForTranslation ])
         @endforeach
     </div>
 
     <div class="col-md-6">
         @foreach($widgets as $i => $widget)
             @continue($i % 2 !== 1)
-            @widget($widget->class, [ 'record' => $record, 'data' => json_decode($widget->pivot->data), 'labelForTranslation' => $widget->labelForTranslation ])
+            @widget($widget->class, [ 'domain' => $domain->slug, 'module' => $module->name, 'record_id' => $record->id, 'data' => json_decode($widget->pivot->data), 'labelForTranslation' => $widget->labelForTranslation ])
         @endforeach
     </div>
     {{-- No widget --}}

@@ -19,10 +19,19 @@ class Relatedlist extends AbstractWidget
      */
     public function run()
     {
-        //
+        // Get module
+        $module = ucmodule($this->config['module']);
+
+        // Get record
+        $modelClass = $module->model_class;
+        $record = $modelClass::find($this->config['record_id']);
 
         return view('uccello::widgets.relatedlist', [
-            'config' => $this->config,
+            'domain' => ucdomain($this->config['domain']),
+            'module' => $module,
+            'data' => (object) $this->config['data'],
+            'record' => $record,
+            'label' => $this->config['data']->label ?? $this->config['labelForTranslation'],
         ]);
     }
 }

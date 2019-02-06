@@ -15,10 +15,6 @@
             </div>
             <div class="body">
                 <div class="row display-flex">
-                    <?php
-                        $record = $config['record'];
-                        $data = $config['data'];
-                    ?>
                     @if (!empty($data) && is_array($data->fields))
                         @foreach ($data->fields as $fieldName)
                             <?php

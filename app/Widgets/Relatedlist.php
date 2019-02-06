@@ -27,6 +27,7 @@ class Relatedlist extends AbstractWidget
         $record = $modelClass::find($this->config['record_id']);
 
         return view('uccello::widgets.relatedlist', [
+            'config' => $this->config,
             'domain' => ucdomain($this->config['domain']),
             'module' => $module,
             'data' => (object) $this->config['data'],

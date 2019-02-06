@@ -23,6 +23,7 @@ class SummaryFields extends AbstractWidget
 
         return view('uccello::widgets.summary_fields', [
             'config' => $this->config,
+            'label' => $this->config['data']->label ?? $this->config['labelForTranslation'],
         ]);
     }
 }

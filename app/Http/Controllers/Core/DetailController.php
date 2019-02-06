@@ -39,7 +39,7 @@ class DetailController extends Controller
 
         // Widgets
         $availableWidgets = Widget::where('type', 'summary')->get(); // TODO: Don't display widgets already added
-        $widgets = $module->widgets()->get(); // TODO: Get wigets with priority (1. User 2. Domain 3. Default)
+        $widgets = $module->widgets()->withPivot('sequence')->orderBy('pivot_sequence')->get(); // TODO: Get wigets with priority (1. User 2. Domain 3. Default)
 
         return $this->autoView([
             'record' => $this->getRecord($recordId),

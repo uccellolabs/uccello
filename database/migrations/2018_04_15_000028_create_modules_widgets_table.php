@@ -22,6 +22,7 @@ class CreateModulesWidgetsTable extends Migration
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('widget_id');
+            $table->unsignedInteger('sequence');
             $table->text('data')->nullable();
             $table->timestamps();
 

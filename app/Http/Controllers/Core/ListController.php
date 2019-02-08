@@ -271,6 +271,14 @@ class ListController extends Controller
                     if ($displayedValue !== $record->{$field->column}) {
                         $record->{$field->name} = $displayedValue;
                     }
+
+                    // Entity uitype uses 'data.id' so we have to add this attribute
+                    if ($record->getKeyName() !== 'id') {
+                        $record->id = $record->getKey();
+                    }
+
+                    // Entity uitype uses 'data.recordLabel' so we have to add this attribute
+                    $record->recordLabel = $record->recordLabel;
                 }
             }
 

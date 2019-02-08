@@ -74,3 +74,8 @@
 
     {!! form_end($form) !!}
 @endsection
+
+@section('extra-content')
+    {{-- Entity modal --}}
+    @include('uccello::modules.default.edit.entity-modal.modal')
+@endsection

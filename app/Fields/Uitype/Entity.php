@@ -50,7 +50,7 @@ class Entity implements Uitype
                 'property' => $field->data->field ?? 'recordLabel',
                 'empty_value' => uctrans('select_empty_value', $module),
                 'selected' => $record->{$field->column} ?? null,
-                'attr' => [ 'class' => 'form-control show-tick', 'data-live-search' => 'true' ],
+                'attr' => [ 'class' => 'hide' ],
                 'query_builder' => function($relatedRecord) use($record) {
                     // If related record class is the same as the record one, ignore the current record
                     if (get_class($relatedRecord) === get_class($record)) {

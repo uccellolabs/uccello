@@ -1,1 +1,776 @@
-webpackJsonp([3],{2:function(e,t,n){e.exports=n("22iK")},"22iK":function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0}),function(e){var t=n("hHRx"),a=n("dwxp"),r=function(){function e(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}();new(function(){function n(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,n),this.lazyLoad()}return r(n,[{key:"lazyLoad",value:function(){switch(e('meta[name="page"]').attr("content")){case"module-manager":new t.a;break;case"menu-manager":new a.a}}}]),n}())}.call(t,n("7t+N"))},dwxp:function(e,t,n){"use strict";(function(e){n.d(t,"a",function(){return o});var a="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},r=function(){function e(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}();var i=n("M4fF"),o=function(){function t(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t),this.initMenus(),this.initListeners()}return r(t,[{key:"initMenus",value:function(){var t=this;this.itemsNumber=0,this.initMenuHtml("main-menu-structure","menu-main"),this.initMenuHtml("admin-menu-structure","menu-admin"),e(".menu-manager").nestable({maxDepth:3}),this.menuToJson(),e(".menu-manager").on("change",function(e){t.menuToJson(),t.save()})}},{key:"initMenuHtml",value:function(t,n){var r=JSON.parse(e("meta[name='"+t+"']").attr("content"));if("object"===(void 0===r?"undefined":a(r))){var i="",o=!0,u=!1,s=void 0;try{for(var l,c=r[Symbol.iterator]();!(o=(l=c.next()).done);o=!0){var d=l.value;i+=this.buildItem(d)}}catch(e){u=!0,s=e}finally{try{!o&&c.return&&c.return()}finally{if(u)throw s}}e(".menu-manager."+n+" ol.dd-list:first").html(i)}}},{key:"initListeners",value:function(){this.initSaveGroupButtonListener(),this.initSaveRouteLinkButtonListener(),this.initSaveLinkButtonListener(),this.initMenuSwitcherListener(),this.initEditButtonListener(),this.initRemoveButtonListener(),this.initActionsButtonsListener()}},{key:"initMenuSwitcherListener",value:function(){var t=this;e("input#menu-switcher").on("change",function(n){var a=e(n.currentTarget).is(":checked"),r=JSON.parse(e("a.btn-reset").attr("data-config"));a?(e(".menu-manager.menu-admin").show(),e(".menu-manager.menu-main").hide(),r.ajax.params={type:"admin"}):(e(".menu-manager.menu-admin").hide(),e(".menu-manager.menu-main").show(),r.ajax.params={type:"main"}),e("a.btn-reset").attr("data-config",JSON.stringify(r)),t.menuToJson()})}},{key:"menuToJson",value:function(){this.menuStructure=JSON.stringify(e(".menu-manager:visible").nestable("serialize"))}},{key:"save",value:function(){var t=e("meta[name='save-url']").attr("content");e.ajax({url:t,method:"post",data:{_token:e("meta[name='csrf-token']").attr("content"),structure:this.menuStructure,type:e(".menu-manager:visible").data("type")}}).then(function(t){e("span.saved").fadeIn().delay(1e3).fadeOut()}).fail(function(e){swal(uctrans("dialog.error.title","settings"),uctrans("error.save","settings"),"error")})}},{key:"initSaveGroupButtonListener",value:function(){var t=this;e("#save-group").on("click",function(n){var a=e("#groupModal input[name='label']"),r=e("#groupModal input[name='icon']"),i=a.val(),o=r.val();i?o?(t.saveGroup(i,o),e("#groupModal").modal("hide")):r.parent(".form-line").addClass(["focused","error"]):a.parent(".form-line").addClass(["focused","error"])})}},{key:"initSaveRouteLinkButtonListener",value:function(){var t=this;e("#save-route-link").on("click",function(n){var a=e("#routeLinkModal input[name='label']"),r=e("#routeLinkModal input[name='icon']"),i=e("#routeLinkModal input[name='module']"),o=e("#routeLinkModal input[name='route']"),u=a.val(),s=r.val(),l=i.val(),c=o.val();u?s?l?c?(t.saveRouteLink(u,s,l,c),e("#routeLinkModal").modal("hide")):o.parent(".form-line").addClass(["focused","error"]):i.parent(".form-line").addClass(["focused","error"]):r.parent(".form-line").addClass(["focused","error"]):a.parent(".form-line").addClass(["focused","error"])})}},{key:"initSaveLinkButtonListener",value:function(){var t=this;e("#save-link").on("click",function(n){var a=e("#linkModal input[name='label']"),r=e("#linkModal input[name='icon']"),i=e("#linkModal input[name='url']"),o=a.val(),u=r.val(),s=i.val();o?u?s?(t.saveLink(o,u,s),e("#linkModal").modal("hide")):i.parent(".form-line").addClass(["focused","error"]):r.parent(".form-line").addClass(["focused","error"]):a.parent(".form-line").addClass(["focused","error"])})}},{key:"initActionsButtonsListener",value:function(){var t=this;e(".btn-actions").on("click",function(){t.currentItem=null,t.currentItemJson=null,e(".modal input").val(""),e(".modal .form-line").removeClass("focused")})}},{key:"initEditButtonListener",value:function(){var t=this;e(".btn-edit").off("click"),e(".btn-edit").on("click",function(n){var a=e(n.currentTarget).parents("li:first"),r=e(a).data("id");t.currentItem=a,t.retrieveCurrentItemJsonById(r,JSON.parse(t.menuStructure));var i=void 0;switch(a.data("type")){case"group":i=e("#groupModal").modal("show"),e("input[name='label']",i).val(a.data("label")).parent().addClass("focused"),e("input[name='icon']",i).val(a.data("icon")).parent().addClass("focused");break;case"link":i=e("#linkModal").modal("show"),e("input[name='label']",i).val(a.data("label")).parent().addClass("focused"),e("input[name='icon']",i).val(a.data("icon")).parent().addClass("focused"),e("input[name='url']",i).val(a.data("url")).parent().addClass("focused");break;case"route":i=e("#routelinkModal").modal("show"),e("input[name='label']",i).val(a.data("label")).parent().addClass("focused"),e("input[name='icon']",i).val(a.data("icon")).parent().addClass("focused"),e("input[name='module']",i).val(a.data("module")).parent().addClass("focused"),e("input[name='route']",i).val(a.data("route")).parent().addClass("focused")}})}},{key:"initRemoveButtonListener",value:function(){var t=this;e(".btn-remove").off("click"),e(".btn-remove").on("click",function(n){var a=e(n.currentTarget).parents("li:first").data("id");t.retrieveCurrentItemJsonById(a,JSON.parse(t.menuStructure)),t.currentItemJson&&t.currentItemJson.children?swal(uctrans("menu.error.not_empty.title","settings"),uctrans("menu.error.not_empty.description","settings"),"error"):(e(".menu-manager:visible").nestable("remove",a),t.menuToJson(),t.save())})}},{key:"saveGroup",value:function(t,n){if(this.currentItem){if(null!==this.currentItemJson){this.currentItemJson.label=t,this.currentItemJson.icon=n,e(this.currentItem).attr("data-label",t).attr("data-icon",n),e(".icon-label:first",this.currentItem).text(t),e(".material-icons:first",this.currentItem).text(n),e(".menu-manager:visible").nestable("replace",this.currentItemJson);var a=e(this.currentItem).data("id");e("[data-id='"+a+"']").replaceWith(this.currentItem)}}else{var r=this.buildItem({type:"group",label:t,icon:n,color:"green"});e(".menu-manager:visible .dd-list:first").append(r)}e(".menu-manager:visible").trigger("change"),this.initEditButtonListener(),this.initRemoveButtonListener()}},{key:"saveRouteLink",value:function(t,n,a,r){if(this.currentItem){if(null!==this.currentItemJson){this.currentItemJson.label=t,this.currentItemJson.icon=n,this.currentItemJson.module=a,this.currentItemJson.route=r,e(this.currentItem).attr("data-label",t).attr("data-icon",n).attr("data-module",a).attr("data-route",r),e(".icon-label:first",this.currentItem).text(t),e(".material-icons:first",this.currentItem).text(n),e(".menu-manager:visible").nestable("replace",this.currentItemJson);var i=e(this.currentItem).data("id");e("[data-id='"+i+"']").replaceWith(this.currentItem)}}else{var o=this.buildItem({type:"route",module:a,label:t,icon:n,color:"red",route:r});e(".menu-manager:visible .dd-list:first").append(o)}e(".menu-manager:visible").trigger("change"),this.initEditButtonListener(),this.initRemoveButtonListener()}},{key:"saveLink",value:function(t,n,a){if(this.currentItem){if(null!==this.currentItemJson){this.currentItemJson.label=t,this.currentItemJson.icon=n,this.currentItemJson.url=a,e(this.currentItem).attr("data-label",t).attr("data-icon",n).attr("data-url",a),e(".icon-label:first",this.currentItem).text(t),e(".material-icons:first",this.currentItem).text(n),e(".menu-manager:visible").nestable("replace",this.currentItemJson);var r=e(this.currentItem).data("id");e("[data-id='"+r+"']").replaceWith(this.currentItem)}}else{var i=this.buildItem({type:"link",label:t,icon:n,color:"blue",url:a});e(".menu-manager:visible .dd-list:first").append(i)}e(".menu-manager:visible").trigger("change"),this.initEditButtonListener(),this.initRemoveButtonListener()}},{key:"retrieveCurrentItemJsonById",value:function(e,t,n){if("object"==(void 0===t?"undefined":a(t))){var r=!0,i=!1,o=void 0;try{for(var u,s=t[Symbol.iterator]();!(r=(u=s.next()).done);r=!0){var l=u.value;if(l.id==e){this.currentItemJson=l,this.currentItemParentJson=n;break}l.children&&this.retrieveCurrentItemJsonById(e,l.children,l)}}catch(e){i=!0,o=e}finally{try{!r&&s.return&&s.return()}finally{if(i)throw o}}}}},{key:"buildItem",value:function(t){var n=this;this.itemsNumber++;var a="";"group"!==t.type&&(a="dd-nochildren");var r="";t.module&&(r='data-module="'+t.module+'"');var o="";t.url&&(o='data-url="'+t.url+'"');var u="";t.route&&(u='data-route="'+t.route+'"');var s="",l=t.label;t.translation&&(s='data-translation="'+t.translation+'"',l=t.translation);var c="";"module"!==t.type&&(c='<div class="dd3-actions">\n                        <i class="material-icons btn-edit">edit</i>\n                        <i class="material-icons btn-remove">delete</i>\n                    </div>');var d='<li class="dd-item dd3-item '+a+'" data-id="'+this.itemsNumber+'" '+r+" "+u+" "+o+' data-type="'+t.type+'" data-label="'+t.label+'" '+s+' data-icon="'+t.icon+'" data-nochildren="'+!!t.noChildren+'" data-color="'+t.color+'">\n                <div class="dd-handle dd3-content">\n                    <i class="material-icons">'+t.icon+'</i>\n                    <span class="icon-label">'+l+'</span>\n                    <span class="pull-right col-'+t.color+'">'+i.capitalize(t.type)+"</span>\n                </div>\n                "+c;return t.children&&(d+='<ol class="dd-list">',e.each(t.children,function(e,t){d+=n.buildItem(t)}),d+="</ol>"),d+="</li>"}}]),t}()}).call(t,n("7t+N"))},hHRx:function(e,t,n){"use strict";(function(e){n.d(t,"a",function(){return r});var a=function(){function e(e,t){for(var n=0;n<t.length;n++){var a=t[n];a.enumerable=a.enumerable||!1,a.configurable=!0,"value"in a&&(a.writable=!0),Object.defineProperty(e,a.key,a)}}return function(t,n,a){return n&&e(t.prototype,n),a&&e(t,a),t}}();var r=function(){function t(){!function(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}(this,t),this.initCheckboxListener()}return a(t,[{key:"initCheckboxListener",value:function(){var t=e('meta[name="domain"]').attr("content");e("input[type='checkbox'].module-activation").on("click",function(n){var a=n.currentTarget,r=laroute.route("uccello.settings.module.activation",{domain:t});e.post(r,{_token:e("meta[name='csrf-token']").attr("content"),src_module:e(a).data("module"),active:!0===e(a).is(":checked")?"1":"0"}).fail(function(e){swal(uctrans("dialog.error.title"),uctrans("error.save","settings"),"error")})})}}]),t}()}).call(t,n("7t+N"))}},[2]);
+webpackJsonp([3],{
+
+/***/ "./resources/assets/js/settings/autoloader.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__module_manager__ = __webpack_require__("./resources/assets/js/settings/module-manager.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__menu_manager__ = __webpack_require__("./resources/assets/js/settings/menu-manager.js");
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+var Autoloader = function () {
+    function Autoloader() {
+        _classCallCheck(this, Autoloader);
+
+        this.lazyLoad();
+    }
+
+    _createClass(Autoloader, [{
+        key: 'lazyLoad',
+        value: function lazyLoad() {
+            var page = $('meta[name="page"]').attr('content');
+
+            switch (page) {
+                case 'module-manager':
+                    new __WEBPACK_IMPORTED_MODULE_0__module_manager__["a" /* ModuleManager */]();
+                    break;
+
+                case 'menu-manager':
+                    new __WEBPACK_IMPORTED_MODULE_1__menu_manager__["a" /* MenuManager */]();
+                    break;
+            }
+        }
+    }]);
+
+    return Autoloader;
+}();
+
+new Autoloader();
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/assets/js/settings/menu-manager.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MenuManager; });
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var _ = __webpack_require__("./node_modules/lodash/lodash.js");
+
+var MenuManager = function () {
+    function MenuManager() {
+        _classCallCheck(this, MenuManager);
+
+        this.initMenus();
+        this.initListeners();
+    }
+
+    /**
+     * Initialize main and admin menus
+     */
+
+
+    _createClass(MenuManager, [{
+        key: 'initMenus',
+        value: function initMenus() {
+            var _this = this;
+
+            this.itemsNumber = 0;
+
+            // Init HTML
+            this.initMenuHtml('main-menu-structure', 'menu-main');
+            this.initMenuHtml('admin-menu-structure', 'menu-admin');
+
+            // Initialize nestable library
+            $('.menu-manager').nestable({
+                maxDepth: 3
+            });
+
+            // For initialization
+            this.menuToJson();
+
+            // Save on change
+            $('.menu-manager').on('change', function (event) {
+                // Save change
+                _this.menuToJson();
+                _this.save();
+            });
+        }
+
+        /**
+         * Build menu html
+         * @param {string} metaName
+         * @param {string} listClass
+         */
+
+    }, {
+        key: 'initMenuHtml',
+        value: function initMenuHtml(metaName, listClass) {
+            var menuStructure = JSON.parse($('meta[name=\'' + metaName + '\']').attr('content'));
+
+            if ((typeof menuStructure === 'undefined' ? 'undefined' : _typeof(menuStructure)) === 'object') {
+                var menuHtml = '';
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = menuStructure[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var item = _step.value;
+
+                        menuHtml += this.buildItem(item);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+
+                $('.menu-manager.' + listClass + ' ol.dd-list:first').html(menuHtml);
+            }
+        }
+
+        /**
+         * Init event listeners
+         */
+
+    }, {
+        key: 'initListeners',
+        value: function initListeners() {
+            this.initSaveGroupButtonListener();
+            this.initSaveRouteLinkButtonListener();
+            this.initSaveLinkButtonListener();
+            this.initMenuSwitcherListener();
+            this.initEditButtonListener();
+            this.initRemoveButtonListener();
+            this.initActionsButtonsListener();
+        }
+
+        /**
+         * Init menu switcher listener to switch between main and admin menus
+         */
+
+    }, {
+        key: 'initMenuSwitcherListener',
+        value: function initMenuSwitcherListener() {
+            var _this2 = this;
+
+            $('input#menu-switcher').on('change', function (event) {
+                var showAdminMenu = $(event.currentTarget).is(':checked');
+
+                // Get reset button configuration
+                var resetButtonConfig = JSON.parse($('a.btn-reset').attr('data-config'));
+
+                if (showAdminMenu) {
+                    $('.menu-manager.menu-admin').show();
+                    $('.menu-manager.menu-main').hide();
+
+                    // Change menu type for reset button
+                    resetButtonConfig.ajax.params = { type: 'admin' };
+                } else {
+                    $('.menu-manager.menu-admin').hide();
+                    $('.menu-manager.menu-main').show();
+
+                    // Change menu type for reset button
+                    resetButtonConfig.ajax.params = { type: 'main' };
+                }
+
+                // Update reset button configuration
+                $('a.btn-reset').attr('data-config', JSON.stringify(resetButtonConfig));
+
+                // Save active menu structure
+                _this2.menuToJson();
+            });
+        }
+
+        /**
+         * Convert menu into JSON
+         */
+
+    }, {
+        key: 'menuToJson',
+        value: function menuToJson() {
+            this.menuStructure = JSON.stringify($('.menu-manager:visible').nestable('serialize'));
+        }
+
+        /**
+         * Save current menu
+         */
+
+    }, {
+        key: 'save',
+        value: function save() {
+            var url = $("meta[name='save-url']").attr('content');
+
+            $.ajax({
+                url: url,
+                method: "post",
+                data: {
+                    _token: $("meta[name='csrf-token']").attr('content'),
+                    structure: this.menuStructure,
+                    type: $(".menu-manager:visible").data('type')
+                }
+            }).then(function (response) {
+                $('span.saved').fadeIn().delay(1000).fadeOut();
+            }).fail(function (error) {
+                swal(uctrans('dialog.error.title', 'settings'), uctrans('error.save', 'settings'), "error");
+            });
+        }
+
+        /**
+         * Init save group button listener
+         */
+
+    }, {
+        key: 'initSaveGroupButtonListener',
+        value: function initSaveGroupButtonListener() {
+            var _this3 = this;
+
+            $('#save-group').on('click', function (event) {
+                var labelElement = $("#groupModal input[name='label']");
+                var iconElement = $("#groupModal input[name='icon']");
+
+                var label = labelElement.val();
+                var icon = iconElement.val();
+
+                if (!label) {
+                    labelElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                if (!icon) {
+                    iconElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                // Create group
+                _this3.saveGroup(label, icon);
+
+                // Hide modal
+                $('#groupModal').modal('hide');
+            });
+        }
+
+        /**
+         * Init save route link button listener
+         */
+
+    }, {
+        key: 'initSaveRouteLinkButtonListener',
+        value: function initSaveRouteLinkButtonListener() {
+            var _this4 = this;
+
+            $('#save-route-link').on('click', function (event) {
+                var labelElement = $("#routeLinkModal input[name='label']");
+                var iconElement = $("#routeLinkModal input[name='icon']");
+                var moduleElement = $("#routeLinkModal input[name='module']");
+                var routeElement = $("#routeLinkModal input[name='route']");
+
+                var label = labelElement.val();
+                var icon = iconElement.val();
+                var moduleName = moduleElement.val();
+                var route = routeElement.val();
+
+                if (!label) {
+                    labelElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                if (!icon) {
+                    iconElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                if (!moduleName) {
+                    moduleElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                if (!route) {
+                    routeElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                // Create link
+                _this4.saveRouteLink(label, icon, moduleName, route);
+
+                // Hide modal
+                $('#routeLinkModal').modal('hide');
+            });
+        }
+
+        /**
+         * Init save link button listener
+         */
+
+    }, {
+        key: 'initSaveLinkButtonListener',
+        value: function initSaveLinkButtonListener() {
+            var _this5 = this;
+
+            $('#save-link').on('click', function (event) {
+                var labelElement = $("#linkModal input[name='label']");
+                var iconElement = $("#linkModal input[name='icon']");
+                var urlElement = $("#linkModal input[name='url']");
+
+                var label = labelElement.val();
+                var icon = iconElement.val();
+                var url = urlElement.val();
+
+                if (!label) {
+                    labelElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                if (!icon) {
+                    iconElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                if (!url) {
+                    urlElement.parent('.form-line').addClass(['focused', 'error']);
+                    return;
+                }
+
+                // Create link
+                _this5.saveLink(label, icon, url);
+
+                // Hide modal
+                $('#linkModal').modal('hide');
+            });
+        }
+
+        /**
+         * Init actions buttons listener.
+         * When an action button is clicked, empty modal input field and remove 'focused' class
+         */
+
+    }, {
+        key: 'initActionsButtonsListener',
+        value: function initActionsButtonsListener() {
+            var _this6 = this;
+
+            $('.btn-actions').on('click', function () {
+                _this6.currentItem = null;
+                _this6.currentItemJson = null;
+
+                // Empty fields
+                $('.modal input').val('');
+                $('.modal .form-line').removeClass('focused');
+            });
+        }
+
+        /**
+         * Init edit button listener
+         */
+
+    }, {
+        key: 'initEditButtonListener',
+        value: function initEditButtonListener() {
+            var _this7 = this;
+
+            $('.btn-edit').off('click'); // Remove event listener first because this function can be called several times (e.g. after group creation)
+
+            $('.btn-edit').on('click', function (event) {
+                var item = $(event.currentTarget).parents('li:first');
+                var itemId = $(item).data('id');
+                _this7.currentItem = item;
+
+                // Retrieve item JSON
+                _this7.retrieveCurrentItemJsonById(itemId, JSON.parse(_this7.menuStructure));
+
+                var modal = void 0;
+                switch (item.data('type')) {
+                    // Group
+                    case 'group':
+                        modal = $('#groupModal').modal('show');
+                        $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused');
+                        $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused');
+                        break;
+
+                    // Link
+                    case 'link':
+                        modal = $('#linkModal').modal('show');
+                        $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused');
+                        $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused');
+                        $("input[name='url']", modal).val(item.data('url')).parent().addClass('focused');
+                        break;
+
+                    // Route link
+                    case 'route':
+                        modal = $('#routelinkModal').modal('show');
+                        $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused');
+                        $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused');
+                        $("input[name='module']", modal).val(item.data('module')).parent().addClass('focused');
+                        $("input[name='route']", modal).val(item.data('route')).parent().addClass('focused');
+                        break;
+                }
+            });
+        }
+
+        /**
+         * Init remove item button listener.
+         * Only items without children can be removed.
+         */
+
+    }, {
+        key: 'initRemoveButtonListener',
+        value: function initRemoveButtonListener() {
+            var _this8 = this;
+
+            $('.btn-remove').off('click'); // Remove event listener first because this function can be called several times (e.g. after group creation)
+
+            $('.btn-remove').on('click', function (event) {
+                var item = $(event.currentTarget).parents('li:first');
+                var itemId = item.data('id');
+
+                // Retrieve item JSON
+                _this8.retrieveCurrentItemJsonById(itemId, JSON.parse(_this8.menuStructure));
+
+                if (_this8.currentItemJson && _this8.currentItemJson.children) {
+                    // There are children
+                    swal(uctrans('menu.error.not_empty.title', 'settings'), uctrans('menu.error.not_empty.description', 'settings'), 'error');
+                } else {
+                    $('.menu-manager:visible').nestable('remove', itemId);
+                    _this8.menuToJson();
+                    _this8.save();
+                }
+            });
+        }
+
+        /**
+         * Add or edit group
+         * @param {string} label
+         * @param {string} icon
+         */
+
+    }, {
+        key: 'saveGroup',
+        value: function saveGroup(label, icon) {
+            if (this.currentItem) {
+
+                if (this.currentItemJson !== null) {
+                    this.currentItemJson.label = label;
+                    this.currentItemJson.icon = icon;
+
+                    // Edit data
+                    $(this.currentItem).attr('data-label', label).attr('data-icon', icon);
+
+                    // Change label
+                    $('.icon-label:first', this.currentItem).text(label);
+
+                    // Change icon
+                    $('.material-icons:first', this.currentItem).text(icon);
+
+                    // Replace JSON
+                    $('.menu-manager:visible').nestable('replace', this.currentItemJson);
+
+                    // Replace HTML
+                    var itemId = $(this.currentItem).data('id');
+                    $('[data-id=\'' + itemId + '\']').replaceWith(this.currentItem);
+                }
+            } else {
+                var itemHtml = this.buildItem({
+                    type: 'group',
+                    label: label,
+                    icon: icon,
+                    color: 'green'
+                });
+
+                // Add html
+                $('.menu-manager:visible .dd-list:first').append(itemHtml);
+            }
+
+            // Trigger change to save
+            $('.menu-manager:visible').trigger('change');
+
+            // Init listeners (they are remove when the html code is replace by update)
+            this.initEditButtonListener();
+            this.initRemoveButtonListener();
+        }
+
+        /**
+         * Add or edit route link
+         * @param {string} label
+         * @param {string} icon
+         * @param {string} moduleName
+         * @param {string} route
+         */
+
+    }, {
+        key: 'saveRouteLink',
+        value: function saveRouteLink(label, icon, moduleName, route) {
+            if (this.currentItem) {
+
+                if (this.currentItemJson !== null) {
+                    this.currentItemJson.label = label;
+                    this.currentItemJson.icon = icon;
+                    this.currentItemJson.module = moduleName;
+                    this.currentItemJson.route = route;
+
+                    // Edit data
+                    $(this.currentItem).attr('data-label', label).attr('data-icon', icon).attr('data-module', moduleName).attr('data-route', route);
+
+                    // Change label
+                    $('.icon-label:first', this.currentItem).text(label);
+
+                    // Change icon
+                    $('.material-icons:first', this.currentItem).text(icon);
+
+                    // Replace JSON
+                    $('.menu-manager:visible').nestable('replace', this.currentItemJson);
+
+                    // Replace HTML
+                    var itemId = $(this.currentItem).data('id');
+                    $('[data-id=\'' + itemId + '\']').replaceWith(this.currentItem);
+                }
+            } else {
+                var itemHtml = this.buildItem({
+                    type: 'route',
+                    module: moduleName,
+                    label: label,
+                    icon: icon,
+                    color: 'red',
+                    route: route
+                });
+
+                // Add html
+                $('.menu-manager:visible .dd-list:first').append(itemHtml);
+            }
+
+            // Trigger change to save
+            $('.menu-manager:visible').trigger('change');
+
+            // Init listeners (they are remove when the html code is replace by update)
+            this.initEditButtonListener();
+            this.initRemoveButtonListener();
+        }
+
+        /**
+         * Add or edit link
+         * @param {string} label
+         * @param {string} icon
+         * @param {string} url
+         */
+
+    }, {
+        key: 'saveLink',
+        value: function saveLink(label, icon, url) {
+            if (this.currentItem) {
+
+                if (this.currentItemJson !== null) {
+                    this.currentItemJson.label = label;
+                    this.currentItemJson.icon = icon;
+                    this.currentItemJson.url = url;
+
+                    // Edit data
+                    $(this.currentItem).attr('data-label', label).attr('data-icon', icon).attr('data-url', url);
+
+                    // Change label
+                    $('.icon-label:first', this.currentItem).text(label);
+
+                    // Change icon
+                    $('.material-icons:first', this.currentItem).text(icon);
+
+                    // Replace JSON
+                    $('.menu-manager:visible').nestable('replace', this.currentItemJson);
+
+                    // Replace HTML
+                    var itemId = $(this.currentItem).data('id');
+                    $('[data-id=\'' + itemId + '\']').replaceWith(this.currentItem);
+                }
+            } else {
+                var itemHtml = this.buildItem({
+                    type: 'link',
+                    label: label,
+                    icon: icon,
+                    color: 'blue',
+                    url: url
+                });
+
+                // Add html
+                $('.menu-manager:visible .dd-list:first').append(itemHtml);
+            }
+
+            // Trigger change to save
+            $('.menu-manager:visible').trigger('change');
+
+            // Init listeners (they are remove when the html code is replace by update)
+            this.initEditButtonListener();
+            this.initRemoveButtonListener();
+        }
+
+        /**
+         * Recursive function to find an item by id. Returns JSON
+         * @param {string} id
+         * @param {string} structure
+         * @param {string} parentItem
+         */
+
+    }, {
+        key: 'retrieveCurrentItemJsonById',
+        value: function retrieveCurrentItemJsonById(id, structure, parentItem) {
+            if ((typeof structure === 'undefined' ? 'undefined' : _typeof(structure)) == 'object') {
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = structure[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var item = _step2.value;
+
+                        if (item.id == id) {
+                            this.currentItemJson = item;
+                            this.currentItemParentJson = parentItem;
+                            break;
+                        }
+
+                        if (item.children) {
+                            this.retrieveCurrentItemJsonById(id, item.children, item);
+                        }
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Build item in html format
+         * @param {object} item
+         */
+
+    }, {
+        key: 'buildItem',
+        value: function buildItem(item) {
+            var _this9 = this;
+
+            this.itemsNumber++;
+
+            var noChildrenClass = '';
+            if (item.type !== 'group') {
+                noChildrenClass = 'dd-nochildren';
+            }
+
+            var dataModule = '';
+            if (item.module) {
+                dataModule = 'data-module="' + item.module + '"';
+            }
+
+            var dataUrl = '';
+            if (item.url) {
+                dataUrl = 'data-url="' + item.url + '"';
+            }
+
+            var dataRoute = '';
+            if (item.route) {
+                dataRoute = 'data-route="' + item.route + '"';
+            }
+
+            var dataTranslation = '';
+            var translation = item.label;
+            if (item.translation) {
+                dataTranslation = 'data-translation="' + item.translation + '"';
+                translation = item.translation;
+            }
+
+            var actions = '';
+            if (item.type !== 'module') {
+                actions = '<div class="dd3-actions">\n                        <i class="material-icons btn-edit">edit</i>\n                        <i class="material-icons btn-remove">delete</i>\n                    </div>';
+            }
+
+            var html = '<li class="dd-item dd3-item ' + noChildrenClass + '" data-id="' + this.itemsNumber + '" ' + dataModule + ' ' + dataRoute + ' ' + dataUrl + ' data-type="' + item.type + '" data-label="' + item.label + '" ' + dataTranslation + ' data-icon="' + item.icon + '" data-nochildren="' + (item.noChildren ? true : false) + '" data-color="' + item.color + '">\n                <div class="dd-handle dd3-content">\n                    <i class="material-icons">' + item.icon + '</i>\n                    <span class="icon-label">' + translation + '</span>\n                    <span class="pull-right col-' + item.color + '">' + _.capitalize(item.type) + '</span>\n                </div>\n                ' + actions;
+
+            if (item.children) {
+                html += '<ol class="dd-list">';
+                $.each(item.children, function (index, sub) {
+                    html += _this9.buildItem(sub);
+                });
+                html += '</ol>';
+            }
+
+            html += '</li>';
+
+            return html;
+        }
+    }]);
+
+    return MenuManager;
+}();
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/assets/js/settings/module-manager.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModuleManager; });
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ModuleManager = function () {
+    function ModuleManager() {
+        _classCallCheck(this, ModuleManager);
+
+        this.initCheckboxListener();
+    }
+
+    _createClass(ModuleManager, [{
+        key: 'initCheckboxListener',
+        value: function initCheckboxListener() {
+            var domainSlug = $('meta[name="domain"]').attr('content');
+
+            $("input[type='checkbox'].module-activation").on('click', function (event) {
+                var element = event.currentTarget;
+                var url = laroute.route('uccello.settings.module.activation', { domain: domainSlug });
+
+                $.post(url, {
+                    _token: $("meta[name='csrf-token']").attr('content'),
+                    src_module: $(element).data('module'),
+                    active: $(element).is(':checked') === true ? '1' : '0'
+                }).fail(function (error) {
+                    swal(uctrans('dialog.error.title'), uctrans('error.save', 'settings'), 'error');
+                });
+            });
+        }
+    }]);
+
+    return ModuleManager;
+}();
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__("./resources/assets/js/settings/autoloader.js");
+
+
+/***/ })
+
+},[2]);

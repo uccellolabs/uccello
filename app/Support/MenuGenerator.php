@@ -226,7 +226,7 @@ class MenuGenerator
 
         // Is active. If the current route is in the menu, compare also the routes
         if ($menuLink->type === 'module' && !is_null($module)) {
-            if ($this->isCurrentRouteInMenu()) {
+            if ($this->isCurrentRouteInMenu($module)) {
                 $isActive = $this->module->id === $module->id && request()->route()->getName() === $menuLink->route;
             } else {
                 $isActive = $this->module->id === $module->id;
@@ -324,32 +324,33 @@ class MenuGenerator
     /**
      * Check if the current route is present in the menu
      *
+     * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    protected function isCurrentRouteInMenu()
+    protected function isCurrentRouteInMenu($module)
     {
         $currentRoute = request()->route()->getName();
 
-        return $this->isRouteInMenu($currentRoute);
+        return $this->isRouteInMenu($module, $currentRoute);
     }
 
     /**
      * Check if a route is present in the menu
      *
+     * @param \Uccello\Core\Models\Module $module
      * @param string $route
      * @return boolean
      */
-    protected function isRouteInMenu($route)
+    protected function isRouteInMenu($module, $route)
     {
         $found = false;
 
         $modules = $this->getModulesVisibleInMenu();
-        foreach ($modules as $module) {
-            foreach ($module->menuLinks as $link) {
-                if ($link->route === $route) {
-                    $found = true;
-                    break 2;
-                }
+
+        foreach ($module->menuLinks as $link) {
+            if ($link->route === $route) {
+                $found = true;
+                break;
             }
         }
 

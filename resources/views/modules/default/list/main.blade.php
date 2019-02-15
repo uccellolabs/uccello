@@ -12,9 +12,9 @@
 
 @section('breadcrumb')
     <div class="row">
-        <div class="col-md-12">
+        <div class="col s12">
             <div class="row">
-                <div class="col-sm-6 col-xs-12">
+                <div class="col s6">
                     <div class="breadcrumb pull-left">
                         {{-- Module icon --}}
                         <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
@@ -42,34 +42,34 @@
 
                         {{-- Manage filters --}}
                         <div class="pull-right manage-filters">
-                            <a href="javascript:void(0);" class="action-button dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="action-button dropdown-trigger" data-target="dropdown-filter">
                                 <i class="material-icons bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.manage_filters', $module) }}">filter_list</i>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul id="dropdown-filter" class="dropdown-content">
                                 <li>
-                                    <button class="btn btn-link btn-block add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
+                                    <a href="#!" class="add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
                                         <i class="material-icons">add</i>
-                                        <span>{{ uctrans('button.add_filter', $module) }}</span>
-                                    </button>
+                                        {{ uctrans('button.add_filter', $module) }}
+                                    </a>
                                 </li>
                                 <li>
-                                    <button class="btn btn-link btn-block delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
+                                    <a class="delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
                                         <i class="material-icons">delete</i>
-                                        <span>{{ uctrans('button.delete_filter', $module) }}</span>
-                                    </button>
+                                        {{ uctrans('button.delete_filter', $module) }}
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div class="action-buttons col-sm-6 col-xs-12">
+                <div class="action-buttons col s6 x12">
                     <div class="btn-group m-l-10">
-                        <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <a href="#" class="btn bg-primary icon-right waves-effect pull-right dropdown-trigger" data-target="dropdown-items-number">
                             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
                             <i class="material-icons">keyboard_arrow_down</i>
-                        </button>
-                        <ul id="items-number" class="dropdown-menu">
+                        </a>
+                        <ul id="dropdown-items-number" class="dropdown-content">
                             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="15">15</a></li>
                             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="30">30</a></li>
                             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
@@ -86,7 +86,7 @@
     @yield('before-table')
 
     <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-container" style="min-height: 600px">
+        <div class="col s12 card-container" style="min-height: 600px">
             <div class="card">
                 <div class="body p-t-0">
                     <div class="table-responsive">

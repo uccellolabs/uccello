@@ -1,0 +1,30 @@
+// Variables
+$theme: "uccello";
+$primaryColor: #017ad6;
+$accentColor: #51555D;
+$accentColor2: #3F434C;
+
+// Body
+$backgroundColor: #F3F4F6;
+
+// Loader
+$loaderBackgroundColor: $primaryColor;
+$loaderColor: color("orange", "base");
+
+// Header
+$headerBackgroundColor: $primaryColor;
+
+// Sidenav
+$sidenavBackgroundColor: $accentColor;
+$sidenavLinkColor: #fff;
+$sidenavIconColor: #fff;
+$sidenavLinkHoverBackgroundColor: transparent;
+$sidenavLinkHoverColor: $primaryColor;
+$sidenavIconHoverColor: $primaryColor;
+$sidenavUserInfoBackgroundColor: $accentColor2;
+$sidenavUserInfoColor: #fff;
+$sidenavDividerColor: $accentColor2;
+$sidenavSubheaderBackgroundColor: $accentColor2;
+$sidenavLinkActiveBackgroundColor: $accentColor2;
+
+@import "global";

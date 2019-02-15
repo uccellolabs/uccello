@@ -1,0 +1,176 @@
+body.theme-#{$theme} {
+    background-color: $backgroundColor;
+
+    header, main, footer {
+        padding-left: 260px;
+    }
+
+    @media only screen and (max-width : 992px) {
+        header, main, footer {
+            padding-left: 0;
+        }
+    }
+
+    // Loader
+    .progress.loader {
+        display: none;
+        position: absolute;
+        background-color: $loaderBackgroundColor;
+        top: 0;
+        margin: 0;
+        z-index: 1003;
+
+        .indeterminate,
+        .determinate {
+            background-color: $loaderColor;
+        }
+    }
+
+    // Header
+    .navbar-fixed {
+        &.navbar-header {
+            z-index: 1002;
+        }
+
+        nav.header {
+            background-color: $headerBackgroundColor;
+        }
+      }
+
+    // Sidenav
+    .sidenav {
+        background-color: $sidenavBackgroundColor;
+        top: 64px;
+        width: 260px;
+        border: none;
+
+        // Menu
+        li {
+            // User info
+            &.user {
+                line-height: normal;
+
+                .user-info {
+                    background-color: $sidenavUserInfoBackgroundColor;
+                    color: $sidenavUserInfoColor;
+                    margin-bottom: 0;
+                    padding-top: 30px;
+                    border-bottom: none;
+                    height: 100px;
+                    font-size: 12px;
+
+                    .user-image {
+                        border-right: solid 1px $primaryColor;
+                    }
+
+                    .name {
+                        font-size: 14px;
+                    }
+
+                    .dropdown-trigger {
+                        > a {
+                            color: $sidenavUserInfoColor;
+                        }
+                    }
+
+                    .dropdown-content a {
+                        color: inherit;
+
+                        > i,
+                        > [class^=mdi-],
+                        li > a > [class*=mdi-],
+                        > i.material-icons {
+                            color: inherit;
+                        }
+                    }
+                }
+            }
+
+            // Active link
+            &.active {
+                background-color: $sidenavLinkActiveBackgroundColor;
+                border-left: solid 3px $primaryColor;
+
+                // > i,
+                // > [class^=mdi-],
+                // li > a > [class*=mdi-],
+                // > i.material-icons {
+                //     margin: 0 10px 0 0;
+                // }
+            }
+
+            // Link
+            > a {
+                color: $sidenavLinkColor;
+                padding: 0 13px;
+
+                > i,
+                > [class^=mdi-],
+                li > a > [class*=mdi-],
+                > i.material-icons {
+                    color: $sidenavIconColor;
+                    margin: 0 13px 0 0;
+                }
+
+                &:hover {
+                    background-color: $sidenavLinkHoverBackgroundColor;
+                    color: $sidenavLinkHoverColor;
+
+                    > i,
+                    > [class^=mdi-],
+                    li > a > [class*=mdi-],
+                    > i.material-icons {
+                        color: $sidenavIconHoverColor;
+                    }
+                }
+            }
+
+            // Subheader
+            .subheader {
+                background-color: $sidenavSubheaderBackgroundColor;
+            }
+        }
+
+        // Divider
+        .divider {
+            background-color: $sidenavDividerColor;
+        }
+    }
+
+    // Breadcrumb
+    @media only screen and (min-width: 601px) {
+        nav.navbar-breadcrumb {
+            background-color: #fff;
+            padding-left: 20px;
+
+            &,
+            &.navbar-breadcrumb .nav-wrapper i,
+            &.navbar-breadcrumb a.sidenav-trigger,
+            &.navbar-breadcrumb a.sidenav-trigger i {
+                height: 50px;
+                line-height: 50px;
+            }
+
+            a {
+                color: black;
+
+                &.breadcrumb:before {
+                    color: black;
+                }
+            }
+        }
+    }
+
+    .primary,
+    .bg-primary {
+        background-color: $primaryColor !important;
+    }
+
+    .primary-text {
+        color: $primaryColor !important;
+    }
+
+    .content {
+        padding: 15px;
+    }
+}

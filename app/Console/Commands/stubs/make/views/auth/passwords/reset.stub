@@ -74,6 +74,6 @@ fp-page
 @endsection
 
 @section('script')
-    {{ Html::script(ucasset('js/manifest.js')) }}
-    {{ Html::script(ucasset('js/vendor.js')) }}
+    {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}
+    {{ Html::script(mix('js/vendor.js', 'vendor/uccello/uccello')) }}
 @endsection

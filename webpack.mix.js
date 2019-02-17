@@ -11,19 +11,19 @@ mix.autoload(autoload);
 
 mix.setPublicPath('public');
 
-mix.js('./resources/assets/js/app.js', 'public/js')
-    .sass('./resources/assets/sass/app.scss', 'public/css');
-
-mix.js('./resources/assets/js/core/autoloader.js', 'public/js')
-    .js('./resources/assets/js/settings/autoloader.js', 'public/js/settings')
-
-mix.copy('./resources/assets/images', 'public/images');
-
 mix.extract([
     'lodash', 'jquery', 'bootstrap',
     'fastclick', 'adminbsb-materialdesign',
     'vue', 'axios', 'node-waves', 'popper.js', 'moment'
 ], 'public/js/vendor.js');
+
+mix.js('./resources/assets/js/core/autoloader.js', 'public/js')
+    .js('./resources/assets/js/settings/autoloader.js', 'public/js/settings')
+
+mix.js('./resources/assets/js/app.js', 'public/js')
+    .sass('./resources/assets/sass/app.scss', 'public/css');
+
+mix.copy('./resources/assets/images', 'public/images');
 
 mix.version();
 

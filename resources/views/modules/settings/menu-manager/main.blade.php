@@ -121,5 +121,5 @@
 @endsection
 
 @section('extra-script')
-    {{ Html::script(ucasset('js/settings/autoloader.js')) }}
+    {{ Html::script(mix('js/settings/autoloader.js', 'vendor/uccello/uccello')) }}
 @endsection

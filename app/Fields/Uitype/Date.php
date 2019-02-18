@@ -3,6 +3,7 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Fluent;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Models\Field;
@@ -32,9 +33,27 @@ class Date extends DateTime implements Uitype
     {
         $options = parent::getFormOptions($record, $field, $module);
 
-        $options[ 'attr' ] = [ 'class' => 'form-control datepicker' ];
+        $options[ 'attr' ] = [ 'class' => 'form-control datepicker', 'autocomplete' => 'off' ];
 
         return $options;
+    }
+
+    /**
+     * Returns updated query after adding a new search condition.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder query
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
+    {
+        $query->where(function ($query) use($field, $value) {
+            $values = explode(',', $value); // Start Date, End Date
+            $query->whereBetween($field->column, [ trim($values[0]), trim($values[1]) ])->get();
+        });
+
+        return $query;
     }
 
     /**

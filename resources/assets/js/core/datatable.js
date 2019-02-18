@@ -20,7 +20,7 @@ export class Datatable {
             dom: 'Brtp',
             autoWidth: false, // Else the width is not refreshed on window resize
             responsive: true,
-            colReorder: true,
+            colReorder: false,
             serverSide: true,
             ajax: {
                 url: this.url,
@@ -60,7 +60,8 @@ export class Datatable {
                     colvis: uctrans('button.columns')
                 }
             },
-            aoSearchCols: this.getInitialSearch()
+            aoSearchCols: this.getInitialSearch(),
+
         });
 
         // Config buttons
@@ -95,11 +96,12 @@ export class Datatable {
             datatableColumns.push({
                 targets: parseInt(i) + 1, // Force integer
                 data: column.name,
+                orderable: true,
                 createdCell: (td, cellData, rowData, row, col) => {
                     selector.get(column.uitype).createdCell(column, td, cellData, rowData, row, col)
                 },
                 visible: column.visible
-            });
+            })
         }
 
         // Add last column (action buttons)
@@ -283,7 +285,7 @@ export class Datatable {
             let column = table.column(index)
 
             // Event listener to launch search
-            $('input, select', this.header()).on('keyup change', function() {
+            $('input, select', this.header()).on('keyup change apply.daterangepicker cancel.daterangepicker', function(event) {
                 let value = $(this).val()
 
                 if (value !== '') {
@@ -313,7 +315,8 @@ export class Datatable {
 
         $('.actions-column .clear-search').on('click', (event) => {
             // Clear all search fields
-            $('.dataTable thead input, .dataTable thead select').val(null).change()
+            $('.dataTable thead select').selectpicker('deselectAll')
+            $('.dataTable thead input').val('')
 
             // Update columns
             table.columns().every(function (index) {

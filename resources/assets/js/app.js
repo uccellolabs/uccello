@@ -16,6 +16,7 @@ import noUiSlider from 'adminbsb-materialdesign/plugins/nouislider/nouislider';
 import 'node-waves';
 
 import 'bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker';
+import 'daterangepicker'
 
 // JSTree
 import 'jstree/src/jstree.search.js';
@@ -72,6 +73,16 @@ window.uctrans = (string, file, namespace) => {
     return i18next.t(`${namespace}::${file}:${string}`, { nsSeparator: '::', keySeparator: ':' })
 }
 
+$('select').on('changed.bs.select', function (e) {
+    if (this.value === '') {
+        $(this).parents('.dropdown-toggle:first').addClass('bs-placeholder')
+        console.log('vide')
+    } else {
+        $(this).parents('.dropdown-toggle:first').removeClass('bs-placeholder')
+    }
+	// $(this).prevAll('.dropdown-toggle').toggleClass('bs-placeholder', this.value === '');
+})
+
 // Tooltip
 $("[data-toggle='tooltip']").tooltip();
 
@@ -94,14 +105,114 @@ $('.colorpicker').colorpicker({
     let rbga = e.color.toRGB()
     $(e.currentTarget).parents('.input-group').find('.input-group-addon i')
         .css('color', `rgba(${rbga.r},${rbga.g},${rbga.b},${rbga.a})`);
-  });
+});
+
+// Date range picker
+$('.date-range-picker')
+.daterangepicker({
+    autoUpdateInput: false,
+    locale: getDaterangePickerLocale(),
+}, function(start, end, label) {
+    $(this).change()
+})
+.on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-MM-DD') + ', ' + picker.endDate.format('YYYY-MM-DD'));
+})
+.on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('').change()
+})
+
+// Datetime range picker
+$('.datetime-range-picker')
+.daterangepicker({
+    autoUpdateInput: false,
+    timePicker: true,
+    timePicker24Hour: true,
+    locale: getDaterangePickerLocale(),
+}, function(start, end, label) {
+    $(this).change()
+})
+.on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm') + ', ' + picker.endDate.format('YYYY-MM-DD HH:mm'));
+})
+.on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('').change()
+})
+
+// Time picker
+$('.timepicker').bootstrapMaterialDatePicker({
+    date: false,
+    format : 'HH:mm',
+    cancelText: uctrans('calendar.cancel'),
+    clearButton: true,
+    clearText: uctrans('calendar.clear')
+})
+
+// Date picker
+$('.datepicker').daterangepicker({
+    autoUpdateInput: false,
+    locale: getDaterangePickerLocale(),
+    singleDatePicker: true,
+})
+.on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-MM-DD'))
+})
+.on('keyup', function() {
+    let dateStr = $(this).val()
+    if (moment(dateStr).isValid()) {
+        let date = moment(dateStr)
+        $(this).data('daterangepicker').setStartDate(date)
+        $(this).data('daterangepicker').setEndDate(date)
+    }
+})
 
 // Datetime picker
-$('.datepicker').bootstrapMaterialDatePicker({ weekStart : 0, time: false });
-$('.timepicker').bootstrapMaterialDatePicker({ date: false, format : 'HH:mm' });
-$('.datetimepicker').bootstrapMaterialDatePicker({ format : 'YYYY-MM-DD HH:mm' });
-$('.monthpicker').bootstrapMaterialDatePicker({ format : 'MM', time: false });
-$('.weekpicker').bootstrapMaterialDatePicker({ format : 'w', time: false });
+$('.datetimepicker').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    locale: getDaterangePickerLocale(),
+    singleDatePicker: true,
+    timePicker: true,
+    timePicker24Hour: true
+})
+.on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm')).parents('.form-line:first').addClass('focused')
+})
+.on('cancel.daterangepicker', function(ev, picker) {
+    $(this).val('').change()
+})
+.on('keyup', function() {
+    let dateStr = $(this).val()
+    if (moment(dateStr).isValid()) {
+        let date = moment(dateStr)
+        $(this).data('daterangepicker').setStartDate(date)
+        $(this).data('daterangepicker').setEndDate(date)
+    }
+})
+
+// Month picker
+$('.monthpicker').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    locale: getDaterangePickerLocale(),
+    singleDatePicker: true,
+    showDropdowns: true
+})
+.on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-MM')).parents('.form-line:first').addClass('focused')
+})
+
+// Week picker
+$('.weekpicker').daterangepicker({
+    autoUpdateInput: false,
+    autoApply: true,
+    locale: getDaterangePickerLocale(),
+    singleDatePicker: true,
+    showWeekNumbers: true
+})
+.on('apply.daterangepicker', function(ev, picker) {
+    $(this).val(picker.startDate.format('YYYY-w')).parents('.form-line:first').addClass('focused')
+})
 
 $('.count-to').countTo();
 $('[data-trigger="spinner"]').spinner();
@@ -206,3 +317,40 @@ $('.domain-search-bar #domain-name').keyup(() => {
 $('table.dataTable thead th input, table.dataTable thead th select').on('click', (e) => {
     e.stopImmediatePropagation();
 })
+
+function getDaterangePickerLocale() {
+    return {
+        format: uctrans('calendar.format'),
+        separator: uctrans('calendar.separator'),
+        applyLabel: uctrans('calendar.apply'),
+        cancelLabel: uctrans('calendar.cancel'),
+        fromLabel: uctrans('calendar.from'),
+        toLabel: uctrans('calendar.to'),
+        customRangeLabel: uctrans('calendar.custom'),
+        weekLabel: uctrans('calendar.week'),
+        daysOfWeek: [
+            uctrans('calendar.day.su'),
+            uctrans('calendar.day.mo'),
+            uctrans('calendar.day.tu'),
+            uctrans('calendar.day.we'),
+            uctrans('calendar.day.th'),
+            uctrans('calendar.day.fr'),
+            uctrans('calendar.day.sa'),
+        ],
+        monthNames: [
+            uctrans('calendar.month.january'),
+            uctrans('calendar.month.february'),
+            uctrans('calendar.month.march'),
+            uctrans('calendar.month.april'),
+            uctrans('calendar.month.may'),
+            uctrans('calendar.month.june'),
+            uctrans('calendar.month.july'),
+            uctrans('calendar.month.august'),
+            uctrans('calendar.month.september'),
+            uctrans('calendar.month.october'),
+            uctrans('calendar.month.november'),
+            uctrans('calendar.month.december'),
+        ],
+        firstDay: 1,
+    }
+}

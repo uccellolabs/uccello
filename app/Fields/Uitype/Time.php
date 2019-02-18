@@ -47,6 +47,18 @@ class Time extends DateTime implements Uitype
     }
 
     /**
+     * Returns formatted value to display.
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $record
+     * @return string
+     */
+    public function getFormattedValueToDisplay(Field $field, $record) : string
+    {
+        return (new \Carbon\Carbon($record->{$field->column}))->format('h:i') ?? '';
+    }
+
+    /**
      * Create field column in the module table
      *
      * @param \Uccello\Core\Models\Field $field

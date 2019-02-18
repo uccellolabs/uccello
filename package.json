@@ -34,7 +34,9 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "bootstrap-datepicker": "^1.8.0",
         "bootstrap-material-datetimepicker": "^2.7.3",
+        "daterangepicker": "^3.0.3",
         "jstree": "^3.3.5",
         "materialize-css": "^1.0.0-rc.2",
         "nestable2": "^1.6.0",

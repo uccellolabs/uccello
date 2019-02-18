@@ -89,7 +89,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-container" style="min-height: 600px">
             <div class="card">
                 <div class="body p-t-0">
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="min-height: 300px">
                         <table class="table table-striped table-hover dataTable">
                             <thead>
                                 <tr>

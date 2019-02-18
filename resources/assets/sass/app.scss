@@ -503,6 +503,21 @@ table.dataTable {
 
         th input {
             font-weight: normal;
+            font-size: 13px;
+        }
+
+        th button {
+            padding-left: 0;
+            padding-right: 0 !important;
+        }
+
+        th .form-group .form-line.focused,
+        th .form-group .form-line.focused:after {
+            border-bottom: solid 1px #ddd;
+        }
+
+        th .bootstrap-select {
+            border-bottom: none !important;
         }
     }
 
@@ -832,4 +847,15 @@ table.dataTable thead th.sorting:after {
         padding-left: 20px;
         padding-bottom: 0;
     }
+}
+
+.bootstrap-select.bs-placeholder span.filter-option,
+.bootstrap-select.bs-placeholder:hover span.filter-option,
+.bootstrap-select.bs-placeholder:focus span.filter-option,
+.bootstrap-select.bs-placeholder:active span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:hover span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:focus span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:active span.filter-option {
+    color: #9A9A9A !important;
 }

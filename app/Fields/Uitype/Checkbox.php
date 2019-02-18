@@ -87,8 +87,13 @@ class Checkbox implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $formattedValue = $this->getFormattedValueToSearch($value);
-        $query = $query->where($field->column, '=', $formattedValue);
+        $query->where(function ($query) use($field, $value) {
+            $values = explode(',', $value);
+            foreach ($values as $value) {
+                $formattedValue = $this->getFormattedValueToSearch($value);
+                $query = $query->orWhere($field->column, '=', $formattedValue);
+            }
+        });
 
         return $query;
     }

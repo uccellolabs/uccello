@@ -74,14 +74,9 @@ window.uctrans = (string, file, namespace) => {
 }
 
 $('select').on('changed.bs.select', function (e) {
-    if (this.value === '') {
-        $(this).parents('.dropdown-toggle:first').addClass('bs-placeholder')
-        console.log('vide')
-    } else {
-        $(this).parents('.dropdown-toggle:first').removeClass('bs-placeholder')
-    }
-	// $(this).prevAll('.dropdown-toggle').toggleClass('bs-placeholder', this.value === '');
-})
+	$(this).parents('.btn-group:first').removeClass('bs-placeholder')
+	$(this).prevAll('.dropdown-toggle').toggleClass('bs-placeholder', this.value === '')
+}).trigger('changed.bs.select')
 
 // Tooltip
 $("[data-toggle='tooltip']").tooltip();

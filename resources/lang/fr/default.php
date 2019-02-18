@@ -9,7 +9,7 @@ return [
     'logout' => 'Déconnexion',
     'create' => 'Création',
     'edit' => 'Édition',
-    'search_by' => 'Rechercher par',
+    'search' => 'Rechercher',
 
     // Menu
     'menu.title' => 'Menu',

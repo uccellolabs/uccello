@@ -277,33 +277,45 @@ export class Datatable {
     initDatatableColumnSearch()
     {
         let table = this.table
-
-        let timer = 0
+        this.timer = 0
+        let that = this
 
         // Config each column
         table.columns().every(function (index) {
             let column = table.column(index)
 
             // Event listener to launch search
-            $('input, select', this.header()).on('keyup change apply.daterangepicker cancel.daterangepicker', function(event) {
-                let value = $(this).val()
+            $('input', this.header()).on('keyup apply.daterangepicker cancel.daterangepicker', function() {
+                that.launchSearch(column, $(this).val())
+            })
 
-                if (value !== '') {
-                    $('.clear-search').show()
-                }
-
-                if (column.search() !== value) {
-                    clearTimeout(timer)
-                    timer = setTimeout(() => {
-                        column.search(value)
-                        table.draw()
-                    }, 500)
-                }
+            $('select', this.header()).on('change', function() {
+                that.launchSearch(column, $(this).val())
             })
         })
 
         // Add clear search button listener
         this.addClearSearchButtonListener()
+    }
+
+    /**
+     * Launch search
+     * @param {Object} column
+     * @param {String} q
+     */
+    launchSearch(column, q)
+    {
+        if (q !== '') {
+            $('.clear-search').show()
+        }
+
+        if (column.search() !== q) {
+            clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                column.search(q)
+                this.table.draw()
+            }, 500)
+        }
     }
 
     /**

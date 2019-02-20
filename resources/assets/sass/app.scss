@@ -40,6 +40,8 @@
 // Admin BSB Template
 @import 'adminbsb/_adminbsb';
 
+@import '~ajax-bootstrap-select/dist/css/ajax-bootstrap-select.css';
+
 // Custom
 .card, .modal-dialog {
     &.block {

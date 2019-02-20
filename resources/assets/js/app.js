@@ -37,6 +37,9 @@ import 'nestable2'
 // jQuery Spinner
 import 'adminbsb-materialdesign/plugins/jquery-spinner/js/jquery.spinner.js'
 
+//
+import 'ajax-bootstrap-select'
+
 // Autosize
 import autosize from 'adminbsb-materialdesign/plugins/autosize/autosize.js';
 autosize($('textarea.auto-growth'));
@@ -72,6 +75,46 @@ window.uctrans = (string, file, namespace) => {
 
     return i18next.t(`${namespace}::${file}:${string}`, { nsSeparator: '::', keySeparator: ':' })
 }
+
+$('select[data-abs-ajax-url]')
+    .selectpicker({
+        liveSearch: true
+    })
+    .ajaxSelectPicker({
+        emptyRequest: true,
+        cache: true,
+        ajax: {
+            url: $(this),
+            data: {
+                q: '{{{q}}}',
+                _token: $("meta[name='csrf-token']").attr("content")
+            }
+        },
+        locale: {
+            emptyTitle: uctrans('search'),
+            currentlySelected: uctrans('autocomplete.currently_selected'),
+            errorText: uctrans('autocomplete.error'),
+            searchPlaceholder: uctrans('autocomplete.placeholder'),
+            statusInitialized: uctrans('autocomplete.status.initialized'),
+            statusNoResults:  uctrans('autocomplete.status.no_results'),
+            statusSearching:  uctrans('autocomplete.status.searching'),
+            statusTooShort:  uctrans('autocomplete.status.too_short'),
+        },
+        preprocessData: function(response){
+            var items = [];
+            for(var row of response.data){
+                items.push(
+                    {
+                        'value': row.id,
+                        'text': row.recordLabel,
+                        'disabled': false
+                    }
+                )
+            }
+
+            return items
+        },
+    })
 
 $('select').on('changed.bs.select', function (e) {
 	$(this).parents('.btn-group:first').removeClass('bs-placeholder')

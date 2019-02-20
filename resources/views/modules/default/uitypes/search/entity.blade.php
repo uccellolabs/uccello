@@ -1,11 +1,19 @@
 <div class="form-group">
     <div class="form-line">
-        <select class="form-control bs-placeholder" multiple data-live-search="true" data-none-selected-text="{{ uctrans('search', $module) }}">
-            @if ($column['data']->choices ?? false)
-                @foreach ($column['data']->choices as $choice)
-                    <option value="{{ $choice }}" @if($searchValue && $choice === $searchValue)selected="selected"@endif>{{ uctrans($choice, $module) }}</option>
-                @endforeach
-            @endif
+        <?php
+            $relatedModule = null;
+            $entities = [ ];
+            if (!empty($column['data']->module)) {
+                $relatedModule =  ucmodule($column['data']->module);
+                $modelClass = $relatedModule->model_class;
+
+                $entities = $modelClass::take(10)->get();
+            }
+        ?>
+        <select class="form-control" multiple data-live-search="true" data-none-selected-text="{{ uctrans('search', $module) }}" @if ($relatedModule) data-abs-ajax-url="{{ ucroute('uccello.autocomplete', $domain, $relatedModule) }}"@endif>
+            @foreach ($entities as $entity)
+            <option value="{{ $entity->getKey() }}">{{ $entity->recordLabel }}</option>
+            @endforeach
         </select>
     </div>
 </div>

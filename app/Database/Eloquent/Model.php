@@ -11,6 +11,15 @@ class Model extends DefaultModel
 
     protected $tablePrefix;
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'recordLabel'
+    ];
+
     public function __construct(array $attributes = [ ])
     {
         parent::__construct($attributes);

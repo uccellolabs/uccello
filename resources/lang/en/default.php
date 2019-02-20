@@ -154,4 +154,13 @@ return [
     'calendar.month.october' =>  'October',
     'calendar.month.november' =>  'November',
     'calendar.month.december' =>  'December',
+
+    // Autocomplete
+    'autocomplete.currently_selected' => 'Selection',
+    'autocomplete.error' => 'An error occurred',
+    'autocomplete.placeholder' => 'Search',
+    'autocomplete.status.initialized' => 'Start to type',
+    'autocomplete.status.no_results' => 'No results',
+    'autocomplete.status.searching' => 'Searching...',
+    'autocomplete.status.too_short' => 'Enter more characters',
 ];

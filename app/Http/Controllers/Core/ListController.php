@@ -3,6 +3,7 @@
 namespace Uccello\Core\Http\Controllers\Core;
 
 use Schema;
+use DB;
 use Illuminate\Http\Request;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
@@ -65,6 +66,38 @@ class ListController extends Controller
         $result = $this->getResultForDatatable($domain, $module, $request);
 
         return $result;
+    }
+
+    /**
+     * Autocomplete a listing of the resources.
+     * The result is formated differently if it is a classic query or one requested by datatable.
+     * Filter on domain if domain_id column exists.
+     * @param  \Uccello\Core\Models\Domain|null $domain
+     * @param  \Uccello\Core\Models\Module $module
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function processForAutocomplete(?Domain $domain, Module $module, Request $request)
+    {
+        // If we don't use multi domains, find the first one
+        if (!uccello()->useMultiDomains()) {
+            $domain = Domain::first();
+        }
+
+        // Query
+        $q = $request->get('q');
+
+        // Model class
+        $modelClass = $module->model_class;
+
+        if ($q) {
+            DB::statement("SET SESSION sql_mode = ''");
+            $query = $modelClass::search($q);
+        } else {
+            $query = $modelClass::query();
+        }
+
+        return $query->paginate(10);
     }
 
     /**

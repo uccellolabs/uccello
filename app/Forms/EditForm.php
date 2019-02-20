@@ -186,12 +186,15 @@ class EditForm extends Form
      */
     protected function getSpecialFieldOptions(Field $field): array
     {
+        // Get domain data
+        $domain = $this->getData('domain');
+
         // Get module data
         $module = $this->getData('module');
 
         $uitype = $this->getUitypeInstance($field);
 
-        return $uitype->getFormOptions($this->getModel(), $field, $module);
+        return $uitype->getFormOptions($this->getModel(), $field, $domain, $module);
     }
 
     /**

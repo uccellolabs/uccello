@@ -6,11 +6,13 @@ use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Collection;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Domain extends Model
 {
     use SoftDeletes;
     use Sluggable;
+    use SearchableTrait;
 
     /**
      * The table associated with the model.
@@ -50,6 +52,18 @@ class Domain extends Model
             ]
         ];
     }
+
+    /**
+     * Searchable rules.
+     * See https://github.com/nicolaslopezj/searchable
+     *
+     * @var array
+     */
+    protected $searchable = [
+        'columns' => [
+            'name' => 1
+        ]
+    ];
 
     protected function initTablePrefix()
     {

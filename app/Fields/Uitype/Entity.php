@@ -57,7 +57,7 @@ class Entity implements Uitype
                 'attr' => [
                     'class' => 'form-control show-tick',
                     'data-live-search' => 'true',
-                    'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
+                    // 'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
                 ],
                 'query_builder' => function($relatedRecord) use($record) {
                     // If related record class is the same as the record one, ignore the current record

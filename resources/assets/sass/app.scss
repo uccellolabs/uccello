@@ -95,8 +95,12 @@
     }
 }
 
-.input-group .form-control {
-    z-index: auto;
+.input-group {
+    margin-bottom: 0;
+
+    .form-control {
+        z-index: auto;
+    }
 }
 
 .sidebar {
@@ -291,6 +295,8 @@ div.breadcrumb {
 }
 
 .form-group {
+    margin-bottom: 0px;
+
     &.form-choice {
         label:not(.control-label) {
             top: 0px;
@@ -317,7 +323,7 @@ div.breadcrumb {
         }
     }
 
-    .form-switch {
+    &.form-switch {
         label:not(.switch-label) {
             top: 0px;
             left: 15px;

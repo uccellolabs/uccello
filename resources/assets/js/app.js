@@ -150,6 +150,7 @@ $('.date-range-picker')
 .daterangepicker({
     autoUpdateInput: false,
     locale: getDaterangePickerLocale(),
+    showDropdowns: true
 }, function(start, end, label) {
     $(this).change()
 })
@@ -167,6 +168,7 @@ $('.datetime-range-picker')
     timePicker: true,
     timePicker24Hour: true,
     locale: getDaterangePickerLocale(),
+    showDropdowns: true
 }, function(start, end, label) {
     $(this).change()
 })
@@ -191,6 +193,7 @@ $('.datepicker').daterangepicker({
     autoUpdateInput: false,
     locale: getDaterangePickerLocale(),
     singleDatePicker: true,
+    showDropdowns: true
 })
 .on('apply.daterangepicker', function(ev, picker) {
     $(this).val(picker.startDate.format('YYYY-MM-DD'))
@@ -211,7 +214,8 @@ $('.datetimepicker').daterangepicker({
     locale: getDaterangePickerLocale(),
     singleDatePicker: true,
     timePicker: true,
-    timePicker24Hour: true
+    timePicker24Hour: true,
+    showDropdowns: true
 })
 .on('apply.daterangepicker', function(ev, picker) {
     $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm')).parents('.form-line:first').addClass('focused')
@@ -246,7 +250,8 @@ $('.weekpicker').daterangepicker({
     autoApply: true,
     locale: getDaterangePickerLocale(),
     singleDatePicker: true,
-    showWeekNumbers: true
+    showWeekNumbers: true,
+    showDropdowns: true
 })
 .on('apply.daterangepicker', function(ev, picker) {
     $(this).val(picker.startDate.format('YYYY-w')).parents('.form-line:first').addClass('focused')

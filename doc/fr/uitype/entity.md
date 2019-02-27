@@ -18,7 +18,8 @@ Les propriétés de l'uitype sont spécifiées dans la colonne `data` de la tabl
 | `rules`    | Règles de validation du formulaire (voir [Documentation officielle](https://laravel.com/docs/5.7/validation)) |                |
 
 ### Propriétés spécifiques
-| Attribut   | Description                    | Obligatoire    | Défaut        |
-| ---------- | ------------------------------ | -------------- | ------------- |
-| `module`   | Nom du module lié              | Oui            |               |
-| `field`    | Nom de la propriété à afficher | Oui            |               |
+| Attribut              | Description                                        | Obligatoire    | Défaut        |
+| --------------------- | -------------------------------------------------- | -------------- | ------------- |
+| `autocomplete_search` | Active la complétion automatique pour la recherche | Non            | `false`       |
+| `module`              | Nom du module lié                                  | Oui            |               |
+| `field`               | Nom de la propriété à afficher                     | Non            |               |

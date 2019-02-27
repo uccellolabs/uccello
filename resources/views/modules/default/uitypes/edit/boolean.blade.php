@@ -12,7 +12,7 @@
             @endif
 
             {{-- Field --}}
-            <div class="switch p-t-10 p-b-5">
+            <div class="switch p-t-10">
                 <label class="switch-label">
                     {{ uctrans('no', $module) }}
                     {!! form_widget($form->{$field->name}) !!}

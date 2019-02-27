@@ -21,3 +21,6 @@ Les propriétés de l'uitype sont spécifiées dans la colonne `data` de la tabl
 | Attribut   | Description                      | Obligatoire      | Défaut        |
 | ---------- | -------------------------------- | ---------------- | ------------- |
 | `repeated` | Ajouter un champ de confirmation | Non              | `false`       |
+| `min`      | Valeur minimale                  | Non              | `0`           |
+| `max`      | Valeur maximale                  | Non              |               |
+| `step`     | Pas entre deux valeurs           | Non              | `1`           |

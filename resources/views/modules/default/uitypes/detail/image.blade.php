@@ -3,12 +3,14 @@
     <strong>{{ uctrans($field->label, $module) }}</strong>
 </div>
 <div class="{{ $isLarge ? 'col-sm-10 col-xs-7' : 'col-sm-4 col-xs-7' }}">
+    <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
     @if($record->{$field->column} && $field->data->public ?? false)
         <div class="img-container">
-            <img src="{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}" class="img-responsive">
+            <img src="{{ $value }}" class="img-responsive">
         </div>
-    @else
+    @elseif (!empty($value))
         {{ $field->uitype->getFormattedValueToDisplay($field, $record) }}
+    @else
+        &nbsp;
     @endif
-    &nbsp;
 </div>

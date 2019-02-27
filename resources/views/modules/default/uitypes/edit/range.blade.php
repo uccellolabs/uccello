@@ -12,7 +12,7 @@
             @endif
 
             {{-- Field --}}
-            <div class="p-t-10 p-b-5">
+            <div class="p-t-10">
             <div class="nouislider_range"
                 data-min="{{ $field->data->min ?? '0' }}"
                 data-max="{{ $field->data->max ?? '100' }}"

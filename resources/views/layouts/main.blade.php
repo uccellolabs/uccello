@@ -61,7 +61,6 @@
     {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}
     {{ Html::script(mix('js/vendor.js', 'vendor/uccello/uccello')) }}
     {{ Html::script(mix('js/app.js', 'vendor/uccello/uccello')) }}
-    {{ Html::script('js/laroute.js') }}
     @show
 
     @section('uccello-autoloader-script')

@@ -29,6 +29,10 @@
     @show
 
     {{-- Extra CSS --}}
+    @yield('uccello-extra-css')
+
+    {{-- For application --}}
+    @yield('app-css')
     @yield('extra-css')
 </head>
 
@@ -52,7 +56,7 @@
     {{-- Flash notifications --}}
     @include('uccello::layouts.partials.notifications.main')
 
-    @section('script')
+    @section('uccello-script')
     {{ Html::script('//momentjs.com/downloads/moment-with-locales.min.js') }}
     {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}
     {{ Html::script(mix('js/vendor.js', 'vendor/uccello/uccello')) }}
@@ -60,11 +64,15 @@
     {{ Html::script('js/laroute.js') }}
     @show
 
-    @section('autoloader-script')
+    @section('uccello-autoloader-script')
     {{ Html::script(mix('js/autoloader.js', 'vendor/uccello/uccello')) }}
     @show
 
-    @yield('extra-script')
+    @yield('uccello-extra-script')
+
+    {{-- For Application --}}
+    @yield('app-script')
+    @yield('app-extra-script')
 </body>
 
 </html>

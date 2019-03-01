@@ -68,6 +68,6 @@
     </div>
 @endsection
 
-@section('extra-script')
+@section('uccello-extra-script')
     {{ Html::script(mix('js/settings/autoloader.js', 'vendor/uccello/uccello')) }}
 @endsection

@@ -25,7 +25,7 @@ five-zero-zero
 </div>
 @endsection
 
-@section('script')
+@section('uccello-script')
     {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}
     {{ Html::script(mix('js/vendor.js', 'vendor/uccello/uccello')) }}
 @endsection

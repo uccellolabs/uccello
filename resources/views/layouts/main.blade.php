@@ -63,14 +63,13 @@
     {{ Html::script(mix('js/app.js', 'vendor/uccello/uccello')) }}
     @show
 
+    @yield('app-script')
+
     @section('uccello-autoloader-script')
     {{ Html::script(mix('js/autoloader.js', 'vendor/uccello/uccello')) }}
     @show
 
     @yield('uccello-extra-script')
-
-    {{-- For Application --}}
-    @yield('app-script')
     @yield('app-extra-script')
 </body>
 

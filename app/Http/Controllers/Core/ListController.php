@@ -69,6 +69,36 @@ class ListController extends Controller
     }
 
     /**
+     * Display a listing of the resources.
+     * The result is formated differently if it is a classic query or one requested by datatable.
+     * Filter on domain if domain_id column exists.
+     * @param  \Uccello\Core\Models\Domain|null $domain
+     * @param  \Uccello\Core\Models\Module $module
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function processForDatatableConfig(?Domain $domain, Module $module, Request $request)
+    {
+        // If we don't use multi domains, find the first one
+        if (!uccello()->useMultiDomains()) {
+            $domain = Domain::first();
+        }
+
+        // Get filter type
+        $filterType = $request->get('filter_type', 'list');
+
+        // Get selected filter id
+        $filterId = $request->get('filter');
+        $filter = Filter::find($filterId);
+
+        // Get data formated for Datatable
+        return [
+            'columns' => uccello()->getDatatableColumns($module, $filterId, $filterType),
+            'filter' => $filter
+        ];
+    }
+
+    /**
      * Autocomplete a listing of the resources.
      * The result is formated differently if it is a classic query or one requested by datatable.
      * Filter on domain if domain_id column exists.

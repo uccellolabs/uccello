@@ -13,8 +13,12 @@ export class Datatable {
      * Init Datatable configuration
      * @param {Element} element
      */
-    init(element) {
+    async init(element) {
         let linkManager = new Link(false)
+
+        $(element).hide()
+
+        await this.getDatatableConfig(element)
 
         this.table = $(element).DataTable({
             dom: 'Brtp',
@@ -48,7 +52,11 @@ export class Datatable {
             buttons: [
                 {
                     extend: 'colvis',
-                    columns: ':gt(0):lt(-1)'
+                    columns: ':gt(0):lt(-1)',
+                    columnText: ( dt, idx, title ) => {
+                        let column = this.columns[idx-1]
+                        return $(`th[data-name="${column.name}"]`).data('label')
+                    }
                 }
             ],
             language: {
@@ -69,6 +77,35 @@ export class Datatable {
 
         // Init search
         this.initDatatableColumnSearch()
+
+        // Hidde loader
+        $(element).parents('.table-responsive:first').find('.loader').hide()
+
+        // Show datatable
+        $(element).show()
+    }
+
+    /**
+     * Async method to get Datatable configuration: columns and selected filter definition.
+     * @param {Element} element
+     */
+    async getDatatableConfig(element) {
+        let filterId = $(element).data('filter-id')
+        if (typeof filterId === 'undefined') {
+            filterId = ''
+        }
+
+        let url = laroute.route('uccello.datatable.config', {
+            domain: this.domainSlug,
+            module: this.moduleName,
+            filter: filterId,
+            filter_type: $(element).data('filter-type')
+        })
+
+        let response = await $.get(url)
+
+        this.columns = response.columns
+        this.selectedFilter = response.filter
     }
 
     /**

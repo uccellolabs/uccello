@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Widget;
+use Uccello\Core\Models\Relatedlist;
 
 
 class DetailController extends Controller
@@ -29,13 +30,21 @@ class DetailController extends Controller
         $this->preProcess($domain, $module, $request);
 
         // Get record id
-        $recordId = $request->input('id');
+        $recordId = (int)$request->input('id');
 
         // Selected tab
         $selectedTabId = (int)$request->input('tab');
 
         // Selected related list
         $selectedRelatedlistId = (int)$request->input('relatedlist');
+
+        // Check if the selected related list is visible
+        if ($selectedRelatedlistId) {
+            $relatedlist = Relatedlist::find($selectedRelatedlistId);
+            if (empty($relatedlist) || !$relatedlist->isVisibleAsTab) {
+                $selectedRelatedlistId = false;
+            }
+        }
 
         // Widgets
         $availableWidgets = Widget::where('type', 'summary')->get(); // TODO: Don't display widgets already added

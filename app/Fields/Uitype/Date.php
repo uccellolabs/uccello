@@ -41,6 +41,18 @@ class Date extends DateTime implements Uitype
     }
 
     /**
+     * Returns formatted value to display.
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $record
+     * @return string
+     */
+    public function getFormattedValueToDisplay(Field $field, $record) : string
+    {
+        return (new \Carbon\Carbon($record->{$field->column}))->format('Y-m-d') ?? '';
+    }
+
+    /**
      * Returns updated query after adding a new search condition.
      *
      * @param \Illuminate\Database\Eloquent\Builder query

@@ -103,7 +103,6 @@ class UccelloInstallCommand extends Command
         $this->info('Generating routes with laroute...');
         Artisan::call('laroute:generate');
 
-
         // Generate JWT Secret if it does not exist yet (else there is an error)
         if (empty(env('JWT_SECRET'))) {
             $this->info('Generating jwt secret...');

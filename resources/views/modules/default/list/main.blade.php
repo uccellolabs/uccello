@@ -4,8 +4,6 @@
 
 @section('extra-meta')
     <meta name="datatable-url" content="{{ ucroute('uccello.datatable', $domain, $module) }}">
-    <meta name="datatable-columns" content='{!! json_encode($datatableColumns) !!}'>
-    <meta name="selected-filter" content='{!! json_encode($selectedFilter) !!}'>
 @endsection
 
 @section('content-class', 'dataTable-container listview')
@@ -64,7 +62,7 @@
                 </div>
 
                 <div class="action-buttons col-sm-6 col-xs-12">
-                    <div class="btn-group m-l-10">
+                    <div class="btn-group m-l-10 pull-right">
                         <button type="button" class="btn bg-primary icon-right waves-effect pull-right dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
                             <i class="material-icons">keyboard_arrow_down</i>
@@ -90,13 +88,16 @@
             <div class="card">
                 <div class="body p-t-0">
                     <div class="table-responsive" style="min-height: 300px">
-                        <table class="table table-striped table-hover dataTable">
+                        <table
+                            class="table table-striped table-hover dataTable"
+                            data-filter-type="list"
+                            data-filter-id="{{ $selectedFilter->id ?? '' }}">
                             <thead>
                                 <tr>
                                     <th class="select-column">&nbsp;</th>
 
                                     @foreach ($datatableColumns as $column)
-                                    <th>
+                                    <th data-name="{{ $column['name'] }}" data-label="{{ uctrans('field.'.$column['name'], $module) }}">
                                         {{ uctrans('field.'.$column['name'], $module) }}
                                         <?php
                                             $searchValue = null;
@@ -119,6 +120,21 @@
                                 </tr>
                             </thead>
                         </table>
+
+                        <div class="row loader m-t-100">
+                            <div class="col-md-12 align-center">
+                                <div class="preloader pl-size-xl">
+                                    <div class="spinner-layer pl-light-green">
+                                        <div class="circle-clipper left">
+                                            <div class="circle"></div>
+                                        </div>
+                                        <div class="circle-clipper right">
+                                            <div class="circle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

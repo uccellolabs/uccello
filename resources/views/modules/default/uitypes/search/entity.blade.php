@@ -16,7 +16,7 @@
                 $entities = $modelClass::all();
             }
         ?>
-        <select class="form-control" multiple data-live-search="true" data-none-selected-text="{{ uctrans('search', $module) }}" @if ($autocompleteSearch) data-abs-ajax-url="{{ ucroute('uccello.autocomplete', $domain, $relatedModule) }}"@endif>
+        <select class="form-control bs-placeholder" multiple data-live-search="true" data-none-selected-text="{{ uctrans('search', $module) }}" @if ($autocompleteSearch) data-abs-ajax-url="{{ ucroute('uccello.autocomplete', $domain, $relatedModule) }}"@endif>
             @foreach ($entities as $entity)
             <option value="{{ $entity->getKey() }}">{{ $entity->recordLabel }}</option>
             @endforeach

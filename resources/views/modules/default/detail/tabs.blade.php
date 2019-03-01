@@ -18,7 +18,7 @@
 
     {{-- One tab by related list --}}
     @foreach ($module->relatedlists as $relatedlist)
-    @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
+    @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedlist->relatedModule) || !$relatedlist->isVisibleAsTab)
     <li role="presentation" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
         <a href="#relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" data-toggle="tab">
             {{-- Icon --}}

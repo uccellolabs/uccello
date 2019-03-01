@@ -792,6 +792,23 @@ table.dataTable thead th.sorting:after {
     }
 }
 
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.bootstrap-select.bs-placeholder span.filter-option,
+.bootstrap-select.bs-placeholder:hover span.filter-option,
+.bootstrap-select.bs-placeholder:focus span.filter-option,
+.bootstrap-select.bs-placeholder:active span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:hover span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:focus span.filter-option,
+.bootstrap-select > .dropdown-toggle.bs-placeholder:active span.filter-option {
+    color: #9A9A9A !important;
+}
+
 @media (max-width: 480px) {
     section.content {
         margin: 90px 0px 0 0;
@@ -857,13 +874,8 @@ table.dataTable thead th.sorting:after {
     }
 }
 
-.bootstrap-select.bs-placeholder span.filter-option,
-.bootstrap-select.bs-placeholder:hover span.filter-option,
-.bootstrap-select.bs-placeholder:focus span.filter-option,
-.bootstrap-select.bs-placeholder:active span.filter-option,
-.bootstrap-select > .dropdown-toggle.bs-placeholder span.filter-option,
-.bootstrap-select > .dropdown-toggle.bs-placeholder:hover span.filter-option,
-.bootstrap-select > .dropdown-toggle.bs-placeholder:focus span.filter-option,
-.bootstrap-select > .dropdown-toggle.bs-placeholder:active span.filter-option {
-    color: #9A9A9A !important;
+@media screen and (max-width: 767px) {
+    .table-responsive {
+        border: none;
+    }
 }

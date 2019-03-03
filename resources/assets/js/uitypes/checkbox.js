@@ -8,8 +8,9 @@ export class UitypeCheckbox
             color = 'green'
         }
 
-        let html = `<div class="align-center">
+        let html = `<div>
             <i class="material-icons col-${color}" style="font-size: 18px" title="${value}">lens</i>
+            <span class="icon-label" style="top: -3px; left: 2px">${value}</span>
         </div>`
 
         $(td).html(html)

@@ -4,7 +4,7 @@
 </div>
 <div class="{{ $isLarge ? 'col-sm-10 col-xs-7' : 'col-sm-4 col-xs-7' }}">
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
-    @if (!empty($value))
+    @if ($value)
         <div class="ellipsis">
             <a href="{{ ucroute('uccello.detail', $domain, $field->data->module, ['id' => $record->{$field->column}]) }}">{{ $value }}</a>
         </div>

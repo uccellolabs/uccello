@@ -257,7 +257,8 @@ div.breadcrumb {
     }
 
     &.current-file {
-        .img-container {
+        .img-container,
+        .file-container {
             position: relative;
             margin-top: 20px;
             padding-left: 30px;
@@ -295,7 +296,7 @@ div.breadcrumb {
 }
 
 .form-group {
-    margin-bottom: 0px;
+    margin-bottom: 10px;
 
     &.form-choice {
         label:not(.control-label) {

@@ -4,12 +4,10 @@
 </div>
 <div class="{{ $isLarge ? 'col-sm-10 col-xs-7' : 'col-sm-4 col-xs-7' }}">
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
-    @if($record->{$field->column} && $field->data->public ?? false)
+    @if($value)
         <div class="img-container">
             <img src="{{ $value }}" class="img-responsive">
         </div>
-    @elseif (!empty($value))
-        {{ $field->uitype->getFormattedValueToDisplay($field, $record) }}
     @else
         &nbsp;
     @endif

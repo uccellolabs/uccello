@@ -1,6 +1,7 @@
 import { UitypeText } from './uitypes/text'
 import { UitypeEntity } from './uitypes/entity'
 import { UitypeCheckbox } from './uitypes/checkbox'
+import { UitypeFile } from './uitypes/file'
 
 export class UitypeSelector {
     uitypes() {
@@ -9,6 +10,7 @@ export class UitypeSelector {
             entity: UitypeEntity,
             boolean: UitypeCheckbox,
             checkbox: UitypeCheckbox,
+            file: UitypeFile,
             default: UitypeText
         }
     }

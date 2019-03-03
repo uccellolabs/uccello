@@ -35,6 +35,7 @@ return [
     'button.add_widget' => 'Add widget',
     'button.export' => 'Export',
     'button.columns' => 'Columns',
+    'button.download_file' => 'Download',
 
     // Block
     'block.general' => 'General information',

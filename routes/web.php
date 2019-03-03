@@ -74,4 +74,5 @@ Route::name('uccello.')->group(function() {
     Route::get($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
+    Route::get($domainAndModuleParams.'/download', 'Core\DownloadController@process')->name('download');
 });

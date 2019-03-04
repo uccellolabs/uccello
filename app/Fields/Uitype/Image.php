@@ -42,7 +42,9 @@ class Image extends File implements Uitype
     {
         $value = $record->{$field->column} ?? '';
 
-        $value = Storage::url($value);
+        if ($value) {
+            $value = Storage::url($value);
+        }
 
         return  $value;
     }

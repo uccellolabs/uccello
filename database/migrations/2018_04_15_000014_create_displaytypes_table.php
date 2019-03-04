@@ -42,6 +42,7 @@ class CreateDisplaytypesTable extends Migration
             'detail'        => 'Uccello\Core\Fields\Displaytype\Detail',
             'edit_detail'   => 'Uccello\Core\Fields\Displaytype\EditDetail',
             'hidden'        => 'Uccello\Core\Fields\Displaytype\Hidden',
+            'create_edit'   => 'Uccello\Core\Fields\Displaytype\CreateEdit',
         ];
 
         foreach ($displaytypes as $name => $class) {

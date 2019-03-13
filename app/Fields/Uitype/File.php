@@ -56,18 +56,20 @@ class File implements Uitype
 
         // Update file
         if ($request->file($field->name)) {
+            // Original file name
+            $originalName = $request->file($field->name)->getClientOriginalName();
 
             // Field data
             $fieldData = $field->data;
 
             // Make directory path
-            $directoryPath = isset($fieldData->public) && $fieldData->public === true ? 'public/' : ''; // Public or Private
-            $directoryPath .= isset($domain) ? $domain->slug.'/' : ''; // Domain
+            // $directoryPath = isset($fieldData->public) && $fieldData->public === true ? 'public/' : ''; // Public or Private
+            $directoryPath = isset($domain) ? $domain->slug.'/' : ''; // Domain
             $directoryPath .= isset($fieldData->path) ? trim($fieldData->path, '/') : ''; // Custom directory
 
             // Save file
             $path = Storage::putFile($directoryPath, $request->file($field->name));
-            $value = $path;
+            $value = "$originalName;$path";
 
         }
         // Delete file
@@ -81,28 +83,6 @@ class File implements Uitype
         }
 
         return $value;
-    }
-
-    /**
-     * Returns formatted value to display.
-     *
-     * @param \Uccello\Core\Models\Field $field
-     * @param mixed $record
-     * @return string
-     */
-    public function getFormattedValueToDisplay(Field $field, $record) : string
-    {
-        $value = $record->{$field->column} ?? '';
-
-        // Field data
-        $fieldData = $field->data;
-
-        // If the file is defined and is public, get its url
-        if ($value && isset($fieldData->public) && $fieldData->public === true) {
-            $value = Storage::url($value);
-        }
-
-        return  $value;
     }
 
     /**
@@ -120,12 +100,6 @@ class File implements Uitype
         $path = $output->ask('What is the target path? (Only if you want to create subdirectory)', null);
         if (!is_null($path)) {
             $field->data->path = $path;
-        }
-
-        // Pubic
-        $public = $output->confirm('Can the uploaded files be accessed from the outside?', false);
-        if ($public) {
-            $field->data->public = true;
         }
     }
 }

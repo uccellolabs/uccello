@@ -26,12 +26,8 @@
                     <a href="javascript:void(0);" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="bottom"><i class="material-icons">delete</i></a>
                 </div>
 
-                {{-- Display image if it is public else display a link to download it --}}
-                @if($record->{$field->column} && isset($field->data->public) && $field->data->public === true)
-                    <img src="{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}" class="img-responsive">
-                @else
-                    {{ $field->uitype->getFormattedValueToDisplay($field, $record) }}
-                @endif
+                {{-- Display image --}}
+                <img src="{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}" class="img-responsive">
             </div>
         </div>
         @endif

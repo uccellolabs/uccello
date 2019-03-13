@@ -9,6 +9,7 @@ return [
     'logout' => 'Logout',
     'create' => 'Create',
     'edit' => 'Edit',
+    'search' => 'Search',
 
     // Menu
     'menu.title' => 'Menu',
@@ -34,6 +35,7 @@ return [
     'button.add_widget' => 'Add widget',
     'button.export' => 'Export',
     'button.columns' => 'Columns',
+    'button.download_file' => 'Download',
 
     // Block
     'block.general' => 'General information',
@@ -123,4 +125,43 @@ return [
 
     // Summary
     'summary.no_widget' => 'No widget for the moment.',
+
+    // Calendar
+    'calendar.format' => 'MM/DD/YYYY',
+    'calendar.apply' => 'Apply',
+    'calendar.cancel' => 'Cancel',
+    'calendar.clear' => 'Clear',
+    'calendar.separator' =>  ' - ',
+    'calendar.from' =>  'From',
+    'calendar.to' =>  'To',
+    'calendar.custom' =>  'Custom',
+    'calendar.week' =>  'W',
+    'calendar.day.mo' =>  'Mo',
+    'calendar.day.tu' =>  'Tu',
+    'calendar.day.we' =>  'We',
+    'calendar.day.th' =>  'Th',
+    'calendar.day.fr' =>  'Fr',
+    'calendar.day.sa' =>  'Sa',
+    'calendar.day.su' =>  'Su',
+    'calendar.month.january' =>  'January',
+    'calendar.month.february' =>  'February',
+    'calendar.month.march' =>  'March',
+    'calendar.month.april' =>  'April',
+    'calendar.month.may' =>  'May',
+    'calendar.month.june' =>  'June',
+    'calendar.month.july' =>  'July',
+    'calendar.month.august' =>  'August',
+    'calendar.month.september' =>  'September',
+    'calendar.month.october' =>  'October',
+    'calendar.month.november' =>  'November',
+    'calendar.month.december' =>  'December',
+
+    // Autocomplete
+    'autocomplete.currently_selected' => 'Selection',
+    'autocomplete.error' => 'An error occurred',
+    'autocomplete.placeholder' => 'Search',
+    'autocomplete.status.initialized' => 'Start to type',
+    'autocomplete.status.no_results' => 'No results',
+    'autocomplete.status.searching' => 'Searching...',
+    'autocomplete.status.too_short' => 'Enter more characters',
 ];

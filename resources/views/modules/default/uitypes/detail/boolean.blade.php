@@ -1,0 +1,1 @@
+@extends('uccello::modules.default.uitypes.detail.checkbox')

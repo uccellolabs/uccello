@@ -2,13 +2,15 @@
 
 namespace Uccello\Core\Fields\Uitype;
 
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
+use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class Select implements Uitype
 {
@@ -30,10 +32,11 @@ class Select implements Uitype
      *
      * @param mixed $record
      * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Domain $domain
      * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module) : array
+    public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
         if (!is_object($field->data)) {
             return [ ];
@@ -72,6 +75,27 @@ class Select implements Uitype
         $value = $record->{$field->column} ? uctrans($record->{$field->column}, $field->module) : '';
 
         return  $value;
+    }
+
+    /**
+     * Returns updated query after adding a new search condition.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder query
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
+    {
+        $query->where(function ($query) use($field, $value) {
+            $values = explode(',', $value);
+            foreach ($values as $value) {
+                $formattedValue = $this->getFormattedValueToSearch($value);
+                $query = $query->orWhere($field->column, 'like', $formattedValue);
+            }
+        });
+
+        return $query;
     }
 
     /**

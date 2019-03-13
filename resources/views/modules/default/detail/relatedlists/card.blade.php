@@ -1,7 +1,7 @@
 <div class="card block relatedlist">
     <div class="header">
         <div class="row">
-            <div class="col-sm-8">
+            <div class="col-xs-8">
                 <h2>
                     <div class="block-label-with-icon">
                         {{-- Icon --}}
@@ -12,7 +12,7 @@
                     </div>
                 </h2>
             </div>
-            <div class="col-sm-4 action-buttons text-right">
+            <div class="col-xs-4 action-buttons text-right">
                 {{-- Action buttons for related list --}}
                 @include('uccello::modules.default.detail.relatedlists.buttons')
             </div>

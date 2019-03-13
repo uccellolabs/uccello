@@ -28,10 +28,11 @@ interface Uitype
      *
      * @param mixed $record
      * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Domain $domain
      * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module) : array;
+    public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array;
 
     /**
      * Returns default database column name.

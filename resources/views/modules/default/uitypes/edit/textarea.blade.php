@@ -9,7 +9,7 @@
                 <i class="material-icons prefix">{{ $field->icon }}</i>
                 @endif
 
-                <div class="form-line {{ $isError ? 'focused error' : ''}}">
+                <div class="form-line {{ $isError ? 'focused error' : ''}}" style="padding-top: 2px">
                     {{-- Label --}}
                     {!! form_label($form->{$field->name}) !!}
 

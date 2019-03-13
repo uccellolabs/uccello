@@ -63,7 +63,9 @@ Route::name('uccello.')->group(function() {
 
     Route::get($domainAndModuleParams, 'Core\IndexController@process')->name('index');
     Route::get($domainAndModuleParams.'/list', 'Core\ListController@process')->name('list');
+    Route::get($domainAndModuleParams.'/list/datatable/config', 'Core\ListController@processForDatatableConfig')->name('datatable.config');
     Route::post($domainAndModuleParams.'/list/datatable', 'Core\ListController@processForDatatable')->name('datatable');
+    Route::post($domainAndModuleParams.'/list/autocomplete', 'Core\ListController@processForAutocomplete')->name('autocomplete');
     Route::post($domainAndModuleParams.'/list/filter', 'Core\ListController@saveFilter')->name('list.filter.save');
     Route::post($domainAndModuleParams.'/export', 'Core\ExportController@process')->name('export');
     Route::get($domainAndModuleParams.'/list/filter/delete', 'Core\ListController@deleteFilter')->name('list.filter.delete');
@@ -72,4 +74,5 @@ Route::name('uccello.')->group(function() {
     Route::get($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
+    Route::get($domainAndModuleParams.'/download', 'Core\DownloadController@process')->name('download');
 });

@@ -3,5 +3,12 @@
     <strong>{{ uctrans($field->label, $module) }}</strong>
 </div>
 <div class="{{ $isLarge ? 'col-sm-10 col-xs-7' : 'col-sm-4 col-xs-7' }}">
-    <a href="{{ ucroute('uccello.detail', $domain, $field->data->module, ['id' => $record->{$field->column}]) }}">{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}</a>&nbsp;
+    <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
+    @if ($value)
+        <div class="ellipsis">
+            <a href="{{ ucroute('uccello.detail', $domain, $field->data->module, ['id' => $record->{$field->column}]) }}">{{ $value }}</a>
+        </div>
+    @else
+        &nbsp;
+    @endif
 </div>

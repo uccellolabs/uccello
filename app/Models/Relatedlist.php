@@ -65,6 +65,11 @@ class Relatedlist extends Model
         return $this->belongsTo(Field::class);
     }
 
+    public function getIsVisibleAsTabAttribute()
+    {
+        return $this->data->add_tab ?? true;
+    }
+
     /**
      * Returns add link according to related list type
      *

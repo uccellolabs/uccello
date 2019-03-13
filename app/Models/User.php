@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Nicolaslopezj\Searchable\SearchableTrait;
 use Uccello\Core\Support\Traits\RelatedlistTrait;
 
 class User extends Authenticatable implements JWTSubject
@@ -14,6 +15,7 @@ class User extends Authenticatable implements JWTSubject
     use SoftDeletes;
     use Notifiable;
     use RelatedlistTrait;
+    use SearchableTrait;
 
     /**
      * The table associated with the model.
@@ -45,6 +47,30 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'recordLabel'
+    ];
+
+    /**
+     * Searchable rules.
+     * See https://github.com/nicolaslopezj/searchable
+     *
+     * @var array
+     */
+    protected $searchable = [
+        'columns' => [
+            'username' => 20,
+            'first_name' => 10,
+            'last_name' => 10,
+            'email' => 5
+        ]
     ];
 
     public function domain()

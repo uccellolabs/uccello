@@ -320,6 +320,13 @@ class Uccello
             $filter = Filter::where('module_id', $module->id)
                 ->where('type', $type)
                 ->first();
+
+            // If there is not result, try with type = list
+            if (empty($filter) && $type !== 'list') {
+                $filter = Filter::where('module_id', $module->id)
+                ->where('type', 'list')
+                ->first();
+            }
         }
 
         if (empty($filter)) {

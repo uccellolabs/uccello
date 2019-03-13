@@ -13,14 +13,18 @@ export class Datatable {
      * Init Datatable configuration
      * @param {Element} element
      */
-    init(element) {
+    async init(element) {
         let linkManager = new Link(false)
+
+        $(element).hide()
+
+        await this.getDatatableConfig(element)
 
         this.table = $(element).DataTable({
             dom: 'Brtp',
             autoWidth: false, // Else the width is not refreshed on window resize
             responsive: true,
-            colReorder: true,
+            colReorder: false,
             serverSide: true,
             ajax: {
                 url: this.url,
@@ -48,7 +52,11 @@ export class Datatable {
             buttons: [
                 {
                     extend: 'colvis',
-                    columns: ':gt(0):lt(-1)'
+                    columns: ':gt(0):lt(-1)',
+                    columnText: ( dt, idx, title ) => {
+                        let column = this.columns[idx-1]
+                        return $(`th[data-name="${column.name}"]`).data('label')
+                    }
                 }
             ],
             language: {
@@ -60,7 +68,8 @@ export class Datatable {
                     colvis: uctrans('button.columns')
                 }
             },
-            aoSearchCols: this.getInitialSearch()
+            aoSearchCols: this.getInitialSearch(),
+
         });
 
         // Config buttons
@@ -68,6 +77,35 @@ export class Datatable {
 
         // Init search
         this.initDatatableColumnSearch()
+
+        // Hidde loader
+        $(element).parents('.table-responsive:first').find('.loader').hide()
+
+        // Show datatable
+        $(element).show()
+    }
+
+    /**
+     * Async method to get Datatable configuration: columns and selected filter definition.
+     * @param {Element} element
+     */
+    async getDatatableConfig(element) {
+        let filterId = $(element).data('filter-id')
+        if (typeof filterId === 'undefined') {
+            filterId = ''
+        }
+
+        let url = laroute.route('uccello.datatable.config', {
+            domain: this.domainSlug,
+            module: this.moduleName,
+            filter: filterId,
+            filter_type: $(element).data('filter-type')
+        })
+
+        let response = await $.get(url)
+
+        this.columns = response.columns
+        this.selectedFilter = response.filter
     }
 
     /**
@@ -95,11 +133,12 @@ export class Datatable {
             datatableColumns.push({
                 targets: parseInt(i) + 1, // Force integer
                 data: column.name,
+                orderable: true,
                 createdCell: (td, cellData, rowData, row, col) => {
                     selector.get(column.uitype).createdCell(column, td, cellData, rowData, row, col)
                 },
                 visible: column.visible
-            });
+            })
         }
 
         // Add last column (action buttons)
@@ -275,33 +314,45 @@ export class Datatable {
     initDatatableColumnSearch()
     {
         let table = this.table
-
-        let timer = 0
+        this.timer = 0
+        let that = this
 
         // Config each column
         table.columns().every(function (index) {
             let column = table.column(index)
 
             // Event listener to launch search
-            $('input, select', this.header()).on('keyup change', function() {
-                let value = $(this).val()
+            $('input', this.header()).on('keyup apply.daterangepicker cancel.daterangepicker', function() {
+                that.launchSearch(column, $(this).val())
+            })
 
-                if (value !== '') {
-                    $('.clear-search').show()
-                }
-
-                if (column.search() !== value) {
-                    clearTimeout(timer)
-                    timer = setTimeout(() => {
-                        column.search(value)
-                        table.draw()
-                    }, 500)
-                }
+            $('select', this.header()).on('change', function() {
+                that.launchSearch(column, $(this).val())
             })
         })
 
         // Add clear search button listener
         this.addClearSearchButtonListener()
+    }
+
+    /**
+     * Launch search
+     * @param {Object} column
+     * @param {String} q
+     */
+    launchSearch(column, q)
+    {
+        if (q !== '') {
+            $('.clear-search').show()
+        }
+
+        if (column.search() !== q) {
+            clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                column.search(q)
+                this.table.draw()
+            }, 500)
+        }
     }
 
     /**
@@ -313,7 +364,8 @@ export class Datatable {
 
         $('.actions-column .clear-search').on('click', (event) => {
             // Clear all search fields
-            $('.dataTable thead input, .dataTable thead select').val(null).change()
+            $('.dataTable thead select').selectpicker('deselectAll')
+            $('.dataTable thead input').val('')
 
             // Update columns
             table.columns().every(function (index) {

@@ -120,6 +120,6 @@
     @include('uccello::modules.settings.menu-manager.modal.link')
 @endsection
 
-@section('extra-script')
-    {{ Html::script(ucasset('js/settings/autoloader.js')) }}
+@section('uccello-extra-script')
+    {{ Html::script(mix('js/settings/autoloader.js', 'vendor/uccello/uccello')) }}
 @endsection

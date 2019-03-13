@@ -14,17 +14,17 @@ export class List {
         const domainSlug = $('meta[name="domain"]').attr('content')
         const moduleName = $('meta[name="module"]').attr('content')
         const datatableUrl = $('meta[name="datatable-url"]').attr('content')
-        const datatableColumns = $('meta[name="datatable-columns"]').attr('content')
-        const selectedFilter = $('meta[name="selected-filter"]').attr('content')
+        const selectedFilterId = $('meta[name="selected-filter-id"]').attr('content')
 
         let datatable = new Datatable()
         datatable.url = `${datatableUrl}?_token=${csrfToken}`
         datatable.domainSlug = domainSlug
         datatable.moduleName = moduleName
-        datatable.columns = JSON.parse(datatableColumns)
-        datatable.selectedFilter = JSON.parse(selectedFilter)
+        datatable.selectedFilterId = selectedFilterId
         datatable.rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: moduleName })
         datatable.init('.dataTable')
+
+        this.datatable = datatable
     }
 
     /**
@@ -170,7 +170,7 @@ export class List {
      * @return {array}
      */
     getVisibleColumns(table) {
-        const datatableColumns = JSON.parse($('meta[name="datatable-columns"]').attr('content'))
+        const datatableColumns = this.datatable.columns
 
         let visibleColumns = []
         table.columns().every((index) => {
@@ -190,7 +190,7 @@ export class List {
      * @return {Object}
      */
     getSearchConditions(table) {
-        const datatableColumns = JSON.parse($('meta[name="datatable-columns"]').attr('content'))
+        const datatableColumns = this.datatable.columns
 
         let conditions = {}
         table.columns().every((index) => {
@@ -210,7 +210,7 @@ export class List {
      * @return {Object}
      */
     getOrderWithFieldColumn(table) {
-        const datatableColumns = JSON.parse($('meta[name="datatable-columns"]').attr('content'))
+        const datatableColumns = this.datatable.columns
 
         let order = {}
         for (let sortOrder of table.order()) {

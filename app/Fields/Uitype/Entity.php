@@ -11,6 +11,7 @@ use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
+use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 
 class Entity implements Uitype
@@ -33,10 +34,11 @@ class Entity implements Uitype
      *
      * @param mixed $record
      * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Domain $domain
      * @param \Uccello\Core\Models\Module $module
      * @return array
      */
-    public function getFormOptions($record, Field $field, Module $module) : array
+    public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
         if (!is_object($field->data)) {
             return [ ];
@@ -45,12 +47,18 @@ class Entity implements Uitype
         $options = [ ];
 
         if ($field->data->module) {
+            $relatedModule = ucmodule($field->data->module);
+
             $options = [
-                'class' => ucmodule($field->data->module)->model_class ?? null,
+                'class' => $relatedModule->model_class ?? null,
                 'property' => $field->data->field ?? 'recordLabel',
                 'empty_value' => uctrans('select_empty_value', $module),
                 'selected' => $record->{$field->column} ?? null,
-                'attr' => [ 'class' => 'form-control show-tick', 'data-live-search' => 'true' ],
+                'attr' => [
+                    'class' => 'form-control show-tick',
+                    'data-live-search' => 'true',
+                    // 'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
+                ],
                 'query_builder' => function($relatedRecord) use($record) {
                     // If related record class is the same as the record one, ignore the current record
                     if (get_class($relatedRecord) === get_class($record)) {
@@ -118,17 +126,12 @@ class Entity implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $formattedValue = $this->getFormattedValueToSearch($value);
-
-        // Get field data
-        $fieldData = $field->data;
-
-        if (isset($fieldData->field)) {
-            // Search by entity's main field (we suppose the belongsTo relation has the same name as the field)
-            $query = $query->whereHas($field->name, function($q) use($field, $fieldData, $formattedValue) {
-                $q->where($fieldData->field, 'like', $formattedValue);
-            });
-        }
+        $query->where(function ($query) use($field, $value) {
+            $values = explode(',', $value);
+            foreach ($values as $value) {
+                $query = $query->orWhere($field->column, '=', $value);
+            }
+        });
 
         return $query;
     }

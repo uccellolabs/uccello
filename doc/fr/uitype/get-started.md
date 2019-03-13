@@ -87,7 +87,7 @@ class Text implements Uitype
     /**
      * Options du champ dans Form Builder
      */
-    public function getFormOptions($record, Field $field, Module $module): array
+    public function getFormOptions($record, Field $field, Domain $domain, Module $module): array
     {
         return [];
     }

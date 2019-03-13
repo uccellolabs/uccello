@@ -24,12 +24,16 @@
         <base href="/">
 
         {{-- CSS --}}
-        @section('css')
-            {{ Html::style(ucasset('css/materialize.css')) }}
-            {{ Html::style(ucasset('css/app.css')) }}
+        @section('uccello-css')
+            {{ Html::style(mix('css/materialize.css', 'vendor/uccello/uccello')) }}
+            {{ Html::style(mix('css/app.css', 'vendor/uccello/uccello')) }}
         @show
 
         {{-- Extra CSS --}}
+        @yield('uccello-extra-css')
+
+        {{-- For application --}}
+        @yield('css')
         @yield('extra-css')
     </head>
 
@@ -59,18 +63,20 @@
         {{-- Flash notifications --}}
         @include('uccello::layouts.partials.notifications.main')
 
-        @section('script')
-        {{ Html::script(asset('js/app.js')) }}
-        {{-- {{ Html::script(ucasset('js/manifest.js')) }}
-        {{ Html::script(ucasset('js/vendor.js')) }}
-        {{ Html::script(ucasset('js/app.js')) }} --}}
-        {{ Html::script(ucasset('js/app.js')) }}
+        @section('uccello-script')
+        {{ Html::script('//momentjs.com/downloads/moment-with-locales.min.js') }}
+        {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}
+        {{ Html::script(mix('js/vendor.js', 'vendor/uccello/uccello')) }}
+        {{ Html::script(mix('js/app.js', 'vendor/uccello/uccello')) }}
         @show
 
-        @section('autoloader-script')
-        {{-- {{ Html::script(ucasset('js/autoloader.js')) }} --}}
+        @yield('script')
+
+        @section('uccello-autoloader-script')
+        {{ Html::script(mix('js/autoloader.js', 'vendor/uccello/uccello')) }}
         @show
 
+        @yield('uccello-extra-script')
         @yield('extra-script')
     </body>
 </html>

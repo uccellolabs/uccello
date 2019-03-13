@@ -4,10 +4,12 @@ namespace Uccello\Core\Models;
 
 use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Role extends Model
 {
     use SoftDeletes;
+    use SearchableTrait;
 
     /**
      * The table associated with the model.
@@ -22,6 +24,18 @@ class Role extends Model
      * @var array
      */
     protected $dates = [ 'deleted_at' ];
+
+    /**
+     * Searchable rules.
+     * See https://github.com/nicolaslopezj/searchable
+     *
+     * @var array
+     */
+    protected $searchable = [
+        'columns' => [
+            'name' => 1
+        ]
+    ];
 
     protected function initTablePrefix()
     {

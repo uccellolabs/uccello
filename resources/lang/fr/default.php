@@ -9,6 +9,7 @@ return [
     'logout' => 'Déconnexion',
     'create' => 'Création',
     'edit' => 'Édition',
+    'search' => 'Rechercher',
 
     // Menu
     'menu.title' => 'Menu',
@@ -34,6 +35,7 @@ return [
     'button.add_widget' => 'Ajouter widget',
     'button.export' => 'Export',
     'button.columns' => 'Colonnes',
+    'button.download_file' => 'Télécharger',
 
     // Block
     'block.general' => 'Informations générales',
@@ -125,4 +127,43 @@ return [
 
     // Widgets
     'summary.no_widget' => 'Aucun widget pour le moment.',
+
+    // Calendar
+    'calendar.format' => 'YYYY-MM-DD',
+    'calendar.apply' => 'Appliquer',
+    'calendar.cancel' => 'Annuler',
+    'calendar.clear' => 'Vider',
+    'calendar.separator' => ' - ',
+    'calendar.from' => 'De',
+    'calendar.to' => 'À',
+    'calendar.custom' => 'Personnalisé',
+    'calendar.week' => 'Sem',
+    'calendar.day.mo' => 'Lu',
+    'calendar.day.tu' => 'Ma',
+    'calendar.day.we' => 'Me',
+    'calendar.day.th' => 'Je',
+    'calendar.day.fr' => 'Ve',
+    'calendar.day.sa' => 'Sa',
+    'calendar.day.su' => 'Di',
+    'calendar.month.january' => 'Janvier',
+    'calendar.month.february' => 'Février',
+    'calendar.month.march' => 'Mars',
+    'calendar.month.april' => 'Avril',
+    'calendar.month.may' => 'Mai',
+    'calendar.month.june' => 'Juin',
+    'calendar.month.july' => 'Juillet',
+    'calendar.month.august' => 'Août',
+    'calendar.month.september' => 'Septembre',
+    'calendar.month.october' => 'Octobre',
+    'calendar.month.november' => 'Novembre',
+    'calendar.month.december' => 'Décembre',
+
+    // Autocomplete
+    'autocomplete.currently_selected' => 'Sélection',
+    'autocomplete.error' => 'Une erreur s\'est produite',
+    'autocomplete.placeholder' => 'Rechercher',
+    'autocomplete.status.initialized' => 'Saisir du texte pour lancer la recherche',
+    'autocomplete.status.no_results' => 'Aucun résultat',
+    'autocomplete.status.searching' => 'Recherche en cours...',
+    'autocomplete.status.too_short' => 'Saisir plus de caractères',
 ];

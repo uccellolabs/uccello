@@ -54,8 +54,8 @@ class Select implements Uitype
             'selected' => $field->data->default ?? null,
             'empty_value' => uctrans('select_empty_value', $module),
             'attr' => [
-                'class' => 'form-control show-tick',
-                'data-live-search' => 'true'
+                // 'class' => 'form-control show-tick',
+                // 'data-live-search' => 'true'
             ],
         ];
 

@@ -1,6 +1,27 @@
 
 // Fonts
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext");
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url("https://use.fontawesome.com/releases/v5.7.2/css/all.css");
+
+html {
+    font-family: Roboto, sans-serif;
+}
+
+.row {
+    &.display-flex {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+
+        > [class*='col-'] {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
 
 div.breadcrumb {
     background-color: #fff;
@@ -72,4 +93,37 @@ div.breadcrumb {
             text-align: left !important;
         }
     }
+}
+
+button {
+    &.btn-save {
+        position: fixed !important;
+        bottom: 20px;
+        right: 25px;
+        z-index: 1001;
+
+        &:hover, &:focus, .focus {
+            color: #fff !important;
+        }
+    }
+
+    &.btn-save-new {
+        position: fixed !important;
+        bottom: 20px;
+        right: 85px;
+        z-index: 1001;
+
+        &:hover, &:focus, .focus {
+            color: #fff !important;
+        }
+    }
+}
+
+form.edit-form {
+    margin-bottom: 60px;
+}
+
+label.required::before {
+    content: '* ';
+    color: red;
 }

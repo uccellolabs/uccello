@@ -16,7 +16,7 @@ class Choice extends Select implements Uitype
      */
     public function getFormType() : string
     {
-        return 'choice';
+        return 'select';
     }
 
     /**
@@ -36,8 +36,23 @@ class Choice extends Select implements Uitype
 
         $options = parent::getFormOptions($record, $field, $domain, $module);
 
-        $options[ 'expanded' ] = true;
-        $options[ 'multiple' ] = $field->data->multiple ?? false;
+        $choices = [ ];
+        if ($field->data->choices) {
+            foreach ($field->data->choices as $choice) {
+                $choices[ $choice ] = uctrans($choice, $module);
+            }
+        }
+
+        $options = [
+            'choices' => $choices,
+            'selected' => $field->data->default ?? null,
+            // 'empty_value' => uctrans('select_empty_value', $module),
+            'attr' => [
+                // 'class' => 'form-control show-tick',
+                // 'data-live-search' => 'true'
+                'multiple' => $field->data->multiple ?? false
+            ],
+        ];
 
         return $options;
     }

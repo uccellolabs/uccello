@@ -49,9 +49,9 @@
         <main id="app">
             <div class="content @yield('content-class')">
                 {{-- Breadcrumb --}}
-                <div class="breadcrumb-container">
+                {{-- <div class="breadcrumb-container">
                     @yield('breadcrumb')
-                </div>
+                </div> --}}
 
                 {{-- Content --}}
                 @yield('content')
@@ -64,7 +64,7 @@
         @include('uccello::layouts.partials.notifications.main')
 
         @section('uccello-script')
-        {{ Html::script('//momentjs.com/downloads/moment-with-locales.min.js') }}
+        {{-- {{ Html::script('//momentjs.com/downloads/moment-with-locales.min.js') }} --}}
         {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}
         {{ Html::script(mix('js/vendor.js', 'vendor/uccello/uccello')) }}
         {{ Html::script(mix('js/app.js', 'vendor/uccello/uccello')) }}
@@ -73,7 +73,7 @@
         @yield('script')
 
         @section('uccello-autoloader-script')
-        {{ Html::script(mix('js/autoloader.js', 'vendor/uccello/uccello')) }}
+        {{-- {{ Html::script(mix('js/autoloader.js', 'vendor/uccello/uccello')) }} --}}
         @show
 
         @yield('uccello-extra-script')

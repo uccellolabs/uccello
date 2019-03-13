@@ -23,54 +23,65 @@
 @endsection
 
 @section('content')
-    {!! form_start($form) !!}
-    @section('default-blocks')
-        {{-- All defined blocks --}}
-        @foreach ($module->tabs as $tab)  {{-- TODO: Display all tabs --}}
-            @foreach ($tab->blocks as $block)
-            <div class="card block">
-                <div class="header">
-                    <h2>
-                        <div @if($block->icon)class="block-label-with-icon"@endif>
+    @if (count($module->tabs) > 1)
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                @foreach($module->tabs as $tab_i => $tab)
+                <li class="tab col s3"><a @if($tab_i === 0)class="active"@endif href="#tab{{ $tab_i }}">{{ uctrans($tab->label, $module) }}</a></li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    @endif
 
+    @section('form')
+        {!! form_start($form) !!}
+        <div class="row">
+            @foreach($module->tabs as $tab_i => $tab)
+            <div id="#tab{{ $tab_i }}" class="col s12">
+                @foreach ($tab->blocks as $block_i => $block)
+                <div class="card">
+                    <div class="card-content">
+                        {{-- Title --}}
+                        <span class="card-title">
                             {{-- Icon --}}
                             @if($block->icon)
                             <i class="material-icons">{{ $block->icon }}</i>
                             @endif
 
                             {{-- Label --}}
-                            <span>{{ uctrans($block->label, $module) }}</span>
-                        </div>
+                            {{ uctrans($block->label, $module) }}
+                        </span>
 
                         {{-- Description --}}
                         @if ($block->description)
                             <small>{{ uctrans($block->description, $module) }}</small>
                         @endif
-                    </h2>
-                </div>
-                <div class="body">
-                    <div class="row display-flex">
-                    {{-- Display all block's fields --}}
-                    @foreach ($block->fields as $field)
-                        {{-- Check if the field can be displayed --}}
-                        @continue(($mode === 'edit' && !$field->isEditable()) || ($mode === 'create' && !$field->isCreateable()))
-                        <?php
-                            // If a special template exists, use it. Else use the generic template
-                            $uitypeViewName = sprintf('uitypes.edit.%s', $field->uitype->name);
-                            $uitypeFallbackView = 'uccello::modules.default.uitypes.edit.text';
-                            $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
-                        ?>
-                        @include($uitypeViewToInclude)
-                    @endforeach
+
+                        {{-- Fields --}}
+                        <div class="row display-flex">
+                            {{-- Display all block's fields --}}
+                            @foreach ($block->fields as $field)
+                                {{-- Check if the field can be displayed --}}
+                                @continue(($mode === 'edit' && !$field->isEditable()) || ($mode === 'create' && !$field->isCreateable()))
+                                <?php
+                                    // If a special template exists, use it. Else use the generic template
+                                    $uitypeViewName = sprintf('uitypes.edit.%s', $field->uitype->name);
+                                    $uitypeFallbackView = 'uccello::modules.default.uitypes.edit.text';
+                                    $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                                ?>
+                                @include($uitypeViewToInclude)
+                            @endforeach
+                        </div>
+
                     </div>
                 </div>
+                @endforeach
             </div>
             @endforeach
-        @endforeach
+        </div>
+        {!! form_end($form) !!}
     @show
-
-    {{-- Other blocks --}}
-    @yield('other-blocks')
-
-    {!! form_end($form) !!}
+</div>
 @endsection

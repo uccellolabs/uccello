@@ -34,7 +34,7 @@ class Textarea extends Text implements Uitype
     {
         $options = [
             'attr' => [
-                'class' => 'form-control no-resize auto-growth',
+                'class' => 'materialize-textarea',
                 'rows' => '1'
             ],
         ];

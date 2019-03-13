@@ -26,7 +26,7 @@
     </nav>
 </div>
 
-<header class="navbar-fixed">
+{{-- <header class="navbar-fixed">
     <nav class="navbar-breadcrumb ">
         <div class="nav-wrapper">
             <div class="col s12">
@@ -36,4 +36,4 @@
             </div>
         </div>
     </nav>
-</header>
+</header> --}}

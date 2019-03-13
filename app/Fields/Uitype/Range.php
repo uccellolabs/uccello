@@ -8,6 +8,8 @@ use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 class Range implements Uitype
 {
@@ -21,7 +23,30 @@ class Range implements Uitype
      */
     public function getFormType() : string
     {
-        return 'text';
+        return 'range';
+    }
+
+    /**
+     * Returns options for Form builder.
+     *
+     * @param mixed $record
+     * @param \Uccello\Core\Models\Field $field
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param \Uccello\Core\Models\Module $module
+     * @return array
+     */
+    public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
+    {
+        $options = [
+            'attr' => [
+                'min' => $field->data->min ?? 0,
+                'max' => $field->data->max ?? 100,
+                'step' => $field->data->step ?? 1,
+            ],
+            // 'value' => $field->uitype->getFormattedValueToDisplay($field, $record) ?? $field->data->start ?? $field->data->min ?? 0,
+        ];
+
+        return $options;
     }
 
     /**

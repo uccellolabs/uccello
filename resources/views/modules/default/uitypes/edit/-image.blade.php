@@ -23,7 +23,7 @@
             <div class="img-container">
                 {{-- Link to delete current file --}}
                 <div class="delete-file">
-                    <a href="javascript:void(0);" title="{{ uctrans('button.delete', $module) }}" data-toggle="tooltip" data-placement="bottom"><i class="material-icons">delete</i></a>
+                    <a href="javascript:void(0);" data-tooltip="{{ uctrans('button.delete', $module) }}" data-position="bottom"><i class="material-icons">delete</i></a>
                 </div>
 
                 {{-- Display image --}}

@@ -26,7 +26,7 @@
                 @endforeach
 
                 <th class="actions-column hidden-xs">
-                    <a class="clear-search pull-left col-red" title="{{ uctrans('button.clear_search', $module) }}" data-toggle="tooltip" data-placement="top"><i class="material-icons">close</i></a>
+                    <a class="clear-search pull-left col-red" data-tooltip="{{ uctrans('button.clear_search', $module) }}" data-position="top"><i class="material-icons">close</i></a>
                 </th>
             </tr>
         </thead>

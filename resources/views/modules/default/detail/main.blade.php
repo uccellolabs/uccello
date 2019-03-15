@@ -6,11 +6,11 @@
 <meta name="record" content="{{ $record->id }}">
 @endsection
 
-@section('breadcrumb')
+{{-- @section('breadcrumb')
     <div class="row">
         <div class="col-sm-6 col-xs-12">
             <div class="breadcrumb pull-left">
-                {{-- Module icon --}}
+                {{-- Module icon - -}}
                 <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
                     <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
                 </a>
@@ -23,12 +23,12 @@
             </div>
         </div>
 
-        {{-- Custom links --}}
+        {{-- Custom links - -}}
         @section ('custom-links')
             @include('uccello::modules.default.detail.links')
         @show
     </div>
-@endsection
+@endsection --}}
 
 @section('content')
     {{-- Tab list --}}
@@ -36,31 +36,29 @@
 
     <div class="detail-blocks">
         @section('default-blocks')
-            <div class="tab-content">
-                {{-- Summary --}}
-                @if ($widgets->count() > 0)
-                <div role="tabpanel" id="summary" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')active @endif" >
-                    @include('uccello::modules.default.detail.summary')
-                </div>
-                @endif
-
-                {{-- Tabs and blocks --}}
-                @foreach ($module->tabs as $i => $tab)
-                <div role="tabpanel" id="{{ $tab->id }}" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)active @endif">
-                    {{-- Blocks --}}
-                    @include('uccello::modules.default.detail.blocks')
-
-                    {{-- Related lists as blocks --}}
-                    @include('uccello::modules.default.detail.relatedlists.as-blocks')
-                </div>
-                @endforeach
-
-                {{-- Related lists as tabs --}}
-                @include('uccello::modules.default.detail.relatedlists.as-tabs')
-
-                {{-- Other tabs --}}
-                @yield('other-tabs')
+            {{-- Summary --}}
+            @if ($widgets->count() > 0)
+            <div role="tabpanel" id="summary" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')active @endif" >
+                @include('uccello::modules.default.detail.summary')
             </div>
+            @endif
+
+            {{-- Tabs and blocks --}}
+            @foreach ($module->tabs as $i => $tab)
+            <div role="tabpanel" id="{{ $tab->id }}" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)active @endif">
+                {{-- Blocks --}}
+                @include('uccello::modules.default.detail.blocks')
+
+                {{-- Related lists as blocks --}}
+                @include('uccello::modules.default.detail.relatedlists.as-blocks')
+            </div>
+            @endforeach
+
+            {{-- Related lists as tabs --}}
+            @include('uccello::modules.default.detail.relatedlists.as-tabs')
+
+            {{-- Other tabs --}}
+            @yield('other-tabs')
         @show
 
         {{-- Other blocks --}}

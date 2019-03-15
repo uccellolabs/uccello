@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
         <title>@yield('title', config('app.name', 'Uccello'))</title>
 
@@ -48,11 +48,6 @@
         @section('content-container')
         <main id="app">
             <div class="content @yield('content-class')">
-                {{-- Breadcrumb --}}
-                {{-- <div class="breadcrumb-container">
-                    @yield('breadcrumb')
-                </div> --}}
-
                 {{-- Content --}}
                 @yield('content')
 
@@ -73,7 +68,7 @@
         @yield('script')
 
         @section('uccello-autoloader-script')
-        {{-- {{ Html::script(mix('js/autoloader.js', 'vendor/uccello/uccello')) }} --}}
+        {{ Html::script(mix('js/autoloader.js', 'vendor/uccello/uccello')) }}
         @show
 
         @yield('uccello-extra-script')

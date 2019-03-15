@@ -65,6 +65,7 @@ class ListController extends Controller
         // Get data formated for Datatable
         $result = $this->getResultForDatatable($domain, $module, $request);
 
+
         return $result;
     }
 
@@ -329,11 +330,17 @@ class ListController extends Controller
 
             foreach ($records as &$record) {
                 foreach ($module->fields as $field) {
-                    $displayedValue = $field->uitype->getFormattedValueToDisplay($field, $record);
+                    // $displayedValue = $field->uitype->getFormattedValueToDisplay($field, $record);
 
-                    if ($displayedValue !== $record->{$field->column}) {
-                        $record->{$field->name} = $displayedValue;
-                    }
+                    // if ($displayedValue !== $record->{$field->column}) {
+                    //     $record->{$field->name} = $displayedValue;
+                    // }
+
+                    // If a special template exists, use it. Else use the generic template
+                    $uitypeViewName = sprintf('uitypes.list.%s', $field->uitype->name);
+                    $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';
+                    $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                    $record->{$field->name} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
                 }
             }
 

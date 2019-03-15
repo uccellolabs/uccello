@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col s12">
             <div class="card">
-                <div class="body">
+                <div class="card-content">
                     <div class="row">
                         <div class="col m6 offset-m3 align-center">
                             {{ Html::image(ucasset('images/logo-uccello.png'), null, ['class' => 'responsive-img']) }}

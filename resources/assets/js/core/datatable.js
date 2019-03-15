@@ -1,10 +1,10 @@
-import 'datatables.net-bs';
-import 'datatables.net-buttons-bs';
-import 'datatables.net-buttons/js/buttons.colVis';
-// import 'datatables.net-colreorder';
-import 'datatables.net-fixedcolumns';
-import 'datatables.net-responsive-bs';
-import 'datatables.net-select';
+import 'datatables.net-bs'
+import 'datatables.net-buttons-bs'
+import 'datatables.net-buttons/js/buttons.colVis'
+// import 'datatables.net-colreorder'
+import 'datatables.net-fixedcolumns'
+import 'datatables.net-responsive-bs'
+import 'datatables.net-select'
 import { sprintf } from 'sprintf-js'
 import { Link } from './link'
 
@@ -114,7 +114,7 @@ export class Datatable {
      * @return {array}
      */
     getDatatableColumnDefs(element) {
-        let selector = new UccelloUitypeSelector.UitypeSelector() // UccelloUitypeSelector is replaced automaticaly by webpack. See webpack.mix.js
+        // let selector = new UccelloUitypeSelector.UitypeSelector() // UccelloUitypeSelector is replaced automaticaly by webpack. See webpack.mix.js
 
         let datatableColumns = [];
 
@@ -134,9 +134,9 @@ export class Datatable {
                 targets: parseInt(i) + 1, // Force integer
                 data: column.name,
                 orderable: true,
-                createdCell: (td, cellData, rowData, row, col) => {
-                    selector.get(column.uitype).createdCell(column, td, cellData, rowData, row, col)
-                },
+                // createdCell: (td, cellData, rowData, row, col) => {
+                //     selector.get(column.uitype).createdCell(column, td, cellData, rowData, row, col)
+                // },
                 visible: column.visible
             })
         }
@@ -253,7 +253,7 @@ export class Datatable {
         let buttonsContainer = table.buttons().container()
 
         // Retrieve container
-        let dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
+        let dataTableContainer = buttonsContainer.parents('.dataTable-container:first')
 
         // Remove old buttons if datatable was initialized before (e.g. in related list selection modal)
         $('.action-buttons .buttons-colvis', dataTableContainer).remove()
@@ -276,23 +276,27 @@ export class Datatable {
                     })
 
                 // Move button
-                $(element).prependTo($('.action-buttons', dataTableContainer))
+                $(element).prependTo($('.action-buttons'))
             })
         }
         // Display classic buttons (list)
         else {
             // Move buttons
-            buttonsContainer.appendTo($('.action-buttons', dataTableContainer));
+            $('button.buttons-colvis', buttonsContainer)
+                .attr('class', 'btn-small waves-effect primary buttons-colvis')
+                .appendTo($('.action-buttons'))
 
-            $('button', buttonsContainer).each((index, element) => {
-                // Replace <span>...</span> by its content
-                $(element).html($('span', element).html())
+            // $(buttonsContainer).remove()
 
-                // Add icon and effect
-                $(element).addClass('icon-right waves-effect bg-primary')
-                $(element).removeClass('btn-default')
-                $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
-            })
+            // $('button', buttonsContainer).each((index, element) => {
+            //     // Replace <span>...</span> by its content
+            //     $(element).html($('span', element).html())
+
+            //     // Add icon and effect
+            //     $(element).addClass('icon-right waves-effect bg-primary')
+            //     $(element).removeClass('btn-default')
+            //     $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
+            // })
 
             // Move to the right
             $('.action-buttons .btn-group', dataTableContainer).addClass('pull-right')

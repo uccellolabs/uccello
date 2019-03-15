@@ -5,7 +5,7 @@
 <div class="col {{ $isLarge ? 's7 m10' : 's7 m4' }}">
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
     @if ($value)
-        <div class="ellipsis">
+        <div class="truncate">
             <a href="{{ $record->{$field->column} }}" target="_blank">{{ $value }}</a>
         </div>
     @else

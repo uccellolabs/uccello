@@ -1,25 +1,24 @@
 @foreach ($tab->blocks as $block)
-    <div class="card block">
-        <div class="header">
-            <h2>
-                <div @if($block->icon)class="block-label-with-icon"@endif>
-
-                    {{-- Icon --}}
-                    @if($block->icon)
-                    <i class="material-icons">{{ $block->icon }}</i>
-                    @endif
-
-                    {{-- Label --}}
-                    <span>{{ uctrans($block->label, $module) }}</span>
-                </div>
-
-                {{-- Description --}}
-                @if ($block->description)
-                    <small>{{ uctrans($block->description, $module) }}</small>
+    <div class="card">
+        <div class="card-content">
+            {{-- Title --}}
+            <div class="card-title">
+                {{-- Icon --}}
+                @if($block->icon)
+                <i class="material-icons primary-text">{{ $block->icon }}</i>
                 @endif
-            </h2>
-        </div>
-        <div class="body">
+
+                {{-- Label --}}
+                {{ uctrans($block->label, $module) }}
+
+                <small>Une super descripton</small>
+            </div>
+
+            {{-- Description --}}
+            @if ($block->description)
+                <small>{{ uctrans($block->description, $module) }}</small>
+            @endif
+
             <div class="row display-flex">
             {{-- Display all block's fields --}}
             @foreach ($block->fields as $field)

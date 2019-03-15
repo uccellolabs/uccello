@@ -26,14 +26,15 @@
     </nav>
 </div>
 
-{{-- <header class="navbar-fixed">
-    <nav class="navbar-breadcrumb ">
-        <div class="nav-wrapper">
-            <div class="col s12">
-                <a href="#!" class="breadcrumb">First</a>
-                <a href="#!" class="breadcrumb">Second</a>
-                <a href="#!" class="breadcrumb">Third</a>
+<header class="navbar-fixed navbar-top">
+    <nav class="transparent z-depth-0">
+        <div class="row">
+            <div class="col s12 m6 l4">
+                @section('breadcrumb')&nbsp;@show
+            </div>
+            <div class="col s12 m6 l8">
+                @section('top-action-buttons')&nbsp;@show
             </div>
         </div>
     </nav>
-</header> --}}
+</header>

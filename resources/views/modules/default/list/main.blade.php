@@ -8,75 +8,71 @@
 
 @section('content-class', 'dataTable-container listview')
 
-@section('breadcrumb')
+{{-- @section('breadcrumb')
     <div class="row">
-        <div class="col s12">
-            <div class="row">
-                <div class="col s6">
-                    <div class="breadcrumb pull-left">
-                        {{-- Module icon --}}
-                        <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
-                            <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
-                        </a>
+        <div class="col s6">
+            <div class="breadcrumb pull-left">
+                {{-- Module icon - -}}
+                <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
+                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
+                </a>
 
-                        <ol class="breadcrumb filters pull-left">
-                            @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                            <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                            <li>
-                                <select class="filter show-tick" data-live-search="true">
-                                    @foreach ($filters as $filter)
-                                    <option value="{{ $filter->id }}" @if($selectedFilter && $filter->id == $selectedFilter->id)selected="selected"@endif>{{ uctrans($filter->name, $module) }}</option>
-                                    @endforeach
-                                </select>
-                            </li>
-                        </ol>
+                <ol class="breadcrumb filters pull-left">
+                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
+                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
+                    <li>
+                        <select class="filter show-tick" data-live-search="true">
+                            @foreach ($filters as $filter)
+                            <option value="{{ $filter->id }}" @if($selectedFilter && $filter->id == $selectedFilter->id)selected="selected"@endif>{{ uctrans($filter->name, $module) }}</option>
+                            @endforeach
+                        </select>
+                    </li>
+                </ol>
 
-                        {{-- Export --}}
-                        <div class="pull-right export">
-                            <a href="javascript:void(0)" class="action-button" data-config='{"actionType":"modal", "modal":"#exportModal"}'>
-                                <i class="material-icons bg-primary" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.export', $module) }}">cloud_download</i>
-                            </a>
-                        </div>
-
-                        {{-- Manage filters --}}
-                        <div class="pull-right manage-filters">
-                            <a href="#" class="action-button dropdown-trigger" data-target="dropdown-filter">
-                                <i class="material-icons bg-green" data-toggle="tooltip" data-placement="top" title="{{ uctrans('button.manage_filters', $module) }}">filter_list</i>
-                            </a>
-                            <ul id="dropdown-filter" class="dropdown-content">
-                                <li>
-                                    <a href="#!" class="add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
-                                        <i class="material-icons">add</i>
-                                        {{ uctrans('button.add_filter', $module) }}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
-                                        <i class="material-icons">delete</i>
-                                        {{ uctrans('button.delete_filter', $module) }}
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                {{-- Export - -}}
+                <div class="pull-right export">
+                    <a href="javascript:void(0)" class="action-button" data-position="top" data-tooltip="{{ uctrans('button.export', $module) }}" data-config='{"actionType":"modal", "modal":"#exportModal"}'>
+                        <i class="material-icons bg-primary">cloud_download</i>
+                    </a>
                 </div>
 
-                <div class="action-buttons col s6 x12">
-                    <div class="btn-group m-l-10 pull-right">
-                        <a href="#" class="btn bg-primary icon-right waves-effect pull-right dropdown-trigger" data-target="dropdown-items-number">
-                            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
-                            <i class="material-icons">keyboard_arrow_down</i>
-                        </a>
-                        <ul id="dropdown-items-number" class="dropdown-content">
-                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="15">15</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="30">30</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
-                            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
-                        </ul>
-                    </div>
+                {{-- Manage filters - -}}
+                <div class="pull-right manage-filters">
+                    <a href="#" class="action-button dropdown-trigger" data-target="dropdown-filter" data-position="top" data-tooltip="{{ uctrans('button.manage_filters', $module) }}">
+                        <i class="material-icons bg-green">filter_list</i>
+                    </a>
+                    <ul id="dropdown-filter" class="dropdown-content">
+                        <li>
+                            <a href="#!" class="add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
+                                <i class="material-icons">add</i>
+                                {{ uctrans('button.add_filter', $module) }}
+                            </a>
+                        </li>
+                        <li>
+                            <a class="delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
+                                <i class="material-icons">delete</i>
+                                {{ uctrans('button.delete_filter', $module) }}
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
+@endsection --}}
+
+@section('top-action-buttons')
+    <div class="action-buttons right-align">
+        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-items-number">
+            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
+            <i class="material-icons">keyboard_arrow_down</i>
+        </a>
+        <ul id="dropdown-items-number" class="dropdown-content">
+            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="15">15</a></li>
+            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="30">30</a></li>
+            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
+            <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
+        </ul>
     </div>
 @endsection
 
@@ -86,10 +82,10 @@
     <div class="row clearfix">
         <div class="col s12 card-container" style="min-height: 600px">
             <div class="card">
-                <div class="body p-t-0">
-                    <div class="table-responsive" style="min-height: 300px">
+                <div class="card-content p-t-0">
+                    <div class="responsive-table" style="min-height: 300px">
                         <table
-                            class="table table-striped table-hover dataTable"
+                            class="striped highlight dataTable"
                             data-filter-type="list"
                             data-filter-id="{{ $selectedFilter->id ?? '' }}">
                             <thead>
@@ -115,7 +111,7 @@
                                     @endforeach
 
                                     <th class="actions-column hidden-xs">
-                                        <a class="clear-search pull-left col-red" title="{{ uctrans('button.clear_search', $module) }}" data-toggle="tooltip" data-placement="top"><i class="material-icons">close</i></a>
+                                        <a class="clear-search pull-left col-red" data-tooltip="{{ uctrans('button.clear_search', $module) }}" data-position="top"><i class="material-icons">close</i></a>
                                     </th>
                                 </tr>
                             </thead>
@@ -150,7 +146,7 @@
         {{-- Create button --}}
         @if (Auth::user()->canCreate($domain, $module))
         <div id="page-action-buttons">
-            <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float" title="{{ uctrans('button.new', $module) }}" data-toggle="tooltip" data-placement="top">
+            <a href="{{ ucroute('uccello.edit', $domain, $module) }}" class="btn-floating btn-large waves-effect green" data-tooltip="{{ uctrans('button.new', $module) }}" data-position="top">
                 <i class="material-icons">add</i>
             </a>
         </div>

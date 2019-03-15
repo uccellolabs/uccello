@@ -4,12 +4,11 @@
 </div>
 <div class="col {{ $isLarge ? 's7 m10' : 's7 m4' }}">
     <?php
-        $value = $field->uitype->getFormattedValueToDisplay($field, $record);
-        $color = $value === trans('uccello::default.yes') ? 'green' : 'red'
+        $value = $record->{$field->column};
+        $color = $value ? 'green' : 'red'
     ?>
-
-    <div style="position: relative">
-        <i class="material-icons {{ $color }}-text" style="font-size: 18px" title="{{ $value }}">lens</i>
-        <span class="icon-label" style="left: 2px; top: -3px">{{ $value }}</span>
+    <div class="valign-wrapper">
+        <i class="material-icons {{ $color }}-text" style="font-size: 18px">lens</i>
+        <span class="icon-label" style="margin-left: 5px">{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}</span>
     </div>
 </div>

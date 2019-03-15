@@ -47,7 +47,7 @@
                         <span class="card-title">
                             {{-- Icon --}}
                             @if($block->icon)
-                            <i class="material-icons">{{ $block->icon }}</i>
+                            <i class="material-icons primary-text">{{ $block->icon }}</i>
                             @endif
 
                             {{-- Label --}}

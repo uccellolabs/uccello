@@ -65,10 +65,9 @@ class EditForm extends Form
         $this->add('save_btn', 'submit', [
             'label' => '<i class="material-icons">save</i>',
             'attr' => [
-                'class' => 'btn-floating btn-large waves-effect waves-light green btn-save',
-                'title' => uctrans('button.save', $module),
-                'data-toggle' => 'tooltip',
-                'data-placement' => 'top',
+                'class' => 'btn-floating btn-large waves-effect green btn-save',
+                'data-tooltip' => uctrans('button.save', $module),
+                'data-position' => 'top',
             ]
         ]);
 
@@ -77,10 +76,9 @@ class EditForm extends Form
             $this->add('save_new_btn', 'button', [
                 'label' => '<i class="material-icons">add</i>',
                 'attr' => [
-                    'class' => 'btn-floating btn-large waves-effect waves-light primary btn-save-new',
-                    'title' => uctrans('button.save_new', $module),
-                    'data-toggle' => 'tooltip',
-                    'data-placement' => 'top',
+                    'class' => 'btn-floating btn-large waves-effect primary btn-save-new',
+                    'data-tooltip' => uctrans('button.save_new', $module),
+                    'data-position' => 'top',
                 ]
             ]);
 

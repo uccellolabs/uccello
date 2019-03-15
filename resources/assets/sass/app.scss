@@ -4,9 +4,19 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import url("https://use.fontawesome.com/releases/v5.7.2/css/all.css");
 
+@import '~datatables.net-bs/css/dataTables.bootstrap.css';
+
 html {
     font-family: Roboto, sans-serif;
 }
+
+// body {
+//     -webkit-touch-callout: none;
+//     -webkit-text-size-adjust: none;
+//     -webkit-user-select: none;
+//     -webkit-highlight: none;
+//     -webkit-tap-highlight-color: rgba(0,0,0,0);
+// }
 
 .row {
     &.display-flex {
@@ -23,77 +33,77 @@ html {
     }
 }
 
-div.breadcrumb {
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 1px 4px;
-    margin-bottom: 25px;
-    -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+// div.breadcrumb {
+//     background-color: #fff;
+//     border-radius: 20px;
+//     padding: 1px 4px;
+//     margin-bottom: 25px;
+//     -webkit-box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+//     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 
-    a.module-icon i {
-        color: #51555D;
-        background-color: rgba(0,0,0,.2);
-        border-radius: 20px;
-        padding: 3px;
-        font-size: 18px;
-        margin-right: 10px;
-        margin-top: 2px;
-    }
+//     a.module-icon i {
+//         color: #51555D;
+//         background-color: rgba(0,0,0,.2);
+//         border-radius: 20px;
+//         padding: 3px;
+//         font-size: 18px;
+//         margin-right: 10px;
+//         margin-top: 2px;
+//     }
 
-    a.action-button {
-        i {
-            margin-left: 5px;
-            margin-right: 0;
-            color: #ffffff;
-            border-radius: 20px;
-            padding: 3px;
-            font-size: 18px;
-            margin-top: 2px;
-        }
-    }
+//     a.action-button {
+//         i {
+//             margin-left: 5px;
+//             margin-right: 0;
+//             color: #ffffff;
+//             border-radius: 20px;
+//             padding: 3px;
+//             font-size: 18px;
+//             margin-top: 2px;
+//         }
+//     }
 
-    ol.breadcrumb {
-        margin: 0;
-        padding: 5px 0 0 0;
-        margin-right: 25px;
+//     ol.breadcrumb {
+//         margin: 0;
+//         padding: 5px 0 0 0;
+//         margin-right: 25px;
 
-        &.filters {
-            margin-right: 0;
-        }
+//         &.filters {
+//             margin-right: 0;
+//         }
 
-        &>li>a {
-            font-weight: bold;
-            color: #333;
-        }
-    }
+//         &>li>a {
+//             font-weight: bold;
+//             color: #333;
+//         }
+//     }
 
-    .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-        width: auto !important;
-    }
+//     .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+//         width: auto !important;
+//     }
 
-    .btn:not(.btn-link):not(.btn-circle),
-    .btn-group,
-    .btn-group-vertical {
-        border-radius: 0;
-        padding: 0;
-        border: none !important;
-    }
+//     .btn:not(.btn-link):not(.btn-circle),
+//     .btn-group,
+//     .btn-group-vertical {
+//         border-radius: 0;
+//         padding: 0;
+//         border: none !important;
+//     }
 
-    .bootstrap-select.btn-group .dropdown-toggle .filter-option {
-        padding-top: 2px;
-        padding-right: 15px;
-    }
+//     .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+//         padding-top: 2px;
+//         padding-right: 15px;
+//     }
 
-    .manage-filters {
-        position: relative;
+//     .manage-filters {
+//         position: relative;
 
-        button {
-            font-weight: normal !important;
-            text-align: left !important;
-        }
-    }
-}
+//         button {
+//             font-weight: normal !important;
+//             text-align: left !important;
+//         }
+//     }
+// }
 
 button {
     &.btn-save {
@@ -110,12 +120,22 @@ button {
     &.btn-save-new {
         position: fixed !important;
         bottom: 20px;
-        right: 85px;
+        right: 95px;
         z-index: 1001;
 
         &:hover, &:focus, .focus {
             color: #fff !important;
         }
+    }
+}
+
+#page-action-buttons {
+    position: fixed !important;
+    bottom: 20px;
+    right: 25px;
+
+    a {
+        margin-left: 10px;
     }
 }
 
@@ -126,4 +146,17 @@ form.edit-form {
 label.required::before {
     content: '* ';
     color: red;
+}
+
+.card {
+    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
+    box-shadow: 0 2px 10px rgba(0,0,0,.2);
+
+    .card-content {
+        .card-title {
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid hsla(0,0%,80%,.35);
+        }
+    }
 }

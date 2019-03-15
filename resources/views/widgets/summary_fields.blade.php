@@ -1,19 +1,16 @@
 <div class="row">
-    <div class="col-sm-12">
-        <div class="card block">
-            <div class="header">
-                <h2>
-                    <div class="block-label-with-icon">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                {{-- Title --}}
+                <span class="card-title">
+                    {{-- Icon --}}
+                    <i class="material-icons primary-text">reorder</i>
 
-                        {{-- Icon --}}
-                        <i class="material-icons">reorder</i>
+                    {{-- Label --}}
+                    {{ trans($label) }}
+                </span>
 
-                        {{-- Label --}}
-                        <span>{{ trans($label) }}</span>
-                    </div>
-                </h2>
-            </div>
-            <div class="body">
                 <div class="row display-flex">
                     @if (!empty($data) && is_array($data->fields))
                         @foreach ($data->fields as $fieldName)

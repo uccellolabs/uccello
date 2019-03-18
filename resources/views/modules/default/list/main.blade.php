@@ -2,11 +2,7 @@
 
 @section('page', 'list')
 
-@section('extra-meta')
-    <meta name="datatable-url" content="{{ ucroute('uccello.datatable', $domain, $module) }}">
-@endsection
-
-@section('content-class', 'dataTable-container listview')
+{{-- @section('content-class', 'listview') --}}
 
 {{-- @section('breadcrumb')
     <div class="row">
@@ -63,6 +59,7 @@
 
 @section('top-action-buttons')
     <div class="action-buttons right-align">
+        {{-- Items number --}}
         <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-items-number">
             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
             <i class="material-icons">keyboard_arrow_down</i>
@@ -73,6 +70,18 @@
             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
         </ul>
+
+        {{-- Columns visibility --}}
+        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-columns">
+                {!! uctrans('button.columns', $module) !!}
+                <i class="material-icons">keyboard_arrow_down</i>
+            </a>
+            <ul id="dropdown-columns" class="dropdown-content">
+                @foreach ($datatableColumns as $column)
+                <li @if($column['visible'])class="active"@endif><a href="javascript:void(0);" class="waves-effect waves-block column-visibility" data-field="{{ $column['name'] }}">{{ uctrans('field.'.$column['name'], $module) }}</a></li>
+                @endforeach
+            </ul>
+        </div>
     </div>
 @endsection
 
@@ -80,41 +89,68 @@
     @yield('before-table')
 
     <div class="row clearfix">
-        <div class="col s12 card-container" style="min-height: 600px">
+        <div class="col s12" style="min-height: 600px">
             <div class="card">
                 <div class="card-content p-t-0">
-                    <div class="responsive-table" style="min-height: 300px">
+                    <div>
                         <table
-                            class="striped highlight dataTable"
+                            class="striped highlight responsive-table"
                             data-filter-type="list"
-                            data-filter-id="{{ $selectedFilter->id ?? '' }}">
+                            data-filter-id="{{ $selectedFilter->id ?? '' }}"
+                            data-list-url="{{ ucroute('uccello.list.content', $domain, $module, ['_token' => csrf_token()]) }}"
+                            data-detail-url="{{ ucroute('uccello.detail', $domain, $module, ['id' => 'RECORD_ID']) }}">
                             <thead>
                                 <tr>
-                                    <th class="select-column">&nbsp;</th>
+                                    {{-- <th class="select-column">&nbsp;</th> --}}
 
                                     @foreach ($datatableColumns as $column)
-                                    <th data-name="{{ $column['name'] }}" data-label="{{ uctrans('field.'.$column['name'], $module) }}">
+                                    <th data-field="{{ $column['name'] }}" data-column="{{ $column['db_column'] }}" @if(!$column['visible'])style="display: none"@endif>
                                         {{ uctrans('field.'.$column['name'], $module) }}
-                                        <?php
-                                            $searchValue = null;
-                                            if ($selectedFilter && !empty($selectedFilter->conditions->search->{$column['name']})) {
-                                                $searchValue = $selectedFilter->conditions->search->{$column['name']};
-                                            }
+                                        <div class="hide-on-small-only hide-on-med-only">
+                                            <?php
+                                                $searchValue = null;
+                                                if ($selectedFilter && !empty($selectedFilter->conditions->search->{$column['name']})) {
+                                                    $searchValue = $selectedFilter->conditions->search->{$column['name']};
+                                                }
 
-                                            // If a special template exists, use it. Else use the generic template
-                                            $uitypeViewName = sprintf('uitypes.search.%s', $column[ 'uitype' ]);
-                                            $uitypeFallbackView = 'uccello::modules.default.uitypes.search.text';
-                                            $uitypeViewToInclude = uccello()->view($column[ 'package' ], $module, $uitypeViewName, $uitypeFallbackView);
-                                        ?>
-                                        @include($uitypeViewToInclude)
+                                                // If a special template exists, use it. Else use the generic template
+                                                $uitypeViewName = sprintf('uitypes.search.%s', $column[ 'uitype' ]);
+                                                $uitypeFallbackView = 'uccello::modules.default.uitypes.search.text';
+                                                $uitypeViewToInclude = uccello()->view($column[ 'package' ], $module, $uitypeViewName, $uitypeFallbackView);
+                                            ?>
+                                            @include($uitypeViewToInclude)
+                                        </div>
                                     </th>
                                     @endforeach
 
-                                    <th class="actions-column hidden-xs">
-                                        <a class="clear-search pull-left col-red" data-tooltip="{{ uctrans('button.clear_search', $module) }}" data-position="top"><i class="material-icons">close</i></a>
+                                    <th class="actions-column hide-on-small-only hide-on-med-only">
+                                        <a href="#!" class="clear-search red-text" data-tooltip="{{ uctrans('button.clear_search', $module) }}" data-position="top"><i class="material-icons">close</i></a>
                                     </th>
                                 </tr>
+
+                                {{-- Row template used by the query --}}
+                                <tr class="template hide">
+                                    {{-- <td class="select-column">&nbsp;</td> --}}
+
+                                    @foreach ($datatableColumns as $column)
+                                    <td data-field="{{ $column['name'] }}">&nbsp;</td>
+                                    @endforeach
+
+                                    <td class="actions-column hide-on-small-only hide-on-med-only">
+                                        @if (Auth::user()->canUpdate($domain, $module))
+                                        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $module) }}" class="edit-btn primary-text"><i class="material-icons">edit</i></a>
+                                        @endif
+
+                                        @if (Auth::user()->canDelete($domain, $module))
+                                        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
+                                        @endif
+                                    </td>
+                                </tr>
                             </thead>
+
+                            <tbody>
+                                {{-- Generated automaticaly --}}
+                            </tbody>
                         </table>
 
                         <div class="row loader m-t-100">
@@ -132,10 +168,17 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="paginator m-b-25">
+                    {{-- Pagination --}}
+                    <div class="center-align">
+                        <ul class="pagination">
+                            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                            <li class="active"><a href="#!" class="primary">1</a></li>
+                            {{-- <li class="waves-effect"><a href="#!">2</a></li> --}}
+                            <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -152,17 +195,6 @@
         </div>
         @endif
     @show
-
-    {{-- Template to use in the table --}}
-    <div class="template hide">
-        @if (Auth::user()->canUpdate($domain, $module))
-        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.edit', $module) }}" class="edit-btn hidden-xs"><i class="material-icons">edit</i></a>
-        @endif
-
-        @if (Auth::user()->canDelete($domain, $module))
-        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" title="{{ uctrans('button.delete', $module) }}" class="delete-btn hidden-xs" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
-        @endif
-    </div>
 @endsection
 
 @section('extra-content')

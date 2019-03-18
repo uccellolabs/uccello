@@ -131,6 +131,64 @@ class ListController extends Controller
         return $query->paginate(10);
     }
 
+    public function getContent(?Domain $domain, Module $module, Request $request)
+    {
+        $length = (int)$request->get('length') ?? env('UCCELLO_ITEMS_PER_PAGE', 15);
+        $order = $request->get('order');
+
+        // Pre-process
+        $this->preProcess($domain, $module, $request);
+
+        // Get model model class
+        $modelClass = $module->model_class;
+
+        // Check if the class exists
+        if (!class_exists($modelClass)) {
+            return false;
+        }
+
+        // Filter on domain if column exists
+        if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
+            $query = $modelClass::where('domain_id', $domain->id);
+        } else {
+            $query = $modelClass::query();
+        }
+
+        // Order results
+        if (!empty($order)) {
+            $orderData = explode(',', $order);
+
+            if (count($orderData) === 2) {
+                $query = $query->orderBy(trim($orderData[0]), trim($orderData[1]));
+            }
+        }
+
+        // Limit the number maximum of items per page
+        $maxItemsPerPage = env('UCCELLO_MAX_ITEMS_PER_PAGE', 100);
+        if ($length > $maxItemsPerPage) {
+            $length = $maxItemsPerPage;
+        }
+
+        // Paginate results
+        $records = $query->paginate($length);
+
+        $records->getCollection()->transform(function ($record) use ($module) {
+
+            foreach ($module->fields as $field) {
+
+                // If a special template exists, use it. Else use the generic template
+                $uitypeViewName = sprintf('uitypes.list.%s', $field->uitype->name);
+                $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';
+                $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                $record->{$field->name} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
+            }
+
+            return $record;
+        });
+
+        return $records;
+    }
+
     /**
      * Save list filter into database
      *

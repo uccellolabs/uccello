@@ -1,30 +1,73 @@
-import { Datatable } from './datatable'
-
 export class List {
     constructor() {
-        this.initDatatable()
-        this.initListeners()
+        this.initTable()
+        // this.initListeners()
+
+        this.makeQuery()
     }
 
     /**
-     * Init Datatable
+     * Init table
      */
-    initDatatable() {
-        const csrfToken = $('meta[name="csrf-token"]').attr('content')
-        const domainSlug = $('meta[name="domain"]').attr('content')
-        const moduleName = $('meta[name="module"]').attr('content')
-        const datatableUrl = $('meta[name="datatable-url"]').attr('content')
-        const selectedFilterId = $('meta[name="selected-filter-id"]').attr('content')
+    initTable() {
+        if ($('table[data-filter-type="list"]').length == 0) {
+            return
+        }
 
-        let datatable = new Datatable()
-        datatable.url = `${datatableUrl}?_token=${csrfToken}`
-        datatable.domainSlug = domainSlug
-        datatable.moduleName = moduleName
-        datatable.selectedFilterId = selectedFilterId
-        datatable.rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: moduleName })
-        datatable.init('.dataTable')
+        this.table = $('table[data-filter-type="list"]')
+    }
 
-        this.datatable = datatable
+    makeQuery()
+    {
+        if (!this.table) {
+            return
+        }
+
+        // Get query URL
+        let url = $(this.table).data('list-url')
+
+        // Make query
+        $.get(url).then((response) => {
+            this.displayResult(response)
+        })
+    }
+
+    displayResult(response)
+    {
+        if (!this.table || !response.data) {
+            return
+        }
+
+        // Get row template
+        let trTemplate = $('thead tr.template', this.table)
+
+        // Delete old rows
+        $('tbody.row', this.table).remove()
+
+        // Add a row by record
+        for(let record of response.data) {
+            let tr = trTemplate.clone()
+
+            // Create each cell according to all headers
+            $('th[data-field]', this.table).each(function (el, index) {
+                let fieldName = $(this).data('field')
+                let fieldColumn = $(this).data('column')
+
+                // Add content to the cell
+                let td = $(`td[data-field="${fieldName}"] `, tr)
+                td.html(record[fieldColumn])
+
+                // Hide if necessary
+                if (!$(this).is(':visible')) {
+                    td.hide()
+                }
+
+                // TODO: replace RECORD_ID in links
+            })
+
+            // Add the row to tbody
+            tr.removeClass('hide').removeClass('template').addClass('row').appendTo('tbody', this.table)
+        }
     }
 
     /**

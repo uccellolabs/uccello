@@ -1,12 +1,21 @@
 import './materialize'
+import './core/global'
 
 // Translation
 import i18next from 'i18next'
 import i18nextLanguageBundle from '@kirschbaum-development/laravel-translations-loader?namespace=uccello!@kirschbaum-development/laravel-translations-loader'
+import { Global } from './core/global';
+
+import 'sweetalert'
 
 class UccelloApp {
     constructor() {
+        this.initGlobal()
         this.initTranslation()
+    }
+
+    initGlobal() {
+        new Global()
     }
 
     initTranslation() {

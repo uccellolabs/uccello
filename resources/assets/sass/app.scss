@@ -158,3 +158,13 @@ label.required::before {
         }
     }
 }
+
+table {
+    th.actions-column {
+        min-width: 65px;
+    }
+
+    tr.record {
+        cursor: pointer;
+    }
+}

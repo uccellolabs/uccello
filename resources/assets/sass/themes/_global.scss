@@ -183,6 +183,10 @@ body.theme-#{$theme} {
         color: $primaryColor !important;
     }
 
+    .spinner-primary, .spinner-primary-only {
+        border-color: $primaryColor;
+    }
+
     .content {
         padding: 15px;
     }

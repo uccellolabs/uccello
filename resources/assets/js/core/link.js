@@ -183,7 +183,7 @@ export class Link {
         dialog.show({
             title: title,
             text: text,
-            type: "warning",
+            icon: "warning",
             showCancelButton: true,
             confirmButtonColor: confirmButtonColor,
             confirmButtonText: confirmButtonText,

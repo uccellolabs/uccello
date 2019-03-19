@@ -1,25 +1,31 @@
-import {Datatable} from './datatable'
+// import { Datatable } from './datatable'
 
 export class List {
     constructor() {
-        this.initTable()
-        // this.initListeners()
+        this.initDatatable()
+        this.initListeners()
     }
 
     /**
-     * Init table
+     * Init Datatable
      */
-    initTable() {
-        if ($('table[data-filter-type="list"]').length == 0) {
-            return
-        }
+    initDatatable() {
+        const csrfToken = $('meta[name="csrf-token"]').attr('content')
+        const domainSlug = $('meta[name="domain"]').attr('content')
+        const moduleName = $('meta[name="module"]').attr('content')
+        const datatableUrl = $('meta[name="datatable-url"]').attr('content')
+        const selectedFilterId = $('meta[name="selected-filter-id"]').attr('content')
 
         let datatable = new Datatable()
-        datatable.init($('table[data-filter-type="list"]'))
-        datatable.makeQuery()
+        datatable.url = `${datatableUrl}?_token=${csrfToken}`
+        datatable.domainSlug = domainSlug
+        datatable.moduleName = moduleName
+        datatable.selectedFilterId = selectedFilterId
+        datatable.rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: moduleName })
+        datatable.init('.dataTable')
+
+        this.datatable = datatable
     }
-
-
 
     /**
      * Init listeners

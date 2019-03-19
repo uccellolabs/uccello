@@ -1,6 +1,7 @@
 export class Dialog {
 
     show(config, callback) {
-        swal(config, callback)
+        console.log(config)
+        swal(config).then(callback)
     }
 }

@@ -10,6 +10,8 @@ return [
     'create' => 'Création',
     'edit' => 'Édition',
     'search' => 'Rechercher',
+    'no_results' => 'Aucun résultat',
+    'loading' => 'Chargement en cours...',
 
     // Menu
     'menu.title' => 'Menu',

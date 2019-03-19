@@ -10,6 +10,8 @@ return [
     'create' => 'Create',
     'edit' => 'Edit',
     'search' => 'Search',
+    'no_results' => 'No results found',
+    'loading' => 'Loading...',
 
     // Menu
     'menu.title' => 'Menu',

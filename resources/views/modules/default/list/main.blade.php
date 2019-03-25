@@ -59,7 +59,10 @@
 
 @section('top-action-buttons')
     <div class="action-buttons right-align">
+        @yield('before-columns-visibility-button')
+
         {{-- Columns visibility --}}
+        @section('columns-visibility-button')
         <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-columns">
             {!! uctrans('button.columns', $module) !!}
             <i class="material-icons">keyboard_arrow_down</i>
@@ -69,8 +72,13 @@
             <li @if($column['visible'])class="active"@endif><a href="javascript:void(0);" class="waves-effect waves-block column-visibility" data-field="{{ $column['name'] }}">{{ uctrans('field.'.$column['name'], $module) }}</a></li>
             @endforeach
         </ul>
+        @show
+
+        @yield('after-columns-visibility-button')
+        @yield('before-records-button')
 
         {{-- Records number --}}
+        @section('records-button')
         <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-records-number">
             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
             <i class="material-icons">keyboard_arrow_down</i>
@@ -81,31 +89,49 @@
             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="50">50</a></li>
             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="100">100</a></li>
         </ul>
+        @show
+
+        @yield('after-records-button')
     </div>
 @endsection
 
 @section('content')
-    @yield('before-table')
+    @yield('before-datatable-card')
 
     <div class="row clearfix">
         <div class="col s12" style="min-height: 600px">
             <div class="card">
                 <div class="card-content p-t-0">
+                    @yield('before-datatable-table')
+
                     <div>
+                        @section('datatable-table')
                         <table
                             id="datatable"
                             class="striped highlight responsive-table"
                             data-filter-type="list"
                             data-filter-id="{{ $selectedFilter->id ?? '' }}"
                             data-list-url="{{ ucroute('uccello.list.content', $domain, $module, ['_token' => csrf_token()]) }}"
+                            data-order="{{ !empty($selectedFilter->order_by) ? json_encode($selectedFilter->order_by) : '' }}"
                             data-length="{{ $selectedFilter->data->length ?? 15 }}">
                             <thead>
+                                @section('datatable-columns-header')
                                 <tr>
                                     <th class="select-column">&nbsp;</th>
 
                                     @foreach ($datatableColumns as $column)
                                     <th data-field="{{ $column['name'] }}" data-column="{{ $column['db_column'] }}" @if(!$column['visible'])style="display: none"@endif>
-                                        {{ uctrans('field.'.$column['name'], $module) }}
+                                        <div class="column-label">
+                                            {{-- Label --}}
+                                            {{ uctrans('field.'.$column['name'], $module) }}
+
+                                            {{-- Sort icon --}}
+                                            @if (!empty($filterOrderBy[$column['name']]))
+                                            <i class="fa @if ($filterOrderBy[$column['name']] === 'desc')fa-sort-amount-down @else fa-sort-amount-up @endif"></i>
+                                            @else
+                                            <i class="fa fa-sort-amount-up" style="display: none"></i>
+                                            @endif
+                                        </div>
                                         <div class="hide-on-small-only hide-on-med-only">
                                             <?php
                                                 $searchValue = null;
@@ -129,15 +155,19 @@
                                         </a>
                                     </th>
                                 </tr>
+                                @show
                             </thead>
 
                             <tbody>
                                 {{-- No result --}}
+                                @section('datatable-no-results')
                                 <tr class="no-results" style="display: none">
                                     <td colspan="{{ count($datatableColumns) + 2 }}" class="center-align">{{ uctrans('no_results', $module) }}</td>
                                 </tr>
+                                @show
 
                                 {{-- Row template used by the query --}}
+                                @section('datatable-row-template')
                                 <tr class="template hide" data-row-url="{{ ucroute('uccello.detail', $domain, $module, ['id' => 'RECORD_ID']) }}">
                                     <td class="select-column">&nbsp;</td>
 
@@ -155,12 +185,15 @@
                                         @endif
                                     </td>
                                 </tr>
+                                @show
 
                                 {{-- Other rows are generated automaticaly --}}
                             </tbody>
                         </table>
+                        @show
 
                         {{-- Loader --}}
+                        @section('datatable-loader')
                         <div class="loader center-align hide" data-table="datatable">
                             <div class="preloader-wrapper big active">
                                 <div class="spinner-layer spinner-primary-only">
@@ -180,19 +213,27 @@
                                 {{ uctrans('loading', $module) }}
                             </div>
                         </div>
+                        @show
                     </div>
 
+                    @yield('after-datatable-table')
+                    @yield('before-datatable-pagination')
+
                     {{-- Pagination --}}
+                    @section('datatable-pagination')
                     <div class="center-align">
                         <ul class="pagination" data-table="datatable">
                         </ul>
                     </div>
+                    @show
+
+                    @yield('after-datatable-pagination')
                 </div>
             </div>
         </div>
     </div>
 
-    @yield('after-table')
+    @yield('after-datatable-card')
 
     @section('page-action-buttons')
         {{-- Create button --}}

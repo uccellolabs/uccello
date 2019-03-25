@@ -160,8 +160,23 @@ label.required::before {
 }
 
 table {
-    th.actions-column {
-        min-width: 65px;
+
+    th {
+        .column-label {
+            position: relative;
+
+            i {
+                // position: absolute;
+                // right: 0px;
+                margin-left: 10px;
+                font-size: 16px;
+                color: #51555D;
+            }
+        }
+
+        &.actions-column {
+            min-width: 65px;
+        }
     }
 
     tr.record {

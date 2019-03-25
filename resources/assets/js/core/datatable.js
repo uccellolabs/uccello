@@ -9,8 +9,30 @@ export class Datatable {
         this.table = $(element)
         this.linkManager = new Link(false)
 
-        this.initColumnVisibilityListener()
+        this.initColumns()
+        this.initColumnsVisibilityListener()
         this.initRecordsNumberListener()
+        this.initColumnsSearchListener()
+    }
+
+    initColumns() {
+        this.columns = {}
+
+        if (!this.table) {
+            return
+        }
+
+        $('th[data-field]', this.table).each((index, el) => {
+            let element = $(el)
+            let fieldName = element.data('field')
+
+            if (typeof fieldName !== 'undefined') {
+                this.columns[fieldName] = {
+                    columnName: element.data('column'),
+                    search: ''
+                }
+            }
+        })
     }
 
     makeQuery(page) {
@@ -37,8 +59,14 @@ export class Datatable {
         // Show loader
         $(`.loader[data-table="${this.table.attr('id')}"]`).removeClass('hide')
 
+        // Query data
+        let data = {
+            columns: this.columns,
+            order: $(this.table).attr('data-order') ? JSON.parse($(this.table).attr('data-order')) : null
+        }
+
         // Make query
-        $.get(url).then((response) => {
+        $.post(url, data).then((response) => {
             this.displayResults(response)
             this.displayPagination(response)
 
@@ -150,7 +178,7 @@ export class Datatable {
             .appendTo('tbody', this.table)
     }
 
-    initColumnVisibilityListener() {
+    initColumnsVisibilityListener() {
         $(`ul.columns[data-table="${this.table.attr('id')}"] li a`).on('click', (el) => {
             let element = $(el.currentTarget)
             let fieldName = $(element).data('field')
@@ -181,6 +209,77 @@ export class Datatable {
 
             $(this.table).attr('data-length', number)
 
+            this.makeQuery()
+        })
+    }
+
+    initColumnsSearchListener() {
+        if (!this.table) {
+            return
+        }
+
+        this.timer = 0
+        let that = this
+
+        // Config each column
+        $('th[data-field]', this.table).each((index, el) => {
+            let element = $(el)
+            let fieldName = element.data('field')
+
+            $('input', element).on('keyup apply.daterangepicker cancel.daterangepicker', function() {
+                that.launchSearch(fieldName, $(this).val())
+            })
+
+            $('select', element).on('change', function() {
+                that.launchSearch(fieldName, $(this).val())
+            })
+        })
+
+        // Add clear search button listener
+        this.addClearSearchButtonListener()
+    }
+
+    /**
+     * Launch search
+     * @param {String} fieldName
+     * @param {String} q
+     */
+    launchSearch(fieldName, q)
+    {
+        if (q !== '') {
+            $('.clear-search').show()
+        }
+
+        if (this.columns[fieldName].search !== q) {
+            this.columns[fieldName].search = q
+
+            clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                this.makeQuery()
+            }, 700)
+        }
+    }
+
+    /**
+     * Clear datatable search
+     */
+    addClearSearchButtonListener() {
+        if (!this.table) {
+            return
+        }
+
+        $('.actions-column .clear-search').on('click', (event) => {
+            // Clear all search fields
+            // $('thead select', this.table).selectpicker('deselectAll')
+            $(' thead input', this.table).val('')
+
+            // Update columns
+            this.initColumns()
+
+            // Disable clear search button
+            $(event.currentTarget).hide()
+
+            // Update data
             this.makeQuery()
         })
     }

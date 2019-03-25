@@ -32,8 +32,13 @@ class ListController extends Controller
         $this->preProcess($domain, $module, $request);
 
         // Selected filter
-        $selectedFilterId = $request->input('filter') ?? null;
-        $selectedFilter = Filter::find($selectedFilterId);
+        if ($request->input('filter')) {
+            $selectedFilterId = $request->input('filter');
+            $selectedFilter = Filter::find($selectedFilterId);
+        } else {
+            $selectedFilter = $module->filters()->where('type', 'list')->first();
+            $selectedFilterId = $selectedFilter->id;
+        }
 
         // Get datatable columns
         $datatableColumns = Uccello::getDatatableColumns($module, $selectedFilterId);
@@ -43,7 +48,10 @@ class ListController extends Controller
             ->where('type', 'list')
             ->get();
 
-        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter'));
+        // Order by
+        $filterOrderBy = (array) $selectedFilter->order_by;
+
+        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy'));
     }
 
     /**
@@ -135,6 +143,7 @@ class ListController extends Controller
     {
         $length = (int)$request->get('length') ?? env('UCCELLO_ITEMS_PER_PAGE', 15);
         $order = $request->get('order');
+        $columns = $request->get('columns');
 
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -154,12 +163,25 @@ class ListController extends Controller
             $query = $modelClass::query();
         }
 
+        // Search by column
+        foreach ($columns as $fieldName => $column) {
+            if (!empty($column[ "search" ])) {
+                $searchValue = is_array($column[ "search" ]) ? implode(',', $column[ "search" ]) : $column[ "search" ];
+            } else {
+                $searchValue = null;
+            }
+
+            // Get field by name and search by field column
+            $field = $module->getField($fieldName);
+            if (isset($searchValue) && !is_null($field)) {
+                $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
+            }
+        }
+
         // Order results
         if (!empty($order)) {
-            $orderData = explode(',', $order);
-
-            if (count($orderData) === 2) {
-                $query = $query->orderBy(trim($orderData[0]), trim($orderData[1]));
+            foreach ($order as $column => $value) {
+                $query = $query->orderBy($column, $value);
             }
         }
 

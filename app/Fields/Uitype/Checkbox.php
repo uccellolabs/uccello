@@ -68,9 +68,9 @@ class Checkbox implements Uitype
      * Returns formatted value to search.
      *
      * @param mixed $value
-     * @return string
+     * @return mixed
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch($value)
     {
         $formattedValue = $value === 'true' ? true : false;
 

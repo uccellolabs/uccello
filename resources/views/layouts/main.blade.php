@@ -20,7 +20,7 @@
         @yield('extra-meta')
 
         {{-- Favicon --}}
-        <link rel="icon" href="{{ asset('images/favicon.png') }}" type="image/x-icon">
+        <link rel="icon" href="{{ ucasset('images/favicon.png') }}" type="image/x-icon">
         <base href="/">
 
         {{-- CSS --}}

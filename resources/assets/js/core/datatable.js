@@ -10,6 +10,7 @@ export class Datatable {
         this.linkManager = new Link(false)
 
         this.initColumns()
+        this.initColumnsSortListener()
         this.initColumnsVisibilityListener()
         this.initRecordsNumberListener()
         this.initColumnsSearchListener()
@@ -51,7 +52,7 @@ export class Datatable {
         $('tbody tr.record', this.table).remove()
 
         // Hide no_result row
-        $('tbody tr.no-results').hide()
+        $('tbody tr.no-results', this.table).hide()
 
         // Hide pagination
         $(`.pagination[data-table="${this.table.attr('id')}"]`).hide()
@@ -61,8 +62,10 @@ export class Datatable {
 
         // Query data
         let data = {
+            id: $('meta[name="record"]').attr('content'),
             columns: this.columns,
-            order: $(this.table).attr('data-order') ? JSON.parse($(this.table).attr('data-order')) : null
+            order: $(this.table).attr('data-order') ? JSON.parse($(this.table).attr('data-order')) : null,
+            relatedlist: $(this.table).attr('data-relatedlist') ? $(this.table).attr('data-relatedlist') : null,
         }
 
         // Make query
@@ -82,8 +85,11 @@ export class Datatable {
 
         if (response.data.length === 0) {
             // No result
-            $('tbody tr.no-results').show()
+            $('tbody tr.no-results', this.table).show()
         } else {
+            // Delete old records
+            $('tbody tr.record', this.table).remove()
+
             // Add a row by record
             for(let record of response.data) {
                 this.addRowToTable(record)
@@ -102,7 +108,7 @@ export class Datatable {
 
         for (let i=1; i<=response.last_page; i++) {
             if (i === response.current_page) {
-                paginationHtml += `<li class="active"><a href="javascript:void(0);" class="primary">${i}</a></li>`
+                paginationHtml += `<li class="active primary"><a href="javascript:void(0);">${i}</a></li>`
             } else {
                 paginationHtml += `<li class="waves-effect"><a href="javascript:void(0);" data-page="${i}">${i}</a></li>`
             }
@@ -142,7 +148,7 @@ export class Datatable {
             td.html(record[fieldColumn])
 
             // Hide if necessary
-            if (!$(this).is(':visible')) {
+            if ($(this).css('display') === 'none') {
                 td.hide()
             }
         })
@@ -175,7 +181,7 @@ export class Datatable {
         tr.removeClass('hide')
             .removeClass('template')
             .addClass('record')
-            .appendTo('tbody', this.table)
+            .appendTo(`#${this.table.attr('id')} tbody`) // We use the id else it append not always into the good table (if there are several)
     }
 
     initColumnsVisibilityListener() {
@@ -281,6 +287,44 @@ export class Datatable {
 
             // Update data
             this.makeQuery()
+        })
+    }
+
+    initColumnsSortListener() {
+        if (!this.table) {
+            return
+        }
+
+        $('th[data-field].sortable', this.table).each((index, el) => {
+            let element = $(el)
+            let fieldName = element.data('field')
+
+            $('a.column-label', element).on('click', (event) => {
+                // Get current sort order
+                let order = JSON.parse(this.table.attr('data-order'))
+
+                // Hide all sort icons
+                $('a.column-label i').hide()
+
+                // Adapt icon according to sort order
+                if (order[fieldName] === 'asc') {
+                    order[fieldName] = 'desc'
+                    $('a.column-label i', element).removeClass('fa-sort-amount-up').addClass('fa-sort-amount-down')
+                } else {
+                    order = {}
+                    order[fieldName] = 'asc'
+                    $('a.column-label i', element).removeClass('fa-sort-amount-down').addClass('fa-sort-amount-up')
+                }
+
+                // Show column's sort icon
+                $('a.column-label i', element).show()
+
+                // Update sort order in the datatable
+                this.table.attr('data-order', JSON.stringify(order))
+
+                // Make query
+                this.makeQuery()
+            })
         })
     }
 }

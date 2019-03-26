@@ -55,6 +55,8 @@
             </div>
         </main>
 
+        @yield('post-content')
+
         {{-- Flash notifications --}}
         @include('uccello::layouts.partials.notifications.main')
 

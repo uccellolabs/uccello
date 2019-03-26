@@ -35,14 +35,51 @@ body.theme-#{$theme} {
 
         &.navbar-top {
             nav {
+                padding-top: 12px;
+                padding-left: 260px;
+                padding-right: 15px;
                 right: 0;
+                background-color: $navbarTopBackgroundColor;
+
+                .breadcrumb-container {
+                    background-color: $navbarTopBackgroundColor;
+                    margin-top: 3px;
+                    padding: 0 5px;
+                    border-radius: 50px;
+                    height: 40px;
+                    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
+                    box-shadow: 0 2px 10px rgba(0,0,0,.2);
+
+                    .btn-flat {
+                        padding: 0 5px;
+                    }
+
+                    a:hover {
+                        color: $primaryColor !important;
+                    }
+
+                    span.active {
+                        margin-right: 20px;
+                        color: $primaryColor !important;
+                    }
+                }
             }
         }
 
         nav.header {
             background-color: $headerBackgroundColor;
         }
-      }
+    }
+
+    .breadcrumb {
+        color: $breadcrumbTextColor !important;
+        font-size: 14px;
+
+        &:before {
+            color: $breadcrumbSeparatorColor;
+            height: auto;
+        }
+    }
 
     // Sidenav
     .sidenav {
@@ -145,32 +182,34 @@ body.theme-#{$theme} {
     }
 
     // Breadcrumb
+    @media only screen and (max-width: 992px) {
+
+        .navbar-fixed {
+
+            &.navbar-top {
+                nav {
+                    padding-left: 0;
+                }
+            }
+        }
+
+    }
+
+    header.navbar-top {
+        nav .nav-wrapper i, nav a.sidenav-trigger i {
+            line-height: 36px;
+        }
+    }
+
     @media only screen and (min-width: 601px) {
         header.navbar-top {
-            height: 40px;
-
-            nav {
-                background-color: #fff;
-                padding-right: 15px;
+            nav, nav a.sidenav-trigger {
+                line-height: 40px;
             }
 
-            //
-
-            // &,
-            // .nav-wrapper i,
-            // a.sidenav-trigger,
-            // a.sidenav-trigger i {
-            //     height: 50px;
-            //     line-height: 50px;
-            // }
-
-            // a {
-            //     color: black;
-
-            //     &.breadcrumb:before {
-            //         color: black;
-            //     }
-            // }
+            nav .nav-wrapper i, nav a.sidenav-trigger i {
+                line-height: 36px;
+            }
         }
     }
 
@@ -188,6 +227,14 @@ body.theme-#{$theme} {
     }
 
     .content {
-        padding: 15px;
+        padding: 0 15px;
+    }
+
+    table {
+        th {
+            .column-label:hover {
+                color: $primaryColor;
+            }
+        }
     }
 }

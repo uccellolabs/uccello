@@ -5,7 +5,7 @@
                 {{-- Title --}}
                 <span class="card-title">
                     {{-- Icon --}}
-                    <i class="material-icons primary-text">reorder</i>
+                    <i class="material-icons left primary-text">reorder</i>
 
                     {{-- Label --}}
                     {{ trans($label) }}

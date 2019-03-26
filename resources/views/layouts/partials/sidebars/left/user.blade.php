@@ -5,10 +5,10 @@
             <div class="col s3 user-image">
                 <img src="@section('user-avatar')https://materializecss.com/images/yuna.jpg  @show" alt="" class="circle responsive-img valign">
             </div>
-            <div class="col s9 dropdown-trigger" data-target="dropdown-user">
-                <a href="#"><span class="name">@section('user-name')John Doe @show</span></a><br>
-                <a href="#"><span class="email">@section('user-email')jdandturk@gmail.com @show</span></a>
-                <a href="#"><i class="material-icons right">arrow_drop_down</i></a>
+            <div class="col s9 dropdown-trigger" data-target="dropdown-user" data-hover="true">
+                <a href="javascript:void(0)"><span class="name">@section('user-name')John Doe @show</span></a><br>
+                <a href="javascript:void(0)"><span class="email">@section('user-email')jdandturk@gmail.com @show</span></a>
+                <a href="javascript:void(0)"><i class="material-icons right">arrow_drop_down</i></a>
             </div>
         </div>
 

@@ -12,6 +12,7 @@ class UccelloApp {
     constructor() {
         this.initGlobal()
         this.initTranslation()
+        this.initScrollSpy()
     }
 
     initGlobal() {
@@ -46,6 +47,18 @@ class UccelloApp {
 
             return i18next.t(`${namespace}::${file}:${string}`, { nsSeparator: '::', keySeparator: ':' })
         }
+    }
+
+    initScrollSpy() {
+        $(window).scroll(function(event) {
+            if ($(this).scrollTop() > 20) {
+                $('.navbar-top nav').removeClass('transparent').removeClass('z-depth-0')
+                $('.breadcrumb-container').addClass('z-depth-0')
+            } else {
+                $('.navbar-top nav').addClass('transparent').addClass('z-depth-0')
+                $('.breadcrumb-container').removeClass('z-depth-0')
+            }
+        })
     }
 }
 

@@ -2,14 +2,14 @@ import {Datatable} from './datatable'
 
 export class List {
     constructor() {
-        this.initTable()
+        this.initDatatable()
         // this.initListeners()
     }
 
     /**
-     * Init table
+     * Init datatable
      */
-    initTable() {
+    initDatatable() {
         if ($('table[data-filter-type="list"]').length == 0) {
             return
         }

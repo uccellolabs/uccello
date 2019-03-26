@@ -24,8 +24,14 @@ $('.sidenav-right').sidenav({
     edge: 'right'
 })
 
-$('.dropdown-trigger').dropdown({
-    coverTrigger: false
+$('.dropdown-trigger').each((index, el) => {
+    $(el).dropdown({
+        alignment: $(el).data('alignment') ? $(el).data('alignment') : 'left',
+        constrainWidth: $(el).data('constrain-width') === false ? false : true,
+        coverTrigger: $(el).data('cover-trigger') === true ? true : false,
+        closeOnClick: $(el).data('close-on-click') === false ? false : true,
+        hover: $(el).data('hover') === true ? true : false,
+    })
 })
 
 $('.tabs').tabs()

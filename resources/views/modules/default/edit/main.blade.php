@@ -3,20 +3,20 @@
 @section('page', 'edit')
 
 @section('breadcrumb')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="breadcrumb pull-left">
-                {{-- Module icon --}}
-                <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
-                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
-                </a>
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <div class="breadcrumb-container left">
+                @if ($admin_env)<a class="breadcrumb" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a>@endif
 
-                <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    @if ($record->getKey())<li><a href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]) }}">{{ $record->recordLabel ?? $record->getKey() }}</a></li>@endif
-                    <li class="active">{{ $record->getKey() ? uctrans('edit', $module) : uctrans('create', $module) }}</li>
-                </ol>
+                {{-- Module icon --}}
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
+                        <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
+                        <span>{{ uctrans($module->name, $module) }}</span>
+                    </a>
+                </span>
+                @if ($record->getKey())<a class="breadcrumb" href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]) }}">{{ $record->recordLabel ?? $record->getKey() }}</a>@endif
+                <span class="breadcrumb active">{{ $record->getKey() ? uctrans('edit', $module) : uctrans('create', $module) }}</span>
             </div>
         </div>
     </div>

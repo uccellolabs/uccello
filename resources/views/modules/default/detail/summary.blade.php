@@ -21,7 +21,7 @@
             <div class="body">
                 <div class="row">
                     <div class="col s12 p-t-20 text-center">
-                        <i class="material-icons col-orange" style="font-size: 60px">widgets</i><br />
+                        <i class="material-icons left orange-text" style="font-size: 60px">widgets</i><br />
                         <span>{{ uctrans('summary.no_widget', $module) }}</span>
                     </div>
                 </div>

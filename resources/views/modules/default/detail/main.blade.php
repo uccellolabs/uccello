@@ -6,29 +6,24 @@
 <meta name="record" content="{{ $record->id }}">
 @endsection
 
-{{-- @section('breadcrumb')
-    <div class="row">
-        <div class="col-sm-6 col-xs-12">
-            <div class="breadcrumb pull-left">
-                {{-- Module icon - -}}
-                <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
-                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
-                </a>
+@section('breadcrumb')
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <div class="breadcrumb-container left">
+                @if ($admin_env)<a class="breadcrumb" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a>@endif
 
-                <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    <li class="active">{{ $record->recordLabel ?? $record->getKey() }}</li>
-                </ol>
+                {{-- Module icon --}}
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
+                        <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
+                        <span>{{ uctrans($module->name, $module) }}</span>
+                    </a>
+                </span>
+                <span class="breadcrumb active">{{ $record->recordLabel }}</span>
             </div>
         </div>
-
-        {{-- Custom links - -}}
-        @section ('custom-links')
-            @include('uccello::modules.default.detail.links')
-        @show
     </div>
-@endsection --}}
+@endsection
 
 @section('content')
     {{-- Tab list --}}

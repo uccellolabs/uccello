@@ -1,4 +1,4 @@
-// import { Datatable } from './datatable'
+import { Datatable } from './datatable'
 
 export class Detail {
     constructor() {
@@ -10,8 +10,14 @@ export class Detail {
      * Initalize datatable for all related lists
      */
     initRelatedLists() {
-        $('.relatedlist .dataTable').each((index, element) => {
-            this.initDatatable(element)
+        if ($('table[data-filter-type="related-list"]').length == 0) {
+            return
+        }
+
+        $('table[data-filter-type="related-list"]').each((index, el) => {
+            let datatable = new Datatable()
+            datatable.init(el)
+            datatable.makeQuery()
         })
     }
 

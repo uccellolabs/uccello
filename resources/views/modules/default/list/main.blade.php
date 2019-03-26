@@ -4,58 +4,58 @@
 
 {{-- @section('content-class', 'listview') --}}
 
-{{-- @section('breadcrumb')
-    <div class="row">
-        <div class="col s6">
-            <div class="breadcrumb pull-left">
-                {{-- Module icon - -}}
-                <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
-                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
-                </a>
-
-                <ol class="breadcrumb filters pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    <li>
-                        <select class="filter show-tick" data-live-search="true">
-                            @foreach ($filters as $filter)
-                            <option value="{{ $filter->id }}" @if($selectedFilter && $filter->id == $selectedFilter->id)selected="selected"@endif>{{ uctrans($filter->name, $module) }}</option>
-                            @endforeach
-                        </select>
-                    </li>
-                </ol>
-
-                {{-- Export - -}}
-                <div class="pull-right export">
-                    <a href="javascript:void(0)" class="action-button" data-position="top" data-tooltip="{{ uctrans('button.export', $module) }}" data-config='{"actionType":"modal", "modal":"#exportModal"}'>
-                        <i class="material-icons bg-primary">cloud_download</i>
+@section('breadcrumb')
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <div class="breadcrumb-container left">
+                {{-- Module icon --}}
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
+                        <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
+                        <span>{{ uctrans($module->name, $module) }}</span>
                     </a>
-                </div>
+                </span>
 
-                {{-- Manage filters - -}}
-                <div class="pull-right manage-filters">
-                    <a href="#" class="action-button dropdown-trigger" data-target="dropdown-filter" data-position="top" data-tooltip="{{ uctrans('button.manage_filters', $module) }}">
-                        <i class="material-icons bg-green">filter_list</i>
+                {{-- Filters list --}}
+                <span class="breadcrumb" href="#">
+                    <a class="dropdown-trigger btn-flat" href="#" data-target="filters-list">
+                        <i class="material-icons right">arrow_drop_down</i>
+                        <span class="primary-text">{{ uctrans($selectedFilter->name, $module) }}</span>
                     </a>
-                    <ul id="dropdown-filter" class="dropdown-content">
-                        <li>
-                            <a href="#!" class="add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
-                                <i class="material-icons">add</i>
-                                {{ uctrans('button.add_filter', $module) }}
-                            </a>
-                        </li>
-                        <li>
-                            <a class="delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
-                                <i class="material-icons">delete</i>
-                                {{ uctrans('button.delete_filter', $module) }}
-                            </a>
-                        </li>
+                    <ul id="filters-list" class="dropdown-content">
+                        @foreach ($filters as $filter)
+                        <li><a href="javascript:void(0)" data-id="{{ $filter->id }}" @if($selectedFilter && $filter->id == $selectedFilter->id)class="active"@endif>{{ uctrans($filter->name, $module) }}</a></li>
+                        @endforeach
                     </ul>
-                </div>
+                </span>
+
+                {{-- Filters management --}}
+                <a class="dropdown-trigger btn-floating btn-small waves-effect green z-depth-0" href="#" data-target="filters-management" data-constrain-width="false"  data-position="top" data-tooltip="{{ uctrans('button.manage_filters', $module) }}">
+                    <i class="material-icons">filter_list</i>
+                </a>
+                <ul id="filters-management" class="dropdown-content">
+                    <li>
+                        <a href="javascript:void(0)" class="add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
+                            <i class="material-icons left">add</i>
+                            {{ uctrans('button.add_filter', $module) }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" class="delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
+                            <i class="material-icons left">delete</i>
+                            {{ uctrans('button.delete_filter', $module) }}
+                        </a>
+                    </li>
+                </ul>
+
+                {{-- Export --}}
+                <a class="btn-floating btn-small waves-effect primary z-depth-0" data-position="top" data-tooltip="{{ uctrans('button.export', $module) }}" data-config='{"actionType":"modal", "modal":"#exportModal"}'>
+                    <i class="material-icons">cloud_download</i>
+                </a>
             </div>
         </div>
     </div>
-@endsection --}}
+@endsection
 
 @section('top-action-buttons')
     <div class="action-buttons right-align">
@@ -63,7 +63,7 @@
 
         {{-- Columns visibility --}}
         @section('columns-visibility-button')
-        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-columns">
+        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-columns" data-close-on-click="false" data-constrain-width="false" data-alignment="right">
             {!! uctrans('button.columns', $module) !!}
             <i class="material-icons">keyboard_arrow_down</i>
         </a>
@@ -79,7 +79,7 @@
 
         {{-- Records number --}}
         @section('records-button')
-        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-records-number">
+        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-records-number" data-alignment="right">
             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
             <i class="material-icons">keyboard_arrow_down</i>
         </a>
@@ -120,8 +120,8 @@
                                     <th class="select-column">&nbsp;</th>
 
                                     @foreach ($datatableColumns as $column)
-                                    <th data-field="{{ $column['name'] }}" data-column="{{ $column['db_column'] }}" @if(!$column['visible'])style="display: none"@endif>
-                                        <div class="column-label">
+                                    <th class="sortable" data-field="{{ $column['name'] }}" data-column="{{ $column['db_column'] }}" @if(!$column['visible'])style="display: none"@endif>
+                                        <a href="javascript:void(0)" class="column-label">
                                             {{-- Label --}}
                                             {{ uctrans('field.'.$column['name'], $module) }}
 
@@ -131,7 +131,7 @@
                                             @else
                                             <i class="fa fa-sort-amount-up" style="display: none"></i>
                                             @endif
-                                        </div>
+                                        </a>
                                         <div class="hide-on-small-only hide-on-med-only">
                                             <?php
                                                 $searchValue = null;

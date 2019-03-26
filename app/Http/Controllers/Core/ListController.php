@@ -144,6 +144,9 @@ class ListController extends Controller
         $length = (int)$request->get('length') ?? env('UCCELLO_ITEMS_PER_PAGE', 15);
         $order = $request->get('order');
         $columns = $request->get('columns');
+        $recordId = $request->get('id');
+        $relatedListId = $request->get('relatedlist');
+        $action = $request->get('action');
 
         // Pre-process
         $this->preProcess($domain, $module, $request);
@@ -163,6 +166,38 @@ class ListController extends Controller
             $query = $modelClass::query();
         }
 
+
+        // elseif ($relatedListId && $action === 'select') {
+        //     // Get related list
+        //     $relatedList = Relatedlist::find($relatedListId);
+
+        //     if ($relatedList && $relatedList->method) {
+        //         // Related list method
+        //         $method = $relatedList->method;
+        //         $recordIdsMethod = $method . 'RecordIds';
+
+        //         // Get related records ids
+        //         $model = new $modelClass;
+        //         $filteredRecordIds = $model->$recordIdsMethod($relatedList, $recordId);
+
+        //         // Add the record id itself to be filtered
+        //         if ($relatedList->related_module_id === $module->id && !empty($recordId) && !$filteredRecordIds->contains($recordId)) {
+        //             $filteredRecordIds[] = (int)$recordId;
+        //         }
+
+        //         // Make the query
+        //         $records = $query->whereNotIn($model->getKeyName(), $filteredRecordIds)->get();
+
+        //         // Count all results
+        //         $total = $initialQuery->whereNotIn($model->getKeyName(), $filteredRecordIds)->count();
+        //         $totalFiltered = $total;
+        //     }
+        // }
+        // else {
+        //     // Make the query
+        //     $records = $query->get();
+        // }
+
         // Search by column
         foreach ($columns as $fieldName => $column) {
             if (!empty($column[ "search" ])) {
@@ -180,8 +215,11 @@ class ListController extends Controller
 
         // Order results
         if (!empty($order)) {
-            foreach ($order as $column => $value) {
-                $query = $query->orderBy($column, $value);
+            foreach ($order as $fieldName => $value) {
+                $field = $module->getField($fieldName);
+                if (!is_null($field)) {
+                    $query = $query->orderBy($field->column, $value);
+                }
             }
         }
 
@@ -191,13 +229,28 @@ class ListController extends Controller
             $length = $maxItemsPerPage;
         }
 
-        // Paginate results
-        $records = $query->paginate($length);
+        // If the query is for a related list, add conditions
+        if ($relatedListId && $action !== 'select') {
+            // Get related list
+            $relatedList = Relatedlist::find($relatedListId);
+
+            if ($relatedList && $relatedList->method) {
+                // Related list method
+                $method = $relatedList->method;
+
+                // Update query
+                $model = new $modelClass;
+                $records = $model->$method($relatedList, $recordId, $query, 0, $length);
+            }
+        } else {
+            // Paginate results
+            $records = $query->paginate($length);
+        }
+
+
 
         $records->getCollection()->transform(function ($record) use ($module) {
-
             foreach ($module->fields as $field) {
-
                 // If a special template exists, use it. Else use the generic template
                 $uitypeViewName = sprintf('uitypes.list.%s', $field->uitype->name);
                 $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';

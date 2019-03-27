@@ -121,9 +121,8 @@ class AssignedUser implements Uitype
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
         $query->where(function ($query) use($field, $value) {
-            $values = explode(',', $value);
-            foreach ($values as $value) {
-                $query = $query->orWhere($field->column, '=', $value);
+            foreach ((array) $value as $_value) {
+                $query = $query->orWhere($field->column, '=', $_value);
             }
         });
 

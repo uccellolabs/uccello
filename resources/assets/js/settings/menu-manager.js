@@ -265,14 +265,14 @@ export class MenuManager {
             switch (item.data('type')) {
                 // Group
                 case 'group':
-                        modal = $('#groupModal').modal('show')
+                        modal = $('#groupModal').modal()
                         $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused')
                         $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused')
                     break
 
                 // Link
                 case 'link':
-                        modal = $('#linkModal').modal('show')
+                        modal = $('#linkModal').modal()
                         $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused')
                         $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused')
                         $("input[name='url']", modal).val(item.data('url')).parent().addClass('focused')
@@ -280,7 +280,7 @@ export class MenuManager {
 
                 // Route link
                 case 'route':
-                        modal = $('#routelinkModal').modal('show')
+                        modal = $('#routelinkModal').modal()
                         $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused')
                         $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused')
                         $("input[name='module']", modal).val(item.data('module')).parent().addClass('focused')

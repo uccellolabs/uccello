@@ -35,7 +35,9 @@ class ListController extends Controller
         if ($request->input('filter')) {
             $selectedFilterId = $request->input('filter');
             $selectedFilter = Filter::find($selectedFilterId);
-        } else {
+        }
+
+        if (empty($selectedFilter)) { // For example if the given filter does not exist
             $selectedFilter = $module->filters()->where('type', 'list')->first();
             $selectedFilterId = $selectedFilter->id;
         }
@@ -201,7 +203,7 @@ class ListController extends Controller
         // Search by column
         foreach ($columns as $fieldName => $column) {
             if (!empty($column[ "search" ])) {
-                $searchValue = is_array($column[ "search" ]) ? implode(',', $column[ "search" ]) : $column[ "search" ];
+                $searchValue = $column[ "search" ];
             } else {
                 $searchValue = null;
             }
@@ -215,10 +217,9 @@ class ListController extends Controller
 
         // Order results
         if (!empty($order)) {
-            foreach ($order as $fieldName => $value) {
-                $field = $module->getField($fieldName);
+            foreach ($order as $fieldColumn => $value) {
                 if (!is_null($field)) {
-                    $query = $query->orderBy($field->column, $value);
+                    $query = $query->orderBy($fieldColumn, $value);
                 }
             }
         }
@@ -247,15 +248,13 @@ class ListController extends Controller
             $records = $query->paginate($length);
         }
 
-
-
         $records->getCollection()->transform(function ($record) use ($module) {
             foreach ($module->fields as $field) {
                 // If a special template exists, use it. Else use the generic template
                 $uitypeViewName = sprintf('uitypes.list.%s', $field->uitype->name);
                 $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';
                 $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
-                $record->{$field->name} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
+                $record->{$field->name.'_html'} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
             }
 
             return $record;

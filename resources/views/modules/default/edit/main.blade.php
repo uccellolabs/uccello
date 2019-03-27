@@ -52,12 +52,12 @@
 
                             {{-- Label --}}
                             {{ uctrans($block->label, $module) }}
-                        </span>
 
-                        {{-- Description --}}
-                        @if ($block->description)
-                            <small>{{ uctrans($block->description, $module) }}</small>
-                        @endif
+                            {{-- Description --}}
+                            @if ($block->description)
+                                <small>{{ uctrans($block->description, $module) }}</small>
+                            @endif
+                        </span>
 
                         {{-- Fields --}}
                         <div class="row display-flex">

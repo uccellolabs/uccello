@@ -5,56 +5,7 @@
 {{-- @section('content-class', 'listview') --}}
 
 @section('breadcrumb')
-    <div class="nav-wrapper">
-        <div class="col s12">
-            <div class="breadcrumb-container left">
-                {{-- Module icon --}}
-                <span class="breadcrumb">
-                    <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
-                        <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
-                        <span>{{ uctrans($module->name, $module) }}</span>
-                    </a>
-                </span>
-
-                {{-- Filters list --}}
-                <span class="breadcrumb" href="#">
-                    <a class="dropdown-trigger btn-flat" href="#" data-target="filters-list">
-                        <i class="material-icons right">arrow_drop_down</i>
-                        <span class="primary-text">{{ uctrans($selectedFilter->name, $module) }}</span>
-                    </a>
-                    <ul id="filters-list" class="dropdown-content">
-                        @foreach ($filters as $filter)
-                        <li><a href="javascript:void(0)" data-id="{{ $filter->id }}" @if($selectedFilter && $filter->id == $selectedFilter->id)class="active"@endif>{{ uctrans($filter->name, $module) }}</a></li>
-                        @endforeach
-                    </ul>
-                </span>
-
-                {{-- Filters management --}}
-                <a class="dropdown-trigger btn-floating btn-small waves-effect green z-depth-0" href="#" data-target="filters-management" data-constrain-width="false"  data-position="top" data-tooltip="{{ uctrans('button.manage_filters', $module) }}">
-                    <i class="material-icons">filter_list</i>
-                </a>
-                <ul id="filters-management" class="dropdown-content">
-                    <li>
-                        <a href="javascript:void(0)" class="add-filter" data-config='{"actionType":"modal", "modal":"#addFilterModal"}'>
-                            <i class="material-icons left">add</i>
-                            {{ uctrans('button.add_filter', $module) }}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)" class="delete-filter" @if(!$selectedFilter || $selectedFilter->readOnly)disabled @endif>
-                            <i class="material-icons left">delete</i>
-                            {{ uctrans('button.delete_filter', $module) }}
-                        </a>
-                    </li>
-                </ul>
-
-                {{-- Export --}}
-                <a class="btn-floating btn-small waves-effect primary z-depth-0" data-position="top" data-tooltip="{{ uctrans('button.export', $module) }}" data-config='{"actionType":"modal", "modal":"#exportModal"}'>
-                    <i class="material-icons">cloud_download</i>
-                </a>
-            </div>
-        </div>
-    </div>
+    @include('uccello::modules.default.list.breadcrumb')
 @endsection
 
 @section('top-action-buttons')
@@ -65,7 +16,7 @@
         @section('columns-visibility-button')
         <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-columns" data-close-on-click="false" data-constrain-width="false" data-alignment="right">
             {!! uctrans('button.columns', $module) !!}
-            <i class="material-icons">keyboard_arrow_down</i>
+            <i class="material-icons right">arrow_drop_down</i>
         </a>
         <ul id="dropdown-columns" class="dropdown-content columns" data-table="datatable">
             @foreach ($datatableColumns as $column)
@@ -81,7 +32,7 @@
         @section('records-button')
         <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-records-number" data-alignment="right">
             {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
-            <i class="material-icons">keyboard_arrow_down</i>
+            <i class="material-icons right">arrow_drop_down</i>
         </a>
         <ul id="dropdown-records-number" class="dropdown-content records-number" data-table="datatable">
             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="15">15</a></li>
@@ -111,7 +62,11 @@
                             class="striped highlight responsive-table"
                             data-filter-type="list"
                             data-filter-id="{{ $selectedFilter->id ?? '' }}"
-                            data-list-url="{{ ucroute('uccello.list.content', $domain, $module, ['_token' => csrf_token()]) }}"
+                            data-list-url="{{ ucroute('uccello.list', $domain, $module) }}"
+                            data-content-url="{{ ucroute('uccello.list.content', $domain, $module) }}"
+                            data-export-url="{{ ucroute('uccello.export', $domain, $module) }}"
+                            data-save-filter-url="{{ ucroute('uccello.list.filter.save', $domain, $module) }}"
+                            data-delete-filter-url="{{ ucroute('uccello.list.filter.delete', $domain, $module) }}"
                             data-order="{{ !empty($selectedFilter->order_by) ? json_encode($selectedFilter->order_by) : '' }}"
                             data-length="{{ $selectedFilter->data->length ?? 15 }}">
                             <thead>
@@ -126,8 +81,8 @@
                                             {{ uctrans('field.'.$column['name'], $module) }}
 
                                             {{-- Sort icon --}}
-                                            @if (!empty($filterOrderBy[$column['name']]))
-                                            <i class="fa @if ($filterOrderBy[$column['name']] === 'desc')fa-sort-amount-down @else fa-sort-amount-up @endif"></i>
+                                            @if (!empty($filterOrderBy[$column['db_column']]))
+                                            <i class="fa @if ($filterOrderBy[$column['db_column']] === 'desc')fa-sort-amount-down @else fa-sort-amount-up @endif"></i>
                                             @else
                                             <i class="fa fa-sort-amount-up" style="display: none"></i>
                                             @endif

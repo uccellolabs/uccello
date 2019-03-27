@@ -58,7 +58,7 @@ button {
 #page-action-buttons {
     position: fixed !important;
     bottom: 20px;
-    right: 25px;
+    right: 15px;
 
     a {
         margin-left: 10px;
@@ -122,4 +122,8 @@ table {
     li {
         border-radius: 50px;
     }
+}
+
+.detail-tabs {
+    margin: 10px 0 15px 0;
 }

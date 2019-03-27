@@ -1,3 +1,8 @@
+
+<?php
+    $datatableId = $datatableId.'-'.$relatedlist->id;
+    $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule, null, 'related-list');
+?>
 <div class="card relatedlist">
     <div class="card-content">
         {{-- Title --}}
@@ -7,9 +12,13 @@
 
             {{-- Label --}}
             {{ uctrans($relatedlist->label, $module) }}
+
+            <div class="right-align right">
+                @include('uccello::modules.default.detail.relatedlists.buttons')
+            </div>
         </span>
 
         {{-- Table --}}
-        @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => $datatableId])
+        @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => $datatableId, 'datatableColumns' => $datatableColumns])
     </div>
 </div>

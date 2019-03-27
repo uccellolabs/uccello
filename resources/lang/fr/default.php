@@ -74,6 +74,8 @@ return [
     // Related list
     'relatedlist.button.add' => 'Ajouter',
     'relatedlist.button.select' => 'Sélectionner',
+    'relatedlist.button.columns' => 'Colonnes',
+    'relatedlist.button.lines' => 'Lignes',
 
     // Confirm
     'dialog.confirm.title' => 'Êtes-vous sûr?',
@@ -107,7 +109,7 @@ return [
     'modal.add_filter.name' => 'Nom du filtre',
     'modal.add_filter.save_columns' => 'Sauvegarder les colonnes affichées',
     'modal.add_filter.save_conditions' => 'Sauvegarder les conditions de recherche',
-    'modal.add_filter.save_sort' => 'Sauvegarder l\'ordre de tri',
+    'modal.add_filter.save_order' => 'Sauvegarder l\'ordre de tri',
     'modal.add_filter.save_page_length' => 'Sauvegarder le nombre de lignes affichées',
     'modal.add_filter.is_public' => 'Partager le filtre avec les autres utilisateurs',
     'modal.add_filter.is_default' => 'Appliquer ce filtre par défaut',
@@ -123,7 +125,7 @@ return [
     'modal.export.format.html' => 'Fichier HTML (.html)',
     'modal.export.keep_conditions' => 'Conserver les conditions de filtrage',
     'modal.export.keep_sort' => 'Conserver l\'ordre de tri',
-    'modal.export.hide_columns' => 'Ne pas exporter les colonnes cachées',
+    'modal.export.with_hidden_columns' => 'Exporter les colonnes cachées',
     'modal.export.with_id' => 'Exporter l\'id des enregistrements',
     'modal.export.with_timestamps' => 'Exporter les dates de création et de modification',
 

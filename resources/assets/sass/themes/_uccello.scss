@@ -19,6 +19,15 @@ $navbarTopBackgroundColor: #fff;
 $breadcrumbTextColor: #3F434C;
 $breadcrumbSeparatorColor: #CCC;
 
+// Tab
+$tabTextColor: #999999;
+$tabHoverBackgroundColor: transparent;
+$tabActiveTextColor: $primaryColor;
+$tabActiveBackgroundColor: transparent;
+$tabIndicatorBackgroundColor: $primaryColor;
+$tabBorderColor: #E6E6E8;
+$tabBadgeColor: #fff;
+
 // Sidenav
 $sidenavBackgroundColor: $accentColor;
 $sidenavLinkColor: #fff;
@@ -31,5 +40,11 @@ $sidenavUserInfoColor: #fff;
 $sidenavDividerColor: $accentColor2;
 $sidenavSubheaderBackgroundColor: $accentColor2;
 $sidenavLinkActiveBackgroundColor: $accentColor2;
+
+// Table
+$tableTrHoverBackgroundColor: #f5f5f5;
+$tableTrOddBackgroundColor: #f9f9f9;
+$tableTdBorderColor: #eee;
+
 
 @import "global";

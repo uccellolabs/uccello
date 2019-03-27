@@ -1,13 +1,12 @@
-<?php $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule, null, 'related-list'); ?>
 <div>
     <table
-        id="{{ $datatableId }}-{{ $relatedlist->id }}"
+        id="{{ $datatableId }}"
         class="striped highlight responsive-table"
         data-filter-type="related-list"
         data-relatedlist="{{ $relatedlist->id }}"
         data-filter-id=""
         data-list-url="{{ ucroute('uccello.list.content', $domain, $relatedlist->relatedModule, ['_token' => csrf_token()]) }}"
-        data-order=""
+        data-order="null"
         data-length="15">
         <thead>
             <tr>
@@ -81,7 +80,7 @@
     </table>
 
     {{-- Loader --}}
-    <div class="loader center-align hide" data-table="{{ $datatableId }}-{{ $relatedlist->id }}">
+    <div class="loader center-align hide" data-table="{{ $datatableId }}">
         <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-primary-only">
                 <div class="circle-clipper left">
@@ -104,6 +103,6 @@
 
 {{-- Pagination --}}
 <div class="center-align">
-    <ul class="pagination" data-table="{{ $datatableId }}-{{ $relatedlist->id }}">
+    <ul class="pagination" data-table="{{ $datatableId }}">
     </ul>
 </div>

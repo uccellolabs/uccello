@@ -69,7 +69,7 @@ Route::name('uccello.')->group(function() {
     Route::post($domainAndModuleParams.'/list/autocomplete', 'Core\ListController@processForAutocomplete')->name('autocomplete');
     Route::post($domainAndModuleParams.'/list/filter', 'Core\ListController@saveFilter')->name('list.filter.save');
     Route::post($domainAndModuleParams.'/export', 'Core\ExportController@process')->name('export');
-    Route::get($domainAndModuleParams.'/list/filter/delete', 'Core\ListController@deleteFilter')->name('list.filter.delete');
+    Route::post($domainAndModuleParams.'/list/filter/delete', 'Core\ListController@deleteFilter')->name('list.filter.delete');
     Route::get($domainAndModuleParams.'/detail', 'Core\DetailController@process')->name('detail');
     Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
     Route::get($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');

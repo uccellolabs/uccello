@@ -30,7 +30,7 @@ export class Datatable {
             if (typeof fieldName !== 'undefined') {
                 this.columns[fieldName] = {
                     columnName: element.data('column'),
-                    search: ''
+                    search: $('.field-search', element).val()
                 }
             }
         })
@@ -42,14 +42,10 @@ export class Datatable {
         }
 
         // Get query URL
-        let url = $(this.table).data('list-url') + '&length=' + $(this.table).attr('data-length')
-
-        if (typeof page !== 'undefined') {
-            url += `&page=${page}`
-        }
+        let url = $(this.table).data('content-url')
 
         // Delete old records
-        $('tbody tr.record', this.table).remove()
+        // $('tbody tr.record', this.table).remove()
 
         // Hide no_result row
         $('tbody tr.no-results', this.table).hide()
@@ -62,10 +58,16 @@ export class Datatable {
 
         // Query data
         let data = {
+            _token: $('meta[name="csrf-token"]').attr('content'),
             id: $('meta[name="record"]').attr('content'),
             columns: this.columns,
             order: $(this.table).attr('data-order') ? JSON.parse($(this.table).attr('data-order')) : null,
             relatedlist: $(this.table).attr('data-relatedlist') ? $(this.table).attr('data-relatedlist') : null,
+            length: $(this.table).attr('data-length'),
+        }
+
+        if (typeof page !== 'undefined') {
+            data.page = page
         }
 
         // Make query
@@ -83,13 +85,13 @@ export class Datatable {
             return
         }
 
+        // Delete old records
+        $('tbody tr.record', this.table).remove()
+
         if (response.data.length === 0) {
             // No result
             $('tbody tr.no-results', this.table).show()
         } else {
-            // Delete old records
-            $('tbody tr.record', this.table).remove()
-
             // Add a row by record
             for(let record of response.data) {
                 this.addRowToTable(record)
@@ -141,11 +143,11 @@ export class Datatable {
         // Create each cell according to all headers
         $('th[data-field]', this.table).each(function() {
             let fieldName = $(this).data('field')
-            let fieldColumn = $(this).data('column')
+            // let fieldColumn = $(this).data('column')
 
             // Add content to the cell
             let td = $(`td[data-field="${fieldName}"] `, tr)
-            td.html(record[fieldColumn])
+            td.html(record[fieldName + '_html']) // Get html content
 
             // Hide if necessary
             if ($(this).css('display') === 'none') {
@@ -205,6 +207,10 @@ export class Datatable {
     }
 
     initRecordsNumberListener() {
+        if (!this.table) {
+            return
+        }
+
         $(`ul.records-number[data-table="${this.table.attr('id')}"] li a`).on('click', (el) => {
             let element = $(el.currentTarget)
             let number = $(element).data('number')
@@ -297,7 +303,7 @@ export class Datatable {
 
         $('th[data-field].sortable', this.table).each((index, el) => {
             let element = $(el)
-            let fieldName = element.data('field')
+            let fieldColumn = element.data('column')
 
             $('a.column-label', element).on('click', (event) => {
                 // Get current sort order
@@ -307,12 +313,12 @@ export class Datatable {
                 $('a.column-label i').hide()
 
                 // Adapt icon according to sort order
-                if (order[fieldName] === 'asc') {
-                    order[fieldName] = 'desc'
+                if (order !== null && order[fieldColumn] === 'asc') {
+                    order[fieldColumn] = 'desc'
                     $('a.column-label i', element).removeClass('fa-sort-amount-up').addClass('fa-sort-amount-down')
                 } else {
                     order = {}
-                    order[fieldName] = 'asc'
+                    order[fieldColumn] = 'asc'
                     $('a.column-label i', element).removeClass('fa-sort-amount-down').addClass('fa-sort-amount-up')
                 }
 

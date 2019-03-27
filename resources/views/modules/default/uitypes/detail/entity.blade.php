@@ -5,8 +5,8 @@
 <div class="col {{ $isLarge ? 's7 m10' : 's7 m4' }}">
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
     @if ($value)
-        <div class="ellipsis">
-            <a href="{{ ucroute('uccello.detail', $domain, $field->data->module, ['id' => $record->{$field->column}]) }}">{{ $value }}</a>
+        <div class="truncate">
+            <a href="{{ ucroute('uccello.detail', $domain, $field->data->module, ['id' => $record->{$field->column}]) }}" class="primary-text">{{ $value }}</a>
         </div>
     @else
         &nbsp;

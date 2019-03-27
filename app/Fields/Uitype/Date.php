@@ -49,7 +49,7 @@ class Date extends DateTime implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        return (new \Carbon\Carbon($record->{$field->column}))->format('Y-m-d') ?? '';
+        return $record->{$field->column} ? (new \Carbon\Carbon($record->{$field->column}))->format('Y-m-d') : '';
     }
 
     /**
@@ -60,15 +60,15 @@ class Date extends DateTime implements Uitype
      * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
-    {
-        $query->where(function ($query) use($field, $value) {
-            $values = explode(',', $value); // Start Date, End Date
-            $query->whereBetween($field->column, [ trim($values[0]), trim($values[1]) ])->get();
-        });
+    // public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
+    // {
+    //     $query->where(function ($query) use($field, $value) {
+    //         $values = explode(',', $value); // Start Date, End Date
+    //         $query->whereBetween($field->column, [ trim($values[0]), trim($values[1]) ])->get();
+    //     });
 
-        return $query;
-    }
+    //     return $query;
+    // }
 
     /**
      * Create field column in the module table

@@ -11,7 +11,7 @@ return [
     'field.username' => 'Username',
     'field.first_name' => 'First name',
     'field.last_name' => 'Last name',
-    'field.is_admin' => 'Is admin',
+    'field.is_admin' => 'Is admin?',
     'field.password' => 'Password',
     'field.password_confirmation' => 'Password (confirmation)',
     'field.email' => 'Email',

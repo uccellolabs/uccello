@@ -88,9 +88,8 @@ class Select implements Uitype
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
         $query->where(function ($query) use($field, $value) {
-            $values = explode(',', $value);
-            foreach ($values as $value) {
-                $formattedValue = $this->getFormattedValueToSearch($value);
+            foreach ((array) $value as $_value) {
+                $formattedValue = $this->getFormattedValueToSearch($_value);
                 $query = $query->orWhere($field->column, 'like', $formattedValue);
             }
         });

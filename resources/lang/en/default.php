@@ -72,6 +72,8 @@ return [
     // Related list
     'relatedlist.button.add' => 'Add',
     'relatedlist.button.select' => 'Select',
+    'relatedlist.button.columns' => 'Columns',
+    'relatedlist.button.lines' => 'Lines',
 
     // Confirm
     'dialog.confirm.title' => 'Are you sure?',
@@ -105,7 +107,7 @@ return [
     'modal.add_filter.name' => 'Filter name',
     'modal.add_filter.save_columns' => 'Save columns displayed',
     'modal.add_filter.save_conditions' => 'Save search conditions',
-    'modal.add_filter.save_sort' => 'Save sort order',
+    'modal.add_filter.save_order' => 'Save sort order',
     'modal.add_filter.save_page_length' => 'Save the number of rows displayed',
     'modal.add_filter.is_public' => 'Share the filter with other users',
     'modal.add_filter.is_default' => 'Apply this filter by default',
@@ -121,7 +123,7 @@ return [
     'modal.export.format.html' => 'HTML Document (.html)',
     'modal.export.keep_conditions' => 'Keep the filter conditions',
     'modal.export.keep_sort' => 'Keep the sort order',
-    'modal.export.hide_columns' => 'Do not export the hidden columns',
+    'modal.export.with_hidden_columns' => 'Export hidden columns',
     'modal.export.with_id' => 'Export record id',
     'modal.export.with_timestamps' => 'Export create and update dates',
 

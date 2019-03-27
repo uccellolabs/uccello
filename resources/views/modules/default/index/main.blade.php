@@ -2,6 +2,8 @@
 
 @section('page', 'index')
 
+@section('navbar-top', '')
+
 @section('content')
     <div class="row">
         <div class="col s12">

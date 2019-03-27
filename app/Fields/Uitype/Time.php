@@ -57,7 +57,7 @@ class Time extends DateTime implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        return (new \Carbon\Carbon($record->{$field->column}))->format('h:i') ?? '';
+        return $record->{$field->column} ? (new \Carbon\Carbon($record->{$field->column}))->format('H:i') : '';
     }
 
     /**

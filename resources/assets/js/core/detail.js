@@ -49,7 +49,7 @@ export class Detail {
             this.initDatatable($('.dataTable', modal), true)
 
             // Show modal
-            modal.modal('show')
+            modal.modal()
         })
     }
 

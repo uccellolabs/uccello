@@ -138,8 +138,10 @@ export class Link {
         // Get modal element selector
         let modalElement = this.config.modal // e.g: #modal
 
+        console.log(modalElement)
+
         // Show modal
-        $(modalElement).modal('show')
+        $(modalElement).modal()
 
         // Empty fields and remove focus or error classes
         $('input', modalElement).val('')

@@ -1,9 +1,9 @@
-<ul class="tabs" role="tablist">
+<ul class="tabs transparent detail-tabs" role="tablist">
     {{-- Summary --}}
     @if ($widgets->count() > 0)
     <li class="tab" role="presentation">
         <a href="#summary" data-toggle="tab" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
-            <i class="material-icons">dashboard</i> <span class="hidden-xs">{{ uctrans('tab.summary', $module) }}</span>
+            <i class="material-icons left">dashboard</i> <span class="hidden-xs">{{ uctrans('tab.summary', $module) }}</span>
         </a>
     </li>
     @endif
@@ -11,7 +11,7 @@
     @foreach ($module->tabs as $i => $tab)
     <li class="tab" role="presentation">
         <a href="#{{ $tab->id }}" data-toggle="tab" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
-            <i class="material-icons">{{ $tab->icon ?? 'info' }}</i> <span class="hidden-xs">{{ uctrans($tab->label, $module) }}</span>
+            <i class="material-icons left">{{ $tab->icon ?? 'info' }}</i> <span class="hidden-xs">{{ uctrans($tab->label, $module) }}</span>
         </a>
     </li>
     @endforeach
@@ -22,7 +22,7 @@
     <li class="tab" role="presentation">
         <a href="#relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" data-toggle="tab" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
             {{-- Icon --}}
-            <i class="material-icons">{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}</i>
+            <i class="material-icons left">{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}</i>
 
             {{-- Label --}}
             <span class="hidden-xs">{{ uctrans($relatedlist->label, $module) }}</span>

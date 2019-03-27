@@ -1,0 +1,1 @@
+@include('uccello::modules.default.uitypes.list.number')

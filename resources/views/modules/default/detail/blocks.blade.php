@@ -11,13 +11,11 @@
                 {{-- Label --}}
                 {{ uctrans($block->label, $module) }}
 
-                <small>Une super descripton</small>
+                {{-- Description --}}
+                @if ($block->description)
+                    <small>{{ uctrans($block->description, $module) }}</small>
+                @endif
             </div>
-
-            {{-- Description --}}
-            @if ($block->description)
-                <small>{{ uctrans($block->description, $module) }}</small>
-            @endif
 
             <div class="row display-flex">
             {{-- Display all block's fields --}}

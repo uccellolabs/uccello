@@ -34,6 +34,8 @@ body.theme-#{$theme} {
         }
 
         &.navbar-top {
+            height: 50px;
+
             nav {
                 padding-top: 12px;
                 padding-left: 260px;
@@ -54,9 +56,9 @@ body.theme-#{$theme} {
                         padding: 0 5px;
                     }
 
-                    a:hover {
-                        color: $primaryColor !important;
-                    }
+                    // &>a:hover {
+                    //     color: $primaryColor !important;
+                    // }
 
                     span.active {
                         margin-right: 20px;
@@ -196,8 +198,29 @@ body.theme-#{$theme} {
     }
 
     header.navbar-top {
-        nav .nav-wrapper i, nav a.sidenav-trigger i {
-            line-height: 36px;
+        nav {
+            .nav-wrapper i,
+            a.sidenav-trigger i,
+            .btn i, .btn-small i, .btn-large i, .btn-flat i
+            {
+                line-height: 33px;
+            }
+        }
+
+        .action-buttons {
+            .btn, .btn-small, .btn-large, .btn-flat {
+                &:not(.btn-floating) {
+                    border-radius: 50px;
+                    height: 36px;
+                    min-width: 130px;
+                    padding-top: 2px;
+                    padding-left: 25px;
+                }
+
+                i {
+                    margin-left: 0;
+                }
+            }
         }
     }
 
@@ -227,7 +250,7 @@ body.theme-#{$theme} {
     }
 
     .content {
-        padding: 0 15px;
+        padding: 15px;
     }
 
     table {
@@ -236,5 +259,88 @@ body.theme-#{$theme} {
                 color: $primaryColor;
             }
         }
+
+        &.highlight > tbody > tr:hover {
+            background-color: $tableTrHoverBackgroundColor !important;
+        }
+
+        &.striped > tbody > tr:nth-child(odd) {
+            background-color: $tableTrOddBackgroundColor;
+        }
+
+        &.striped > tbody {
+            > tr {
+                > td, > th {
+                    border-top: 1px solid $tableTdBorderColor;
+                    border-bottom: 1px solid $tableTdBorderColor;
+                }
+            }
+        }
+
+        > tbody {
+            td.actions-column a {
+                visibility: hidden;
+            }
+
+            > tr:hover {
+                td.actions-column a {
+                    visibility: visible;
+                }
+            }
+        }
+
+
     }
+
+    .pagination {
+        margin-bottom: 0;
+    }
+
+    .tabs {
+        border-bottom: solid 2px $tabBorderColor;
+
+        .tab {
+            i.material-icons {
+                height: 48px;
+                line-height: 48px;
+            }
+
+            a {
+                color: $tabTextColor;
+            } /*Black color to the text*/
+
+            a:hover {
+                background-color: $tabHoverBackgroundColor;
+                color: $tabTextColor;
+            } /*Text color on hover*/
+
+            a.active, a:focus {
+                background-color: $tabActiveBackgroundColor;
+                color: $tabActiveTextColor;
+            } /*Background and text color when a tab is active*/
+
+            span.badge {
+                color: $tabBadgeColor;
+                border-radius: 50px;
+                height: 26px;
+                min-width: 26px;
+                padding-top: 3px;
+                margin-top: 10px;
+            }
+        }
+
+        .indicator {
+            background-color: $tabIndicatorBackgroundColor;
+        } /*Color of underline*/
+    }
+
+    .tabpanel {
+        min-height: 700px;
+    }
+
+    .btn, .btn-small, .btn-large, .btn-flat {
+        text-transform: none;
+    }
+
+
 }

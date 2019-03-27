@@ -26,6 +26,7 @@
     </nav>
 </div>
 
+@section('navbar-top')
 <header class="navbar-fixed navbar-top">
     <nav class="transparent z-depth-0">
         <div class="row">
@@ -38,3 +39,4 @@
         </div>
     </nav>
 </header>
+@show

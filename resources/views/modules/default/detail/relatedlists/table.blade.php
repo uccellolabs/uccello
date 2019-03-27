@@ -5,7 +5,7 @@
         data-filter-type="related-list"
         data-relatedlist="{{ $relatedlist->id }}"
         data-filter-id=""
-        data-list-url="{{ ucroute('uccello.list.content', $domain, $relatedlist->relatedModule, ['_token' => csrf_token()]) }}"
+        data-content-url="{{ ucroute('uccello.list.content', $domain, $relatedlist->relatedModule, ['_token' => csrf_token()]) }}"
         data-order="null"
         data-length="15">
         <thead>

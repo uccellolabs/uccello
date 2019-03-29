@@ -60,6 +60,10 @@
         {{-- Flash notifications --}}
         @include('uccello::layouts.partials.notifications.main')
 
+        {{-- Translations --}}
+        @translations('uctranslations', 'vendor/uccello/uccello/resources/lang', 'uccello')
+        @yield('translations')
+
         @section('uccello-script')
         {{-- {{ Html::script('//momentjs.com/downloads/moment-with-locales.min.js') }} --}}
         {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}

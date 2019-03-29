@@ -2,12 +2,9 @@
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
 <div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field">
 
-    {{-- Add icon if defined --}}
-    @if($field->icon ?? false)
-    <i class="material-icons prefix">{{ $field->icon }}</i>
-    @endif
+    <label class="active">{{ uctrans($field->label, $module) }}</label>
 
-    <p>
+    <p style="margin-top: 10px">
         <label>
             {!! form_widget($form->{$field->name}) !!}
             <span>{{ uctrans($field->label, $module) }}</span>
@@ -15,7 +12,7 @@
     </p>
 
     @if ($isError)
-        <span class="helper-text">
+        <span class="helper-text red-text">
             {!! form_errors($form->{$field->name}) !!}
         </span>
     @endif

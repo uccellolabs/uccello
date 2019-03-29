@@ -132,11 +132,11 @@
 
                                     <td class="actions-column hide-on-small-only hide-on-med-only right-align">
                                         @if (Auth::user()->canUpdate($domain, $module))
-                                        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.edit', $module) }}" data-position="left" class="edit-btn primary-text"><i class="material-icons">edit</i></a>
+                                        <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.edit', $module) }}" data-position="top" class="edit-btn primary-text"><i class="material-icons">edit</i></a>
                                         @endif
 
                                         @if (Auth::user()->canDelete($domain, $module))
-                                        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $module) }}" data-position="left" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
+                                        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $module) }}" data-position="top" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
                                         @endif
                                     </td>
                                 </tr>

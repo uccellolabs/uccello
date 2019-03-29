@@ -1,13 +1,15 @@
 {{-- Select button --}}
 @if ($relatedlist->canSelect() && Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
-<button class="btn-floating btn-small waves-effect orange btn-relatedlist-select"
-data-tooltip="{{ uctrans('relatedlist.button.select', $module) }}"
-data-position="top"
-data-modal-title="{{ uctrans($relatedlist->relatedModule->name, $relatedlist->relatedModule) }}"
-data-modal-icon="{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}"
-data-relatedlist="{{ $relatedlist->id }}">
-<i class="material-icons">playlist_add_check</i>
-</button>
+<a href="#relatedListSelectionModal"
+    class="btn-floating btn-small waves-effect orange modal-trigger btn-relatedlist-select"
+    data-tooltip="{{ uctrans('relatedlist.button.select', $module) }}"
+    data-position="top"
+    data-modal-title="{{ uctrans($relatedlist->relatedModule->name, $relatedlist->relatedModule) }}"
+    data-modal-icon="{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}"
+    data-relatedlist="{{ $relatedlist->id }}"
+    data-table="{{ $datatableId }}">
+        <i class="material-icons">playlist_add_check</i>
+</a>
 @endif
 
 {{-- Add button --}}

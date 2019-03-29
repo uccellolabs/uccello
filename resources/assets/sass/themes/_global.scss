@@ -11,6 +11,10 @@ body.theme-#{$theme} {
         }
     }
 
+    td, th {
+        padding: 10px 5px;
+    }
+
     // Loader
     .progress.loader {
         display: none;
@@ -288,8 +292,6 @@ body.theme-#{$theme} {
                 }
             }
         }
-
-
     }
 
     .pagination {
@@ -342,5 +344,74 @@ body.theme-#{$theme} {
         text-transform: none;
     }
 
+    .daterangepicker {
+        td, th {
+            padding: 0;
+        }
 
+        select {
+            display: inline-block;
+        }
+
+        td.active,
+        td.active:hover {
+            background-color: $primaryColor;
+        }
+
+        .drp-buttons .btn {
+            margin-left: 0;
+            font-size: 13px;
+            font-weight: 400;
+            padding: 0 16px;
+
+            &:hover {
+                background-color: inherit;
+            }
+        }
+    }
+
+    .input-field input[type=text]:focus + label {
+        color: $primaryColor;
+      }
+
+    input:not([type]):focus:not([readonly]),
+    input[type=text]:not(.browser-default):focus:not([readonly]),
+    input[type=password]:not(.browser-default):focus:not([readonly]),
+    input[type=email]:not(.browser-default):focus:not([readonly]),
+    input[type=url]:not(.browser-default):focus:not([readonly]),
+    input[type=time]:not(.browser-default):focus:not([readonly]),
+    input[type=date]:not(.browser-default):focus:not([readonly]),
+    input[type=datetime]:not(.browser-default):focus:not([readonly]),
+    input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+    input[type=tel]:not(.browser-default):focus:not([readonly]),
+    input[type=number]:not(.browser-default):focus:not([readonly]),
+    input[type=search]:not(.browser-default):focus:not([readonly]),
+    textarea.materialize-textarea:focus:not([readonly]) {
+        border-bottom: 1px solid $formInputFocusBorderColor;
+        box-shadow: 0 1px 0 0 $formInputFocusBorderColor;
+    }
+
+    // label underline focus color
+    .input-field input[type=text]:focus,
+    .select-wrapper input.select-dropdown:focus {
+        border-bottom: 1px solid $formInputFocusBorderColor;
+        box-shadow: 0 1px 0 0 $formInputFocusBorderColor;
+    }
+
+    // valid color
+    .input-field input[type=text].valid {
+        border-bottom: 1px solid $formInputValidBorderColor;
+        box-shadow: 0 1px 0 0 $formInputValidBorderColor;
+    }
+
+    // invalid color
+    .input-field input[type=text].invalid {
+        border-bottom: 1px solid $formInputInvalidBorderColor;
+        box-shadow: 0 1px 0 0 $formInputInvalidBorderColor;
+    }
+
+    // icon prefix focus color
+    .input-field .prefix.active {
+        color: $formIconActiveColor;
+    }
 }

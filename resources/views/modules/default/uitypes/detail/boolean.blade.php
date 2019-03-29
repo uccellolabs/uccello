@@ -8,7 +8,7 @@
         $color = $value ? 'green' : 'red'
     ?>
     <div class="valign-wrapper">
-        <i class="material-icons left {{ $color }}-text" style="font-size: 18px">lens</i>
-        <span class="icon-label">{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}</span>
+        <i class="material-icons left {{ $color }}-text" style="font-size: 18px; margin-right: 5px">lens</i>
+        {{-- <span class="icon-label">{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}</span> --}}
     </div>
 </div>

@@ -2,9 +2,9 @@
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
 <div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field">
 
-    {{-- <label>{{ uctrans($field->label, $module) }}</label> --}}
+    <label class="active">{{ uctrans($field->label, $module) }}</label>
 
-    <div class="switch">
+    <div class="switch" style="margin-top: 10px">
         <label>
             {{ uctrans('no', $module) }}
             {!! form_widget($form->{$field->name}) !!}
@@ -14,7 +14,7 @@
     </div>
 
     @if ($isError)
-        <span class="helper-text">
+        <span class="helper-text red-text">
             {!! form_errors($form->{$field->name}) !!}
         </span>
     @endif

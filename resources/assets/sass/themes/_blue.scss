@@ -46,4 +46,10 @@ $tableTrHoverBackgroundColor: #f5f5f5;
 $tableTrOddBackgroundColor: #f9f9f9;
 $tableTdBorderColor: #eee;
 
+// Form
+$formInputFocusBorderColor: $primaryColor;
+$formInputValidBorderColor: colors('green');
+$formInputInvalidBorderColor: colors('red');
+$formIconActiveColor: $primaryColor;
+
 @import "global";

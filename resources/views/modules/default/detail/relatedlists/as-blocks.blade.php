@@ -6,5 +6,5 @@
     </div>
 
     {{-- Selection modal content --}}
-    @include('uccello::modules.default.detail.relatedlists.selection-modal.content')
+    @include('uccello::modules.default.detail.relatedlists.selection-modal.content', [ 'datatableId' => 'modal-relatedlist-datatable'])
 @endforeach

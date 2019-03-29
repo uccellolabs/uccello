@@ -80,36 +80,6 @@ class ListController extends Controller
     }
 
     /**
-     * Display a listing of the resources.
-     * The result is formated differently if it is a classic query or one requested by datatable.
-     * Filter on domain if domain_id column exists.
-     * @param  \Uccello\Core\Models\Domain|null $domain
-     * @param  \Uccello\Core\Models\Module $module
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function processForDatatableConfig(?Domain $domain, Module $module, Request $request)
-    {
-        // If we don't use multi domains, find the first one
-        if (!uccello()->useMultiDomains()) {
-            $domain = Domain::first();
-        }
-
-        // Get filter type
-        $filterType = $request->get('filter_type', 'list');
-
-        // Get selected filter id
-        $filterId = $request->get('filter');
-        $filter = Filter::find($filterId);
-
-        // Get data formated for Datatable
-        return [
-            'columns' => uccello()->getDatatableColumns($module, $filterId, $filterType),
-            'filter' => $filter
-        ];
-    }
-
-    /**
      * Autocomplete a listing of the resources.
      * The result is formated differently if it is a classic query or one requested by datatable.
      * Filter on domain if domain_id column exists.
@@ -168,38 +138,6 @@ class ListController extends Controller
             $query = $modelClass::query();
         }
 
-
-        // elseif ($relatedListId && $action === 'select') {
-        //     // Get related list
-        //     $relatedList = Relatedlist::find($relatedListId);
-
-        //     if ($relatedList && $relatedList->method) {
-        //         // Related list method
-        //         $method = $relatedList->method;
-        //         $recordIdsMethod = $method . 'RecordIds';
-
-        //         // Get related records ids
-        //         $model = new $modelClass;
-        //         $filteredRecordIds = $model->$recordIdsMethod($relatedList, $recordId);
-
-        //         // Add the record id itself to be filtered
-        //         if ($relatedList->related_module_id === $module->id && !empty($recordId) && !$filteredRecordIds->contains($recordId)) {
-        //             $filteredRecordIds[] = (int)$recordId;
-        //         }
-
-        //         // Make the query
-        //         $records = $query->whereNotIn($model->getKeyName(), $filteredRecordIds)->get();
-
-        //         // Count all results
-        //         $total = $initialQuery->whereNotIn($model->getKeyName(), $filteredRecordIds)->count();
-        //         $totalFiltered = $total;
-        //     }
-        // }
-        // else {
-        //     // Make the query
-        //     $records = $query->get();
-        // }
-
         // Search by column
         foreach ($columns as $fieldName => $column) {
             if (!empty($column[ "search" ])) {
@@ -242,6 +180,27 @@ class ListController extends Controller
                 // Update query
                 $model = new $modelClass;
                 $records = $model->$method($relatedList, $recordId, $query, 0, $length);
+            }
+        } elseif ($relatedListId && $action === 'select') {
+            // Get related list
+            $relatedList = Relatedlist::find($relatedListId);
+
+            if ($relatedList && $relatedList->method) {
+                // Related list method
+                $method = $relatedList->method;
+                $recordIdsMethod = $method . 'RecordIds';
+
+                // Get related records ids
+                $model = new $modelClass;
+                $filteredRecordIds = $model->$recordIdsMethod($relatedList, $recordId);
+
+                // Add the record id itself to be filtered
+                if ($relatedList->related_module_id === $module->id && !empty($recordId) && !$filteredRecordIds->contains($recordId)) {
+                    $filteredRecordIds[] = (int)$recordId;
+                }
+
+                // Make the quer
+                $records = $query->whereNotIn($model->getKeyName(), $filteredRecordIds)->paginate($length);
             }
         } else {
             // Paginate results

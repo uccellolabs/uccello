@@ -5,7 +5,8 @@
         data-filter-type="related-list"
         data-relatedlist="{{ $relatedlist->id }}"
         data-filter-id=""
-        data-content-url="{{ ucroute('uccello.list.content', $domain, $relatedlist->relatedModule, ['_token' => csrf_token()]) }}"
+        data-content-url="{{ $datatableContentUrl ?? ucroute('uccello.list.content', $domain, $relatedlist->relatedModule) }}"
+        data-add-relation-url="{{ ucroute('uccello.edit.relation.add', $domain, $module) }}"
         data-order="null"
         data-length="15">
         <thead>
@@ -25,7 +26,7 @@
                         <i class="fa fa-sort-amount-up" style="display: none"></i>
                         @endif
                     </a>
-                    <div class="hide-on-small-only hide-on-med-only hide">
+                    <div class="search hide-on-small-only hide-on-med-only hide">
                         <?php
                             $searchValue = null;
                             if (!empty($selectedFilter) && !empty($selectedFilter->conditions->search->{$column['name']})) {
@@ -66,11 +67,11 @@
 
                 <td class="actions-column hide-on-small-only hide-on-med-only right-align">
                     @if (Auth::user()->canUpdate($domain, $relatedlist->relatedModule))
-                    <a href="{{ ucroute('uccello.edit', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" data-position="left" class="edit-btn primary-text"><i class="material-icons">edit</i></a>
+                    <a href="{{ ucroute('uccello.edit', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" data-position="top" class="edit-btn primary-text"><i class="material-icons">edit</i></a>
                     @endif
 
                     @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
-                    <a href="{{ ucroute('uccello.delete', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" data-position="left" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
+                    <a href="{{ ucroute('uccello.delete', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" data-position="top" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
                     @endif
                 </td>
             </tr>

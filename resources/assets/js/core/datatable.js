@@ -5,9 +5,10 @@ export class Datatable {
      * Init Datatable configuration
      * @param {Element} element
      */
-    init(element) {
+    init(element, rowClickCallback) {
         this.table = $(element)
         this.linkManager = new Link(false)
+        this.rowClickCallback = rowClickCallback
 
         this.initColumns()
         this.initColumnsSortListener()
@@ -137,6 +138,8 @@ export class Datatable {
             return
         }
 
+        let that = this
+
         // Clone row template
         let tr = $('tbody tr.template', this.table).clone()
 
@@ -171,9 +174,15 @@ export class Datatable {
         rowUrl = rowUrl.replace('RECORD_ID', record.id)
         $(tr).attr('data-row-url', rowUrl)
 
+        $(tr).attr('data-record-id', record.id)
+
         // Add click listener
-        $(tr).on('click', function() {
-            document.location.href = $(this).attr('data-row-url')
+        $(tr).on('click', function(event) {
+            if (typeof that.rowClickCallback !== 'undefined') {
+                that.rowClickCallback(event, that, $(this).attr('data-record-id'))
+            } else {
+                document.location.href = $(this).attr('data-row-url')
+            }
         })
 
         // Init click listener on delete button

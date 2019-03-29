@@ -1,18 +1,21 @@
 import './materialize'
 import './core/global'
 
-// Translation
-import i18next from 'i18next'
-import i18nextLanguageBundle from '@kirschbaum-development/laravel-translations-loader?namespace=uccello!@kirschbaum-development/laravel-translations-loader'
-import { Global } from './core/global';
+import { Global } from './core/global'
+import I18n from './I18n'
 
 import 'sweetalert'
+import 'daterangepicker'
+// import 'bootstrap-colorpicker'
+
 
 class UccelloApp {
     constructor() {
         this.initGlobal()
         this.initTranslation()
         this.initScrollSpy()
+        this.initDateRangePicker()
+        // this.initColorPicker()
     }
 
     initGlobal() {
@@ -20,33 +23,8 @@ class UccelloApp {
     }
 
     initTranslation() {
-        i18next.init({
-            fallbackLng: 'en',
-            debug: false,
-            resources: i18nextLanguageBundle
-        })
-        i18next.changeLanguage($('html').attr('lang')) // Use project locale
-
-        /**
-         * Translates a string using i18nex library.
-         * Replaces nsSeparator and keySeparator to be able to use '.' in the string we want to translate.
-         * This function is available in all scripts.
-         *
-         * @param {String} string String to translate
-         * @param {String} file File to use for translation. Default: default
-         * @param {String} namespace Namespace to use for translation. Default: uccello
-         */
-        window.uctrans = (string, file, namespace) => {
-            if (typeof file === 'undefined') {
-                file = 'default'
-            }
-
-            if (typeof namespace === 'undefined') {
-                namespace = 'uccello'
-            }
-
-            return i18next.t(`${namespace}::${file}:${string}`, { nsSeparator: '::', keySeparator: ':' })
-        }
+        window.I18n = I18n
+        window.uctrans = new I18n('uctranslations', ':')
     }
 
     initScrollSpy() {
@@ -58,6 +36,179 @@ class UccelloApp {
                 $('.navbar-top nav').addClass('transparent').addClass('z-depth-0')
                 $('.breadcrumb-container').removeClass('z-depth-0')
             }
+        })
+    }
+
+    initDateRangePicker() {
+        // Date range picker
+        $('.date-range-picker')
+        .daterangepicker({
+            autoUpdateInput: false,
+            locale: this.getDaterangePickerLocale(),
+            showDropdowns: true,
+            applyButtonClasses: "waves-effect primary",
+            cancelClass: "waves-effect btn-flat"
+        }, function(start, end, label) {
+            $(this).change()
+        })
+        .on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD') + ', ' + picker.endDate.format('YYYY-MM-DD'));
+        })
+        .on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('').change()
+        })
+
+        // Datetime range picker
+        $('.datetime-range-picker')
+        .daterangepicker({
+            autoUpdateInput: false,
+            timePicker: true,
+            timePicker24Hour: true,
+            locale: this.getDaterangePickerLocale(),
+            showDropdowns: true,
+            applyButtonClasses: "waves-effect primary",
+            cancelClass: "waves-effect btn-flat"
+        }, function(start, end, label) {
+            $(this).change()
+        })
+        .on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm') + ', ' + picker.endDate.format('YYYY-MM-DD HH:mm'));
+        })
+        .on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('').change()
+        })
+
+        // Date picker
+        $('.datepicker').daterangepicker({
+            autoUpdateInput: false,
+            locale: this.getDaterangePickerLocale(),
+            singleDatePicker: true,
+            showDropdowns: true
+        })
+        .on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD'))
+        })
+        .on('keyup', function() {
+            let dateStr = $(this).val()
+            if (moment(dateStr).isValid()) {
+                let date = moment(dateStr)
+                $(this).data('daterangepicker').setStartDate(date)
+                $(this).data('daterangepicker').setEndDate(date)
+            }
+        })
+
+        // Datetime picker
+        $('.datetimepicker').daterangepicker({
+            autoUpdateInput: false,
+            autoApply: true,
+            locale: this.getDaterangePickerLocale(),
+            singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            showDropdowns: true,
+            applyButtonClasses: "waves-effect primary",
+            cancelClass: "waves-effect btn-flat"
+        })
+        .on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'))
+            $(this).parents('.input-field:first').find('label').addClass('active')
+        })
+        .on('cancel.daterangepicker', function(ev, picker) {
+            $(this).val('').change()
+        })
+        .on('keyup', function() {
+            let dateStr = $(this).val()
+            if (moment(dateStr).isValid()) {
+                let date = moment(dateStr)
+                $(this).data('daterangepicker').setStartDate(date)
+                $(this).data('daterangepicker').setEndDate(date)
+            }
+        })
+
+        // Month picker
+        $('.monthpicker').daterangepicker({
+            autoUpdateInput: false,
+            autoApply: true,
+            locale: this.getDaterangePickerLocale(),
+            singleDatePicker: true,
+            showDropdowns: true
+        })
+        .on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM'))
+            $(this).parents('.input-field:first').find('label').addClass('active')
+        })
+
+        // Week picker
+        $('.weekpicker').daterangepicker({
+            autoUpdateInput: false,
+            autoApply: true,
+            locale: this.getDaterangePickerLocale(),
+            singleDatePicker: true,
+            showWeekNumbers: true,
+            showDropdowns: true
+        })
+        .on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-w'))
+            $(this).parents('.input-field:first').find('label').addClass('active')
+        })
+    }
+
+    getDaterangePickerLocale() {
+        return {
+            format: uctrans.trans('default:calendar.format'),
+            separator: uctrans.trans('default:calendar.separator'),
+            applyLabel: uctrans.trans('default:calendar.apply'),
+            cancelLabel: uctrans.trans('default:calendar.cancel'),
+            fromLabel: uctrans.trans('default:calendar.from'),
+            toLabel: uctrans.trans('default:calendar.to'),
+            customRangeLabel: uctrans.trans('default:calendar.custom'),
+            weekLabel: uctrans.trans('default:calendar.week'),
+            daysOfWeek: [
+                uctrans.trans('default:calendar.day.su'),
+                uctrans.trans('default:calendar.day.mo'),
+                uctrans.trans('default:calendar.day.tu'),
+                uctrans.trans('default:calendar.day.we'),
+                uctrans.trans('default:calendar.day.th'),
+                uctrans.trans('default:calendar.day.fr'),
+                uctrans.trans('default:calendar.day.sa'),
+            ],
+            monthNames: [
+                uctrans.trans('default:calendar.month.january'),
+                uctrans.trans('default:calendar.month.february'),
+                uctrans.trans('default:calendar.month.march'),
+                uctrans.trans('default:calendar.month.april'),
+                uctrans.trans('default:calendar.month.may'),
+                uctrans.trans('default:calendar.month.june'),
+                uctrans.trans('default:calendar.month.july'),
+                uctrans.trans('default:calendar.month.august'),
+                uctrans.trans('default:calendar.month.september'),
+                uctrans.trans('default:calendar.month.october'),
+                uctrans.trans('default:calendar.month.november'),
+                uctrans.trans('default:calendar.month.december'),
+            ],
+            firstDay: 1,
+        }
+    }
+
+    initColorPicker() {
+        $('.colorpicker').colorpicker({
+            customClass: 'colorpicker-2x',
+            sliders: {
+                saturation: {
+                    maxLeft: 200,
+                    maxTop: 200
+                },
+                hue: {
+                    maxTop: 200
+                },
+                alpha: {
+                    maxTop: 200
+                }
+            }
+        }).on('changeColor', function (e) {
+            let rbga = e.color.toRGB()
+            $(e.currentTarget).parents('.input-field').find('.input-group-addon i')
+                .css('color', `rgba(${rbga.r},${rbga.g},${rbga.b},${rbga.a})`);
         })
     }
 }

@@ -11,7 +11,7 @@
 
             {{-- Filters list --}}
             <span class="breadcrumb" href="#">
-                <a class="dropdown-trigger btn-flat" href="#" data-target="filters-list">
+                <a class="dropdown-trigger btn-flat" href="#" data-target="filters-list" data-constrain-width="false">
                     <i class="material-icons right">arrow_drop_down</i>
                     <span class="primary-text">{{ uctrans($selectedFilter->name, $module) }}</span>
                 </a>

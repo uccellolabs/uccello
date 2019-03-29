@@ -11,7 +11,7 @@
     {!! form_label($form->{$field->name}) !!}
 
     @if ($isError)
-        <span class="helper-text">
+        <span class="helper-text red-text">
             {!! form_errors($form->{$field->name}) !!}
         </span>
     @endif

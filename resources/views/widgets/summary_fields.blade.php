@@ -13,6 +13,7 @@
 
                 <div class="row display-flex">
                     @if (!empty($data) && is_array($data->fields))
+                        <?php $i_col = 0; ?>
                         @foreach ($data->fields as $fieldName)
                             <?php
                                 $field = \Uccello\Core\Models\Field::where('module_id', $module->id)
@@ -25,9 +26,18 @@
                                 $uitypeViewName = sprintf('uitypes.detail.%s', $field->uitype->name);
                                 $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
                                 $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+
+                                // Count columns
+                                $isLarge = $field->data->large ?? false;
+                                $i_col .= $isLarge ? 2 : 1;
                             ?>
                             @include($uitypeViewToInclude, ['forceLarge' => false])
                         @endforeach
+
+                        {{-- Add an empty div if necessary --}}
+                        @if ($i_col % 2 !== 0)
+                            <div class="col s6 hide-on-small-only">&nbsp;</div>
+                        @endif
                     @endif
                 </div>
             </div>

@@ -10,14 +10,14 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@kirschbaum-development/laravel-translations-loader": "^0.4.4",
         "axios": "^0.18",
         "bootstrap": "^4.0.0",
+        "bootstrap-colorpicker": "^2.5.3",
         "cross-env": "^5.1",
+        "daterangepicker": "^3.0.3",
         "fastclick": "^1.0.6",
-        "i18next": "^15.0.7",
         "jquery": "^3.2",
-        "laravel-mix": "^4.0.7",
+        "laravel-mix": "^4.0.15",
         "lodash": "^4.17.5",
         "materialize-css": "^1.0.0-rc.2",
         "nouislider": "^13.1.2",

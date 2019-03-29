@@ -24,7 +24,7 @@
     @endif
 
     @if ($isError)
-        <span class="helper-text">
+        <span class="helper-text red-text">
             {{-- if it is a repeated field display only the first error --}}
             @if($field->data->repeated ?? false)
             {!! form_errors($form->{$field->name}->first) !!}
@@ -54,7 +54,7 @@
         {!! form_widget($form->{$field->name}->second) !!}
 
         @if ($isError)
-            <span class="helper-text">
+            <span class="helper-text red-text">
                 {!! form_errors($form->{$field->name}->second) !!}
             </span>
         @endif

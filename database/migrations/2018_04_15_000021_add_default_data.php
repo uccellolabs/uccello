@@ -5,6 +5,7 @@ use Uccello\Core\Models\User;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Profile;
 
 class AddDefaultData extends Migration
 {
@@ -16,8 +17,8 @@ class AddDefaultData extends Migration
     public function up()
     {
         $this->addDefaultDomain();
-        $this->addDefaultRole();
-        $this->addDefaultUser();
+        $profile = $this->addDefaultProfile();
+        $this->addDefaultRole($profile);
         $this->addModulesInDomain();
     }
 
@@ -42,7 +43,18 @@ class AddDefaultData extends Migration
         $domain->save();
     }
 
-    protected function addDefaultRole()
+    protected function addDefaultProfile()
+    {
+        $profile = new Profile();
+        $profile->name = 'Administration';
+        $profile->description = null;
+        $profile->domain_id = Domain::first()->id;
+        $profile->save();
+
+        return $profile;
+    }
+
+    protected function addDefaultRole($profile)
     {
         $role = new Role();
         $role->name = 'Administrator';
@@ -50,19 +62,8 @@ class AddDefaultData extends Migration
         $role->parent_id = null;
         $role->domain_id = Domain::first()->id;
         $role->save();
-    }
 
-    protected function addDefaultUser()
-    {
-        $user = new User();
-        $user->username = 'admin';
-        $user->first_name = null;
-        $user->last_name = 'Admin';
-        $user->email = 'admin@uccello.io';
-        $user->password = Hash::make('admin');
-        $user->is_admin = true;
-        $user->domain_id = Domain::first()->id;
-        $user->save();
+        $role->profiles()->attach($profile);
     }
 
     protected function addModulesInDomain()

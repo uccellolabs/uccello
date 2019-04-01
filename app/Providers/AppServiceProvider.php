@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Uccello\Core\Console\Commands\UccelloInstallCommand;
+use Uccello\Core\Console\Commands\UccelloUserCommand;
 
 /**
  * App Service Provider
@@ -52,7 +53,8 @@ class AppServiceProvider extends ServiceProvider
     // Commands
     if ($this->app->runningInConsole()) {
         $this->commands([
-        UccelloInstallCommand::class,
+            UccelloInstallCommand::class,
+            UccelloUserCommand::class
         ]);
     }
     }

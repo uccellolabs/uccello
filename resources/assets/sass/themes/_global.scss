@@ -440,4 +440,159 @@ body.theme-#{$theme} {
     .input-field .prefix.active {
         color: $formIconActiveColor;
     }
+
+    .switch label input[type=checkbox]:checked + .lever {
+        background-color: $formSwitchLeverBackgroundColor;
+    }
+
+    .switch label input[type=checkbox]:checked + .lever:after {
+        background-color: $formSwitchLeverColor;
+    }
+
+    .card .card-title small {
+        display: block;
+        font-size: 13px;
+        color: $cardTitleInfoColor;
+
+        &.with-icon {
+            margin-left: 40px;
+        }
+    }
+
+    .card.info-box {
+        height: 80px;
+
+        .icon {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            padding: 0 10px;
+            width: 80px;
+
+            i {
+                font-size: 50px;
+            }
+        }
+
+        .card-content {
+            padding: 10px 20px;
+
+            .text {
+                font-size: 13px;
+            }
+
+            .number {
+                font-weight: 400;
+                font-size: 26px;
+                color: #555;
+            }
+        }
+    }
+
+    [type=checkbox].filled-in:checked:not(:disabled) + span:not(.lever):after {
+        border: 2px solid $primaryColor;
+        background-color: $primaryColor;
+    }
+
+    /**
+    * Nestable Draggable Handles
+    */
+
+    .dd3-content {
+        display: block;
+        cursor: move;
+        height: 30px;
+        margin: 5px 0;
+        padding: 5px 10px 5px 10px;
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+        border: 1px solid #ccc;
+        background-color: #fafafa;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+
+        i.material-icons {
+            font-size: 20px;
+        }
+    }
+
+    .dd3-content:hover {
+        color: #2ea8e5;
+        background: #fff;
+    }
+
+    .dd-dragel > .dd3-item > .dd3-content {
+        margin: 0;
+    }
+
+    .dd3-item {
+        &[data-type="group"] {
+            > .dd3-content {
+                background-color: #e8f7e9 !important;
+            }
+        }
+
+        &[data-type="link"] {
+            > .dd3-content {
+                background-color: #e8eff7 !important;
+            }
+        }
+
+        &[data-type="route"] {
+            > .dd3-content {
+                background-color: #f7e8e8 !important;
+            }
+        }
+    }
+
+    .dd3-item > button {
+        margin-left: 30px;
+    }
+
+    .dd3-handle {
+        position: absolute;
+        margin: 0;
+        left: 0;
+        top: 0;
+        cursor: move;
+        width: 30px;
+        text-indent: 30px;
+        white-space: nowrap;
+        overflow: hidden;
+        border: 1px solid #aaa;
+        background: #ddd;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .dd3-actions {
+        display: none;
+        position: absolute;
+        margin: 0;
+        padding: 5px 2px;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+        width: 50px;
+        height: 30px;
+        white-space: nowrap;
+        overflow: hidden;
+
+        i.material-icons {
+            font-size: 20px;
+        }
+    }
+
+    .dd3-item[data-type="group"]:hover, .dd3-item[data-type="link"]:hover, .dd3-item[data-type="route"]:hover {
+        > .dd3-content {
+            padding-right: 60px;
+        }
+
+        > .dd3-actions {
+            display: block;
+        }
+    }
 }

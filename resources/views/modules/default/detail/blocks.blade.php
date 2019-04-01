@@ -13,7 +13,7 @@
 
                 {{-- Description --}}
                 @if ($block->description)
-                    <small>{{ uctrans($block->description, $module) }}</small>
+                    <small class="with-icon">{{ uctrans($block->description, $module) }}</small>
                 @endif
             </div>
 

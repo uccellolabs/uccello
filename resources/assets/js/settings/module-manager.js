@@ -8,7 +8,7 @@ export class ModuleManager {
 
         $("input[type='checkbox'].module-activation").on('click', (event) => {
             let element = event.currentTarget
-            let url = laroute.route('uccello.settings.module.activation', { domain: domainSlug })
+            let url = $("meta[name='module-activation-url']").attr('content')
 
             $.post(url, {
                 _token: $("meta[name='csrf-token']").attr('content'),

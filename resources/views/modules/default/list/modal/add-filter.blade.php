@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col s12">
                 <div class="input-field">
-                    <input id="add_filter_filter_name" type="text" class="validate">
+                    <input id="add_filter_filter_name" type="text">
                     <label for="add_filter_filter_name" class="required">{{ uctrans('modal.add_filter.name', $module) }}</label>
                 </div>
 

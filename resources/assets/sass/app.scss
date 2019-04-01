@@ -6,6 +6,7 @@
 
 @import '~daterangepicker/daterangepicker.css';
 @import '~bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css';
+@import '~nestable2/dist/jquery.nestable.min.css';
 
 html {
     font-family: Roboto, sans-serif;
@@ -130,3 +131,8 @@ table {
 .detail-tabs {
     margin: 10px 0 15px 0;
 }
+
+.uppercase {
+    text-transform: uppercase;
+}
+

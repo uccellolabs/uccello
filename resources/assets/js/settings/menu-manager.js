@@ -62,6 +62,7 @@ export class MenuManager {
         this.initEditButtonListener()
         this.initRemoveButtonListener()
         this.initActionsButtonsListener()
+        this.initResetButtonListener()
     }
 
     /**
@@ -71,25 +72,19 @@ export class MenuManager {
         $('input#menu-switcher').on('change', (event) => {
             let showAdminMenu = $(event.currentTarget).is(':checked')
 
-            // Get reset button configuration
-            let resetButtonConfig = JSON.parse($('a.btn-reset').attr('data-config'))
-
             if (showAdminMenu) {
                 $('.menu-manager.menu-admin').show()
                 $('.menu-manager.menu-main').hide()
 
                 // Change menu type for reset button
-                resetButtonConfig.ajax.params = {type: 'admin'}
+                $('input#selected-menu').val('admin')
             } else {
                 $('.menu-manager.menu-admin').hide()
                 $('.menu-manager.menu-main').show()
 
                 // Change menu type for reset button
-                resetButtonConfig.ajax.params = {type: 'main'}
+                $('input#selected-menu').val('main')
             }
-
-            // Update reset button configuration
-            $('a.btn-reset').attr('data-config', JSON.stringify(resetButtonConfig))
 
             // Save active menu structure
             this.menuToJson()
@@ -120,7 +115,7 @@ export class MenuManager {
         }).then((response) => {
             $('span.saved').fadeIn().delay(1000).fadeOut()
         }).fail((error) => {
-            swal(uctrans('dialog.error.title', 'settings'), uctrans('error.save', 'settings'), "error")
+            swal(uctrans.trans('settings:dialog.error.title'), uctrans.trans('settings:error.save'), "error")
         })
     }
 
@@ -136,20 +131,22 @@ export class MenuManager {
             let icon = iconElement.val()
 
             if (!label) {
-                labelElement.parent('.form-line').addClass(['focused', 'error'])
-                return
+                labelElement.addClass(['invalid'])
             }
 
             if (!icon) {
-                iconElement.parent('.form-line').addClass(['focused', 'error'])
+                iconElement.addClass(['invalid'])
+            }
+
+            if (!label || !icon) {
                 return
             }
 
             // Create group
             this.saveGroup(label, icon)
 
-            // Hide modal
-            $('#groupModal').modal('hide')
+            // Close modal
+            $('#groupModal').modal('close')
         })
     }
 
@@ -169,30 +166,30 @@ export class MenuManager {
             let route = routeElement.val()
 
             if (!label) {
-                labelElement.parent('.form-line').addClass(['focused', 'error'])
-                return
+                labelElement.addClass(['invalid'])
             }
 
             if (!icon) {
-                iconElement.parent('.form-line').addClass(['focused', 'error'])
-                return
+                iconElement.addClass(['invalid'])
             }
 
             if (!moduleName) {
-                moduleElement.parent('.form-line').addClass(['focused', 'error'])
-                return
+                moduleElement.addClass(['invalid'])
             }
 
             if (!route) {
-                routeElement.parent('.form-line').addClass(['focused', 'error'])
+                routeElement.addClass(['invalid'])
+            }
+
+            if (!label || !icon || !moduleName || !route) {
                 return
             }
 
             // Create link
             this.saveRouteLink(label, icon, moduleName, route)
 
-            // Hide modal
-            $('#routeLinkModal').modal('hide')
+            // Close modal
+            $('#routeLinkModal').modal('close')
         })
     }
 
@@ -210,25 +207,26 @@ export class MenuManager {
             let url = urlElement.val()
 
             if (!label) {
-                labelElement.parent('.form-line').addClass(['focused', 'error'])
-                return
+                labelElement.addClass(['invalid'])
             }
 
             if (!icon) {
-                iconElement.parent('.form-line').addClass(['focused', 'error'])
-                return
+                iconElement.addClass(['invalid'])
             }
 
             if (!url) {
-                urlElement.parent('.form-line').addClass(['focused', 'error'])
+                urlElement.addClass(['invalid'])
+            }
+
+            if (!label || !icon || !url) {
                 return
             }
 
             // Create link
             this.saveLink(label, icon, url)
 
-            // Hide modal
-            $('#linkModal').modal('hide')
+            // Close modal
+            $('#linkModal').modal('close')
         })
     }
 
@@ -265,26 +263,26 @@ export class MenuManager {
             switch (item.data('type')) {
                 // Group
                 case 'group':
-                        modal = $('#groupModal').modal()
-                        $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused')
-                        $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused')
+                        modal = $('#groupModal').modal('open')
+                        $("input[name='label']", modal).val(item.data('label')).next('label').addClass('active')
+                        $("input[name='icon']", modal).val(item.data('icon')).next('label').addClass('active')
                     break
 
                 // Link
                 case 'link':
-                        modal = $('#linkModal').modal()
-                        $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused')
-                        $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused')
-                        $("input[name='url']", modal).val(item.data('url')).parent().addClass('focused')
+                        modal = $('#linkModal').modal('open')
+                        $("input[name='label']", modal).val(item.data('label')).next('label').addClass('active')
+                        $("input[name='icon']", modal).val(item.data('icon')).next('label').addClass('active')
+                        $("input[name='url']", modal).val(item.data('url')).next('label').addClass('active')
                     break
 
                 // Route link
                 case 'route':
-                        modal = $('#routelinkModal').modal()
-                        $("input[name='label']", modal).val(item.data('label')).parent().addClass('focused')
-                        $("input[name='icon']", modal).val(item.data('icon')).parent().addClass('focused')
-                        $("input[name='module']", modal).val(item.data('module')).parent().addClass('focused')
-                        $("input[name='route']", modal).val(item.data('route')).parent().addClass('focused')
+                        modal = $('#routeLinkModal').modal('open')
+                        $("input[name='label']", modal).val(item.data('label')).next('label').addClass('active')
+                        $("input[name='icon']", modal).val(item.data('icon')).next('label').addClass('active')
+                        $("input[name='module']", modal).val(item.data('module')).next('label').addClass('active')
+                        $("input[name='route']", modal).val(item.data('route')).next('label').addClass('active')
                     break
             }
         })
@@ -305,12 +303,46 @@ export class MenuManager {
             this.retrieveCurrentItemJsonById(itemId, JSON.parse(this.menuStructure))
 
             if (this.currentItemJson && this.currentItemJson.children) { // There are children
-                swal(uctrans('menu.error.not_empty.title', 'settings'), uctrans('menu.error.not_empty.description', 'settings'), 'error')
+                swal(uctrans.trans('settings:menu.error.not_empty.title'), uctrans.trans('settings:menu.error.not_empty.description'), 'error')
             } else {
                 $('.menu-manager:visible').nestable('remove', itemId)
                 this.menuToJson()
                 this.save()
             }
+        })
+    }
+
+    initResetButtonListener() {
+        $('a#btn-reset-menu').on('click', (event) => {
+            event.preventDefault()
+
+            let element = $(event.currentTarget)
+
+            swal({
+                title: uctrans.trans('settings:menu.reset.title'),
+                text: uctrans.trans('settings:menu.reset.text'),
+                icon: 'warning',
+                buttons: true,
+                    dangerMode: true,
+                    buttons: [
+                        uctrans.trans('default:no'),
+                        uctrans.trans('default:yes')
+                    ],
+            }).then((response) => {
+                if (response !== true) {
+                    return
+                }
+
+                let data = {
+                    _token: $("meta[name='csrf-token']").attr('content'),
+                    type: $("input#selected-menu").val()
+                }
+
+                $.post(element.attr('href'), data)
+                    .then(() => {
+                        document.location.reload()
+                    })
+            })
         })
     }
 
@@ -537,18 +569,18 @@ export class MenuManager {
         let actions = ''
         if (item.type !== 'module') {
             actions = `<div class="dd3-actions">
-                        <i class="material-icons btn-edit">edit</i>
-                        <i class="material-icons btn-remove">delete</i>
+                        <a href="javascript:void(0)" class="btn-edit primary-text"><i class="material-icons">edit</i></a>
+                        <a href="javascript:void(0)" class="btn-remove primary-text"><i class="material-icons">delete</i></a>
                     </div>`
         }
 
         let html = `<li class="dd-item dd3-item ${noChildrenClass}" data-id="${this.itemsNumber}" ${dataModule} ${dataRoute} ${dataUrl} data-type="${item.type}" data-label="${item.label}" ${dataTranslation} data-icon="${item.icon}" data-nochildren="${item.noChildren ? true : false}" data-color="${item.color}">
-                <div class="dd-handle dd3-content">
-                    <i class="material-icons">${item.icon}</i>
-                    <span class="icon-label">${translation}</span>
-                    <span class="pull-right col-${item.color}">${_.capitalize(item.type)}</span>
-                </div>
-                ${actions}`
+                    <div class="dd-handle dd3-content">
+                        <i class="material-icons left">${item.icon}</i>
+                        ${translation}
+                        <span class="right ${item.color}-text">${_.capitalize(item.type)}</span>
+                        </div>
+                    ${actions}`
 
         if (item.children) {
             html += `<ol class="dd-list">`

@@ -52,5 +52,11 @@ $formInputValidBorderColor: colors('green');
 $formInputInvalidBorderColor: colors('red');
 $formLabelActiveColor: $primaryColor;
 $formIconActiveColor: $primaryColor;
+$formSwitchLeverBackgroundColor: $accentColor;
+$formSwitchLeverColor: $primaryColor;
+
+// Card
+$cardTitleInfoColor: #999;
+
 
 @import "global";

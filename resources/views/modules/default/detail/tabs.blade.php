@@ -2,7 +2,7 @@
     {{-- Summary --}}
     @if ($widgets->count() > 0)
     <li class="tab" role="presentation">
-        <a href="#summary" data-toggle="tab" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
+        <a href="#summary" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
             <i class="material-icons left">dashboard</i> <span class="hidden-xs">{{ uctrans('tab.summary', $module) }}</span>
         </a>
     </li>
@@ -10,7 +10,7 @@
     {{-- Tabs --}}
     @foreach ($module->tabs as $i => $tab)
     <li class="tab" role="presentation">
-        <a href="#{{ $tab->id }}" data-toggle="tab" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
+        <a href="#{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
             <i class="material-icons left">{{ $tab->icon ?? 'info' }}</i> <span class="hidden-xs">{{ uctrans($tab->label, $module) }}</span>
         </a>
     </li>
@@ -20,7 +20,7 @@
     @foreach ($module->relatedlists as $relatedlist)
     @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedlist->relatedModule) || !$relatedlist->isVisibleAsTab)
     <li class="tab" role="presentation">
-        <a href="#relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" data-toggle="tab" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
+        <a href="#relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
             {{-- Icon --}}
             <i class="material-icons left">{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}</i>
 

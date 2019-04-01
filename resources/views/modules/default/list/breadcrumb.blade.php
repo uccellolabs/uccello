@@ -1,6 +1,16 @@
 <div class="nav-wrapper">
     <div class="col s12">
         <div class="breadcrumb-container left">
+            {{-- Admin --}}
+            @if ($admin_env)
+            <span class="breadcrumb">
+                <a class="btn-flat" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">
+                    <i class="material-icons left">settings</i>
+                    <span>{{ uctrans('breadcrumb.admin', $module) }}</span>
+                </a>
+            </span>
+            @endif
+
             {{-- Module icon --}}
             <span class="breadcrumb">
                 <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">

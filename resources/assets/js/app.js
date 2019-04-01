@@ -6,6 +6,7 @@ import I18n from './I18n'
 
 import 'sweetalert'
 import 'daterangepicker'
+import 'nestable2'
 // import 'bootstrap-colorpicker'
 
 

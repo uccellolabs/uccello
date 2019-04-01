@@ -11,6 +11,12 @@ body.theme-#{$theme} {
         }
     }
 
+    &.no-sidebar {
+        header, main, footer {
+            padding-left: 0;
+        }
+    }
+
     td, th {
         padding: 10px 5px;
     }
@@ -344,6 +350,10 @@ body.theme-#{$theme} {
         text-transform: none;
     }
 
+    .card .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-large):not(.btn-floating) {
+        text-transform: none;
+    }
+
     .daterangepicker {
         td, th {
             padding: 0;
@@ -389,6 +399,22 @@ body.theme-#{$theme} {
     textarea.materialize-textarea:focus:not([readonly]) {
         border-bottom: 1px solid $formInputFocusBorderColor;
         box-shadow: 0 1px 0 0 $formInputFocusBorderColor;
+    }
+
+    input:not([type]):focus:not([readonly]) + label,
+    input[type=text]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=password]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=email]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=url]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=time]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=date]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=datetime]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=datetime-local]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=tel]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=number]:not(.browser-default):focus:not([readonly]) + label,
+    input[type=search]:not(.browser-default):focus:not([readonly]) + label,
+    textarea.materialize-textarea:focus:not([readonly]) + label {
+        color: $formLabelActiveColor;
     }
 
     // label underline focus color

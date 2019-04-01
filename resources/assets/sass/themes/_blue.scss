@@ -50,6 +50,7 @@ $tableTdBorderColor: #eee;
 $formInputFocusBorderColor: $primaryColor;
 $formInputValidBorderColor: colors('green');
 $formInputInvalidBorderColor: colors('red');
+$formLabelActiveColor: $primaryColor;
 $formIconActiveColor: $primaryColor;
 
 @import "global";

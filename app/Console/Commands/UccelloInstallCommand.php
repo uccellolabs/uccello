@@ -34,9 +34,9 @@ class UccelloInstallCommand extends Command
         'auth/register.stub' => 'auth/register.blade.php',
         'auth/passwords/email.stub' => 'auth/passwords/email.blade.php',
         'auth/passwords/reset.stub' => 'auth/passwords/reset.blade.php',
-        'errors/403.stub' => 'errors/403.blade.php',
-        'errors/404.stub' => 'errors/404.blade.php',
-        'errors/500.stub' => 'errors/500.blade.php',
+        // 'errors/403.stub' => 'errors/403.blade.php',
+        // 'errors/404.stub' => 'errors/404.blade.php',
+        // 'errors/500.stub' => 'errors/500.blade.php',
         'layouts/app.stub' => 'layouts/app.blade.php',
     ];
 

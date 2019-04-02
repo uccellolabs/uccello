@@ -55,9 +55,9 @@ class CreateUserStructure extends Migration
 
         // Auth block
         $block = new Block();
-        $block->label = 'block.auth';
+        $block->label = 'block.general';
         $block->icon = 'lock';
-        $block->data = [ 'description' => 'block.auth.description' ];
+        $block->data = null;
         $block->sequence = 0;
         $block->tab_id = $tab->id;
         $block->module_id = $module->id;
@@ -68,30 +68,8 @@ class CreateUserStructure extends Migration
         $field->name = 'username';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'rules' => 'required|regex:/^[a-zA-Z0-9.-_]+$/|unique:users,username,%id%' ];
+        $field->data = [ 'rules' => 'required|regex:/^[a-zA-Z0-9.-_]+$/|unique:users,username,%id%', 'icon' => 'person' ];
         $field->sequence = 0;
-        $field->block_id = $block->id;
-        $field->module_id = $module->id;
-        $field->save();
-
-        // First name
-        $field = new Field();
-        $field->name = 'first_name';
-        $field->uitype_id = uitype('text')->id;
-        $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = null;
-        $field->sequence = 1;
-        $field->block_id = $block->id;
-        $field->module_id = $module->id;
-        $field->save();
-
-        // Last name
-        $field = new Field();
-        $field->name = 'last_name';
-        $field->uitype_id = uitype('text')->id;
-        $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'rules' => 'required' ];
-        $field->sequence = 2;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -102,6 +80,28 @@ class CreateUserStructure extends Migration
         $field->uitype_id = uitype('boolean')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = [ 'module' => 'domain', 'field' => 'name' ];
+        $field->sequence = 1;
+        $field->block_id = $block->id;
+        $field->module_id = $module->id;
+        $field->save();
+
+        // First name
+        $field = new Field();
+        $field->name = 'first_name';
+        $field->uitype_id = uitype('text')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
+        $field->data = null;
+        $field->sequence = 2;
+        $field->block_id = $block->id;
+        $field->module_id = $module->id;
+        $field->save();
+
+        // Last name
+        $field = new Field();
+        $field->name = 'last_name';
+        $field->uitype_id = uitype('text')->id;
+        $field->displaytype_id = displaytype('everywhere')->id;
+        $field->data = [ 'rules' => 'required' ];
         $field->sequence = 3;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -118,22 +118,13 @@ class CreateUserStructure extends Migration
         $field->module_id = $module->id;
         $field->save();
 
-        // Contact block
-        $block = new Block();
-        $block->label = 'block.contact';
-        $block->icon = 'person';
-        $block->sequence = 1;
-        $block->tab_id = $tab->id;
-        $block->module_id = $module->id;
-        $block->save();
-
         // Email
         $field = new Field();
         $field->name = 'email';
         $field->uitype_id = uitype('email')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = [ 'rules' => 'required|email|unique:users,email,%id%' ];
-        $field->sequence = 0;
+        $field->sequence = 5;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -143,7 +134,7 @@ class CreateUserStructure extends Migration
         $field->name = 'phone';
         $field->uitype_id = uitype('phone')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->sequence = 1;
+        $field->sequence = 6;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();

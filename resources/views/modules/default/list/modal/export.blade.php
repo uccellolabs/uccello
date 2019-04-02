@@ -1,7 +1,7 @@
 <div id="exportModal" class="modal">
     <div class="modal-content">
         <h4>
-            <i class="material-icons primary-text">cloud_download</i>
+            <i class="material-icons left primary-text">cloud_download</i>
             {{ uctrans('modal.export.title', $module) }}
         </h4>
 

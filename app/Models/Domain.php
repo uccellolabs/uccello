@@ -2,11 +2,11 @@
 
 namespace Uccello\Core\Models;
 
-use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Collection;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Uccello\Core\Database\Eloquent\Model;
 
 class Domain extends Model
 {

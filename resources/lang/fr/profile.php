@@ -21,4 +21,5 @@ return [
     'capability.api-update' => 'Mettre à jour avec API',
     'capability.api-delete' => 'Supprimer avec API',
     'capability.view_map' => 'Voir la carte',
+    'api_capabilities' => 'Permissions spécifiques pour l\'API',
 ];

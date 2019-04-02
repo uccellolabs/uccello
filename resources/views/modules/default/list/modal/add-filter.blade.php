@@ -1,7 +1,7 @@
 <div id="addFilterModal" class="modal">
     <div class="modal-content">
         <h4>
-            <i class="material-icons primary-text">filter_list</i>
+            <i class="material-icons left primary-text">filter_list</i>
             {{ uctrans('modal.add_filter.title', $module) }}
         </h4>
 

@@ -2,7 +2,7 @@
     <div class="modal-content">
         <h4>
             {{-- Icon --}}
-            <i class="material-icons primary-text">{{-- Filled dynamicaly --}}</i>
+            <i class="material-icons letf primary-text">{{-- Filled dynamicaly --}}</i>
 
             {{-- Label --}}
             <span>{{-- Filled dynamicaly --}}</span>

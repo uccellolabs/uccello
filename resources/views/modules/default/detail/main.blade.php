@@ -38,17 +38,17 @@
     @include('uccello::modules.default.detail.tabs')
 
     <div class="detail-blocks">
-        @section('default-blocks')
+        @section('default-tabs')
             {{-- Summary --}}
             @if ($widgets->count() > 0)
-            <div role="tabpanel" id="summary" class="tabpanel fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')active @endif" >
+            <div id="summary" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
                 @include('uccello::modules.default.detail.summary')
             </div>
             @endif
 
             {{-- Tabs and blocks --}}
             @foreach ($module->tabs as $i => $tab)
-            <div role="tabpanel" id="{{ $tab->id }}" class="tabpanel fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)active @endif">
+            <div id="{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
                 {{-- Blocks --}}
                 @include('uccello::modules.default.detail.blocks')
 

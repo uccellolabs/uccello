@@ -21,4 +21,5 @@ return [
     'capability.api-update' => 'Update with API',
     'capability.api-delete' => 'Delete with API',
     'capability.view_map' => 'View Map',
+    'api_capabilities' => 'Specific permissions for API',
 ];

@@ -38,6 +38,8 @@
                 @foreach($module->tabs as $tab_i => $tab)
                 <li class="tab col s3"><a @if($tab_i === 0)class="active"@endif href="#tab{{ $tab_i }}">{{ uctrans($tab->label, $module) }}</a></li>
                 @endforeach
+
+                @yield('other-tabs-links')
             </ul>
         </div>
     </div>
@@ -45,6 +47,7 @@
 
     @section('form')
         {!! form_start($form) !!}
+        @section('default-tabs')
         <div class="row">
             @foreach($module->tabs as $tab_i => $tab)
             <div id="#tab{{ $tab_i }}" class="col s12">
@@ -55,7 +58,7 @@
                         <span class="card-title">
                             {{-- Icon --}}
                             @if($block->icon)
-                            <i class="material-icons primary-text">{{ $block->icon }}</i>
+                            <i class="material-icons left primary-text">{{ $block->icon }}</i>
                             @endif
 
                             {{-- Label --}}
@@ -89,6 +92,11 @@
             </div>
             @endforeach
         </div>
+
+        @yield('other-blocks')
+        @show
+
+        @yield('other-tabs')
         {!! form_end($form) !!}
     @show
 </div>

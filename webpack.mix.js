@@ -12,6 +12,7 @@ mix.extract([
 
 mix.js('./resources/assets/js/core/autoloader.js', 'public/js')
     .js('./resources/assets/js/settings/autoloader.js', 'public/js/settings')
+    .js('./resources/assets/js/profile/autoloader.js', 'public/js/profile')
 
 mix.js('./resources/assets/js/app.js', 'public/js')
     .sass('./resources/assets/sass/materialize.scss', 'public/css')

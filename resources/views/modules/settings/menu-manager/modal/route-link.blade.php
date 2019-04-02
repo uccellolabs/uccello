@@ -1,7 +1,7 @@
 <div id="routeLinkModal" class="modal">
     <div class="modal-content">
         <h4>
-            <i class="material-icons primary-text">link</i>
+            <i class="material-icons left primary-text">link</i>
             {{ uctrans('menu.button.add_route_link', $module) }}
         </h4>
 

@@ -1,7 +1,7 @@
 <div id="groupModal" class="modal">
     <div class="modal-content">
         <h4>
-            <i class="material-icons primary-text">filter_list</i>
+            <i class="material-icons left primary-text">filter_list</i>
             {{ uctrans('menu.button.add_group', $module) }}
         </h4>
 

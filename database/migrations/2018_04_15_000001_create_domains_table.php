@@ -19,6 +19,8 @@ class CreateDomainsTable extends Migration
             $table->string('slug');
             $table->text('description')->nullable();
             $table->unsignedInteger('parent_id')->nullable();
+            $table->string('path', 255)->nullable();
+            $table->integer('level')->default(0);
             $table->text('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -26,6 +28,9 @@ class CreateDomainsTable extends Migration
             // Foreign keys
             $table->foreign('parent_id')
                     ->references('id')->on($this->tablePrefix.'domains');
+
+            // Index
+            $table->index(array('path', 'parent_id', 'level'));
         });
     }
 

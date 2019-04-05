@@ -166,10 +166,14 @@ class Uccello
     {
         if (is_a($domain, Domain::class)) {
             $domain = $domain->slug;
+        } else {
+            $domain = $this->getDomain($domain)->slug ?? null;
         }
 
         if (is_a($module, Module::class)) {
             $module = $module->name;
+        } else {
+            $module = $this->getModule($module)->name ?? null;
         }
 
         // Get route uri to check if domain and module parameters are needed
@@ -282,7 +286,7 @@ class Uccello
      */
     public function getRootDomains(): Collection
     {
-        return Domain::whereNull('parent_id')->get();
+        return Domain::getRoots()->get();
     }
 
     /**

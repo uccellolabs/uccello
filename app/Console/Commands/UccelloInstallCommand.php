@@ -147,7 +147,7 @@ class UccelloInstallCommand extends Command
 
         // Loop through the folder
         $dir = dir($source);
-        while (false !== $entry = $dir->read()) {
+        while (false !== $entry = readdir($dir)) {
             // Skip pointers
             if ($entry == '.' || $entry == '..') {
                 continue;
@@ -157,8 +157,6 @@ class UccelloInstallCommand extends Command
             $this->xcopy("$source/$entry", "$dest/$entry", $permissions);
         }
 
-        // Clean up
-        $dir->close();
         return true;
     }
 }

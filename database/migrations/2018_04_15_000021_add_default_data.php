@@ -36,32 +36,32 @@ class AddDefaultData extends Migration
 
     protected function addDefaultDomain()
     {
-        $domain = new Domain();
-        $domain->name = 'Uccello';
-        $domain->description = null;
-        $domain->parent_id = null;
-        $domain->save();
+        Domain::create([
+            'name' => 'Uccello',
+            'description' => null,
+            'parent_id' => null
+        ]);
     }
 
     protected function addDefaultProfile()
     {
-        $profile = new Profile();
-        $profile->name = 'Administration';
-        $profile->description = null;
-        $profile->domain_id = Domain::first()->id;
-        $profile->save();
+        $profile = Profile::create([
+            'name' => 'Administration',
+            'description' => null,
+            'domain_id' => Domain::first()->id
+        ]);
 
         return $profile;
     }
 
     protected function addDefaultRole($profile)
     {
-        $role = new Role();
-        $role->name = 'Administrator';
-        $role->description = null;
-        $role->parent_id = null;
-        $role->domain_id = Domain::first()->id;
-        $role->save();
+        $role = Role::create([
+            'name' => 'Administrator',
+            'description' => null,
+            'parent_id' => null,
+            'domain_id' => Domain::first()->id
+        ]);
 
         $role->profiles()->attach($profile);
     }

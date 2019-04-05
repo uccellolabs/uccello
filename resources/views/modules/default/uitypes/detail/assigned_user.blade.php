@@ -6,7 +6,7 @@
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
     @if ($value)
         <div class="truncate">
-            <a href="{{ ucroute('uccello.detail', $domain, ucmodule('user'), ['id' => $record->{$field->column}]) }}" class="primary-text">{{ $value }}</a>
+            <a href="{{ ucroute('uccello.detail', $domain, 'user', ['id' => $record->{$field->column}]) }}" class="primary-text">{{ $value }}</a>
         </div>
     @else
         &nbsp;

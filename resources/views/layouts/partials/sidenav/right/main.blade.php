@@ -7,7 +7,7 @@
 
         <div class="content">
             <div id="domains-tree">
-                @include('uccello::layouts.partials.sidenav.right.domains.tree', ['domains' => uccello()->getRootDomains()])
+                {!! $domainsTreeHtml !!}
             </div>
         </div>
     </ul>

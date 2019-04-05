@@ -27,6 +27,17 @@ class Profile extends Model
     protected $dates = [ 'deleted_at' ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'domain_id'
+    ];
+
+    /**
      * Searchable rules.
      * See https://github.com/nicolaslopezj/searchable
      *

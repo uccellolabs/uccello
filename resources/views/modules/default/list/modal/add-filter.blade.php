@@ -42,7 +42,7 @@
                     </label>
                 </p>
 
-                {{-- <p>
+                <p>
                     <label>
                         <input type="checkbox" id="add_filter_is_public" />
                         <span>{{ uctrans('modal.add_filter.is_public', $module) }}</span>
@@ -54,7 +54,7 @@
                         <input type="checkbox" id="add_filter_is_default" />
                         <span>{{ uctrans('modal.add_filter.is_default', $module) }}</span>
                     </label>
-                </p> --}}
+                </p>
             </div>
         </div>
     </div>

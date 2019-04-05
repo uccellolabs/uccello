@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.uccello')
 
 @section('page', 'edit')
 
@@ -73,6 +73,7 @@
                         {{-- Fields --}}
                         <div class="row display-flex">
                             {{-- Display all block's fields --}}
+                            <?php $i_col = 0; ?>
                             @foreach ($block->fields as $field)
                                 {{-- Check if the field can be displayed --}}
                                 @continue(($mode === 'edit' && !$field->isEditable()) || ($mode === 'create' && !$field->isCreateable()))
@@ -81,9 +82,24 @@
                                     $uitypeViewName = sprintf('uitypes.edit.%s', $field->uitype->name);
                                     $uitypeFallbackView = 'uccello::modules.default.uitypes.edit.text';
                                     $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+
+                                    // Count columns
+                                    $isLarge = $field->data->large ?? false;
+                                    $i_col += $isLarge ? 2 : 1;
                                 ?>
+                                {{-- Add an empty div if necessary if the next one is large --}}
+                                @if ($isLarge && $i_col % 2 !== 0)
+                                    <?php $i_col++; ?>
+                                    <div class="col s6 hide-on-small-only">&nbsp;</div>
+                                @endif
+
                                 @include($uitypeViewToInclude)
                             @endforeach
+
+                            {{-- Add an empty div if necessary --}}
+                            @if ($i_col % 2 !== 0)
+                                <div class="col s6 hide-on-small-only">&nbsp;</div>
+                            @endif
                         </div>
 
                     </div>

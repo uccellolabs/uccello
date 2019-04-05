@@ -29,8 +29,14 @@
 
                                 // Count columns
                                 $isLarge = $field->data->large ?? false;
-                                $i_col .= $isLarge ? 2 : 1;
+                                $i_col += $isLarge ? 2 : 1;
                             ?>
+                            {{-- Add an empty div if necessary if the next one is large --}}
+                            @if ($isLarge && $i_col % 2 !== 0)
+                                <?php $i_col++; ?>
+                                <div class="col s6 hide-on-small-only">&nbsp;</div>
+                            @endif
+
                             @include($uitypeViewToInclude, ['forceLarge' => false])
                         @endforeach
 

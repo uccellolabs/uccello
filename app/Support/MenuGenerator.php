@@ -187,6 +187,11 @@ class MenuGenerator
 
         //TODO: Check needed capacity
         if ($menuLink->type === 'module' && !is_null($module)) {
+            // Don't display domain module if multi domains is not activated
+            if ($module->name === 'domain' && !env('UCCELLO_MULTI_DOMAINS', true)) {
+                return;
+            }
+
             if (!$module->isActiveOnDomain($this->domain)) {
                 return;
             }
@@ -235,44 +240,41 @@ class MenuGenerator
             $isActive = false;
         }
 
-        $class = '';
-        if (!empty($menuLink->children)) {
-            $class = 'menu-toggle';
-        }
-
-        if ($isActive && $isInSubMenu) {
-            $class .= ' toggled';
-        }
-
-        // Link html
-        $link = Html::raw(
-            '<a href="'.$url.'" class="'.$class.'">'.
-                // (!$isInSubMenu ? '<i class="material-icons">'. $icon .'</i>' : '').
-                // (!$isInSubMenu ? '<span>'. $label .'</span>' : $label).
-                '<i class="material-icons">'.$icon.'</i>'.
-                '<span>'.$label.'</span>'.
-            '</a>'
-        )->setActive($isActive);
-
-
         // Add children
         if (!empty($menuLink->children)) {
 
             // Make a sub menu
-            $subMenu = Menu::new()
-                ->addClass('ml-menu');
+            $subMenu = Menu::new();
 
             // Add all links in the sub menu
             foreach ($menuLink->children as $subMenuLink) {
                 $this->addLink($subMenu, $subMenuLink, true); // Recursive
             }
 
-            // Add sub menu
-            if ($subMenu->count() > 0) {
-                $menu->submenu($link, $subMenu);
-            }
+            $link = Html::raw(
+                '<ul class="collapsible collapsible-accordion">'.
+                    '<li class="submenu">'.
+                        '<a href="'.$url.'" class="collapsible-header waves-effect" tabindex="0">'.
+                            '<i class="material-icons">'.$icon.'</i>'.
+                            '<span>'.$label.'</span>'.
+                        '</a>'.
+                        '<div class="collapsible-body">'.
+                            $subMenu->toHtml().
+                        '</div>'.
+                    '</li>'.
+                '</ul>'
+            );
+
+            $menu->add($link);
 
         } else {
+            $link = Html::raw(
+                '<a href="'.$url.'">'.
+                    '<i class="material-icons">'.$icon.'</i>'.
+                    '<span>'.$label.'</span>'.
+                '</a>'
+            )->setActive($isActive);
+
             // Add link to menu
             $menu->add($link);
         }

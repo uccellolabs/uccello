@@ -37,7 +37,7 @@ class AddDefaultData extends Migration
     protected function addDefaultDomain()
     {
         $domain = new Domain();
-        $domain->name = 'Default';
+        $domain->name = 'Uccello';
         $domain->description = null;
         $domain->parent_id = null;
         $domain->save();

@@ -46,14 +46,14 @@ export class List {
             if ($(`ul#filters-list a[data-name='${filterName}']`).length > 0) {
 
                 swal({
-                    title: uctrans('filter.exists.title'),
-                    text: uctrans('filter.exists.message'),
+                    title: uctrans.trans('default:filter.exists.title'),
+                    text: uctrans.trans('default:filter.exists.message'),
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                     buttons: [
-                        uctrans('button.no'),
-                        uctrans('button.yes')
+                        uctrans.trans('default:button.no'),
+                        uctrans.trans('default:button.yes')
                     ],
                 })
                 .then((response) => {
@@ -80,14 +80,14 @@ export class List {
 
             if(selectedFilterId) {
                 swal({
-                    title: uctrans('dialog.confirm.title'),
-                    text: uctrans('filter.delete.message'),
+                    title: uctrans.trans('default:dialog.confirm.title'),
+                    text: uctrans.trans('default:filter.delete.message'),
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                     buttons: [
-                        uctrans('button.no'),
-                        uctrans('button.yes')
+                        uctrans.trans('default:button.no'),
+                        uctrans.trans('default:button.yes')
                     ],
                 })
                 .then((response) => {
@@ -113,7 +113,7 @@ export class List {
                 extension: $('#export_format', modal).val(),
                 columns: this.getVisibleColumns(table),
                 conditions: this.getSearchConditions(table),
-                order: JSON.parse($(table).attr('data-order')),
+                order: $(table).attr('data-order') ? JSON.parse($(table).attr('data-order')) : null,
                 with_hidden_columns: $('#with_hidden_columns', modal).is(':checked') ? 1 : 0,
                 with_id: $('#export_with_id', modal).is(':checked') ? 1 : 0,
                 with_conditions: $('#export_keep_conditions', modal).is(':checked') ? 1 : 0,
@@ -208,7 +208,7 @@ export class List {
             save_order: $('#add_filter_save_order', modal).is(':checked') ? 1 : 0,
             save_page_length: $('#add_filter_save_page_length', modal).is(':checked') ? 1 : 0,
             columns: this.getVisibleColumns(table),
-            order: JSON.parse($(table).attr('data-order')),
+            order: $(table).attr('data-order') ? JSON.parse($(table).attr('data-order')) : null,
             page_length: $(table).attr('data-length'),
             public: $('#add_filter_is_public', modal).is(':checked') ? 1 : 0,
             default: $('#add_filter_is_default', modal).is(':checked') ? 1 : 0,
@@ -246,7 +246,7 @@ export class List {
                 $('a.delete-filter').parents('li:first').show()
             })
             .fail((error) => {
-                swal(uctrans('dialog.error.title'), error.message, 'error')
+                swal(uctrans.trans('default:dialog.error.title'), error.message, 'error')
             })
     }
 
@@ -270,11 +270,11 @@ export class List {
                     // Refresh list without filter
                     document.location.href = $(table).data('list-url')
                 } else {
-                    swal(uctrans('dialog.error.title'), response.message, 'error')
+                    swal(uctrans.trans('default:dialog.error.title'), response.message, 'error')
                 }
             })
             .fail((error) => {
-                swal(uctrans('dialog.error.title'), error.message, 'error')
+                swal(uctrans.trans('default:dialog.error.title'), error.message, 'error')
             })
     }
 

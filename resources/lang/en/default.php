@@ -33,6 +33,7 @@ return [
     'button.delete_filter' => 'Delete filter',
     'button.action' => 'Actions',
     'button.yes' => 'Yes',
+    'button.no' => 'No',
     'button.cancel' => 'Cancel',
     'button.add_widget' => 'Add widget',
     'button.export' => 'Export',

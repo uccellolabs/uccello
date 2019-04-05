@@ -17,6 +17,8 @@
         "daterangepicker": "^3.0.3",
         "fastclick": "^1.0.6",
         "jquery": "^3.2",
+        "jquery-countto": "^1.2.0",
+        "jstree": "^3.3.7",
         "laravel-mix": "^4.0.15",
         "lodash": "^4.17.5",
         "materialize-css": "^1.0.0",

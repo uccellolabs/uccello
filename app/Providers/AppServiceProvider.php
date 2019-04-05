@@ -61,25 +61,25 @@ class AppServiceProvider extends ServiceProvider
 
     public function register()
     {
-    // Config
-    $this->mergeConfigFrom(
-        __DIR__ . '/../../config/uccello.php',
-        'uccello'
-    );
+        // Config
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/uccello.php',
+            'uccello'
+        );
 
-    // Helper
-    App::bind('uccello', function () {
-        return new \Uccello\Core\Helpers\Uccello;
-    });
+        // Helper
+        App::bind('uccello', function () {
+            return new \Uccello\Core\Helpers\Uccello;
+        });
 
-    // Factories
-    $this->registerEloquentFactoriesFrom(__DIR__.'/../../database/factories');
+        // Factories
+        $this->registerEloquentFactoriesFrom(__DIR__.'/../../database/factories');
     }
 
     /**
      * Register factories.
      *
-     * @param  string  $path
+     * @param string $path
      * @return void
      */
     protected function registerEloquentFactoriesFrom($path)

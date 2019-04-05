@@ -3,7 +3,7 @@
     @if ($widgets->count() > 0)
     <li class="tab">
         <a href="#summary" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
-            <i class="material-icons left">dashboard</i> <span class="hidden-xs">{{ uctrans('tab.summary', $module) }}</span>
+            <i class="material-icons left">dashboard</i> <span class="hide-on-small-only">{{ uctrans('tab.summary', $module) }}</span>
         </a>
     </li>
     @endif
@@ -11,7 +11,7 @@
     @foreach ($module->tabs as $i => $tab)
     <li class="tab">
         <a href="#{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
-            <i class="material-icons left">{{ $tab->icon ?? 'info' }}</i> <span class="hidden-xs">{{ uctrans($tab->label, $module) }}</span>
+            <i class="material-icons left">{{ $tab->icon ?? 'info' }}</i> <span class="hide-on-small-only">{{ uctrans($tab->label, $module) }}</span>
         </a>
     </li>
     @endforeach
@@ -25,7 +25,7 @@
             <i class="material-icons left">{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}</i>
 
             {{-- Label --}}
-            <span class="hidden-xs">{{ uctrans($relatedlist->label, $module) }}</span>
+            <span class="hide-on-small-only">{{ uctrans($relatedlist->label, $module) }}</span>
 
             {{-- Badge --}}
             <?php

@@ -67,11 +67,22 @@
 
                 <td class="actions-column hide-on-small-only hide-on-med-only right-align">
                     @if (Auth::user()->canUpdate($domain, $relatedlist->relatedModule))
-                    <a href="{{ ucroute('uccello.edit', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.edit', $relatedlist->relatedModule) }}" data-position="top" class="edit-btn primary-text"><i class="material-icons">edit</i></a>
+                    <a href="{{ $relatedlist->getEditLink($domain, $record->id) }}"
+                        data-tooltip="{{ uctrans('button.edit', $relatedlist->relatedModule) }}"
+                        data-position="top"
+                        class="edit-btn primary-text">
+                        <i class="material-icons">edit</i>
+                    </a>
                     @endif
 
                     @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
-                    <a href="{{ ucroute('uccello.delete', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $relatedlist->relatedModule) }}" data-position="top" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
+                    <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}"
+                        data-tooltip="{{ uctrans('button.delete', $relatedlist->relatedModule) }}"
+                        data-position="top"
+                        class="delete-btn primary-text"
+                        data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ $relatedlist->type === 'n-n' ? uctrans('button.delete.relation.confirm', $module) : uctrans('button.delete.confirm', $module) }}"}}'>
+                        <i class="material-icons">delete</i>
+                    </a>
                     @endif
                 </td>
             </tr>

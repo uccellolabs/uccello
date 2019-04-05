@@ -63,8 +63,7 @@ Route::name('uccello.')->group(function() {
 
     Route::get($domainAndModuleParams, 'Core\IndexController@process')->name('index');
     Route::get($domainAndModuleParams.'/list', 'Core\ListController@process')->name('list');
-    Route::post($domainAndModuleParams.'/list/content', 'Core\ListController@getContent')->name('list.content');
-    Route::post($domainAndModuleParams.'/list/datatable', 'Core\ListController@processForDatatable')->name('datatable');
+    Route::post($domainAndModuleParams.'/list/content', 'Core\ListController@processForContent')->name('list.content');
     Route::post($domainAndModuleParams.'/list/autocomplete', 'Core\ListController@processForAutocomplete')->name('autocomplete');
     Route::post($domainAndModuleParams.'/list/filter', 'Core\ListController@saveFilter')->name('list.filter.save');
     Route::post($domainAndModuleParams.'/export', 'Core\ExportController@process')->name('export');

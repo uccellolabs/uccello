@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.uccello')
 
 @section('page', 'detail')
 

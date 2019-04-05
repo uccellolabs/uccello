@@ -90,7 +90,7 @@ export class Detail {
         .then((response) => {
             // Display an alert if an error occured
             if (response.success === false) {
-                swal(uctrans('dialog.error.title'), response.message, 'error')
+                swal(uctrans.trans('default:dialog.error.title'), response.message, 'error')
             }
             else {
                 // Refresh relatedlist datatable

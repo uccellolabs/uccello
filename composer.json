@@ -11,7 +11,7 @@
         "admin",
         "panel"
     ],
-    "homepage": "https://github.com/uccello-io/uccello",
+    "homepage": "https://github.com/uccellolabs/uccello",
     "license": "MIT",
     "authors": [
         {
@@ -29,7 +29,6 @@
         "cviebrock/eloquent-sluggable": "^4.5",
         "doctrine/dbal": "^2.7",
         "kris/laravel-form-builder": "^1.14",
-        "lord/laroute": "2.*",
         "maatwebsite/excel": "^3.1",
         "mpdf/mpdf": "^7.1",
         "nicolaslopezj/searchable": "1.*",

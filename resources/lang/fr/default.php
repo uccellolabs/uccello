@@ -33,6 +33,7 @@ return [
     'button.delete_filter' => 'Supprimer le filtre',
     'button.action' => 'Actions',
     'button.yes' => 'Oui',
+    'button.no' => 'Non',
     'button.cancel' => 'Annuler',
     'button.add_widget' => 'Ajouter widget',
     'button.export' => 'Exporter',
@@ -51,7 +52,7 @@ return [
     // Filter
     'filter.all' => 'Tous',
     'filter.show_n_records' => ':number lignes',
-    'filter.delete.message' => 'Voulez-vous supprimer ce filtre ?',
+    'filter.delete.message' => 'Supprimer ce filtre ?',
     'filter.exists.title' => 'Un filtre du même nom existe déjà',
     'filter.exists.message' => 'Voulez-vous le mettre à jour ?',
 
@@ -79,8 +80,8 @@ return [
 
     // Confirm
     'dialog.confirm.title' => 'Êtes-vous sûr?',
-    'button.delete.confirm' => 'Voulez-vous supprimer cet enregistrement ?',
-    'button.delete.relation.confirm' => 'Voulez-vous supprimer cette relation ?',
+    'button.delete.confirm' => 'Supprimer cet enregistrement ?',
+    'button.delete.relation.confirm' => 'Supprimer cette relation ?',
 
     // Notification
     'notification.record.created' => 'L\'enregistrement a bien été créé.',

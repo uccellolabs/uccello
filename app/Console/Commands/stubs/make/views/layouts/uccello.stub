@@ -16,9 +16,6 @@
 @section('app-script')
     {{-- Put your global JS files here --}}
 
-    {{-- Laroute --}}
-    {!! Html::script('js/laroute.js') !!}
-
     {{-- Uncomment below to load js/app.js with Mix --}}
     {{-- {!! Html::script(mix('js/app.js')) !!} --}}
 @endsection

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.uccello')
 
 @section('page', 'list')
 
@@ -15,8 +15,9 @@
         {{-- Columns visibility --}}
         @section('columns-visibility-button')
         <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-columns" data-close-on-click="false" data-constrain-width="false" data-alignment="right">
-            {!! uctrans('button.columns', $module) !!}
-            <i class="material-icons right">arrow_drop_down</i>
+            <span class="hide-on-small-only">{!! uctrans('button.columns', $module) !!}</span>
+            <i class="material-icons hide-on-med-and-up">view_column</i>
+            <i class="material-icons hide-on-med-and-down right">arrow_drop_down</i>
         </a>
         <ul id="dropdown-columns" class="dropdown-content columns" data-table="datatable">
             @foreach ($datatableColumns as $column)
@@ -30,9 +31,10 @@
 
         {{-- Records number --}}
         @section('records-button')
-        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-records-number" data-alignment="right">
-            {!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}
-            <i class="material-icons right">arrow_drop_down</i>
+        <a href="#" class="btn-small waves-effect primary dropdown-trigger " data-target="dropdown-records-number" data-alignment="right">
+            <span class="hide-on-med-and-down">{!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}</span>
+            <strong class="records-number hide-on-large-only">{{ $selectedFilter->data->length ?? 15 }}</strong>
+            <i class="material-icons hide-on-med-and-down right">arrow_drop_down</i>
         </a>
         <ul id="dropdown-records-number" class="dropdown-content records-number" data-table="datatable">
             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="15">15</a></li>
@@ -72,7 +74,10 @@
                             <thead>
                                 @section('datatable-columns-header')
                                 <tr>
-                                    <th class="select-column">&nbsp;</th>
+                                    <th class="select-column">
+                                        <br>
+                                        <i class="material-icons">search</i>
+                                    </th>
 
                                     @foreach ($datatableColumns as $column)
                                     <th class="sortable" data-field="{{ $column['name'] }}" data-column="{{ $column['db_column'] }}" @if(!$column['visible'])style="display: none"@endif>
@@ -105,7 +110,8 @@
                                     @endforeach
 
                                     <th class="actions-column hide-on-small-only hide-on-med-only right-align">
-                                        <a href="javascript:void(0)" class="clear-search red-text" data-tooltip="{{ uctrans('button.clear_search', $module) }}" data-position="top" style="display: none">
+                                        <br>
+                                        <a href="javascript:void(0)" class="btn-floating btn-small waves-effect red clear-search" data-tooltip="{{ uctrans('button.clear_search', $module) }}" data-position="top" style="display: none">
                                             <i class="material-icons">close</i>
                                         </a>
                                     </th>

@@ -115,10 +115,10 @@ class Uccello
     public function view(string $package, Module $module, string $viewName, ?string $fallbackView = null): ?string
     {
         // Module view overrided in app
-        $appModuleView = 'modules.'.$module->name.'.'.$viewName;
+        $appModuleView = 'uccello.modules.'.$module->name.'.'.$viewName;
 
         // Default view overrided in app
-        $appDefaultView = 'modules.default.'.$viewName;
+        $appDefaultView = 'uccello.modules.default.'.$viewName;
 
         // Module view ovverrided in package
         $packageModuleView = $package.'::modules.'.$module->name.'.'.$viewName;

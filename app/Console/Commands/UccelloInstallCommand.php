@@ -37,7 +37,7 @@ class UccelloInstallCommand extends Command
         // 'errors/403.stub' => 'errors/403.blade.php',
         // 'errors/404.stub' => 'errors/404.blade.php',
         // 'errors/500.stub' => 'errors/500.blade.php',
-        'layouts/app.stub' => 'layouts/app.blade.php',
+        'layouts/uccello.stub' => 'layouts/uccello.blade.php',
     ];
 
     /**
@@ -58,7 +58,7 @@ class UccelloInstallCommand extends Command
     public function handle()
     {
         $this->info('Execute make:auth');
-        $this->call('make:auth', [ '--force' => true, '--views' => $this->option('views') ]);
+        $this->call('make:auth', [ '--views' => $this->option('views') ]);
 
         $this->info('Start Uccello scaffolding');
 
@@ -82,12 +82,6 @@ class UccelloInstallCommand extends Command
                 resource_path('views/'.$value)
             );
         }
-
-        // $this->info('Copying Uitype Selector...');
-        // copy(
-        //     __DIR__.'/stubs/make/assets/js/uitype-selector.stub',
-        //     resource_path('assets/js/uitype-selector.js')
-        // );
 
         $this->info('Publishing assets...');
         Artisan::call('vendor:publish', [

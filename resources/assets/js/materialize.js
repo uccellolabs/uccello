@@ -18,9 +18,9 @@ var FastClick = require('fastclick')
 FastClick.attach(document.body)
 
 // Init components
-$('.sidenav').sidenav()
+$('#sidenav-menu').sidenav()
 
-$('.sidenav-right').sidenav({
+$('#sidenav-domains').sidenav({
     edge: 'right'
 })
 
@@ -46,4 +46,6 @@ $('[data-tooltip]').tooltip({
     transitionMovement: 0,
 })
 
-$('.modal').modal();
+$('.modal').modal()
+
+$('.collapsible').collapsible()

@@ -7,16 +7,22 @@ import I18n from './I18n'
 import 'sweetalert'
 import 'daterangepicker'
 import 'nestable2'
+import 'jquery-countto'
+import 'jstree/src/jstree.search.js'
+import 'jstree/src/jstree.sort.js'
 // import 'bootstrap-colorpicker'
 
 
 class UccelloApp {
     constructor() {
         this.initGlobal()
+        this.autoOpenMenu()
         this.initTranslation()
         this.initScrollSpy()
         this.initDateRangePicker()
         // this.initColorPicker()
+        this.initCountTo()
+        this.initJsTree()
     }
 
     initGlobal() {
@@ -53,7 +59,7 @@ class UccelloApp {
             $(this).change()
         })
         .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM-DD') + ', ' + picker.endDate.format('YYYY-MM-DD'));
+            $(this).val(picker.startDate.format('YYYY-MM-DD') + ', ' + picker.endDate.format('YYYY-MM-DD'))
         })
         .on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('').change()
@@ -73,7 +79,7 @@ class UccelloApp {
             $(this).change()
         })
         .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm') + ', ' + picker.endDate.format('YYYY-MM-DD HH:mm'));
+            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm') + ', ' + picker.endDate.format('YYYY-MM-DD HH:mm'))
         })
         .on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('').change()
@@ -209,8 +215,55 @@ class UccelloApp {
         }).on('changeColor', function (e) {
             let rbga = e.color.toRGB()
             $(e.currentTarget).parents('.input-field').find('.input-group-addon i')
-                .css('color', `rgba(${rbga.r},${rbga.g},${rbga.b},${rbga.a})`);
+                .css('color', `rgba(${rbga.r},${rbga.g},${rbga.b},${rbga.a})`)
         })
+    }
+
+    initCountTo() {
+        $('.count-to').countTo()
+    }
+
+    initJsTree() {
+        // Domains tree
+        let domainsTree = $('#domains-tree')
+        domainsTree.jstree({
+            "core" : {
+                "themes" : {
+                    "icons": false
+                }
+            },
+            "plugins" : ['search', 'sort']
+        })
+
+        // Open tree automatically
+        .on('ready.jstree', () => {
+            domainsTree.jstree('open_all')
+        })
+
+        // Switch on domain on click
+        .on('changed.jstree', (e, data) => {
+            if (data.node.a_attr.href !== '#') {
+                document.location.href = data.node.a_attr.href
+            }
+        })
+
+        let to = false
+        $('.domain-search-bar #domain-name').keyup(() => {
+            if(to) {
+                clearTimeout(to)
+            }
+
+            to = setTimeout(() => {
+                let v = $('#domain-name').val()
+                domainsTree.jstree(true).search(v)
+            }, 250)
+        })
+    }
+
+    autoOpenMenu() {
+        let collapsible = $('.sidenav ul.collapsible ul li.active').parents('ul.collapsible:first')
+        collapsible.collapsible('open')
+        collapsible.find('li:first').addClass('active')
     }
 }
 

@@ -6,7 +6,7 @@
             <span class="breadcrumb">
                 <a class="btn-flat" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">
                     <i class="material-icons left">settings</i>
-                    <span>{{ uctrans('breadcrumb.admin', $module) }}</span>
+                    <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
                 </a>
             </span>
             @endif
@@ -15,7 +15,7 @@
             <span class="breadcrumb">
                 <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
                     <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
-                    <span>{{ uctrans($module->name, $module) }}</span>
+                    <span class="hide-on-small-only">{{ uctrans($module->name, $module) }}</span>
                 </a>
             </span>
 
@@ -33,7 +33,7 @@
             </span>
 
             {{-- Filters management --}}
-            <a class="dropdown-trigger btn-floating btn-small waves-effect green z-depth-0" href="#" data-target="filters-management" data-constrain-width="false"  data-position="top" data-tooltip="{{ uctrans('button.manage_filters', $module) }}">
+            <a class="dropdown-trigger btn-floating btn-small waves-effect green z-depth-0 hide-on-small-only" href="#" data-target="filters-management" data-constrain-width="false"  data-position="top" data-tooltip="{{ uctrans('button.manage_filters', $module) }}">
                 <i class="material-icons">filter_list</i>
             </a>
             <ul id="filters-management" class="dropdown-content">
@@ -53,7 +53,7 @@
             </ul>
 
             {{-- Export --}}
-            <a href="#exportModal" class="btn-floating btn-small waves-effect primary z-depth-0 modal-trigger" data-position="top" data-tooltip="{{ uctrans('button.export', $module) }}">
+            <a href="#exportModal" class="btn-floating btn-small waves-effect primary z-depth-0 modal-trigger hide-on-small-only" data-position="top" data-tooltip="{{ uctrans('button.export', $module) }}">
                 <i class="material-icons">cloud_download</i>
             </a>
         </div>

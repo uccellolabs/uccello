@@ -13,7 +13,7 @@ export class ModuleManager {
                 src_module: $(element).data('module'),
                 active: $(element).is(':checked') === true ? '1' : '0'
             }).fail((error) => {
-                swal(uctrans.trans('default:dialog.error.title'), uctrans.trans('settings:error.save'), 'error')
+                swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('settings:error.save'), 'error')
             })
         })
     }

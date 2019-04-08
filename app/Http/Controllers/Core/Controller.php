@@ -219,7 +219,11 @@ abstract class Controller extends BaseController
                 'ul',
                 function ($node) {
                     if (auth()->user()->hasRoleOnDomain($node)) {
-                        return '<li><a href="'.ucroute('uccello.home', $node).'">'.$node->name.'</a>{sub-tree}</li>';
+                        $currentClass = '';
+                        if ($node->id === $this->domain->id) {
+                            $currentClass = 'class="green-text"';
+                        }
+                        return '<li><a href="'.ucroute('uccello.home', $node).'" '.$currentClass.'>'.$node->name.'</a>{sub-tree}</li>';
                     }
                     elseif (auth()->user()->hasRoleOnDescendantDomain($node)) {
                         return '<li>'.$node->name.'{sub-tree}</li>';

@@ -18,10 +18,22 @@ var FastClick = require('fastclick')
 FastClick.attach(document.body)
 
 // Init components
-$('#sidenav-menu').sidenav()
+$('#sidenav-menu').sidenav({
+    edge: 'left',
+    onOpenStart: () => {
+        if ($(document).width() < 993) {
+            $('#sidenav-domains').sidenav('close')
+        }
+    }
+})
 
 $('#sidenav-domains').sidenav({
-    edge: 'right'
+    edge: 'right',
+    onOpenStart: () => {
+        if ($(document).width() < 993) {
+            $('#sidenav-menu').sidenav('close')
+        }
+    }
 })
 
 $('.dropdown-trigger').each((index, el) => {

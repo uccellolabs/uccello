@@ -51,8 +51,8 @@
 @section('content')
     @yield('before-datatable-card')
 
-    <div class="row clearfix">
-        <div class="col s12" style="min-height: 600px">
+    <div class="row">
+        <div class="col s12">
             <div class="card">
                 <div class="card-content p-t-0">
                     @yield('before-datatable-table')
@@ -61,7 +61,7 @@
                         @section('datatable-table')
                         <table
                             id="datatable"
-                            class="striped highlight responsive-table"
+                            class="striped highlight"
                             data-filter-type="list"
                             data-filter-id="{{ $selectedFilter->id ?? '' }}"
                             data-list-url="{{ ucroute('uccello.list', $domain, $module) }}"
@@ -74,7 +74,7 @@
                             <thead>
                                 @section('datatable-columns-header')
                                 <tr>
-                                    <th class="select-column">
+                                    <th class="select-column hide-on-small-only">
                                         <br>
                                         <i class="material-icons">search</i>
                                     </th>
@@ -130,7 +130,7 @@
                                 {{-- Row template used by the query --}}
                                 @section('datatable-row-template')
                                 <tr class="template hide" data-row-url="{{ ucroute('uccello.detail', $domain, $module, ['id' => 'RECORD_ID']) }}">
-                                    <td class="select-column">&nbsp;</td>
+                                    <td class="select-column hide-on-small-only">&nbsp;</td>
 
                                     @foreach ($datatableColumns as $column)
                                     <td data-field="{{ $column['name'] }}">&nbsp;</td>

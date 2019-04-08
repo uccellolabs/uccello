@@ -16,6 +16,7 @@ import 'jstree/src/jstree.sort.js'
 class UccelloApp {
     constructor() {
         this.initGlobal()
+        this.initContentHeight()
         this.autoOpenMenu()
         this.initTranslation()
         this.initScrollSpy()
@@ -29,17 +30,28 @@ class UccelloApp {
         new Global()
     }
 
+    initContentHeight() {
+        $('main .content:first').css('min-height', $(document).height() - $('.navbar-header').height() - $('.navbar-top').height())
+    }
+
     initTranslation() {
         window.I18n = I18n
-        window.uctrans = new I18n('uctranslations', ':')
+        window.uctrans = new I18n('uctranslations')
     }
 
     initScrollSpy() {
-        $(window).scroll(function(event) {
-            if ($(this).scrollTop() > 20) {
+        let that = this
+
+        if (that.isMobileSize()) {
+            $('.navbar-top nav').removeClass('transparent').removeClass('z-depth-0')
+            $('.breadcrumb-container').addClass('z-depth-0')
+        }
+
+        $(window).scroll(function() {
+            if (!that.isMobileSize() && $(this).scrollTop() > 20) {
                 $('.navbar-top nav').removeClass('transparent').removeClass('z-depth-0')
                 $('.breadcrumb-container').addClass('z-depth-0')
-            } else {
+            } else if (!that.isMobileSize()) {
                 $('.navbar-top nav').addClass('transparent').addClass('z-depth-0')
                 $('.breadcrumb-container').removeClass('z-depth-0')
             }
@@ -162,36 +174,36 @@ class UccelloApp {
 
     getDaterangePickerLocale() {
         return {
-            format: uctrans.trans('default:calendar.format'),
-            separator: uctrans.trans('default:calendar.separator'),
-            applyLabel: uctrans.trans('default:calendar.apply'),
-            cancelLabel: uctrans.trans('default:calendar.cancel'),
-            fromLabel: uctrans.trans('default:calendar.from'),
-            toLabel: uctrans.trans('default:calendar.to'),
-            customRangeLabel: uctrans.trans('default:calendar.custom'),
-            weekLabel: uctrans.trans('default:calendar.week'),
+            format: uctrans.trans('uccello::default.calendar.format'),
+            separator: uctrans.trans('uccello::default.calendar.separator'),
+            applyLabel: uctrans.trans('uccello::default.calendar.apply'),
+            cancelLabel: uctrans.trans('uccello::default.calendar.cancel'),
+            fromLabel: uctrans.trans('uccello::default.calendar.from'),
+            toLabel: uctrans.trans('uccello::default.calendar.to'),
+            customRangeLabel: uctrans.trans('uccello::default.calendar.custom'),
+            weekLabel: uctrans.trans('uccello::default.calendar.week'),
             daysOfWeek: [
-                uctrans.trans('default:calendar.day.su'),
-                uctrans.trans('default:calendar.day.mo'),
-                uctrans.trans('default:calendar.day.tu'),
-                uctrans.trans('default:calendar.day.we'),
-                uctrans.trans('default:calendar.day.th'),
-                uctrans.trans('default:calendar.day.fr'),
-                uctrans.trans('default:calendar.day.sa'),
+                uctrans.trans('uccello::default.calendar.day.su'),
+                uctrans.trans('uccello::default.calendar.day.mo'),
+                uctrans.trans('uccello::default.calendar.day.tu'),
+                uctrans.trans('uccello::default.calendar.day.we'),
+                uctrans.trans('uccello::default.calendar.day.th'),
+                uctrans.trans('uccello::default.calendar.day.fr'),
+                uctrans.trans('uccello::default.calendar.day.sa'),
             ],
             monthNames: [
-                uctrans.trans('default:calendar.month.january'),
-                uctrans.trans('default:calendar.month.february'),
-                uctrans.trans('default:calendar.month.march'),
-                uctrans.trans('default:calendar.month.april'),
-                uctrans.trans('default:calendar.month.may'),
-                uctrans.trans('default:calendar.month.june'),
-                uctrans.trans('default:calendar.month.july'),
-                uctrans.trans('default:calendar.month.august'),
-                uctrans.trans('default:calendar.month.september'),
-                uctrans.trans('default:calendar.month.october'),
-                uctrans.trans('default:calendar.month.november'),
-                uctrans.trans('default:calendar.month.december'),
+                uctrans.trans('uccello::default.calendar.month.january'),
+                uctrans.trans('uccello::default.calendar.month.february'),
+                uctrans.trans('uccello::default.calendar.month.march'),
+                uctrans.trans('uccello::default.calendar.month.april'),
+                uctrans.trans('uccello::default.calendar.month.may'),
+                uctrans.trans('uccello::default.calendar.month.june'),
+                uctrans.trans('uccello::default.calendar.month.july'),
+                uctrans.trans('uccello::default.calendar.month.august'),
+                uctrans.trans('uccello::default.calendar.month.september'),
+                uctrans.trans('uccello::default.calendar.month.october'),
+                uctrans.trans('uccello::default.calendar.month.november'),
+                uctrans.trans('uccello::default.calendar.month.december'),
             ],
             firstDay: 1,
         }
@@ -264,6 +276,10 @@ class UccelloApp {
         let collapsible = $('.sidenav ul.collapsible ul li.active').parents('ul.collapsible:first')
         collapsible.collapsible('open')
         collapsible.find('li:first').addClass('active')
+    }
+
+    isMobileSize() {
+        return $(document).width() < 601;
     }
 }
 

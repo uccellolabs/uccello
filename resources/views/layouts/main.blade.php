@@ -61,7 +61,7 @@
         @include('uccello::layouts.partials.notifications.main')
 
         {{-- Translations --}}
-        @translations('uctranslations', 'vendor/uccello/uccello/resources/lang', 'uccello')
+        @translations('uctranslations')
         @yield('translations')
 
         @section('uccello-script')

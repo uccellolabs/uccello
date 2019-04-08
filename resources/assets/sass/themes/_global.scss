@@ -309,17 +309,34 @@ body.theme-#{$theme} {
                 line-height: 36px;
             }
         }
+
+        .content {
+            padding: 15px;
+        }
     }
 
     @media only screen and (max-width: 601px) {
         .navbar-fixed {
             &.navbar-top {
                 nav {
+                    line-height: 39px;
+
                     .breadcrumb-container {
                         width: 100%;
                     }
                 }
             }
+        }
+
+        .content {
+            padding: 15px 0;
+
+            // > .row {
+            //     > .col.s12 {
+            //         padding-left: 0;
+            //         padding-right: 0;
+            //     }
+            // }
         }
     }
 
@@ -334,10 +351,6 @@ body.theme-#{$theme} {
 
     .spinner-primary, .spinner-primary-only {
         border-color: $primaryColor;
-    }
-
-    .content {
-        padding: 15px;
     }
 
     table {

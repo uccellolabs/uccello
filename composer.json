@@ -33,11 +33,10 @@
         "mpdf/mpdf": "^7.1",
         "nicolaslopezj/searchable": "1.*",
         "spatie/laravel-menu": "^3.2",
-        "thepinecode/i18n": "^0.4",
+        "thepinecode/i18n": "^0.5",
         "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.1",
         "laravel/dusk": "^3.0",
         "orchestra/testbench": "^3.7",
         "phpunit/phpunit": "^7.1",
@@ -88,5 +87,8 @@
         "optimize-autoloader": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "suggest": {
+        "laravel/telescope": "Laravel Telescope is an elegant debug assistant for the Laravel framework."
+    }
 }

@@ -24,7 +24,7 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <table id="permissions-table" class="striped highlight responsive-table">
+                        <table id="permissions-table" class="striped highlight">
                             <thead>
                                 <tr>
                                     <th>

@@ -9,14 +9,14 @@
                 </li>
             </ul>
 
-            <a class="brand-logo" href="/" style="padding: 7px">{{ Html::image(ucasset('images/logo-uccello-white.png'), null, ['style' => 'width: 150px']) }}</a>
+            <a class="brand-logo" href="/" style="padding: 7px; max-height: 50px">{{ Html::image(ucasset('images/logo-uccello-white.png'), null, ['style' => 'max-width: 150px;']) }}</a>
 
             {{-- Display current domain name and a link to open domains list --}}
             @if (uccello()->useMultiDomains() && isset($domain))
             <ul class="right">
                 <li>
                     <a href="#" class="sidenav-trigger show-on-large" data-target="sidenav-domains" style="margin-right: 0">
-                        {{ $domain->name }}
+                        <span class="hide-on-small-only">{{ $domain->name }}</span>
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
@@ -33,7 +33,7 @@
             <div class="col s12 m8 l6">
                 @section('breadcrumb')&nbsp;@show
             </div>
-            <div class="col s12 m4 l6">
+            <div class="col s12 m4 l6 hide-on-small-only">
                 @section('top-action-buttons')&nbsp;@show
             </div>
         </div>

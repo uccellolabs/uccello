@@ -109,9 +109,9 @@ export class Link {
             // Display dialog displaying success or error
             else {
                 if (response.success === false) {
-                    swal(uctrans.trans('default:dialog.error.title'), response.message, "error")
+                    swal(uctrans.trans('uccello::default.dialog.error.title'), response.message, "error")
                 } else {
-                    swal(uctrans.trans('default:dialog.success.title'), response.message, "success")
+                    swal(uctrans.trans('uccello::default.dialog.success.title'), response.message, "success")
 
                     // Reload page if needed
                     if (ajaxConfig.refresh === true) {
@@ -122,7 +122,7 @@ export class Link {
         })
         // Impossible to reach the URL. Display error
         .catch((error) => {
-            swal(uctrans.trans('default:dialog.error.title'), error.message, "error")
+            swal(uctrans.trans('uccello::default.dialog.error.title'), error.message, "error")
         })
     }
 
@@ -142,8 +142,8 @@ export class Link {
         }
 
         // Default config
-        if (!title) { title = uctrans.trans('default:dialog.confirm.title') }
-        if (!confirmButtonText) { confirmButtonText = uctrans.trans('default:button.yes') }
+        if (!title) { title = uctrans.trans('uccello::default.dialog.confirm.title') }
+        if (!confirmButtonText) { confirmButtonText = uctrans.trans('uccello::default.button.yes') }
         if (!confirmButtonColor) { confirmButtonColor = '#DD6B55' }
         if (!closeOnConfirm) { closeOnConfirm = true }
 
@@ -164,14 +164,14 @@ export class Link {
             icon: "warning",
             buttons: {
                 cancel: {
-                  text: uctrans.trans('default:button.no'),
+                  text: uctrans.trans('uccello::default.button.no'),
                   value: null,
                   visible: true,
                 },
                 confirm: {
                   text: confirmButtonText,
                   value: true,
-                  className: "green",
+                  className: "red",
                   closeModal: closeOnConfirm
                 }
             }

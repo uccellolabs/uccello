@@ -46,14 +46,14 @@ export class List {
             if ($(`ul#filters-list a[data-name='${filterName}']`).length > 0) {
 
                 swal({
-                    title: uctrans.trans('default:filter.exists.title'),
-                    text: uctrans.trans('default:filter.exists.message'),
+                    title: uctrans.trans('uccello::default.filter.exists.title'),
+                    text: uctrans.trans('uccello::default.filter.exists.message'),
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                     buttons: [
-                        uctrans.trans('default:button.no'),
-                        uctrans.trans('default:button.yes')
+                        uctrans.trans('uccello::default.button.no'),
+                        uctrans.trans('uccello::default.button.yes')
                     ],
                 })
                 .then((response) => {
@@ -80,14 +80,14 @@ export class List {
 
             if(selectedFilterId) {
                 swal({
-                    title: uctrans.trans('default:dialog.confirm.title'),
-                    text: uctrans.trans('default:filter.delete.message'),
+                    title: uctrans.trans('uccello::default.dialog.confirm.title'),
+                    text: uctrans.trans('uccello::default.filter.delete.message'),
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
                     buttons: [
-                        uctrans.trans('default:button.no'),
-                        uctrans.trans('default:button.yes')
+                        uctrans.trans('uccello::default.button.no'),
+                        uctrans.trans('uccello::default.button.yes')
                     ],
                 })
                 .then((response) => {
@@ -246,7 +246,7 @@ export class List {
                 $('a.delete-filter').parents('li:first').show()
             })
             .fail((error) => {
-                swal(uctrans.trans('default:dialog.error.title'), error.message, 'error')
+                swal(uctrans.trans('uccello::default.dialog.error.title'), error.message, 'error')
             })
     }
 
@@ -270,11 +270,11 @@ export class List {
                     // Refresh list without filter
                     document.location.href = $(table).data('list-url')
                 } else {
-                    swal(uctrans.trans('default:dialog.error.title'), response.message, 'error')
+                    swal(uctrans.trans('uccello::default.dialog.error.title'), response.message, 'error')
                 }
             })
             .fail((error) => {
-                swal(uctrans.trans('default:dialog.error.title'), error.message, 'error')
+                swal(uctrans.trans('uccello::default.dialog.error.title'), error.message, 'error')
             })
     }
 

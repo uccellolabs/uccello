@@ -11,7 +11,7 @@
                 <span class="breadcrumb">
                     <a class="btn-flat" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">
                         <i class="material-icons left">settings</i>
-                        <span>{{ uctrans('breadcrumb.admin', $module) }}</span>
+                        <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
                     </a>
                 </span>
                 @endif
@@ -20,7 +20,7 @@
                 <span class="breadcrumb">
                     <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
                         <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
-                        <span>{{ uctrans($module->name, $module) }}</span>
+                        <span class="hide-on-small-only">{{ uctrans($module->name, $module) }}</span>
                     </a>
                 </span>
                 @if ($record->getKey())<a class="breadcrumb" href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]) }}">{{ $record->recordLabel ?? $record->getKey() }}</a>@endif

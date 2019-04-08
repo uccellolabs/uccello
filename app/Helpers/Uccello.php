@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Models\Permission;
 use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;

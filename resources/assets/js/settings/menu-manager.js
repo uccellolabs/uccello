@@ -325,8 +325,8 @@ export class MenuManager {
                 buttons: true,
                     dangerMode: true,
                     buttons: [
-                        uctrans.trans('default:no'),
-                        uctrans.trans('default:yes')
+                        uctrans.trans('uccello::default.no'),
+                        uctrans.trans('uccello::default.yes')
                     ],
             }).then((response) => {
                 if (response !== true) {

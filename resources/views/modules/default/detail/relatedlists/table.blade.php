@@ -1,7 +1,7 @@
 <div>
     <table
         id="{{ $datatableId }}"
-        class="striped highlight responsive-table"
+        class="striped highlight"
         data-filter-type="related-list"
         data-relatedlist="{{ $relatedlist->id }}"
         data-filter-id=""

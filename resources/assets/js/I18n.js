@@ -4,13 +4,11 @@ export default class I18n
      * Initialize a new translation instance.
      *
      * @param  {string}  key
-     * @param  {string}  separator
      * @return {void}
      */
-    constructor(key = 'translations', separator = '.')
+    constructor(key = 'translations')
     {
         this.key = key;
-        this.separator = separator;
     }
 
     /**
@@ -91,11 +89,11 @@ export default class I18n
                 );
         }
 
-        return translation.trim();
+        return translation;
     }
 
     /**
-     * The extract helper.
+     * Extract values from objects by dot notation.
      *
      * @param  {string}  key
      * @param  {mixed}  value
@@ -103,6 +101,17 @@ export default class I18n
      */
     _extract(key, value = null)
     {
-        return key.toString().split(this.separator).reduce((t, i) => t[i] || (value || key), window[this.key]);
+        let path = key.toString().split('::');
+        let keys = path.pop().toString().split(/\.(.+)/) // we use this split pattern to be able to use . in locale strings
+
+        if (keys.length > 2) {
+            keys = [keys[0], keys[1]]
+        }
+
+        if (path.length > 0) {
+            path[0] += '::';
+        }
+
+        return path.concat(keys).reduce((t, i) => t[i] || (value || key), window[this.key]);
     }
 }

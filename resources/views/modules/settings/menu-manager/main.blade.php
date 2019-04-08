@@ -15,7 +15,7 @@
                 <span class="breadcrumb">
                     <a class="btn-flat" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">
                         <i class="material-icons left">settings</i>
-                        <span>{{ uctrans('breadcrumb.admin', $module) }}</span>
+                        <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
                     </a>
                 </span>
                 <span class="breadcrumb active">{{ uctrans('menu.manager', $module) }}</span>

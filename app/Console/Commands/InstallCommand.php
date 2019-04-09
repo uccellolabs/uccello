@@ -54,8 +54,8 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        // $this->comment('Publishing Uccello Service Provider...');
-        // $this->callSilent('vendor:publish', ['--tag' => 'uccello-provider']);
+        $this->comment('Executing make:auth...');
+        $this->callSilent('make:auth', ['--force' => true]);
 
         $this->comment('Publishing Uccello Assets...');
         $this->callSilent('vendor:publish', ['--tag' => 'uccello-assets']);
@@ -83,9 +83,6 @@ class InstallCommand extends Command
                 resource_path('views/'.$value)
             );
         }
-
-        $this->comment('Executing make:auth...');
-        $this->callSilent('make:auth', ['--force' => true]);
 
         $this->registerJWT();
     }

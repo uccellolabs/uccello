@@ -172,7 +172,7 @@ class EditController extends Controller
         } else {
             $response = [
                 'success' => false,
-                'message' => uctrans('error.mandatory.fields', $module)
+                'message' => uctrans('error.field.mandatory', $module)
             ];
         }
 

@@ -18,7 +18,7 @@
                         <option value="html">{{ uctrans('modal.export.format.html', $module) }}</option>
                         <option value="pdf">{{ uctrans('modal.export.format.pdf', $module) }}</option>
                     </select>
-                    <label>{{ uctrans('modal.export.format', $module) }}</label>
+                    <label>{{ uctrans('modal.export.format_label', $module) }}</label>
                 </div>
 
                 <p>

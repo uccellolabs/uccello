@@ -12,7 +12,7 @@
                         <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
                     </a>
                 </span>
-                <span class="breadcrumb active">{{ uctrans('dashboard', $module) }}</span>
+                <span class="breadcrumb active">{{ uctrans('breadcrumb.dashboard', $module) }}</span>
             </div>
         </div>
     </div>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="card-stacked">
                     <div class="card-content">
-                        <div class="text uppercase truncate">{{ uctrans('modules.count', $module)}}</div>
+                        <div class="text uppercase truncate">{{ uctrans('stats.modules', $module)}}</div>
                         <div class="number count-to" data-from="0" data-to="{{ $count['modules'] }}" data-speed="1000" data-fresh-interval="20">{{ $count['modules'] }}</div>
                     </div>
                 </div>

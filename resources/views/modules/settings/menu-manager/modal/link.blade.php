@@ -2,7 +2,7 @@
     <div class="modal-content">
         <h4>
             <i class="material-icons left primary-text">link</i>
-            {{ uctrans('menu.button.add_link', $module) }}
+            {{ uctrans('menu_manager.modal.link.title', $module) }}
         </h4>
 
         <div class="row">
@@ -10,21 +10,21 @@
                 {{-- Label --}}
                 <div class="input-field">
                     <input id="label" type="text" name="label">
-                    <label for="label" class="required">{{ uctrans('menu.link.label', $module) }}</label>
+                    <label for="label" class="required">{{ uctrans('menu_manager.modal.link.label', $module) }}</label>
                 </div>
 
                 {{-- Url --}}
                 <div class="input-field">
                     <input id="url" type="url" name="url">
-                    <label for="url" class="required">{{ uctrans('menu.link.url', $module) }}</label>
+                    <label for="url" class="required">{{ uctrans('menu_manager.modal.link.url', $module) }}</label>
                 </div>
 
                 {{-- Icon --}}
                 <div class="input-field">
                     <input id="icon" type="text" name="icon">
-                    <label for="icon" class="required">{{ uctrans('menu.link.icon', $module) }}</label>
+                    <label for="icon" class="required">{{ uctrans('menu_manager.modal.link.icon', $module) }}</label>
                     <span class="helper-text">
-                        {{ uctrans('menu.icon.see', $module) }} <a href="https://material.io/tools/icons" target="_blank">https://material.io/tools/icons</a>
+                        {{ uctrans('menu_manager.label.see', $module) }} <a href="https://material.io/tools/icons" target="_blank">https://material.io/tools/icons</a>
                     </span>
                 </div>
             </div>

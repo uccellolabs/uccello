@@ -24,7 +24,7 @@
                     </a>
                 </span>
                 @if ($record->getKey())<a class="breadcrumb" href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]) }}">{{ $record->recordLabel ?? $record->getKey() }}</a>@endif
-                <span class="breadcrumb active">{{ $record->getKey() ? uctrans('edit', $module) : uctrans('create', $module) }}</span>
+                <span class="breadcrumb active">{{ $record->getKey() ? uctrans('breadcrumb.edit', $module) : uctrans('breadcrumb.create', $module) }}</span>
             </div>
         </div>
     </div>

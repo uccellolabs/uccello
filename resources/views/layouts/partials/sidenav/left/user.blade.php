@@ -16,7 +16,7 @@
             <li>
                 <a href="{{ route('logout') }}">
                     <i class="material-icons">logout</i>
-                    {{ uctrans('logout', $module) }}
+                    {{ uctrans('button.logout', $module) }}
                 </a>
             </li>
         </ul>

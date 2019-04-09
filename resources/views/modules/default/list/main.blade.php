@@ -123,7 +123,7 @@
                                 {{-- No result --}}
                                 @section('datatable-no-results')
                                 <tr class="no-results" style="display: none">
-                                    <td colspan="{{ count($datatableColumns) + 2 }}" class="center-align">{{ uctrans('no_results', $module) }}</td>
+                                    <td colspan="{{ count($datatableColumns) + 2 }}" class="center-align">{{ uctrans('datatable.no_results', $module) }}</td>
                                 </tr>
                                 @show
 
@@ -142,7 +142,7 @@
                                         @endif
 
                                         @if (Auth::user()->canDelete($domain, $module))
-                                        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $module) }}" data-position="top" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('button.delete.confirm', $module) }}"}}'><i class="material-icons">delete</i></a>
+                                        <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $module) }}" data-position="top" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('confirm.button.delete_record', $module) }}"}}'><i class="material-icons">delete</i></a>
                                         @endif
                                     </td>
                                 </tr>
@@ -171,7 +171,7 @@
                             </div>
 
                             <div>
-                                {{ uctrans('loading', $module) }}
+                                {{ uctrans('datatable.loading', $module) }}
                             </div>
                         </div>
                         @show

@@ -16,7 +16,7 @@
                         <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
                     </a>
                 </span>
-                <span class="breadcrumb active">{{ uctrans('module.manager', $module) }}</span>
+                <span class="breadcrumb active">{{ uctrans('breadcrumb.module_manager', $module) }}</span>
             </div>
         </div>
     </div>
@@ -30,13 +30,13 @@
             <li class="tab">
                 <a href="#main-modules">
                     <i class="material-icons left">extension</i>
-                    {{ uctrans('module.manager.tab.main_modules', $module) }}
+                    {{ uctrans('module_manager.tab.main_modules', $module) }}
                 </a>
             </li>
             <li class="tab">
                 <a href="#admin-modules" class="active">
                     <i class="material-icons left">settings</i>
-                    {{ uctrans('module.manager.tab.admin_modules', $module) }}
+                    {{ uctrans('module_manager.tab.admin_modules', $module) }}
                 </a>
             </li>
           </ul>
@@ -51,10 +51,10 @@
                         <i class="material-icons left primary-text">extension</i>
 
                         {{-- Label --}}
-                        {{ uctrans('module.manager.main_modules', $module) }}
+                        {{ uctrans('module_manager.main_modules', $module) }}
 
                         {{-- Description --}}
-                        <small class="with-icon">{{ uctrans('module.manager.description', $module) }}</small>
+                        <small class="with-icon">{{ uctrans('module_manager.description', $module) }}</small>
                     </div>
 
                     <div class="row">
@@ -75,10 +75,10 @@
                         <i class="material-icons left primary-text">settings</i>
 
                         {{-- Label --}}
-                        {{ uctrans('module.manager.admin_modules', $module) }}
+                        {{ uctrans('module_manager.admin_modules', $module) }}
 
                         {{-- Description --}}
-                        <small class="with-icon">{{ uctrans('module.manager.description', $module) }}</small>
+                        <small class="with-icon">{{ uctrans('module_manager.description', $module) }}</small>
                     </div>
 
                     <div class="row">

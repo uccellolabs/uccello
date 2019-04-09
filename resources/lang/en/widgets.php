@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'widget.main_fields' => 'Main fields',
+    'widget' => [
+        'main_fields' => 'Main fields',
+    ],
 ];

@@ -47,7 +47,7 @@ class AssignedUser implements Uitype
         $options = [
             'class' => $relatedModule->model_class ?? null,
             'property' => 'recordLabel',
-            'empty_value' => uctrans('select_empty_value', $module),
+            'empty_value' => uctrans('field.select_empty_value', $module),
             'selected' => !empty($record->getKey()) ? $record->{$field->column} : auth()->id(),
             'attr' => [
                 'class' => 'form-control show-tick',

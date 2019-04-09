@@ -80,7 +80,7 @@ export class List {
 
             if(selectedFilterId) {
                 swal({
-                    title: uctrans.trans('uccello::default.dialog.confirm.title'),
+                    title: uctrans.trans('uccello::default.confirm.dialog.title'),
                     text: uctrans.trans('uccello::default.filter.delete.message'),
                     icon: "warning",
                     buttons: true,

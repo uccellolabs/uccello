@@ -2,23 +2,35 @@
 
 return [
     // Field
-    'field.name' => 'Identifiant',
-    'field.email' => 'Adresse email',
-    'field.identity' => 'Identifiant ou Email',
-    'field.password' => 'Mot de passe',
-    'field.password_confirmation' => 'Mot de passe (confirmation)',
+    'field' => [
+        'name' => 'Identifiant',
+        'email' => 'Adresse email',
+        'identity' => 'Identifiant ou Email',
+        'password' => 'Mot de passe',
+        'password_confirmation' => 'Mot de passe (confirmation)',
+    ],
 
     // Button
-    'button.password.lost' => 'Mot de passe oublié ?',
-    'button.password.send_link' => 'Envoyer le lien de réinitalisation',
-    'button.password.reset' => 'Réinitialiser le mot de passe',
-    'button.signin' => 'Connexion',
-    'button.signup' => 'Inscription',
+    'button' => [
+        'signin' => 'Connexion',
+        'signup' => 'Inscription',
+        'password' => [
+            'lost' => 'Mot de passe oublié ?',
+            'send_link' => 'Envoyer le lien de réinitalisation',
+            'reset' => 'Réinitialiser le mot de passe',
+        ],
+    ],
 
     // Info
-    'info.password.reset' => 'Saisissez l\'adresse email que vous avez utilisée lors de l\'inscription.<br>Nous allons vous envoyer un email contenant un lien de réinitialisation de votre mot de passe.',
+    'info' => [
+        'password' => [
+            'reset' => 'Saisissez l\'adresse email que vous avez utilisée lors de l\'inscription.<br>Nous allons vous envoyer un email contenant un lien de réinitialisation de votre mot de passe.',
+        ],
+    ],
 
     // Error
-    'error.identity.required' => 'Identifiant ou Email obligatoire',
-    'error.password.required' => 'Mot de passe obligatoire',
+    'error' => [
+        'identity_required' => 'Identifiant ou Email obligatoire',
+        'password_required' => 'Mot de passe obligatoire',
+    ]
 ];

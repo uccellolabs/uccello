@@ -17,7 +17,7 @@
                 @forelse ($record->rolesOnDomain($domain) as $role)
                 <a href="{{ ucroute('uccello.detail', $domain, 'role', [ 'id' => $role->id ]) }}" class="btn-small waves-effect primary">{{ $role->name }}</a>
                 @empty
-                <span class="red white-text" style="padding: 5px">{{ uctrans('no_role', $module) }}</span>
+                <span class="red white-text" style="padding: 5px">{{ uctrans('label.no_role', $module) }}</span>
                 @endforelse
             </div>
         </div>

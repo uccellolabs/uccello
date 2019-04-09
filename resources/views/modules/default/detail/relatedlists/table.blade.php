@@ -54,7 +54,7 @@
         <tbody>
             {{-- No result --}}
             <tr class="no-results" style="display: none">
-                <td colspan="{{ count($datatableColumns) + 2 }}" class="center-align">{{ uctrans('no_results', $relatedlist->relatedModule) }}</td>
+                <td colspan="{{ count($datatableColumns) + 2 }}" class="center-align">{{ uctrans('datatable.no_results', $relatedlist->relatedModule) }}</td>
             </tr>
 
             {{-- Row template used by the query --}}
@@ -80,7 +80,7 @@
                         data-tooltip="{{ uctrans('button.delete', $relatedlist->relatedModule) }}"
                         data-position="top"
                         class="delete-btn primary-text"
-                        data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ $relatedlist->type === 'n-n' ? uctrans('button.delete.relation.confirm', $module) : uctrans('button.delete.confirm', $module) }}"}}'>
+                        data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ $relatedlist->type === 'n-n' ? uctrans('confirm.button.delete_relation', $module) : uctrans('confirm.button.delete_record', $module) }}"}}'>
                         <i class="material-icons">delete</i>
                     </a>
                     @endif
@@ -108,7 +108,7 @@
         </div>
 
         <div>
-            {{ uctrans('loading', $module) }}
+            {{ uctrans('datatable.loading', $module) }}
         </div>
     </div>
 </div>

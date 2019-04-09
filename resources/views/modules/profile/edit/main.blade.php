@@ -15,7 +15,7 @@
 
                     <div class="switch right">
                         <label>
-                            <span class="black-text">{{ uctrans('api_capabilities', $module) }}</span>
+                            <span class="black-text">{{ uctrans('label.api_capabilities', $module) }}</span>
                             <input type="checkbox" id="manage-api-capabilities">
                             <span class="lever"></span>
                         </label>
@@ -33,7 +33,7 @@
                                                 <input type="checkbox"
                                                 class="filled-in select-all" />
                                                 <span class="black-text">
-                                                    {{ uctrans('modules', $module) }}
+                                                    {{ uctrans('label.modules', $module) }}
                                                 </span>
                                             </label>
                                         </p>

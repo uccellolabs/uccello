@@ -12,8 +12,12 @@ export class ModuleManager {
                 _token: $("meta[name='csrf-token']").attr('content'),
                 src_module: $(element).data('module'),
                 active: $(element).is(':checked') === true ? '1' : '0'
-            }).fail((error) => {
-                swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('settings:error.save'), 'error')
+            }).then(() => {
+                let text = $(element).is(':checked') === true ? uctrans.trans('uccello::settings.module_manager.notification.module_activated') : uctrans.trans('uccello::settings.module_manager.notification.module_deactivated')
+                M.toast({html: text})
+            })
+            .fail((error) => {
+                swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::settings.error.save'), 'error')
             })
         })
     }

@@ -3,7 +3,7 @@
     <div class="dd-handle dd3-content">
         <i class="material-icons left">{{ $link->icon ?? 'extension' }}</i>
         {{ uctrans($link->label, $_module) }}
-        <span class="right grey-text">{{ uctrans('menu.link.type.module', $module) }}</span>
+        <span class="right grey-text">{{ uctrans('menu_manager.menu.link_type.module', $module) }}</span>
     </div>
 
     {{-- For the moment it cannot be displayed because this view is called only in the menu does not exist. So the type is always 'module' --}}

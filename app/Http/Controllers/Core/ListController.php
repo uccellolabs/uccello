@@ -265,7 +265,7 @@ class ListController extends Controller
             if ($filter->readOnly) {
                 // Response
                 $success = false;
-                $message = uctrans('error.filter.read.only', $module);
+                $message = uctrans('error.filter.read_only', $module);
             } else {
                 // Delete
                 $filter->delete();
@@ -277,7 +277,7 @@ class ListController extends Controller
         } else {
             // Response
             $success = false;
-            $message = uctrans('error.filter.not.found', $module);
+            $message = uctrans('error.filter.not_found', $module);
         }
 
         return [

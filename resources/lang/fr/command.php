@@ -2,11 +2,13 @@
 
 return [
     // User creation
-    'user.username' => 'Identifiant',
-    'user.email' => 'Adresse email',
-    'user.first_name' => 'Prénom',
-    'user.last_name' => 'Nom',
-    'user.password' => 'Mot de passe',
-    'user.is_admin' => 'Est admin ?',
-    'user.user_created' => 'L\'utilisateur a bien été créé.',
+    'user' => [
+        'username' => 'Identifiant',
+        'email' => 'Adresse email',
+        'first_name' => 'Prénom',
+        'last_name' => 'Nom',
+        'password' => 'Mot de passe',
+        'is_admin' => 'Est admin ?',
+        'user_created' => 'L\'utilisateur a bien été créé.',
+    ],
 ];

@@ -46,7 +46,7 @@ class Choice extends Select implements Uitype
         $options = [
             'choices' => $choices,
             'selected' => $field->data->default ?? null,
-            // 'empty_value' => uctrans('select_empty_value', $module),
+            // 'empty_value' => uctrans('field.select_empty_value', $module),
             'attr' => [
                 // 'class' => 'form-control show-tick',
                 // 'data-live-search' => 'true'

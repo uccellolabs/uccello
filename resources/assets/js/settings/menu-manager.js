@@ -115,7 +115,7 @@ export class MenuManager {
         }).then((response) => {
             $('span.saved').fadeIn().delay(1000).fadeOut()
         }).fail((error) => {
-            swal(uctrans.trans('settings:dialog.error.title'), uctrans.trans('settings:error.save'), "error")
+            swal(uctrans.trans('uccello::settings.dialog.error.title'), uctrans.trans('uccello::settings.error.save'), "error")
         })
     }
 
@@ -303,7 +303,7 @@ export class MenuManager {
             this.retrieveCurrentItemJsonById(itemId, JSON.parse(this.menuStructure))
 
             if (this.currentItemJson && this.currentItemJson.children) { // There are children
-                swal(uctrans.trans('settings:menu.error.not_empty.title'), uctrans.trans('settings:menu.error.not_empty.description'), 'error')
+                swal(uctrans.trans('uccello::settings.menu.error.not_empty.title'), uctrans.trans('uccello::settings.menu.error.not_empty.description'), 'error')
             } else {
                 $('.menu-manager:visible').nestable('remove', itemId)
                 this.menuToJson()
@@ -319,15 +319,21 @@ export class MenuManager {
             let element = $(event.currentTarget)
 
             swal({
-                title: uctrans.trans('settings:menu.reset.title'),
-                text: uctrans.trans('settings:menu.reset.text'),
+                title: uctrans.trans('uccello::settings.menu_manager.menu.reset.title'),
+                text: uctrans.trans('uccello::settings.menu_manager.menu.reset.text'),
                 icon: 'warning',
-                buttons: true,
-                    dangerMode: true,
-                    buttons: [
-                        uctrans.trans('uccello::default.no'),
-                        uctrans.trans('uccello::default.yes')
-                    ],
+                buttons: {
+                    cancel: {
+                        text: uctrans.trans('uccello::default.button.no'),
+                        value: null,
+                        visible: true,
+                    },
+                    confirm: {
+                        text: uctrans.trans('uccello::default.yes'),
+                        value: true,
+                        className: "red",
+                    }
+                }
             }).then((response) => {
                 if (response !== true) {
                     return

@@ -17,7 +17,7 @@
                 <table id="permissions-table" class="striped highlight">
                     <thead>
                         <tr>
-                            <th>{{ uctrans('modules', $module) }}</th>
+                            <th>{{ uctrans('label.modules', $module) }}</th>
                             @foreach (uccello()->getCapabilities() as $capability)
                                 <?php $isApiCapability = strpos($capability->name, 'api-') !== false; ?>
                                 <th class="center-align @if ($isApiCapability)for-api hide @endif">{{ uctrans('capability.' . $capability->name, $module) }}</th>

@@ -102,11 +102,7 @@ export default class I18n
     _extract(key, value = null)
     {
         let path = key.toString().split('::');
-        let keys = path.pop().toString().split(/\.(.+)/) // we use this split pattern to be able to use . in locale strings
-
-        if (keys.length > 2) {
-            keys = [keys[0], keys[1]]
-        }
+        let keys = path.pop().toString().split('.');
 
         if (path.length > 0) {
             path[0] += '::';

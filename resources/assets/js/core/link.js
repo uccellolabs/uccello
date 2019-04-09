@@ -142,7 +142,7 @@ export class Link {
         }
 
         // Default config
-        if (!title) { title = uctrans.trans('uccello::default.dialog.confirm.title') }
+        if (!title) { title = uctrans.trans('uccello::default.confirm.dialog.title') }
         if (!confirmButtonText) { confirmButtonText = uctrans.trans('uccello::default.button.yes') }
         if (!confirmButtonColor) { confirmButtonColor = '#DD6B55' }
         if (!closeOnConfirm) { closeOnConfirm = true }

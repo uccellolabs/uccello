@@ -17,7 +17,7 @@
                 @forelse ($record->profiles->where('domain_id', $domain->id) as $profile)
                 <a href="{{ ucroute('uccello.detail', $domain, 'profile', [ 'id' => $profile->id ]) }}" class="btn-small waves-effect primary">{{ $profile->name }}</a>
                 @empty
-                <span class="red white-text" style="padding: 5px">{{ uctrans('no_profile', $module) }}</span>
+                <span class="red white-text" style="padding: 5px">{{ uctrans('label.no_profile', $module) }}</span>
                 @endforelse
             </div>
         </div>

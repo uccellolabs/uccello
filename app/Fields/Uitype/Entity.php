@@ -52,7 +52,7 @@ class Entity implements Uitype
             $options = [
                 'class' => $relatedModule->model_class ?? null,
                 'property' => $field->data->field ?? 'recordLabel',
-                'empty_value' => uctrans('select_empty_value', $module),
+                'empty_value' => uctrans('field.select_empty_value', $module),
                 'selected' => $record->{$field->column} ?? null,
                 'attr' => [
                     'class' => 'form-control show-tick',

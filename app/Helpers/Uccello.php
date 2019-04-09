@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Models\Permission;
 use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;
@@ -115,10 +114,10 @@ class Uccello
     public function view(string $package, Module $module, string $viewName, ?string $fallbackView = null): ?string
     {
         // Module view overrided in app
-        $appModuleView = 'modules.'.$module->name.'.'.$viewName;
+        $appModuleView = 'uccello.modules.'.$module->name.'.'.$viewName;
 
         // Default view overrided in app
-        $appDefaultView = 'modules.default.'.$viewName;
+        $appDefaultView = 'uccello.modules.default.'.$viewName;
 
         // Module view ovverrided in package
         $packageModuleView = $package.'::modules.'.$module->name.'.'.$viewName;
@@ -166,10 +165,14 @@ class Uccello
     {
         if (is_a($domain, Domain::class)) {
             $domain = $domain->slug;
+        } else {
+            $domain = $this->getDomain($domain)->slug ?? null;
         }
 
         if (is_a($module, Module::class)) {
             $module = $module->name;
+        } else {
+            $module = $this->getModule($module)->name ?? null;
         }
 
         // Get route uri to check if domain and module parameters are needed
@@ -282,7 +285,7 @@ class Uccello
      */
     public function getRootDomains(): Collection
     {
-        return Domain::whereNull('parent_id')->get();
+        return Domain::getRoots()->get();
     }
 
     /**

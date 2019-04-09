@@ -67,8 +67,8 @@ class LoginController extends Controller
                 'password' => 'required|string',
             ],
             [
-                'identity.required' => 'Username or email is required',
-                'password.required' => 'Password is required',
+                'identity.required' => trans('uccello::auth.identity_required'),
+                'password.required' => trans('uccello::auth.password_required'),
             ]
         );
     }

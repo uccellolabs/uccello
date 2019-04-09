@@ -2,168 +2,246 @@
 
 return [
     // General
-    'add_record' => 'Ajouter',
-    'select_empty_value' => '- Selectionnez une valeur -',
     'yes' => 'Oui',
     'no' => 'Non',
-    'logout' => 'Déconnexion',
-    'create' => 'Création',
-    'edit' => 'Édition',
-    'search' => 'Rechercher',
 
     // Menu
-    'menu.title' => 'Menu',
-    'menu.return' => 'Retour',
+    'menu' => [
+        'title' => 'Menu',
+        'return' => 'Retour',
+        'admin' => 'Administration',
+        'dashboard' => 'Tableau de bord',
+        'security' => 'Sécurité',
+        'settings' => 'Paramètres',
+    ],
 
     // Domain
-    'domain.search' => 'Rechercher un domaine',
-
-    // Button
-    'button.return' => 'Retour',
-    'button.save' => 'Sauvegarder',
-    'button.save_new' => 'Sauvegarder et nouveau',
-    'button.new' => 'Nouveau',
-    'button.edit' => 'Éditer',
-    'button.delete' => 'Supprimer',
-    'button.clear_search' => 'Effacer',
-    'button.manage_filters' => 'Filtres',
-    'button.add_filter' => 'Ajouter un filtre',
-    'button.delete_filter' => 'Supprimer le filtre',
-    'button.action' => 'Actions',
-    'button.yes' => 'Oui',
-    'button.cancel' => 'Annuler',
-    'button.add_widget' => 'Ajouter widget',
-    'button.export' => 'Export',
-    'button.columns' => 'Colonnes',
-    'button.download_file' => 'Télécharger',
-
-    // Block
-    'block.general' => 'Informations générales',
-
-    // Field
-    'field.id' => 'Id',
-    'field.created_at' => 'Créé le',
-    'field.updated_at' => 'Mis à jour le',
-    'field.info.new_line' => 'Appuyez sur ENTRÉE pour aller à la ligne.',
-
-    // Filter
-    'filter.all' => 'Tous',
-    'filter.show_n_records' => ':number lignes',
-    'filter.delete.message' => 'Voulez-vous supprimer ce filtre ?',
-    'filter.exists.title' => 'Un filtre du même nom existe déjà',
-    'filter.exists.message' => 'Voulez-vous le mettre à jour ?',
-
-    // Tabs
-    'tab.main' => 'Détails',
-    'tab.summary' => 'Résumé',
-
-    // Menu
-    'menu.admin' => 'Administration',
-    'menu.settings' => 'Paramètres',
-    'menu.group.security' => 'Sécurité',
-    'menu.group.settings' => 'Paramètres',
-    'menu.group.test' => 'Test',
-    'Security' => 'Sécurité',
-    'Settings' => 'Paramètres',
+    'domain' => [
+        'search' => 'Rechercher un domaine',
+    ],
 
     // Breadcrumb
-    'breadcrumb.admin' => 'Administration',
+    'breadcrumb' => [
+        'create' => 'Création',
+        'edit' => 'Édition',
+        'admin' => 'Administration',
+    ],
+
+    // Button
+    'button' => [
+        'return' => 'Retour',
+        'save' => 'Sauvegarder',
+        'save_new' => 'Sauvegarder et nouveau',
+        'new' => 'Nouveau',
+        'edit' => 'Éditer',
+        'delete' => 'Supprimer',
+        'clear_search' => 'Effacer',
+        'manage_filters' => 'Gestion des filtres',
+        'add_filter' => 'Ajouter un filtre',
+        'delete_filter' => 'Supprimer le filtre',
+        'action' => 'Actions',
+        'yes' => 'Oui',
+        'no' => 'Non',
+        'cancel' => 'Annuler',
+        'add_widget' => 'Ajouter widget',
+        'export' => 'Exporter',
+        'columns' => 'Colonnes',
+        'download_file' => 'Télécharger',
+        'logout' => 'Déconnexion',
+    ],
+
+    // Block
+    'block' => [
+        'general' => 'Informations générales',
+    ],
+
+    // Field
+    'field' => [
+        'id' => 'Id',
+        'created_at' => 'Créé le',
+        'updated_at' => 'Mis à jour le',
+        'select_empty_value' => '- Selectionnez une valeur -',
+        'info' => [
+            'new_line' => 'Appuyez sur ENTRÉE pour aller à la ligne.',
+        ]
+    ],
+
+    // Filter
+    'filter' => [
+        'all' => 'Tous',
+        'show_n_records' => ':number lignes',
+        'delete' => [
+            'message' => 'Supprimer ce filtre ?',
+        ],
+        'exists' => [
+            'title' => 'Un filtre du même nom existe déjà',
+            'message' => 'Voulez-vous le mettre à jour ?',
+        ],
+    ],
+
+    // Tabs
+    'tab' => [
+        'main' => 'Détails',
+        'summary' => 'Résumé',
+    ],
+
+    // Datatable
+    'datatable' => [
+        'search' => 'Rechercher',
+        'no_results' => 'Aucun résultat',
+        'loading' => 'Chargement en cours...',
+    ],
 
     // Related list
-    'relatedlist.button.add' => 'Ajouter',
-    'relatedlist.button.select' => 'Sélectionner',
+    'relatedlist' => [
+        'button' => [
+            'add' => 'Ajouter',
+            'select' => 'Sélectionner',
+            'columns' => 'Colonnes',
+            'lines' => 'Lignes',
+        ],
+    ],
 
     // Confirm
-    'dialog.confirm.title' => 'Êtes-vous sûr?',
-    'button.delete.confirm' => 'Voulez-vous supprimer cet enregistrement ?',
-    'button.delete.relation.confirm' => 'Voulez-vous supprimer cette relation ?',
+    'confirm' => [
+        'dialog' => [
+            'title' => 'Êtes-vous sûr?',
+        ],
+        'button' => [
+            'delete_record' => 'Supprimer cet enregistrement ?',
+            'delete_relation' => 'Supprimer cette relation ?',
+        ],
+    ],
 
     // Notification
-    'notification.record.created' => 'L\'enregistrement a bien été créé.',
-    'notification.record.deleted' => 'L\'enregistrement a bien été supprimé.',
-    'notification.relation.deleted' => 'La relation a bien été supprimée.',
-    'notification.form.not.valid' => 'Certains champs ne sont pas valides !',
+    'notification' => [
+        'record' => [
+            'created' => 'L\'enregistrement a bien été créé.',
+            'deleted' => 'L\'enregistrement a bien été supprimé.',
+        ],
+        'relation' => [
+            'deleted' => 'La relation a bien été supprimée.',
+        ],
+        'form' => [
+            'not_valid' => 'Certains champs ne sont pas valides !',
+        ],
+    ],
+
+    // Dialog
+    'dialog' => [
+        'error' => [
+            'title' => 'Erreur',
+        ],
+        'success' => [
+            'title' => 'Réussi',
+        ],
+    ],
 
     // Errors
-    'dialog.error.title' => 'Erreur',
-    'error.homepage' => 'Acceuil',
-    'error.logout' => 'Déconnexion',
-    'error.not.allowed' => 'Vous n\'êtes pas autorisés',
-    'error.not.exist' => 'Cette page n\'existe pas.',
-    'error.server' => 'Erreur interne au serveur.',
-    'error.mandatory.fields' => 'Certains champs obligatoires ne sont pas définis.',
-    'error.filter.not.found' => 'Le filtre n\'existe pas.',
-    'error.filter.read.only' => 'Le filtre est en lecture seule.',
+    'error' => [
+        'field' => [
+            'mandatory' => 'Certains champs obligatoires ne sont pas définis.',
+        ],
+        'filter' => [
+            'not_found' => 'Le filtre n\'existe pas.',
+            'read_only' => 'Le filtre est en lecture seule.',
+        ],
+        'mandatory_fields' => 'Certains champs obligatoires ne sont pas définis.',
+
+    ],
 
     // Success
-    'dialog.success.title' => 'Réussi',
-    'success.filter.deleted' => 'Le filtre a bien été supprimé.',
+    'success' => [
+        'filter' => [
+            'deleted' => 'Le filtre a bien été supprimé.',
+        ]
+    ],
 
     // Modal
-    'modal.add_filter.title' => 'Ajouter un filtre',
-    'modal.add_filter.description' => 'Vous pouvez créer un nouveau filtre à partir de la configuration actuelle de la liste.',
-    'modal.add_filter.name' => 'Nom du filtre',
-    'modal.add_filter.save_columns' => 'Sauvegarder les colonnes affichées',
-    'modal.add_filter.save_conditions' => 'Sauvegarder les conditions de recherche',
-    'modal.add_filter.save_sort' => 'Sauvegarder l\'ordre de tri',
-    'modal.add_filter.save_page_length' => 'Sauvegarder le nombre de lignes affichées',
-    'modal.add_filter.is_public' => 'Partager le filtre avec les autres utilisateurs',
-    'modal.add_filter.is_default' => 'Appliquer ce filtre par défaut',
+    'modal' => [
+        'add_filter' => [
+            'title' => 'Ajouter un filtre',
+            'description' => 'Vous pouvez créer un nouveau filtre à partir de la configuration actuelle de la liste.',
+            'name' => 'Nom du filtre',
+            'save_columns' => 'Sauvegarder les colonnes affichées',
+            'save_conditions' => 'Sauvegarder les conditions de recherche',
+            'save_order' => 'Sauvegarder l\'ordre de tri',
+            'save_page_length' => 'Sauvegarder le nombre de lignes affichées',
+            'is_public' => 'Partager le filtre avec les autres utilisateurs',
+            'is_default' => 'Appliquer ce filtre par défaut',
+        ],
 
-    'modal.export.title' => 'Export',
-    'modal.export.description' => 'Vous pouvez exporter vos données en définissant différentes options.',
-    'modal.export.format' => 'Format',
-    'modal.export.format.xlsx' => 'Microsoft Excel (.xlsx)',
-    'modal.export.format.xls' => 'Microsoft Excel 97-2003 (.xls)',
-    'modal.export.format.ods' => 'ODF Spreadsheet (.ods)',
-    'modal.export.format.csv' => 'Fichier CSV (.csv)',
-    'modal.export.format.pdf' => 'Fichier PDF (.pdf)',
-    'modal.export.format.html' => 'Fichier HTML (.html)',
-    'modal.export.keep_conditions' => 'Conserver les conditions de filtrage',
-    'modal.export.keep_sort' => 'Conserver l\'ordre de tri',
-    'modal.export.hide_columns' => 'Ne pas exporter les colonnes cachées',
-    'modal.export.with_id' => 'Exporter l\'id des enregistrements',
-    'modal.export.with_timestamps' => 'Exporter les dates de création et de modification',
+        'export' => [
+            'title' => 'Export',
+            'description' => 'Vous pouvez exporter vos données en définissant différentes options.',
+            'format' => [
+                'xlsx' => 'Microsoft Excel (.xlsx)',
+                'xls' => 'Microsoft Excel 97-2003 (.xls)',
+                'ods' => 'ODF Spreadsheet (.ods)',
+                'csv' => 'Fichier CSV (.csv)',
+                'pdf' => 'Fichier PDF (.pdf)',
+                'html' => 'Fichier HTML (.html)',
+            ],
+            'format_label' => 'Format',
+            'keep_conditions' => 'Conserver les conditions de filtrage',
+            'keep_sort' => 'Conserver l\'ordre de tri',
+            'with_hidden_columns' => 'Exporter les colonnes cachées',
+            'with_id' => 'Exporter l\'id des enregistrements',
+            'with_timestamps' => 'Exporter les dates de création et de modification',
+        ]
+    ],
 
     // Widgets
-    'summary.no_widget' => 'Aucun widget pour le moment.',
+    'summary' => [
+        'no_widget' => 'Aucun widget pour le moment.',
+    ],
 
     // Calendar
-    'calendar.format' => 'YYYY-MM-DD',
-    'calendar.apply' => 'Appliquer',
-    'calendar.cancel' => 'Annuler',
-    'calendar.clear' => 'Vider',
-    'calendar.separator' => ' - ',
-    'calendar.from' => 'De',
-    'calendar.to' => 'À',
-    'calendar.custom' => 'Personnalisé',
-    'calendar.week' => 'Sem',
-    'calendar.day.mo' => 'Lu',
-    'calendar.day.tu' => 'Ma',
-    'calendar.day.we' => 'Me',
-    'calendar.day.th' => 'Je',
-    'calendar.day.fr' => 'Ve',
-    'calendar.day.sa' => 'Sa',
-    'calendar.day.su' => 'Di',
-    'calendar.month.january' => 'Janvier',
-    'calendar.month.february' => 'Février',
-    'calendar.month.march' => 'Mars',
-    'calendar.month.april' => 'Avril',
-    'calendar.month.may' => 'Mai',
-    'calendar.month.june' => 'Juin',
-    'calendar.month.july' => 'Juillet',
-    'calendar.month.august' => 'Août',
-    'calendar.month.september' => 'Septembre',
-    'calendar.month.october' => 'Octobre',
-    'calendar.month.november' => 'Novembre',
-    'calendar.month.december' => 'Décembre',
+    'calendar' => [
+        'format' => 'YYYY-MM-DD',
+        'apply' => 'Appliquer',
+        'cancel' => 'Annuler',
+        'clear' => 'Vider',
+        'separator' => ' - ',
+        'from' => 'De',
+        'to' => 'À',
+        'custom' => 'Personnalisé',
+        'week' => 'Sem',
+        'day' => [
+            'mo' => 'Lu',
+            'tu' => 'Ma',
+            'we' => 'Me',
+            'th' => 'Je',
+            'fr' => 'Ve',
+            'sa' => 'Sa',
+            'su' => 'Di',
+        ],
+        'month' => [
+            'january' => 'Janvier',
+            'february' => 'Février',
+            'march' => 'Mars',
+            'april' => 'Avril',
+            'may' => 'Mai',
+            'june' => 'Juin',
+            'july' => 'Juillet',
+            'august' => 'Août',
+            'september' => 'Septembre',
+            'october' => 'Octobre',
+            'november' => 'Novembre',
+            'december' => 'Décembre',
+        ],
+    ],
 
     // Autocomplete
-    'autocomplete.currently_selected' => 'Sélection',
-    'autocomplete.error' => 'Une erreur s\'est produite',
-    'autocomplete.placeholder' => 'Rechercher',
-    'autocomplete.status.initialized' => 'Saisir du texte pour lancer la recherche',
-    'autocomplete.status.no_results' => 'Aucun résultat',
-    'autocomplete.status.searching' => 'Recherche en cours...',
-    'autocomplete.status.too_short' => 'Saisir plus de caractères',
+    'autocomplete' => [
+        'currently_selected' => 'Sélection',
+        'error' => 'Une erreur s\'est produite',
+        'placeholder' => 'Rechercher',
+        'status' => [
+            'initialized' => 'Saisir du texte pour lancer la recherche',
+            'no_results' => 'Aucun résultat',
+            'searching' => 'Recherche en cours...',
+            'too_short' => 'Saisir plus de caractères',
+        ],
+    ],
 ];

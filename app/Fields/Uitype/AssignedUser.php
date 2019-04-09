@@ -47,7 +47,7 @@ class AssignedUser implements Uitype
         $options = [
             'class' => $relatedModule->model_class ?? null,
             'property' => 'recordLabel',
-            'empty_value' => uctrans('select_empty_value', $module),
+            'empty_value' => uctrans('field.select_empty_value', $module),
             'selected' => !empty($record->getKey()) ? $record->{$field->column} : auth()->id(),
             'attr' => [
                 'class' => 'form-control show-tick',
@@ -121,9 +121,8 @@ class AssignedUser implements Uitype
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
         $query->where(function ($query) use($field, $value) {
-            $values = explode(',', $value);
-            foreach ($values as $value) {
-                $query = $query->orWhere($field->column, '=', $value);
+            foreach ((array) $value as $_value) {
+                $query = $query->orWhere($field->column, '=', $_value);
             }
         });
 

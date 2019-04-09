@@ -97,7 +97,7 @@ class EditController extends Controller
         // Save relation if necessary
         if ($request->input('relatedlist') && $request->input('src_id')) {
             $relatedlist = Relatedlist::findOrFail($request->input('relatedlist'));
-            $sourceRecordId = $request->input('src_id');
+            $sourceRecordId = (int)$request->input('src_id');
             $tabId = $request->input('tab');
 
             $this->saveRelation($relatedlist, $sourceRecordId, $record->id);
@@ -161,7 +161,7 @@ class EditController extends Controller
 
         if ($request->input('relatedlist') && $request->input('related_id')) {
             $relatedlist = Relatedlist::findOrFail($request->input('relatedlist'));
-            $relatedRecordId = $request->input('related_id');
+            $relatedRecordId = (int)$request->input('related_id');
 
             $relationId = $this->saveRelation($relatedlist, $record->id, $relatedRecordId);
 
@@ -172,7 +172,7 @@ class EditController extends Controller
         } else {
             $response = [
                 'success' => false,
-                'message' => uctrans('error.mandatory.fields', $module)
+                'message' => uctrans('error.field.mandatory', $module)
             ];
         }
 

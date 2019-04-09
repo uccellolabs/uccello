@@ -25,7 +25,7 @@ class Number implements Uitype
      */
     public function getFormType() : string
     {
-        return 'text';
+        return 'number';
     }
 
     /**

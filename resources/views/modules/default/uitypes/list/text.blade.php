@@ -1,0 +1,1 @@
+{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}

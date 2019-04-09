@@ -1,11 +1,3 @@
-import 'datatables.net-bs';
-import 'datatables.net-buttons-bs';
-import 'datatables.net-buttons/js/buttons.colVis';
-// import 'datatables.net-colreorder';
-import 'datatables.net-fixedcolumns';
-import 'datatables.net-responsive-bs';
-import 'datatables.net-select';
-import { sprintf } from 'sprintf-js'
 import { Link } from './link'
 
 export class Datatable {
@@ -13,321 +5,255 @@ export class Datatable {
      * Init Datatable configuration
      * @param {Element} element
      */
-    async init(element) {
-        let linkManager = new Link(false)
+    init(element, rowClickCallback) {
+        this.table = $(element)
+        this.linkManager = new Link(false)
+        this.rowClickCallback = rowClickCallback
 
-        $(element).hide()
-
-        await this.getDatatableConfig(element)
-
-        this.table = $(element).DataTable({
-            dom: 'Brtp',
-            autoWidth: false, // Else the width is not refreshed on window resize
-            responsive: true,
-            colReorder: false,
-            serverSide: true,
-            ajax: {
-                url: this.url,
-                type: "POST"
-            },
-            pageLength: this.getInitialPageLength(),
-            order: this.getInitialOrder(),
-            columnDefs: this.getDatatableColumnDefs(element),
-            createdRow: (row, data, index) => {
-                // Go to detail view when you click on a row
-                $('td:gt(0):lt(-1)', row).click(() => {
-                    document.location.href = sprintf(this.rowUrl, data.id);
-                })
-
-                // Init click listener on delete button
-                linkManager.initClickListener(row)
-
-                // Init click listener on the row if a callback is defined
-                if (typeof this.rowClickCallback !== 'undefined') {
-                    $(row).on('click', (event) => {
-                        this.rowClickCallback(event, this.table, data)
-                    })
-                }
-            },
-            buttons: [
-                {
-                    extend: 'colvis',
-                    columns: ':gt(0):lt(-1)',
-                    columnText: ( dt, idx, title ) => {
-                        let column = this.columns[idx-1]
-                        return $(`th[data-name="${column.name}"]`).data('label')
-                    }
-                }
-            ],
-            language: {
-                paginate: {
-                    previous: '<',
-                    next: '>'
-                },
-                buttons: {
-                    colvis: uctrans('button.columns')
-                }
-            },
-            aoSearchCols: this.getInitialSearch(),
-
-        });
-
-        // Config buttons
-        this.configButtons()
-
-        // Init search
-        this.initDatatableColumnSearch()
-
-        // Hidde loader
-        $(element).parents('.table-responsive:first').find('.loader').hide()
-
-        // Show datatable
-        $(element).show()
+        this.initColumns()
+        this.initColumnsSortListener()
+        this.initColumnsVisibilityListener()
+        this.initRecordsNumberListener()
+        this.initColumnsSearchListener()
     }
 
-    /**
-     * Async method to get Datatable configuration: columns and selected filter definition.
-     * @param {Element} element
-     */
-    async getDatatableConfig(element) {
-        let filterId = $(element).data('filter-id')
-        if (typeof filterId === 'undefined') {
-            filterId = ''
+    initColumns() {
+        this.columns = {}
+
+        if (!this.table) {
+            return
         }
 
-        let url = laroute.route('uccello.datatable.config', {
-            domain: this.domainSlug,
-            module: this.moduleName,
-            filter: filterId,
-            filter_type: $(element).data('filter-type')
-        })
+        $('th[data-field]', this.table).each((index, el) => {
+            let element = $(el)
+            let fieldName = element.data('field')
 
-        let response = await $.get(url)
-
-        this.columns = response.columns
-        this.selectedFilter = response.filter
-    }
-
-    /**
-     * Make datatable columns from filter.
-     * @param {Element} element
-     * @return {array}
-     */
-    getDatatableColumnDefs(element) {
-        let selector = new UccelloUitypeSelector.UitypeSelector() // UccelloUitypeSelector is replaced automaticaly by webpack. See webpack.mix.js
-
-        let datatableColumns = [];
-
-        // Add first column
-        datatableColumns.push({
-            targets: 0,
-            data: null,
-            defaultContent: '',
-            orderable: false,
-            searchable: false
-        })
-
-        // Add all filter columns
-        for (let i in this.columns) {
-            let column = this.columns[i]
-            datatableColumns.push({
-                targets: parseInt(i) + 1, // Force integer
-                data: column.name,
-                orderable: true,
-                createdCell: (td, cellData, rowData, row, col) => {
-                    selector.get(column.uitype).createdCell(column, td, cellData, rowData, row, col)
-                },
-                visible: column.visible
-            })
-        }
-
-        // Add last column (action buttons)
-        datatableColumns.push({
-            targets: this.columns.length + 1,
-            data: null,
-            defaultContent: '',
-            orderable: false,
-            searchable: false,
-            createdCell: this.getActionsColumnCreatedCell(element)
-        })
-
-        return datatableColumns;
-    }
-
-    /**
-     * Initialize initial columns search, according to selected filter conditions
-     * @return {array}
-     */
-    getInitialSearch() {
-        let search = []
-
-        if (this.selectedFilter && this.selectedFilter.conditions && this.selectedFilter.conditions.search) {
-            // First column
-            search.push(null)
-
-            for (let i in this.columns) {
-                let value = null
-
-                let column =  this.columns[i]
-                value = typeof this.selectedFilter.conditions.search[column.name] !== 'undefined' ? this.selectedFilter.conditions.search[column.name] : null
-
-                if (value) {
-                    search.push({sSearch: value})
-                } else {
-                    search.push(null)
+            if (typeof fieldName !== 'undefined') {
+                this.columns[fieldName] = {
+                    columnName: element.data('column'),
+                    search: $('.field-search', element).val()
                 }
             }
-
-            // Last column
-            search.push(null)
-        }
-
-        return search
+        })
     }
 
-    /**
-     * Get initial order
-     * @return {array}
-     */
-    getInitialOrder() {
-        let order = [[1, 'asc']] // Default
-        if (this.selectedFilter && this.selectedFilter.data && this.selectedFilter.data.order) {
-            order = this.selectedFilter.data.order
+    makeQuery(page) {
+        if (!this.table) {
+            return
         }
 
-        return order
-    }
+        // Get query URL
+        let url = $(this.table).data('content-url')
 
-    /**
-     * Get initial page length
-     * @return {integer}
-     */
-    getInitialPageLength() {
-        let length = 15 // Default
-        if (this.selectedFilter && this.selectedFilter.data && this.selectedFilter.data.length) {
-            length = this.selectedFilter.data.length
+        // Delete old records
+        // $('tbody tr.record', this.table).remove()
+
+        // Hide no_result row
+        $('tbody tr.no-results', this.table).hide()
+
+        // Hide pagination
+        $(`.pagination[data-table="${this.table.attr('id')}"]`).hide()
+
+        // Show loader
+        $(`.loader[data-table="${this.table.attr('id')}"]`).removeClass('hide')
+
+        // Query data
+        let data = {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id: $('meta[name="record"]').attr('content'),
+            columns: this.columns,
+            order: $(this.table).attr('data-order') ? JSON.parse($(this.table).attr('data-order')) : null,
+            relatedlist: $(this.table).attr('data-relatedlist') ? $(this.table).attr('data-relatedlist') : null,
+            length: $(this.table).attr('data-length'),
         }
 
-        return length
+        if (typeof page !== 'undefined') {
+            data.page = page
+        }
+
+        // Make query
+        $.post(url, data).then((response) => {
+            this.displayResults(response)
+            this.displayPagination(response)
+
+            // Hide loader
+            $(`.loader[data-table="${this.table.attr('id')}"]`).addClass('hide')
+        })
     }
 
-    /**
-     * Make datatable action column.
-     * @param {Element} element
-     */
-    getActionsColumnCreatedCell(element) {
-        return (td, cellData, rowData, row, col) => {
-            var dataTableContainer = $(element).parents('.dataTable-container:first');
+    displayResults(response) {
+        if (!this.table || !response.data) {
+            return
+        }
 
-            // Copy buttons from template
-            let editButton = $(".template .edit-btn", dataTableContainer).clone().tooltip().appendTo($(td))
-            let deleteButton = $(".template .delete-btn", dataTableContainer).clone().tooltip().appendTo($(td))
+        // Delete old records
+        $('tbody tr.record', this.table).remove()
 
-            // Config edit link url
-            if (editButton.attr('href')) {
-                let editLink = editButton.attr('href').replace('RECORD_ID', rowData.id)
-                editButton.attr('href', editLink)
-            }
-
-            // Config delete link url
-            if (deleteButton.attr('href')) {
-                let deleteLink = deleteButton.attr('href').replace('RECORD_ID', rowData.id)
-
-                // if relation_id is defined, replace RELATION_ID
-                if (rowData.relation_id) {
-                    deleteLink = deleteLink.replace('RELATION_ID', rowData.relation_id)
-                }
-
-                deleteButton.attr('href', deleteLink)
+        if (response.data.length === 0) {
+            // No result
+            $('tbody tr.no-results', this.table).show()
+        } else {
+            // Add a row by record
+            for(let record of response.data) {
+                this.addRowToTable(record)
             }
         }
     }
 
-    /**
-     * Config buttons to display them correctly
-     */
-    configButtons() {
-        let table = this.table
-
-        // Get buttons container
-        let buttonsContainer = table.buttons().container()
-
-        // Retrieve container
-        let dataTableContainer = buttonsContainer.parents('.dataTable-container:first');
-
-        // Remove old buttons if datatable was initialized before (e.g. in related list selection modal)
-        $('.action-buttons .buttons-colvis', dataTableContainer).remove()
-
-        // Display mini buttons (related lists)
-        if (dataTableContainer.data('button-size') === 'mini') {
-
-            $('button', buttonsContainer).each((index, element) => {
-                // Get content and use it as a title
-                let title = $('span', element).html()
-
-                // Add icon and effect
-                $(element)
-                    .addClass('btn-circle waves-effect waves-circle waves-float bg-primary')
-                    .removeClass('btn-default')
-                    .html('<i class="material-icons">view_column</i>')
-                    .attr('title', title)
-                    .tooltip({
-                        placement: 'top'
-                    })
-
-                // Move button
-                $(element).prependTo($('.action-buttons', dataTableContainer))
-            })
-        }
-        // Display classic buttons (list)
-        else {
-            // Move buttons
-            buttonsContainer.appendTo($('.action-buttons', dataTableContainer));
-
-            $('button', buttonsContainer).each((index, element) => {
-                // Replace <span>...</span> by its content
-                $(element).html($('span', element).html())
-
-                // Add icon and effect
-                $(element).addClass('icon-right waves-effect bg-primary')
-                $(element).removeClass('btn-default')
-                $(element).append('<i class="material-icons">keyboard_arrow_down</i>')
-            })
-
-            // Move to the right
-            $('.action-buttons .btn-group', dataTableContainer).addClass('pull-right')
+    displayPagination(response) {
+        if (!this.table || !response.data) {
+            return
         }
 
-        // Change records number
-        $('ul#items-number a').on('click', (event) => {
-            let recordsNumber = $(event.target).data('number')
-            $('strong.records-number').text(recordsNumber)
-            table.page.len(recordsNumber).draw()
+        let previousLinkClass = response.prev_page_url === null ? 'disabled' : 'waves-effect'
+        let previousDataPage = response.prev_page_url ? `data-page="${response.current_page - 1}"` : ''
+        let paginationHtml = `<li class="${previousLinkClass}"><a href="javascript:void(0);" ${previousDataPage}><i class="material-icons">chevron_left</i></a></li>`
+
+        for (let i=1; i<=response.last_page; i++) {
+            if (i === response.current_page) {
+                paginationHtml += `<li class="active primary"><a href="javascript:void(0);">${i}</a></li>`
+            } else {
+                paginationHtml += `<li class="waves-effect"><a href="javascript:void(0);" data-page="${i}">${i}</a></li>`
+            }
+        }
+
+        let nextLinkClass = response.next_page_url === null ? 'disabled' : 'waves-effect'
+        let nextDataPage = response.next_page_url ? `data-page="${response.current_page + 1}"` : ''
+        paginationHtml += `<li class="${nextLinkClass}"><a href="javascript:void(0);" ${nextDataPage}><i class="material-icons">chevron_right</i></a></li>`
+
+        let paginationElement = $(`.pagination[data-table="${this.table.attr('id')}"]`)
+        paginationElement.html(paginationHtml)
+        paginationElement.show()
+
+        // Init click listener
+        $('a[data-page]', paginationElement).on('click', (el) => {
+            let page = $(el.currentTarget).attr('data-page')
+
+            this.makeQuery(page)
         })
-
-        $(".dataTables_paginate", dataTableContainer).appendTo($('.paginator', dataTableContainer))
     }
 
-    /**
-     * Config column search.
-     */
-    initDatatableColumnSearch()
-    {
-        let table = this.table
+    addRowToTable(record) {
+        if (!this.table || !record) {
+            return
+        }
+
+        let that = this
+
+        // Clone row template
+        let tr = $('tbody tr.template', this.table).clone()
+
+        // Create each cell according to all headers
+        $('th[data-field]', this.table).each(function() {
+            let fieldName = $(this).data('field')
+            // let fieldColumn = $(this).data('column')
+
+            // Add content to the cell
+            let td = $(`td[data-field="${fieldName}"] `, tr)
+            td.html(record[fieldName + '_html']) // Get html content
+
+            // Hide if necessary
+            if ($(this).css('display') === 'none') {
+                td.hide()
+            }
+        })
+
+        // Replace RECORD_ID by the record's id, and RELATION_ID by relation's id, in all links
+        $('a', tr).each(function() {
+            let href = $(this).attr('href')
+            href = href.replace('RECORD_ID', record.id)
+            href = href.replace('RELATION_ID', record.relation_id)
+            $(this).attr('href', href)
+
+            if ($(this).attr('data-tooltip')) {
+                $(this).tooltip()
+            }
+        })
+
+        // Replace RECORD_ID by the record's id in the row url
+        let rowUrl = $(tr).attr('data-row-url')
+        rowUrl = rowUrl.replace('RECORD_ID', record.id)
+        $(tr).attr('data-row-url', rowUrl)
+
+        $(tr).attr('data-record-id', record.id)
+
+        // Add click listener
+        $(tr).on('click', function(event) {
+            if (typeof that.rowClickCallback !== 'undefined') {
+                that.rowClickCallback(event, that, $(this).attr('data-record-id'))
+            } else {
+                document.location.href = $(this).attr('data-row-url')
+            }
+        })
+
+        // Init click listener on delete button
+        this.linkManager.initClickListener(tr)
+
+        // Add the record to tbody
+        tr.removeClass('hide')
+            .removeClass('template')
+            .addClass('record')
+            .appendTo(`#${this.table.attr('id')} tbody`) // We use the id else it append not always into the good table (if there are several)
+    }
+
+    initColumnsVisibilityListener() {
+        $(`ul.columns[data-table="${this.table.attr('id')}"] li a`).on('click', (el) => {
+            let element = $(el.currentTarget)
+            let fieldName = $(element).data('field')
+
+            // Select or unselect item in dropdown
+            let liElement = $(element).parents('li:first')
+            liElement.toggleClass('active')
+
+            // Show or hide column
+            if (liElement.hasClass('active')) {
+                $(`th[data-field="${fieldName}"]`).show() // Label
+                $(`td[data-field="${fieldName}"]`).show() // Content
+            } else {
+                $(`th[data-field="${fieldName}"]`).hide() // Label
+                $(`td[data-field="${fieldName}"]`).hide() // Content
+            }
+        })
+    }
+
+    initRecordsNumberListener() {
+        if (!this.table) {
+            return
+        }
+
+        $(`ul.records-number[data-table="${this.table.attr('id')}"] li a`).on('click', (el) => {
+            let element = $(el.currentTarget)
+            let number = $(element).data('number')
+
+            // Select or unselect item in dropdown
+            let ulId = $(element).parents('ul:first').attr('id')
+            $(`a[data-target="${ulId}"] strong.records-number`).text(number)
+
+            $(this.table).attr('data-length', number)
+
+            this.makeQuery()
+        })
+    }
+
+    initColumnsSearchListener() {
+        if (!this.table) {
+            return
+        }
+
         this.timer = 0
         let that = this
 
         // Config each column
-        table.columns().every(function (index) {
-            let column = table.column(index)
+        $('th[data-field]', this.table).each((index, el) => {
+            let element = $(el)
+            let fieldName = element.data('field')
 
-            // Event listener to launch search
-            $('input', this.header()).on('keyup apply.daterangepicker cancel.daterangepicker', function() {
-                that.launchSearch(column, $(this).val())
+            $('input', element).on('keyup apply.daterangepicker cancel.daterangepicker', function() {
+                that.launchSearch(fieldName, $(this).val())
             })
 
-            $('select', this.header()).on('change', function() {
-                that.launchSearch(column, $(this).val())
+            $('select', element).on('change', function() {
+                that.launchSearch(fieldName, $(this).val())
             })
         })
 
@@ -337,47 +263,84 @@ export class Datatable {
 
     /**
      * Launch search
-     * @param {Object} column
+     * @param {String} fieldName
      * @param {String} q
      */
-    launchSearch(column, q)
+    launchSearch(fieldName, q)
     {
         if (q !== '') {
             $('.clear-search').show()
         }
 
-        if (column.search() !== q) {
+        if (this.columns[fieldName].search !== q) {
+            this.columns[fieldName].search = q
+
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
-                column.search(q)
-                this.table.draw()
-            }, 500)
+                this.makeQuery()
+            }, 700)
         }
     }
 
     /**
      * Clear datatable search
      */
-    addClearSearchButtonListener()
-    {
-        let table = this.table
+    addClearSearchButtonListener() {
+        if (!this.table) {
+            return
+        }
 
         $('.actions-column .clear-search').on('click', (event) => {
             // Clear all search fields
-            $('.dataTable thead select').selectpicker('deselectAll')
-            $('.dataTable thead input').val('')
+            // $('thead select', this.table).selectpicker('deselectAll')
+            $(' thead input', this.table).val('')
 
             // Update columns
-            table.columns().every(function (index) {
-                let column = table.column(index)
-                column.search('')
-            })
+            this.initColumns()
 
             // Disable clear search button
             $(event.currentTarget).hide()
 
             // Update data
-            table.draw()
+            this.makeQuery()
+        })
+    }
+
+    initColumnsSortListener() {
+        if (!this.table) {
+            return
+        }
+
+        $('th[data-field].sortable', this.table).each((index, el) => {
+            let element = $(el)
+            let fieldColumn = element.data('column')
+
+            $('a.column-label', element).on('click', (event) => {
+                // Get current sort order
+                let order = this.table.attr('data-order') ? JSON.parse(this.table.attr('data-order')) : null
+
+                // Hide all sort icons
+                $('a.column-label i').hide()
+
+                // Adapt icon according to sort order
+                if (order !== null && order[fieldColumn] === 'asc') {
+                    order[fieldColumn] = 'desc'
+                    $('a.column-label i', element).removeClass('fa-sort-amount-up').addClass('fa-sort-amount-down')
+                } else {
+                    order = {}
+                    order[fieldColumn] = 'asc'
+                    $('a.column-label i', element).removeClass('fa-sort-amount-down').addClass('fa-sort-amount-up')
+                }
+
+                // Show column's sort icon
+                $('a.column-label i', element).show()
+
+                // Update sort order in the datatable
+                this.table.attr('data-order', JSON.stringify(order))
+
+                // Make query
+                this.makeQuery()
+            })
         })
     }
 }

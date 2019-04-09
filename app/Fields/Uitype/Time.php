@@ -19,7 +19,7 @@ class Time extends DateTime implements Uitype
      */
     public function getFormType() : string
     {
-        return 'text';
+        return 'time';
     }
 
     /**
@@ -43,7 +43,7 @@ class Time extends DateTime implements Uitype
      */
     public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
-        $options[ 'attr' ] = [ 'class' => 'form-control timepicker' ];
+        $options[ 'attr' ] = [ 'class' => 'form-control timepicker', 'placeholder' => '12:00' ];
 
         return $options;
     }
@@ -57,7 +57,7 @@ class Time extends DateTime implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        return (new \Carbon\Carbon($record->{$field->column}))->format('h:i') ?? '';
+        return $record->{$field->column} ? (new \Carbon\Carbon($record->{$field->column}))->format('H:i') : '';
     }
 
     /**

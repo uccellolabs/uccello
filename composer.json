@@ -11,7 +11,7 @@
         "admin",
         "panel"
     ],
-    "homepage": "https://github.com/uccello-io/uccello",
+    "homepage": "https://github.com/uccellolabs/uccello",
     "license": "MIT",
     "authors": [
         {
@@ -23,21 +23,20 @@
     ],
     "require": {
         "php": "~7.0",
-        "ext-gd": "*",
         "laravel/framework": "~5.5",
         "arrilot/laravel-widgets": "^3.12",
         "cviebrock/eloquent-sluggable": "^4.5",
         "doctrine/dbal": "^2.7",
+        "gzero/eloquent-tree": "^3.1",
         "kris/laravel-form-builder": "^1.14",
-        "lord/laroute": "2.*",
         "maatwebsite/excel": "^3.1",
         "mpdf/mpdf": "^7.1",
         "nicolaslopezj/searchable": "1.*",
         "spatie/laravel-menu": "^3.2",
+        "thepinecode/i18n": "^0.5",
         "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.1",
         "laravel/dusk": "^3.0",
         "orchestra/testbench": "^3.7",
         "phpunit/phpunit": "^7.1",
@@ -88,5 +87,8 @@
         "optimize-autoloader": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "suggest": {
+        "laravel/telescope": "Laravel Telescope is an elegant debug assistant for the Laravel framework."
+    }
 }

@@ -1,4 +1,4 @@
-import { Datatable } from './datatable'
+import {Datatable} from './datatable'
 
 export class List {
     constructor() {
@@ -7,59 +7,33 @@ export class List {
     }
 
     /**
-     * Init Datatable
+     * Init datatable
      */
     initDatatable() {
-        const csrfToken = $('meta[name="csrf-token"]').attr('content')
-        const domainSlug = $('meta[name="domain"]').attr('content')
-        const moduleName = $('meta[name="module"]').attr('content')
-        const datatableUrl = $('meta[name="datatable-url"]').attr('content')
-        const selectedFilterId = $('meta[name="selected-filter-id"]').attr('content')
+        if ($('table[data-filter-type="list"]').length == 0) {
+            return
+        }
 
-        let datatable = new Datatable()
-        datatable.url = `${datatableUrl}?_token=${csrfToken}`
-        datatable.domainSlug = domainSlug
-        datatable.moduleName = moduleName
-        datatable.selectedFilterId = selectedFilterId
-        datatable.rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: moduleName })
-        datatable.init('.dataTable')
-
-        this.datatable = datatable
+        this.datatable = new Datatable()
+        this.datatable.init($('table[data-filter-type="list"]'))
+        this.datatable.makeQuery()
     }
+
 
     /**
      * Init listeners
      */
     initListeners() {
-        this.initSelectFilterListener()
         this.initSaveFilterListener()
         this.initDeleteFilterListener()
         this.initExportListener()
     }
 
     /**
-     * Select a filter
-     */
-    initSelectFilterListener() {
-        const domainSlug = $('meta[name="domain"]').attr('content')
-        const moduleName = $('meta[name="module"]').attr('content')
-
-        $('select.filter').on('change', (event) => {
-            let element = event.currentTarget
-
-            // Get selected filter id
-            let filterId = $(element).val()
-
-            // Refresh the page with selected filter
-            document.location.href = laroute.route('uccello.list', {domain: domainSlug, module: moduleName, filter: filterId})
-        })
-    }
-
-    /**
      * Save a filter
      */
     initSaveFilterListener() {
-        $('#addFilterModal button.save').on('click', (event) => {
+        $('#addFilterModal a.save').on('click', (event) => {
 
             let filterName = $('#add_filter_filter_name').val()
 
@@ -69,19 +43,20 @@ export class List {
                 return
             }
 
-            if ($(`select.filter option:contains(${filterName})`).length > 0) {
+            if ($(`ul#filters-list a[data-name='${filterName}']`).length > 0) {
 
                 swal({
-                    title: uctrans('filter.exists.title'),
-                    text: uctrans('filter.exists.message'),
-                    type: "warning",
-                    showCancelButton: true,
-                    closeOnConfirm: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: uctrans('button.yes'),
-                    cancelButtonText: uctrans('button.cancel')
-                },
-                (response) => {
+                    title: uctrans.trans('uccello::default.filter.exists.title'),
+                    text: uctrans.trans('uccello::default.filter.exists.message'),
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                    buttons: [
+                        uctrans.trans('uccello::default.button.no'),
+                        uctrans.trans('uccello::default.button.yes')
+                    ],
+                })
+                .then((response) => {
                     if (response === true) {
                         // Save filter
                         this.saveFilter()
@@ -98,22 +73,24 @@ export class List {
      * Delete a filter
      */
     initDeleteFilterListener() {
-        $('button.delete-filter').on('click', () => {
-            let selectedFilterId = $('select.filter').val()
+        const table = $('table[data-filter-type="list"]')
+
+        $('a.delete-filter').on('click', () => {
+            let selectedFilterId = $(table).attr('data-filter-id')
 
             if(selectedFilterId) {
                 swal({
-                    title: uctrans('dialog.confirm.title'),
-                    text: uctrans('filter.delete.message'),
-                    type: "warning",
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    showLoaderOnConfirm: true,
-                    confirmButtonColor: '#DD6B55',
-                    confirmButtonText: uctrans('button.yes'),
-                    cancelButtonText: uctrans('button.cancel')
-                },
-                (response) => {
+                    title: uctrans.trans('uccello::default.confirm.dialog.title'),
+                    text: uctrans.trans('uccello::default.filter.delete.message'),
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                    buttons: [
+                        uctrans.trans('uccello::default.button.no'),
+                        uctrans.trans('uccello::default.button.yes')
+                    ],
+                })
+                .then((response) => {
                     if (response === true) {
                         this.deleteFilter(selectedFilterId)
                     }
@@ -127,9 +104,7 @@ export class List {
      */
     initExportListener() {
         $('#exportModal .export').on('click', (event) => {
-            const domainSlug = $('meta[name="domain"]').attr('content')
-            const moduleName = $('meta[name="module"]').attr('content')
-            const table = $('.listview .dataTable').DataTable()
+            const table = $('table[data-filter-type="list"]')
             const modal = $('#exportModal')
 
             // Export config
@@ -138,8 +113,8 @@ export class List {
                 extension: $('#export_format', modal).val(),
                 columns: this.getVisibleColumns(table),
                 conditions: this.getSearchConditions(table),
-                order: this.getOrderWithFieldColumn(table),
-                hide_columns: $('#export_hide_columns', modal).is(':checked') ? 1 : 0,
+                order: $(table).attr('data-order') ? JSON.parse($(table).attr('data-order')) : null,
+                with_hidden_columns: $('#with_hidden_columns', modal).is(':checked') ? 1 : 0,
                 with_id: $('#export_with_id', modal).is(':checked') ? 1 : 0,
                 with_conditions: $('#export_keep_conditions', modal).is(':checked') ? 1 : 0,
                 with_order: $('#export_keep_order', modal).is(':checked') ? 1 : 0,
@@ -147,7 +122,7 @@ export class List {
             }
 
             // URL
-            const url = laroute.route('uccello.export', {domain: domainSlug, module: moduleName})
+            const url = table.data('export-url')
 
             // Make a fake form to be able to download the file
             let fakeFormHtml = this.getFakeFormHtml(data, url)
@@ -170,14 +145,13 @@ export class List {
      * @return {array}
      */
     getVisibleColumns(table) {
-        const datatableColumns = this.datatable.columns
-
         let visibleColumns = []
-        table.columns().every((index) => {
-            if (index > 0 && index < table.columns().visible().length - 1) { // Ignore firt and last column
-                if (table.column(index).visible()) {
-                    visibleColumns.push(datatableColumns[index-1].name) // The first column is not in datatableColumns, so we use -1
-                }
+
+        $('th[data-field]', table).each(function() {
+            let fieldName = $(this).data('field')
+
+            if ($(this).css('display') !== 'none') {
+                visibleColumns.push(fieldName)
             }
         })
 
@@ -190,14 +164,12 @@ export class List {
      * @return {Object}
      */
     getSearchConditions(table) {
-        const datatableColumns = this.datatable.columns
-
         let conditions = {}
-        table.columns().every((index) => {
-            if (index > 0 && index < table.columns().visible().length - 1) { // Ignore firt and last column
-                if (table.column(index).search()) {
-                    conditions[datatableColumns[index-1].name] = table.column(index).search()
-                }
+
+        $('th[data-column]', table).each((index, el) => {
+            let fieldName = $(el).data('field')
+            if (this.datatable.columns[fieldName].search) {
+                conditions[fieldName] = this.datatable.columns[fieldName].search
             }
         })
 
@@ -225,9 +197,7 @@ export class List {
      * Save filter into database
      */
     saveFilter() {
-        const domainSlug = $('meta[name="domain"]').attr('content')
-        const moduleName = $('meta[name="module"]').attr('content')
-        const table = $('.listview .dataTable').DataTable()
+        const table = $('table[data-filter-type="list"]')
         const modal = $('#addFilterModal')
 
         // Save filter
@@ -238,8 +208,8 @@ export class List {
             save_order: $('#add_filter_save_order', modal).is(':checked') ? 1 : 0,
             save_page_length: $('#add_filter_save_page_length', modal).is(':checked') ? 1 : 0,
             columns: this.getVisibleColumns(table),
-            order: table.order(),
-            page_length: parseInt($('button .records-number').text()),
+            order: $(table).attr('data-order') ? JSON.parse($(table).attr('data-order')) : null,
+            page_length: $(table).attr('data-length'),
             public: $('#add_filter_is_public', modal).is(':checked') ? 1 : 0,
             default: $('#add_filter_is_default', modal).is(':checked') ? 1 : 0,
         }
@@ -254,35 +224,29 @@ export class List {
             data['conditions'] = null
         }
 
-        const url = laroute.route('uccello.list.filter.save', {domain: domainSlug, module: moduleName})
         $.ajax({
-                url: url,
+                url: table.data('save-filter-url'),
                 method: 'post',
                 data: data,
                 contentType: "application/x-www-form-urlencoded"
             })
             .then((response) => {
-                // Hide modal
-                $('#addFilterModal').modal('hide')
-
                 let filterToAdd = {
                     id: response.id,
                     name: response.name
                 }
 
-                // Add option if necessary
-                if ($(`select.filter option[value='${filterToAdd.id}']`).length === 0) {
-                    $('select.filter').append(`<option value="${filterToAdd.id}">${filterToAdd.name}</option>`)
-                }
+                // Set filter name into the list
+                $('a[data-target="filters-list"] span').text(filterToAdd.name)
 
-                // Select option
-                $('select.filter').val(filterToAdd.id).selectpicker('refresh')
+                // Set current filter id
+                $(table).attr('data-filter-id', filterToAdd.id)
 
                 // Remove disabled on delete button
-                $('button.delete-filter').removeAttr('disabled')
+                $('a.delete-filter').parents('li:first').show()
             })
             .fail((error) => {
-                swal(uctrans('dialog.error.title'), error.message, 'error')
+                swal(uctrans.trans('uccello::default.dialog.error.title'), error.message, 'error')
             })
     }
 
@@ -291,21 +255,26 @@ export class List {
      * @param {integer} id
      */
     deleteFilter(id) {
-        const domainSlug = $('meta[name="domain"]').attr('content')
-        const moduleName = $('meta[name="module"]').attr('content')
+        const table = $('table[data-filter-type="list"]')
 
-        let url = laroute.route('uccello.list.filter.delete', { domain: domainSlug, module: moduleName, id: id })
-        $.get(url)
+        let data = {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id: id
+        }
+
+        let url = $(table).data('delete-filter-url')
+
+        $.post(url, data)
             .then((response) => {
                 if (response.success) {
                     // Refresh list without filter
-                    document.location.href = laroute.route('uccello.list', { domain: domainSlug, module: moduleName })
+                    document.location.href = $(table).data('list-url')
                 } else {
-                    swal(uctrans('dialog.error.title'), response.message, 'error')
+                    swal(uctrans.trans('uccello::default.dialog.error.title'), response.message, 'error')
                 }
             })
             .fail((error) => {
-                swal(uctrans('dialog.error.title'), error.message, 'error')
+                swal(uctrans.trans('uccello::default.dialog.error.title'), error.message, 'error')
             })
     }
 

@@ -1,41 +1,38 @@
-<div id="linkModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">{{ uctrans('menu.button.add_link', $module) }}</h4>
-            </div>
-            <div class="modal-body">
-                {{-- Label --}}
-                <div class="form-group form-float">
-                    <div class="form-line">
-                        <input type="text" name="label" class="form-control">
-                        <label class="form-label">{{ uctrans('menu.link.label', $module) }}</label>
-                    </div>
-                </div>
+<div id="linkModal" class="modal">
+    <div class="modal-content">
+        <h4>
+            <i class="material-icons left primary-text">link</i>
+            {{ uctrans('menu_manager.modal.link.title', $module) }}
+        </h4>
 
-                {{-- Icon --}}
-                <div class="form-group form-float">
-                    <div class="form-line">
-                        <input type="text" name="icon" class="form-control">
-                        <label class="form-label">{{ uctrans('menu.link.icon', $module) }}</label>
-                    </div>
-                    <div class="help-info">
-                        {{ uctrans('menu.icon.see', $module) }} <a href="https://material.io/tools/icons" target="_blank">https://material.io/tools/icons</a>
-                    </div>
+        <div class="row">
+            <div class="col s12">
+                {{-- Label --}}
+                <div class="input-field">
+                    <input id="label" type="text" name="label">
+                    <label for="label" class="required">{{ uctrans('menu_manager.modal.link.label', $module) }}</label>
                 </div>
 
                 {{-- Url --}}
-                <div class="form-group form-float">
-                    <div class="form-line">
-                        <input type="text" name="url" class="form-control">
-                        <label class="form-label">{{ uctrans('menu.link.url', $module) }}</label>
-                    </div>
+                <div class="input-field">
+                    <input id="url" type="url" name="url">
+                    <label for="url" class="required">{{ uctrans('menu_manager.modal.link.url', $module) }}</label>
+                </div>
+
+                {{-- Icon --}}
+                <div class="input-field">
+                    <input id="icon" type="text" name="icon">
+                    <label for="icon" class="required">{{ uctrans('menu_manager.modal.link.icon', $module) }}</label>
+                    <span class="helper-text">
+                        {{ uctrans('menu_manager.label.see', $module) }} <a href="https://material.io/tools/icons" target="_blank">https://material.io/tools/icons</a>
+                    </span>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">{{ uctrans('button.cancel', $module) }}</button>
-                <button type="button" id="save-link" class="btn btn-link waves-effect col-green">{{ uctrans('button.save', $module) }}</button>
-            </div>
         </div>
+    </div>
+
+    <div class="modal-footer">
+        <a class="btn-flat waves-effect modal-close">{{ uctrans('button.cancel', $module) }}</a>
+        <a id="save-link" class="btn-flat waves-effect green-text">{{ uctrans('button.save', $module) }}</a>
     </div>
 </div>

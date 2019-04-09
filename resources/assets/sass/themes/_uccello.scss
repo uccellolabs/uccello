@@ -1,0 +1,62 @@
+// Variables
+$theme: "uccello";
+$primaryColor: #017ad6;
+$accentColor: #51555D;
+$accentColor2: #3F434C;
+
+// Body
+$backgroundColor: #F3F4F6;
+
+// Loader
+$loaderBackgroundColor: $primaryColor;
+$loaderColor: color("orange", "base");
+
+// Header
+$headerBackgroundColor: $primaryColor;
+$navbarTopBackgroundColor: #fff;
+
+// Breadcrumb
+$breadcrumbTextColor: #3F434C;
+$breadcrumbSeparatorColor: #CCC;
+
+// Tab
+$tabTextColor: #999999;
+$tabHoverBackgroundColor: transparent;
+$tabActiveTextColor: $primaryColor;
+$tabActiveBackgroundColor: transparent;
+$tabIndicatorBackgroundColor: $primaryColor;
+$tabBorderColor: #E6E6E8;
+$tabBadgeColor: #fff;
+
+// Sidenav
+$sidenavBackgroundColor: $accentColor;
+$sidenavLinkColor: #fff;
+$sidenavIconColor: #fff;
+$sidenavLinkHoverBackgroundColor: transparent;
+$sidenavLinkHoverColor: $primaryColor;
+$sidenavIconHoverColor: $primaryColor;
+$sidenavUserInfoBackgroundColor: $accentColor2;
+$sidenavUserInfoColor: #fff;
+$sidenavDividerColor: $accentColor2;
+$sidenavSubheaderBackgroundColor: $accentColor2;
+$sidenavLinkActiveBackgroundColor: $accentColor2;
+
+// Table
+$tableTrHoverBackgroundColor: #f5f5f5;
+$tableTrOddBackgroundColor: #f9f9f9;
+$tableTdBorderColor: #eee;
+
+// Form
+$formInputFocusBorderColor: $primaryColor;
+$formInputValidBorderColor: colors('green');
+$formInputInvalidBorderColor: colors('red');
+$formLabelActiveColor: $primaryColor;
+$formIconActiveColor: $primaryColor;
+$formSwitchLeverBackgroundColor: #818181;
+$formSwitchLeverColor: $primaryColor;
+
+// Card
+$cardTitleInfoColor: #999;
+
+
+@import "global";

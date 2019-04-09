@@ -13,7 +13,7 @@ class ModuleManagerTest extends TestCase
 
     public function testModuleActivatonCanBeChanged()
     {
-        $user = User::where('is_admin', 1)->first();
+        $user = factory(\Uccello\Core\Models\User::class)->create();
         $this->actingAs($user);
 
         $domain = Domain::first();
@@ -54,7 +54,7 @@ class ModuleManagerTest extends TestCase
 
     public function testMandatoryModuleActivatonCannotBeChanged()
     {
-        $user = User::where('is_admin', 1)->first();
+        $user = factory(\Uccello\Core\Models\User::class)->create();
         $this->actingAs($user);
 
         $domain = Domain::first();
@@ -82,7 +82,7 @@ class ModuleManagerTest extends TestCase
 
     public function testModuleNotDefined()
     {
-        $user = User::where('is_admin', 1)->first();
+        $user = factory(\Uccello\Core\Models\User::class)->create();
         $this->actingAs($user);
 
         $domain = Domain::first();

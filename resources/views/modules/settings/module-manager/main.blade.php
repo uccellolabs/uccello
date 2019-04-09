@@ -1,39 +1,62 @@
-@extends('layouts.app')
+@extends('layouts.uccello')
 
 @section('page', 'module-manager')
 
-@section('breadcrumb')
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="breadcrumb pull-left">
-                {{-- Module icon --}}
-                <a href="{{ ucroute('uccello.settings.dashboard', $domain) }}" class="pull-left module-icon">
-                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
-                </a>
+@section('extra-meta')
+<meta name="module-activation-url" content="{{ ucroute('uccello.settings.module.activation', $domain) }}">
+@append
 
-                <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li class="active">{{ uctrans('module.manager', $module) }}</li>
-                </ol>
+@section('breadcrumb')
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <div class="breadcrumb-container left">
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">
+                        <i class="material-icons left">settings</i>
+                        <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
+                    </a>
+                </span>
+                <span class="breadcrumb active">{{ uctrans('breadcrumb.module_manager', $module) }}</span>
             </div>
         </div>
     </div>
 @endsection
 
 @section('content')
-    <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card block" id="modules-list">
-                <div class="header">
-                    <h2>
-                        <div class="block-label-with-icon">
-                            <i class="material-icons">extension</i>
-                            <span>{{ uctrans('module.manager.main_modules', $module) }}</span>
-                        </div>
-                        <small>{{ uctrans('module.manager.description', $module) }}</small>
-                    </h2>
-                </div>
-                <div class="body">
+    <div class="row">
+        {{-- Tabs --}}
+        <div class="col s12">
+          <ul class="tabs transparent">
+            <li class="tab">
+                <a href="#main-modules">
+                    <i class="material-icons left">extension</i>
+                    {{ uctrans('module_manager.tab.main_modules', $module) }}
+                </a>
+            </li>
+            <li class="tab">
+                <a href="#admin-modules" class="active">
+                    <i class="material-icons left">settings</i>
+                    {{ uctrans('module_manager.tab.admin_modules', $module) }}
+                </a>
+            </li>
+          </ul>
+        </div>
+
+        {{-- Main --}}
+        <div id="main-modules" class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title">
+                        {{-- Icon --}}
+                        <i class="material-icons left primary-text">extension</i>
+
+                        {{-- Label --}}
+                        {{ uctrans('module_manager.main_modules', $module) }}
+
+                        {{-- Description --}}
+                        <small class="with-icon">{{ uctrans('module_manager.description', $module) }}</small>
+                    </div>
+
                     <div class="row">
                         @foreach ($mainModules as $_module)
                             @include('uccello::modules.settings.module-manager.module')
@@ -42,21 +65,22 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="card block" id="modules-list">
-                <div class="header">
-                    <h2>
-                        <div class="block-label-with-icon">
-                            <i class="material-icons">settings</i>
-                            <span>{{ uctrans('module.manager.admin_modules', $module) }}</span>
-                        </div>
-                        <small>{{ uctrans('module.manager.description', $module) }}</small>
-                    </h2>
-                </div>
-                <div class="body">
+        {{-- Admin --}}
+        <div id="admin-modules" class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-title">
+                        {{-- Icon --}}
+                        <i class="material-icons left primary-text">settings</i>
+
+                        {{-- Label --}}
+                        {{ uctrans('module_manager.admin_modules', $module) }}
+
+                        {{-- Description --}}
+                        <small class="with-icon">{{ uctrans('module_manager.description', $module) }}</small>
+                    </div>
+
                     <div class="row">
                         @foreach ($adminModules as $_module)
                             @include('uccello::modules.settings.module-manager.module')

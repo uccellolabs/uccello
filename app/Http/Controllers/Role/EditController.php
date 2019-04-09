@@ -17,6 +17,9 @@ class EditController extends CoreEditController
         // Get default view
         $view = parent::process($domain, $module, $request);
 
+        // Useful if multi domains is not used
+        $domain = $this->domain;
+
         // Get record
         $record = $this->getRecordFromRequest();
 

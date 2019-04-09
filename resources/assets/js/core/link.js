@@ -1,5 +1,3 @@
-import { Dialog } from './dialog'
-
 export class Link {
     constructor(initListeners) {
         if (initListeners !== false) {
@@ -17,7 +15,9 @@ export class Link {
         }
 
         $("a[data-config], button[data-config]", parentElement).on('click', (event) => {
+
             event.preventDefault()
+            event.stopImmediatePropagation()
 
             this.element = $(event.currentTarget)
             this.config = this.element.data('config')
@@ -52,11 +52,6 @@ export class Link {
             case 'ajax':
                     this.callUrl()
                 break
-
-            // Modal
-            case 'modal':
-                this.showModal()
-            break
         }
     }
 
@@ -114,9 +109,9 @@ export class Link {
             // Display dialog displaying success or error
             else {
                 if (response.success === false) {
-                    swal(uctrans('dialog.error.title'), response.message, "error")
+                    swal(uctrans.trans('uccello::default.dialog.error.title'), response.message, "error")
                 } else {
-                    swal(uctrans('dialog.success.title'), response.message, "success")
+                    swal(uctrans.trans('uccello::default.dialog.success.title'), response.message, "success")
 
                     // Reload page if needed
                     if (ajaxConfig.refresh === true) {
@@ -127,31 +122,14 @@ export class Link {
         })
         // Impossible to reach the URL. Display error
         .catch((error) => {
-            swal(uctrans('dialog.error.title'), error.message, "error")
+            swal(uctrans.trans('uccello::default.dialog.error.title'), error.message, "error")
         })
-    }
-
-    /**
-     * Show modal
-     */
-    showModal() {
-        // Get modal element selector
-        let modalElement = this.config.modal // e.g: #modal
-
-        // Show modal
-        $(modalElement).modal('show')
-
-        // Empty fields and remove focus or error classes
-        $('input', modalElement).val('')
-        $('.form-line', modalElement).removeClass('focused').removeClass('error')
     }
 
     /**
      * Show confirm dialog
      */
     confirm() {
-        let dialog = new Dialog()
-
         // Get config
         let title, text, confirmButtonText, confirmButtonColor, closeOnConfirm
 
@@ -164,8 +142,8 @@ export class Link {
         }
 
         // Default config
-        if (!title) { title = uctrans('dialog.confirm.title') }
-        if (!confirmButtonText) { confirmButtonText = uctrans('button.yes') }
+        if (!title) { title = uctrans.trans('uccello::default.confirm.dialog.title') }
+        if (!confirmButtonText) { confirmButtonText = uctrans.trans('uccello::default.button.yes') }
         if (!confirmButtonColor) { confirmButtonColor = '#DD6B55' }
         if (!closeOnConfirm) { closeOnConfirm = true }
 
@@ -180,19 +158,27 @@ export class Link {
         }
 
         // Show confirm dialog
-        dialog.show({
+        swal({
             title: title,
             text: text,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: confirmButtonColor,
-            confirmButtonText: confirmButtonText,
-            cancelButtonText: uctrans('button.cancel'),
-            closeOnConfirm: closeOnConfirm,
-            showLoaderOnConfirm: showLoaderOnConfirm,
-        },
-        () => {
-            this.launchAction()
+            icon: "warning",
+            buttons: {
+                cancel: {
+                  text: uctrans.trans('uccello::default.button.no'),
+                  value: null,
+                  visible: true,
+                },
+                confirm: {
+                  text: confirmButtonText,
+                  value: true,
+                  className: "red",
+                  closeModal: closeOnConfirm
+                }
+            }
+        }).then((response) => {
+            if (response === true) {
+                this.launchAction()
+            }
         })
     }
 }

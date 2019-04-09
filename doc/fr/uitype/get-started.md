@@ -127,7 +127,7 @@ class Text implements Uitype
     /**
      * Formatage de la valeur avant la recherche dans la base de données
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch($value)
     {
         $formattedValue = $value;
 

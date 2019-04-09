@@ -32,8 +32,15 @@ class ListController extends Controller
         $this->preProcess($domain, $module, $request);
 
         // Selected filter
-        $selectedFilterId = $request->input('filter') ?? null;
-        $selectedFilter = Filter::find($selectedFilterId);
+        if ($request->input('filter')) {
+            $selectedFilterId = $request->input('filter');
+            $selectedFilter = Filter::find($selectedFilterId);
+        }
+
+        if (empty($selectedFilter)) { // For example if the given filter does not exist
+            $selectedFilter = $module->filters()->where('type', 'list')->first();
+            $selectedFilterId = $selectedFilter->id;
+        }
 
         // Get datatable columns
         $datatableColumns = Uccello::getDatatableColumns($module, $selectedFilterId);
@@ -43,8 +50,13 @@ class ListController extends Controller
             ->where('type', 'list')
             ->get();
 
-        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter'));
+        // Order by
+        $filterOrderBy = (array) $selectedFilter->order_by;
+
+        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy'));
     }
+
+
 
     /**
      * Display a listing of the resources.
@@ -55,47 +67,115 @@ class ListController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function processForDatatable(?Domain $domain, Module $module, Request $request)
+    public function processForContent(?Domain $domain, Module $module, Request $request)
     {
-        // If we don't use multi domains, find the first one
-        if (!uccello()->useMultiDomains()) {
-            $domain = Domain::first();
+        $length = (int)$request->get('length') ?? env('UCCELLO_ITEMS_PER_PAGE', 15);
+        $order = $request->get('order');
+        $columns = $request->get('columns');
+        $recordId = $request->get('id');
+        $relatedListId = $request->get('relatedlist');
+        $action = $request->get('action');
+
+        // Pre-process
+        $this->preProcess($domain, $module, $request);
+
+        // Get model model class
+        $modelClass = $module->model_class;
+
+        // Check if the class exists
+        if (!class_exists($modelClass)) {
+            return false;
         }
 
-        // Get data formated for Datatable
-        $result = $this->getResultForDatatable($domain, $module, $request);
-
-        return $result;
-    }
-
-    /**
-     * Display a listing of the resources.
-     * The result is formated differently if it is a classic query or one requested by datatable.
-     * Filter on domain if domain_id column exists.
-     * @param  \Uccello\Core\Models\Domain|null $domain
-     * @param  \Uccello\Core\Models\Module $module
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function processForDatatableConfig(?Domain $domain, Module $module, Request $request)
-    {
-        // If we don't use multi domains, find the first one
-        if (!uccello()->useMultiDomains()) {
-            $domain = Domain::first();
+        // Filter on domain if column exists
+        if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
+            $query = $modelClass::where('domain_id', $domain->id);
+        } else {
+            $query = $modelClass::query();
         }
 
-        // Get filter type
-        $filterType = $request->get('filter_type', 'list');
+        // Search by column
+        foreach ($columns as $fieldName => $column) {
+            if (!empty($column[ "search" ])) {
+                $searchValue = $column[ "search" ];
+            } else {
+                $searchValue = null;
+            }
 
-        // Get selected filter id
-        $filterId = $request->get('filter');
-        $filter = Filter::find($filterId);
+            // Get field by name and search by field column
+            $field = $module->getField($fieldName);
+            if (isset($searchValue) && !is_null($field)) {
+                $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
+            }
+        }
 
-        // Get data formated for Datatable
-        return [
-            'columns' => uccello()->getDatatableColumns($module, $filterId, $filterType),
-            'filter' => $filter
-        ];
+        // Order results
+        if (!empty($order)) {
+            foreach ($order as $fieldColumn => $value) {
+                if (!is_null($field)) {
+                    $query = $query->orderBy($fieldColumn, $value);
+                }
+            }
+        }
+
+        // Limit the number maximum of items per page
+        $maxItemsPerPage = env('UCCELLO_MAX_ITEMS_PER_PAGE', 100);
+        if ($length > $maxItemsPerPage) {
+            $length = $maxItemsPerPage;
+        }
+
+        // If the query is for a related list, add conditions
+        if ($relatedListId && $action !== 'select') {
+            // Get related list
+            $relatedList = Relatedlist::find($relatedListId);
+
+            if ($relatedList && $relatedList->method) {
+                // Related list method
+                $method = $relatedList->method;
+
+                // Update query
+                $model = new $modelClass;
+                $records = $model->$method($relatedList, $recordId, $query, 0, $length);
+            }
+        } elseif ($relatedListId && $action === 'select') {
+            // Get related list
+            $relatedList = Relatedlist::find($relatedListId);
+
+            if ($relatedList && $relatedList->method) {
+                // Related list method
+                $method = $relatedList->method;
+                $recordIdsMethod = $method . 'RecordIds';
+
+                // Get related records ids
+                $model = new $modelClass;
+                $filteredRecordIds = $model->$recordIdsMethod($relatedList, $recordId);
+
+                // Add the record id itself to be filtered
+                if ($relatedList->related_module_id === $module->id && !empty($recordId) && !$filteredRecordIds->contains($recordId)) {
+                    $filteredRecordIds[] = (int)$recordId;
+                }
+
+                // Make the quer
+                $records = $query->whereNotIn($model->getKeyName(), $filteredRecordIds)->paginate($length);
+            }
+        } else {
+            // Paginate results
+            $records = $query->paginate($length);
+        }
+
+        $records->getCollection()->transform(function ($record) use ($module) {
+            foreach ($module->fields as $field) {
+                // If a special template exists, use it. Else use the generic template
+                $uitypeViewName = sprintf('uitypes.list.%s', $field->uitype->name);
+                $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';
+                $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                $record->{$field->name.'_html'} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
+            }
+
+            return $record;
+        });
+
+        return $records;
     }
 
     /**
@@ -185,7 +265,7 @@ class ListController extends Controller
             if ($filter->readOnly) {
                 // Response
                 $success = false;
-                $message = uctrans('error.filter.read.only', $module);
+                $message = uctrans('error.filter.read_only', $module);
             } else {
                 // Delete
                 $filter->delete();
@@ -197,159 +277,12 @@ class ListController extends Controller
         } else {
             // Response
             $success = false;
-            $message = uctrans('error.filter.not.found', $module);
+            $message = uctrans('error.filter.not_found', $module);
         }
 
         return [
             'success' => $success,
             'message' => $message
-        ];
-    }
-
-    /**
-     * Get result formatted for Datatable
-     *
-     * @param  \Uccello\Core\Models\Domain $domain
-     * @param  \Uccello\Core\Models\Module $module
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    protected function getResultForDatatable(Domain $domain, Module $module, Request $request)
-    {
-        $draw = (int)$request->get('draw');
-        $start = (int)$request->get('start');
-        $length = (int)$request->get('length');
-        $order = $request->get('order');
-        $columns = $request->get('columns');
-        $recordId = $request->get('id');
-        $relatedListId = $request->get('relatedlist');
-        $action = $request->get('action');
-
-        // Get model model class
-        $modelClass = $module->model_class;
-
-        // If the class exists, make the query
-        if (class_exists($modelClass)) {
-
-            // Filter on domain if column exists
-            if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
-                // Count all results
-                $total = $modelClass::where('domain_id', $domain->id)->count();
-
-                // Paginate results
-                $query = $modelClass::where('domain_id', $domain->id);
-            } else {
-                // Count all results
-                $total = $modelClass::count();
-
-                // Paginate results
-                $query = $modelClass::query();
-            }
-
-            // Search by column
-            foreach ($columns as $column) {
-                $fieldName = $column[ "data" ];
-                $searchValue = $column[ "search" ][ "value" ];
-
-                // Get field by name and search by field column
-                $field = $module->getField($fieldName);
-                if (isset($searchValue) && !is_null($field)) {
-                    $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
-                }
-            }
-
-            // Count filtered results
-            $totalFiltered = $query->count();
-
-            $initialQuery = $query;
-            $query = $query->skip($start)->take($length);
-
-            // Order results
-            foreach ($order as $orderInfo) {
-                $columnIndex = (int)$orderInfo[ "column" ];
-                $column = $columns[ $columnIndex ];
-                $fieldName = $column[ "data" ];
-
-                // Get field by name and order by field column
-                $field = $module->getField($fieldName);
-                if (!is_null($field)) {
-                    $query = $query->orderBy($field->column, $orderInfo[ "dir" ]);
-                }
-            }
-
-            // If the query is for a related list, add conditions
-            if ($relatedListId && $action !== 'select') {
-                // Get related list
-                $relatedList = Relatedlist::find($relatedListId);
-
-                if ($relatedList && $relatedList->method) {
-                    // Related list method
-                    $method = $relatedList->method;
-                    $countMethod = $method.'Count';
-
-                    // Update query
-                    $model = new $modelClass;
-                    $records = $model->$method($relatedList, $recordId, $query, $start, $length);
-
-                    // Count all results
-                    $total = $model->$countMethod($relatedList, $recordId);
-                    $totalFiltered = $total;
-                }
-            }
-            elseif ($relatedListId && $action === 'select') {
-                // Get related list
-                $relatedList = Relatedlist::find($relatedListId);
-
-                if ($relatedList && $relatedList->method) {
-                    // Related list method
-                    $method = $relatedList->method;
-                    $recordIdsMethod = $method . 'RecordIds';
-
-                    // Get related records ids
-                    $model = new $modelClass;
-                    $filteredRecordIds = $model->$recordIdsMethod($relatedList, $recordId);
-
-                    // Add the record id itself to be filtered
-                    if ($relatedList->related_module_id === $module->id && !empty($recordId) && !$filteredRecordIds->contains($recordId)) {
-                        $filteredRecordIds[] = (int)$recordId;
-                    }
-
-                    // Make the query
-                    $records = $query->whereNotIn($model->getKeyName(), $filteredRecordIds)->get();
-
-                    // Count all results
-                    $total = $initialQuery->whereNotIn($model->getKeyName(), $filteredRecordIds)->count();
-                    $totalFiltered = $total;
-                }
-            }
-            else {
-                // Make the query
-                $records = $query->get();
-            }
-
-            foreach ($records as &$record) {
-                foreach ($module->fields as $field) {
-                    $displayedValue = $field->uitype->getFormattedValueToDisplay($field, $record);
-
-                    if ($displayedValue !== $record->{$field->column}) {
-                        $record->{$field->name} = $displayedValue;
-                    }
-                }
-            }
-
-            $data = $records;
-
-        } else {
-            $data = [ ];
-            $total = 0;
-            $totalFiltered = 0;
-        }
-
-        return [
-            "data" => $data->toArray(),
-            "draw" => $draw,
-            "recordsTotal" => $total,
-            "recordsFiltered" => $totalFiltered,
         ];
     }
 }

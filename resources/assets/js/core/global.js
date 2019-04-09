@@ -1,5 +1,4 @@
 import { Link } from './link'
-import { Notify } from './notify'
 
 export class Global {
     constructor() {
@@ -14,14 +13,9 @@ export class Global {
     initNotifications() {
         $('.notification-container').each((index, element) => {
             let text = $(element).html()
-            let color = $(element).data('color')
-            let placementFrom = $(element).data('placement')
-            let placementAlign = $(element).data('align')
-            let animationEnter = $(element).data('animation-enter')
-            let animationExit = $(element).data('animation-exit')
+            let classes = $(element).data('classes') ? $(element).data('classes') : ''
 
-            let notify = new Notify()
-            notify.show(text, color, placementFrom, placementAlign, animationEnter, animationExit)
+            M.toast({html: text, classes: classes})
         })
     }
 }

@@ -68,9 +68,9 @@ class Checkbox implements Uitype
      * Returns formatted value to search.
      *
      * @param mixed $value
-     * @return string
+     * @return mixed
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch($value)
     {
         $formattedValue = $value === 'true' ? true : false;
 
@@ -88,10 +88,9 @@ class Checkbox implements Uitype
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
         $query->where(function ($query) use($field, $value) {
-            $values = explode(',', $value);
-            foreach ($values as $value) {
-                $formattedValue = $this->getFormattedValueToSearch($value);
-                $query = $query->orWhere($field->column, '=', $formattedValue);
+            foreach ((array) $value as $_value) {
+                $formattedValue = $this->getFormattedValueToSearch($_value);
+                $query = $query->orWhere($field->column, $formattedValue);
             }
         });
 

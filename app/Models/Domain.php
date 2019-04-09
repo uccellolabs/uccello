@@ -2,17 +2,30 @@
 
 namespace Uccello\Core\Models;
 
-use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Support\Collection;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Gzero\EloquentTree\Model\Tree;
+use Uccello\Core\Support\Traits\RelatedlistTrait;
 
-class Domain extends Model
+class Domain extends Tree
 {
     use SoftDeletes;
     use Sluggable;
     use SearchableTrait;
+    use RelatedlistTrait;
+
+    protected $tablePrefix;
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'recordLabel'
+    ];
 
     /**
      * The table associated with the model.
@@ -38,6 +51,29 @@ class Domain extends Model
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'parent_id',
+    ];
+
+    /**
+     * Searchable rules.
+     * See https://github.com/nicolaslopezj/searchable
+     *
+     * @var array
+     */
+    protected $searchable = [
+        'columns' => [
+            'name' => 1
+        ]
+    ];
+
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
@@ -53,31 +89,35 @@ class Domain extends Model
         ];
     }
 
-    /**
-     * Searchable rules.
-     * See https://github.com/nicolaslopezj/searchable
-     *
-     * @var array
-     */
-    protected $searchable = [
-        'columns' => [
-            'name' => 1
-        ]
-    ];
+    public function __construct(array $attributes = [ ])
+    {
+        parent::__construct($attributes);
+
+        // Init table prefix
+        $this->initTablePrefix();
+
+        // Init table name
+        $this->initTableName();
+
+        $this->addTreeEvents(); // Adding tree events
+    }
+
+    public function getTablePrefix()
+    {
+        return $this->tablePrefix;
+    }
 
     protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }
 
-    public function parent()
+    protected function initTableName()
     {
-        return $this->belongsTo(self::class);
-    }
-
-    public function children()
-    {
-        return $this->hasMany(self::class, 'parent_id');
+        if ($this->table)
+        {
+            $this->table = $this->tablePrefix.$this->table;
+        }
     }
 
     public function privileges()
@@ -108,30 +148,6 @@ class Domain extends Model
     public function menus()
     {
         return $this->hasMany(Menu::class);
-    }
-
-    /**
-     * Returns all parents of a domain and insert also this domain if necessary.
-     *
-     * @param boolean $includeItself
-     * @return Collection
-     */
-    public function parents($includeItself = true) : Collection
-    {
-        $parents = new Collection();
-
-        if ($includeItself) {
-            $parents[ ] = $this;
-        }
-
-        $domain = $this;
-
-        while (!is_null($domain->parent)) {
-            $domain = $domain->parent;
-            $parents[ ] = $domain;
-        }
-
-        return $parents;
     }
 
     /**

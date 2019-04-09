@@ -65,10 +65,9 @@ class EditForm extends Form
         $this->add('save_btn', 'submit', [
             'label' => '<i class="material-icons">save</i>',
             'attr' => [
-                'class' => 'btn bg-green btn-circle-lg waves-effect waves-circle waves-float btn-save',
-                'title' => uctrans('button.save', $module),
-                'data-toggle' => 'tooltip',
-                'data-placement' => 'top',
+                'class' => 'btn-floating btn-large waves-effect green btn-save',
+                'data-tooltip' => uctrans('button.save', $module),
+                'data-position' => 'top',
             ]
         ]);
 
@@ -77,10 +76,9 @@ class EditForm extends Form
             $this->add('save_new_btn', 'button', [
                 'label' => '<i class="material-icons">add</i>',
                 'attr' => [
-                    'class' => 'btn bg-primary btn-circle-lg waves-effect waves-circle waves-float btn-save-new',
-                    'title' => uctrans('button.save_new', $module),
-                    'data-toggle' => 'tooltip',
-                    'data-placement' => 'top',
+                    'class' => 'btn-floating btn-large waves-effect primary btn-save-new',
+                    'data-tooltip' => uctrans('button.save_new', $module),
+                    'data-position' => 'top',
                 ]
             ]);
 
@@ -156,11 +154,9 @@ class EditForm extends Form
 
         $options = [
             'label' => uctrans($field->label, $module),
-            'label_attr' => [ 'class' => 'form-label'.$requiredClass ],
+            'label_attr' => [ 'class' => $requiredClass ],
             'rules' => $this->getFieldRules($field),
-            'attr' => [
-                'class' => 'form-control'
-            ]
+            'attr' => [ 'class' => null ]
         ];
 
         if ($request->input($field->name)) {

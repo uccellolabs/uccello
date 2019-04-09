@@ -1,15 +1,15 @@
 <?php $isLarge = $forceLarge ?? $field->data->large ?? false; ?>
-<div class="col-sm-2 col-xs-5">
-    <strong>{{ uctrans($field->label, $module) }}</strong>
+<div class="col m2 s5">
+    <b>{{ uctrans($field->label, $module) }}</b>
 </div>
-<div class="{{ $isLarge ? 'col-sm-10 col-xs-7' : 'col-sm-4 col-xs-7' }}">
+<div class="col {{ $isLarge ? 's7 m10' : 's7 m4' }}">
     <?php
-        $value = $field->uitype->getFormattedValueToDisplay($field, $record);
-        $color = $value === trans('uccello::default.yes') ? 'green' : 'red'
+        $value = $record->{$field->column};
+        $color = $value ? 'green' : 'red';
+        $icon = $record->{$field->column} ? 'check' : 'close';
     ?>
-
-    <div style="position: relative">
-        <i class="material-icons col-{{ $color }}" style="font-size: 18px" title="{{ $value }}">lens</i>
-        <span class="icon-label" style="left: 2px; top: -3px">{{ $value }}</span>
+    <div class="valign-wrapper">
+        <i class="material-icons left {{ $color }}-text" style="margin-right: 5px">{{ $icon }}</i>
+        {{-- <span class="icon-label">{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}</span> --}}
     </div>
 </div>

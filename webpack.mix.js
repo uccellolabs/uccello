@@ -1,33 +1,27 @@
-const mix = require('laravel-mix');
-const path = require('path');
-const uitypePath = path.resolve('./resources/assets/js/uitype-selector.js')
+const mix = require('laravel-mix')
 
-var autoload = {
-    jquery: [ '$', 'jQuery', 'jquery']
-}
-autoload[uitypePath] = ['UccelloUitypeSelector']
-
-mix.autoload(autoload);
-
-mix.setPublicPath('public');
+mix.setPublicPath('public')
 
 mix.extract([
-    'lodash', 'jquery', 'bootstrap',
-    'fastclick', 'adminbsb-materialdesign',
-    'vue', 'axios', 'node-waves', 'popper.js', 'moment'
-], 'public/js/vendor.js');
+        'lodash',
+        'jquery',
+        'bootstrap',
+        'popper.js',
+        'fastclick',
+    ], 'public/js/vendor.js')
 
 mix.js('./resources/assets/js/core/autoloader.js', 'public/js')
     .js('./resources/assets/js/settings/autoloader.js', 'public/js/settings')
+    .js('./resources/assets/js/profile/autoloader.js', 'public/js/profile')
 
 mix.js('./resources/assets/js/app.js', 'public/js')
-    .sass('./resources/assets/sass/app.scss', 'public/css');
+    .sass('./resources/assets/sass/materialize.scss', 'public/css')
+    .sass('./resources/assets/sass/app.scss', 'public/css')
 
-mix.copy('./resources/assets/images', 'public/images');
-
-mix.version();
+    .version()
 
 // Copy all compiled files into main project (auto publishing)
-mix.copyDirectory('public', '../../../public/vendor/uccello/uccello');
-mix.copyDirectory('public/fonts/vendor', '../../../public/fonts/vendor');
-mix.copyDirectory('public/images/vendor', '../../../public/images/vendor');
+   .copy('./resources/assets/images', 'public/images')
+   .copyDirectory('public', '../../../public/vendor/uccello/uccello')
+//    .copyDirectory('public/fonts/vendor', '../../../public/fonts/vendor')
+//    .copyDirectory('public/images/vendor', '../../../public/images/vendor')

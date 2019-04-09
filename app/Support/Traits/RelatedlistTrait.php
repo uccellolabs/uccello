@@ -30,15 +30,16 @@ trait RelatedlistTrait
      * @param int $length
      * @return Collection
      */
-    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15) : Collection
+    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15)
     {
         // Related field
         $relatedField = $relatedList->relatedField;
 
         return $query->where($relatedField->column, $recordId)
-            ->skip($start)
-            ->take($length)
-            ->get();
+            ->paginate($length);
+            // ->skip($start)
+            // ->take($length)
+            // ->get();
     }
 
     /**
@@ -73,30 +74,29 @@ trait RelatedlistTrait
      * @param int $length
      * @return Collection
      */
-    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15) : Collection
+    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15)
     {
         // Get related record ids
         $relations = Relation::where('relatedlist_id', $relatedList->id)
             ->where('module_id', $relatedList->module_id)
             ->where('related_module_id', $relatedList->related_module_id)
             ->where('record_id', $recordId)
-            ->skip($start)
-            ->take($length)
-            ->get();
+            ->paginate($length);
+            // ->skip($start)
+            // ->take($length)
+            // ->get();
 
         // Related model
         $relatedModel = new $relatedList->relatedModule->model_class;
 
-        // Retrieve all related records and add the relation id to be able to delete the relation instead of the record
-        $relatedRecords = new Collection();
-        foreach ($relations as $relation)
-        {
-            $relatedRecord = $relatedModel::find($relation->related_record_id);
-            $relatedRecord->relation_id = $relation->id; // Add relation id
-            $relatedRecords[ ] = $relatedRecord;
-        }
+        $relations->getCollection()->transform(function ($relation) use ($relatedModel) {
+            $record = $relatedModel::find($relation->related_record_id);
+            $record->relation_id = $relation->id; // Add relation id
 
-        return $relatedRecords;
+            return $record;
+        });
+
+        return $relations;
     }
 
     /**

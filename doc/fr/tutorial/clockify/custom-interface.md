@@ -26,10 +26,9 @@ Pour modifier le comportement de la vue **Liste**, nous devons créer le fichier
     {{-- Create button --}}
     @if (Auth::user()->canCreate($domain, $module))
     <div id="page-action-buttons">
-        <a class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float"
-            title="{{ uctrans('button.new', $module) }}"
-            data-toggle="tooltip"
-            data-placement="top"
+        <a class="btn-floating btn-large waves-effect green"
+            data-tooltip="{{ uctrans('button.new', $module) }}"
+            data-position="top"
             data-config='{"actionType":"modal", "modal":"#addSessionModal"}'>
             <i class="material-icons">add</i>
         </a>
@@ -64,10 +63,9 @@ On surcharge la section `page-action-buttons` pour modifier le comportement du b
     {{-- Create button --}}
     @if (Auth::user()->canCreate($domain, $module))
     <div id="page-action-buttons">
-        <a class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float"
-            title="{{ uctrans('button.new', $module) }}"
-            data-toggle="tooltip"
-            data-placement="top"
+        <a class="btn-floating btn-large waves-effect green"
+            data-tooltip="{{ uctrans('button.new', $module) }}"
+            data-position="top"
             data-config='{"actionType":"modal", "modal":"#addSessionModal"}'>
             <i class="material-icons">add</i>
         </a>
@@ -85,10 +83,9 @@ Voici à quoi ressemble cette section sur la **vue par défaut** utilisée par U
     @if (Auth::user()->canCreate($domain, $module))
     <div id="page-action-buttons">
         <a href="{{ ucroute('uccello.edit', $domain, $module) }}"
-           class="btn btn-success btn-circle-lg waves-effect waves-circle waves-float"
-           title="{{ uctrans('button.new', $module) }}"
-           data-toggle="tooltip"
-           data-placement="top">
+           class="btn-floating btn-large waves-effect green"
+           data-tooltip="{{ uctrans('button.new', $module) }}"
+           data-position="top">
             <i class="material-icons">add</i>
         </a>
     </div>

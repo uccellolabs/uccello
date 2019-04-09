@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.uccello')
 
 @section('page', 'detail')
 
@@ -7,26 +7,29 @@
 @endsection
 
 @section('breadcrumb')
-    <div class="row">
-        <div class="col-sm-6 col-xs-12">
-            <div class="breadcrumb pull-left">
-                {{-- Module icon --}}
-                <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
-                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
-                </a>
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <div class="breadcrumb-container left">
+                {{-- Admin --}}
+                @if ($admin_env)
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">
+                        <i class="material-icons left">settings</i>
+                        <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
+                    </a>
+                </span>
+                @endif
 
-                <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    <li class="active">{{ $record->recordLabel ?? $record->getKey() }}</li>
-                </ol>
+                {{-- Module icon --}}
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
+                        <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
+                        <span class="hide-on-small-only">{{ uctrans($module->name, $module) }}</span>
+                    </a>
+                </span>
+                <span class="breadcrumb active">{{ $record->recordLabel }}</span>
             </div>
         </div>
-
-        {{-- Custom links --}}
-        @section ('custom-links')
-            @include('uccello::modules.default.detail.links')
-        @show
     </div>
 @endsection
 
@@ -35,32 +38,30 @@
     @include('uccello::modules.default.detail.tabs')
 
     <div class="detail-blocks">
-        @section('default-blocks')
-            <div class="tab-content">
-                {{-- Summary --}}
-                @if ($widgets->count() > 0)
-                <div role="tabpanel" id="summary" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')active @endif" >
-                    @include('uccello::modules.default.detail.summary')
-                </div>
-                @endif
-
-                {{-- Tabs and blocks --}}
-                @foreach ($module->tabs as $i => $tab)
-                <div role="tabpanel" id="{{ $tab->id }}" class="tab-pane fade in @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)active @endif">
-                    {{-- Blocks --}}
-                    @include('uccello::modules.default.detail.blocks')
-
-                    {{-- Related lists as blocks --}}
-                    @include('uccello::modules.default.detail.relatedlists.as-blocks')
-                </div>
-                @endforeach
-
-                {{-- Related lists as tabs --}}
-                @include('uccello::modules.default.detail.relatedlists.as-tabs')
-
-                {{-- Other tabs --}}
-                @yield('other-tabs')
+        @section('default-tabs')
+            {{-- Summary --}}
+            @if ($widgets->count() > 0)
+            <div id="summary" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
+                @include('uccello::modules.default.detail.summary')
             </div>
+            @endif
+
+            {{-- Tabs and blocks --}}
+            @foreach ($module->tabs as $i => $tab)
+            <div id="{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
+                {{-- Blocks --}}
+                @include('uccello::modules.default.detail.blocks')
+
+                {{-- Related lists as blocks --}}
+                @include('uccello::modules.default.detail.relatedlists.as-blocks')
+            </div>
+            @endforeach
+
+            {{-- Related lists as tabs --}}
+            @include('uccello::modules.default.detail.relatedlists.as-tabs')
+
+            {{-- Other tabs --}}
+            @yield('other-tabs')
         @show
 
         {{-- Other blocks --}}

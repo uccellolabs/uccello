@@ -5,6 +5,7 @@ use Uccello\Core\Models\User;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Profile;
 
 class AddDefaultData extends Migration
 {
@@ -16,8 +17,8 @@ class AddDefaultData extends Migration
     public function up()
     {
         $this->addDefaultDomain();
-        $this->addDefaultRole();
-        $this->addDefaultUser();
+        $profile = $this->addDefaultProfile();
+        $this->addDefaultRole($profile);
         $this->addModulesInDomain();
     }
 
@@ -35,34 +36,34 @@ class AddDefaultData extends Migration
 
     protected function addDefaultDomain()
     {
-        $domain = new Domain();
-        $domain->name = 'Default';
-        $domain->description = null;
-        $domain->parent_id = null;
-        $domain->save();
+        Domain::create([
+            'name' => 'Uccello',
+            'description' => null,
+            'parent_id' => null
+        ]);
     }
 
-    protected function addDefaultRole()
+    protected function addDefaultProfile()
     {
-        $role = new Role();
-        $role->name = 'Administrator';
-        $role->description = null;
-        $role->parent_id = null;
-        $role->domain_id = Domain::first()->id;
-        $role->save();
+        $profile = Profile::create([
+            'name' => 'Administration',
+            'description' => null,
+            'domain_id' => Domain::first()->id
+        ]);
+
+        return $profile;
     }
 
-    protected function addDefaultUser()
+    protected function addDefaultRole($profile)
     {
-        $user = new User();
-        $user->username = 'admin';
-        $user->first_name = null;
-        $user->last_name = 'Admin';
-        $user->email = 'admin@uccello.io';
-        $user->password = Hash::make('admin');
-        $user->is_admin = true;
-        $user->domain_id = Domain::first()->id;
-        $user->save();
+        $role = Role::create([
+            'name' => 'Administrator',
+            'description' => null,
+            'parent_id' => null,
+            'domain_id' => Domain::first()->id
+        ]);
+
+        $role->profiles()->attach($profile);
     }
 
     protected function addModulesInDomain()

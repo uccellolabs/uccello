@@ -1,79 +1,76 @@
 @extends('uccello::layouts.main')
 
-@section('body-class')
-fp-page
-@endsection
+@section('body-extra-class', 'no-sidebar')
 
 @section('content')
-<div class="fp-box">
-    <div class="logo">
-        <a href="javascript:void(0);">Uccello</b></a>
-        <small>Advanced Admin Panel - For Laravel</small>
-    </div>
-    <div class="card">
-        <div class="body">
-            <form id="forgot_password" method="POST" action="{{ route('password.request') }}">
+    <div class="row" style="margin-top: 10%">
+        <div class="col s12 m8 offset-m2 l4 offset-l4">
+            {{-- Form --}}
+            <form method="POST" action="{{ route('password.update') }}" novalidate>
                 @csrf
+                {{-- Token --}}
                 <input type="hidden" name="token" value="{{ $token }}">
 
-                <div class="msg">
-                    Enter your new password.
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="material-icons">email</i>
-                    </span>
-                    <div class="form-line">
-                        <input id="email" type="email" placeholder="{{ __('E-Mail Address') }}" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ $email ?? old('email') }}" required autofocus>
+                <div class="card">
+                    <div class="card-content">
+                        <div class="center-align">
+                            {{ Html::image(ucasset('images/logo-uccello.png'), null, ['width' => '250']) }}
+                        </div>
 
-                        @if ($errors->has('email'))
-                            <span class="invalid-feedback">
-                                <strong>{{ $errors->first('email') }}</strong>
-                            </span>
-                        @endif
+                        <div class="row" style="margin-top: 30px">
+                            {{-- Email --}}
+                            <div class="input-field col s12">
+                                {{-- Field --}}
+                                <i class="material-icons prefix">email</i>
+                                <input id="email" type="email" name="email" class="{{ $errors->has('email') ? 'invalid' : '' }}" value="{{ old('email') }}" autofocus>
+                                <label for="email">{{ __('uccello::auth.field.email') }}</label>
+
+                                {{-- Error message --}}
+                                @if ($errors->has('email'))
+                                    <span class="helper-text red-text">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Password --}}
+                            <div class="input-field col s12">
+                                {{-- Field --}}
+                                <i class="material-icons prefix">lock</i>
+                                <input id="password" type="password" name="password" class="{{ $errors->has('password') ? 'invalid' : '' }}">
+                                <label for="password">{{ __('uccello::auth.field.password') }}</label>
+
+                                {{-- Error message --}}
+                                @if ($errors->has('password'))
+                                    <span class="helper-text red-text">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Password confirmation --}}
+                            <div class="input-field col s12">
+                                {{-- Field --}}
+                                <i class="material-icons prefix">lock</i>
+                                <input id="password_confirmation" type="password" name="password_confirmation" class="{{ $errors->has('password_confirmation') ? 'invalid' : '' }}">
+                                <label for="password_confirmation">{{ __('uccello::auth.field.password_confirmation') }}</label>
+
+                                {{-- Error message --}}
+                                @if ($errors->has('password_confirmation'))
+                                    <span class="helper-text red-text">
+                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="material-icons">lock</i>
-                    </span>
-                    <div class="form-line">
-                        <input id="password" type="password" placeholder="{{ __('Password') }}" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                        @if ($errors->has('password'))
-                            <span class="invalid-feedback">
-                                <strong>{{ $errors->first('password') }}</strong>
-                            </span>
-                        @endif
+                    <div class="card-action right-align">
+                        <a class="btn-flat waves-effect primary-text" href="{{ route('login') }}">{{ __('uccello::auth.button.signin')  }}</a>
+                        <button class="btn-small waves-effect primary" type="submit">{{ __('uccello::auth.button.password.reset') }}</button>
                     </div>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="material-icons">lock</i>
-                    </span>
-                    <div class="form-line">
-                        <input id="password-confirm" type="password" placeholder="{{ __('Confirm Password') }}" class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}" name="password_confirmation" required>
-
-                        @if ($errors->has('password_confirmation'))
-                            <span class="invalid-feedback">
-                                <strong>{{ $errors->first('password_confirmation') }}</strong>
-                            </span>
-                        @endif
-                    </div>
-                </div>
-
-                <button class="btn btn-block btn-lg bg-primary waves-effect" type="submit">{{ __('Reset Password') }}</button>
-
-                <div class="row m-t-20 m-b--5 align-center">
-                    <a href="{{ route('register') }}">{{ __('Register') }}</a>
                 </div>
             </form>
         </div>
     </div>
-</div>
-@endsection
-
-@section('uccello-script')
-    {{ Html::script(mix('js/manifest.js', 'vendor/uccello/uccello')) }}
-    {{ Html::script(mix('js/vendor.js', 'vendor/uccello/uccello')) }}
 @endsection

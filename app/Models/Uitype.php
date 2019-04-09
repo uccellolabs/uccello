@@ -73,9 +73,9 @@ class Uitype extends Model
      * Returns formatted value to search.
      *
      * @param mixed $value
-     * @return string
+     * @return mixed
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch($value)
     {
         $uitypeClass = $this->class;
         return (new $uitypeClass())->getFormattedValueToSearch($value);

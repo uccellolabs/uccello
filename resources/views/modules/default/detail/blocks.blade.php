@@ -1,37 +1,50 @@
 @foreach ($tab->blocks as $block)
-    <div class="card block">
-        <div class="header">
-            <h2>
-                <div @if($block->icon)class="block-label-with-icon"@endif>
+    <div class="card">
+        <div class="card-content">
+            {{-- Title --}}
+            <div class="card-title">
+                {{-- Icon --}}
+                @if($block->icon)
+                <i class="material-icons left primary-text">{{ $block->icon }}</i>
+                @endif
 
-                    {{-- Icon --}}
-                    @if($block->icon)
-                    <i class="material-icons">{{ $block->icon }}</i>
-                    @endif
-
-                    {{-- Label --}}
-                    <span>{{ uctrans($block->label, $module) }}</span>
-                </div>
+                {{-- Label --}}
+                {{ uctrans($block->label, $module) }}
 
                 {{-- Description --}}
                 @if ($block->description)
-                    <small>{{ uctrans($block->description, $module) }}</small>
+                <small class="with-icon">{{ uctrans($block->description, $module) }}</small>
                 @endif
-            </h2>
-        </div>
-        <div class="body">
+            </div>
+
             <div class="row display-flex">
-            {{-- Display all block's fields --}}
-            @foreach ($block->fields as $field)
-                @continue(!$field->isDetailable())
-                <?php
-                    // If a special template exists, use it. Else use the generic template
-                    $uitypeViewName = sprintf('uitypes.detail.%s', $field->uitype->name);
-                    $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
-                    $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
-                ?>
-                @include($uitypeViewToInclude)
-            @endforeach
+                {{-- Display all block's fields --}}
+                <?php $i_col = 0; ?>
+                @foreach ($block->fields as $field)
+                    @continue(!$field->isDetailable())
+                    <?php
+                        // If a special template exists, use it. Else use the generic template
+                        $uitypeViewName = sprintf('uitypes.detail.%s', $field->uitype->name);
+                        $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
+                        $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+
+                        // Count columns
+                        $isLarge = $field->data->large ?? false;
+                        $i_col += $isLarge ? 2 : 1;
+                    ?>
+                    {{-- Add an empty div if necessary if the next one is large --}}
+                    @if ($isLarge && $i_col % 2 !== 0)
+                        <?php $i_col++; ?>
+                        <div class="col s6 hide-on-small-only">&nbsp;</div>
+                    @endif
+
+                    @include($uitypeViewToInclude)
+                @endforeach
+
+                {{-- Add an empty div if necessary --}}
+                @if ($i_col % 2 !== 0)
+                    <div class="col s6 hide-on-small-only">&nbsp;</div>
+                @endif
             </div>
         </div>
     </div>

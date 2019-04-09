@@ -81,9 +81,9 @@ trait DefaultUitype
      * By default adds % at the beginning end the ending to make a 'like' query.
      *
      * @param mixed $value
-     * @return string
+     * @return mixed
      */
-    public function getFormattedValueToSearch($value) : string
+    public function getFormattedValueToSearch($value)
     {
         $formattedValue = $value;
 

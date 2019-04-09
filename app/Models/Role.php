@@ -26,6 +26,18 @@ class Role extends Model
     protected $dates = [ 'deleted_at' ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'description',
+        'parent_id',
+        'domain_id'
+    ];
+
+    /**
      * Searchable rules.
      * See https://github.com/nicolaslopezj/searchable
      *

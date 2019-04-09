@@ -10,8 +10,18 @@ export class Detail {
      * Initalize datatable for all related lists
      */
     initRelatedLists() {
-        $('.relatedlist .dataTable').each((index, element) => {
-            this.initDatatable(element)
+        if ($('table[data-filter-type="related-list"]').length == 0) {
+            return
+        }
+
+        this.relatedListDatatables = {}
+
+        $('table[data-filter-type="related-list"]').each((index, el) => {
+            let datatable = new Datatable()
+            datatable.init(el)
+            datatable.makeQuery()
+
+            this.relatedListDatatables[$(el).attr('id')] = datatable
         })
     }
 
@@ -26,95 +36,71 @@ export class Detail {
             const modalTitle = $(element).data('modal-title')
             const modalIcon = $(element).data('modal-icon')
             const modalBody = $(`.selection-modal-content[data-relatedlist='${relatedListId}']`).html()
+            const relatedListTable = $(element).data('table')
 
             // Get modal
             const modal = $('#relatedListSelectionModal')
 
             // Change modal title
-            $('.modal-title span', modal).text(modalTitle)
+            $('h4 span', modal).text(modalTitle)
 
             // Change modal icon
-            $('.modal-title i', modal).text(modalIcon)
+            $('h4 i', modal).text(modalIcon)
 
             // Change modal body
             $('.modal-body', modal).html(modalBody)
 
             // Init datatable
-            this.initDatatable($('.dataTable', modal), true)
+            $('table tbody tr.record', modal).remove()
 
-            // Show modal
-            modal.modal('show')
+            // Display search fields
+            $('table thead .search', modal).removeClass('hide')
+
+            // Click callback
+            let rowClickCallback = (event, datatable, recordId) => {
+                this.relatedListNNRowClickCallback(relatedListId, relatedListTable, datatable, recordId)
+            }
+
+            // Init datatable for selection
+            let datatable = new Datatable()
+            datatable.init($('table', modal), rowClickCallback)
+            datatable.makeQuery()
         })
     }
 
     /**
-     * Initialise datatable for a specific element
-     * @param {Element} element
-     * @param {boolean} forSelection
+     * Callback to call when a row is clicked in a datatable for a N-N related list
+     * @param {integer} relatedListId
+     * @param {Element} relatedListTable
+     * @param {Object} modalDatatableInstance
+     * @param {integer} relatedRecordId
      */
-    initDatatable(element, forSelection) {
-        const csrfToken = $('meta[name="csrf-token"]').attr('content')
-        const domainSlug = $('meta[name="domain"]').attr('content')
-        const recordId = $('meta[name="record"]').attr('content')
+    relatedListNNRowClickCallback(relatedListId, relatedListTable, modalDatatableInstance, relatedRecordId) {
+        const url = $(modalDatatableInstance.table).data('add-relation-url')
 
-        const relatedListId = $(element).data('relatedlist')
-        const relatedModuleName = $(element).data('related-module')
-        const datatableUrl = $(element).data('url')
-        const datatableColumns = $(element).data('columns') // Json automaticaly parsed
-
-        let rowUrl = ''
-        let url = `${datatableUrl}?id=${recordId}&relatedlist=${relatedListId}`
-        let rowClickCallback
-
-        // Specify if it is for selection only
-        if (forSelection === true) {
-            url += '&action=select'
-            rowUrl = 'javascript:void(0)' // No link
-
-            rowClickCallback = (event, table, data) => {
-                this.relatedListNNRowClickCallback(event, table, data, relatedListId)
-            }
-        } else {
-            rowUrl = laroute.route('uccello.detail', { id: '%s', domain: domainSlug, module: relatedModuleName })
+        let data = {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            id: $('meta[name="record"]').attr('content'),
+            relatedlist: relatedListId,
+            related_id: relatedRecordId
         }
 
-        let datatable = new Datatable()
-        datatable.url = `${url}&_token=${csrfToken}`
-        datatable.domainSlug = domainSlug
-        datatable.moduleName = relatedModuleName
-        datatable.columns = datatableColumns
-        datatable.rowUrl = rowUrl
-        datatable.rowClickCallback = rowClickCallback
-        datatable.init(element)
-    }
-
-    /**
-     * Callback to call when a row is clicked in a datatable for a N-N related list
-     * @param {Event} event
-     * @param {Datatable} table
-     * @param {object} data Selected row data
-     * @param {integer} relatedListId
-     */
-    relatedListNNRowClickCallback(event, table, data, relatedListId) {
-        const domainSlug = $('meta[name="domain"]').attr('content')
-        const moduleName = $('meta[name="module"]').attr('content')
-        const recordId = $('meta[name="record"]').attr('content')
-
-        const url = laroute.route('uccello.edit.relation.add', {domain: domainSlug, module: moduleName, id: recordId, relatedlist: relatedListId, related_id: data.id})
-
         // Ajax call to make a relation between two records
-        $.get(url)
+        $.post(url, data)
         .then((response) => {
             // Display an alert if an error occured
             if (response.success === false) {
-                swal(uctrans('dialog.error.title'), response.message, 'error')
+                swal(uctrans.trans('uccello::default.dialog.error.title'), response.message, 'error')
             }
             else {
-                // Hide modal
-                $('#relatedListSelectionModal').modal('hide')
-
                 // Refresh relatedlist datatable
-                $(`.relatedlist table[data-relatedlist=${relatedListId}]`).DataTable().draw()
+                let relatedListDatatable = this.relatedListDatatables[relatedListTable]
+                if (relatedListDatatable) {
+                    relatedListDatatable.makeQuery()
+                }
+
+                // Hide modal
+                $('#relatedListSelectionModal').modal('close')
             }
         })
     }

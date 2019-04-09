@@ -31,7 +31,5 @@ class EventServiceProvider extends DefaultEventServiceProvider
     public function boot()
     {
         parent::boot();
-
-        //
     }
 }

@@ -1,76 +1,119 @@
-@extends('layouts.app')
+@extends('layouts.uccello')
 
 @section('page', 'edit')
 
 @section('breadcrumb')
-    <div class="row">
-        <div class="col-md-12">
-            <div class="breadcrumb pull-left">
-                {{-- Module icon --}}
-                <a href="{{ ucroute('uccello.list', $domain, $module) }}" class="pull-left module-icon">
-                    <i class="material-icons">{{ $module->icon ?? 'extension' }}</i>
-                </a>
+    <div class="nav-wrapper">
+        <div class="col s12">
+            <div class="breadcrumb-container left">
+                {{-- Admin --}}
+                @if ($admin_env)
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.settings.dashboard', $domain) }}">
+                        <i class="material-icons left">settings</i>
+                        <span class="hide-on-small-only">{{ uctrans('breadcrumb.admin', $module) }}</span>
+                    </a>
+                </span>
+                @endif
 
-                <ol class="breadcrumb pull-left">
-                    @if ($admin_env)<li><a href="{{ ucroute('uccello.settings.dashboard', $domain) }}">{{ uctrans('breadcrumb.admin', $module) }}</a></li>@endif
-                    <li><a href="{{ ucroute('uccello.list', $domain, $module) }}">{{ uctrans($module->name, $module) }}</a></li>
-                    @if ($record->getKey())<li><a href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]) }}">{{ $record->recordLabel ?? $record->getKey() }}</a></li>@endif
-                    <li class="active">{{ $record->getKey() ? uctrans('edit', $module) : uctrans('create', $module) }}</li>
-                </ol>
+                {{-- Module icon --}}
+                <span class="breadcrumb">
+                    <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
+                        <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
+                        <span class="hide-on-small-only">{{ uctrans($module->name, $module) }}</span>
+                    </a>
+                </span>
+                @if ($record->getKey())<a class="breadcrumb" href="{{ ucroute('uccello.detail', $domain, $module, ['id' => $record->getKey()]) }}">{{ $record->recordLabel ?? $record->getKey() }}</a>@endif
+                <span class="breadcrumb active">{{ $record->getKey() ? uctrans('breadcrumb.edit', $module) : uctrans('breadcrumb.create', $module) }}</span>
             </div>
         </div>
     </div>
 @endsection
 
 @section('content')
-    {!! form_start($form) !!}
-    @section('default-blocks')
-        {{-- All defined blocks --}}
-        @foreach ($module->tabs as $tab)  {{-- TODO: Display all tabs --}}
-            @foreach ($tab->blocks as $block)
-            <div class="card block">
-                <div class="header">
-                    <h2>
-                        <div @if($block->icon)class="block-label-with-icon"@endif>
+    @if (count($module->tabs) > 1)
+    <div class="row">
+        <div class="col s12">
+            <ul class="tabs">
+                @foreach($module->tabs as $tab_i => $tab)
+                <li class="tab col s3"><a @if($tab_i === 0)class="active"@endif href="#tab{{ $tab_i }}">{{ uctrans($tab->label, $module) }}</a></li>
+                @endforeach
 
+                @yield('other-tabs-links')
+            </ul>
+        </div>
+    </div>
+    @endif
+
+    @section('form')
+        {!! form_start($form) !!}
+        @section('default-tabs')
+        <div class="row">
+            @foreach($module->tabs as $tab_i => $tab)
+            <div id="#tab{{ $tab_i }}" class="col s12">
+                @foreach ($tab->blocks as $block_i => $block)
+                <div class="card">
+                    <div class="card-content">
+                        {{-- Title --}}
+                        <span class="card-title">
                             {{-- Icon --}}
                             @if($block->icon)
-                            <i class="material-icons">{{ $block->icon }}</i>
+                            <i class="material-icons left primary-text">{{ $block->icon }}</i>
                             @endif
 
                             {{-- Label --}}
-                            <span>{{ uctrans($block->label, $module) }}</span>
+                            {{ uctrans($block->label, $module) }}
+
+                            {{-- Description --}}
+                            @if ($block->description)
+                                <small>{{ uctrans($block->description, $module) }}</small>
+                            @endif
+                        </span>
+
+                        {{-- Fields --}}
+                        <div class="row display-flex">
+                            {{-- Display all block's fields --}}
+                            <?php $i_col = 0; ?>
+                            @foreach ($block->fields as $field)
+                                {{-- Check if the field can be displayed --}}
+                                @continue(($mode === 'edit' && !$field->isEditable()) || ($mode === 'create' && !$field->isCreateable()))
+                                <?php
+                                    // If a special template exists, use it. Else use the generic template
+                                    $uitypeViewName = sprintf('uitypes.edit.%s', $field->uitype->name);
+                                    $uitypeFallbackView = 'uccello::modules.default.uitypes.edit.text';
+                                    $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+
+                                    // Count columns
+                                    $isLarge = $field->data->large ?? false;
+                                    $i_col += $isLarge ? 2 : 1;
+                                ?>
+                                {{-- Add an empty div if necessary if the next one is large --}}
+                                @if ($isLarge && $i_col % 2 !== 0)
+                                    <?php $i_col++; ?>
+                                    <div class="col s6 hide-on-small-only">&nbsp;</div>
+                                @endif
+
+                                @include($uitypeViewToInclude)
+                            @endforeach
+
+                            {{-- Add an empty div if necessary --}}
+                            @if ($i_col % 2 !== 0)
+                                <div class="col s6 hide-on-small-only">&nbsp;</div>
+                            @endif
                         </div>
 
-                        {{-- Description --}}
-                        @if ($block->description)
-                            <small>{{ uctrans($block->description, $module) }}</small>
-                        @endif
-                    </h2>
-                </div>
-                <div class="body">
-                    <div class="row display-flex">
-                    {{-- Display all block's fields --}}
-                    @foreach ($block->fields as $field)
-                        {{-- Check if the field can be displayed --}}
-                        @continue(($mode === 'edit' && !$field->isEditable()) || ($mode === 'create' && !$field->isCreateable()))
-                        <?php
-                            // If a special template exists, use it. Else use the generic template
-                            $uitypeViewName = sprintf('uitypes.edit.%s', $field->uitype->name);
-                            $uitypeFallbackView = 'uccello::modules.default.uitypes.edit.text';
-                            $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
-                        ?>
-                        @include($uitypeViewToInclude)
-                    @endforeach
                     </div>
                 </div>
+                @endforeach
             </div>
             @endforeach
-        @endforeach
+        </div>
+
+        @yield('other-blocks')
+        @show
+
+        @yield('other-tabs')
+        {!! form_end($form) !!}
     @show
-
-    {{-- Other blocks --}}
-    @yield('other-blocks')
-
-    {!! form_end($form) !!}
+</div>
 @endsection

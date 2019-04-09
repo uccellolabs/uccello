@@ -1,36 +1,19 @@
 <?php $isLarge = $field->data->large ?? false; ?>
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
-<div class="{{ $isLarge ? 'col-md-12' : 'col-sm-6 col-xs-12' }}">
-    <div class="form-group form-fixed">
-        {{-- Label --}}
-        <label for="{{ $field->name }}" class="form-label">{{ uctrans($field->label, $module) }}</label>
+<div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field">
 
-        <div class="input-field">
-            {{-- Icon if defined --}}
-            @if($field->icon ?? false)
-            <i class="material-icons prefix">{{ $field->icon }}</i>
-            @endif
+    <label class="active">{{ uctrans($field->label, $module) }}</label>
 
-            {{-- Field --}}
-            <div class="m-t-20">
-                {{-- Field --}}
-                {!! form_widget($form->{$field->name}) !!}
-                {{-- Label --}}
-                <label for="{{ $field->name }}" class="checkbox-label">{{ uctrans($field->label, $module) }}</label>
-            </div>
-        </div>
+    <p style="margin-top: 10px">
+        <label>
+            {!! form_widget($form->{$field->name}) !!}
+            <span>{{ uctrans($field->label, $module) }}</span>
+        </label>
+    </p>
 
-        @if($isError)
-        <div class="help-info m-l-5">
+    @if ($isError)
+        <span class="helper-text red-text">
             {!! form_errors($form->{$field->name}) !!}
-        </div>
-        @endif
-
-        {{-- Add help info if defined --}}
-        @if($field->data->info ?? false)
-        <div class="help-info">
-            {{ uctrans($field->data->info, $module) }}
-        </div>
-        @endif
-    </div>
+        </span>
+    @endif
 </div>

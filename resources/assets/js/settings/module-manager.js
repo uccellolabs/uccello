@@ -4,18 +4,20 @@ export class ModuleManager {
     }
 
     initCheckboxListener() {
-        const domainSlug = $('meta[name="domain"]').attr('content')
-
         $("input[type='checkbox'].module-activation").on('click', (event) => {
             let element = event.currentTarget
-            let url = laroute.route('uccello.settings.module.activation', { domain: domainSlug })
+            let url = $("meta[name='module-activation-url']").attr('content')
 
             $.post(url, {
                 _token: $("meta[name='csrf-token']").attr('content'),
                 src_module: $(element).data('module'),
                 active: $(element).is(':checked') === true ? '1' : '0'
-            }).fail((error) => {
-                swal(uctrans('dialog.error.title'), uctrans('error.save', 'settings'), 'error')
+            }).then(() => {
+                let text = $(element).is(':checked') === true ? uctrans.trans('uccello::settings.module_manager.notification.module_activated') : uctrans.trans('uccello::settings.module_manager.notification.module_deactivated')
+                M.toast({html: text})
+            })
+            .fail((error) => {
+                swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::settings.error.save'), 'error')
             })
         })
     }

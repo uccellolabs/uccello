@@ -1,13 +1,13 @@
 @extends('uccello::modules.default.index.main')
 
 @section('content')
-    <div class="row clearfix">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="col s12">
             <div class="card">
-                <div class="body">
+                <div class="card-content">
                     <div class="row">
-                        <div class="col-md-6 col-md-offset-3 align-center">
-                            {{ Html::image(ucasset('images/logo-uccello.png'), null, ['class' => 'img-responsive']) }}
+                        <div class="col m6 offset-m3 align-center">
+                            {{ Html::image(ucasset('images/logo-uccello.png'), null, ['class' => 'responsive-img']) }}
                         </div>
                     </div>
                 </div>

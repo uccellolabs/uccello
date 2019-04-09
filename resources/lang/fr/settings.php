@@ -2,40 +2,94 @@
 
 return [
     'settings' => 'Paramètres',
-    'dashboard' => 'Tableau de bord',
-    'modules.count' => 'Modules',
-    'module.manager' => 'Gestion des modules',
-    'module.manager.main_modules' => 'Modules principaux',
-    'module.manager.admin_modules' => 'Modules d\'administration',
-    'module.manager.description' => 'Vous pouvez activer ou désactiver un module en cliquant sur une case à cocher.',
-    'menu.manager' => 'Gestion du menu',
-    'menu.manager.description' => 'Configurez le menu pour accéder facilement à toutes les fonctionnalités.',
-    'menu.link.type.group' => 'Groupe',
-    'menu.link.type.module' => 'Module',
-    'menu.button.add_group' => 'Ajouter un groupe',
-    'menu.button.add_route_link' => 'Ajouter une route',
-    'menu.button.add_link' => 'Ajouter un lien',
-    'menu.button.reset' => 'Réinitialiser',
-    'menu.group.label' => 'Libellé',
-    'menu.group.icon' => 'Icône',
-    'menu.link.label' => 'Libellé',
-    'menu.link.icon' => 'Icône',
-    'menu.link.url' => 'URL',
-    'menu.link.module' => 'Module',
-    'menu.link.route' => 'Route',
-    'menu.type.main' => 'Principal',
-    'menu.type.admin' => 'Administration',
-    'menu.icon.see' => 'Voir',
-    'menu.saved' => 'Sauvegardé',
-    'menu.reset.title' => 'Voulez-vous vraiment réinitialiser le menu ?',
-    'menu.reset.text' => 'Le menu sera remplacé par le menu par défaut.',
-    'menu.error.not_empty.title' => 'Supprimez d\'abord les liens',
-    'menu.error.not_empty.description' => 'Vous ne pouvez pas supprimer un groupe qui n\'est pas vide.',
 
-    'message.module_activated' => 'Module activé',
-    'message.module_deactivated' => 'Module désactivé',
+    // Breadcrumb
+    'breadcrumb' => [
+        'dashboard' => 'Tableau de bord',
+        'module_manager' => 'Gestion des modules',
+        'menu_manager' => 'Gestion du menu',
+    ],
 
-    'error.module_is_mandatory' => 'Ce module est obligatoire et ne peut pas être désactivé.',
-    'error.module_not_defined' => 'Vous devez définir un nom de module.',
-    'error.save' => 'Une erreur s\'est produite lors de la sauvegarde.',
+    // Stats
+    'stats' => [
+        'modules' => 'Modules',
+    ],
+
+    // Module manager
+    'module_manager' => [
+        'link' => 'Gestion des modules',
+        'main_modules' => 'Modules principaux',
+        'admin_modules' => 'Modules d\'administration',
+        'description' => 'Vous pouvez activer ou désactiver un module en cliquant sur une case à cocher.',
+        'tab' => [
+            'main_modules' => 'Principaux',
+            'admin_modules' => 'Administration',
+        ],
+        'notification' => [
+            'module_activated' => 'Module activé',
+            'module_deactivated' => 'Module désactivé',
+        ],
+        'error' => [
+            'module_is_mandatory' => 'Ce module est obligatoire et ne peut pas être désactivé.',
+            'module_not_defined' => 'Vous devez définir un nom de module.',
+            'save' => 'Une erreur s\'est produite lors de la sauvegarde.',
+        ]
+    ],
+
+    // Menu manager
+    'menu_manager' => [
+        'link' => 'Gestion du menu',
+        'page' => [
+            'title' => 'Menu manager',
+            'description' => 'Configurez le menu pour accéder facilement à toutes les fonctionnalités.',
+        ],
+        'menu' => [
+            'type' => [
+                'main' => 'Principal',
+                'admin' => 'Administration',
+            ],
+            'link_type' => [
+                'group' => 'Groupe',
+                'module' => 'Module',
+            ],
+            'button' => [
+                'add_group' => 'Ajouter un groupe',
+                'add_route_link' => 'Ajouter une route',
+                'add_link' => 'Ajouter un lien',
+                'reset' => 'Réinitialiser',
+            ],
+            'reset' => [
+                'title' => 'Réinitialiser le menu ?',
+                'text' => 'Le menu sera remplacé par le menu par défaut.',
+            ],
+            'error' => [
+                'not_empty' => [
+                    'title' => 'Supprimez d\'abord les liens',
+                    'description' => 'Vous ne pouvez pas supprimer un groupe qui n\'est pas vide.',
+                ],
+            ],
+        ],
+        'modal' => [
+            'group' => [
+                'title' => 'Groupe',
+                'label' => 'Libellé',
+                'icon' => 'Icône',
+            ],
+            'link' => [
+                'title' => 'Lien',
+                'label' => 'Libellé',
+                'icon' => 'Icône',
+                'url' => 'URL',
+            ],
+            'route' => [
+                'title' => 'Route',
+                'module' => 'Module',
+                'route' => 'Route',
+            ],
+        ],
+        'label' => [
+            'saved' => 'Sauvegardé',
+            'see' => 'Voir',
+        ]
+    ],
 ];

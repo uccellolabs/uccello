@@ -78,14 +78,14 @@ if (!function_exists('ucroute')) {
 
 if (!function_exists('uclog')) {
     /**
-     * Use Debugbar to log data.
+     * Use logging
      *
-     * @param mixed $data
+     * @param mixed $message
      * @return void
      */
-    function uclog($data)
+    function uclog($message, $type='info')
     {
-        \Debugbar::info($data);
+        Log::$type($message);
     }
 }
 

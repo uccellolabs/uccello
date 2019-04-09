@@ -37,7 +37,13 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'is_admin',
+        'domain_id'
     ];
 
     /**
@@ -123,26 +129,13 @@ class User extends Authenticatable implements JWTSubject
         return trim($this->first_name.' '.$this->last_name) ?? $this->username;
     }
 
-    // public function getAccessibleDomainsAttribute() : Collection
-    // {
-    //     $domains = new Collection();
-
-    //     $rootDomains = Domain::whereNull('parent_id');
-
-    //     foreach ($rootDomains as $domain) {
-
-    //     }
-
-    //     return $domains;
-    // }
-
     /**
-     * Returns user roles on a domain
+     * Returns user's roles on a domain
      *
      * @param \Uccello\Core\Models\Domain $domain
      * @return \Illuminate\Support\Collection
      */
-    public function rolesOnDomain(Domain $domain) : Collection
+    public function rolesOnDomain($domain) : Collection
     {
         $roles = new Collection();
 
@@ -151,6 +144,44 @@ class User extends Authenticatable implements JWTSubject
         }
 
         return $roles;
+    }
+
+    /**
+     * Check if the user has at least a role on a domain
+     *
+     * @param \Uccello\Core\Models\Domain $domain
+     * @return boolean
+     */
+    public function hasRoleOnDomain($domain) : bool {
+        if ($this->is_admin) {
+            return true;
+        }
+
+        return $this->rolesOnDomain($domain)->count() > 0;
+    }
+
+    /**
+     * Check if the user has at least a role on a domain or its descendants
+     *
+     * @param \Uccello\Core\Models\Domain $domain
+     * @return boolean
+     */
+    public function hasRoleOnDescendantDomain(Domain $domain) : bool {
+        if ($this->is_admin) {
+            return true;
+        }
+
+        $hasRole = false;
+
+        $descendants = $domain->findDescendants()->get();
+        foreach ($descendants as $descendant) {
+            if ($this->hasRoleOnDomain($descendant)) {
+                $hasRole = true;
+                break;
+            }
+        }
+
+        return $hasRole;
     }
 
     /**
@@ -166,7 +197,7 @@ class User extends Authenticatable implements JWTSubject
         $capabilities = new Collection();
 
         // Get the domain and all its parents
-        $domainParents = $domain->parents();
+        $domainParents = $domain->findAncestors()->get();
 
         // Get user privileges on each domain
         foreach ($domainParents as $_domain) {

@@ -1,76 +1,62 @@
 <?php $isLarge = $field->data->large ?? false; ?>
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
-<div class="{{ $isLarge ? 'col-md-12' : 'col-sm-6 col-xs-12' }}">
-    <div class="form-group form-float">
+<div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field">
 
-            <div class="input-field">
-                {{-- Add icon if defined --}}
-                @if($field->icon ?? false)
-                <i class="material-icons prefix">{{ $field->icon }}</i>
-                @endif
+    {{-- Add icon if defined --}}
+    @if($field->icon ?? false)
+    <i class="material-icons prefix">{{ $field->icon }}</i>
+    @endif
 
-                <div class="form-line {{ $isError ? 'focused error' : ''}}">
-                    {{-- if it is a repeated field display only the first one --}}
-                    @if($field->data->repeated ?? false)
-                    {!! form_label($form->{$field->name}->first) !!}
-                    @else
-                    {{-- else display the field normally --}}
-                    {!! form_label($form->{$field->name}) !!}
-                    @endif
+    {{-- if it is a repeated field display only the first one --}}
+    @if($field->data->repeated ?? false)
+    {!! form_label($form->{$field->name}->first) !!}
+    @else
+    {{-- else display the field normally --}}
+    {!! form_label($form->{$field->name}) !!}
+    @endif
 
-                    {{-- if it is a repeated field display only the first one --}}
-                    @if($field->data->repeated ?? false)
-                    {!! form_widget($form->{$field->name}->first) !!}
-                    @else
-                    {{-- else display the field normally --}}
-                    {!! form_widget($form->{$field->name}) !!}
-                    @endif
-                </div>
-            </div>
+    {{-- if it is a repeated field display only the first one --}}
+    @if($field->data->repeated ?? false)
+    {!! form_widget($form->{$field->name}->first) !!}
+    @else
+    {{-- else display the field normally --}}
+    {!! form_widget($form->{$field->name}) !!}
+    @endif
 
-            @if($isError)
-            <div class="help-info m-l-5">
-                {{-- if it is a repeated field display only the first error --}}
-                @if($field->data->repeated ?? false)
-                {!! form_errors($form->{$field->name}->first) !!}
-                @else
-                {{-- else display the error normally --}}
-                {!! form_errors($form->{$field->name}) !!}
-                @endif
-            </div>
+    @if ($isError)
+        <span class="helper-text red-text">
+            {{-- if it is a repeated field display only the first error --}}
+            @if($field->data->repeated ?? false)
+            {!! form_errors($form->{$field->name}->first) !!}
+            @else
+            {{-- else display the error normally --}}
+            {!! form_errors($form->{$field->name}) !!}
             @endif
-
-            {{-- Add help info if defined --}}
-            @if($field->data->info ?? false)
-            <div class="help-info">
-                {{ uctrans($field->data->info, $module) }}
-            </div>
-            @endif
-        </div>
+        </span>
+    {{-- Add help info if defined --}}
+    @elseif ($field->data->info ?? false)
+        <span class="helper-text">
+            {{ uctrans($field->data->info, $module) }}
+        </span>
+    @endif
 </div>
 
 {{-- if it is a repeated field display only the second one --}}
 @if($field->data->repeated ?? false)
-<div class="{{ $isLarge ? 'col-md-12' : 'col-md-6' }}">
-    <div class="form-group">
+    <div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field">
 
-        <div class="input-field">
-            {{-- Add icon if defined --}}
-            @if($field->icon ?? false)
-            <i class="material-icons prefix">{{ $field->icon }}</i>
-            @endif
+        {{-- Add icon if defined --}}
+        @if($field->icon ?? false)
+        <i class="material-icons prefix">{{ $field->icon }}</i>
+        @endif
 
-            <div class="form-line {{ $isError ? 'focused error' : ''}}">
-                {!! form_label($form->{$field->name}->second) !!}
-                {!! form_widget($form->{$field->name}->second) !!}
-            </div>
+        {!! form_label($form->{$field->name}->second) !!}
+        {!! form_widget($form->{$field->name}->second) !!}
 
-            @if($isError)
-            <div class="help-info">
+        @if ($isError)
+            <span class="helper-text red-text">
                 {!! form_errors($form->{$field->name}->second) !!}
-            </div>
-            @endif
-        </div>
+            </span>
+        @endif
     </div>
-</div>
 @endif

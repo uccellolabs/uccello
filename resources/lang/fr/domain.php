@@ -2,9 +2,10 @@
 
 return [
     'domain' => 'Domaines',
-    'domain.single' => 'Domaine',
-    'add_record' => 'Nouveau domaine',
-    'field.name' => 'Nom',
-    'field.description' => 'Description',
-    'field.parent' => 'Parent',
+    'domain_single' => 'Domaine',
+    'field' => [
+        'name' => 'Nom',
+        'description' => 'Description',
+        'parent' => 'Parent',
+    ],
 ];

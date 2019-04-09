@@ -45,9 +45,9 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
      */
     public function map()
     {
-    parent::map();
+        parent::map();
 
-    $this->mapUccelloRoutes();
+        $this->mapUccelloRoutes();
     }
 
     /**

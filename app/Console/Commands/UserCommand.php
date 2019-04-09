@@ -7,10 +7,7 @@ use App\User;
 use Hash;
 use Uccello\Core\Models\Domain;
 
-/**
- * Uccello Install Command
- */
-class UccelloUserCommand extends Command
+class UserCommand extends Command
 {
     /**
      * The name and signature of the console command.

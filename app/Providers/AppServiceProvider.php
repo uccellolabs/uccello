@@ -4,10 +4,10 @@ namespace Uccello\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
-use Uccello\Core\Console\Commands\UccelloInstallCommand;
-use Uccello\Core\Console\Commands\UccelloUserCommand;
+use Uccello\Core\Console\Commands\InstallCommand;
+use Uccello\Core\Console\Commands\UserCommand;
+use Uccello\Core\Console\Commands\PublishCommand;
 
 /**
  * App Service Provider
@@ -23,42 +23,77 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot()
     {
-    // For compatibility
-    Schema::defaultStringLength(191);
+        $this->registerMigrations();
+        $this->registerTranslations();
+        $this->registerPublishing();
 
-    // Config
-    $this->publishes([
-        __DIR__ . '/../../config/uccello.php' => config_path('uccello.php'),
-    ], 'config');
-
-    // Views
-    $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
-    $this->publishes([
-        __DIR__ . '/../../resources/views' => resource_path('views/vendor/uccello')
-    ], 'views');
-
-    // Publish assets
-    $this->publishes([
-        __DIR__ . '/../../public' => public_path('vendor/uccello/uccello'),
-        __DIR__ . '/../../public/fonts/vendor' => public_path('fonts/vendor'),
-        __DIR__ . '/../../public/images/vendor' => public_path('images/vendor')
-    ], 'assets');
-
-    // Translations
-    $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'uccello');
-
-    // Migrations
-    $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-
-    // Commands
-    if ($this->app->runningInConsole()) {
-        $this->commands([
-            UccelloInstallCommand::class,
-            UccelloUserCommand::class
-        ]);
-    }
+        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
     }
 
+    /**
+     * Register the package's migrations.
+     *
+     * @return void
+     */
+    private function registerMigrations()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        }
+    }
+
+    /**
+     * Register the package's translations.
+     *
+     * @return void
+     */
+    private function registerTranslations()
+    {
+        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'uccello');
+    }
+
+    /**
+     * Register the package's publishable resources.
+     *
+     * @return void
+     */
+    private function registerPublishing()
+    {
+        if ($this->app->runningInConsole()) {
+            // Publish assets
+            $this->publishes([
+                __DIR__ . '/../../public' => public_path('vendor/uccello/uccello'),
+                __DIR__ . '/../../public/images/vendor' => public_path('images/vendor')
+            ], 'uccello-assets');
+
+            // Config
+            $this->publishes([
+                __DIR__ . '/../../config/uccello.php' => config_path('uccello.php'),
+            ], 'uccello-config');
+
+            // Views
+            $this->publishes([
+                __DIR__ . '/../../resources/views' => resource_path('views/vendor/uccello')
+            ], 'uccello-views');
+        }
+    }
+
+    /**
+     * Register factories.
+     *
+     * @param string $path
+     * @return void
+     */
+    protected function registerEloquentFactoriesFrom($path)
+    {
+        $this->app->make(EloquentFactory::class)->load($path);
+    }
+
+    /**
+     * Register any package services.
+     *
+     * @return void
+     */
     public function register()
     {
         // Config
@@ -74,16 +109,12 @@ class AppServiceProvider extends ServiceProvider
 
         // Factories
         $this->registerEloquentFactoriesFrom(__DIR__.'/../../database/factories');
-    }
 
-    /**
-     * Register factories.
-     *
-     * @param string $path
-     * @return void
-     */
-    protected function registerEloquentFactoriesFrom($path)
-    {
-        $this->app->make(EloquentFactory::class)->load($path);
+        // Commands
+        $this->commands([
+            InstallCommand::class,
+            UserCommand::class,
+            PublishCommand::class,
+        ]);
     }
 }

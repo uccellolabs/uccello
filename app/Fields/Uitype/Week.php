@@ -35,7 +35,7 @@ class Week implements Uitype
      */
     public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
-        $options[ 'attr' ] = [ 'class' => 'form-control weekpicker', 'autocomplete' => 'off' ];
+        $options[ 'attr' ] = [ 'class' => 'weekpicker', 'autocomplete' => 'off' ];
 
         return $options;
     }

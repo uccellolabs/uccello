@@ -35,7 +35,7 @@ class Month implements Uitype
      */
     public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
-        $options[ 'attr' ] = [ 'class' => 'form-control monthpicker', 'autocomplete' => 'off' ];
+        $options[ 'attr' ] = [ 'class' => 'monthpicker', 'autocomplete' => 'off' ];
 
         return $options;
     }

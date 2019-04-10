@@ -50,8 +50,8 @@ class AssignedUser implements Uitype
             'empty_value' => uctrans('field.select_empty_value', $module),
             'selected' => !empty($record->getKey()) ? $record->{$field->column} : auth()->id(),
             'attr' => [
-                'class' => 'form-control show-tick',
-                'data-live-search' => 'true',
+                // 'class' => 'form-control show-tick',
+                // 'data-live-search' => 'true',
                 // 'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
             ],
             'query_builder' => function($relatedRecord) use($record) {

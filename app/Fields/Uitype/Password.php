@@ -44,7 +44,6 @@ class Password extends Text implements Uitype
     {
         return [
             'attr' => [
-                'class' => 'form-control',
                 'autocomplete' => 'new-password' // Stop browser auto-fill
             ]
         ];

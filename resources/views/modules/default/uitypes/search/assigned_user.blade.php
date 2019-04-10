@@ -13,7 +13,7 @@
                 $entities = $modelClass::all();
             }
         ?>
-        <select class="form-control field-search" multiple data-live-search="true" data-none-selected-text="{{ uctrans('datatable.search', $module) }}" @if ($autocompleteSearch) data-abs-ajax-url="{{ ucroute('uccello.autocomplete', $domain, $relatedModule) }}"@endif>
+        <select class="field-search" multiple  data-constrain-width="false" data-close-on-click="false">
             @foreach ($entities as $entity)
             <option value="{{ $entity->getKey() }}" @if($searchValue && in_array($entity->getKey(), (array)$searchValue))selected="selected"@endif>{{ $entity->recordLabel }}</option>
             @endforeach

@@ -44,7 +44,6 @@ $('.dropdown-trigger').each((index, el) => {
         coverTrigger: $(el).data('cover-trigger') === true ? true : false,
         closeOnClick: $(el).data('close-on-click') === false ? false : true,
         hover: $(el).data('hover') === true ? true : false,
-
     })
 })
 
@@ -52,7 +51,18 @@ $('.tabs').tabs({
     // swipeable: true
 })
 
-$('select').formSelect()
+$('select').each((index, el) => {
+    $(el).formSelect({
+        dropdownOptions: {
+            alignment: $(el).data('alignment') ? $(el).data('alignment') : 'left',
+            constrainWidth: $(el).data('constrain-width') === false ? false : true,
+            container: $(el).data('container') ? $($(el).data('container')) : null,
+            coverTrigger: $(el).data('cover-trigger') === true ? true : false,
+            closeOnClick: $(el).data('close-on-click') === false ? false : true,
+            hover: $(el).data('hover') === true ? true : false,
+        }
+    })
+})
 
 $('[data-tooltip]').tooltip({
     transitionMovement: 0,

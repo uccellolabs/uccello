@@ -41,7 +41,6 @@ class Number implements Uitype
     {
         return [
             'attr' => [
-                'class' => 'form-control',
                 'data-min' => $field->data->min ?? null,
                 'data-max' => $field->data->max ?? null,
                 'data-precision' => $field->data->precision ?? 2,

@@ -35,7 +35,7 @@ class Date extends DateTime implements Uitype
     {
         $options = parent::getFormOptions($record, $field, $domain, $module);
 
-        $options[ 'attr' ] = [ 'class' => 'form-control datepicker', 'autocomplete' => 'off' ];
+        $options[ 'attr' ] = [ 'class' => 'datepicker', 'autocomplete' => 'off' ];
 
         return $options;
     }

@@ -1,5 +1,6 @@
 body.theme-#{$theme} {
     background-color: $backgroundColor;
+    color: $textColor;
 
     header, main, footer {
         padding-left: 260px;
@@ -727,5 +728,9 @@ body.theme-#{$theme} {
     .detail-blocks .row.display-flex > .col {
         padding-top: 5px;
         padding-bottom: 5px;
+    }
+
+    .dropdown-content li>span>label {
+        color: $textColor;
     }
 }

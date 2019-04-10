@@ -163,7 +163,7 @@ class ListController extends Controller
             $records = $query->paginate($length);
         }
 
-        $records->getCollection()->transform(function ($record) use ($module) {
+        $records->getCollection()->transform(function ($record) use ($domain, $module) {
             foreach ($module->fields as $field) {
                 // If a special template exists, use it. Else use the generic template
                 $uitypeViewName = sprintf('uitypes.list.%s', $field->uitype->name);

@@ -7,7 +7,7 @@
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
     @if ($value)
         <div class="truncate">
-            <a href="{{ $record->{$field->column} }}" target="_blank">{{ $value }}</a>
+            <a href="{{ $record->{$field->column} }}" class="primary-text" target="_blank">{{ $value }}</a>
         </div>
     @else
         &nbsp;

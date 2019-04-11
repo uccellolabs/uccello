@@ -7,7 +7,7 @@
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
     @if ($value)
         <div class="truncate">
-            <a href="tel:{{ $value }}" style="white-space: nowrap">{{ $value }}</a>
+            <a href="tel:{{ $value }}" class="primary-text" style="white-space: nowrap">{{ $value }}</a>
         </div>
     @else
         &nbsp;

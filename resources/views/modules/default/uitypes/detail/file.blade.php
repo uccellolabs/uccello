@@ -12,9 +12,8 @@
     @if (count($valueParts) === 2)
         <div class="truncate">
             <a href="{{ ucroute('uccello.download', $domain, $module, [ 'id' => $record->getKey(), 'field' => $field->column ]) }}"
-                title="{{ uctrans('button.download_file', $module) }}">
-                {{ $fileName }}
-            </a>
+                title="{{ uctrans('button.download_file', $module) }}"
+                class="primary-text">{{ $fileName }}</a>
         </div>
     @else
         &nbsp;

@@ -57,7 +57,7 @@
                 <div class="card-content p-t-0">
                     @yield('before-datatable-table')
 
-                    <div>
+                    <div class="autoscroll-x">
                         @section('datatable-table')
                         <table
                             id="datatable"
@@ -123,7 +123,7 @@
                                 {{-- No result --}}
                                 @section('datatable-no-results')
                                 <tr class="no-results" style="display: none">
-                                    <td colspan="{{ count($datatableColumns) + 2 }}" class="center-align">{{ uctrans('datatable.no_results', $module) }}</td>
+                                    <td colspan="100%" class="center-align">{{ uctrans('datatable.no_results', $module) }}</td>
                                 </tr>
                                 @show
 

@@ -79,6 +79,13 @@ export class Datatable {
             // Hide loader
             $(`.loader[data-table="${this.table.attr('id')}"]`).addClass('hide')
         })
+        .catch((error) => {
+            // Hide loader
+            $(`.loader[data-table="${this.table.attr('id')}"]`).addClass('hide')
+
+            // Show error
+            swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::default.dialog.error.message'), 'error')
+        })
     }
 
     displayResults(response) {

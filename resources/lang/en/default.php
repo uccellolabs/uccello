@@ -131,6 +131,7 @@ return [
     'dialog' => [
         'error' => [
             'title' => 'Error',
+            'message' => 'An error occured',
         ],
         'success' => [
             'title' => 'Success',

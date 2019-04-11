@@ -358,6 +358,7 @@ body.theme-#{$theme} {
         th {
             .column-label:hover {
                 color: $primaryColor;
+                white-space: nowrap;
             }
         }
 
@@ -732,5 +733,15 @@ body.theme-#{$theme} {
 
     .dropdown-content li>span>label {
         color: $textColor;
+    }
+
+    .field-label {
+        white-space: nowrap;
+
+        b {
+            display: block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
     }
 }

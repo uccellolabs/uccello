@@ -1,4 +1,4 @@
-<div>
+<div class="autoscroll-x">
     <table
         id="{{ $datatableId }}"
         class="striped highlight"
@@ -54,7 +54,7 @@
         <tbody>
             {{-- No result --}}
             <tr class="no-results" style="display: none">
-                <td colspan="{{ count($datatableColumns) + 2 }}" class="center-align">{{ uctrans('datatable.no_results', $relatedlist->relatedModule) }}</td>
+                <td colspan="100%" class="center-align">{{ uctrans('datatable.no_results', $relatedlist->relatedModule) }}</td>
             </tr>
 
             {{-- Row template used by the query --}}

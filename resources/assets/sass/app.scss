@@ -99,6 +99,7 @@ table {
             position: relative;
             display: block;
             color: inherit;
+            white-space: nowrap;
 
             i {
                 position: absolute;
@@ -153,4 +154,12 @@ table {
 
 .notification-container {
     display: none;
+}
+
+.autoscroll-x {
+    overflow-x: auto;
+}
+
+.autoscroll-y {
+    overflow-y: auto;
 }

@@ -122,6 +122,10 @@ class AssignedUser implements Uitype
     {
         $query->where(function ($query) use($field, $value) {
             foreach ((array) $value as $_value) {
+                // Replace me by connected user's id
+                if ($_value === 'me') {
+                    $_value = auth()->id();
+                }
                 $query = $query->orWhere($field->column, '=', $_value);
             }
         });

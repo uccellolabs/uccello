@@ -14,9 +14,11 @@
             }
         ?>
         <select class="field-search" multiple  data-constrain-width="false" data-container=".card-content:parent div" data-alignment="right">
+            <option value="me">{{ uctrans('me', $module) }}</option>
             @foreach ($entities as $entity)
-            <option value="{{ $entity->getKey() }}" @if($searchValue && in_array($entity->getKey(), (array)$searchValue))selected="selected"@endif>{{ $entity->recordLabel }}</option>
-            @endforeach
+                @continue($entity->getKey() === auth()->id())
+                <option value="{{ $entity->getKey() }}" @if($searchValue && in_array($entity->getKey(), (array)$searchValue))selected="selected"@endif>{{ $entity->recordLabel }}</option>
+                @endforeach
         </select>
     </div>
 </div>

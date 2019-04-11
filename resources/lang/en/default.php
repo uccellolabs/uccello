@@ -4,6 +4,7 @@ return [
     // General
     'yes' => 'Yes',
     'no' => 'No',
+    'me' => 'Me',
 
     // Menu
     'menu' => [

@@ -200,7 +200,6 @@ return [
 
     // Calendar
     'calendar' => [
-        'format' => 'YYYY-MM-DD',
         'apply' => 'Appliquer',
         'cancel' => 'Annuler',
         'clear' => 'Vider',

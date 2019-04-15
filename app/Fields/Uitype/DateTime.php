@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Uitype;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Fluent;
+use Illuminate\Http\Request;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
@@ -48,7 +49,14 @@ class DateTime implements Uitype
      */
     public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
-        $options[ 'attr' ] = [ 'class' => 'datetimepicker', 'autocomplete' => 'off' ];
+        $options[ 'attr' ] = [
+            'class' => 'datetimepicker',
+            'autocomplete' => 'off',
+            'data-format' => config('uccello.format.js.datetime'),
+        ];
+
+        // We want the field displays the datetime in the good format
+        $options['value'] = $this->getFormattedValueToDisplay($field, $record);
 
         return $options;
     }
@@ -62,7 +70,29 @@ class DateTime implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        return $record->{$field->column} ? (new \Carbon\Carbon($record->{$field->column}))->format('Y-m-d H:i') : '';
+        return $record->{$field->column}
+            ? (new \Carbon\Carbon($record->{$field->column}))->format(config('uccello.format.php.datetime'))
+            : '';
+    }
+
+    /**
+     * Returns formatted value to save.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
+     * @return string|null
+     */
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
+    {
+        if ($value) {
+            $value = \Carbon\Carbon::createFromFormat(config('uccello.format.php.datetime'), $value);
+        }
+
+        return $value;
     }
 
     /**
@@ -77,7 +107,9 @@ class DateTime implements Uitype
     {
         $query->where(function ($query) use($field, $value) {
             $values = explode(',', $value); // Start Date, End Date
-            $query->whereBetween($field->column, [ trim($values[0]), trim($values[1]) ])->get();
+            $dateStart = \Carbon\Carbon::createFromFormat(config('uccello.format.php.datetime'), trim($values[0]));
+            $dateEnd = \Carbon\Carbon::createFromFormat(config('uccello.format.php.datetime'), trim($values[1]));
+            $query->whereBetween($field->column, [ $dateStart, $dateEnd ])->get();
         });
 
         return $query;

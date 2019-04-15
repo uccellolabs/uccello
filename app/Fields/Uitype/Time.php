@@ -4,11 +4,11 @@ namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Fluent;
+use Illuminate\Http\Request;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-
 
 class Time extends DateTime implements Uitype
 {
@@ -43,7 +43,11 @@ class Time extends DateTime implements Uitype
      */
     public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
-        $options[ 'attr' ] = [ 'class' => 'timepicker', 'placeholder' => '12:00' ];
+        $options[ 'attr' ] = [
+            'class' => 'timepicker',
+            'placeholder' => '12:00',
+            'data-format' => config('uccello.format.js.time'),
+        ];
 
         return $options;
     }
@@ -57,7 +61,25 @@ class Time extends DateTime implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        return $record->{$field->column} ? (new \Carbon\Carbon($record->{$field->column}))->format('H:i') : '';
+        return $record->{$field->column}
+            ? (new \Carbon\Carbon($record->{$field->column}))->format(config('uccello.format.php.time'))
+            : '';
+    }
+
+    /**
+     * Returns formatted value to save.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
+     * @return string|null
+     */
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
+    {
+        return $value;
     }
 
     /**

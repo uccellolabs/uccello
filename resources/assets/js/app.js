@@ -71,7 +71,7 @@ class UccelloApp {
             $(this).change()
         })
         .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM-DD') + ', ' + picker.endDate.format('YYYY-MM-DD'))
+            $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
         })
         .on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('').change()
@@ -91,7 +91,7 @@ class UccelloApp {
             $(this).change()
         })
         .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm') + ', ' + picker.endDate.format('YYYY-MM-DD HH:mm'))
+            $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
         })
         .on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('').change()
@@ -105,7 +105,7 @@ class UccelloApp {
             showDropdowns: true
         })
         .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM-DD'))
+            $(this).val(picker.startDate.format($(this).data('format')))
         })
         .on('keyup', function() {
             let dateStr = $(this).val()
@@ -129,7 +129,7 @@ class UccelloApp {
             cancelClass: "waves-effect btn-flat"
         })
         .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'))
+            $(this).val(picker.startDate.format($(this).data('format')))
             $(this).parents('.input-field:first').find('label').addClass('active')
         })
         .on('cancel.daterangepicker', function(ev, picker) {
@@ -174,7 +174,6 @@ class UccelloApp {
 
     getDaterangePickerLocale() {
         return {
-            format: uctrans.trans('uccello::default.calendar.format'),
             separator: uctrans.trans('uccello::default.calendar.separator'),
             applyLabel: uctrans.trans('uccello::default.calendar.apply'),
             cancelLabel: uctrans.trans('uccello::default.calendar.cancel'),

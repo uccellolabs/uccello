@@ -198,7 +198,6 @@ return [
 
     // Calendar
     'calendar' => [
-        'format' => 'YYYY-MM-DD',
         'apply' => 'Apply',
         'cancel' => 'Cancel',
         'clear' => 'Clear',

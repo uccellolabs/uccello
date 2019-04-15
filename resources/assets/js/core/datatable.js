@@ -299,8 +299,8 @@ export class Datatable {
 
         $('.actions-column .clear-search').on('click', (event) => {
             // Clear all search fields
-            // $('thead select', this.table).selectpicker('deselectAll')
-            $(' thead input', this.table).val('')
+            $('thead select', this.table).val('')
+            $('thead input', this.table).val('')
 
             // Update columns
             this.initColumns()

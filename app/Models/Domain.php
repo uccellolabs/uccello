@@ -3,7 +3,6 @@
 namespace Uccello\Core\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Collection;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Nicolaslopezj\Searchable\SearchableTrait;
 use Gzero\EloquentTree\Model\Tree;

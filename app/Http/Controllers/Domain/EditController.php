@@ -19,18 +19,19 @@ class EditController extends CoreEditController
         // domain where parent_id != null
         $record = Domain::find($request->get('id'));
 
-        // Set parent domain
-        $parentDomain = Domain::find($request->get('parent'));
-        if (!is_null($parentDomain)) {
-            with($record)->setChildOf($parentDomain);
-        }
-        // Remove parent domain
-        else {
-            $record->setAsRoot();
+        // Get mode
+        $mode = $record->getKey() ? 'edit' : 'create';
+
+        if ($mode == 'edit') { // Config before update
+            $this->configTree($record);
         }
 
         // Default behaviour without redirection
         $record = parent::save($domain, $module, $request, false); // Get a fresh version of $record, after saving
+
+        if ($mode == 'create') { // Config after create
+            $this->configTree($record);
+        }
 
         // Update current domain if we are editing it (data could have been changed)
         if ($this->domain->getKey() === $record->getKey()) {
@@ -42,6 +43,25 @@ class EditController extends CoreEditController
             $route = ucroute('uccello.detail', $this->domain, $module, [ 'id' => $record->getKey() ]);
 
             return redirect($route);
+        }
+    }
+
+    /**
+     * Config tree path
+     *
+     * @param \Uccello\Core\Models\Domain $record
+     * @return void
+     */
+    protected function configTree($record)
+    {
+        // Set parent domain
+        $parentDomain = Domain::find(request('parent'));
+        if (!is_null($parentDomain)) {
+            with($record)->setChildOf($parentDomain);
+        }
+        // Remove parent domain
+        else {
+            $record->setAsRoot();
         }
     }
 }

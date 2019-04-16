@@ -7,7 +7,7 @@
     <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
     @if($value)
         <div class="img-container">
-            <img src="{{ $value }}" class="img-responsive">
+            <img src="{{ $value }}" class="responsive-img">
         </div>
     @else
         &nbsp;

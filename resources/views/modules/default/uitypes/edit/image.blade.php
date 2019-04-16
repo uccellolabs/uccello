@@ -8,7 +8,7 @@
     </div>
 
     <div class="file-path-wrapper">
-        <input class="file-path validate" type="text" placeholder="{{ uctrans($field->label, $module) }}">
+        <input class="file-path" type="text" placeholder="{{ uctrans($field->label, $module) }}">
     </div>
 
     @if ($isError)

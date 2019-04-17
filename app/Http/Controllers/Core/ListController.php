@@ -70,8 +70,7 @@ class ListController extends Controller
     public function processForContent(?Domain $domain, Module $module, Request $request)
     {
         $length = (int)$request->get('length') ?? env('UCCELLO_ITEMS_PER_PAGE', 15);
-        $order = $request->get('order');
-        $columns = $request->get('columns');
+
         $recordId = $request->get('id');
         $relatedListId = $request->get('relatedlist');
         $action = $request->get('action');
@@ -87,36 +86,8 @@ class ListController extends Controller
             return false;
         }
 
-        // Filter on domain if column exists
-        if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
-            $query = $modelClass::where('domain_id', $domain->id);
-        } else {
-            $query = $modelClass::query();
-        }
-
-        // Search by column
-        foreach ($columns as $fieldName => $column) {
-            if (!empty($column[ "search" ])) {
-                $searchValue = $column[ "search" ];
-            } else {
-                $searchValue = null;
-            }
-
-            // Get field by name and search by field column
-            $field = $module->getField($fieldName);
-            if (isset($searchValue) && !is_null($field)) {
-                $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
-            }
-        }
-
-        // Order results
-        if (!empty($order)) {
-            foreach ($order as $fieldColumn => $value) {
-                if (!is_null($field)) {
-                    $query = $query->orderBy($fieldColumn, $value);
-                }
-            }
-        }
+        // Build query
+        $query = $this->buildContentQuery();
 
         // Limit the number maximum of items per page
         $maxItemsPerPage = env('UCCELLO_MAX_ITEMS_PER_PAGE', 100);
@@ -284,5 +255,60 @@ class ListController extends Controller
             'success' => $success,
             'message' => $message
         ];
+    }
+
+    /**
+     * Build query for retrieving content
+     *
+     * @return \Illuminate\Database\Eloquent\Builder;
+     */
+    protected function buildContentQuery()
+    {
+        $order = $this->request->get('order');
+        $columns = $this->request->get('columns');
+
+        $domain = $this->domain;
+        $module = $this->module;
+
+         // Get model model class
+         $modelClass = $module->model_class;
+
+         // Check if the class exists
+         if (!class_exists($modelClass)) {
+             return false;
+         }
+
+        // Filter on domain if column exists
+        if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
+            $query = $modelClass::where('domain_id', $domain->id);
+        } else {
+            $query = $modelClass::query();
+        }
+
+        // Search by column
+        foreach ($columns as $fieldName => $column) {
+            if (!empty($column[ "search" ])) {
+                $searchValue = $column[ "search" ];
+            } else {
+                $searchValue = null;
+            }
+
+            // Get field by name and search by field column
+            $field = $module->getField($fieldName);
+            if (isset($searchValue) && !is_null($field)) {
+                $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
+            }
+        }
+
+        // Order results
+        if (!empty($order)) {
+            foreach ($order as $fieldColumn => $value) {
+                if (!is_null($field)) {
+                    $query = $query->orderBy($fieldColumn, $value);
+                }
+            }
+        }
+
+        return $query;
     }
 }

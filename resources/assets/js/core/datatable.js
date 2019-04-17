@@ -44,7 +44,7 @@ export class Datatable {
         }
 
         // Get query URL
-        let url = $(this.table).data('content-url')
+        let url = $(this.table).attr('data-content-url')
 
         // Delete old records
         // $('tbody tr.record', this.table).remove()

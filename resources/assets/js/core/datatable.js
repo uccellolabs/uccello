@@ -193,6 +193,15 @@ export class Datatable {
             }
         })
 
+        // Dispatch event
+        let event = new CustomEvent('uccello.list.row_added', {
+            detail: {
+                element: tr,
+                record: record
+            }
+        })
+        dispatchEvent(event)
+
         // Init click listener on delete button
         this.linkManager.initClickListener(tr)
 

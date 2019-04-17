@@ -15,6 +15,7 @@ export class Datatable {
         this.initColumnsVisibilityListener()
         this.initRecordsNumberListener()
         this.initColumnsSearchListener()
+        this.initRefreshContentEventListener()
     }
 
     initColumns() {
@@ -275,6 +276,19 @@ export class Datatable {
 
         // Add clear search button listener
         this.addClearSearchButtonListener()
+    }
+
+    /* Refresh content */
+    initRefreshContentEventListener() {
+        if (!this.table) {
+            return
+        }
+
+        addEventListener('uccello.list.refresh', (event) => {
+            if (event.detail === $(this.table).attr('id')) {
+                this.makeQuery()
+            }
+        })
     }
 
     /**

@@ -23,7 +23,7 @@
     ],
     "require": {
         "php": "~7.0",
-        "laravel/framework": "~5.5",
+        "laravel/framework": "~5.6",
         "arrilot/laravel-widgets": "^3.12",
         "cviebrock/eloquent-sluggable": "^4.5",
         "doctrine/dbal": "^2.7",

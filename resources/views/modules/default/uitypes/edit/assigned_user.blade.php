@@ -1,1 +1,1 @@
-@extends('uccello::modules.default.uitypes.edit.entity')
+@extends('uccello::modules.default.uitypes.edit.select')

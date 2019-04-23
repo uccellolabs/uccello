@@ -26,7 +26,7 @@ class Entity implements Uitype
      */
     public function getFormType() : string
     {
-        return 'entity';
+        return 'text';
     }
 
     /**
@@ -40,37 +40,12 @@ class Entity implements Uitype
      */
     public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
-        if (!is_object($field->data)) {
-            return [ ];
-        }
-
-        $options = [ ];
-
-        if ($field->data->module) {
-            $relatedModule = ucmodule($field->data->module);
-
-            $options = [
-                'class' => $relatedModule->model_class ?? null,
-                'property' => $field->data->field ?? 'recordLabel',
-                'empty_value' => uctrans('field.select_empty_value', $module),
-                'selected' => $record->{$field->column} ?? null,
-                'attr' => [
-                    // 'class' => 'form-control show-tick',
-                    // 'data-live-search' => 'true',
-                    // 'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
-                ],
-                'query_builder' => function($relatedRecord) use($record) {
-                    // If related record class is the same as the record one, ignore the current record
-                    if (get_class($relatedRecord) === get_class($record)) {
-                        return $relatedRecord->where($relatedRecord->getKeyName(), '!=', $record->getKey());
-                    } else {
-                        return $relatedRecord->all();
-                    }
-                },
-            ];
-        }
-
-        return $options;
+        return [
+            'value' => $record->{$field->column},
+            'label_attr' => [
+                'style'=> 'margin-left: 3.5rem'
+            ]
+        ];
     }
 
     /**

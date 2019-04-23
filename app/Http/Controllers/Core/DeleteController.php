@@ -7,6 +7,8 @@ use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Relation;
 use Uccello\Core\Models\Relatedlist;
+use Uccello\Core\Events\BeforeDeleteEvent;
+use Uccello\Core\Events\AfterDeleteEvent;
 
 class DeleteController extends Controller
 {
@@ -42,7 +44,11 @@ class DeleteController extends Controller
 
         // Delete record if exists
         if ($record) {
+            event(new BeforeDeleteEvent($this->domain, $module, $request, $record, 'delete'));
+
             $record->delete();
+
+            event(new AfterDeleteEvent($this->domain, $module, $request, $record, 'delete'));
 
             // Notification
             ucnotify(uctrans($message, $module), 'success');

@@ -30,7 +30,7 @@ class CreateDomainsTable extends Migration
                     ->references('id')->on($this->tablePrefix.'domains');
 
             // Index
-            $table->index(array('path', 'parent_id', 'level'));
+            // $table->index(array('path', 'parent_id', 'level'));
         });
     }
 

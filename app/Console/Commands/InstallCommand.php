@@ -32,9 +32,6 @@ class InstallCommand extends Command
         'auth/passwords/email.stub' => 'auth/passwords/email.blade.php',
         'auth/passwords/reset.stub' => 'auth/passwords/reset.blade.php',
         'layouts/uccello.stub' => 'layouts/uccello.blade.php',
-        // 'errors/403.stub' => 'errors/403.blade.php',
-        // 'errors/404.stub' => 'errors/404.blade.php',
-        // 'errors/500.stub' => 'errors/500.blade.php',
     ];
 
     /**
@@ -85,6 +82,8 @@ class InstallCommand extends Command
         }
 
         $this->registerJWT();
+
+        $this->info(trans('Uccello scaffolding installed successfully'));
     }
 
     /**

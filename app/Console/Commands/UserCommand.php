@@ -3,9 +3,11 @@
 namespace Uccello\Core\Console\Commands;
 
 use Illuminate\Console\Command;
+use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Role;
+use Uccello\Core\Models\Privilege;
 use App\User;
 use Hash;
-use Uccello\Core\Models\Domain;
 
 class UserCommand extends Command
 {
@@ -40,23 +42,49 @@ class UserCommand extends Command
      */
     public function handle()
     {
+        $domain = Domain::first();
+
         $username = $this->ask(trans('uccello::command.user.username'));
-        $firstName = $this->ask(trans('uccello::command.user.first_name'));
-        $lastName = $this->ask(trans('uccello::command.user.last_name'));
+        $name = $this->ask(trans('uccello::command.user.name'));
         $email = $this->ask(trans('uccello::command.user.email'));
         $password = $this->secret(trans('uccello::command.user.password'));
-        $isAdmin = $this->ask(trans('uccello::command.user.is_admin'), true);
+        $isAdmin = $this->confirm(trans('uccello::command.user.is_admin'));
 
-        User::create([
+        $user = User::create([
             'username' => $username,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
+            'name' => $name,
             'email' => $email,
             'password' => Hash::make($password),
             'is_admin' => $isAdmin,
-            'domain_id' => Domain::first()->id
+            'domain_id' => $domain->id
         ]);
 
+        $this->addRole($domain, $user);
+
         $this->info(trans('uccello::command.user.user_created'));
+    }
+
+    /**
+     * Add role to user
+     */
+    protected function addRole($domain, $user)
+    {
+        $roles = Role::orderBy('name')->get();
+        $role = null;
+        if ($roles) {
+            $choices = [ ];
+            foreach ($roles as $role) {
+                $choices[ ] = $role->name;
+            }
+
+            $roleName = $this->choice(trans('uccello::command.user.role'), $choices);
+            $role = Role::where('name', $roleName)->first();
+
+            Privilege::firstOrCreate([
+                'domain_id' => $domain->id,
+                'role_id' => $role->id,
+                'user_id' => $user->id
+            ]);
+        }
     }
 }

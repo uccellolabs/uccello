@@ -15,11 +15,15 @@ class EventServiceProvider extends DefaultEventServiceProvider
      * @var array
      */
     protected $listen = [
-        'Uccello\Core\Events\AfterSaveEvent' => [
-            'Uccello\Core\Listeners\Profile\AfterSaveEventListener',
-            'Uccello\Core\Listeners\Role\AfterSaveEventListener',
-            'Uccello\Core\Listeners\User\AfterSaveEventListener',
-            'Uccello\Core\Listeners\Domain\AfterSaveEventListener',
+        \Uccello\Core\Events\AfterSaveEvent::class => [
+            \Uccello\Core\Listeners\Core\AfterSaveEventListener::class,
+            \Uccello\Core\Listeners\Profile\AfterSaveEventListener::class,
+            \Uccello\Core\Listeners\Role\AfterSaveEventListener::class,
+            \Uccello\Core\Listeners\User\AfterSaveEventListener::class,
+            \Uccello\Core\Listeners\Domain\AfterSaveEventListener::class,
+        ],
+        \Uccello\Core\Events\AfterDeleteEvent::class => [
+            \Uccello\Core\Listeners\Core\AfterDeleteEventListener::class,
         ],
     ];
 

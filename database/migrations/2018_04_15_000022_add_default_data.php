@@ -2,12 +2,12 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Str;
-use Uccello\Core\Models\User;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Profile;
 use Uccello\Core\Models\Entity;
+use App\User;
 
 class AddDefaultData extends Migration
 {

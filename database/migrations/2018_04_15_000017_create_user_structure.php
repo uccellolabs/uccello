@@ -36,7 +36,7 @@ class CreateUserStructure extends Migration
         $module = new Module();
         $module->name = 'user';
         $module->icon = 'person';
-        $module->model_class = 'Uccello\Core\Models\User';
+        $module->model_class = 'App\User';
         $module->data = [ "package" => "uccello/uccello", "admin" => true, "mandatory" => true ];
         $module->save();
 

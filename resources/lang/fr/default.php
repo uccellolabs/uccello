@@ -49,6 +49,7 @@ return [
         'columns' => 'Colonnes',
         'download_file' => 'Télécharger',
         'logout' => 'Déconnexion',
+        'delete_related_record' => 'Supprimer la relation',
     ],
 
     // Block

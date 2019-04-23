@@ -19,6 +19,6 @@
         </span>
 
         {{-- Table --}}
-        @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => $datatableId, 'datatableColumns' => $datatableColumns])
+        @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => $datatableId, 'datatableColumns' => $datatableColumns, 'relatedModule' => $relatedlist->relatedModule ])
     </div>
 </div>

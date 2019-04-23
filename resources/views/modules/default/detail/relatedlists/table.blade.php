@@ -3,9 +3,9 @@
         id="{{ $datatableId }}"
         class="striped highlight"
         data-filter-type="related-list"
-        data-relatedlist="{{ $relatedlist->id }}"
+        data-relatedlist="{{ $relatedlist->id ?? '' }}"
         data-filter-id=""
-        data-content-url="{{ $datatableContentUrl ?? ucroute('uccello.list.content', $domain, $relatedlist->relatedModule) }}"
+        data-content-url="{{ $datatableContentUrl ?? ucroute('uccello.list.content', $domain, $relatedModule) }}"
         data-add-relation-url="{{ ucroute('uccello.edit.relation.add', $domain, $module) }}"
         data-order="null"
         data-length="15">
@@ -17,7 +17,7 @@
                 <th class="sortable" data-field="{{ $column['name'] }}" data-column="{{ $column['db_column'] }}" @if(!$column['visible'])style="display: none"@endif>
                     <a href="javascript:void(0)" class="column-label">
                         {{-- Label --}}
-                        {{ uctrans('field.'.$column['name'], $relatedlist->relatedModule) }}
+                        {{ uctrans('field.'.$column['name'], $relatedModule) }}
 
                         {{-- Sort icon --}}
                         @if (!empty($filterOrderBy[$column['name']]))
@@ -26,7 +26,7 @@
                         <i class="fa fa-sort-amount-up" style="display: none"></i>
                         @endif
                     </a>
-                    <div class="search hide-on-small-only hide-on-med-only hide">
+                    <div class="search hide-on-small-only hide-on-med-only @if(!isset($searchable) || $searchable !== true)hide @endif">
                         <?php
                             $searchValue = null;
                             if (!empty($selectedFilter) && !empty($selectedFilter->conditions->search->{$column['name']})) {
@@ -44,7 +44,8 @@
                 @endforeach
 
                 <th class="actions-column hide-on-small-only hide-on-med-only right-align">
-                    <a href="javascript:void(0)" class="clear-search red-text" data-tooltip="{{ uctrans('button.clear_search', $relatedlist->relatedModule) }}" data-position="top" style="display: none">
+                    <br>
+                    <a href="javascript:void(0)" class="btn-floating btn-small waves-effect red clear-search" data-tooltip="{{ uctrans('button.clear_search', $module) }}" data-position="top" style="display: none">
                         <i class="material-icons">close</i>
                     </a>
                 </th>
@@ -54,11 +55,11 @@
         <tbody>
             {{-- No result --}}
             <tr class="no-results" style="display: none">
-                <td colspan="100%" class="center-align">{{ uctrans('datatable.no_results', $relatedlist->relatedModule) }}</td>
+                <td colspan="100%" class="center-align">{{ uctrans('datatable.no_results', $relatedModule) }}</td>
             </tr>
 
             {{-- Row template used by the query --}}
-            <tr class="template hide" data-row-url="{{ ucroute('uccello.detail', $domain, $relatedlist->relatedModule, ['id' => 'RECORD_ID']) }}">
+            <tr class="template hide" data-row-url="{{ ucroute('uccello.detail', $domain, $relatedModule, ['id' => 'RECORD_ID']) }}">
                 <td class="select-column">&nbsp;</td>
 
                 @foreach ($datatableColumns as $column)
@@ -66,18 +67,18 @@
                 @endforeach
 
                 <td class="actions-column hide-on-small-only hide-on-med-only right-align">
-                    @if (Auth::user()->canUpdate($domain, $relatedlist->relatedModule))
+                    @if (isset($relatedlist) && Auth::user()->canUpdate($domain, $relatedModule))
                     <a href="{{ $relatedlist->getEditLink($domain, $record->id) }}"
-                        data-tooltip="{{ uctrans('button.edit', $relatedlist->relatedModule) }}"
+                        data-tooltip="{{ uctrans('button.edit', $relatedModule) }}"
                         data-position="top"
                         class="edit-btn primary-text">
                         <i class="material-icons">edit</i>
                     </a>
                     @endif
 
-                    @if (Auth::user()->canDelete($domain, $relatedlist->relatedModule))
+                    @if (isset($relatedlist) && Auth::user()->canDelete($domain, $relatedModule))
                     <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}"
-                        data-tooltip="{{ uctrans('button.delete', $relatedlist->relatedModule) }}"
+                        data-tooltip="{{ uctrans('button.delete', $relatedModule) }}"
                         data-position="top"
                         class="delete-btn primary-text"
                         data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ $relatedlist->type === 'n-n' ? uctrans('confirm.button.delete_relation', $module) : uctrans('confirm.button.delete_record', $module) }}"}}'>

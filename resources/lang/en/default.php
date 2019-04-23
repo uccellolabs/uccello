@@ -49,6 +49,7 @@ return [
         'columns' => 'Columns',
         'download_file' => 'Download',
         'logout' => 'Logout',
+        'delete_related_record' => 'Delete relation',
     ],
 
     // Block

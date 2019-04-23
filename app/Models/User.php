@@ -72,8 +72,7 @@ class User extends Authenticatable implements JWTSubject
     protected $searchable = [
         'columns' => [
             'username' => 20,
-            'first_name' => 10,
-            'last_name' => 10,
+            'name' => 10,
             'email' => 5
         ]
     ];
@@ -125,7 +124,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getRecordLabelAttribute() : string
     {
-        return trim($this->first_name.' '.$this->last_name) ?? $this->username;
+        return trim($this->name) ?? $this->username;
     }
 
     /**

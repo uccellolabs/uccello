@@ -30,9 +30,7 @@ class AlterUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function(Blueprint $table) {
-            $table->renameColumn('username', 'name');
-            $table->removeColumn('first_name');
-            $table->removeColumn('last_name');
+            $table->removeColumn('username');
             $table->removeColumn('is_admin');
             $table->removeColumn('domain_id');
             $table->removeColumn('last_domain_id');

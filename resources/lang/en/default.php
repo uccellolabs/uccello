@@ -54,7 +54,7 @@ return [
 
     // Block
     'block' => [
-        'general' => 'General informatin',
+        'general' => 'General information',
     ],
 
     // Field

@@ -10,8 +10,7 @@ return [
     ],
     'field' => [
         'username' => 'Username',
-        'first_name' => 'First name',
-        'last_name' => 'Last name',
+        'name' => 'Name',
         'is_admin' => 'Is admin?',
         'password' => 'Password',
         'password_confirmation' => 'Password (confirmation)',

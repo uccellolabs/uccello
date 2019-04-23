@@ -15,13 +15,10 @@ class AlterUsersTable extends Migration
     {
         Schema::table('users', function(Blueprint $table) {
             $table->string('username')->after('id');
-            $table->string('first_name')->after('username')->nullable();
-            $table->string('phone')->after('password')->nullable();
             $table->boolean('is_admin')->after('remember_token')->default(false);
             $table->unsignedInteger('domain_id')->after('is_admin');
             $table->unsignedInteger('last_domain_id')->after('domain_id')->nullable();
             $table->softDeletes();
-            $table->renameColumn('name', 'last_name');
         });
     }
 

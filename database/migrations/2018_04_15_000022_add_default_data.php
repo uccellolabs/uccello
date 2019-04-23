@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Str;
 use Uccello\Core\Models\User;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Profile;
+use Uccello\Core\Models\Entity;
 
 class AddDefaultData extends Migration
 {
@@ -36,10 +38,16 @@ class AddDefaultData extends Migration
 
     protected function addDefaultDomain()
     {
-        Domain::create([
+        $domain = Domain::create([
             'name' => 'Uccello',
             'description' => null,
             'parent_id' => null
+        ]);
+
+        Entity::create([
+            'id' => (string) Str::uuid(),
+            'module_id' => ucmodule('domain')->id,
+            'record_id' => $domain->getKey(),
         ]);
     }
 
@@ -49,6 +57,12 @@ class AddDefaultData extends Migration
             'name' => 'Administration',
             'description' => null,
             'domain_id' => Domain::first()->id
+        ]);
+
+        Entity::create([
+            'id' => (string) Str::uuid(),
+            'module_id' => ucmodule('profile')->id,
+            'record_id' => $profile->getKey(),
         ]);
 
         return $profile;
@@ -64,6 +78,12 @@ class AddDefaultData extends Migration
         ]);
 
         $role->profiles()->attach($profile);
+
+        Entity::create([
+            'id' => (string) Str::uuid(),
+            'module_id' => ucmodule('role')->id,
+            'record_id' => $role->getKey(),
+        ]);
     }
 
     protected function addModulesInDomain()

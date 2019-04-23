@@ -1,6 +1,6 @@
 <?php $isLarge = $field->data->large ?? false; ?>
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
-<div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field">
+<div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field @if($isError)invalid @endif">
 
     {{-- Add icon if defined --}}
     @if($field->icon ?? false)

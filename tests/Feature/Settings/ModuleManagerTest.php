@@ -4,7 +4,6 @@ namespace Uccello\Core\Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Uccello\Core\Models\User;
 use Uccello\Core\Models\Domain;
 
 class ModuleManagerTest extends TestCase

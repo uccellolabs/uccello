@@ -8,6 +8,7 @@ use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Profile;
 use Uccello\Core\Models\Entity;
 use App\User;
+use Uccello\Core\Models\Permission;
 
 class AddDefaultData extends Migration
 {
@@ -64,6 +65,16 @@ class AddDefaultData extends Migration
             'module_id' => ucmodule('profile')->id,
             'record_id' => $profile->getKey(),
         ]);
+
+        foreach (Module::all() as $module) {
+            foreach (uccello()->getCapabilities() as $capability) {
+                Permission::firstOrCreate([
+                    'profile_id' => $profile->id,
+                    'module_id' => $module->id,
+                    'capability_id' => $capability->id
+                ]);
+            }
+        }
 
         return $profile;
     }

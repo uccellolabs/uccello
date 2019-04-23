@@ -85,24 +85,13 @@ class CreateUserStructure extends Migration
         $field->module_id = $module->id;
         $field->save();
 
-        // First name
+        // Name
         $field = new Field();
-        $field->name = 'first_name';
-        $field->uitype_id = uitype('text')->id;
-        $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = null;
-        $field->sequence = 2;
-        $field->block_id = $block->id;
-        $field->module_id = $module->id;
-        $field->save();
-
-        // Last name
-        $field = new Field();
-        $field->name = 'last_name';
+        $field->name = 'name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = [ 'rules' => 'required' ];
-        $field->sequence = 3;
+        $field->sequence = 2;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -113,7 +102,7 @@ class CreateUserStructure extends Migration
         $field->uitype_id = uitype('password')->id;
         $field->displaytype_id = displaytype('create')->id;
         $field->data = [ 'rules' => 'required|min:6', 'repeated' => true ];
-        $field->sequence = 4;
+        $field->sequence = 3;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -124,17 +113,7 @@ class CreateUserStructure extends Migration
         $field->uitype_id = uitype('email')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = [ 'rules' => 'required|email|unique:users,email,%id%' ];
-        $field->sequence = 5;
-        $field->block_id = $block->id;
-        $field->module_id = $module->id;
-        $field->save();
-
-        // Phone
-        $field = new Field();
-        $field->name = 'phone';
-        $field->uitype_id = uitype('phone')->id;
-        $field->displaytype_id = displaytype('everywhere')->id;
-        $field->sequence = 6;
+        $field->sequence = 4;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -148,7 +127,7 @@ class CreateUserStructure extends Migration
         $filter->user_id = null;
         $filter->name = 'filter.all';
         $filter->type = 'list';
-        $filter->columns = [ 'username', 'first_name', 'last_name', 'email' ];
+        $filter->columns = [ 'username', 'name', 'email' ];
         $filter->conditions = null;
         $filter->order_by = null;
         $filter->is_default = true;

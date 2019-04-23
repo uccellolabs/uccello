@@ -10,10 +10,23 @@ class ModuleManagerTest extends TestCase
 {
     use RefreshDatabase;
 
+    /**
+     * Acting as admin
+     *
+     * @return void
+     */
+    protected function actingAsAdmin()
+    {
+        $user = factory(\Uccello\Core\Models\User::class)->make();
+        $user->is_admin = true;
+        $user->save();
+
+        $this->actingAs($user);
+    }
+
     public function testModuleActivatonCanBeChanged()
     {
-        $user = factory(\Uccello\Core\Models\User::class)->create();
-        $this->actingAs($user);
+        $this->actingAsAdmin();
 
         $domain = Domain::first();
 
@@ -53,8 +66,7 @@ class ModuleManagerTest extends TestCase
 
     public function testMandatoryModuleActivatonCannotBeChanged()
     {
-        $user = factory(\Uccello\Core\Models\User::class)->create();
-        $this->actingAs($user);
+        $this->actingAsAdmin();
 
         $domain = Domain::first();
 
@@ -81,8 +93,7 @@ class ModuleManagerTest extends TestCase
 
     public function testModuleNotDefined()
     {
-        $user = factory(\Uccello\Core\Models\User::class)->create();
-        $this->actingAs($user);
+        $this->actingAsAdmin();
 
         $domain = Domain::first();
 

@@ -4,6 +4,7 @@ export class Edit {
         this.initCheckboxListener()
         this.autoCheck()
         this.autoDisplayApiCapabilities()
+        this.autoDisplaySwitch()
     }
 
     intiSwitchListener() {
@@ -49,7 +50,6 @@ export class Edit {
         // Select item checkboxes
         $('#permissions-table input.select-item').on('change', (event) => {
             let element = $(event.currentTarget)
-            let parentElement = $(element).parents('tr:first')
 
             this.autoCheck()
         })
@@ -57,8 +57,8 @@ export class Edit {
 
     autoCheck() {
         // All modules
-        let globalCheckedCount = $("#permissions-table .select-item:checked").length
-        let globalTotalCount = $("#permissions-table .select-item").length
+        const globalCheckedCount = $("#permissions-table .select-item:checked").length
+        const globalTotalCount = $("#permissions-table .select-item").length
         $("#permissions-table .select-all").prop('checked', globalCheckedCount === globalTotalCount)
 
         // Each row
@@ -71,11 +71,19 @@ export class Edit {
     }
 
     autoDisplayApiCapabilities() {
-        let globalApiTotalCount = $("#permissions-table td.for-api input.select-item").length
-        let globalApiCheckedCount = $("#permissions-table td.for-api input.select-item:checked").length
+        const globalApiTotalCount = $("#permissions-table td.for-api input.select-item").length
+        const globalApiCheckedCount = $("#permissions-table td.for-api input.select-item:checked").length
 
         if (globalApiCheckedCount > 0 && globalApiTotalCount !== globalApiCheckedCount) {
             $('#manage-api-capabilities').prop('checked', true).change()
+        }
+    }
+
+    autoDisplaySwitch() {
+        const globalApiTotalCount = $("#permissions-table td.for-api input.select-item").length
+
+        if (globalApiTotalCount > 0) {
+            $(".api-switch").removeClass('hide')
         }
     }
 }

@@ -33,8 +33,7 @@
         "mpdf/mpdf": "^7.1",
         "nicolaslopezj/searchable": "1.*",
         "spatie/laravel-menu": "^3.2",
-        "thepinecode/i18n": "^0.5",
-        "tymon/jwt-auth": "1.0.*"
+        "thepinecode/i18n": "^0.5"
     },
     "require-dev": {
         "laravel/dusk": "^3.0",

@@ -17,6 +17,7 @@ class CreateCapabilitiesTable extends Migration
         Schema::create($this->tablePrefix.'capabilities', function(Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->text('data')->nullable();
             $table->timestamps();
         });
 
@@ -40,17 +41,14 @@ class CreateCapabilitiesTable extends Migration
             'create',
             'update',
             'delete',
-            'api-retrieve',
-            'api-create',
-            'api-update',
-            'api-delete',
             'admin',
         ];
 
         foreach ($capabilities as $name) {
-            $capability = new Capability();
-            $capability->name = $name;
-            $capability->save();
+            Capability::create([
+                'name' => $name,
+                'data' => [ 'package' => 'uccello/uccello' ]
+            ]);
         }
     }
 }

@@ -13,7 +13,7 @@
                     {{-- Label --}}
                     {{ uctrans('block.permissions', $module) }}
 
-                    <div class="switch right">
+                    <div class="switch right api-switch hide">
                         <label>
                             <span class="black-text">{{ uctrans('label.api_capabilities', $module) }}</span>
                             <input type="checkbox" id="manage-api-capabilities">
@@ -39,8 +39,11 @@
                                         </p>
                                     </th>
                                     @foreach (uccello()->getCapabilities() as $capability)
-                                        <?php $isApiCapability = strpos($capability->name, 'api-') !== false; ?>
-                                        <th class="center-align @if ($isApiCapability)for-api hide @endif">{{ uctrans('capability.' . $capability->name, $module) }}</th>
+                                        <?php
+                                            $isApiCapability = strpos($capability->name, 'api-') !== false;
+                                            $packagePrefix = $capability->package ? $capability->package . '::' : '';
+                                        ?>
+                                        <th class="center-align @if ($isApiCapability)for-api hide @endif">{{ trans($packagePrefix . 'capability.' . $capability->name) }}</th>
                                     @endforeach
                                 </tr>
                             </thead>

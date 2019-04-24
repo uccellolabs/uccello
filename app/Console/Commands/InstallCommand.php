@@ -81,26 +81,6 @@ class InstallCommand extends Command
             );
         }
 
-        $this->registerJWT();
-
         $this->info(trans('Uccello scaffolding installed successfully'));
-    }
-
-    /**
-     * Publish JWT and generated JWT secret
-     *
-     * @return void
-     */
-    protected function registerJWT()
-    {
-        $this->callSilent('vendor:publish', [
-            '--provider' => 'Tymon\JWTAuth\Providers\LaravelServiceProvider'
-        ]);
-
-        // Generate JWT Secret if it does not exist yet (else there is an error)
-        if (empty(env('JWT_SECRET'))) {
-            $this->comment('Generating JWT Secret...');
-            $this->callSilent('jwt:secret');
-        }
     }
 }

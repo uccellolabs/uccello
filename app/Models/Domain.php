@@ -4,15 +4,15 @@ namespace Uccello\Core\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Nicolaslopezj\Searchable\SearchableTrait;
 use Gzero\EloquentTree\Model\Tree;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 use Uccello\Core\Support\Traits\RelatedlistTrait;
 
-class Domain extends Tree
+class Domain extends Tree implements Searchable
 {
     use SoftDeletes;
     use Sluggable;
-    use SearchableTrait;
     use RelatedlistTrait;
 
     protected $tablePrefix;
@@ -61,18 +61,6 @@ class Domain extends Tree
     ];
 
     /**
-     * Searchable rules.
-     * See https://github.com/nicolaslopezj/searchable
-     *
-     * @var array
-     */
-    protected $searchable = [
-        'columns' => [
-            'name' => 1
-        ]
-    ];
-
-    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
@@ -86,6 +74,20 @@ class Domain extends Tree
                 'includeTrashed' => false
             ]
         ];
+    }
+
+    public $searchableType = 'domain';
+
+    public $searchableColumns = [
+        'name'
+    ];
+
+    public function getSearchResult(): SearchResult
+    {    
+        return new SearchResult(
+            $this,
+            $this->recordLabel
+        );
     }
 
     public function __construct(array $attributes = [ ])

@@ -14,10 +14,6 @@ Route::name('uccello.')->group(function() {
     }
 
     // Overrided routes
-    Route::get($domainParam.'/api/doc', 'Core\SwaggerController@api')
-        ->name('api.doc');
-
-    // Overrided routes
     Route::get($domainParam.'/role/edit', 'Role\EditController@process')
         ->defaults('module', 'role')
         ->name('role.edit');
@@ -60,6 +56,8 @@ Route::name('uccello.')->group(function() {
     Route::get($domainParam.'/home', 'Core\IndexController@process')
         ->defaults('module', 'home')
         ->name('home');
+
+    Route::get($domainParam.'/search', 'Core\SearchController@search')->name('search');
 
     Route::get($domainAndModuleParams, 'Core\IndexController@process')->name('index');
     Route::get($domainAndModuleParams.'/list', 'Core\ListController@process')->name('list');

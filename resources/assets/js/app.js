@@ -24,6 +24,7 @@ class UccelloApp {
         // this.initColorPicker()
         this.initCountTo()
         this.initJsTree()
+        this.initSearchBar()
     }
 
     initGlobal() {
@@ -268,6 +269,20 @@ class UccelloApp {
                 let v = $('#domain-name').val()
                 domainsTree.jstree(true).search(v)
             }, 250)
+        })
+    }
+
+    initSearchBar() {
+        $(".navbar-header .search-btn").on('click', () => {
+            $('.navbar-header .default-bar').hide()
+            $('.navbar-header .search-bar').show()
+            $('.navbar-header .search-bar #search').focus()
+        })
+
+        $('.navbar-header .search-bar #search').on('focusout', () => {
+            $('.navbar-header .default-bar').show()
+            $('.navbar-header .search-bar').hide()
+            $('.navbar-header .search-bar #search').val('')
         })
     }
 

@@ -7,99 +7,16 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Uccello is a Laravel Package for providing a way to make easily complete web applications. For the moment, this package can be integrated easily only on a fresh installation.
+![Uccello](./public/images/logo-uccello.png)
+
+**Uccello** is based on the Laravel Framework and can be easily added to an existing Laravel project. It is thus possible to easily add a complete **back-office** to manage the data of a website. Or you may prefer to develop a customized management **application** or **CRM** to improve your company's productivity? Uccello was also designed for this purpose!
 
 ## Installation
 
-Via Composer
+Please see [installation documentation](https://uccello.gitbook.io/doc/installation/getting-started).
 
-``` bash
-$ composer require uccello/uccello:1.0.*
-```
-
-If you are using Laravel 5.5 or above skip this step, but if aren't then add this code on ```config/app.php```, on providers
-
-``` php
-'providers' => [
-  ...
-  Lord\Laroute\LarouteServiceProvider::class,
-  Uccello\Core\Providers\AppServiceProvider::class,
-  Uccello\Core\Providers\RouteServiceProvider::class,
-  ...
-],
-...
-'aliases' => [
-  ...
-  'Uccello' => Uccello\Core\Facades\Uccello::class,
-],
-```
-
-And then run,
-
-``` bash
-$ php artisan uccello:install
-```
-
-This command will extract needed views for **auth**, and **errors**.
-
-### Add check permissions middleware
-Open ```app/Http/Kernel.php``` file and add the following code:
-
-``` php
-protected $routeMiddleware = [
-  ...
-  'uccello.permissions' => \Uccello\Core\Http\Middleware\CheckPermissions::class,
-  'uccello.settings' => \Uccello\Core\Http\Middleware\CheckSettingsPanel::class,
-];
-```
-
-### Migrate and seed the database
-Configure ```.env``` file then run this command to migrate the database
-
-``` bash
-$ php artisan migrate
-```
-
-### Set the default routes
-Add this code in ```routes/web.php```
-
-``` php
-Route::get('/', function() {
-    $domain = uccello()->useMultiDomains() ? uccello()->getLastOrDefaultDomain()->slug : null;
-    $route = ucroute('uccello.home', $domain);
-    return redirect($route);
-});
-...
-```
-
-If you don't want to use multi domains, add this code in ```.env```
-
-```
-...
-UCCELLO_MULTI_DOMAINS=false
-```
-
-__Important__ : Don't forget to launch the command ```php artisan laroute:generate``` each times you change the value of ```UCCELLO_MULTI_DOMAINS```.
-
-### Generate routes for javascript
-Uccello uses [laroute](https://github.com/aaronlord/laroute) to port the routes over to JavaScript.
-It is important to launch this command every times you modify the routes.
-
-``` bash
-$ php artisan laroute:generate
-```
-
-It will generate the file ```public/js/laroute.js``` used by Uccello.
-
-
-### Enjoy!
-Go to your **homepage**. You must be redirected to the **login page**.
-You can easily **sign in** with the following credentials:
-
-```
-Login: admin
-Password: admin
-```
+## Documentation
+See the [official documentation](https://uccello.gitbook.io).
 
 ## Testing
 
@@ -107,9 +24,9 @@ Password: admin
 $ composer test
 ```
 
-## Change log
+<!-- ## Change log
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently. -->
 
 ## Contributing
 

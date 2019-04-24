@@ -2,6 +2,11 @@
 
 return [
     'theme' => 'uccello',
+
+    'search' => [
+        'max_results' => 50,
+    ],
+
     'format' => [
         'php' => [
             'date' => 'm/d/Y',

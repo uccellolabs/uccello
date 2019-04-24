@@ -1,6 +1,6 @@
 <div class="navbar-header navbar-fixed">
     <nav class="header">
-        <div class="nav-wrapper">
+        <div class="nav-wrapper default-bar">
             <ul class="left">
                 <li>
                     <a href="#" class="sidenav-trigger" data-target="sidenav-menu" style="margin-left: 0">
@@ -12,16 +12,29 @@
             <a class="brand-logo" href="/" style="padding: 7px; max-height: 50px">{{ Html::image(ucasset('images/logo-uccello-white.png'), null, ['style' => 'max-width: 150px;']) }}</a>
 
             {{-- Display current domain name and a link to open domains list --}}
-            @if (uccello()->useMultiDomains() && isset($domain))
             <ul class="right">
                 <li>
-                    <a href="#" class="sidenav-trigger show-on-large" data-target="sidenav-domains" style="margin-right: 0">
+                    <a href="javascript:void(0)" class="search-btn" style="margin-left: 0; margin-right: 0"><i class="material-icons">search</i></a>
+                </li>
+                @if (uccello()->useMultiDomains() && isset($domain))
+                <li>
+                    <a href="#" class="sidenav-trigger show-on-large" data-target="sidenav-domains" style="margin-left: 0; margin-right: 0">
                         <span class="hide-on-small-only">{{ $domain->name }}</span>
                         <i class="material-icons right">arrow_drop_down</i>
                     </a>
                 </li>
+                @endif
             </ul>
-            @endif
+        </div>
+        
+        <div class="nav-wrapper search-bar" style="display: none">
+            <form action="{{ route('uccello.search', [ 'domain' => $domain ]) }}" novalidate>
+                <div class="input-field">
+                    <input id="search" type="search" name="q" required autocomplete="off">
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+            </form>
         </div>
     </nav>
 </div>

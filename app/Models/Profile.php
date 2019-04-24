@@ -2,15 +2,15 @@
 
 namespace Uccello\Core\Models;
 
-use Uccello\Core\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
-use Nicolaslopezj\Searchable\SearchableTrait;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
+use Uccello\Core\Database\Eloquent\Model;
 
-class Profile extends Model
+class Profile extends Model implements Searchable
 {
     use SoftDeletes;
-    use SearchableTrait;
 
     /**
      * The table associated with the model.
@@ -37,17 +37,19 @@ class Profile extends Model
         'domain_id'
     ];
 
-    /**
-     * Searchable rules.
-     * See https://github.com/nicolaslopezj/searchable
-     *
-     * @var array
-     */
-    protected $searchable = [
-        'columns' => [
-            'name' => 1
-        ]
+    public $searchableType = 'profile';
+
+    public $searchableColumns = [
+        'name'
     ];
+
+    public function getSearchResult(): SearchResult
+    {    
+        return new SearchResult(
+            $this,
+            $this->recordLabel
+        );
+    }
 
     protected function initTablePrefix()
     {

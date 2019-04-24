@@ -6,15 +6,15 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
-use Nicolaslopezj\Searchable\SearchableTrait;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 use Uccello\Core\Support\Traits\RelatedlistTrait;
 
-class User extends Authenticatable
+class User extends Authenticatable implements Searchable
 {
     use SoftDeletes;
     use Notifiable;
     use RelatedlistTrait;
-    use SearchableTrait;
 
     /**
      * The table associated with the model.
@@ -62,19 +62,19 @@ class User extends Authenticatable
         'recordLabel'
     ];
 
-    /**
-     * Searchable rules.
-     * See https://github.com/nicolaslopezj/searchable
-     *
-     * @var array
-     */
-    protected $searchable = [
-        'columns' => [
-            'username' => 20,
-            'name' => 10,
-            'email' => 5
-        ]
+    public $searchableType = 'user';
+
+    public $searchableColumns = [
+        'name'
     ];
+
+    public function getSearchResult(): SearchResult
+    {    
+        return new SearchResult(
+            $this,
+            $this->recordLabel
+        );
+    }
 
     public function domain()
     {

@@ -228,15 +228,15 @@ class User extends Authenticatable implements Searchable
      */
     public function canAccessToSettingsPanel(?Domain $domain) : bool
     {
-        $keyName = 'user_'.$this->id.'_'.$domain->slug.'can_access_to_settings_panel';
+        if (empty($domain)) {
+            $domain = Domain::first();
+        }
+
+        $keyName = 'user_'.$this->id.'_'.$domain->slug.'_can_access_to_settings_panel';
 
         return Cache::remember($keyName, 600, function () use($domain) {
 
             $hasCapability = false;
-
-            if (empty($domain)) {
-                $domain = Domain::first();
-            }
 
             foreach (Module::all() as $module) {
                 if ($module->isAdminModule() === true && $this->canAdmin($domain, $module)) {

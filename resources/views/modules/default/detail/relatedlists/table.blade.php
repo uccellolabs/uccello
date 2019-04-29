@@ -38,8 +38,9 @@
                             $uitypeViewName = sprintf('uitypes.search.%s', $column[ 'uitype' ]);
                             $uitypeFallbackView = 'uccello::modules.default.uitypes.search.text';
                             $uitypeViewToInclude = uccello()->view($column[ 'package' ], $module, $uitypeViewName, $uitypeFallbackView);
+                            $field = $module->fields()->where('name', $column['name'])->first();
                         ?>
-                        @include($uitypeViewToInclude)
+                        @include($uitypeViewToInclude, [ 'field' => $field ])
                     </div>
                     @endif
                 </th>

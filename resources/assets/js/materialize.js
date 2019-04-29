@@ -71,3 +71,21 @@ $('[data-tooltip]').tooltip({
 $('.modal').modal()
 
 $('.collapsible').collapsible()
+
+// $('input.autocomplete[data-url]').on('keyup', function() {
+//     let url = $(this).attr('data-url')
+//     $.get(url, {
+//         q: $(this).val()
+//     }).then((results) => {
+//         let data = {}
+//         for (let result of results) {
+//             data.id = result.searchable.id
+//             data[result.title] = null
+//         }
+
+//         $(this).autocomplete({
+//             data: data
+//         })
+//     })
+
+// })

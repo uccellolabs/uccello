@@ -3,8 +3,10 @@
 return [
     'theme' => 'uccello',
 
-    'search' => [
-        'max_results' => 50,
+
+    'max_results' => [
+        'search' => 50,
+        'autocomplete' => 10,
     ],
 
     'format' => [

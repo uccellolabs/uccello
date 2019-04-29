@@ -3,8 +3,8 @@
 namespace Uccello\Core\Http\Controllers\Core;
 
 use Schema;
-use DB;
 use Illuminate\Http\Request;
+use Spatie\Searchable\Search;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Facades\Uccello;
@@ -168,18 +168,17 @@ class ListController extends Controller
 
         // Query
         $q = $request->get('q');
-
         // Model class
         $modelClass = $module->model_class;
 
-        if ($q) {
-            DB::statement("SET SESSION sql_mode = ''");
-            $query = $modelClass::search($q);
-        } else {
-            $query = $modelClass::query();
+        $results = collect();
+        if (method_exists($modelClass, 'getSearchResult') && property_exists($modelClass, 'searchableColumns')) {
+            $searchResults = new Search();
+            $searchResults->registerModel($modelClass, (array) (new $modelClass)->searchableColumns);
+            $results = $searchResults->search($q)->take(config('uccello.max_results.autocomplete', 10));
         }
 
-        return $query->paginate(10);
+        return $results;
     }
 
     /**

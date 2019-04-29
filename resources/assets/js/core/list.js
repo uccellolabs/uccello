@@ -1,9 +1,11 @@
 import {Datatable} from './datatable'
+import {EntityField} from './entity_field'
 
 export class List {
     constructor() {
         this.initDatatable()
         this.initListeners()
+        this.initEntityFields()
     }
 
     /**
@@ -303,5 +305,12 @@ export class List {
         form += "</form>";
 
         return form
+    }
+
+    /**
+     * Initalize datatable for all entity fields
+     */
+    initEntityFields() {
+        let entityField = new EntityField()
     }
 }

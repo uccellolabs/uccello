@@ -17,7 +17,7 @@ class SearchController extends Controller
 
     /**
      * Search records in all modules where user has retrieve capability.
-     * 
+     *
      * @param \Uccello\Core\Models\Domain
      * @return \Illuminate\Support\Collection
      */
@@ -31,14 +31,14 @@ class SearchController extends Controller
         }
 
         $searchResults = $this->getSearchResults();
-        
+
 
         return $this->autoView(compact('searchResults'));
     }
 
     /**
      * Search records in all autorized modules
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     protected function getSearchResults()
@@ -50,8 +50,8 @@ class SearchController extends Controller
 
         foreach ($modules as $module) {
             $modelClass = $module->model_class;
-            
-            if (method_exists($modelClass, 'getSearchResult') && property_exists($modelClass, 'searchableColumns')) {                
+
+            if (method_exists($modelClass, 'getSearchResult') && property_exists($modelClass, 'searchableColumns')) {
                 $searchResults->registerModel($modelClass, (array) (new $modelClass)->searchableColumns);
             }
         }
@@ -60,12 +60,12 @@ class SearchController extends Controller
 
         return $searchResults
             ->search($searchQuery)
-            ->take(config('uccello.search.max_results', 50));
+            ->take(config('uccello.max_results.search', 50));
     }
 
     /**
      * Retrieve all modules in witch the user can search.
-     * 
+     *
      * @return \Illuminate\Support\Collection
      */
     protected function getAutorizedModules()
@@ -74,7 +74,7 @@ class SearchController extends Controller
 
         // Restrct on CRUD modules activated on the domain
         $query = $this->domain->modules()->whereNotNull('model_class');
-        
+
         // If we want to restrict the search in a module add the condition
         if (request('module')) {
             $query = $query->where('name', request('module'));

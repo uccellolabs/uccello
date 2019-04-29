@@ -8,13 +8,12 @@
 <div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field @if($isError)invalid @endif">
 
         {{--  <i class="material-icons prefix">search</i>  --}}
-        <a href="#entityModal_{{ $field->name }}" class="btn-floating primary waves-effect modal-trigger prefix" style="margin-right: 10px">
+        <a href="#entityModal_{{ $field->name }}" class="btn-floating primary waves-effect modal-trigger prefix entity-modal" style="margin-right: 10px" data-table="datatable_{{ $field->name }}">
             <i class="material-icons">search</i>
         </a>
 
         {!! form_label($form->{$field->name}) !!}
-        <input class="form-control"
-            @if($field->required)required="required"@endif
+        <input @if($field->required)required="required"@endif
             name="{{ $displayFieldName }}"
             type="text"
             id="{{ $displayFieldName }}"

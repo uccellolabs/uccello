@@ -266,11 +266,11 @@ export class Datatable {
             let element = $(el)
             let fieldName = element.data('field')
 
-            $('input', element).on('keyup apply.daterangepicker cancel.daterangepicker', function() {
+            $('input:not(.nosearch)', element).on('keyup apply.daterangepicker cancel.daterangepicker', function() {
                 that.launchSearch(fieldName, $(this).val())
             })
 
-            $('select', element).on('change', function() {
+            $('select:not(.nosearch)', element).on('change', function() {
                 that.launchSearch(fieldName, $(this).val())
             })
         })

@@ -26,7 +26,8 @@
                         <i class="fa fa-sort-amount-up" style="display: none"></i>
                         @endif
                     </a>
-                    <div class="search hide-on-small-only hide-on-med-only @if(!isset($searchable) || $searchable !== true)hide @endif">
+                    @if (isset($searchable) && $searchable === true)
+                    <div class="search hide-on-small-only hide-on-med-only">
                         <?php
                             $searchValue = null;
                             if (!empty($selectedFilter) && !empty($selectedFilter->conditions->search->{$column['name']})) {
@@ -40,6 +41,7 @@
                         ?>
                         @include($uitypeViewToInclude)
                     </div>
+                    @endif
                 </th>
                 @endforeach
 

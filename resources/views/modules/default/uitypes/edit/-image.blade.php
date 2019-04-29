@@ -27,7 +27,7 @@
                 </div>
 
                 {{-- Display image --}}
-                <img src="{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}" class="img-responsive">
+                <img src="{{ uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record) }}" class="img-responsive">
             </div>
         </div>
         @endif

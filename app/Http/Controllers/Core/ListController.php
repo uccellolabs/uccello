@@ -137,9 +137,10 @@ class ListController extends Controller
         $records->getCollection()->transform(function ($record) use ($domain, $module) {
             foreach ($module->fields as $field) {
                 // If a special template exists, use it. Else use the generic template
-                $uitypeViewName = sprintf('uitypes.list.%s', $field->uitype->name);
+                $uitype = uitype($field->uitype_id);
+                $uitypeViewName = sprintf('uitypes.list.%s', $uitype->name);
                 $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';
-                $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                $uitypeViewToInclude = uccello()->view($uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
                 $record->{$field->name.'_html'} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
             }
 
@@ -296,7 +297,8 @@ class ListController extends Controller
             // Get field by name and search by field column
             $field = $module->getField($fieldName);
             if (isset($searchValue) && !is_null($field)) {
-                $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
+                $uitype = uitype($field->uitype_id);
+                $query = $uitype->addConditionToSearchQuery($query, $field, $searchValue);
             }
         }
 

@@ -232,10 +232,19 @@ class Uccello
         }
 
         if (is_numeric($nameOrId)) {
-            return Module::find($nameOrId);
+            // Use cache
+            $modules = Cache::rememberForever('modules_by_id', function () {
+                $modulesGroupedById = collect();
+                Module::all()->map(function($item) use($modulesGroupedById) {
+                    $modulesGroupedById[$item->id] = $item;
+                    return $modulesGroupedById;
+                });
+                return $modulesGroupedById;
+            });
+            return $modules[(string) $nameOrId];
         } else {
             // Use cache
-            $modules = Cache::rememberForever('modules', function () {
+            $modules = Cache::rememberForever('modules_by_name', function () {
                 $modulesGroupedByName = collect();
                 Module::all()->map(function($item) use($modulesGroupedByName) {
                     $modulesGroupedByName[$item->name] = $item;
@@ -260,10 +269,19 @@ class Uccello
         }
 
         if (is_numeric($nameOrId)) {
-            return Uitype::find($nameOrId);
+            // Use cache
+            $uitypes = Cache::rememberForever('uitypes_by_id', function () {
+                $uitypesGroupedById = collect();
+                Uitype::all()->map(function($item) use($uitypesGroupedById) {
+                    $uitypesGroupedById[$item->id] = $item;
+                    return $uitypesGroupedById;
+                });
+                return $uitypesGroupedById;
+            });
+            return $uitypes[(string) $nameOrId];
         } else {
             // Use cache
-            $uitypes = Cache::rememberForever('uitypes', function () {
+            $uitypes = Cache::rememberForever('uitypes_by_name', function () {
                 $uitypesGroupedByName = collect();
                 Uitype::all()->map(function($item) use($uitypesGroupedByName) {
                     $uitypesGroupedByName[$item->name] = $item;
@@ -288,10 +306,19 @@ class Uccello
         }
 
         if (is_numeric($nameOrId)) {
-            return Displaytype::find($nameOrId);
+            // Use cache
+            $displaytypes = Cache::rememberForever('displaytypes_by_id', function () {
+                $displaytypesGroupedById = collect();
+                Displaytype::all()->map(function($item) use($displaytypesGroupedById) {
+                    $displaytypesGroupedById[$item->id] = $item;
+                    return $displaytypesGroupedById;
+                });
+                return $displaytypesGroupedById;
+            });
+            return $displaytypes[(string) $nameOrId];
         } else {
             // Use cache
-            $displaytypes = Cache::rememberForever('displaytypes', function () {
+            $displaytypes = Cache::rememberForever('displaytypes_by_name', function () {
                 $displaytypesGroupedByName = collect();
                 Displaytype::all()->map(function($item) use($displaytypesGroupedByName) {
                     $displaytypesGroupedByName[$item->name] = $item;
@@ -316,10 +343,19 @@ class Uccello
         }
 
         if (is_numeric($nameOrId)) {
-            return Capability::find($nameOrId);
+            // Use cache
+            $capabilities = Cache::rememberForever('capabilities_by_id', function () {
+                $capabilitiesGroupedById = collect();
+                Capability::all()->map(function($item) use($capabilitiesGroupedById) {
+                    $capabilitiesGroupedById[$item->id] = $item;
+                    return $capabilitiesGroupedById;
+                });
+                return $capabilitiesGroupedById;
+            });
+            return $capabilities[(string) $nameOrId];
         } else {
             // Use cache
-            $capabilities = Cache::rememberForever('capabilities', function () {
+            $capabilities = Cache::rememberForever('capabilities_by_name', function () {
                 $capabilitiesGroupedByName = collect();
                 Capability::all()->map(function($item) use($capabilitiesGroupedByName) {
                     $capabilitiesGroupedByName[$item->name] = $item;
@@ -398,12 +434,14 @@ class Uccello
                 continue;
             }
 
+            $uitype = uitype($field->uitype_id);
+
             // Add the field as a new column
             $columns[ ] = [
                 'name' => $field->name,
                 'db_column' => $field->column,
-                'uitype' => $field->uitype->name,
-                'package' => $field->uitype->package,
+                'uitype' => $uitype->name,
+                'package' => $uitype->package,
                 'data' => $field->data,
                 'visible' => in_array($field->name, $filter->columns)
             ];

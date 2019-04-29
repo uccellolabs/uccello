@@ -183,7 +183,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
                 // Get field by name and search by field column
                 $field = $this->module->getField($fieldName);
                 if (isset($searchValue) && !is_null($field)) {
-                    $query = $field->uitype->addConditionToSearchQuery($query, $field, $searchValue);
+                    $query = uitype($field->uitype_id)->addConditionToSearchQuery($query, $field, $searchValue);
                 }
             }
         }
@@ -219,7 +219,8 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
                 continue;
             }
 
-            $map[ $field->name ] = $field->uitype->getFormattedValueToDisplay($field, $record);
+            $uitype = uitype($field->uitype_id);
+            $map[ $field->name ] = $uitype->getFormattedValueToDisplay($field, $record);
         }
 
         // Add timestamps if needed

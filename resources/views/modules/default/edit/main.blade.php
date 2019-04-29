@@ -79,9 +79,10 @@
                                 @continue(($mode === 'edit' && !$field->isEditable()) || ($mode === 'create' && !$field->isCreateable()))
                                 <?php
                                     // If a special template exists, use it. Else use the generic template
-                                    $uitypeViewName = sprintf('uitypes.edit.%s', $field->uitype->name);
+                                    $uitype = uitype($field->uitype_id);
+                                    $uitypeViewName = sprintf('uitypes.edit.%s', $uitype->name);
                                     $uitypeFallbackView = 'uccello::modules.default.uitypes.edit.text';
-                                    $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                                    $uitypeViewToInclude = uccello()->view($uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
 
                                     // Count columns
                                     $isLarge = $field->data->large ?? false;

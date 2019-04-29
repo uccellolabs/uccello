@@ -4,7 +4,9 @@
     <b title="{{ $label }}">{{ $label }}</b>
 </div>
 <div class="col {{ $isLarge ? 's7 m10' : 's7 m4' }}">
-    <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
+    <?php
+        $value = uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record);
+    ?>
     @if ($value)
         <div class="truncate">
             {{ $value }}

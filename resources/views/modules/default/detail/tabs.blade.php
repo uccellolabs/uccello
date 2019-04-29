@@ -18,18 +18,18 @@
 
     {{-- One tab by related list --}}
     @foreach ($module->relatedlists as $relatedlist)
-    @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedlist->relatedModule) || !$relatedlist->isVisibleAsTab)
+    <?php $relatedModule = ucmodule($relatedlist->relatedModule->name); ?>
+    @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedModule) || !$relatedlist->isVisibleAsTab)
     <li class="tab">
-        <a href="#relatedlist_{{ $relatedlist->relatedModule->name }}_{{ $relatedlist->id }}" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
+        <a href="#relatedlist_{{ $relatedModule->name }}_{{ $relatedlist->id }}" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
             {{-- Icon --}}
-            <i class="material-icons left">{{ $relatedlist->icon ?? $relatedlist->relatedModule->icon }}</i>
+            <i class="material-icons left">{{ $relatedlist->icon ?? $relatedModule->icon }}</i>
 
             {{-- Label --}}
             <span>{{ uctrans($relatedlist->label, $module) }}</span>
 
             {{-- Badge --}}
             <?php
-                $relatedModule = $relatedlist->relatedModule;
                 $countMethod = $relatedlist->method . 'Count';
 
                 $model = new $relatedModule->model_class;

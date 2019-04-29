@@ -23,9 +23,10 @@
                             @continue(is_null($field) || !$field->isDetailable())
                             <?php
                                 // If a special template exists, use it. Else use the generic template
-                                $uitypeViewName = sprintf('uitypes.detail.%s', $field->uitype->name);
+                                $uitype = uitype($field->uitype_id);
+                                $uitypeViewName = sprintf('uitypes.detail.%s', $uitype->name);
                                 $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
-                                $uitypeViewToInclude = uccello()->view($field->uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                                $uitypeViewToInclude = uccello()->view($uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
 
                                 // Count columns
                                 $isLarge = $field->data->large ?? false;

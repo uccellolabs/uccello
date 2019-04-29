@@ -1,5 +1,5 @@
 <?php
-$value = $field->uitype->getFormattedValueToDisplay($field, $record);
+$value = uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record);
 $valueParts = explode(';', $value);
 $fileName = $valueParts[0];
 ?>

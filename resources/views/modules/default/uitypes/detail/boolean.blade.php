@@ -10,6 +10,6 @@
     ?>
     <div class="valign-wrapper">
         <i class="material-icons left {{ $color }}-text" style="font-size: 18px; margin-right: 5px">lens</i>
-        {{-- <span class="icon-label">{{ $field->uitype->getFormattedValueToDisplay($field, $record) }}</span> --}}
+        {{-- <span class="icon-label">{{ uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record) }}</span> --}}
     </div>
 </div>

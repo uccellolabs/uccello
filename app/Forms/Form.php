@@ -27,7 +27,7 @@ class Form extends DefaultForm
             // If the field exists format the value and store it in the good model column
             if (!is_null($field)) {
                 $column = $field->column;
-                $this->getModel()->$column = $field->uitype->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
+                $this->getModel()->$column = uitype($field->uitype_id)->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
             }
         }
 

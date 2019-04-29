@@ -257,7 +257,7 @@ class EditForm extends Form
      */
     protected function getUitypeInstance(Field $field)
     {
-        $uitypeClass = $field->uitype->class;
+        $uitypeClass = uitype($field->uitype_id)->class;
 
         return new $uitypeClass();
     }

@@ -1,7 +1,7 @@
 <?php $isLarge = $field->data->large ?? false; ?>
 <?php $isError = form_errors($form->{$field->name}) ?? false; ?>
 <div class="{{ $isLarge ? 'col-md-12' : 'col-sm-6 col-xs-12' }}">
-    <?php $value = $field->uitype->getFormattedValueToDisplay($field, $record); ?>
+    <?php $value = uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record); ?>
     <div class="form-group form-fixed">
         {{-- Label --}}
         {!! form_label($form->{$field->name}) !!}

@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Support\Traits\RelatedlistTrait;
@@ -69,7 +70,7 @@ class User extends Authenticatable implements Searchable
     ];
 
     public function getSearchResult(): SearchResult
-    {    
+    {
         return new SearchResult(
             $this,
             $this->recordLabel
@@ -114,13 +115,16 @@ class User extends Authenticatable implements Searchable
      */
     public function rolesOnDomain($domain) : Collection
     {
-        $roles = new Collection();
+        return Cache::remember('domain_'.$domain->slug.'_roles', 600, function () use($domain) {
+            $roles = collect();
 
-        foreach ($this->privileges->where('domain_id', $domain->id) as $privilege) {
-            $roles[ ] = $privilege->role;
-        }
+            foreach ($this->privileges->where('domain_id', $domain->id) as $privilege) {
+                $roles[ ] = $privilege->role;
+            }
 
-        return $roles;
+            return $roles;
+        });
+
     }
 
     /**
@@ -150,7 +154,10 @@ class User extends Authenticatable implements Searchable
 
         $hasRole = false;
 
-        $descendants = $domain->findDescendants()->get();
+        $descendants = Cache::remember('domain_'.$domain->slug.'_descendants', 600, function () use($domain) {
+            return $domain->findDescendants()->get();
+        });
+
         foreach ($descendants as $descendant) {
             if ($this->hasRoleOnDomain($descendant)) {
                 $hasRole = true;
@@ -171,24 +178,28 @@ class User extends Authenticatable implements Searchable
      */
     public function capabilitiesOnModule(Domain $domain, Module $module) : Collection
     {
-        $capabilities = new Collection();
+        $keyName = 'user_'.$this->id.'_'.$domain->slug.'_'.$module->name.'_capabilities';
 
-        // Get the domain and all its parents
-        $domainParents = $domain->findAncestors()->get();
+        return Cache::remember($keyName, 600, function () use($domain, $module) {
+            $capabilities = collect();
 
-        // Get user privileges on each domain
-        foreach ($domainParents as $_domain) {
-            $privileges = $this->privileges->where('domain_id', $_domain->id);
+            // Get the domain and all its parents
+            $domainParents = $domain->findAncestors()->get();
 
-            foreach ($privileges as $privilege) {
+            // Get user privileges on each domain
+            foreach ($domainParents as $_domain) {
+                $privileges = $this->privileges->where('domain_id', $_domain->id);
 
-                foreach ($privilege->role->profiles as $profile) {
-                    $capabilities = $capabilities->merge($profile->capabilitiesOnModule($module));
+                foreach ($privileges as $privilege) {
+
+                    foreach ($privilege->role->profiles as $profile) {
+                        $capabilities = $capabilities->merge($profile->capabilitiesOnModule($module));
+                    }
                 }
             }
-        }
 
-        return $capabilities;
+            return $capabilities;
+        });
     }
 
     /**
@@ -217,20 +228,25 @@ class User extends Authenticatable implements Searchable
      */
     public function canAccessToSettingsPanel(?Domain $domain) : bool
     {
-        $hasCapability = false;
+        $keyName = 'user_'.$this->id.'_'.$domain->slug.'can_access_to_settings_panel';
 
-        if (empty($domain)) {
-            $domain = Domain::first();
-        }
+        return Cache::remember($keyName, 600, function () use($domain) {
 
-        foreach (Module::all() as $module) {
-            if ($module->isAdminModule() === true && $this->canAdmin($domain, $module)) {
-                $hasCapability = true;
-                break;
+            $hasCapability = false;
+
+            if (empty($domain)) {
+                $domain = Domain::first();
             }
-        }
 
-        return $hasCapability;
+            foreach (Module::all() as $module) {
+                if ($module->isAdminModule() === true && $this->canAdmin($domain, $module)) {
+                    $hasCapability = true;
+                    break;
+                }
+            }
+
+            return $hasCapability;
+        });
     }
 
     /**

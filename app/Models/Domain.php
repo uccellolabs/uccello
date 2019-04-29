@@ -3,6 +3,7 @@
 namespace Uccello\Core\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Gzero\EloquentTree\Model\Tree;
 use Spatie\Searchable\Searchable;
@@ -83,7 +84,7 @@ class Domain extends Tree implements Searchable
     ];
 
     public function getSearchResult(): SearchResult
-    {    
+    {
         return new SearchResult(
             $this,
             $this->recordLabel
@@ -186,15 +187,17 @@ class Domain extends Tree implements Searchable
      */
     protected function getNotAdminModulesAttribute() : array
     {
-        $modules = [ ];
+        return Cache::rememberForever('not_admin_modules', function () {
+            $modules = [ ];
 
-        foreach ($this->modules()->get() as $module) {
-            if (!$module->isAdminModule()) {
-                $modules[ ] = $module;
+            foreach ($this->modules()->get() as $module) {
+                if (!$module->isAdminModule()) {
+                    $modules[ ] = $module;
+                }
             }
-        }
 
-        return $modules;
+            return $modules;
+        });
     }
 
     /**

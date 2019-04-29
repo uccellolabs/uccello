@@ -130,11 +130,9 @@ abstract class Controller extends BaseController
         View::share('admin_env', $this->module->isAdminModule());
 
         // Menu
-        $menu = Cache::remember('menu_'.$this->domain->slug.'_'.auth()->id(), 600, function () {
-            $menuGenerator = new MenuGenerator();
-            $menuGenerator->makeMenu($this->domain, $this->module);
-            return $menuGenerator->getMenu();
-        });
+        $menuGenerator = new MenuGenerator();
+        $menuGenerator->makeMenu($this->domain, $this->module);
+        $menu = $menuGenerator->getMenu();
         View::share('menu', $menu);
 
         // Domain tree
@@ -157,21 +155,25 @@ abstract class Controller extends BaseController
      */
     protected function getAllModules($getAdminModules = false)
     {
-        $modules = [ ];
+        $keyName = $getAdminModules ? 'modules_all' : 'modules_not_admin';
 
-        $allModules = Module::all();
+        return Cache::rememberForever($keyName, function () use($getAdminModules) {
+            $modules = [ ];
 
-        if ($getAdminModules) {
-            $modules = $allModules;
-        } else {
-            foreach ($allModules as $module) {
-                if (!$module->isAdminModule()) {
-                    $modules[ ] = $module;
+            $allModules = Module::all();
+
+            if ($getAdminModules) {
+                $modules = $allModules;
+            } else {
+                foreach ($allModules as $module) {
+                    if (!$module->isAdminModule()) {
+                        $modules[ ] = $module;
+                    }
                 }
             }
-        }
 
-        return $modules;
+            return $modules;
+        });
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Uccello\Core\Models;
 
+use Illuminate\Support\Facades\Cache;
 use Uccello\Core\Database\Eloquent\Model;
 
 class Module extends Model
@@ -178,9 +179,13 @@ class Module extends Model
      */
     public function isActiveOnDomain(Domain $domain) : bool
     {
+        $moduleDomains = Cache::rememberForever('module_'.$this->name.'_domains', function () {
+            return $this->domains;
+        });
+
         $isActive = false;
 
-        foreach ($this->domains as $domainActive) {
+        foreach ($moduleDomains as $domainActive) {
             if ($domainActive->id === $domain->id) {
                 $isActive = true;
                 break;

@@ -16,7 +16,7 @@ use Faker\Generator as Faker;
 $factory->define(\Uccello\Core\Models\Module::class, function(Faker $faker) {
 
     return [
-        'name' => $faker->name,
+        'name' => $faker->word,
         'icon' => null,
         'model_class' => null,
         'data' => null

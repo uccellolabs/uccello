@@ -18,7 +18,7 @@
             name="{{ $displayFieldName }}"
             type="text"
             id="{{ $displayFieldName }}"
-            value="{{ old($displayFieldName, $relatedRecord->recordLabel ?? $relatedRecord->id ?? '') }}"
+            value="{{ old($displayFieldName, $relatedRecord->recordLabel ?? $relatedRecord->id ?? request($displayFieldName) ?? '')  }}"
             readonly="readonly"
             style="margin-left: 3.5rem; color: inherit">
 

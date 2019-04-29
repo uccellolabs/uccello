@@ -13,6 +13,7 @@ use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Illuminate\Support\Facades\Cache;
 
 class Entity implements Uitype
 {
@@ -75,7 +76,7 @@ class Entity implements Uitype
         }
 
         // Get related module
-        $relatedModule = Module::where('name', $field->data->module)->first();
+        $relatedModule = ucmodule($field->data->module);
 
         // Get related record
         $relatedModelClass = $relatedModule->model_class;

@@ -76,7 +76,7 @@ class ListController extends Controller
         $action = $request->get('action');
 
         // Pre-process
-        $this->preProcess($domain, $module, $request);
+        $this->preProcess($domain, $module, $request, false);
 
         // Get model model class
         $modelClass = $module->model_class;
@@ -106,7 +106,7 @@ class ListController extends Controller
 
                 // Update query
                 $model = new $modelClass;
-                $records = $model->$method($relatedList, $recordId, $query, 0, $length);
+                $records = $model->$method($relatedList, $recordId, $query, $length);
             }
         } elseif ($relatedListId && $action === 'select') {
             // Get related list

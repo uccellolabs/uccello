@@ -14,6 +14,7 @@ use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Support\MenuGenerator;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 abstract class Controller extends BaseController
 {
@@ -72,8 +73,9 @@ abstract class Controller extends BaseController
      * Instantiance variables and check permissions
      * @param Domain|null $domain
      * @param Module $module
+     * @param boolean $forBlade
      */
-    protected function preProcess(?Domain &$domain, Module $module, Request $request)
+    protected function preProcess(?Domain &$domain, Module $module, Request $request, $forBlade=true)
     {
         // If we don't use multi domains, find the first one
         if (!uccello()->useMultiDomains()) {
@@ -93,7 +95,9 @@ abstract class Controller extends BaseController
         $this->saveUserLastVisitedDomain();
 
         // Share blade variables
-        $this->shareBladeVariables();
+        if ($forBlade) {
+            $this->shareBladeVariables();
+        }
     }
 
     /**
@@ -126,9 +130,12 @@ abstract class Controller extends BaseController
         View::share('admin_env', $this->module->isAdminModule());
 
         // Menu
-        $menuGenerator = new MenuGenerator();
-        $menuGenerator->makeMenu($this->domain, $this->module);
-        View::share('menu', $menuGenerator->getMenu());
+        $menu = Cache::remember('menu_'.$this->domain->slug.'_'.auth()->id(), 600, function () {
+            $menuGenerator = new MenuGenerator();
+            $menuGenerator->makeMenu($this->domain, $this->module);
+            return $menuGenerator->getMenu();
+        });
+        View::share('menu', $menu);
 
         // Domain tree
         $domainsTreeHtml = $this->getDomainsTreeHtml();
@@ -206,40 +213,42 @@ abstract class Controller extends BaseController
      */
     protected function getDomainsTreeHtml()
     {
-        $domainsTreeHtml = '<ul class="tree tree-level-0">';
+        return Cache::remember('users', 600, function () { // 10 minutes
+            $domainsTreeHtml = '<ul class="tree tree-level-0">';
 
-        $rootDomains = app('uccello')->getRootDomains();
-        foreach($rootDomains as $root) {
+            $rootDomains = app('uccello')->getRootDomains();
+            foreach($rootDomains as $root) {
 
-            $descendants = $root->findDescendants()->get();
+                $descendants = $root->findDescendants()->get();
 
-            $tree = $root->buildTree($descendants);
+                $tree = $root->buildTree($descendants);
 
-            $html = $tree->render(
-                'ul',
-                function ($node) {
-                    if (auth()->user()->hasRoleOnDomain($node)) {
-                        $currentClass = '';
-                        if ($node->id === $this->domain->id) {
-                            $currentClass = 'class="green-text"';
+                $html = $tree->render(
+                    'ul',
+                    function ($node) {
+                        if (auth()->user()->hasRoleOnDomain($node)) {
+                            $currentClass = '';
+                            if ($node->id === $this->domain->id) {
+                                $currentClass = 'class="green-text"';
+                            }
+                            return '<li><a href="'.ucroute('uccello.home', $node).'" '.$currentClass.'>'.$node->name.'</a>{sub-tree}</li>';
                         }
-                        return '<li><a href="'.ucroute('uccello.home', $node).'" '.$currentClass.'>'.$node->name.'</a>{sub-tree}</li>';
-                    }
-                    elseif (auth()->user()->hasRoleOnDescendantDomain($node)) {
-                        return '<li>'.$node->name.'{sub-tree}</li>';
-                    } else {
-                        return '';
-                    }
-                },
-                TRUE
-            );
+                        elseif (auth()->user()->hasRoleOnDescendantDomain($node)) {
+                            return '<li>'.$node->name.'{sub-tree}</li>';
+                        } else {
+                            return '';
+                        }
+                    },
+                    TRUE
+                );
 
-            $domainsTreeHtml .= preg_replace('`^<ul class="tree tree-level-0">(.+?)</ul>$`', '$1', $html);
-        }
+                $domainsTreeHtml .= preg_replace('`^<ul class="tree tree-level-0">(.+?)</ul>$`', '$1', $html);
+            }
 
-        $domainsTreeHtml .= '</ul>';
+            $domainsTreeHtml .= '</ul>';
 
-        return $domainsTreeHtml;
+            return $domainsTreeHtml;
+        });
     }
 
     /**

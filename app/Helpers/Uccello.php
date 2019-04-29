@@ -4,6 +4,7 @@ namespace Uccello\Core\Helpers;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Uitype;
@@ -226,10 +227,23 @@ class Uccello
      */
     public function getModule($nameOrId): ?Module
     {
+        if (!$nameOrId) {
+            return null;
+        }
+
         if (is_numeric($nameOrId)) {
             return Module::find($nameOrId);
         } else {
-            return Module::where('name', (string)$nameOrId)->first();
+            // Use cache
+            $modules = Cache::rememberForever('modules', function () {
+                $modulesGroupedByName = collect();
+                Module::all()->map(function($item) use($modulesGroupedByName) {
+                    $modulesGroupedByName[$item->name] = $item;
+                    return $modulesGroupedByName;
+                });
+                return $modulesGroupedByName;
+            });
+            return $modules[(string) $nameOrId];
         }
     }
 
@@ -241,10 +255,23 @@ class Uccello
      */
     public function getUitype($nameOrId): ?Uitype
     {
+        if (!$nameOrId) {
+            return null;
+        }
+
         if (is_numeric($nameOrId)) {
             return Uitype::find($nameOrId);
         } else {
-            return Uitype::where('name', (string)$nameOrId)->first();
+            // Use cache
+            $uitypes = Cache::rememberForever('uitypes', function () {
+                $uitypesGroupedByName = collect();
+                Uitype::all()->map(function($item) use($uitypesGroupedByName) {
+                    $uitypesGroupedByName[$item->name] = $item;
+                    return $uitypesGroupedByName;
+                });
+                return $uitypesGroupedByName;
+            });
+            return $uitypes[(string) $nameOrId];
         }
     }
 
@@ -256,10 +283,23 @@ class Uccello
      */
     public function getDisplaytype($nameOrId): ?Displaytype
     {
+        if (!$nameOrId) {
+            return null;
+        }
+
         if (is_numeric($nameOrId)) {
             return Displaytype::find($nameOrId);
         } else {
-            return Displaytype::where('name', (string)$nameOrId)->first();
+            // Use cache
+            $displaytypes = Cache::rememberForever('displaytypes', function () {
+                $displaytypesGroupedByName = collect();
+                Displaytype::all()->map(function($item) use($displaytypesGroupedByName) {
+                    $displaytypesGroupedByName[$item->name] = $item;
+                    return $displaytypesGroupedByName;
+                });
+                return $displaytypesGroupedByName;
+            });
+            return $displaytypes[(string) $nameOrId];
         }
     }
 
@@ -271,10 +311,23 @@ class Uccello
      */
     public function getCapability($nameOrId): ?Capability
     {
+        if (!$nameOrId) {
+            return null;
+        }
+
         if (is_numeric($nameOrId)) {
             return Capability::find($nameOrId);
         } else {
-            return Capability::where('name', (string)$nameOrId)->first();
+            // Use cache
+            $capabilities = Cache::rememberForever('capabilities', function () {
+                $capabilitiesGroupedByName = collect();
+                Capability::all()->map(function($item) use($capabilitiesGroupedByName) {
+                    $capabilitiesGroupedByName[$item->name] = $item;
+                    return $capabilitiesGroupedByName;
+                });
+                return $capabilitiesGroupedByName;
+            });
+            return $capabilities[(string) $nameOrId];
         }
     }
 

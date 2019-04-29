@@ -18,7 +18,7 @@ class SummaryFields extends AbstractWidget
      *
      * @var int|float
      */
-    public $reloadTimeout = 10;
+    // public $reloadTimeout = 10;
 
     /**
      * Treat this method as a controller action.

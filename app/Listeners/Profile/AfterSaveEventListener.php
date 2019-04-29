@@ -47,7 +47,7 @@ class AfterSaveEventListener
 
         foreach ($permissions as $moduleName => $capabilities) {
             // Retrieve module from name
-            $module = Module::where('name', $moduleName)->with('domains')->first();
+            $module = ucmodule($moduleName)->with('domains')->first();
 
             // Check if the module is active on the domain and if the user can admin it
             if ($module && !$module->isActiveOnDomain($domain) || !$user->canAdmin($domain, $module)) {

@@ -74,20 +74,21 @@ class Relatedlist extends Model
      * Returns add link according to related list type
      *
      * @param Domain $domain
-     * @param integer $sourceRecordId
+     * @param $sourceRecord
      * @return string
      */
-    public function getAddLink(Domain $domain, int $sourceRecordId) : string
+    public function getAddLink(Domain $domain, $sourceRecord) : string
     {
         // Default parameters
         $params = [
             'relatedlist' => $this->id,
-            'src_id' => $sourceRecordId
+            'src_id' => $sourceRecord->getKey(),
         ];
 
         // If it is a N-1 related list, add value of the linked field
         if ($this->type === 'n-1') {
-            $params[ $this->relatedField->name ] = $sourceRecordId;
+            $params[ $this->relatedField->name ] = $sourceRecord->getKey();
+            $params[ $this->relatedField->name.'_display' ] = $sourceRecord->recordLabel ?? $sourceRecord->getKey();
         }
 
         // Add tab id if defined

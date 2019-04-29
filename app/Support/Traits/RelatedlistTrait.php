@@ -30,16 +30,13 @@ trait RelatedlistTrait
      * @param int $length
      * @return Collection
      */
-    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15)
+    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $length = 15)
     {
         // Related field
         $relatedField = $relatedList->relatedField;
 
         return $query->where($relatedField->column, $recordId)
             ->paginate($length);
-            // ->skip($start)
-            // ->take($length)
-            // ->get();
     }
 
     /**
@@ -74,7 +71,7 @@ trait RelatedlistTrait
      * @param int $length
      * @return Collection
      */
-    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $start = 0, int $length = 15)
+    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $length = 15)
     {
         // Get related record ids
         $relations = Relation::where('relatedlist_id', $relatedList->id)
@@ -82,9 +79,6 @@ trait RelatedlistTrait
             ->where('related_module_id', $relatedList->related_module_id)
             ->where('record_id', $recordId)
             ->paginate($length);
-            // ->skip($start)
-            // ->take($length)
-            // ->get();
 
         // Related model
         $relatedModel = new $relatedList->relatedModule->model_class;

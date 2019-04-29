@@ -216,7 +216,10 @@ class MenuGenerator
         }
 
         // Label
-        $label = $menuLink->type === 'module' ? uctrans($menuLink->label, $module) : uctrans($menuLink->label, $this->module);;
+        $label = $menuLink->type === 'module' ? uctrans($menuLink->label, $module) : uctrans($menuLink->label, $this->module);
+        if (!is_string($label)) {
+            return;
+        }
 
         // Icon
         if ($menuLink->type === 'folder') {

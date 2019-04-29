@@ -2,6 +2,7 @@
 
 namespace Uccello\Core\Models;
 
+use Illuminate\Support\Facades\Cache;
 use Uccello\Core\Database\Eloquent\Model;
 
 class Displaytype extends Model
@@ -46,7 +47,9 @@ class Displaytype extends Model
      */
     public function isListable() : bool
     {
-        return $this->getInstance()->isListable();
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_listable', function() {
+            return $this->getInstance()->isListable();
+        });
     }
 
     /**
@@ -56,7 +59,9 @@ class Displaytype extends Model
      */
     public function isDetailable() : bool
     {
-        return $this->getInstance()->isDetailable();
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_detailable', function() {
+            return $this->getInstance()->isDetailable();
+        });
     }
 
     /**
@@ -66,7 +71,9 @@ class Displaytype extends Model
      */
     public function isCreateable() : bool
     {
-        return $this->getInstance()->isCreateable();
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_createable', function() {
+            return $this->getInstance()->isCreateable();
+        });
     }
 
     /**
@@ -76,6 +83,8 @@ class Displaytype extends Model
      */
     public function isEditable() : bool
     {
-        return $this->getInstance()->isEditable();
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_editable', function() {
+            return $this->getInstance()->isEditable();
+        });
     }
 }

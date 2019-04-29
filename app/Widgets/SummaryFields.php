@@ -20,6 +20,11 @@ class SummaryFields extends AbstractWidget
      */
     // public $reloadTimeout = 10;
 
+    public function placeholder()
+    {
+        return 'Loading...';
+    }
+
     /**
      * Treat this method as a controller action.
      * Return view() or other content to display.

@@ -2,6 +2,7 @@
 
 namespace Uccello\Core\Models;
 
+use Illuminate\Support\Facades\Cache;
 use Uccello\Core\Database\Eloquent\Model;
 
 class Field extends Model
@@ -81,15 +82,17 @@ class Field extends Model
      */
     public function getColumnAttribute() : string
     {
-        if ($this->data->column ?? false) {
-            $column = $this->data->column;
-        } else {
-            $uitypeClass = $this->uitype->class;
-            $uitype = new $uitypeClass();
-            $column = $uitype->getDefaultDatabaseColumn($this);
-        }
+        return Cache::rememberForever('field_'.$this->id.'_column', function() {
+            if ($this->data->column ?? false) {
+                $column = $this->data->column;
+            } else {
+                $uitypeClass = $this->uitype->class;
+                $uitype = new $uitypeClass();
+                $column = $uitype->getDefaultDatabaseColumn($this);
+            }
 
-        return $column;
+            return $column;
+        });
     }
 
     /**
@@ -99,16 +102,18 @@ class Field extends Model
      */
     public function getIconAttribute() : ?string
     {
-        if ($this->data->icon ?? false) {
-            $icon = $this->data->icon;
+        return Cache::rememberForever('field_'.$this->id.'_icon', function() {
+            if ($this->data->icon ?? false) {
+                $icon = $this->data->icon;
 
-        } else {
-            $uitypeClass = $this->uitype->class;
-            $uitype = new $uitypeClass();
-            $icon = $uitype->getDefaultIcon();
-        }
+            } else {
+                $uitypeClass = $this->uitype->class;
+                $uitype = new $uitypeClass();
+                $icon = $uitype->getDefaultIcon();
+            }
 
-        return $icon;
+            return $icon;
+        });
     }
 
     public function getRequiredAttribute(): bool
@@ -123,7 +128,9 @@ class Field extends Model
      */
     public function isListable() : bool
     {
-        return $this->displaytype->isListable();
+        return Cache::rememberForever('displaytype_'.$this->displaytype_id.'_is_listable', function() {
+            return $this->displaytype->isListable();
+        });
     }
 
     /**
@@ -133,7 +140,9 @@ class Field extends Model
      */
     public function isDetailable() : bool
     {
-        return $this->displaytype->isDetailable();
+        return Cache::rememberForever('displaytype_'.$this->displaytype_id.'_is_detailable', function() {
+            return $this->displaytype->isDetailable();
+        });
     }
 
     /**
@@ -143,7 +152,9 @@ class Field extends Model
      */
     public function isCreateable() : bool
     {
-        return $this->displaytype->isCreateable();
+        return Cache::rememberForever('displaytype_'.$this->displaytype_id.'_is_createable', function() {
+            return $this->displaytype->isCreateable();
+        });
     }
 
     /**
@@ -153,7 +164,9 @@ class Field extends Model
      */
     public function isEditable() : bool
     {
-        return $this->displaytype->isEditable();
+        return Cache::rememberForever('displaytype_'.$this->displaytype_id.'_is_editable', function() {
+            return $this->displaytype->isEditable();
+        });
     }
 
     /**
@@ -164,6 +177,8 @@ class Field extends Model
      */
     public function isHidden() : bool
     {
-        return $this->displaytype->isHidden();
+        return Cache::rememberForever('displaytype_'.$this->displaytype_id.'_is_hidden', function() {
+            return $this->displaytype->isHidden();
+        });
     }
 }

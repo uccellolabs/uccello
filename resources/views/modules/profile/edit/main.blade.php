@@ -94,4 +94,4 @@
 
 @section('uccello-extra-script')
     {{ Html::script(mix('js/profile/autoloader.js', 'vendor/uccello/uccello')) }}
-@endsection
+@append

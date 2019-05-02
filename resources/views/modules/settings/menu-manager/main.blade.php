@@ -119,8 +119,8 @@
     @include('uccello::modules.settings.menu-manager.modal.group')
     @include('uccello::modules.settings.menu-manager.modal.route-link')
     @include('uccello::modules.settings.menu-manager.modal.link')
-@endsection
+@append
 
 @section('uccello-extra-script')
     {{ Html::script(mix('js/settings/autoloader.js', 'vendor/uccello/uccello')) }}
-@endsection
+@append

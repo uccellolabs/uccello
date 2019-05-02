@@ -214,4 +214,4 @@
     @include("uccello::modules.default.list.modal.add-filter")
     {{-- Export modal --}}
     @include("uccello::modules.default.list.modal.export")
-@endsection
+@append

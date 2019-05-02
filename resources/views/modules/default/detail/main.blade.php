@@ -4,7 +4,7 @@
 
 @section('extra-meta')
 <meta name="record" content="{{ $record->id }}">
-@endsection
+@append
 
 @section('breadcrumb')
     <div class="nav-wrapper">
@@ -77,4 +77,4 @@
 @section('extra-content')
     {{-- Relatedlist selection modal --}}
     @include('uccello::modules.default.detail.relatedlists.selection-modal.modal')
-@endsection
+@append

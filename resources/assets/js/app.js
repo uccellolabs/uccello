@@ -10,6 +10,7 @@ import 'nestable2'
 import 'jquery-countto'
 import 'jstree/src/jstree.search.js'
 import 'jstree/src/jstree.sort.js'
+import moment from 'moment'
 // import 'bootstrap-colorpicker'
 
 
@@ -61,120 +62,132 @@ class UccelloApp {
 
     initDateRangePicker() {
         // Date range picker
-        $('.date-range-picker')
-        .daterangepicker({
-            autoUpdateInput: false,
-            locale: this.getDaterangePickerLocale(),
-            showDropdowns: true,
-            applyButtonClasses: "waves-effect primary",
-            cancelClass: "waves-effect btn-flat"
-        }, function(start, end, label) {
-            $(this).change()
-        })
-        .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
-        })
-        .on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('').change()
+        $('.date-range-picker').each((index, el) => {
+            $(el).daterangepicker({
+                autoUpdateInput: false,
+                locale: this.getDaterangePickerLocale($(el).data('format')),
+                showDropdowns: true,
+                applyButtonClasses: "waves-effect primary",
+                cancelClass: "waves-effect btn-flat"
+            }, function(start, end, label) {
+                $(this).change()
+            })
+            .on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
+            })
+            .on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('').change()
+            })
         })
 
+
         // Datetime range picker
-        $('.datetime-range-picker')
-        .daterangepicker({
-            autoUpdateInput: false,
-            timePicker: true,
-            timePicker24Hour: true,
-            locale: this.getDaterangePickerLocale(),
-            showDropdowns: true,
-            applyButtonClasses: "waves-effect primary",
-            cancelClass: "waves-effect btn-flat"
-        }, function(start, end, label) {
-            $(this).change()
-        })
-        .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
-        })
-        .on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('').change()
+        $('.datetime-range-picker').each((index, el) => {
+            $(el).daterangepicker({
+                autoUpdateInput: false,
+                timePicker: true,
+                timePicker24Hour: true,
+                locale: this.getDaterangePickerLocale($(el).data('format')),
+                showDropdowns: true,
+                applyButtonClasses: "waves-effect primary",
+                cancelClass: "waves-effect btn-flat"
+            }, function(start, end, label) {
+                $(this).change()
+            })
+            .on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
+            })
+            .on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('').change()
+            })
         })
 
         // Date picker
-        $('.datepicker').daterangepicker({
-            autoUpdateInput: false,
-            locale: this.getDaterangePickerLocale(),
-            singleDatePicker: true,
-            showDropdowns: true
-        })
-        .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format($(this).data('format')))
-        })
-        .on('keyup', function() {
-            let dateStr = $(this).val()
-            if (moment(dateStr).isValid()) {
-                let date = moment(dateStr)
-                $(this).data('daterangepicker').setStartDate(date)
-                $(this).data('daterangepicker').setEndDate(date)
-            }
+        $('.datepicker').each((index, el) => {
+            $(el).daterangepicker({
+                autoUpdateInput: false,
+                locale: this.getDaterangePickerLocale($(el).data('format')),
+                singleDatePicker: true,
+                showDropdowns: true
+            })
+            .on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format($(this).data('format')))
+            })
+            .on('keyup', function() {
+                let dateStr = $(this).val()
+                if (moment(dateStr).isValid()) {
+                    let date = moment(dateStr)
+                    $(this).data('daterangepicker').setStartDate(date)
+                    $(this).data('daterangepicker').setEndDate(date)
+                }
+            })
         })
 
         // Datetime picker
-        $('.datetimepicker').daterangepicker({
-            autoUpdateInput: false,
-            autoApply: true,
-            locale: this.getDaterangePickerLocale(),
-            singleDatePicker: true,
-            timePicker: true,
-            timePicker24Hour: true,
-            showDropdowns: true,
-            applyButtonClasses: "waves-effect primary",
-            cancelClass: "waves-effect btn-flat"
-        })
-        .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format($(this).data('format')))
-            $(this).parents('.input-field:first').find('label').addClass('active')
-        })
-        .on('cancel.daterangepicker', function(ev, picker) {
-            $(this).val('').change()
-        })
-        .on('keyup', function() {
-            let dateStr = $(this).val()
-            if (moment(dateStr).isValid()) {
-                let date = moment(dateStr)
-                $(this).data('daterangepicker').setStartDate(date)
-                $(this).data('daterangepicker').setEndDate(date)
-            }
+        $('.datetimepicker').each((index, el) => {
+            $(el).daterangepicker({
+                autoUpdateInput: false,
+                autoApply: true,
+                locale: this.getDaterangePickerLocale($('meta[name="datetime-format-js"]').attr("content")),
+                singleDatePicker: true,
+                timePicker: true,
+                timePicker24Hour: true,
+                showDropdowns: true,
+                applyButtonClasses: "waves-effect primary",
+                cancelClass: "waves-effect btn-flat"
+            })
+            .on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format($(this).data('format')))
+                $(this).parents('.input-field:first').find('label').addClass('active')
+            })
+            .on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('').change()
+            })
+            .on('keyup', function() {
+                let dateStr = $(this).val()
+                if (moment(dateStr).isValid()) {
+                    let date = moment(dateStr)
+                    $(this).data('daterangepicker').setStartDate(date)
+                    $(this).data('daterangepicker').setEndDate(date)
+                }
+            })
         })
 
         // Month picker
-        $('.monthpicker').daterangepicker({
-            autoUpdateInput: false,
-            autoApply: true,
-            locale: this.getDaterangePickerLocale(),
-            singleDatePicker: true,
-            showDropdowns: true
-        })
-        .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-MM'))
-            $(this).parents('.input-field:first').find('label').addClass('active')
+        $('.monthpicker').each((index, el) => {
+            $(el).daterangepicker({
+                autoUpdateInput: false,
+                autoApply: true,
+                locale: this.getDaterangePickerLocale($(el).data('format')),
+                singleDatePicker: true,
+                showDropdowns: true
+            })
+            .on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-MM'))
+                $(this).parents('.input-field:first').find('label').addClass('active')
+            })
         })
 
         // Week picker
-        $('.weekpicker').daterangepicker({
-            autoUpdateInput: false,
-            autoApply: true,
-            locale: this.getDaterangePickerLocale(),
-            singleDatePicker: true,
-            showWeekNumbers: true,
-            showDropdowns: true
-        })
-        .on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('YYYY-w'))
-            $(this).parents('.input-field:first').find('label').addClass('active')
+        $('.weekpicker').each((index, el) => {
+            $(el).daterangepicker({
+                autoUpdateInput: false,
+                autoApply: true,
+                locale: this.getDaterangePickerLocale($(el).data('format')),
+                singleDatePicker: true,
+                showWeekNumbers: true,
+                showDropdowns: true
+            })
+            .on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('YYYY-w'))
+                $(this).parents('.input-field:first').find('label').addClass('active')
+            })
         })
     }
 
-    getDaterangePickerLocale() {
+    getDaterangePickerLocale(format) {
         return {
+            format: format,
             separator: uctrans.trans('uccello::default.calendar.separator'),
             applyLabel: uctrans.trans('uccello::default.calendar.apply'),
             cancelLabel: uctrans.trans('uccello::default.calendar.cancel'),

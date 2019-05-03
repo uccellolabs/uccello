@@ -3,6 +3,7 @@
 namespace Uccello\Core\Http\Controllers\Settings;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Uccello\Core\Http\Controllers\Core\Controller;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
@@ -106,6 +107,10 @@ class ModuleManagerController extends Controller
         // Add error if defined
         if (!empty($error)) {
             $result[ 'error' ] = uctrans($error, $module);
+        }
+
+        if ($success) {
+            Artisan::call('cache:clear');
         }
 
         return $result;

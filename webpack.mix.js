@@ -8,6 +8,8 @@ mix.extract([
         'bootstrap',
         'popper.js',
         'fastclick',
+        'moment',
+        'materialize-css'
     ], 'public/js/vendor.js')
 
 mix.js('./resources/assets/js/core/autoloader.js', 'public/js')

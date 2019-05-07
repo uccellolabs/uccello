@@ -3,17 +3,17 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Eloquent\Builder;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Fluent;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Spatie\Searchable\Search;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Illuminate\Support\Facades\Cache;
 
 class Entity implements Uitype
 {
@@ -102,11 +102,26 @@ class Entity implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $query->where(function ($query) use($field, $value) {
-            foreach ((array) $value as $_value) {
-                $query = $query->orWhere($field->column, '=', $_value);
+        $tryWithId = true;
+        if ($field->data->module ?? false) {
+            $modelClass = ucmodule($field->data->module)->model_class;
+
+            if (method_exists($modelClass, 'getSearchResult') && property_exists($modelClass, 'searchableColumns')) {
+                // Search related records and get all ids
+                $searchResults = new Search();
+                $searchResults->registerModel($modelClass, (array) (new $modelClass)->searchableColumns);
+                $recordIds = $searchResults->search($value)->pluck('searchable.id');
+
+                // Search records linked to record ids got previously
+                $query->whereIn($field->column, $recordIds);
+                $tryWithId = false;
             }
-        });
+        }
+
+        // Try with id if it was not possible to search into the related module
+        if ($tryWithId) {
+            $query->where($field->column, '=', $value);
+        }
 
         return $query;
     }

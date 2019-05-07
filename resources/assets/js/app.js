@@ -316,11 +316,18 @@ class UccelloApp {
                 serviceUrl: $(el).attr('data-url'),
                 type: 'get',
                 paramName: 'q',
-                // onSelect: function (suggestion) {
-                //     $(el).change()
-                // },
+                onSearchStart: () => {
+                    $(el).removeClass('invalid')
+                },
+                onSearchComplete: (query, suggestions) => {
+                    if (suggestions.length === 0) {
+                        $(el).addClass('invalid')
+                    }
+                },
+                onSelect: (suggestion) => {
+                    $(el).trigger('suggestion.selected', [ suggestion ])
+                },
                 showNoSuggestionNotice: false,
-                // noSuggestionNotice: 'Sorry, no matching results',
                 transformResult: function(response, originalQuery) {
                     let results = {
                         suggestions: []
@@ -330,7 +337,10 @@ class UccelloApp {
                     for (let result of originalResults) {
                         results.suggestions.push({
                             value: result.title,
-                            data: result.searchable.id
+                            data: {
+                                module: result.type,
+                                id: result.searchable.id
+                            }
                         })
                     }
 

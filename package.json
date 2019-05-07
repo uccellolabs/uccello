@@ -15,6 +15,7 @@
         "bootstrap-colorpicker": "^2.5.3",
         "cross-env": "^5.2.0",
         "daterangepicker": "^3.0.5",
+        "devbridge-autocomplete": "^1.4.10",
         "fastclick": "^1.0.6",
         "jquery": "^3.4.1",
         "jquery-countto": "^1.2.0",

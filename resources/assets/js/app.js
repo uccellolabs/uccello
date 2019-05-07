@@ -10,6 +10,7 @@ import 'nestable2'
 import 'jquery-countto'
 import 'jstree/src/jstree.search.js'
 import 'jstree/src/jstree.sort.js'
+import 'devbridge-autocomplete'
 // import 'bootstrap-colorpicker'
 
 
@@ -25,6 +26,7 @@ class UccelloApp {
         this.initCountTo()
         this.initJsTree()
         this.initSearchBar()
+        this.initAutocomplete()
     }
 
     initGlobal() {
@@ -305,7 +307,37 @@ class UccelloApp {
     }
 
     isMobileSize() {
-        return $(document).width() < 601;
+        return $(document).width() < 601
+    }
+
+    initAutocomplete() {
+        $(".autocomplete[data-url]").each((index, el) => {
+            $(el).devbridgeAutocomplete({
+                serviceUrl: $(el).attr('data-url'),
+                type: 'get',
+                paramName: 'q',
+                // onSelect: function (suggestion) {
+                //     $(el).change()
+                // },
+                showNoSuggestionNotice: false,
+                // noSuggestionNotice: 'Sorry, no matching results',
+                transformResult: function(response, originalQuery) {
+                    let results = {
+                        suggestions: []
+                    }
+
+                    let originalResults = JSON.parse(response)
+                    for (let result of originalResults) {
+                        results.suggestions.push({
+                            value: result.title,
+                            data: result.searchable.id
+                        })
+                    }
+
+                    return results
+                }
+            })
+        })
     }
 }
 

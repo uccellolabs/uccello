@@ -26,7 +26,6 @@ class UccelloApp {
         this.initCountTo()
         this.initJsTree()
         this.initSearchBar()
-        this.initAutocomplete()
     }
 
     initGlobal() {
@@ -308,46 +307,6 @@ class UccelloApp {
 
     isMobileSize() {
         return $(document).width() < 601
-    }
-
-    initAutocomplete() {
-        $(".autocomplete[data-url]").each((index, el) => {
-            $(el).devbridgeAutocomplete({
-                serviceUrl: $(el).attr('data-url'),
-                type: 'get',
-                paramName: 'q',
-                onSearchStart: () => {
-                    $(el).removeClass('invalid')
-                },
-                onSearchComplete: (query, suggestions) => {
-                    if (suggestions.length === 0) {
-                        $(el).addClass('invalid')
-                    }
-                },
-                onSelect: (suggestion) => {
-                    $(el).trigger('suggestion.selected', [ suggestion ])
-                },
-                showNoSuggestionNotice: false,
-                transformResult: function(response, originalQuery) {
-                    let results = {
-                        suggestions: []
-                    }
-
-                    let originalResults = JSON.parse(response)
-                    for (let result of originalResults) {
-                        results.suggestions.push({
-                            value: result.title,
-                            data: {
-                                module: result.type,
-                                id: result.searchable.id
-                            }
-                        })
-                    }
-
-                    return results
-                }
-            })
-        })
     }
 }
 

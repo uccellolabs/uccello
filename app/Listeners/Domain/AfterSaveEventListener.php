@@ -2,15 +2,12 @@
 
 namespace Uccello\Core\Listeners\Domain;
 
-use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Uccello\Core\Events\AfterSaveEvent;
-use Uccello\Core\Models\Module;
-use Uccello;
 use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Module;
 
 class AfterSaveEventListener
 {
-
     /**
      * Activate mandatory modules on domain.
      *

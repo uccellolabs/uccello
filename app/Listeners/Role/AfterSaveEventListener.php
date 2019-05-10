@@ -4,9 +4,7 @@ namespace Uccello\Core\Listeners\Role;
 
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Uccello\Core\Events\AfterSaveEvent;
-use Uccello\Core\Models\Profile;
 use Uccello\Core\Models\Role;
-use Uccello;
 
 class AfterSaveEventListener
 {

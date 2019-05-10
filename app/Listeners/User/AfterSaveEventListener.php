@@ -6,7 +6,6 @@ use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Uccello\Core\Events\AfterSaveEvent;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Privilege;
-use Uccello;
 
 class AfterSaveEventListener
 {

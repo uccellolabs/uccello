@@ -28,13 +28,13 @@
         <div class="col s12">
           <ul class="tabs transparent">
             <li class="tab">
-                <a href="#main-modules">
+                <a href="#main-modules" class="active">
                     <i class="material-icons left">extension</i>
                     {{ uctrans('module_manager.tab.main_modules', $module) }}
                 </a>
             </li>
             <li class="tab">
-                <a href="#admin-modules" class="active">
+                <a href="#admin-modules">
                     <i class="material-icons left">settings</i>
                     {{ uctrans('module_manager.tab.admin_modules', $module) }}
                 </a>

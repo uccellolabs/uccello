@@ -17,7 +17,7 @@ export class ModuleManager {
                 M.toast({html: text})
             })
             .fail((error) => {
-                swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::settings.error.save'), 'error')
+                swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::settings.module_manager.error.save'), 'error')
             })
         })
     }

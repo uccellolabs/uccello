@@ -67,6 +67,7 @@ return [
                     'title' => 'Supprimez d\'abord les liens',
                     'description' => 'Vous ne pouvez pas supprimer un groupe qui n\'est pas vide.',
                 ],
+                'save' => 'Une erreur s\'est produite lors de la sauvegarde.',
             ],
         ],
         'modal' => [

@@ -115,7 +115,7 @@ export class MenuManager {
         }).then((response) => {
             $('span.saved').fadeIn().delay(1000).fadeOut()
         }).fail((error) => {
-            swal(uctrans.trans('uccello::settings.dialog.error.title'), uctrans.trans('uccello::settings.error.save'), "error")
+            swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::settings.menu_manager.error.save'), "error")
         })
     }
 
@@ -303,7 +303,7 @@ export class MenuManager {
             this.retrieveCurrentItemJsonById(itemId, JSON.parse(this.menuStructure))
 
             if (this.currentItemJson && this.currentItemJson.children) { // There are children
-                swal(uctrans.trans('uccello::settings.menu.error.not_empty.title'), uctrans.trans('uccello::settings.menu.error.not_empty.description'), 'error')
+                swal(uctrans.trans('uccello::settings.menu_manager.menu.error.not_empty.title'), uctrans.trans('uccello::settings.menu_manager.menu.error.not_empty.description'), 'error')
             } else {
                 $('.menu-manager:visible').nestable('remove', itemId)
                 this.menuToJson()

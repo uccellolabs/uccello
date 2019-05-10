@@ -188,7 +188,7 @@ class User extends Authenticatable implements Searchable
 
             // Get user privileges on each domain
             foreach ($domainParents as $_domain) {
-                $privileges = $this->privileges()->where('domain_id', $_domain->id);
+                $privileges = $this->privileges->where('domain_id', $_domain->id);
 
                 foreach ($privileges as $privilege) {
 

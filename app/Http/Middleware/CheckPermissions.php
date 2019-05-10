@@ -40,6 +40,12 @@ class CheckPermissions
         }
 
         if (!$isUserAllowed) {
+            // Try to redirect to a domain accessible by the user
+            $domain = uccello()->useMultiDomains() ? uccello()->getLastOrDefaultDomain() : null;
+            if ($domain && $user->canRetrieve($domain, ucmodule('home'))) {
+                return redirect(ucroute('uccello.home', $domain));
+            }
+
             return abort(403);
         }
 

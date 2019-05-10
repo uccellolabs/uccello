@@ -14,20 +14,22 @@ class EditController extends CoreEditController
      */
     public function save(?Domain $domain, Module $module, Request $request, bool $redirect = true)
     {
-        // To use $record->setAsRoot(), we have to get the current version of the domain,
-        // before to set parent_id = null. Because $record->setAsRoot() works only on a
-        // domain where parent_id != null
-        $record = Domain::find($request->get('id'));
+        if ($request->get('id')) {
+            // To use $record->setAsRoot(), we have to get the current version of the domain,
+            // before to set parent_id = null. Because $record->setAsRoot() works only on a
+            // domain where parent_id != null
+            $record = Domain::find($request->get('id'));
 
-        // Get mode
-        $mode = $record->getKey() ? 'edit' : 'create';
-
-        if ($mode == 'edit') { // Config before update
-            $this->configTree($record);
+            if ($record) { // Config before update
+                $this->configTree($record);
+            }
         }
 
         // Default behaviour without redirection
         $record = parent::save($domain, $module, $request, false); // Get a fresh version of $record, after saving
+
+        // Get mode
+        $mode = $record->getKey() ? 'edit' : 'create';
 
         if ($mode == 'create') { // Config after create
             $this->configTree($record);

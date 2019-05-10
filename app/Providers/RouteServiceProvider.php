@@ -21,7 +21,7 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
 
         // Bind domain
         Route::bind('domain', function ($value) {
-            if (preg_match('`[0-9]+`', $value)) { // By id
+            if (preg_match('`^[0-9]+$`', $value)) { // By id
                 $domain = Domain::findOrFail($value);
             } else { // By slug
                 $domain = Domain::where('slug', $value)->first() ?? abort(404);
@@ -31,7 +31,7 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
 
         // Bind module
         Route::bind('module', function ($value) {
-            if (preg_match('`[0-9]+`', $value)) { // By id
+            if (preg_match('`^[0-9]+$`', $value)) { // By id
                 $module = Module::findOrFail($value);
             } else { // By name
                 $module = Module::where('name', $value)->first() ?? abort(404);

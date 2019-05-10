@@ -63,6 +63,21 @@ class Select implements Uitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array
+    {
+        return [
+            'choices' => [
+                'mandatory' => true,
+                'type' => 'array',
+            ],
+        ];
+    }
+
+    /**
      * Returns formatted value to display.
      * Translate the value.
      *

@@ -50,6 +50,32 @@ class Range implements Uitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array
+    {
+        return [
+            'min' => [
+                'mandatory' => true,
+                'type' => 'float',
+                'default_value' => 0,
+            ],
+            'max' => [
+                'mandatory' => true,
+                'type' => 'float',
+                'default_value' => 100,
+            ],
+            'step' => [
+                'mandatory' => true,
+                'type' => 'float',
+                'default_value' => 1,
+            ],
+        ];
+    }
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module
@@ -70,18 +96,18 @@ class Range implements Uitype
         $field->data->step = (int)$output->ask('What is the increment?', 1);
 
         // Initial values
-        $field->data->start = $output->ask('Initial values (can be multiple) e.g. [10,30]', '[0]');
+        // $field->data->start = $output->ask('Initial values (can be multiple) e.g. [10,30]', '[0]');
 
-        // Maximum gap
-        $limit = $output->ask('What is the maximum gap between two values?');
-        if (!is_null($limit)) {
-            $field->data->limit = (int)$limit;
-        }
+        // // Maximum gap
+        // $limit = $output->ask('What is the maximum gap between two values?');
+        // if (!is_null($limit)) {
+        //     $field->data->limit = (int)$limit;
+        // }
 
-        // Minimum gap
-        $margin = (int)$output->ask('What is the minimum gap between two values?');
-        if (!is_null($margin)) {
-            $field->data->margin = (int)$margin;
-        }
+        // // Minimum gap
+        // $margin = (int)$output->ask('What is the minimum gap between two values?');
+        // if (!is_null($margin)) {
+        //     $field->data->margin = (int)$margin;
+        // }
     }
 }

@@ -29,6 +29,21 @@ class File implements Uitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array
+    {
+        return [
+            'path' => [
+                'type' => 'path',
+                'default_value' => null,
+            ],
+        ];
+    }
+
+    /**
      * Returns default icon.
      *
      * @return string|null

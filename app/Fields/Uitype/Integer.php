@@ -37,6 +37,30 @@ class Integer extends Number implements Uitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array
+    {
+        return [
+            'min' => [
+                'type' => 'integer',
+                'default_value' => null,
+            ],
+            'max' => [
+                'type' => 'integer',
+                'default_value' => null,
+            ],
+            'step' => [
+                'mandatory' => true,
+                'type' => 'float',
+                'default_value' => 1,
+            ],
+        ];
+    }
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module

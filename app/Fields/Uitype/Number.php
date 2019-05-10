@@ -52,6 +52,35 @@ class Number implements Uitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array
+    {
+        return [
+            'min' => [
+                'type' => 'float',
+                'default_value' => null,
+            ],
+            'max' => [
+                'type' => 'float',
+                'default_value' => null,
+            ],
+            'step' => [
+                'mandatory' => true,
+                'type' => 'float',
+                'default_value' => 0.01,
+            ],
+            'precision' => [
+                'mandatory' => true,
+                'type' => 'float',
+                'default_value' => 2,
+            ],
+        ];
+    }
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module

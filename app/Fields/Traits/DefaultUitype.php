@@ -4,10 +4,10 @@ namespace Uccello\Core\Fields\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Fluent;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
@@ -121,11 +121,7 @@ trait DefaultUitype
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
     {
-        $repeated = $output->confirm('Would you like to repeat this field (for confirmation)?', false);
 
-        if ($repeated) {
-            $field->data->repeated = true;
-        }
     }
 
     /**

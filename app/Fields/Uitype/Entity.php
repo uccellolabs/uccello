@@ -50,6 +50,26 @@ class Entity implements Uitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array
+    {
+        return [
+            'module' => [
+                'mandatory' => true,
+                'type' => 'module',
+                'whitelist' => [ ],
+                'blacklist' => [ ],
+                'add_crud_modules' => true,
+                'add_not_crud_modules' => true,
+                'include_itself' => true,
+            ],
+        ];
+    }
+
+    /**
      * Returns default database column name.
      *
      * @return string

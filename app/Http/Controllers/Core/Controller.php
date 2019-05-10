@@ -230,9 +230,9 @@ abstract class Controller extends BaseController
                     function ($node) {
                         if (auth()->user()->hasRoleOnDomain($node)) {
                             $currentClass = '';
-                            if ($node->id === $this->domain->id) {
-                                $currentClass = 'class="green-text"';
-                            }
+                            // if ($node->id === $this->domain->id) {
+                            //     $currentClass = 'class="green-text"';
+                            // }
                             return '<li><a href="'.ucroute('uccello.home', $node).'" '.$currentClass.'>'.$node->name.'</a>{sub-tree}</li>';
                         }
                         elseif (auth()->user()->hasRoleOnDescendantDomain($node)) {

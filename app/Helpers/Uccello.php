@@ -241,7 +241,7 @@ class Uccello
                 });
                 return $modulesGroupedById;
             });
-            return $modules[(string) $nameOrId];
+            return $modules[(string) $nameOrId] ?? null;
         } else {
             // Use cache
             $modules = Cache::rememberForever('modules_by_name', function () {
@@ -252,7 +252,7 @@ class Uccello
                 });
                 return $modulesGroupedByName;
             });
-            return $modules[(string) $nameOrId];
+            return $modules[(string) $nameOrId] ?? null;
         }
     }
 
@@ -278,7 +278,7 @@ class Uccello
                 });
                 return $uitypesGroupedById;
             });
-            return $uitypes[(string) $nameOrId];
+            return $uitypes[(string) $nameOrId] ?? null;
         } else {
             // Use cache
             $uitypes = Cache::rememberForever('uitypes_by_name', function () {
@@ -289,7 +289,7 @@ class Uccello
                 });
                 return $uitypesGroupedByName;
             });
-            return $uitypes[(string) $nameOrId];
+            return $uitypes[(string) $nameOrId] ?? null;
         }
     }
 
@@ -315,7 +315,7 @@ class Uccello
                 });
                 return $displaytypesGroupedById;
             });
-            return $displaytypes[(string) $nameOrId];
+            return $displaytypes[(string) $nameOrId] ?? null;
         } else {
             // Use cache
             $displaytypes = Cache::rememberForever('displaytypes_by_name', function () {
@@ -326,7 +326,7 @@ class Uccello
                 });
                 return $displaytypesGroupedByName;
             });
-            return $displaytypes[(string) $nameOrId];
+            return $displaytypes[(string) $nameOrId] ?? null;
         }
     }
 
@@ -352,7 +352,7 @@ class Uccello
                 });
                 return $capabilitiesGroupedById;
             });
-            return $capabilities[(string) $nameOrId];
+            return $capabilities[(string) $nameOrId] ?? null;
         } else {
             // Use cache
             $capabilities = Cache::rememberForever('capabilities_by_name', function () {
@@ -363,7 +363,7 @@ class Uccello
                 });
                 return $capabilitiesGroupedByName;
             });
-            return $capabilities[(string) $nameOrId];
+            return $capabilities[(string) $nameOrId] ?? null;
         }
     }
 
@@ -379,12 +379,16 @@ class Uccello
 
     /**
      * Get last domain visited by the connected user, or the first one available
+     * Priority:
+     * 1. Last domain visited
+     * 2. Domain where the user was created into
+     * 3. First root domain
      *
      * @return Domain|null
      */
     public function getLastOrDefaultDomain(): ?Domain
     {
-        $domain = Auth::user()->lastDomain ?? null; // On login page user is not authenticated
+        $domain = Auth::user()->lastDomain ?? Auth::user()->domain ?? null; // On login page user is not authenticated
 
         if (!$domain) {
             $domain = $this->getRootDomains()[ 0 ];

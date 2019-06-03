@@ -4,6 +4,7 @@ namespace Uccello\Core\Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Domain;
 
 class ModuleManagerTest extends TestCase
@@ -24,7 +25,12 @@ class ModuleManagerTest extends TestCase
         $this->actingAs($user);
     }
 
-    public function testModuleActivatonCanBeChanged()
+    protected function getSettingsModule()
+    {
+       return Module::where('name', 'settings')->first();
+    }
+
+    public function testModuleActivationCanBeChanged()
     {
         $this->actingAsAdmin();
 
@@ -43,12 +49,11 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson([ 'success' => true, 'message' => uctrans('message.module_deactivated', ucmodule('settings')) ]);
+        $response->assertJson([ 'success' => true, 'message' => uctrans('message.module_deactivated', $this->getSettingsModule()) ]);
 
         // Activation status wash changed
         $module = $module->refresh();
         $this->assertFalse($module->isActiveOnDomain($domain));
-
 
         // Activate module
         $response = $this->json('POST', $url, [
@@ -57,21 +62,21 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson([ 'success' => true, 'message' => uctrans('message.module_activated', ucmodule('settings')) ]);
+        $response->assertJson([ 'success' => true, 'message' => uctrans('message.module_activated', $this->getSettingsModule()) ]);
 
         // Test if activation status was changed
         $module = $module->refresh();
         $this->assertTrue($module->isActiveOnDomain($domain));
     }
 
-    public function testMandatoryModuleActivatonCannotBeChanged()
+    public function testMandatoryModuleActivationCannotBeChanged()
     {
         $this->actingAsAdmin();
 
         $domain = Domain::first();
 
         $moduleName = 'settings';
-        $module = ucmodule($moduleName);
+        $module = Module::where('name', $moduleName)->first();
 
         $this->assertTrue($module->isMandatory());
 
@@ -84,7 +89,7 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson([ 'success' => false, 'error' => uctrans('error.module_is_mandatory', ucmodule('settings')) ]);
+        $response->assertJson([ 'success' => false, 'error' => uctrans('error.module_is_mandatory', $this->getSettingsModule()) ]);
 
         // Test if activation status was not changed
         $module = $module->refresh();
@@ -105,6 +110,6 @@ class ModuleManagerTest extends TestCase
         ]);
 
         // Test response content
-        $response->assertJson([ 'success' => false, 'error' => uctrans('error.module_not_defined', ucmodule('settings')) ]);
+        $response->assertJson([ 'success' => false, 'error' => uctrans('error.module_not_defined', $this->getSettingsModule()) ]);
     }
 }

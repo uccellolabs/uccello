@@ -54,7 +54,14 @@
     <div class="row">
         <div class="col s12">
             <div class="card">
-                <div class="card-content p-t-0">
+                {{-- Loader --}}
+                @section('datatable-loader-top')
+                <div class="progress transparent loader" data-table="datatable" style="margin: 0">
+                    <div class="indeterminate green"></div>
+                </div>
+                @show
+
+                <div class="card-content">
                     @yield('before-datatable-table')
 
                     <div class="autoscroll-x">
@@ -155,8 +162,8 @@
                         @show
 
                         {{-- Loader --}}
-                        @section('datatable-loader')
-                        <div class="loader center-align hide" data-table="datatable">
+                        @section('datatable-loader-bottom')
+                        <div class="loader center-align" data-table="datatable">
                             <div class="preloader-wrapper big active">
                                 <div class="spinner-layer spinner-primary-only">
                                     <div class="circle-clipper left">

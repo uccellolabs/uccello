@@ -23,19 +23,19 @@ body.theme-#{$theme} {
     }
 
     // Loader
-    .progress.loader {
-        display: none;
-        position: absolute;
-        background-color: $loaderBackgroundColor;
-        top: 0;
-        margin: 0;
-        z-index: 1003;
+    // .progress.loader {
+    //     display: none;
+    //     position: absolute;
+    //     background-color: $loaderBackgroundColor;
+    //     top: 0;
+    //     margin: 0;
+    //     z-index: 1003;
 
-        .indeterminate,
-        .determinate {
-            background-color: $loaderColor;
-        }
-    }
+    //     .indeterminate,
+    //     .determinate {
+    //         background-color: $loaderColor;
+    //     }
+    // }
 
     // Header
     .navbar-fixed {

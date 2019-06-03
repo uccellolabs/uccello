@@ -38,11 +38,6 @@
     </head>
 
     <body class="@section('body-class')theme-{{ config('uccello.theme', 'uccello') }}@show @yield('body-extra-class')">
-        {{-- Loader --}}
-        <div class="progress loader">
-            <div class="indeterminate"></div>
-        </div>
-
         @yield('pre-content')
 
         @section('content-container')

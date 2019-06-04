@@ -51,6 +51,18 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'settings')
         ->name('settings.menu.reset');
 
+    Route::get($domainParam.'/user-account', 'User\AccountController@index')
+        ->defaults('module', 'home')
+        ->name('user.account');
+
+    Route::post($domainParam.'/user-account/profile', 'User\AccountController@updateProfile')
+        ->defaults('module', 'home')
+        ->name('user.profile.update');
+
+    Route::post($domainParam.'/user-account/password', 'User\AccountController@updatePassword')
+        ->defaults('module', 'home')
+        ->name('user.password.update');
+
 
     // Default routes
     Route::get($domainParam.'/home', 'Core\IndexController@process')

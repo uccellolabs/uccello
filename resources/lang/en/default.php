@@ -50,6 +50,7 @@ return [
         'download_file' => 'Download',
         'logout' => 'Logout',
         'delete_related_record' => 'Delete relation',
+        'user_account' => 'My account',
     ],
 
     // Block

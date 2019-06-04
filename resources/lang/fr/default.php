@@ -50,6 +50,7 @@ return [
         'download_file' => 'Télécharger',
         'logout' => 'Déconnexion',
         'delete_related_record' => 'Supprimer la relation',
+        'user_account' => 'Mon compte',
     ],
 
     // Block

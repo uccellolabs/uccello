@@ -22,9 +22,9 @@
 @section('content')
     <div class="row">
         <div class="col s12 m4">
-            <div class="card">
-                <div class="card-content primary center-align" style="position: relative; height: 100px">
-                    <img src="{{ 'https://www.gravatar.com/avatar/' . md5(auth()->user()->email) . '?d=mm' }}" alt="" class="circle" style="position: absolute; top: 40px; left: calc(50% - 44px); width: 100px; border: 2px solid #007AD6; margin: 2px;">
+            <div class="card profile-card">
+                <div class="card-content primary center-align profile-image">
+                    <img src="{{ 'https://www.gravatar.com/avatar/' . md5(auth()->user()->email) . '?d=mm' }}" alt="{{ $user->name }}" class="circle">
                 </div>
                 <div class="card-content center-align">
                     <h4 style="margin-top: 30px; margin-bottom: 0">{{ $user->name }}</h4>

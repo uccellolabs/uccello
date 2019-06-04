@@ -751,4 +751,20 @@ body.theme-#{$theme} {
             box-shadow: 0 1px 0 0 #f44336;
         }
     }
+
+    .profile-card {
+        .profile-image {
+            position: relative;
+            height: 100px;
+
+            img {
+                position: absolute;
+                top: 40px;
+                left: calc(50% - 44px);
+                width: 100px;
+                border: 2px solid $primaryColor;
+                margin: 2px;
+            }
+        }
+    }
 }

@@ -15,9 +15,22 @@ return [
         'password' => 'Password',
         'password_confirmation' => 'Password (confirmation)',
         'email' => 'Email',
-        'phone' => 'Phone',
+        'current_password' => 'Current password',
+        'new_password' => 'New password',
+        'new_password_confirm' => 'New password (confirmation)',
     ],
     'label' => [
         'no_role' => 'No related role',
+    ],
+    'account' => [
+        'profile' => 'Profile',
+        'password' => 'Password',
+    ],
+    'error' => [
+        'current_password' => 'The current password is not correct.',
+    ],
+    'success' => [
+        'profile_updated' => 'The profile was updated !',
+        'password_updated' => 'The password was updated !'
     ],
 ];

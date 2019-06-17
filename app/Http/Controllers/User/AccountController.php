@@ -77,6 +77,45 @@ class AccountController extends Controller
     }
 
     /**
+     * Update user avatar
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAvatar(?Domain $domain, Module $module)
+    {
+        $this->preProcess($domain, $module, request());
+
+        $user = auth()->user();
+
+        $avatarType = request('avatar_type');
+        $avatar = [ 'type' => $avatarType ];
+
+        if (request('avatar')) {
+            $image = str_replace('data:image/png;base64,', '', request('avatar'));
+            $image = str_replace(' ', '+', $image);
+            $imageName = 'user-' . $user->id . '.png';
+            $path = storage_path('app/public/avatar/');
+            $filepath = $path . $imageName;
+
+            if(!\File::isDirectory($path)){
+                \File::makeDirectory($path, 0777, true, true);
+            }
+
+            \File::put($filepath, base64_decode($image));
+
+            $avatar[ 'path' ] = "/storage/avatar/$imageName";
+        }
+
+        $user->avatar = $avatar;
+        $user->save();
+
+        ucnotify(uctrans('success.avatar_updated', ucmodule('user')), 'success');
+
+        return redirect(ucroute('uccello.user.account', $domain))
+            ->with('form_name', 'avatar');
+    }
+
+    /**
      * Update user password
      *
      * @return \Illuminate\Http\Response

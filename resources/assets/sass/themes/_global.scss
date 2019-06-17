@@ -757,7 +757,7 @@ body.theme-#{$theme} {
             position: relative;
             height: 100px;
 
-            img {
+            img, .initials {
                 position: absolute;
                 top: 40px;
                 left: calc(50% - 44px);
@@ -765,6 +765,41 @@ body.theme-#{$theme} {
                 border: 2px solid $primaryColor;
                 margin: 2px;
             }
+
+            div.initials {
+                font-size: 48px;
+                font-weight: bold;
+                color: $avatarInitialsColor;
+                background-color: $avatarInitialsBackgroundColor;
+                height: 100%;
+                padding-top: 15px;
+            }
+        }
+    }
+
+    .user-initials {
+        font-size: 19px;
+        font-weight: bold;
+        color: $avatarInitialsColor;
+        background-color: $avatarInitialsBackgroundColor;
+        height: 42px;
+        width: 42px;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .cropper-view-box,
+    .cropper-face {
+        border-radius: 50%;
+    }
+
+    .cropper-container {
+        // max-width: 100%;
+        width: 100% !important;
+
+        img {
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 }

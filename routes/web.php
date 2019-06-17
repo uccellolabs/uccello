@@ -59,6 +59,10 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'home')
         ->name('user.profile.update');
 
+    Route::post($domainParam.'/user-account/avatar', 'User\AccountController@updateAvatar')
+        ->defaults('module', 'home')
+        ->name('user.avatar.update');
+
     Route::post($domainParam.'/user-account/password', 'User\AccountController@updatePassword')
         ->defaults('module', 'home')
         ->name('user.password.update');

@@ -32,6 +32,15 @@ class User extends Authenticatable implements Searchable
     protected $dates = [ 'deleted_at' ];
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'avatar' => 'object',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -105,6 +114,59 @@ class User extends Authenticatable implements Searchable
     public function getRecordLabelAttribute() : string
     {
         return trim($this->name) ?? $this->username;
+    }
+
+    /**
+     * Get avatar type
+     *
+     * @return string
+     */
+    public function getAvatarTypeAttribute() : string
+    {
+        return $this->avatar->type ?? 'initials';
+    }
+
+    /**
+     * Returns initals generated from the user name
+     *
+     * @return string
+     */
+    public function getInitialsAttribute() : string
+    {
+        $initials = "";
+
+        $words = explode(" ", strtoupper($this->name));
+
+        $i = 0;
+        foreach ($words as $w) {
+            $initials .= $w[0];
+            $i++;
+
+            if ($i === 3) { // Maximum: 3 letters
+                break;
+            }
+        }
+
+        return $initials;
+    }
+
+    /**
+     * Returns the image to use as the user avatar
+     *
+     * @return string
+     */
+    public function getImageAttribute() : string
+    {
+        $image = 'vendor/uccello/uccello/images/user-no-image.png';
+
+        if ($this->avatarType === 'gravatar') {
+            $image = 'https://www.gravatar.com/avatar/' . md5($this->email) . '?d=mm';
+
+        } elseif ($this->avatarType === 'image' && !empty($this->avatar->path)) {
+            $image = $this->avatar->path;
+        }
+
+        return $image;
     }
 
     /**

@@ -10,9 +10,10 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "axios": "^0.18",
+        "axios": "^0.19.0",
         "bootstrap": "^4.3.1",
         "bootstrap-colorpicker": "^2.5.3",
+        "cropperjs": "^1.5.1",
         "cross-env": "^5.2.0",
         "daterangepicker": "^3.0.5",
         "fastclick": "^1.0.6",

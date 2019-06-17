@@ -3,7 +3,15 @@
     <div class="user-info">
         <div class="row valign-wrapper">
             <div class="col s3 user-image">
-                <img src="@section('user-avatar')https://materializecss.com/images/yuna.jpg  @show" alt="" class="circle responsive-img valign">
+                @section('user-avatar')
+                    @if (in_array(auth()->user()->avatarType, [ 'image', 'gravatar' ]))
+                        {{-- Image or Gravatar --}}
+                        <img src="{{ auth()->user()->image }}" alt="" class="circle responsive-img">
+                    @else
+                        {{-- Initials --}}
+                        <div class="circle user-initials">{{ auth()->user()->initials }}</div>
+                    @endif
+                @show
             </div>
             <div class="col s9 dropdown-trigger" data-target="dropdown-user" data-hover="true">
                 <a href="javascript:void(0)"><span class="name">@section('user-name')John Doe @show</span></a><br>

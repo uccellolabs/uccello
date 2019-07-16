@@ -21,7 +21,7 @@
         "jquery-countto": "^1.2.0",
         "jstree": "^3.3.8",
         "laravel-mix": "^4.0.15",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.14",
         "materialize-css": "^1.0.0",
         "moment": "^2.24.0",
         "nestable2": "^1.6.0",

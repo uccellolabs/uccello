@@ -122,7 +122,7 @@ class ListController extends Controller
                 $filteredRecordIds = $model->$recordIdsMethod($relatedList, $recordId);
 
                 // Add the record id itself to be filtered
-                if ($relatedList->related_module_id === $module->id && !empty($recordId) && !$filteredRecordIds->contains($recordId)) {
+                if ($relatedList->module_id === $relatedList->related_module_id && !empty($recordId) && !$filteredRecordIds->contains($recordId)) {
                     $filteredRecordIds[] = (int)$recordId;
                 }
 

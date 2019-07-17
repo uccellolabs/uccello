@@ -2,7 +2,7 @@
 
 namespace Uccello\Core\Providers;
 
-use App\Providers\EventServiceProvider as DefaultEventServiceProvider;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as DefaultEventServiceProvider;
 
 /**
  * Event Service Provider

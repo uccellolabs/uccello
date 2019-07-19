@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Uccello\Core\Models\Widget;
 
-class RenameWidgetClass extends Migration
+class RenameRelatedlistWidgetClass extends Migration
 {
     /**
      * Run the migrations.

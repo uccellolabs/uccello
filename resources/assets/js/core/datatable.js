@@ -208,11 +208,10 @@ export class Datatable {
             }
         })
 
-        // Replace RECORD_ID by the record's id, and RELATION_ID by relation's id, in all links
+        // Replace RECORD_ID by the record's id in all links
         $('a', tr).each(function() {
             let href = $(this).attr('href')
             href = href.replace('RECORD_ID', record.id)
-            href = href.replace('RELATION_ID', record.relation_id)
             $(this).attr('href', href)
 
             if ($(this).attr('data-tooltip')) {

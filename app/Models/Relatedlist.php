@@ -3,6 +3,7 @@
 namespace Uccello\Core\Models;
 
 use Uccello\Core\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Relatedlist extends Model
 {
@@ -68,6 +69,17 @@ class Relatedlist extends Model
     public function getIsVisibleAsTabAttribute()
     {
         return $this->data->add_tab ?? true;
+    }
+
+    public function getRelationNameAttribute()
+    {
+        $relationName = null;
+
+        if ($this->type === 'n-n') {
+            $relationName = $this->data->relationName ?? Str::plural($this->relatedModule->name);
+        }
+
+        return $relationName;
     }
 
     /**
@@ -143,11 +155,6 @@ class Relatedlist extends Model
         // Add tab id if defined
         if ($this->tab_id) {
             $params[ 'tab' ] = $this->tab_id;
-        }
-
-        // If it is a N-N related list and if necessary add the relation id. It will delete the relation instead of the record
-        if ($this->type === 'n-n' && $preferDeleteRelation === true) {
-            $params[ 'relation_id' ] = 'RELATION_ID'; // RELATION_ID will be replaced automaticaly by the relation id in the datatable
         }
 
         return ucroute('uccello.delete', $domain, $this->relatedModule, $params);

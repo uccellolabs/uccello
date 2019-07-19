@@ -197,18 +197,17 @@ class EditController extends Controller
      * @param Relatedlist $relatedList
      * @param integer $recordId
      * @param integer $relatedRecordId
-     * @return integer
+     * @return void
      */
-    protected function saveRelation(Relatedlist $relatedList, int $recordId, int $relatedRecordId) : int
+    protected function saveRelation(Relatedlist $relatedList, int $recordId, int $relatedRecordId)
     {
-        $relation = Relation::firstOrCreate([
-            'module_id' => $relatedList->module_id,
-            'related_module_id' => $relatedList->related_module_id,
-            'record_id' => $recordId,
-            'related_record_id' => $relatedRecordId,
-            'relatedlist_id' => $relatedList->id
-        ]);
+        $relationName = $relatedList->relationName;
+        $modelClass = $relatedList->module->model_class;
 
-        return $relation->id;
+        $record = $modelClass::find($recordId);
+
+        if ($record) {
+            $record->$relationName()->attach($relatedRecordId);
+        }
     }
 }

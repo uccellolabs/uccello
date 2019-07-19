@@ -106,7 +106,7 @@ class ListController extends Controller
 
                 // Update query
                 $model = new $modelClass;
-                $records = $model->$method($relatedList, $recordId, $query, $length);
+                $records = $model->$method($relatedList, $recordId, $query)->paginate($length);
             }
         } elseif ($relatedListId && $action === 'select') {
             // Get related list

@@ -25,18 +25,16 @@ trait RelatedlistTrait
      *
      * @param Relatedlist $relatedList
      * @param integer $recordId
-     * @param Builder $query
+     * @param Builder|null $query
      * @param int $start
-     * @param int $length
      * @return Collection
      */
-    public function getDependentList(Relatedlist $relatedList, int $recordId, Builder $query, int $length = 15)
+    public function getDependentList(Relatedlist $relatedList, int $recordId, ?Builder $query = null)
     {
         // Related field
         $relatedField = $relatedList->relatedField;
 
-        return $query->where($relatedField->column, $recordId)
-            ->paginate($length);
+        return $query->where($relatedField->column, $recordId);
     }
 
     /**
@@ -48,17 +46,13 @@ trait RelatedlistTrait
      */
     public function getDependentListCount(Relatedlist $relatedList, int $recordId) : int
     {
-        // Related module
-        $relatedModule = $relatedList->relatedModule;
-
         // Model
-        $relatedModel = new $relatedList->relatedModule->model_class;
+        $relatedModel = $relatedList->relatedModule->model_class;
 
         // Related field
         $relatedField = $relatedList->relatedField;
 
-        return $relatedModel->where($relatedField->column, $recordId)
-            ->count();
+        return $relatedModel::where($relatedField->column, $recordId)->count();
     }
 
     /**
@@ -66,31 +60,18 @@ trait RelatedlistTrait
      *
      * @param Relatedlist $relatedList
      * @param integer $recordId
-     * @param Builder $query
+     * @param Builder|null $query
      * @param int $start
-     * @param int $length
      * @return Collection
      */
-    public function getRelatedList(Relatedlist $relatedList, int $recordId, Builder $query, int $length = 15)
+    public function getRelatedList(Relatedlist $relatedList, int $recordId, ?Builder $query = null)
     {
-        // Get related record ids
-        $relations = Relation::where('relatedlist_id', $relatedList->id)
-            ->where('module_id', $relatedList->module_id)
-            ->where('related_module_id', $relatedList->related_module_id)
-            ->where('record_id', $recordId)
-            ->paginate($length);
+        $modelClass = $relatedList->module->model_class;
+        $relationName = $relatedList->relationName;
 
-        // Related model
-        $relatedModel = new $relatedList->relatedModule->model_class;
+        $record = $modelClass::find($recordId);
 
-        $relations->getCollection()->transform(function ($relation) use ($relatedModel) {
-            $record = $relatedModel::find($relation->related_record_id);
-            $record->relation_id = $relation->id; // Add relation id
-
-            return $record;
-        });
-
-        return $relations;
+        return $record->$relationName();
     }
 
     /**
@@ -102,11 +83,7 @@ trait RelatedlistTrait
      */
     public function getRelatedListCount(Relatedlist $relatedList, int $recordId) : int
     {
-        return Relation::where('relatedlist_id', $relatedList->id)
-            ->where('module_id', $relatedList->module_id)
-            ->where('related_module_id', $relatedList->related_module_id)
-            ->where('record_id', $recordId)
-            ->count();
+        return $this->getRelatedList($relatedList, $recordId)->count();
     }
 
     /**
@@ -118,10 +95,17 @@ trait RelatedlistTrait
      */
     public function getRelatedListRecordIds(Relatedlist $relatedList, int $recordId) : Collection
     {
-        return Relation::where('relatedlist_id', $relatedList->id)
-            ->where('module_id', $relatedList->module_id)
-            ->where('related_module_id', $relatedList->related_module_id)
-            ->where('record_id', $recordId)
-            ->pluck('related_record_id');
+        // Get record
+        $modelClass = $relatedList->module->model_class;
+        $record = $modelClass::find($recordId);
+
+        // Get related key name
+        $relatedModel = new $relatedList->relatedModule->model_class;
+        $relatedTable = $relatedModel->table;
+        $relatedPrimaryKey = $relatedModel->getKeyName();
+
+        // Get related records ids
+        $relationName = $relatedList->relationName;
+        return $record->$relationName()->pluck("$relatedTable.$relatedPrimaryKey");
     }
 }

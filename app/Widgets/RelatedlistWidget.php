@@ -4,7 +4,7 @@ namespace Uccello\Core\Widgets;
 
 use Arrilot\Widgets\AbstractWidget;
 
-class Relatedlist extends AbstractWidget
+class RelatedlistWidget extends AbstractWidget
 {
     /**
      * The configuration array.

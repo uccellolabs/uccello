@@ -100,7 +100,9 @@ class EditController extends Controller
             $sourceRecordId = (int)$request->input('src_id');
             $tabId = $request->input('tab');
 
-            $this->saveRelation($relatedlist, $sourceRecordId, $record->id);
+            if ($relatedlist->type === 'n-n') {
+                $this->saveRelation($relatedlist, $sourceRecordId, $record->id);
+            }
 
             $redirectToSourceRecord = true;
         }

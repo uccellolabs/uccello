@@ -208,8 +208,10 @@ class EditController extends Controller
 
         $record = $modelClass::find($recordId);
 
+        $relation = $record->$relationName();
+
         if ($record) {
-            $record->$relationName()->attach($relatedRecordId);
+            $relation->attach($relatedRecordId);
         }
     }
 }

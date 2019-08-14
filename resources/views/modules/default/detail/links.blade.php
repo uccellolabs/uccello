@@ -25,7 +25,7 @@
     @endif
 
     @if (count($module->detailActionLinks) > 0)
-        <a class='dropdown-trigger btn' href='#' data-target='dropdown_actions'>
+        <a class='dropdown-trigger btn bg-primary' href='#' data-target='dropdown_actions'>
             <i class="material-icons right">keyboard_arrow_down</i>
             {!! uctrans('button.action', $module) !!}
         </a>

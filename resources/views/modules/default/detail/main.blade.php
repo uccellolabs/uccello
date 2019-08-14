@@ -30,14 +30,19 @@
                 <span class="breadcrumb active">{{ $record->recordLabel }}</span>
             </div>
         </div>
-        <div class="col s6" style="text-align : right;">
-            {{-- Custom links --}}
-            @section ('custom-links')
-                @include('uccello::modules.default.detail.links')
-            @show
-        </div>
     </div>
 @endsection
+
+{{-- <div class="col s6" style="text-align : right;"> --}}
+        {{-- Custom links --}}
+@section('top-action-buttons')
+    <div class="action-buttons right-align">
+    @section ('custom-links')
+        @include('uccello::modules.default.detail.links')
+    @show
+    </div>
+@append
+{{-- </div> --}}
 
 @section('content')
     {{-- Tab list --}}

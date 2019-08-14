@@ -8,7 +8,7 @@
 
 @section('breadcrumb')
     <div class="nav-wrapper">
-        <div class="col s12">
+        <div class="col s6">
             <div class="breadcrumb-container left">
                 {{-- Admin --}}
                 @if ($admin_env)
@@ -29,6 +29,12 @@
                 </span>
                 <span class="breadcrumb active">{{ $record->recordLabel }}</span>
             </div>
+        </div>
+        <div class="col s6" style="text-align : right;">
+            {{-- Custom links --}}
+            @section ('custom-links')
+                @include('uccello::modules.default.detail.links')
+            @show
         </div>
     </div>
 @endsection

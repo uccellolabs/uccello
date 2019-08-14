@@ -8,7 +8,7 @@
 
 @section('breadcrumb')
     <div class="nav-wrapper">
-        <div class="col s6">
+        <div class="col s12">
             <div class="breadcrumb-container left">
                 {{-- Admin --}}
                 @if ($admin_env)
@@ -33,8 +33,7 @@
     </div>
 @endsection
 
-{{-- <div class="col s6" style="text-align : right;"> --}}
-        {{-- Custom links --}}
+{{-- Custom links --}}
 @section('top-action-buttons')
     <div class="action-buttons right-align">
     @section ('custom-links')
@@ -42,7 +41,6 @@
     @show
     </div>
 @append
-{{-- </div> --}}
 
 @section('content')
     {{-- Tab list --}}

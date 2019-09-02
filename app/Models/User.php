@@ -180,8 +180,17 @@ class User extends Authenticatable implements Searchable
         return Cache::remember('domain_'.$domain->slug.'_roles', 600, function () use($domain) {
             $roles = collect();
 
-            foreach ($this->privileges->where('domain_id', $domain->id) as $privilege) {
-                $roles[ ] = $privilege->role;
+            if (config('uccello.roles.display_ancestors_roles')) {
+                $treeDomainsIds = $domain->findAncestors()->pluck('id');
+            } else {
+                $treeDomainsIds = collect([ $domain->id ]);
+            }
+
+            foreach ($treeDomainsIds as $treeDomainId) {
+                $_domain = Domain::find($treeDomainId);
+                foreach ($this->privileges->where('domain_id', $_domain->id) as $privilege) {
+                    $roles[ ] = $privilege->role;
+                }
             }
 
             return $roles;
@@ -417,5 +426,30 @@ class User extends Authenticatable implements Searchable
     public function canDeleteByApi(Domain $domain, Module $module) : bool
     {
         return $this->hasCapabilityOnModule('api-delete', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
+    }
+
+    /**
+     * Checks if the user has almost a role allowing to view data transversally
+     *
+     * @param \Uccello\Core\Models\Domain $domain
+     * @return boolean
+     */
+    public function canSeeDescendantsRecords(Domain $domain) : bool
+    {
+        $allowed = false;
+
+        if ($this->is_admin) {
+            $allowed = true;
+        } else {
+            $roles = $this->rolesOnDomain($domain);
+            foreach ($roles as $role) {
+                if ($role->see_descendants_records) {
+                    $allowed = true;
+                    break;
+                }
+            }
+        }
+
+        return $allowed;
     }
 }

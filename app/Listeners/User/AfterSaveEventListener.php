@@ -44,7 +44,14 @@ class AfterSaveEventListener
         foreach ($roleIds as $roleId) {
             $role = Role::find($roleId);
 
-            if (is_null($role) || $role->domain->id !== $domain->id) {
+            // Get ancestors domains only if it is allowed
+            if (config('uccello.roles.display_ancestors_roles')) {
+                $treeDomainsIds = $domain->findAncestors()->pluck('id');
+            } else {
+                $treeDomainsIds = collect([ $domain->id ]);
+            }
+
+            if (is_null($role) || !$treeDomainsIds->contains($role->domain->id)) {
                 continue;
             }
 

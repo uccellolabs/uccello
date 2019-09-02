@@ -21,4 +21,8 @@ return [
             'time' => 'HH:mm',
         ],
     ],
+
+    'roles' => [
+        'display_ancestors_roles' => false
+    ],
 ];

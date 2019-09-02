@@ -51,6 +51,7 @@ return [
         'logout' => 'Logout',
         'delete_related_record' => 'Delete relation',
         'user_account' => 'My account',
+        'see_descendants_records' => 'Descendant view',
     ],
 
     // Block

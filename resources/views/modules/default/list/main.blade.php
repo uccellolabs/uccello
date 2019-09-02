@@ -10,6 +10,22 @@
 
 @section('top-action-buttons')
     <div class="action-buttons right-align">
+        @yield('before-descendants-records-button')
+        @if (auth()->user()->canSeeDescendantsRecords($domain))
+        <!-- Dropdown Trigger -->
+        <a class="dropdown-trigger btn-small primary" href="#" data-target="dropdown-descendants-records" data-constrain-width="false" data-alignment="right">
+            <span>{{ uctrans('button.see_descendants_records', $module) }}</span>
+            <i class="material-icons hide-on-med-and-down right">arrow_drop_down</i>
+        </a>
+
+        <!-- Dropdown Structure -->
+        <ul id="dropdown-descendants-records" class="dropdown-content" data-table="datatable">
+            <li><a href="javascript:void(0);" data-descendants-records-filter="1">{{ uctrans('yes', $module) }}</a></li>
+            <li class="active"><a href="javascript:void(0);" data-descendants-records-filter="0">{{ uctrans('no', $module) }}</a></li>
+        </ul>
+        @endif
+
+        @yield('after-descendants-records-button')
         @yield('before-columns-visibility-button')
 
         {{-- Columns visibility --}}

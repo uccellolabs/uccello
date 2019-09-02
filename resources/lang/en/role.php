@@ -10,6 +10,7 @@ return [
         'name' => 'Name',
         'domain_id' => 'Domain',
         'description' => 'Description',
+        'see_descendants_records' => 'Descendant view?',
         'parent' => 'Parent',
     ],
     'label' => [

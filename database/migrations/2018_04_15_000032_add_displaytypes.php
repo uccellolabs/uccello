@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Uccello\Core\Database\Migrations\Migration;
 use Uccello\Core\Models\Displaytype;
 
@@ -23,6 +24,8 @@ class AddDisplaytypes extends Migration
             $displaytype->class = $class;
             $displaytype->save();
         }
+
+        Artisan::call('cache:clear');
     }
 
     /**
@@ -35,5 +38,7 @@ class AddDisplaytypes extends Migration
         Displaytype::where('name', 'create_detail')
             ->orWhere('name', 'list_only')
             ->delete();
+
+        Artisan::call('cache:clear');
     }
 }

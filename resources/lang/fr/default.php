@@ -62,6 +62,7 @@ return [
     // Field
     'field' => [
         'id' => 'Id',
+        'domain' => 'Domaine',
         'created_at' => 'Créé le',
         'updated_at' => 'Mis à jour le',
         'select_empty_value' => '- Selectionnez une valeur -',

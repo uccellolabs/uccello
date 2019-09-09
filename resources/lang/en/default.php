@@ -62,12 +62,13 @@ return [
     // Field
     'field' => [
         'id' => 'Id',
+        'domain' => 'Domain',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
         'select_empty_value' => '- Select a value -',
         'info' => [
             'new_line' => 'Press ENTER to create a new line.',
-        ]
+        ],
     ],
 
     // Filter

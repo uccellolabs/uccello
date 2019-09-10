@@ -3,6 +3,9 @@
 return [
     'theme' => 'uccello',
 
+    'domains' => [
+        'display_tree' => true,
+    ],
 
     'max_results' => [
         'search' => 50,

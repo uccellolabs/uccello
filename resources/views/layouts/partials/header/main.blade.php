@@ -18,15 +18,21 @@
                 </li>
                 @if (uccello()->useMultiDomains() && isset($domain))
                 <li>
-                    <a href="#" class="sidenav-trigger show-on-large" data-target="sidenav-domains" style="margin-left: 0; margin-right: 0">
-                        <span class="hide-on-small-only">{{ $domain->name }}</span>
-                        <i class="material-icons right">arrow_drop_down</i>
-                    </a>
+                    @if (config('uccello.domains.display_tree') !== false)
+                        <a href="#" class="sidenav-trigger show-on-large" data-target="sidenav-domains" style="margin-left: 0; margin-right: 0">
+                            <span class="hide-on-small-only">{{ $domain->name }}</span>
+                            <i class="material-icons right">arrow_drop_down</i>
+                        </a>
+                    @else
+                        <a href="javascript:void(0)" class="show-on-large" style="margin-left: 0; margin-right: 0">
+                            <span class="hide-on-small-only">{{ $domain->name }}</span>
+                        </a>
+                    @endif
                 </li>
                 @endif
             </ul>
         </div>
-        
+
         <div class="nav-wrapper search-bar" style="display: none">
             <form action="{{ route('uccello.search', [ 'domain' => $domain ]) }}" novalidate>
                 <div class="input-field">

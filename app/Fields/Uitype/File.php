@@ -81,6 +81,7 @@ class File implements Uitype
             // $directoryPath = isset($fieldData->public) && $fieldData->public === true ? 'public/' : ''; // Public or Private
             $directoryPath = isset($domain) ? $domain->slug.'/' : ''; // Domain
             $directoryPath .= isset($fieldData->path) ? trim($fieldData->path, '/') : ''; // Custom directory
+            $directoryPath = trim($directoryPath, '/');
 
             // Save file
             $path = Storage::putFile($directoryPath, $request->file($field->name));

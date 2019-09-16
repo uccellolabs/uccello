@@ -6,6 +6,8 @@ export class List {
         this.initDatatable()
         this.initListeners()
         this.initEntityFields()
+
+        this.content_url = $('#datatable').attr('data-content-url');
     }
 
     /**
@@ -29,6 +31,7 @@ export class List {
         this.initSaveFilterListener()
         this.initDeleteFilterListener()
         this.initExportListener()
+        this.initDescendantsRecordsFilterEventListener()
     }
 
     /**
@@ -130,11 +133,11 @@ export class List {
             let fakeFormHtml = this.getFakeFormHtml(data, url)
 
             // Add the fake form into the page
-            let fakeFormDom = $(fakeFormHtml);
-            $("body").append(fakeFormDom);
+            let fakeFormDom = $(fakeFormHtml)
+            $("body").append(fakeFormDom)
 
             // Submit fake form to download the file
-            fakeFormDom.submit();
+            fakeFormDom.submit()
 
             // Remove the fake form from the page
             fakeFormDom.remove()
@@ -287,11 +290,11 @@ export class List {
      * @param {String} url
      */
     getFakeFormHtml(data, url) {
-        let form = "<form style='display: none;' method='POST' action='"+url+"'>";
+        let form = "<form style='display: none;' method='POST' action='"+url+"'>"
 
         _.each(data, function(postValue, postKey){
             // Convert into JSON if it is a complex data
-            var escapedValue = typeof postValue === 'object' ? JSON.stringify(postValue) : postValue;
+            var escapedValue = typeof postValue === 'object' ? JSON.stringify(postValue) : postValue
 
             // Escape string (not for numbers)
             if (typeof escapedValue === 'string') {
@@ -299,10 +302,10 @@ export class List {
             }
 
             // Add data to the fake form
-            form += "<input type='hidden' name='"+postKey+"' value='"+escapedValue+"'>";
-        });
+            form += "<input type='hidden' name='"+postKey+"' value='"+escapedValue+"'>"
+        })
 
-        form += "</form>";
+        form += "</form>"
 
         return form
     }
@@ -312,5 +315,43 @@ export class List {
      */
     initEntityFields() {
         let entityField = new EntityField()
+    }
+
+    initDescendantsRecordsFilterEventListener() {
+        let that = this
+        $('[data-descendants-records-filter]').on('click', function(e) {
+            $('#dropdown-descendants-records').find('li').each(function (){
+                $(this).removeClass('active')
+            })
+            $(this).parent().addClass('active')
+            let seeDescendantsRecords = $(this).data('descendants-records-filter')
+            let table = $(this).parents('ul:first').data('table')
+
+            // Show / Hide domain column
+            let domainColumnOption = $('#dropdown-columns li a[data-field="domain"]')
+            if (seeDescendantsRecords == 1) {
+                if (domainColumnOption.length > 0) {
+                    $(domainColumnOption).parents('li:first').addClass('active')
+                    $('th[data-field="domain"]').show()
+                }
+            } else {
+                if (domainColumnOption.length > 0) {
+                    $(domainColumnOption).parents('li:first').removeClass('active')
+                    $('th[data-field="domain"]').hide()
+                }
+            }
+
+            // Add filter to content URL
+            let $datatable = $('#' + table)
+            $datatable.attr('data-content-url', that.content_url + '?descendants=' + seeDescendantsRecords)
+            that.dispatchCustomEvent(table)
+
+        })
+    }
+
+    dispatchCustomEvent(table_id) {
+        // Refresh datatable
+        let event = new CustomEvent('uccello.list.refresh', {detail: table_id})
+        dispatchEvent(event)
     }
 }

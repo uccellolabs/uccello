@@ -3,6 +3,9 @@
 return [
     'theme' => 'uccello',
 
+    'domains' => [
+        'display_tree' => true,
+    ],
 
     'max_results' => [
         'search' => 50,
@@ -20,5 +23,9 @@ return [
             'datetime' => 'MM/DD/YYYY HH:mm',
             'time' => 'HH:mm',
         ],
+    ],
+
+    'roles' => [
+        'display_ancestors_roles' => false
     ],
 ];

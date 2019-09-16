@@ -179,20 +179,8 @@ class Module extends Model
      */
     public function isActiveOnDomain(Domain $domain) : bool
     {
-        $moduleDomains = Cache::rememberForever('module_'.$this->name.'_domains', function () {
-            return $this->domains;
-        });
-
-        $isActive = false;
-
-        foreach ($moduleDomains as $domainActive) {
-            if ($domainActive->id === $domain->id) {
-                $isActive = true;
-                break;
-            }
-        }
-
-        return $isActive;
+        // We don't use cache else it can be very huge with a lot of domains!!!
+        return $this->domains()->where('domain_id', $domain->id)->count() > 0;
     }
 
     /**

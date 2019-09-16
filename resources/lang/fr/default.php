@@ -51,6 +51,7 @@ return [
         'logout' => 'Déconnexion',
         'delete_related_record' => 'Supprimer la relation',
         'user_account' => 'Mon compte',
+        'see_descendants_records' => 'Vue descendante',
     ],
 
     // Block
@@ -61,6 +62,7 @@ return [
     // Field
     'field' => [
         'id' => 'Id',
+        'domain' => 'Domaine',
         'created_at' => 'Créé le',
         'updated_at' => 'Mis à jour le',
         'select_empty_value' => '- Selectionnez une valeur -',

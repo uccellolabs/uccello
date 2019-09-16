@@ -136,8 +136,10 @@ abstract class Controller extends BaseController
         View::share('menu', $menu);
 
         // Domain tree
-        $domainsTreeHtml = $this->getDomainsTreeHtml();
-        View::share('domainsTreeHtml', $domainsTreeHtml);
+        if (config('uccello.domains.display_tree') !== false) {
+            $domainsTreeHtml = $this->getDomainsTreeHtml();
+            View::share('domainsTreeHtml', $domainsTreeHtml);
+        }
     }
 
     /**

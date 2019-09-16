@@ -56,8 +56,6 @@ class ListController extends Controller
         return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy'));
     }
 
-
-
     /**
      * Display a listing of the resources.
      * The result is formated differently if it is a classic query or one requested by datatable.
@@ -280,7 +278,13 @@ class ListController extends Controller
 
         // Filter on domain if column exists
         if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
-            $query = $modelClass::where('domain_id', $domain->id);
+            // Activate descendant view if the user is allowed
+            if (auth()->user()->canSeeDescendantsRecords($domain) && request('descendants')) {
+                $domainsIds = $domain->findDescendants()->pluck('id');
+                $query = $modelClass::whereIn('domain_id', $domainsIds);
+            } else {
+                $query = $modelClass::where('domain_id', $domain->id);
+            }
         } else {
             $query = $modelClass::query();
         }

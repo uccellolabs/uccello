@@ -17,5 +17,10 @@
         <span class="helper-text red-text">
             {!! form_errors($form->{$field->name}) !!}
         </span>
+    {{-- Add help info if defined --}}
+    @elseif ($field->data->info ?? false)
+        <span class="helper-text">
+            {{ uctrans($field->data->info, $module) }}
+        </span>
     @endif
 </div>

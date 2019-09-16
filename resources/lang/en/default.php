@@ -51,6 +51,7 @@ return [
         'logout' => 'Logout',
         'delete_related_record' => 'Delete relation',
         'user_account' => 'My account',
+        'see_descendants_records' => 'Descendant view',
     ],
 
     // Block
@@ -61,12 +62,13 @@ return [
     // Field
     'field' => [
         'id' => 'Id',
+        'domain' => 'Domain',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
         'select_empty_value' => '- Select a value -',
         'info' => [
             'new_line' => 'Press ENTER to create a new line.',
-        ]
+        ],
     ],
 
     // Filter

@@ -42,10 +42,6 @@ class Image extends File implements Uitype
     {
         $value = $record->{$field->column} ?? '';
 
-        if ($value) {
-            $value = Storage::url($value);
-        }
-
         return  $value;
     }
 
@@ -72,13 +68,13 @@ class Image extends File implements Uitype
             $fieldData = $field->data;
 
             // Make directory path
-            $directoryPath = 'public/'; // Public
-            $directoryPath .= isset($domain) ? $domain->slug.'/' : ''; // Domain
+            $directoryPath = isset($domain) ? $domain->slug.'/' : ''; // Domain
             $directoryPath .= isset($fieldData->path) ? trim($fieldData->path, '/') : ''; // Custom directory
+            $directoryPath = trim($directoryPath, '/');
 
             // Save file
-            $path = Storage::putFile($directoryPath, $request->file($field->name));
-            $value = $path;
+            $path = Storage::disk('public')->putFile($directoryPath, $request->file($field->name));
+            $value = Storage::url($path);
 
         }
         // Delete file

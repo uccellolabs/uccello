@@ -32,10 +32,21 @@ class EditController extends CoreEditController
             }
         }
 
-        // Get all domain roles
+        // Display ancestors roles only if it is allowed
+        if (config('uccello.roles.display_ancestors_roles')) {
+            $treeDomainsIds = $domain->findAncestors()->pluck('id');
+        } else {
+            $treeDomainsIds = collect([ $domain->id ]);
+        }
+
+        // Get all roles
         $roles = [ ];
-        foreach ($domain->roles as $role) {
-            $roles[ $role->id ] = $role->name;
+        foreach ($treeDomainsIds as $treeDomainId) {
+            $_domain = Domain::find($treeDomainId);
+            foreach ($_domain->roles as $role) {
+                $roleName = $_domain->id === $domain->id ? $role->name : $_domain->name . ' > ' . $role->name;
+                $roles[ $role->id ] = $roleName;
+            }
         }
 
         // Add data to the view

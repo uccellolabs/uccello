@@ -33,6 +33,15 @@
     </div>
 @endsection
 
+{{-- Custom links --}}
+@section('top-action-buttons')
+    <div class="action-buttons right-align">
+    @section ('custom-links')
+        @include('uccello::modules.default.detail.links')
+    @show
+    </div>
+@append
+
 @section('content')
     {{-- Tab list --}}
     @include('uccello::modules.default.detail.tabs')

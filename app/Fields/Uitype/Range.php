@@ -110,4 +110,33 @@ class Range implements Uitype
         //     $field->data->margin = (int)$margin;
         // }
     }
+
+    /**
+     * Returns some specific options relative to the field, used by uccello/module-designer
+     *
+     * @return array
+     */
+    public function moduleDesignerConfig()
+    {
+        return [
+            [
+                'label' => trans('uccello::config.uitypes.range.min'),
+                'type' => 'number',
+                'attribute' => 'min',
+                'default' => 0,
+            ],
+            [
+                'label' => trans('uccello::config.uitypes.range.max'),
+                'type' => 'number',
+                'attribute' => 'max',
+                'default' => 100,
+            ],
+            [
+                'label' => trans('uccello::config.uitypes.range.step'),
+                'type' => 'number',
+                'attribute' => 'step',
+                'default' => 1,
+            ],
+        ];
+    }
 }

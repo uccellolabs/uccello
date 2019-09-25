@@ -82,6 +82,35 @@ class Integer extends Number implements Uitype
     }
 
     /**
+     * Returns some specific options relative to the field, used by uccello/module-designer
+     *
+     * @return array
+     */
+    public function moduleDesignerConfig()
+    {
+        return [
+            [
+                'label' => trans('uccello::config.uitypes.number.min'),
+                'type' => 'number',
+                'attribute' => 'min',
+                'default' => null,
+            ],
+            [
+                'label' => trans('uccello::config.uitypes.number.max'),
+                'type' => 'number',
+                'attribute' => 'max',
+                'default' => null,
+            ],
+            [
+                'label' => trans('uccello::config.uitypes.number.step'),
+                'type' => 'number',
+                'attribute' => 'step',
+                'default' => 1,
+            ],
+        ];
+    }
+
+    /**
      * Create field column in the module table
      *
      * @param \Uccello\Core\Models\Field $field

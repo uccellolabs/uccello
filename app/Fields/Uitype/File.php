@@ -118,4 +118,21 @@ class File implements Uitype
             $field->data->path = $path;
         }
     }
+
+    /**
+     * Returns some specific options relative to the field, used by uccello/module-designer
+     *
+     * @return array
+     */
+    public function moduleDesignerConfig()
+    {
+        return [
+            [
+                'label' => trans('uccello::config.uitypes.file.path'),
+                'type' => 'text',
+                'attribute' => 'path',
+                'default' => null,
+            ],
+        ];
+    }
 }

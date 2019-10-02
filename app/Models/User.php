@@ -10,12 +10,15 @@ use Illuminate\Support\Facades\Cache;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Support\Traits\RelatedlistTrait;
+use Uccello\Core\Support\Traits\UccelloModule;
+use Uccello\Core\Models\Group;
 
 class User extends Authenticatable implements Searchable
 {
     use SoftDeletes;
     use Notifiable;
     use RelatedlistTrait;
+    use UccelloModule;
 
     /**
      * The table associated with the model.
@@ -104,6 +107,11 @@ class User extends Authenticatable implements Searchable
     public function menus()
     {
         return $this->hasMany(Menu::class);
+    }
+
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'uccello_rl_groups_users');
     }
 
     /**

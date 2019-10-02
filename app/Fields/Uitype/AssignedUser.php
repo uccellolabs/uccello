@@ -47,6 +47,7 @@ class AssignedUser implements Uitype
         $options = [
             'class' => $relatedModule->model_class ?? null,
             'property' => 'recordLabel',
+            'property_key' => 'uid',
             'empty_value' => uctrans('field.select_empty_value', $module),
             'selected' => !empty($record->getKey()) ? $record->{$field->column} : auth()->id(),
             'attr' => [
@@ -55,12 +56,14 @@ class AssignedUser implements Uitype
                 // 'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
             ],
             'query_builder' => function($relatedRecord) use($record) {
-                // If related record class is the same as the record one, ignore the current record
-                if (get_class($relatedRecord) === get_class($record)) {
-                    return $relatedRecord->where($relatedRecord->getKeyName(), '!=', $record->getKey());
-                } else {
-                    return $relatedRecord->all();
+                // TODO: Filter depending users profiles...
+                $records = \Uccello\Core\Models\Group::all();
+
+                foreach (\App\User::all() as $user) {
+                    $records->push($user);
                 }
+
+                return $records;
             },
         ];
 
@@ -87,18 +90,11 @@ class AssignedUser implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        $relatedRecordId = $record->{$field->column};
+        $relatedRecord = app('uccello')->getRecordByUid($record->{$field->column});
 
-        if (!$relatedRecordId) {
+        if (!$relatedRecord) {
             return '';
         }
-
-        // Get related module
-        $relatedModule = ucmodule('user');
-
-        // Get related record
-        $relatedModelClass = $relatedModule->model_class;
-        $relatedRecord = $relatedModelClass::find($relatedRecordId);
 
         // Check if there is an attribute called displayLabel in the related record else use id
         if (!is_null($relatedRecord)) {
@@ -142,7 +138,7 @@ class AssignedUser implements Uitype
      */
     public function createFieldColumn(Field $field, Blueprint $table) : Fluent
     {
-        return $table->unsignedInteger($this->getDefaultDatabaseColumn($field));
+        return $table->string($this->getDefaultDatabaseColumn($field));
     }
 
     /**
@@ -154,6 +150,6 @@ class AssignedUser implements Uitype
     public function createFieldColumnStr(Field $field) : string
     {
         $column = $this->getDefaultDatabaseColumn($field);
-        return "\$table->unsignedInteger('$column')";
+        return "\$table->string('$column')";
     }
 }

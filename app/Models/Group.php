@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Database\Eloquent\Model;
+use Uccello\Core\Support\Traits\UccelloModule;
 
 class Group extends Model implements Searchable
 {
     use SoftDeletes;
+    use UccelloModule;
 
     /**
      * The table associated with the model.

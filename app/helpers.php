@@ -169,3 +169,24 @@ if (!function_exists('ucnotify')) {
         session()->flash('notification-'.$type, $message);
     }
 }
+
+if (!function_exists('ucrecord')) {
+    /**
+     * Uses flash session to display a notification.
+     *
+     * @param int $message
+     * @param string $message
+     * @return Entity
+     */
+    function ucrecord($idOrUid, $className = null)
+    {
+        if (is_numeric($idOrUid))
+        {
+            $className::find($idOrUid);
+        }
+        else
+        {
+            return uccello()->getRecordByUid($idOrUid);
+        }
+    }
+}

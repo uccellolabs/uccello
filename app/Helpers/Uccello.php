@@ -490,6 +490,13 @@ class Uccello
 
     public function getRecordByUid($uid)
     {
-        return Entity::find($uid)->record;
+        $entity = Entity::find($uid);
+        
+        if($entity) {
+            return $entity->record;
+        }
+        else {
+            return null;
+        }
     }
 }

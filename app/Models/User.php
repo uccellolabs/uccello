@@ -460,4 +460,137 @@ class User extends Authenticatable implements Searchable
 
         return $allowed;
     }
+
+    public function getAllowedGroupUids()
+    {
+        // Use cache
+        $allowedGroups = Cache::rememberForever(
+            'allowed_groups_for_' . ($this->is_admin ? 'admin' : $this->getKey()), 
+            function () {
+                return $this->getAllowedGroupUidsProcess();
+            }
+        );
+
+        return $allowedGroups;
+    }
+
+    public function getAllowedGroupsAndUsers($addUsers = true)
+    {
+        // Use cache
+        $allowedGroupsAndUsers = Cache::rememberForever(
+            'allowed_group_users_for_' . ($addUsers ? 'u_' : '') . ($this->is_admin ? 'admin' : $this->getKey()), 
+            function () use ($addUsers) {
+                return $this->getAllowedGroupsAndUsersProcess($addUsers);
+            }
+        );
+
+        return $allowedGroupsAndUsers;
+    }
+
+    protected function getAllowedGroupUidsProcess()
+    {
+        $allowedUserUids = collect();
+
+        if ($this->is_admin) {
+            $groups = Group::orderBy('name')->get();
+        } else {
+            $allowedUserUids[] = $this->uid;
+
+            $groups = [];
+            $users = [];
+
+            foreach ($this->groups as $group) {
+                $groups[$group->uid] = $group;
+            };
+
+            $this->addRecursiveChildrenGroups($groups, $users, $groups, false);
+
+            $groups = collect($groups);
+        }
+
+        foreach ($groups as $uid => $group) {
+            $allowedUserUids[] = $uid;
+        }
+
+        return $allowedUserUids;
+    }
+
+    protected function addRecursiveChildrenGroups(&$groups, &$users, $searchGroups, $addUsers = false)
+    {
+        foreach ($searchGroups as $uid => $searchGroup) {
+            $searchChildrenGroups = [];
+
+            foreach ($searchGroup->childrenGroups as $childrenGroup) {
+                if (empty($groups[$childrenGroup->uid])) {
+                    $groups[$childrenGroup->uid] = $childrenGroup;
+                    $searchChildrenGroups[$childrenGroup->uid] = $childrenGroup;
+                }
+
+                if($addUsers)
+                {
+                    foreach ($childrenGroup->users as $user) {
+                        if (empty($users[$user->uid])) {
+                            $users[$user->uid] = $user;
+                        }
+                    }
+                }
+            }
+
+            $this->addRecursiveChildrenGroups($groups, $users, $searchChildrenGroups, $addUsers);
+        }
+    }
+
+    protected function getAllowedGroupsAndUsersProcess($addUsers = true)
+    {
+        $allowedUserUids = collect();
+
+        if ($this->is_admin) {
+            $groups = Group::orderBy('name')->get();
+            $users  = \App\User::orderBy('name')->get();
+        } else {
+            $allowedUserUids[] = [
+                'uid' => $this->uid,
+                'recordLabel' => $this->recordLabel
+            ];
+
+            $groups = [];
+            $users = [];
+
+            foreach ($this->groups as $group) {
+                $groups[$group->uid] = $group;
+
+                if($addUsers)
+                {
+                    foreach ($group->users as $user) {
+                        if (empty($users[$user->uid])) {
+                            $users[$user->uid] = $user;
+                        }
+                    }
+                }
+            };
+
+            $this->addRecursiveChildrenGroups($groups, $users, $groups, $addUsers);
+
+            $groups = collect($groups)->sortBy('name');
+            $users  = collect($users)->sortBy('name');
+        }
+
+        foreach ($groups as $uid => $group) {
+            $allowedUserUids[] = [
+                'uid' => $group->uid,
+                'recordLabel' => $group->recordLabel
+            ];
+        }
+
+        foreach ($users as $uid => $user) {
+            if($user->getKey() != $this->getKey()) {
+                $allowedUserUids[] = [
+                    'uid' => $user->uid,
+                    'recordLabel' => $user->recordLabel
+                ];
+            }
+        }
+
+        return $allowedUserUids;
+    }
 }

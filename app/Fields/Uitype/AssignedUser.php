@@ -3,9 +3,8 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Eloquent\Builder;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Fluent;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
@@ -49,7 +48,7 @@ class AssignedUser implements Uitype
             'property' => 'recordLabel',
             'property_key' => 'uid',
             'empty_value' => uctrans('field.select_empty_value', $module),
-            'selected' => !empty($record->getKey()) ? $record->{$field->column} : auth()->id(),
+            'selected' => !empty($record->getKey()) ? $record->{$field->column} : Auth::user()->uid,
             'attr' => [
                 // 'class' => 'form-control show-tick',
                 // 'data-live-search' => 'true',
@@ -57,13 +56,7 @@ class AssignedUser implements Uitype
             ],
             'query_builder' => function($relatedRecord) use($record) {
                 // TODO: Filter depending users profiles...
-                $records = \Uccello\Core\Models\Group::all();
-
-                foreach (\App\User::all() as $user) {
-                    $records->push($user);
-                }
-
-                return $records;
+                return Auth::user()->getAllowedGroupsAndUsers(true);
             },
         ];
 
@@ -120,7 +113,7 @@ class AssignedUser implements Uitype
             foreach ((array) $value as $_value) {
                 // Replace me by connected user's id
                 if ($_value === 'me') {
-                    $_value = auth()->id();
+                    $_value = Auth::user()->uid;
                 }
                 $query = $query->orWhere($field->column, '=', $_value);
             }

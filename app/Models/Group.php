@@ -7,6 +7,7 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Database\Eloquent\Model;
 use Uccello\Core\Support\Traits\UccelloModule;
+use App\User;
 
 class Group extends Model implements Searchable
 {

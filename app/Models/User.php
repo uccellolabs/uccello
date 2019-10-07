@@ -489,13 +489,11 @@ class User extends Authenticatable implements Searchable
 
     protected function getAllowedGroupUidsProcess()
     {
-        $allowedUserUids = collect();
+        $allowedUserUids = collect([$this->uid]);
 
         if ($this->is_admin) {
-            $groups = Group::orderBy('name')->get();
+            $groups = Group::all();
         } else {
-            $allowedUserUids[] = $this->uid;
-
             $groups = [];
             $users = [];
 
@@ -542,17 +540,15 @@ class User extends Authenticatable implements Searchable
 
     protected function getAllowedGroupsAndUsersProcess($addUsers = true)
     {
-        $allowedUserUids = collect();
+        $allowedUserUids = collect([[
+            'uid' => $this->uid,
+            'recordLabel' => uctrans('me', $this->module)
+        ]]);
 
         if ($this->is_admin) {
             $groups = Group::orderBy('name')->get();
             $users  = \App\User::orderBy('name')->get();
         } else {
-            $allowedUserUids[] = [
-                'uid' => $this->uid,
-                'recordLabel' => $this->recordLabel
-            ];
-
             $groups = [];
             $users = [];
 

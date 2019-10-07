@@ -142,6 +142,10 @@ class ListController extends Controller
                 $record->{$field->name.'_html'} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
             }
 
+            // Add primary key name and value
+            $record->__primaryKey = $record->getKey();
+            $record->__primaryKeyName = $record->getKeyName();
+
             return $record;
         });
 

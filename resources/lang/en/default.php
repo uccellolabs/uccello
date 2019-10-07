@@ -233,6 +233,21 @@ return [
             'november' =>  'November',
             'december' =>  'December',
         ],
+        'ranges' => [
+            'today' => 'Today',
+            'yesterday' => 'Yesterday',
+            'tomorrow' => 'Tomorrow',
+            'last7days' => 'Last 7 days',
+            'last30days' => 'Last 30 days',
+            'next7days' => 'Next 7 days',
+            'next30days' => 'Next 30 days',
+            'month' => 'This month',
+            'last_month' => 'Last month',
+            'next_month' => 'Next month',
+            'quarter' => 'This quarter',
+            'last_quarter' => 'Last quarter',
+            'next_quarter' => 'Next quarter',
+        ],
     ],
 
     // Autocomplete

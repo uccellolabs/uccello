@@ -26,6 +26,14 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'domain')
         ->name('domain.save');
 
+    Route::post($domainParam.'/group/edit/relation', 'Group\EditController@addRelation')
+        ->defaults('module', 'group')
+        ->name('group.edit.relation.add');
+
+    Route::get($domainParam.'/group/edit/relation/delete', 'Core\EditController@deleteRelation')
+        ->defaults('module', 'group')
+        ->name('group.edit.relation.delete');
+
     // Settings
     Route::get($domainParam.'/settings', 'Settings\SettingsController@dashboard')
         ->defaults('module', 'settings')
@@ -85,6 +93,7 @@ Route::name('uccello.')->group(function() {
     Route::get($domainAndModuleParams.'/detail', 'Core\DetailController@process')->name('detail');
     Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
     Route::post($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
+    Route::get($domainAndModuleParams.'/edit/relation/delete', 'Core\EditController@deleteRelation')->name('edit.relation.delete');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
     Route::get($domainAndModuleParams.'/download', 'Core\DownloadController@process')->name('download');

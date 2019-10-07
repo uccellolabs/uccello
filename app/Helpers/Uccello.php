@@ -10,6 +10,7 @@ use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;
+use Uccello\Core\Models\Entity;
 use Uccello\Core\Models\Filter;
 
 class Uccello
@@ -485,5 +486,17 @@ class Uccello
         }
 
         return $value;
+    }
+
+    public function getRecordByUid($uid)
+    {
+        $entity = Entity::find($uid);
+        
+        if($entity) {
+            return $entity->record;
+        }
+        else {
+            return null;
+        }
     }
 }

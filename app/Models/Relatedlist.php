@@ -143,21 +143,21 @@ class Relatedlist extends Model
      * @param boolean $deleteRelation
      * @return string
      */
-    public function getDeleteLink(Domain $domain, int $sourceRecordId, bool $preferDeleteRelation = true) : string
+    public function getDeleteLink(Domain $domain, int $sourceRecordId, bool $preferDeleteRelation = true): string
     {
         // Default parameters
         $params = [
-            'id' => 'RECORD_ID', // RECORD_ID will be replaced automaticaly by the record id in the datatable
+            'id' => $sourceRecordId,
             'relatedlist' => $this->id,
-            'src_id' => $sourceRecordId
+            'related_id' => 'RECORD_ID', // RECORD_ID will be replaced automaticaly by the record id in the datatable
         ];
 
         // Add tab id if defined
         if ($this->tab_id) {
-            $params[ 'tab' ] = $this->tab_id;
+            $params['tab'] = $this->tab_id;
         }
 
-        return ucroute('uccello.delete', $domain, $this->relatedModule, $params);
+        return ucroute('uccello.edit.relation.delete', $domain, $this->relatedModule, $params);
     }
 
     /**

@@ -488,15 +488,41 @@ class Uccello
         return $value;
     }
 
-    public function getRecordByUid($uid)
+    /**
+     * Retrieves a record by its id or uuid
+     *
+     * @param int|string $idOrUuid
+     * @param string $className
+     * @return mixed
+     */
+    public function getRecordByIdOrUuid($idOrUuid, $className)
     {
-        $entity = Entity::find($uid);
-        
-        if($entity) {
-            return $entity->record;
+        $record = null;
+
+        if (is_numeric($idOrUuid)) {
+            $record = $className::find($idOrUuid);
+        } else {
+            $record = $this->getRecordByUuid($idOrUuid);
         }
-        else {
-            return null;
+
+        return $record;
+    }
+
+    /**
+     * Retrieves a record by its uuid
+     *
+     * @param string $uuid
+     * @return mixed
+     */
+    public function getRecordByUuid($uuid)
+    {
+        $record = null;
+
+        $entity = Entity::find($uuid);
+        if ($entity) {
+            $record = $entity->record;
         }
+
+        return $record;
     }
 }

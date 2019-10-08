@@ -142,7 +142,7 @@ class CreateGroupModule extends Migration
         $field->name = 'name';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = null;
+        $field->data = [ 'rules' => 'required' ];
         $field->sequence = 0;
         $field->block_id = $block->id;
         $field->module_id = $module->id;
@@ -153,7 +153,7 @@ class CreateGroupModule extends Migration
         $field->name = 'description';
         $field->uitype_id = uitype('textarea')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'large' => true ];
+        $field->data = null;
         $field->sequence = 1;
         $field->block_id = $block->id;
         $field->module_id = $module->id;

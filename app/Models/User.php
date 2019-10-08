@@ -465,7 +465,7 @@ class User extends Authenticatable implements Searchable
     {
         // Use cache
         $allowedGroups = Cache::rememberForever(
-            'allowed_groups_for_' . ($this->is_admin ? 'admin' : $this->getKey()), 
+            'allowed_groups_for_' . ($this->is_admin ? 'admin' : $this->getKey()),
             function () {
                 return $this->getAllowedGroupUidsProcess();
             }
@@ -478,7 +478,7 @@ class User extends Authenticatable implements Searchable
     {
         // Use cache
         $allowedGroupsAndUsers = Cache::rememberForever(
-            'allowed_group_users_for_' . ($addUsers ? 'u_' : '') . ($this->is_admin ? 'admin' : $this->getKey()), 
+            'allowed_group_users_for_' . ($addUsers ? 'u_' : '') . ($this->is_admin ? 'admin' : $this->getKey()),
             function () use ($addUsers) {
                 return $this->getAllowedGroupsAndUsersProcess($addUsers);
             }
@@ -489,7 +489,7 @@ class User extends Authenticatable implements Searchable
 
     protected function getAllowedGroupUidsProcess()
     {
-        $allowedUserUids = collect([$this->uid]);
+        $allowedUserUids = collect([$this->uuid]);
 
         if ($this->is_admin) {
             $groups = Group::all();
@@ -498,7 +498,7 @@ class User extends Authenticatable implements Searchable
             $users = [];
 
             foreach ($this->groups as $group) {
-                $groups[$group->uid] = $group;
+                $groups[$group->uuid] = $group;
             };
 
             $this->addRecursiveChildrenGroups($groups, $users, $groups, false);
@@ -519,16 +519,16 @@ class User extends Authenticatable implements Searchable
             $searchChildrenGroups = [];
 
             foreach ($searchGroup->childrenGroups as $childrenGroup) {
-                if (empty($groups[$childrenGroup->uid])) {
-                    $groups[$childrenGroup->uid] = $childrenGroup;
-                    $searchChildrenGroups[$childrenGroup->uid] = $childrenGroup;
+                if (empty($groups[$childrenGroup->uuid])) {
+                    $groups[$childrenGroup->uuid] = $childrenGroup;
+                    $searchChildrenGroups[$childrenGroup->uuid] = $childrenGroup;
                 }
 
                 if($addUsers)
                 {
                     foreach ($childrenGroup->users as $user) {
-                        if (empty($users[$user->uid])) {
-                            $users[$user->uid] = $user;
+                        if (empty($users[$user->uuid])) {
+                            $users[$user->uuid] = $user;
                         }
                     }
                 }
@@ -541,7 +541,7 @@ class User extends Authenticatable implements Searchable
     protected function getAllowedGroupsAndUsersProcess($addUsers = true)
     {
         $allowedUserUids = collect([[
-            'uid' => $this->uid,
+            'uuid' => $this->uuid,
             'recordLabel' => uctrans('me', $this->module)
         ]]);
 
@@ -553,13 +553,13 @@ class User extends Authenticatable implements Searchable
             $users = [];
 
             foreach ($this->groups as $group) {
-                $groups[$group->uid] = $group;
+                $groups[$group->uuid] = $group;
 
                 if($addUsers)
                 {
                     foreach ($group->users as $user) {
-                        if (empty($users[$user->uid])) {
-                            $users[$user->uid] = $user;
+                        if (empty($users[$user->uuid])) {
+                            $users[$user->uuid] = $user;
                         }
                     }
                 }
@@ -573,7 +573,7 @@ class User extends Authenticatable implements Searchable
 
         foreach ($groups as $uid => $group) {
             $allowedUserUids[] = [
-                'uid' => $group->uid,
+                'uuid' => $group->uuid,
                 'recordLabel' => $group->recordLabel
             ];
         }
@@ -581,7 +581,7 @@ class User extends Authenticatable implements Searchable
         foreach ($users as $uid => $user) {
             if($user->getKey() != $this->getKey()) {
                 $allowedUserUids[] = [
-                    'uid' => $user->uid,
+                    'uuid' => $user->uuid,
                     'recordLabel' => $user->recordLabel
                 ];
             }

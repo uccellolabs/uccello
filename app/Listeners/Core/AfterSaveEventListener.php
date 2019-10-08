@@ -27,7 +27,7 @@ class AfterSaveEventListener
         }
 
         // Clear cache
-        if (in_array($event->module->name, [ 'domain', 'module', 'user', 'role', 'profile' ])) {
+        if (in_array($event->module->name, [ 'domain', 'module', 'user', 'role', 'profile', 'group' ])) {
             Artisan::call('cache:clear');
         }
     }

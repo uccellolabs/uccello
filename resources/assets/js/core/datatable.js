@@ -211,7 +211,7 @@ export class Datatable {
         // Replace RECORD_ID by the record's id in all links
         $('a', tr).each(function() {
             let href = $(this).attr('href')
-            href = href.replace('RECORD_ID', record.id)
+            href = href.replace('RECORD_ID', record.__primaryKey)
             $(this).attr('href', href)
 
             if ($(this).attr('data-tooltip')) {
@@ -219,12 +219,12 @@ export class Datatable {
             }
         })
 
-        // Replace RECORD_ID by the record's id in the row url
+        // Replace RECORD_ID by the record's primary key in the row url
         let rowUrl = $(tr).attr('data-row-url')
-        rowUrl = rowUrl.replace('RECORD_ID', record.id)
+        rowUrl = rowUrl.replace('RECORD_ID', record.__primaryKey)
         $(tr).attr('data-row-url', rowUrl)
 
-        $(tr).attr('data-record-id', record.id)
+        $(tr).attr('data-record-id', record.__primaryKey)
         $(tr).attr('data-record-label', record.recordLabel)
 
         // Add click listener

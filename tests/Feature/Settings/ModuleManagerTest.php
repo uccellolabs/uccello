@@ -4,6 +4,7 @@ namespace Uccello\Core\Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Artisan;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Domain;
 
@@ -21,6 +22,8 @@ class ModuleManagerTest extends TestCase
         $user = factory(\Uccello\Core\Models\User::class)->make();
         $user->is_admin = true;
         $user->save();
+
+        Artisan::call('cache:clear');
 
         $this->actingAs($user);
     }

@@ -135,4 +135,20 @@ class Select implements Uitype
 
         $field->data->choices = $choices;
     }
+
+    /**
+     * Returns some specific options relative to the field, used by uccello/module-designer
+     *
+     * @return array
+     */
+    public function moduleDesignerConfig()
+    {
+        return [
+            [
+                'label' => trans('uccello::config.uitypes.select.options'),
+                'type' => 'text',
+                'attribute' => 'choices',
+            ],
+        ];
+    }
 }

@@ -489,7 +489,7 @@ class User extends Authenticatable implements Searchable
 
     protected function getAllowedGroupUidsProcess()
     {
-        $allowedUserUids = collect([$this->uuid]);
+        $allowedUserUids = collect([$this->uuid]); // TODO: rename $allowedUserUids to $allowedUserUuids ...
 
         if ($this->is_admin) {
             $groups = Group::all();

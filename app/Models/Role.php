@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Database\Eloquent\Model;
+use Uccello\Core\Support\Traits\UccelloModule;
 
 class Role extends Model implements Searchable
 {
     use SoftDeletes;
+    use UccelloModule;
 
     /**
      * The table associated with the model.
@@ -44,7 +46,7 @@ class Role extends Model implements Searchable
     ];
 
     public function getSearchResult(): SearchResult
-    {    
+    {
         return new SearchResult(
             $this,
             $this->recordLabel

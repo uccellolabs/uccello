@@ -105,10 +105,27 @@ class Password extends Text implements Uitype
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
     {
-        $repeated = $output->confirm('Would you like to repeat this field (for confirmation)?', false);
+        $repeated = $output->confirm('Would you like to repeat this field (for confirmation)?', true);
 
         if ($repeated) {
             $field->data->repeated = true;
         }
+    }
+
+    /**
+     * Returns some specific options relative to the field, used by uccello/module-designer
+     *
+     * @return array
+     */
+    public function moduleDesignerConfig()
+    {
+        return [
+            [
+                'label' => trans('uccello::config.uitypes.global.repeat_field'),
+                'type' => 'boolean',
+                'attribute' => 'repeated',
+                'default' => true,
+            ],
+        ];
     }
 }

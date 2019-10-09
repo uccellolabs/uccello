@@ -46,9 +46,9 @@ class AssignedUser implements Uitype
         $options = [
             'class' => $relatedModule->model_class ?? null,
             'property' => 'recordLabel',
-            'property_key' => 'uid',
+            'property_key' => 'uuid',
             'empty_value' => uctrans('field.select_empty_value', $module),
-            'selected' => !empty($record->getKey()) ? $record->{$field->column} : Auth::user()->uid,
+            'selected' => !empty($record->getKey()) ? $record->{$field->column} : Auth::user()->uuid,
             'attr' => [
                 // 'class' => 'form-control show-tick',
                 // 'data-live-search' => 'true',
@@ -83,7 +83,7 @@ class AssignedUser implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        $relatedRecord = app('uccello')->getRecordByUid($record->{$field->column});
+        $relatedRecord = app('uccello')->getRecordByUuid($record->{$field->column});
 
         if (!$relatedRecord) {
             return '';
@@ -113,7 +113,7 @@ class AssignedUser implements Uitype
             foreach ((array) $value as $_value) {
                 // Replace me by connected user's id
                 if ($_value === 'me') {
-                    $_value = Auth::user()->uid;
+                    $_value = Auth::user()->uuid;
                 }
                 $query = $query->orWhere($field->column, '=', $_value);
             }

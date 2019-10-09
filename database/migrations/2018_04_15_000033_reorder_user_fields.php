@@ -30,7 +30,7 @@ class ReorderUserFields extends Migration
         $nameField = Field::where('module_id', $userModule->id)
             ->where('name', 'name')
             ->first();
-        $nameField->data = [ 'icon' => 'person' ];
+        $nameField->data = [ 'rules' => 'required', 'icon' => 'person' ];
         $nameField->save();
 
         $usernameField = Field::where('module_id', $userModule->id)

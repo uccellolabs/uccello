@@ -166,6 +166,9 @@ class EditForm extends Form
         // Set default value only if it is a creation (record id doen't exist)
         if (is_null($this->getModel()->getKey())) {
             $options[ 'default_value' ] = $selectedValue ?? $field->data->default ?? null;
+        } else {
+            $column = $field->column;
+            $options[ 'value' ] = $this->getModel()->$column; // Usefull if column is different than name
         }
 
         // Add other options

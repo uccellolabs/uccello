@@ -172,21 +172,14 @@ if (!function_exists('ucnotify')) {
 
 if (!function_exists('ucrecord')) {
     /**
-     * Uses flash session to display a notification.
+     * Retrieves a record by its id or uuid
      *
-     * @param int $message
-     * @param string $message
-     * @return Entity
+     * @param int|string $idOrUuid
+     * @param string $className
+     * @return mixed
      */
-    function ucrecord($idOrUid, $className = null)
+    function ucrecord($idOrUuid, $className = null)
     {
-        if (is_numeric($idOrUid))
-        {
-            $className::find($idOrUid);
-        }
-        else
-        {
-            return uccello()->getRecordByUid($idOrUid);
-        }
+        return app('uccello')->getRecordByIdOrUuid($idOrUuid, $className);
     }
 }

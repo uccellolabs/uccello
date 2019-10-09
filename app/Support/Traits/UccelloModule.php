@@ -32,7 +32,6 @@ trait UccelloModule
         if($user && !$user->is_admin)
         {
             $module = static::getModuleFromClass(static::class);
-            
             if($module && $module->data && property_exists($module->data, 'private') &&  $module->data->private)
             {
                 return true;
@@ -42,13 +41,13 @@ trait UccelloModule
         return false;
     }
 
-    public function gettableAttribute()
+    public function getTableAttribute()
     {
         return $this->table;
     }
 
     public function getModuleAttribute()
-    {        
+    {
         return static::getModuleFromClass(get_class($this));
     }
 
@@ -65,9 +64,9 @@ trait UccelloModule
         return $modules[(string) $className] ?? null;
     }
 
-    public function getUidAttribute()
+    public function getUuidAttribute()
     {
-        $uid = null;
+        $uuid = null;
 
         $entity = Entity::where('module_id', $this->module->getKey())
                         ->where('record_id', $this->getKey())
@@ -75,10 +74,10 @@ trait UccelloModule
 
         if($entity)
         {
-            $uid = $entity->getKey();
+            $uuid = $entity->getKey();
         }
 
-        return $uid;
+        return $uuid;
     }
 
     /**

@@ -87,6 +87,14 @@ export class Datatable {
             // Show error
             swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::default.dialog.error.message'), 'error')
         })
+
+        this.dispatchQueryEvent(this.table.attr('id'), data);
+    }
+
+    dispatchQueryEvent(tableId, data) {
+        // Query datatable
+        let event = new CustomEvent('uccello.datatable.query', { detail: { tableId: tableId, columns: data.columns } })
+        dispatchEvent(event)
     }
 
     displayResults(response) {

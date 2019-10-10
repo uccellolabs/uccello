@@ -82,6 +82,10 @@ return [
             'title' => 'Un filtre du même nom existe déjà',
             'message' => 'Voulez-vous le mettre à jour ?',
         ],
+        'search_flag' => [
+            'empty' => '- Vide -',
+            'not_empty' => '- Non vide -',
+        ]
     ],
 
     // Tabs

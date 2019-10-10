@@ -109,12 +109,14 @@ class Date extends DateTime implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $query->where(function ($query) use($field, $value) {
-            $values = explode(',', $value); // Start Date, End Date
-            $dateStart = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[0]));
-            $dateEnd = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[1]));
-            $query->whereBetween($field->column, [ $dateStart, $dateEnd ])->get();
-        });
+        if (!$this->isEmptyOrNotEmptySearchQuery($query, $field, $value)) {
+            $query->where(function ($query) use($field, $value) {
+                $values = explode(',', $value); // Start Date, End Date
+                $dateStart = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[0]));
+                $dateEnd = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[1]));
+                $query->whereBetween($field->column, [ $dateStart, $dateEnd ])->get();
+            });
+        }
 
         return $query;
     }

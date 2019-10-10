@@ -89,4 +89,36 @@ trait UccelloModule
     {
         return $this->assigned_user_id;
     }
+
+    public function scopeFilterBy($query, $filter)
+    {        
+        if (!empty($filter)) {
+            // Search by column
+            foreach ($filter['columns'] as $fieldName => $column) {
+                if (!empty($column["search"])) {
+                    $searchValue = $column["search"];
+                } else {
+                    $searchValue = null;
+                }
+
+                // Get field by name and search by field column
+                $field = $this->module->getField($fieldName);
+                if (isset($searchValue) && !is_null($field)) {
+                    $uitype = uitype($field->uitype_id);
+                    $query = $uitype->addConditionToSearchQuery($query, $field, $searchValue);
+                }
+            }
+
+            // Order results
+            if (!empty($filter['order'])) {
+                foreach ($filter['order'] as $fieldColumn => $value) {
+                    if (!is_null($field)) {
+                        $query = $query->orderBy($fieldColumn, $value);
+                    }
+                }
+            }
+        }
+
+        return $query;
+    }
 }

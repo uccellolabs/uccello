@@ -266,8 +266,10 @@ class ListController extends Controller
      */
     protected function buildContentQuery()
     {
-        $order = $this->request->get('order');
-        $columns = $this->request->get('columns');
+        $filter = [
+            'order' => $this->request->get('order'),
+            'columns' => $this->request->get('columns'),
+        ];
 
         $domain = $this->domain;
         $module = $this->module;
@@ -293,31 +295,6 @@ class ListController extends Controller
             $query = $modelClass::query();
         }
 
-        // Search by column
-        foreach ($columns as $fieldName => $column) {
-            if (!empty($column[ "search" ])) {
-                $searchValue = $column[ "search" ];
-            } else {
-                $searchValue = null;
-            }
-
-            // Get field by name and search by field column
-            $field = $module->getField($fieldName);
-            if (isset($searchValue) && !is_null($field)) {
-                $uitype = uitype($field->uitype_id);
-                $query = $uitype->addConditionToSearchQuery($query, $field, $searchValue);
-            }
-        }
-
-        // Order results
-        if (!empty($order)) {
-            foreach ($order as $fieldColumn => $value) {
-                if (!is_null($field)) {
-                    $query = $query->orderBy($fieldColumn, $value);
-                }
-            }
-        }
-
-        return $query;
+        return $query->filterBy($filter);
     }
 }

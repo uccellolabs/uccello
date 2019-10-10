@@ -10,7 +10,7 @@ import 'nestable2'
 import 'jquery-countto'
 import 'jstree/src/jstree.search.js'
 import 'jstree/src/jstree.sort.js'
-import 'devbridge-autocomplete'
+// import 'devbridge-autocomplete'
 // import 'bootstrap-colorpicker'
 
 

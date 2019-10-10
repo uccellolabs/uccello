@@ -1,11 +1,11 @@
 {
     "/js/manifest.js": "/js/manifest.js?id=7db827d654313dce4250",
-    "/js/vendor.js": "/js/vendor.js?id=0725a0f11ee9013abcfd",
-    "/js/app.js": "/js/app.js?id=3264a4a0f9bb9ecf6ade",
-    "/js/autoloader.js": "/js/autoloader.js?id=9c23543eac91562feb28",
+    "/js/vendor.js": "/js/vendor.js?id=2b37438d9721ee2474d1",
+    "/js/app.js": "/js/app.js?id=39c5483efb9eab337549",
+    "/js/autoloader.js": "/js/autoloader.js?id=5c3409d985e2bad7bf34",
     "/css/materialize.css": "/css/materialize.css?id=c3722d8b24a7b1ee07aa",
-    "/css/app.css": "/css/app.css?id=1a2d571d935088b8ba18",
+    "/css/app.css": "/css/app.css?id=418250d1d41295e0ac2e",
     "/js/profile/autoloader.js": "/js/profile/autoloader.js?id=e6a8ebbbc8ce89b3a124",
     "/js/settings/autoloader.js": "/js/settings/autoloader.js?id=057eb55010a604462a44",
-    "/js/user/autoloader.js": "/js/user/autoloader.js?id=b2280a215bffb48e9287"
+    "/js/user/autoloader.js": "/js/user/autoloader.js?id=0915b42d2081b298d19f"
 }

@@ -55,6 +55,8 @@
                         <span>{{ uctrans('modal.export.with_timestamps', $module) }}</span>
                     </label>
                 </p>
+
+                <input type="hidden" id="export_with_descendants" value="0" />
             </div>
         </div>
     </div>

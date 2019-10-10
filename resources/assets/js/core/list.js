@@ -124,6 +124,7 @@ export class List {
                 with_conditions: $('#export_keep_conditions', modal).is(':checked') ? 1 : 0,
                 with_order: $('#export_keep_order', modal).is(':checked') ? 1 : 0,
                 with_timestamps: $('#export_with_timestamps', modal).is(':checked') ? 1 : 0,
+                with_descendants: $('#export_with_descendants', modal).val(),
             }
 
             // URL
@@ -330,11 +331,15 @@ export class List {
             // Show / Hide domain column
             let domainColumnOption = $('#dropdown-columns li a[data-field="domain"]')
             if (seeDescendantsRecords == 1) {
+                $('#export_with_descendants').val(1);
+
                 if (domainColumnOption.length > 0) {
                     $(domainColumnOption).parents('li:first').addClass('active')
                     $('th[data-field="domain"]').show()
                 }
             } else {
+                $('#export_with_descendants').val(0);
+
                 if (domainColumnOption.length > 0) {
                     $(domainColumnOption).parents('li:first').removeClass('active')
                     $('th[data-field="domain"]').hide()

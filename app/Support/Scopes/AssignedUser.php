@@ -18,6 +18,6 @@ class AssignedUser implements Scope
      */
     public function apply(Builder $builder, Model $model)
     {
-        $builder->whereIn('assigned_user_id', Auth::user()->getAllowedGroupUids());
+        $builder->whereIn('assigned_user_id', Auth::user()->getAllowedGroupUuids());
     }
 }

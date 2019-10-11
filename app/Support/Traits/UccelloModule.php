@@ -49,9 +49,9 @@ trait UccelloModule
             // Activate descendant view if the user is allowed
             if (Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
                 $domainsIds = $domain->findDescendants()->pluck('id');
-                $query = $query::whereIn('domain_id', $domainsIds);
+                $query = $query->whereIn('domain_id', $domainsIds);
             } else {
-                $query = $query::where('domain_id', $domain->id);
+                $query = $query->where('domain_id', $domain->id);
             }
         }
 

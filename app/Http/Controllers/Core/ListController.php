@@ -271,11 +271,8 @@ class ListController extends Controller
             'columns' => $this->request->get('columns'),
         ];
 
-        $domain = $this->domain;
-        $module = $this->module;
-
         // Get model model class
-        $modelClass = $module->model_class;
+        $modelClass = $this->module->model_class;
 
         // Check if the class exists
         if (!class_exists($modelClass) || !method_exists($modelClass, 'scopeInDomain')) {
@@ -283,8 +280,9 @@ class ListController extends Controller
         }
 
         // Filter on domain if column exists
-        $query = $modelClass::inDomain($this->domain, $this->request->get('descendants'));
+        $query = $modelClass::inDomain($this->domain, $this->request->get('descendants'))
+                            ->filterBy($filter);
 
-        return $query->filterBy($filter);
+        return $query;
     }
 }

@@ -61,12 +61,12 @@ class Group extends Model implements Searchable
 
     public function parentGroups()
     {
-        return $this->belongsToMany(self::class, $this->tablePrefix . 'rl_groups_groups', 'children_id', 'parent_id');
+        return $this->belongsToMany(static::class, $this->tablePrefix . 'rl_groups_groups', 'children_id', 'parent_id');
     }
 
     public function childrenGroups()
     {
-        return $this->belongsToMany(self::class, $this->tablePrefix . 'rl_groups_groups', 'parent_id', 'children_id');
+        return $this->belongsToMany(static::class, $this->tablePrefix . 'rl_groups_groups', 'parent_id', 'children_id');
     }
 
     public function users()

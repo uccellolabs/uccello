@@ -51,7 +51,7 @@ class ListController extends Controller
             ->get();
 
         // Order by
-        $filterOrderBy = (array) $selectedFilter->order_by;
+        $filterOrderBy = (array) $selectedFilter->order;
 
         return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy'));
     }
@@ -211,7 +211,7 @@ class ListController extends Controller
         ]);
         $filter->columns = $request->input('columns');
         $filter->conditions = $request->input('conditions') ?? null;
-        $filter->order_by = $saveOrder ? $request->input('order') : null;
+        $filter->order = $saveOrder ? $request->input('order') : null;
         $filter->is_default = $request->input('default');
         $filter->is_public = $request->input('public');
         $filter->data = !empty($data) ? $data : null;

@@ -4,6 +4,7 @@ namespace Uccello\Core\Support\Traits;
 
 use Uccello\Core\Models\Entity;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Models\Filter;
 use Illuminate\Support\Facades\Cache;
 use Uccello\Core\Support\Scopes;
 use Illuminate\Support\Facades\Auth;
@@ -41,21 +42,6 @@ trait UccelloModule
         }
 
         return $isFilteredByUser;
-    }
-
-    public function scopeInDomain($query, ?Domain $domain, $withDescendants=false)
-    {
-        if (!empty($domain) && Schema::hasColumn($this->table, 'domain_id')) {
-            // Activate descendant view if the user is allowed
-            if (Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
-                $domainsIds = $domain->findDescendants()->pluck('id');
-                $query = $query->whereIn('domain_id', $domainsIds);
-            } else {
-                $query = $query->where('domain_id', $domain->id);
-            }
-        }
-
-        return $query;
     }
 
     public function getTableAttribute()
@@ -106,30 +92,72 @@ trait UccelloModule
         return $this->assigned_user_id;
     }
 
-    public function scopeFilterBy($query, $filter)
-    {        
-        if (!empty($filter)) {
-            // Search by column
-            foreach ($filter['columns'] as $fieldName => $column) {
-                if (!empty($column["search"])) {
-                    $searchValue = $column["search"];
-                } else {
-                    $searchValue = null;
-                }
-
-                // Get field by name and search by field column
-                $field = $this->module->getField($fieldName);
-                if (isset($searchValue) && !is_null($field)) {
-                    $uitype = uitype($field->uitype_id);
-                    $query = $uitype->addConditionToSearchQuery($query, $field, $searchValue);
-                }
+    public function scopeInDomain($query, ?Domain $domain, $withDescendants = false)
+    {
+        if (!empty($domain) && Schema::hasColumn($this->table, 'domain_id')) {
+            // Activate descendant view if the user is allowed
+            if (Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
+                $domainsIds = $domain->findDescendants()->pluck('id');
+                $query = $query->whereIn('domain_id', $domainsIds);
+            } else {
+                $query = $query->where('domain_id', $domain->id);
             }
+        }
 
-            // Order results
-            if (!empty($filter['order'])) {
-                foreach ($filter['order'] as $fieldColumn => $value) {
-                    if (!is_null($field)) {
-                        $query = $query->orderBy($fieldColumn, $value);
+        return $query;
+    }
+
+    /**
+     * Returns Assigned User
+     * @param QueryBuilder $query
+     * @param Field|int|array $filter
+     * @return QueryBuilder|null
+     */
+    public function scopeFilterBy($query, $filter)
+    {
+        $filterModel = null;
+
+        if (!empty($filter)) {
+            // $filter: int id
+            if (is_numeric($filter)) {
+                // TODO: Check permissions ?? (domain, user)
+                $filterModel = Filter::where('id', $filter)
+                                        ->where('module_id', $this->module->getKey())
+                                        ->first();
+            }
+            // $filter: array data
+            elseif (is_array($filter)) {
+                $filterModel = Filter::newFromData($filter);
+            }
+            // $filter: Filter model
+            elseif (substr(strrchr(get_class($filter), "\\"), 1) == 'Filter') {
+                $filterModel = $filter;
+            }
+            
+            if ($filterModel) {
+                // Conditions
+                if (!empty($filterModel->conditions)) {
+                    // Search
+                    if (!empty($filterModel->conditions->search)) {
+                        foreach ($filterModel->conditions->search as $fieldName => $searchValue) {
+                            // Get field by name and search by field column
+                            $field = $this->module->getField($fieldName);
+                            if (isset($searchValue) && !is_null($field)) {
+                                $uitype = uitype($field->uitype_id);
+                                $query = $uitype->addConditionToSearchQuery($query, $field, $searchValue);
+                            }
+                        }
+                    }
+                }
+    
+                // Order results
+                if (!empty($filterModel->order)) {
+                    foreach ($filterModel->order as $fieldName => $value) {
+                        // Get field by name and search by field column
+                        $field = $this->module->getField($fieldName);
+                        if (!is_null($field)) {
+                            $query = $query->orderBy($field->column, $value);
+                        }
                     }
                 }
             }

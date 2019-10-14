@@ -1,6 +1,7 @@
 /vendor/
 /node_modules/
 /coverage/
+/.vscode/
 package-lock.json
 composer.lock
 .DS_store

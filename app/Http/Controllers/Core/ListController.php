@@ -142,6 +142,10 @@ class ListController extends Controller
                 $record->{$field->name.'_html'} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
             }
 
+            // Add primary key name and value
+            $record->__primaryKey = $record->getKey();
+            $record->__primaryKeyName = $record->getKeyName();
+
             return $record;
         });
 
@@ -268,26 +272,16 @@ class ListController extends Controller
         $domain = $this->domain;
         $module = $this->module;
 
-         // Get model model class
-         $modelClass = $module->model_class;
+        // Get model model class
+        $modelClass = $module->model_class;
 
-         // Check if the class exists
-         if (!class_exists($modelClass)) {
-             return false;
-         }
+        // Check if the class exists
+        if (!class_exists($modelClass) || !method_exists($modelClass, 'scopeInDomain')) {
+            return false;
+        }
 
         // Filter on domain if column exists
-        if (Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
-            // Activate descendant view if the user is allowed
-            if (auth()->user()->canSeeDescendantsRecords($domain) && request('descendants')) {
-                $domainsIds = $domain->findDescendants()->pluck('id');
-                $query = $modelClass::whereIn('domain_id', $domainsIds);
-            } else {
-                $query = $modelClass::where('domain_id', $domain->id);
-            }
-        } else {
-            $query = $modelClass::query();
-        }
+        $query = $modelClass::inDomain($this->domain, $this->request->get('descendants'));
 
         // Search by column
         foreach ($columns as $fieldName => $column) {

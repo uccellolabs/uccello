@@ -7,8 +7,9 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Database\Eloquent\Model;
 use Uccello\Core\Support\Traits\UccelloModule;
+use App\User;
 
-class Role extends Model implements Searchable
+class Group extends Model implements Searchable
 {
     use SoftDeletes;
     use UccelloModule;
@@ -18,7 +19,7 @@ class Role extends Model implements Searchable
      *
      * @var string
      */
-    protected $table = 'roles';
+    protected $table = 'groups';
 
     /**
      * The attributes that should be mutated to dates.
@@ -39,14 +40,14 @@ class Role extends Model implements Searchable
         'domain_id'
     ];
 
-    public $searchableType = 'role';
+    public $searchableType = 'group';
 
     public $searchableColumns = [
         'name'
     ];
 
     public function getSearchResult(): SearchResult
-    {
+    {    
         return new SearchResult(
             $this,
             $this->recordLabel
@@ -58,29 +59,19 @@ class Role extends Model implements Searchable
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }
 
-    public function parent()
+    public function parentGroups()
     {
-        return $this->belongsTo(self::class);
+        return $this->belongsToMany(self::class, $this->tablePrefix . 'rl_groups_groups', 'children_id', 'parent_id');
     }
 
-    public function children()
+    public function childrenGroups()
     {
-        return $this->hasMany(self::class);
+        return $this->belongsToMany(self::class, $this->tablePrefix . 'rl_groups_groups', 'parent_id', 'children_id');
     }
 
-    public function domain()
+    public function users()
     {
-        return $this->belongsTo(Domain::class);
-    }
-
-    public function privileges()
-    {
-        return $this->hasMany(Privilege::class);
-    }
-
-    public function profiles()
-    {
-        return $this->belongsToMany(Profile::class, $this->tablePrefix.'profiles_roles');
+        return $this->belongsToMany(User::class, $this->tablePrefix . 'rl_groups_users');
     }
 
     /**

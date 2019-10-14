@@ -3,9 +3,8 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Eloquent\Builder;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Fluent;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
@@ -47,20 +46,17 @@ class AssignedUser implements Uitype
         $options = [
             'class' => $relatedModule->model_class ?? null,
             'property' => 'recordLabel',
+            'property_key' => 'uuid',
             'empty_value' => uctrans('field.select_empty_value', $module),
-            'selected' => !empty($record->getKey()) ? $record->{$field->column} : auth()->id(),
+            'selected' => !empty($record->getKey()) ? $record->{$field->column} : Auth::user()->uuid,
             'attr' => [
                 // 'class' => 'form-control show-tick',
                 // 'data-live-search' => 'true',
                 // 'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
             ],
             'query_builder' => function($relatedRecord) use($record) {
-                // If related record class is the same as the record one, ignore the current record
-                if (get_class($relatedRecord) === get_class($record)) {
-                    return $relatedRecord->where($relatedRecord->getKeyName(), '!=', $record->getKey());
-                } else {
-                    return $relatedRecord->all();
-                }
+                // TODO: Filter depending users profiles...
+                return Auth::user()->getAllowedGroupsAndUsers(true);
             },
         ];
 
@@ -87,18 +83,11 @@ class AssignedUser implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        $relatedRecordId = $record->{$field->column};
+        $relatedRecord = app('uccello')->getRecordByUuid($record->{$field->column});
 
-        if (!$relatedRecordId) {
+        if (!$relatedRecord) {
             return '';
         }
-
-        // Get related module
-        $relatedModule = ucmodule('user');
-
-        // Get related record
-        $relatedModelClass = $relatedModule->model_class;
-        $relatedRecord = $relatedModelClass::find($relatedRecordId);
 
         // Check if there is an attribute called displayLabel in the related record else use id
         if (!is_null($relatedRecord)) {
@@ -124,7 +113,7 @@ class AssignedUser implements Uitype
             foreach ((array) $value as $_value) {
                 // Replace me by connected user's id
                 if ($_value === 'me') {
-                    $_value = auth()->id();
+                    $_value = Auth::user()->uuid;
                 }
                 $query = $query->orWhere($field->column, '=', $_value);
             }
@@ -142,7 +131,7 @@ class AssignedUser implements Uitype
      */
     public function createFieldColumn(Field $field, Blueprint $table) : Fluent
     {
-        return $table->unsignedInteger($this->getDefaultDatabaseColumn($field));
+        return $table->string($this->getDefaultDatabaseColumn($field));
     }
 
     /**
@@ -154,6 +143,6 @@ class AssignedUser implements Uitype
     public function createFieldColumnStr(Field $field) : string
     {
         $column = $this->getDefaultDatabaseColumn($field);
-        return "\$table->unsignedInteger('$column')";
+        return "\$table->string('$column')";
     }
 }

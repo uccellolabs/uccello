@@ -169,3 +169,17 @@ if (!function_exists('ucnotify')) {
         session()->flash('notification-'.$type, $message);
     }
 }
+
+if (!function_exists('ucrecord')) {
+    /**
+     * Retrieves a record by its id or uuid
+     *
+     * @param int|string $idOrUuid
+     * @param string $className
+     * @return mixed
+     */
+    function ucrecord($idOrUuid, $className = null)
+    {
+        return app('uccello')->getRecordByIdOrUuid($idOrUuid, $className);
+    }
+}

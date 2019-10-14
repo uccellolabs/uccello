@@ -10,6 +10,7 @@ use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;
+use Uccello\Core\Models\Entity;
 use Uccello\Core\Models\Filter;
 
 class Uccello
@@ -485,5 +486,43 @@ class Uccello
         }
 
         return $value;
+    }
+
+    /**
+     * Retrieves a record by its id or uuid
+     *
+     * @param int|string $idOrUuid
+     * @param string $className
+     * @return mixed
+     */
+    public function getRecordByIdOrUuid($idOrUuid, $className)
+    {
+        $record = null;
+
+        if (is_numeric($idOrUuid)) {
+            $record = $className::find($idOrUuid);
+        } else {
+            $record = $this->getRecordByUuid($idOrUuid);
+        }
+
+        return $record;
+    }
+
+    /**
+     * Retrieves a record by its uuid
+     *
+     * @param string $uuid
+     * @return mixed
+     */
+    public function getRecordByUuid($uuid)
+    {
+        $record = null;
+
+        $entity = Entity::find($uuid);
+        if ($entity) {
+            $record = $entity->record;
+        }
+
+        return $record;
     }
 }

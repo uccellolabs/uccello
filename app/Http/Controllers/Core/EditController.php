@@ -9,7 +9,6 @@ use Uccello\Core\Events\BeforeSaveEvent;
 use Uccello\Core\Events\AfterSaveEvent;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Models\Relation;
 use Uccello\Core\Models\Relatedlist;
 
 class EditController extends Controller
@@ -181,6 +180,49 @@ class EditController extends Controller
         return $response;
     }
 
+    /**
+     * Delete a relation between two records
+     *
+     * @param Domain|null $domain
+     * @param Module $module
+     * @param Request $request
+     * @return integer|null
+     */
+    public function deleteRelation(?Domain $domain, Module $module, Request $request)
+    {
+        // Pre-process
+        $this->preProcess($domain, $module, $request);
+
+        // Get related list if defined
+        $relatedListId = $request->get('relatedlist');
+        if ($relatedListId) {
+            $relatedList = Relatedlist::find($relatedListId);
+        } else {
+            $relatedList = null;
+        }
+
+        // Delete relation if it is a N-N relation
+        if ($relatedList && $relatedList->type === 'n-n') {
+            $this->deleteRelationForNN($request);
+            $message = 'notification.relation.deleted';
+        }
+        // Else delete record
+        else {
+            $this->deleteRecord($module, $request);
+            $message = 'notification.record.deleted';
+        }
+
+        // Notification
+        if (!empty($message)) {
+            ucnotify(uctrans($message, $module), 'success');
+        }
+
+        // Redirect to the previous page
+        $route = $this->getRedirectionRoute();
+
+        return redirect($route);
+    }
+
     public function getForm($record = null)
     {
         return $this->formBuilder->create(EditForm::class, [
@@ -211,6 +253,93 @@ class EditController extends Controller
         if ($record) {
             $relation = $record->$relationName();
             $relation->attach($relatedRecordId);
+        }
+    }
+
+    /**
+     * Retrieve the redirection route from request parameters.
+     *
+     * @return string
+     */
+    protected function getRedirectionRoute(): string
+    {
+        $request = $this->request;
+        $domain = $this->domain;
+        $module = $this->module;
+
+        // Retrieve a related list by its id if it is defined
+        if ($request->input('relatedlist')) {
+            $relatedlist = Relatedlist::find($request->input('relatedlist'));
+        }
+
+        // Redirect to source record if a relation was deleted
+        if (isset($relatedlist) && $request->input('id')) {
+            $params = ['id' => $request->input('id')];
+
+            // Add tab id if defined to select it automaticaly
+            if ($request->input('tab')) {
+                $params['tab'] = $request->input('tab');
+            }
+            // Add related list id to select the related tab automaticaly
+            else {
+                $params['relatedlist'] = $relatedlist->id;
+            }
+
+            $route = ucroute('uccello.detail', $domain, $relatedlist->module, $params);
+        }
+        // Else redirect to list
+        else {
+            $route = ucroute('uccello.list', $domain, $module);
+        }
+
+        return $route;
+    }
+
+    /**
+     * Delete record after retrieving from the request
+     *
+     * @param Module $module
+     * @param Request $request
+     * @return void
+     */
+    protected function deleteRecord(Module $module, Request $request)
+    {
+        $relatedRecord = $this->getRecordFromRequest('related_id');
+
+        // Delete record if exists
+        if ($relatedRecord) {
+            event(new BeforeDeleteEvent($this->domain, $module, $request, $relatedRecord, 'delete'));
+
+            $relatedRecord->delete();
+
+            event(new AfterDeleteEvent($this->domain, $module, $request, $relatedRecord, 'delete'));
+        }
+    }
+
+    /**
+     * Delete a relation for a N-N related list
+     *
+     * @return void
+     */
+    protected function deleteRelationForNN(Request $request)
+    {
+        $relatedListId = $request->get('relatedlist');
+        $recordId = $request->get('id');
+        $relatedRecordId = $request->get('related_id');
+
+        // Get related list
+        $relatedList = Relatedlist::find($relatedListId);
+        $relationName = $relatedList->relationName;
+
+        if ($relatedList) {
+            // Get record
+            $modelClass = $relatedList->module->model_class;
+            $record = $modelClass::find($recordId);
+
+            // Delete relation
+            if ($record) {
+                $record->$relationName()->detach($relatedRecordId);
+            }
         }
     }
 }

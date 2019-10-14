@@ -179,11 +179,12 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Retrieve record instance if "id" param is defined or return a new empty instance.
+     * Retrieve record instance if "$key" param is defined or return a new empty instance.
      *
+     * @param string $key
      * @return mixed|null
      */
-    protected function getRecordFromRequest()
+    protected function getRecordFromRequest($key = 'id')
     {
         if (empty($this->module->model_class)) {
             return null;
@@ -193,8 +194,8 @@ abstract class Controller extends BaseController
         $modelClass = $this->module->model_class;
 
         // An id is defined, retrieve the record from the database fail (404)
-        if ($this->request->has('id')) {
-            $recordId = (int)$this->request->input('id');
+        if ($this->request->has($key)) {
+            $recordId = (int)$this->request->input($key);
             $record = $modelClass::findOrFail($recordId);
         }
         // Make a new empty instance

@@ -3,11 +3,13 @@
 namespace Uccello\Core\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Privilege;
+use Uccello\Core\Models\Entity;
 use App\User;
-use Hash;
 
 class UserCommand extends Command
 {
@@ -57,6 +59,13 @@ class UserCommand extends Command
             'password' => Hash::make($password),
             'is_admin' => $isAdmin,
             'domain_id' => $domain->id
+        ]);
+
+        // Create uuid
+        Entity::create([
+            'id' => (string) Str::uuid(),
+            'module_id' => ucmodule('user')->id,
+            'record_id' => $user->getKey(),
         ]);
 
         $this->addRole($domain, $user);

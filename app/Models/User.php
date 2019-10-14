@@ -506,8 +506,8 @@ class User extends Authenticatable implements Searchable
             $groups = collect($groups);
         }
 
-        foreach ($groups as $uid => $group) {
-            $allowedUserUuids[] = $uid;
+        foreach ($groups as $uuid => $group) {
+            $allowedUserUuids[] = $uuid;
         }
 
         return $allowedUserUuids;
@@ -515,7 +515,7 @@ class User extends Authenticatable implements Searchable
 
     protected function addRecursiveChildrenGroups(&$groups, &$users, $searchGroups, $addUsers = false)
     {
-        foreach ($searchGroups as $uid => $searchGroup) {
+        foreach ($searchGroups as $uuid => $searchGroup) {
             $searchChildrenGroups = [];
 
             foreach ($searchGroup->childrenGroups as $childrenGroup) {
@@ -571,14 +571,14 @@ class User extends Authenticatable implements Searchable
             $users  = collect($users)->sortBy('name');
         }
 
-        foreach ($groups as $uid => $group) {
+        foreach ($groups as $uuid => $group) {
             $allowedUserUuids[] = [
                 'uuid' => $group->uuid,
                 'recordLabel' => $group->recordLabel
             ];
         }
 
-        foreach ($users as $uid => $user) {
+        foreach ($users as $uuid => $user) {
             if($user->getKey() != $this->getKey()) {
                 $allowedUserUuids[] = [
                     'uuid' => $user->uuid,

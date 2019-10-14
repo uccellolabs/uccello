@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Uccello\Core\Forms\EditForm;
 use Uccello\Core\Events\BeforeSaveEvent;
 use Uccello\Core\Events\AfterSaveEvent;
+use Uccello\Core\Events\BeforeDeleteEvent;
+use Uccello\Core\Events\AfterDeleteEvent;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Relatedlist;

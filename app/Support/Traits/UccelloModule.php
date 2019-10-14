@@ -5,8 +5,10 @@ namespace Uccello\Core\Support\Traits;
 use Uccello\Core\Models\Entity;
 use Uccello\Core\Models\Module;
 use Illuminate\Support\Facades\Cache;
-use Uccello\Core\Support\Scopes\AssignedUser;
+use Uccello\Core\Support\Scopes;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
+use Uccello\Core\Models\Domain;
 
 trait UccelloModule
 {
@@ -19,26 +21,41 @@ trait UccelloModule
     {
         parent::boot();
 
-        if(static::isFilteredByUser())
-        {
-            static::addGlobalScope(new AssignedUser);
+        if (static::isFilteredByUser()) {
+            static::addGlobalScope(new Scopes\AssignedUser);
         }
     }
 
     protected static function isFilteredByUser()
     {
+        $isFilteredByUser = false;
+
         $user = Auth::user();
 
-        if($user && !$user->is_admin)
-        {
+        if ($user && !$user->is_admin) {
             $module = static::getModuleFromClass(static::class);
-            if($module && $module->data && property_exists($module->data, 'private') &&  $module->data->private)
-            {
-                return true;
+
+            if ($module && $module->data && property_exists($module->data, 'private') && $module->data->private) {
+                $isFilteredByUser = true;
             }
         }
 
-        return false;
+        return $isFilteredByUser;
+    }
+
+    public function scopeInDomain($query, ?Domain $domain, $withDescendants=false)
+    {
+        if (!empty($domain) && Schema::hasColumn($this->table, 'domain_id')) {
+            // Activate descendant view if the user is allowed
+            if (Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
+                $domainsIds = $domain->findDescendants()->pluck('id');
+                $query = $query->whereIn('domain_id', $domainsIds);
+            } else {
+                $query = $query->where('domain_id', $domain->id);
+            }
+        }
+
+        return $query;
     }
 
     public function getTableAttribute()
@@ -72,8 +89,7 @@ trait UccelloModule
                         ->where('record_id', $this->getKey())
                         ->first();
 
-        if($entity)
-        {
+        if ($entity) {
             $uuid = $entity->getKey();
         }
 

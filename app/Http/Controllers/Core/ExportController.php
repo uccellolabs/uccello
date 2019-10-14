@@ -49,6 +49,11 @@ class ExportController extends Controller
             $export = $export->withTimestamps();
         }
 
+        // With descendants
+        if ($request->input('with_descendants') === '1') {
+            $export = $export->withDescendants();
+        }
+
         // With hidden columns
         if ($request->input('with_hidden_columns') !== '1') {
             $columns = json_decode($request->input('columns'));

@@ -44,6 +44,14 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     protected $addTimestamps = false;
 
     /**
+     * Flag to set if we must export or not the records of the descendants domains.
+     * Default: false
+     *
+     * @var boolean
+     */
+    protected $addDescendants = false;
+
+    /**
      * Columns to export
      *
      * @var array
@@ -123,6 +131,18 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     }
 
     /**
+     * Specify that we want to export records of the descendants domains
+     *
+     * @return \Uccello\Core\Exports\RecordsExport
+     */
+    public function withDescendants()
+    {
+        $this->addDescendants = true;
+
+        return $this;
+    }
+
+    /**
      * Specify that we want to export only certain columns
      *
      * @return \Uccello\Core\Exports\RecordsExport
@@ -168,13 +188,8 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
         // Model class
         $modelClass = $this->module->model_class;
 
-        // Default query
-        $query = $modelClass::query();
-
         // Filter on the selected domain if needed
-        if (!empty($this->domain) && Schema::hasColumn((new $modelClass)->getTable(), 'domain_id')) {
-            $query = $query->where('domain_id', $this->domain->id);
-        }
+        $query = $modelClass::inDomain($this->domain, $this->addDescendants);
 
 
         $filter = [

@@ -456,6 +456,29 @@ class Uccello
     }
 
     /**
+     * Returns the module's default filter according to the type.
+     *
+     * @param Module $module
+     * @param string $type
+     * @return Filter
+     */
+    public function getDefaultFilter(Module $module, $type="list")
+    {
+        $filter = Filter::where('module_id', $module->id)
+        ->where('type', $type)
+        ->first();
+
+        // If there is not result, try with type = list
+        if (empty($filter) && $type !== 'list') {
+            $filter = Filter::where('module_id', $module->id)
+            ->where('type', 'list')
+            ->first();
+        }
+
+        return $filter;
+    }
+
+    /**
      * Returns a record attribute value.
      * It is able to follow a complex path according to models definition (e.g. 'domain.parent.name')
      *

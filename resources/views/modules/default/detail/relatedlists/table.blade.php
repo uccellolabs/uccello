@@ -1,14 +1,15 @@
 <div class="autoscroll-x">
+    <?php $filterOrderBy = !empty($selectedFilter) ? (array) $selectedFilter->order_by : []; ?>
     <table
         id="{{ $datatableId }}"
         class="striped highlight"
         data-filter-type="related-list"
+        data-filter-id="{{ $selectedFilter->id ?? '' }}"
         data-relatedlist="{{ $relatedlist->id ?? '' }}"
-        data-filter-id=""
         data-content-url="{{ $datatableContentUrl ?? ucroute('uccello.list.content', $domain, $relatedModule) }}"
         data-add-relation-url="{{ ucroute('uccello.edit.relation.add', $domain, $module) }}"
-        data-order="null"
-        data-length="15">
+        data-order="{{ !empty($selectedFilter->order_by) ? json_encode($selectedFilter->order_by) : '' }}"
+        data-length="{{ $selectedFilter->data->length ?? 15 }}">
         <thead>
             <tr>
                 <th class="select-column">&nbsp;</th>

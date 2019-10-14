@@ -34,7 +34,17 @@ trait RelatedlistTrait
         // Related field
         $relatedField = $relatedList->relatedField;
 
-        return $query->where($relatedField->column, $recordId);
+        $query = $query->where($relatedField->column, $recordId);
+
+        // Order results
+        $order = request('order');
+        if (!empty($order)) {
+            foreach ($order as $fieldColumn => $value) {
+                $query = $query->orderBy($fieldColumn, $value);
+            }
+        }
+
+        return $query;
     }
 
     /**
@@ -71,7 +81,17 @@ trait RelatedlistTrait
 
         $record = $modelClass::find($recordId);
 
-        return $record->$relationName();
+        $query = $record->$relationName();
+
+        // Order results
+        $order = request('order');
+        if (!empty($order)) {
+            foreach ($order as $fieldColumn => $value) {
+                $query = $query->orderBy($fieldColumn, $value);
+            }
+        }
+
+        return $query;
     }
 
     /**

@@ -302,9 +302,7 @@ class ListController extends Controller
         // Order results
         if (!empty($order)) {
             foreach ($order as $fieldColumn => $value) {
-                if (!is_null($field)) {
-                    $query = $query->orderBy($fieldColumn, $value);
-                }
+                $query = $query->orderBy($fieldColumn, $value);
             }
         }
 

@@ -75,7 +75,7 @@ class DomainsTreeController
         $formattedDomain = null;
 
         $hasRoleOnDomain = auth()->user()->hasRoleOnDomain($domain);
-        $hasRoleOnDescendantDomain = auth()->user()->hasRoleOnDescendantDomain($domain);
+        $hasRoleOnDescendantDomain = $domain->children->count() > 0 ? auth()->user()->hasRoleOnDescendantDomain($domain) : false;
 
         if ($hasRoleOnDomain || $hasRoleOnDescendantDomain) {
             $formattedDomain = [

@@ -97,7 +97,7 @@ class UccelloApp {
                 $(this).change()
             })
             .on('apply.daterangepicker', function(ev, picker) {
-                if (picker.chosenLabel !== uctrans.trans('uccello::default.calendar.custom')) {
+                if ($(this).data('range') === true && picker.chosenLabel !== uctrans.trans('uccello::default.calendar.custom')) {
                     $(this).val(picker.chosenLabel)
                 } else {
                     $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))

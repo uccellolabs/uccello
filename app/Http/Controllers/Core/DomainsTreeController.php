@@ -2,6 +2,7 @@
 
 namespace Uccello\Core\Http\Controllers\Core;
 
+use Illuminate\Support\Facades\Cache;
 use Uccello\Core\Models\Domain;
 
 class DomainsTreeController
@@ -18,17 +19,19 @@ class DomainsTreeController
             $domain = Domain::firstOrFail();
         }
 
-        $rootDomains = app('uccello')->getRootDomains();
+        return Cache::rememberForever('domains_root_user_'.auth()->id(), function () use($domain) {
+            $rootDomains = app('uccello')->getRootDomains();
 
-        $domains = [];
-        foreach ($rootDomains as $_domain) {
-            $formattedDomain = $this->getFormattedDomainToAdd($domain, $_domain);
-            if ($formattedDomain) {
-                $domains[] = $formattedDomain;
+            $domains = [];
+            foreach ($rootDomains as $_domain) {
+                $formattedDomain = $this->getFormattedDomainToAdd($domain, $_domain);
+                if ($formattedDomain) {
+                    $domains[] = $formattedDomain;
+                }
             }
-        }
 
-        return $domains;
+            return $domains;
+        });
     }
 
     /**
@@ -45,17 +48,19 @@ class DomainsTreeController
 
         $parentDomain = Domain::find(request('id'));
 
-        $domains = [];
-        if ($parentDomain) {
-            foreach ($parentDomain->children()->orderBy('name')->get() as $_domain) {
-                $formattedDomain = $this->getFormattedDomainToAdd($domain, $_domain);
-                if ($formattedDomain) {
-                    $domains[] = $formattedDomain;
+        return Cache::rememberForever('domains_'.$parentDomain->id.'_children_user_'.auth()->id(), function () use($domain, $parentDomain) {
+            $domains = [];
+            if ($parentDomain) {
+                foreach ($parentDomain->children()->orderBy('name')->get() as $_domain) {
+                    $formattedDomain = $this->getFormattedDomainToAdd($domain, $_domain);
+                    if ($formattedDomain) {
+                        $domains[] = $formattedDomain;
+                    }
                 }
             }
-        }
 
-        return $domains;
+            return $domains;
+        });
     }
 
     /**

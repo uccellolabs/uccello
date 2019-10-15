@@ -82,6 +82,10 @@ return [
             'title' => 'A filter already exists with the same name',
             'message' => 'VDo you want to update it?',
         ],
+        'search_flag' => [
+            'empty' => '- Empty -',
+            'not_empty' => '- Not Empty -',
+        ]
     ],
 
     // Tabs

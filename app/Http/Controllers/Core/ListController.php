@@ -51,7 +51,7 @@ class ListController extends Controller
             ->get();
 
         // Order by
-        $filterOrderBy = (array) $selectedFilter->order_by;
+        $filterOrderBy = (array) $selectedFilter->order;
 
         return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy'));
     }
@@ -211,7 +211,7 @@ class ListController extends Controller
         ]);
         $filter->columns = $request->input('columns');
         $filter->conditions = $request->input('conditions') ?? null;
-        $filter->order_by = $saveOrder ? $request->input('order') : null;
+        $filter->order = $saveOrder ? $request->input('order') : null;
         $filter->is_default = $request->input('default');
         $filter->is_public = $request->input('public');
         $filter->data = !empty($data) ? $data : null;
@@ -266,14 +266,13 @@ class ListController extends Controller
      */
     protected function buildContentQuery()
     {
-        $order = $this->request->get('order');
-        $columns = $this->request->get('columns');
-
-        $domain = $this->domain;
-        $module = $this->module;
+        $filter = [
+            'order' => $this->request->get('order'),
+            'columns' => $this->request->get('columns'),
+        ];
 
         // Get model model class
-        $modelClass = $module->model_class;
+        $modelClass = $this->module->model_class;
 
         // Check if the class exists
         if (!class_exists($modelClass) || !method_exists($modelClass, 'scopeInDomain')) {
@@ -281,30 +280,8 @@ class ListController extends Controller
         }
 
         // Filter on domain if column exists
-        $query = $modelClass::inDomain($this->domain, $this->request->get('descendants'));
-
-        // Search by column
-        foreach ($columns as $fieldName => $column) {
-            if (!empty($column[ "search" ])) {
-                $searchValue = $column[ "search" ];
-            } else {
-                $searchValue = null;
-            }
-
-            // Get field by name and search by field column
-            $field = $module->getField($fieldName);
-            if (isset($searchValue) && !is_null($field)) {
-                $uitype = uitype($field->uitype_id);
-                $query = $uitype->addConditionToSearchQuery($query, $field, $searchValue);
-            }
-        }
-
-        // Order results
-        if (!empty($order)) {
-            foreach ($order as $fieldColumn => $value) {
-                $query = $query->orderBy($fieldColumn, $value);
-            }
-        }
+        $query = $modelClass::inDomain($this->domain, $this->request->get('descendants'))
+                            ->filterBy($filter);
 
         return $query;
     }

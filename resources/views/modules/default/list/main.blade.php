@@ -92,7 +92,7 @@
                             data-export-url="{{ ucroute('uccello.export', $domain, $module) }}"
                             data-save-filter-url="{{ ucroute('uccello.list.filter.save', $domain, $module) }}"
                             data-delete-filter-url="{{ ucroute('uccello.list.filter.delete', $domain, $module) }}"
-                            data-order="{{ !empty($selectedFilter->order_by) ? json_encode($selectedFilter->order_by) : '' }}"
+                            data-order="{{ !empty($selectedFilter->order) ? json_encode($selectedFilter->order) : '' }}"
                             data-length="{{ $selectedFilter->data->length ?? 15 }}">
                             <thead>
                                 @section('datatable-columns-header')

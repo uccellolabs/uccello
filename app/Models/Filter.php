@@ -21,7 +21,7 @@ class Filter extends Model
     protected $casts = [
         'columns' => 'object',
         'conditions' => 'object',
-        'order_by' => 'object',
+        'order' => 'object',
         'data' => 'object',
     ];
 
@@ -38,7 +38,7 @@ class Filter extends Model
         'type',
         'columns',
         'conditions',
-        'order_by',
+        'order',
         'is_default',
         'is_public',
         'data'
@@ -62,5 +62,47 @@ class Filter extends Model
     public function getReadOnlyAttribute()
     {
         return $this->data->readonly ?? false;
+    }
+
+    /**
+     * Refactor data from columns:{}
+     *
+     * @param array $data
+     * @return Filter
+     */
+    public static function newFromData($data)
+    {
+        $filter = null;
+
+        if (is_array($data)) {
+            $filter = new static();
+
+            // Refactor $data to mach match 'conditions' filter format...
+            if(!empty($data['columns']) && is_array($data['columns']) && is_array(reset($data['columns'])))
+            {
+                if (empty($data['conditions'])) {
+                    $data['conditions'] = [];
+                }
+                else {
+                    $data['conditions'] = (array) $data['conditions'];
+                }
+
+                foreach ($data['columns'] as $fieldName => $field) {
+                    foreach ($field as $key => $value) {
+                        if (!empty($value) && $key != 'columnName') {
+                            $data['conditions'][$key][$fieldName] = $value;
+                        }
+                    }
+                }
+
+                unset($data['columns']);
+            }
+
+            foreach ($data as $key => $value) {
+                $filter->{$key} = $value;
+            }
+        }
+
+        return $filter;
     }
 }

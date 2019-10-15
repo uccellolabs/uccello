@@ -62,7 +62,8 @@ class ExportController extends Controller
 
         // With conditions
         if ($request->input('with_conditions') === '1') {
-            $conditions = json_decode($request->input('conditions'));
+            // TODO: Build $conditions['search'] earlier in the export process to match filter format...
+            $conditions = ['search' => json_decode($request->input('conditions'))];
             $export = $export->withConditions($conditions);
         }
 

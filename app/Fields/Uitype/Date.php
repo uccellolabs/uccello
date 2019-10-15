@@ -111,9 +111,74 @@ class Date extends DateTime implements Uitype
     {
         if (!$this->isEmptyOrNotEmptySearchQuery($query, $field, $value)) {
             $query->where(function ($query) use($field, $value) {
-                $values = explode(',', $value); // Start Date, End Date
-                $dateStart = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[0]));
-                $dateEnd = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[1]));
+                if (strpos($value, ',') > -1) {
+                    $values = explode(',', $value); // Start Date, End Date
+                    $dateStart = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[0]));
+                    $dateEnd = \Carbon\Carbon::createFromFormat(config('uccello.format.php.date'), trim($values[1]));
+                } else {
+                    switch ($value) {
+                        // Today
+                        case uctrans('calendar.ranges.today', $field->module):
+                            $dateStart = \Carbon\Carbon::today();
+                            $dateEnd = \Carbon\Carbon::today();
+                        break;
+
+                        // Month
+                        case uctrans('calendar.ranges.month', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->firstOfMonth();
+                            $dateEnd = \Carbon\Carbon::today()->lastOfMonth();
+                        break;
+
+                        // Last month
+                        case uctrans('calendar.ranges.last_month', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->subMonth()->firstOfMonth();
+                            $dateEnd = \Carbon\Carbon::today()->subMonth()->lastOfMonth();
+                        break;
+
+                        // Next month
+                        case uctrans('calendar.ranges.next_month', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->addMonth()->firstOfMonth();
+                            $dateEnd = \Carbon\Carbon::today()->addMonth()->lastOfMonth();
+                        break;
+
+                        // Quarter
+                        case uctrans('calendar.ranges.quarter', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->firstOfQuarter();
+                            $dateEnd = \Carbon\Carbon::today()->lastOfQuarter();
+                        break;
+
+                        // Last quarter
+                        case uctrans('calendar.ranges.last_quarter', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->subQuarter()->firstOfQuarter();
+                            $dateEnd = \Carbon\Carbon::today()->subQuarter()->lastOfQuarter();
+                        break;
+
+                        // Next quarter
+                        case uctrans('calendar.ranges.next_quarter', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->addQuarter()->firstOfQuarter();
+                            $dateEnd = \Carbon\Carbon::today()->addQuarter()->lastOfQuarter();
+                        break;
+
+                        // Year
+                        case uctrans('calendar.ranges.year', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->firstOfYear();
+                            $dateEnd = \Carbon\Carbon::today()->lastOfYear();
+                        break;
+
+                        // Last year
+                        case uctrans('calendar.ranges.last_year', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->subYear()->firstOfYear();
+                            $dateEnd = \Carbon\Carbon::today()->subYear()->lastOfYear();
+                        break;
+
+                        // Next year
+                        case uctrans('calendar.ranges.next_year', $field->module):
+                            $dateStart = \Carbon\Carbon::today()->addYear()->firstOfYear();
+                            $dateEnd = \Carbon\Carbon::today()->addYear()->lastOfYear();
+                        break;
+                    }
+                }
+
                 $query->whereBetween($field->column, [ $dateStart, $dateEnd ])->get();
             });
         }

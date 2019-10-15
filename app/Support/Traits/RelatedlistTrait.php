@@ -33,16 +33,10 @@ trait RelatedlistTrait
     {
         // Related field
         $relatedField = $relatedList->relatedField;
+        $filter = ['order' => request('order')];
 
-        $query = $query->where($relatedField->column, $recordId);
-
-        // Order results
-        $order = request('order');
-        if (!empty($order)) {
-            foreach ($order as $fieldColumn => $value) {
-                $query = $query->orderBy($fieldColumn, $value);
-            }
-        }
+        $query = $query->where($relatedField->column, $recordId)
+                        ->filterBy($filter);
 
         return $query;
     }
@@ -80,16 +74,10 @@ trait RelatedlistTrait
         $relationName = $relatedList->relationName;
 
         $record = $modelClass::find($recordId);
+        $filter = ['order' => request('order')];
 
-        $query = $record->$relationName();
-
-        // Order results
-        $order = request('order');
-        if (!empty($order)) {
-            foreach ($order as $fieldColumn => $value) {
-                $query = $query->orderBy($fieldColumn, $value);
-            }
-        }
+        $query = $record->$relationName()
+                        ->filterBy($filter);
 
         return $query;
     }

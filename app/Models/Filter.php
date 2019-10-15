@@ -78,7 +78,7 @@ class Filter extends Model
             $filter = new static();
 
             // Refactor $data to mach match 'conditions' filter format...
-            if(is_array($data['columns']) && is_array(reset($data['columns'])))
+            if(!empty($data['columns']) && is_array($data['columns']) && is_array(reset($data['columns'])))
             {
                 if (empty($data['conditions'])) {
                     $data['conditions'] = [];

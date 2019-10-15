@@ -198,7 +198,11 @@ return [
             'with_hidden_columns' => 'Exporter les colonnes cachées',
             'with_id' => 'Exporter l\'id des enregistrements',
             'with_timestamps' => 'Exporter les dates de création et de modification',
-        ]
+        ],
+
+        'domains' => [
+            'title' => 'Tous les domaines',
+        ],
     ],
 
     // Widgets

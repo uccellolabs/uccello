@@ -279,14 +279,29 @@ class UccelloApp {
             "core" : {
                 "themes" : {
                     "icons": false
+                },
+                "data" : {
+                    "url" : function (node) {
+                        return node.id === '#' ?
+                        $("meta[name='domains-tree-default-url']").attr('content') :
+                        $("meta[name='domains-tree-children-url']").attr('content');
+                    },
+                    "data" : function (node) {
+                        return { 'id' : node.id };
+                    }
                 }
             },
-            "plugins" : ['search', 'sort']
+            "plugins" : ['search', 'sort'],
+            "search" : {
+                "show_only_matches" : true
+            }
         })
 
         // Open tree automatically
         .on('ready.jstree', () => {
-            domainsTree.jstree('open_all')
+            if ($("meta[name='domains-tree-open-all']").attr('content')) {
+                domainsTree.jstree('open_all')
+            }
         })
 
         // Switch on domain on click

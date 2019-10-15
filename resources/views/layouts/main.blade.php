@@ -15,7 +15,7 @@
         {{-- Domains tree urls --}}
         <meta name="domains-tree-default-url" content="{{ ucroute('uccello.domains.tree.root', $domain) }}">
         <meta name="domains-tree-children-url" content="{{ ucroute('uccello.domains.tree.children', $domain) }}">
-        <meta name="domains-tree-open-all" content="{{ config('uccello.domains.open_tree', false) }}">
+        <meta name="domains-tree-open-all" content="{{ config('uccello.domains.open_tree', true) }}">
         {{-- Domain --}}
         @if($domain ?? false)<meta name="domain" content="{{ $domain->slug }}">@endif
         {{-- Module --}}

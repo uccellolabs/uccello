@@ -122,17 +122,17 @@ trait DefaultUitype
      */
     protected function isEmptyOrNotEmptySearchQuery(Builder &$query, Field $field, $value): bool
     {
-        if ($value == uctrans('filter.search_flag.empty', $field->module)) {
+        if ($value === uctrans('filter.search_flag.empty', $field->module)) {
             $query->where(function ($q) use ($field) {
                 $q->whereNull($field->column)
                     ->orWhere($field->column, '=', '');
             });
             return true;
-        } elseif ($value == uctrans('filter.search_flag.not_empty', $field->module)) {
+        } elseif ($value === uctrans('filter.search_flag.not_empty', $field->module)) {
             $query = $query->whereNotNull($field->column)
                             ->where($field->column, '!=', '');
             return true;
-        } 
+        }
 
         return false;
     }

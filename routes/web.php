@@ -13,6 +13,9 @@ Route::name('uccello.')->group(function() {
         $domainAndModuleParams = '{domain}/{module}';
     }
 
+    Route::get($domainParam.'/domains/tree/root', 'Core\DomainsTreeController@root')->name('domains.tree.root');
+    Route::get($domainParam.'/domains/tree/children', 'Core\DomainsTreeController@children')->name('domains.tree.children');
+
     // Overrided routes
     Route::get($domainParam.'/role/edit', 'Role\EditController@process')
         ->defaults('module', 'role')

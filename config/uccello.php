@@ -5,6 +5,7 @@ return [
 
     'domains' => [
         'display_tree' => true,
+        'open_tree' => true,
     ],
 
     'max_results' => [

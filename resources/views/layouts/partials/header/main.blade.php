@@ -19,14 +19,14 @@
                 @if (uccello()->useMultiDomains() && isset($domain))
                 <li>
                     @if (config('uccello.domains.display_tree') !== false)
-                        <a href="#" class="sidenav-trigger show-on-large" data-target="sidenav-domains" style="margin-left: 0; margin-right: 0">
-                            <span class="hide-on-small-only">{{ $domain->name }}</span>
-                            <i class="material-icons right">arrow_drop_down</i>
-                        </a>
+                    <a href="#domains-modal" class="modal-trigger show-on-large" style="margin-left: 0; margin-right: 0">
+                        <span class="hide-on-small-only">{{ $domain->name }}</span>
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
                     @else
-                        <a href="javascript:void(0)" class="show-on-large" style="margin-left: 0; margin-right: 0">
-                            <span class="hide-on-small-only">{{ $domain->name }}</span>
-                        </a>
+                    <a href="javascript:void(0)" class="show-on-large" style="margin-left: 0; margin-right: 0">
+                        <span class="hide-on-small-only">{{ $domain->name }}</span>
+                    </a>
                     @endif
                 </li>
                 @endif
@@ -58,4 +58,29 @@
         </div>
     </nav>
 </header>
+@show
+
+@section('domains-modal')
+@if (config('uccello.domains.display_tree') !== false)
+<div id="domains-modal" class="modal">
+    <div class="modal-content">
+        <h4>
+            <i class="material-icons left primary-text">device_hub</i>
+            {{ uctrans('modal.domains.title', $module) }}
+        </h4>
+        <div class="row">
+            <div class="input-field col s12 domain-search-bar">
+                <input type="text" id="domain-name">
+                <label for="domain-name">{{ uctrans('domain.search', $module) }}</label>
+            </div>
+        </div>
+        <div id="domains-tree">
+            {{-- Filled automaticaly --}}
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="javascript:void(0)" class="btn-flat waves-effect modal-close">{{ uctrans('button.cancel', $module) }}</a>
+    </div>
+</div>
+@endif
 @show

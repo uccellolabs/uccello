@@ -196,7 +196,11 @@ return [
             'with_hidden_columns' => 'Export hidden columns',
             'with_id' => 'Export record id',
             'with_timestamps' => 'Export create and update dates',
-        ]
+        ],
+
+        'domains' => [
+            'title' => 'All domains',
+        ],
     ],
 
     // Widgets

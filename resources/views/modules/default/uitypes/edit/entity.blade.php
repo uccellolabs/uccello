@@ -70,12 +70,7 @@
                     </div>
                     <div id="tabCreate" class="row">
                         <div class="col s12" id="tabCreateAjax">
-                            <?php $formBuilder = new \Kris\LaravelFormBuilder\FormBuilder(app(), app()['laravel-form-helper'], app()['events']);
-                                $c = new \Uccello\Core\Http\Controllers\Core\PopupEditController($formBuilder);
-                                $form_entity = $c->getForm($domain, $entityModule, request());
-                            ?>
-                            {!! form($form_entity) !!}
-                            {{-- Will be loaded dynamicly --}}
+                            {{-- Will be loaded dynamicly through AJAX --}}
                         </div>
                     </div>
                 </div>

@@ -218,7 +218,7 @@ class CreateGroupModule extends Migration
             'type' => 'n-n',
             'method' => 'getRelatedList',
             'data' => ["actions" => ["select", "add"]],
-            'sequence' => 0
+            'sequence' => 1
         ]);
     }
 

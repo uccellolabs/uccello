@@ -33,8 +33,12 @@ trait RelatedlistTrait
     {
         // Related field
         $relatedField = $relatedList->relatedField;
+        $filter = ['order' => request('order')];
 
-        return $query->where($relatedField->column, $recordId);
+        $query = $query->where($relatedField->column, $recordId)
+                        ->filterBy($filter);
+
+        return $query;
     }
 
     /**
@@ -70,8 +74,12 @@ trait RelatedlistTrait
         $relationName = $relatedList->relationName;
 
         $record = $modelClass::find($recordId);
+        $filter = ['order' => request('order')];
 
-        return $record->$relationName();
+        $query = $record->$relationName()
+                        ->filterBy($filter);
+
+        return $query;
     }
 
     /**

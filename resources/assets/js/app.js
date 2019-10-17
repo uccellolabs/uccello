@@ -10,7 +10,7 @@ import 'nestable2'
 import 'jquery-countto'
 import 'jstree/src/jstree.search.js'
 import 'jstree/src/jstree.sort.js'
-import 'devbridge-autocomplete'
+// import 'devbridge-autocomplete'
 // import 'bootstrap-colorpicker'
 
 
@@ -62,18 +62,15 @@ class UccelloApp {
 
     initDateRangePicker() {
         var today = uctrans.trans('uccello::default.calendar.ranges.today')
-        var yesterday = uctrans.trans('uccello::default.calendar.ranges.yesterday')
-        var tomorrow = uctrans.trans('uccello::default.calendar.ranges.tomorrow')
-        var last7Days = uctrans.trans('uccello::default.calendar.ranges.last7days')
-        var last30Days = uctrans.trans('uccello::default.calendar.ranges.last30days')
-        var next7Days = uctrans.trans('uccello::default.calendar.ranges.next7days')
-        var next30Days = uctrans.trans('uccello::default.calendar.ranges.next30days')
         var month = uctrans.trans('uccello::default.calendar.ranges.month')
         var lastMonth = uctrans.trans('uccello::default.calendar.ranges.last_month')
         var nextMonth = uctrans.trans('uccello::default.calendar.ranges.next_month')
         var quarter = uctrans.trans('uccello::default.calendar.ranges.quarter')
         var lastQuarter = uctrans.trans('uccello::default.calendar.ranges.last_quarter')
         var nextQuarter = uctrans.trans('uccello::default.calendar.ranges.next_quarter')
+        var year = uctrans.trans('uccello::default.calendar.ranges.year')
+        var lastYear = uctrans.trans('uccello::default.calendar.ranges.last_year')
+        var nextYear = uctrans.trans('uccello::default.calendar.ranges.next_year')
 
         // Date range picker
         $('.date-range-picker').each((index, el) => {
@@ -86,24 +83,25 @@ class UccelloApp {
                 alwaysShowCalendars: $(el).data('show-calendars') ? true : false,
                 ranges: {
                     [today]: [moment(), moment()],
-                    [yesterday]: [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    [tomorrow]: [moment().add(1, 'days'), moment().add(1, 'days')],
-                    [last7Days]: [moment().subtract(6, 'days'), moment()],
-                    [last30Days]: [moment().subtract(29, 'days'), moment()],
-                    [next7Days]: [moment(), moment().add(6, 'days')],
-                    [next30Days]: [moment(), moment().add(29, 'days')],
                     [month]: [moment().startOf('month'), moment().endOf('month')],
                     [lastMonth]: [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
                     [nextMonth]: [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')],
                     [quarter]: [moment().startOf('quarter'), moment().endOf('quarter')],
                     [lastQuarter]: [moment().subtract(1, 'quarter').startOf('quarter'), moment().subtract(1, 'quarter').endOf('quarter')],
                     [nextQuarter]: [moment().add(1, 'quarter').startOf('quarter'), moment().add(1, 'quarter').endOf('quarter')],
+                    [year]: [moment().startOf('year'), moment().endOf('year')],
+                    [lastYear]: [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')],
+                    [nextYear]: [moment().add(1, 'year').startOf('year'), moment().add(1, 'year').endOf('year')],
                 }
             }, function(start, end, label) {
                 $(this).change()
             })
             .on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
+                if ($(this).data('range') === true && picker.chosenLabel !== uctrans.trans('uccello::default.calendar.custom')) {
+                    $(this).val(picker.chosenLabel)
+                } else {
+                    $(this).val(picker.startDate.format($(this).data('format')) + ', ' + picker.endDate.format($(this).data('format')))
+                }
             })
             .on('cancel.daterangepicker', function(ev, picker) {
                 $(this).val('').change()
@@ -285,14 +283,29 @@ class UccelloApp {
             "core" : {
                 "themes" : {
                     "icons": false
+                },
+                "data" : {
+                    "url" : function (node) {
+                        return node.id === '#' ?
+                        $("meta[name='domains-tree-default-url']").attr('content') :
+                        $("meta[name='domains-tree-children-url']").attr('content');
+                    },
+                    "data" : function (node) {
+                        return { 'id' : node.id };
+                    }
                 }
             },
-            "plugins" : ['search', 'sort']
+            "plugins" : ['search', 'sort'],
+            "search" : {
+                "show_only_matches" : true
+            }
         })
 
         // Open tree automatically
         .on('ready.jstree', () => {
-            domainsTree.jstree('open_all')
+            if ($("meta[name='domains-tree-open-all']").attr('content')) {
+                domainsTree.jstree('open_all')
+            }
         })
 
         // Switch on domain on click

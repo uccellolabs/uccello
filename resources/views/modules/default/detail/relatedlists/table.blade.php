@@ -1,14 +1,15 @@
 <div class="autoscroll-x">
+    <?php $filterOrder = !empty($selectedFilter) ? (array) $selectedFilter->order : []; ?>
     <table
         id="{{ $datatableId }}"
         class="striped highlight"
         data-filter-type="related-list"
+        data-filter-id="{{ $selectedFilter->id ?? '' }}"
         data-relatedlist="{{ $relatedlist->id ?? '' }}"
-        data-filter-id=""
         data-content-url="{{ $datatableContentUrl ?? ucroute('uccello.list.content', $domain, $relatedModule) }}"
         data-add-relation-url="{{ ucroute('uccello.edit.relation.add', $domain, $module) }}"
-        data-order="null"
-        data-length="15">
+        data-order="{{ !empty($selectedFilter->order) ? json_encode($selectedFilter->order) : '' }}"
+        data-length="{{ $selectedFilter->data->length ?? 15 }}">
         <thead>
             <tr>
                 <th class="select-column">&nbsp;</th>
@@ -20,8 +21,8 @@
                         {{ uctrans('field.'.$column['name'], $relatedModule) }}
 
                         {{-- Sort icon --}}
-                        @if (!empty($filterOrderBy[$column['name']]))
-                        <i class="fa @if ($filterOrderBy[$column['name']] === 'desc')fa-sort-amount-down @else fa-sort-amount-up @endif"></i>
+                        @if (!empty($filterOrder[$column['name']]))
+                        <i class="fa @if ($filterOrder[$column['name']] === 'desc')fa-sort-amount-down @else fa-sort-amount-up @endif"></i>
                         @else
                         <i class="fa fa-sort-amount-up" style="display: none"></i>
                         @endif

@@ -82,6 +82,10 @@ return [
             'title' => 'A filter already exists with the same name',
             'message' => 'VDo you want to update it?',
         ],
+        'search_flag' => [
+            'empty' => '- Empty -',
+            'not_empty' => '- Not Empty -',
+        ]
     ],
 
     // Tabs
@@ -192,7 +196,11 @@ return [
             'with_hidden_columns' => 'Export hidden columns',
             'with_id' => 'Export record id',
             'with_timestamps' => 'Export create and update dates',
-        ]
+        ],
+
+        'domains' => [
+            'title' => 'All domains',
+        ],
     ],
 
     // Widgets
@@ -235,18 +243,15 @@ return [
         ],
         'ranges' => [
             'today' => 'Today',
-            'yesterday' => 'Yesterday',
-            'tomorrow' => 'Tomorrow',
-            'last7days' => 'Last 7 days',
-            'last30days' => 'Last 30 days',
-            'next7days' => 'Next 7 days',
-            'next30days' => 'Next 30 days',
             'month' => 'This month',
             'last_month' => 'Last month',
             'next_month' => 'Next month',
             'quarter' => 'This quarter',
             'last_quarter' => 'Last quarter',
             'next_quarter' => 'Next quarter',
+            'year' => 'This year',
+            'last_year' => 'Last year',
+            'next_year' => 'Next year',
         ],
     ],
 

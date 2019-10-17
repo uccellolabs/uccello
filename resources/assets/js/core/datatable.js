@@ -87,6 +87,14 @@ export class Datatable {
             // Show error
             swal(uctrans.trans('uccello::default.dialog.error.title'), uctrans.trans('uccello::default.dialog.error.message'), 'error')
         })
+
+        this.dispatchQueryEvent(this.table.attr('id'), data);
+    }
+
+    dispatchQueryEvent(tableId, data) {
+        // Query datatable
+        let event = new CustomEvent('uccello.datatable.query', { detail: { tableId: tableId, columns: data.columns } })
+        dispatchEvent(event)
     }
 
     displayResults(response) {
@@ -385,7 +393,7 @@ export class Datatable {
 
         $('th[data-field].sortable', this.table).each((index, el) => {
             let element = $(el)
-            let fieldColumn = element.data('column')
+            let field = element.data('field')
 
             $('a.column-label', element).on('click', (event) => {
                 // Get current sort order
@@ -395,12 +403,12 @@ export class Datatable {
                 $('a.column-label i').hide()
 
                 // Adapt icon according to sort order
-                if (order !== null && order[fieldColumn] === 'asc') {
-                    order[fieldColumn] = 'desc'
+                if (order !== null && order[field] === 'asc') {
+                    order[field] = 'desc'
                     $('a.column-label i', element).removeClass('fa-sort-amount-up').addClass('fa-sort-amount-down')
                 } else {
                     order = {}
-                    order[fieldColumn] = 'asc'
+                    order[field] = 'asc'
                     $('a.column-label i', element).removeClass('fa-sort-amount-down').addClass('fa-sort-amount-up')
                 }
 

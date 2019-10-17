@@ -689,26 +689,38 @@ body.theme-#{$theme} {
         }
     }
 
-    #sidenav-domains {
+    #domains-modal {
         // z-index: 1002 !important;
 
-        .domain-search-bar {
-            padding: 20px;
-            background-color: $sidenavSubheaderBackgroundColor;
+        // .domain-search-bar {
+            // padding: 20px;
+            // background-color: $sidenavSubheaderBackgroundColor;
 
-            input {
-                width: calc(100% - 40px);
-                border: none;
-                padding: 0px 20px;
-                background-color: white;
-                border-radius: 20px;
-                text-align: left;
-            }
-        }
+            // input {
+            //     width: calc(100% - 40px);
+            //     // border: none;
+            //     padding: 0px 20px;
+            //     // background-color: white;
+            //     border-radius: 20px;
+            //     text-align: left;
+            // }
+        // }
 
         li > a {
             display: inline;
-            color: $sidenavLinkColor;
+            color: $domainsTreeLinkColor;
+
+            &.current {
+                color: $domainsTreeLinkColorCurrent;
+            }
+
+            &.disabled {
+                color: $domainsTreeLinkColorDisabled;
+
+                &:hover {
+                    color: $domainsTreeLinkColorDisabled;
+                }
+            }
         }
 
         li.current > a {

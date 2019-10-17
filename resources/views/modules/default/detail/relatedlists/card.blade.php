@@ -2,6 +2,7 @@
 <?php
     $datatableId = $datatableId.'-'.$relatedlist->id;
     $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule, null, 'related-list');
+    $datatableFilter = Uccello::getDefaultFilter($relatedlist->relatedModule, 'related-list');
 ?>
 <div class="card relatedlist">
     <div class="card-content">
@@ -19,6 +20,6 @@
         </span>
 
         {{-- Table --}}
-        @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => $datatableId, 'datatableColumns' => $datatableColumns, 'relatedModule' => $relatedlist->relatedModule ])
+        @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => $datatableId, 'datatableColumns' => $datatableColumns, 'relatedModule' => $relatedlist->relatedModule, 'selectedFilter' => $datatableFilter ])
     </div>
 </div>

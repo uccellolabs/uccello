@@ -461,13 +461,13 @@ class User extends Authenticatable implements Searchable
         return $allowed;
     }
 
-    public function getAllowedGroupUids()
+    public function getAllowedGroupUuids()
     {
         // Use cache
         $allowedGroups = Cache::rememberForever(
             'allowed_groups_for_' . ($this->is_admin ? 'admin' : $this->getKey()),
             function () {
-                return $this->getAllowedGroupUidsProcess();
+                return $this->getAllowedGroupUuidsProcess();
             }
         );
 
@@ -487,9 +487,9 @@ class User extends Authenticatable implements Searchable
         return $allowedGroupsAndUsers;
     }
 
-    protected function getAllowedGroupUidsProcess()
+    protected function getAllowedGroupUuidsProcess()
     {
-        $allowedUserUids = collect([$this->uuid]);
+        $allowedUserUuids = collect([$this->uuid]);
 
         if ($this->is_admin) {
             $groups = Group::all();
@@ -506,16 +506,16 @@ class User extends Authenticatable implements Searchable
             $groups = collect($groups);
         }
 
-        foreach ($groups as $uid => $group) {
-            $allowedUserUids[] = $uid;
+        foreach ($groups as $uuid => $group) {
+            $allowedUserUuids[] = $uuid;
         }
 
-        return $allowedUserUids;
+        return $allowedUserUuids;
     }
 
     protected function addRecursiveChildrenGroups(&$groups, &$users, $searchGroups, $addUsers = false)
     {
-        foreach ($searchGroups as $uid => $searchGroup) {
+        foreach ($searchGroups as $uuid => $searchGroup) {
             $searchChildrenGroups = [];
 
             foreach ($searchGroup->childrenGroups as $childrenGroup) {
@@ -540,7 +540,7 @@ class User extends Authenticatable implements Searchable
 
     protected function getAllowedGroupsAndUsersProcess($addUsers = true)
     {
-        $allowedUserUids = collect([[
+        $allowedUserUuids = collect([[
             'uuid' => $this->uuid,
             'recordLabel' => uctrans('me', $this->module)
         ]]);
@@ -571,22 +571,22 @@ class User extends Authenticatable implements Searchable
             $users  = collect($users)->sortBy('name');
         }
 
-        foreach ($groups as $uid => $group) {
-            $allowedUserUids[] = [
+        foreach ($groups as $uuid => $group) {
+            $allowedUserUuids[] = [
                 'uuid' => $group->uuid,
                 'recordLabel' => $group->recordLabel
             ];
         }
 
-        foreach ($users as $uid => $user) {
+        foreach ($users as $uuid => $user) {
             if($user->getKey() != $this->getKey()) {
-                $allowedUserUids[] = [
+                $allowedUserUuids[] = [
                     'uuid' => $user->uuid,
                     'recordLabel' => $user->recordLabel
                 ];
             }
         }
 
-        return $allowedUserUids;
+        return $allowedUserUuids;
     }
 }

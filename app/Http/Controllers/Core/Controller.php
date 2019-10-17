@@ -134,12 +134,6 @@ abstract class Controller extends BaseController
         $menuGenerator->makeMenu($this->domain, $this->module);
         $menu = $menuGenerator->getMenu();
         View::share('menu', $menu);
-
-        // Domain tree
-        if (config('uccello.domains.display_tree') !== false) {
-            $domainsTreeHtml = $this->getDomainsTreeHtml();
-            View::share('domainsTreeHtml', $domainsTreeHtml);
-        }
     }
 
     /**
@@ -209,51 +203,6 @@ abstract class Controller extends BaseController
         }
 
         return $record;
-    }
-
-    /**
-     * Get HTML code for domains tree, according to user permissions.
-     *
-     * @return void
-     */
-    protected function getDomainsTreeHtml()
-    {
-        return Cache::remember('users', 600, function () { // 10 minutes
-            $domainsTreeHtml = '<ul class="tree tree-level-0">';
-
-            $rootDomains = app('uccello')->getRootDomains();
-            foreach($rootDomains as $root) {
-
-                $descendants = $root->findDescendants()->get();
-
-                $tree = $root->buildTree($descendants);
-
-                $html = $tree->render(
-                    'ul',
-                    function ($node) {
-                        if (auth()->user()->hasRoleOnDomain($node)) {
-                            $currentClass = '';
-                            // if ($node->id === $this->domain->id) {
-                            //     $currentClass = 'class="green-text"';
-                            // }
-                            return '<li><a href="'.ucroute('uccello.home', $node).'" '.$currentClass.'>'.$node->name.'</a>{sub-tree}</li>';
-                        }
-                        elseif (auth()->user()->hasRoleOnDescendantDomain($node)) {
-                            return '<li>'.$node->name.'{sub-tree}</li>';
-                        } else {
-                            return '';
-                        }
-                    },
-                    TRUE
-                );
-
-                $domainsTreeHtml .= preg_replace('`^<ul class="tree tree-level-0">(.+?)</ul>$`', '$1', $html);
-            }
-
-            $domainsTreeHtml .= '</ul>';
-
-            return $domainsTreeHtml;
-        });
     }
 
     /**

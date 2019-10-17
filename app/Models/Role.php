@@ -60,12 +60,12 @@ class Role extends Model implements Searchable
 
     public function parent()
     {
-        return $this->belongsTo(self::class);
+        return $this->belongsTo(static::class);
     }
 
     public function children()
     {
-        return $this->hasMany(self::class);
+        return $this->hasMany(static::class);
     }
 
     public function domain()

@@ -185,30 +185,19 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
      */
     public function query()
     {
+        // Filter
+        $filter = [
+            'columns' => $this->columns,
+            'conditions' => $this->conditions,
+            'order' => $this->order,
+        ];
+
         // Model class
         $modelClass = $this->module->model_class;
 
         // Filter on the selected domain if needed
-        $query = $modelClass::inDomain($this->domain, $this->addDescendants);
-
-        // Add conditions if needed
-        if (!empty($this->conditions)) {
-            // Search by column
-            foreach ($this->conditions as $fieldName => $searchValue) {
-                // Get field by name and search by field column
-                $field = $this->module->getField($fieldName);
-                if (isset($searchValue) && !is_null($field)) {
-                    $query = uitype($field->uitype_id)->addConditionToSearchQuery($query, $field, $searchValue);
-                }
-            }
-        }
-
-        // Add order if needed
-        if (!empty($this->order)) {
-            foreach($this->order as $fieldColumn => $order) {
-                $query = $query->orderBy($fieldColumn, $order);
-            }
-        }
+        $query = $modelClass::inDomain($this->domain, $this->addDescendants)
+                            ->filterBy($filter);
 
         return $query;
     }

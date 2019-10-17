@@ -82,6 +82,10 @@ return [
             'title' => 'Un filtre du même nom existe déjà',
             'message' => 'Voulez-vous le mettre à jour ?',
         ],
+        'search_flag' => [
+            'empty' => '- Vide -',
+            'not_empty' => '- Non vide -',
+        ]
     ],
 
     // Tabs
@@ -194,7 +198,11 @@ return [
             'with_hidden_columns' => 'Exporter les colonnes cachées',
             'with_id' => 'Exporter l\'id des enregistrements',
             'with_timestamps' => 'Exporter les dates de création et de modification',
-        ]
+        ],
+
+        'domains' => [
+            'title' => 'Tous les domaines',
+        ],
     ],
 
     // Widgets
@@ -237,18 +245,15 @@ return [
         ],
         'ranges' => [
             'today' => 'Aujourd\'hui',
-            'yesterday' => 'Hier',
-            'tomorrow' => 'Demain',
-            'last7days' => '7 derniers jours',
-            'last30days' => '30 derniers jours',
-            'next7days' => '7 prochains jours',
-            'next30days' => '30 prochains jours',
             'month' => 'Ce mois-ci',
             'last_month' => 'Mois dernier',
             'next_month' => 'Mois prochain',
             'quarter' => 'Ce trimestre',
             'last_quarter' => 'Trimestre dernier',
             'next_quarter' => 'Trimestre prochain',
+            'year' => 'Cette année',
+            'last_year' => 'Année derniere',
+            'next_year' => 'Année prochaine',
         ],
     ],
 

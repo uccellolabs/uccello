@@ -254,21 +254,24 @@ class MenuGenerator
                 $this->addLink($subMenu, $subMenuLink, true); // Recursive
             }
 
-            $link = Html::raw(
-                '<ul class="collapsible collapsible-accordion">'.
-                    '<li class="submenu">'.
-                        '<a href="'.$url.'" class="collapsible-header waves-effect" tabindex="0">'.
-                            '<i class="material-icons">'.$icon.'</i>'.
-                            '<span>'.$label.'</span>'.
-                        '</a>'.
-                        '<div class="collapsible-body">'.
-                            $subMenu->toHtml().
-                        '</div>'.
-                    '</li>'.
-                '</ul>'
-            );
+            if($subMenu->count()>0)
+            {
+                $link = Html::raw(
+                    '<ul class="collapsible collapsible-accordion">'.
+                        '<li class="submenu">'.
+                            '<a href="'.$url.'" class="collapsible-header waves-effect" tabindex="0">'.
+                                '<i class="material-icons">'.$icon.'</i>'.
+                                '<span>'.$label.'</span>'.
+                            '</a>'.
+                            '<div class="collapsible-body">'.
+                                $subMenu->toHtml().
+                            '</div>'.
+                        '</li>'.
+                    '</ul>'
+                );
 
-            $menu->add($link);
+                $menu->add($link);
+            }
 
         } else {
             $link = Html::raw(

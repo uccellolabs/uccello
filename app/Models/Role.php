@@ -83,6 +83,11 @@ class Role extends Model implements Searchable
         return $this->belongsToMany(Profile::class, $this->tablePrefix.'profiles_roles');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'uccello_privileges');
+    }
+
     /**
      * Returns record label
      *

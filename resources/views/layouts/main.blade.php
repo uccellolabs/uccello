@@ -27,8 +27,8 @@
         @yield('extra-meta')
 
         {{-- Favicon --}}
-        <link rel="icon" href="{{ ucasset('images/favicon.png') }}" type="image/x-icon">
-        <base href="/">
+        <link rel="icon" href="@section('favicon'){{ ucasset('images/favicon.png') }}@show" type="image/x-icon">
+        @section('base-href')<base href="/">@show
 
         {{-- CSS --}}
         @section('uccello-css')

@@ -254,8 +254,7 @@ class MenuGenerator
                 $this->addLink($subMenu, $subMenuLink, true); // Recursive
             }
 
-            if($subMenu->count()>0)
-            {
+            if ($subMenu->count() > 0) {
                 $link = Html::raw(
                     '<ul class="collapsible collapsible-accordion">'.
                         '<li class="submenu">'.

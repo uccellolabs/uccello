@@ -1,3 +1,4 @@
+@section('navbar-header')
 <div class="navbar-header navbar-fixed">
     <nav class="header">
         <div class="nav-wrapper default-bar">
@@ -9,7 +10,9 @@
                 </li>
             </ul>
 
-            <a class="brand-logo" href="/" style="padding: 7px; max-height: 50px">{{ Html::image(ucasset('images/logo-uccello-white.png'), null, ['style' => 'max-width: 150px;']) }}</a>
+            @section('brand-logo')
+            <a class="brand-logo" href="/" style="padding: 7px; max-height: 50px">@section('logo'){{ Html::image(ucasset('images/logo-uccello-white.png'), null, ['style' => 'max-width: 150px;']) }}@show</a>
+            @show
 
             {{-- Display current domain name and a link to open domains list --}}
             <ul class="right">
@@ -44,6 +47,7 @@
         </div>
     </nav>
 </div>
+@show
 
 @section('navbar-top')
 <header class="navbar-fixed navbar-top">

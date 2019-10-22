@@ -28,7 +28,7 @@ export class Edit {
         $('.btn-save-new').on('click', () => {
             // Set we want to create a new record after save
             $("input[name='save_new_hdn']").val(1);
-
+            
             // Submit form
             $('form.edit-form').submit();
         })

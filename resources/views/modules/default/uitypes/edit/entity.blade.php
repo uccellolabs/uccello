@@ -47,11 +47,30 @@
 
             <div class="row">
                 <div class="col s12 modal-body">
-                    <div class="row">
+                    <ul class="tabs">
+                        <li class="tab col s6">
+                            <a href="#tabSearch" class="active">
+                                <i class="material-icons left">search</i>
+                                {{ uctrans('datatable.search', $entityModule) }}
+                            </a>
+                        </li>
+                        <li class="tab col s6">
+                            <a href="#tabCreate">
+                                <i class="material-icons left">add</i>
+                                {{ uctrans('button.new', $entityModule) }}
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="tabSearch" class="row" style="margin-top : 10px;">
                         <div class="col s12">
                             {{-- Table --}}
                             <?php $datatableColumns = Uccello::getDatatableColumns($entityModule, null, 'related-list'); ?>
                             @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => 'datatable_'.$field->name, 'datatableContentUrl' => ucroute('uccello.list.content', $domain, $entityModule, ['action' => 'select']), 'relatedModule' => $entityModule, 'searchable' => true  ])
+                        </div>
+                    </div>
+                    <div id="tabCreate" class="row">
+                        <div class="col s12" id="tabCreateAjax">
+                            {{-- Will be loaded dynamicly through AJAX --}}
                         </div>
                     </div>
                 </div>
@@ -59,4 +78,8 @@
         </div>
     </div>
     @endif
+@append
+
+@section('extra-meta')
+<meta name="popup_url_{{ $field->name }}" content="{{ ucroute('uccello.popup.edit', $domain, $entityModule) }}">
 @append

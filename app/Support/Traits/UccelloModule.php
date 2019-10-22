@@ -14,14 +14,12 @@ use Uccello\Core\Models\Domain;
 trait UccelloModule
 {
     /**
-     * The "booting" method of the model.
+     * The "booting" method of the trait.
      *
      * @return void
      */
-    protected static function boot()
+    protected static function bootUccelloModule()
     {
-        parent::boot();
-
         if (static::isFilteredByUser()) {
             static::addGlobalScope(new Scopes\AssignedUser);
         }
@@ -133,7 +131,6 @@ trait UccelloModule
             elseif (substr(strrchr(get_class($filter), "\\"), 1) == 'Filter') {
                 $filterModel = $filter;
             }
-            
             if ($filterModel) {
                 // Conditions
                 if (!empty($filterModel->conditions)) {
@@ -149,7 +146,6 @@ trait UccelloModule
                         }
                     }
                 }
-    
                 // Order results
                 if (!empty($filterModel->order)) {
                     foreach ($filterModel->order as $fieldName => $value) {

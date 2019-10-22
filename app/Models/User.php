@@ -185,7 +185,7 @@ class User extends Authenticatable implements Searchable
      */
     public function rolesOnDomain($domain) : Collection
     {
-        return Cache::remember('domain_'.$domain->slug.'_roles', 600, function () use($domain) {
+        return Cache::remember('user_'.$this->id.'_domain_'.$domain->slug.'roles', 600, function () use($domain) {
             $roles = collect();
 
             if (config('uccello.roles.display_ancestors_roles')) {

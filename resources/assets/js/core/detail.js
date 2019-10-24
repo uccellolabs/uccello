@@ -63,7 +63,7 @@ export class Detail {
                 {
                     swal({
                         title: uctrans.trans('uccello::default.confirm.dialog.title'),
-                        text: "Cette entité est déjà liée à "+oldRelatedName+". Si vous continuez, "+oldRelatedName+" sera remplacé par l'entité actuelle.",
+                        text: uctrans.trans('uccello::default.entity.confirmation_override', {name: oldRelatedName, name_: oldRelatedName}),
                         icon: "warning",
                         buttons: true,
                         dangerMode: true,

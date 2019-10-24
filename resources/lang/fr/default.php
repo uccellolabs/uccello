@@ -271,4 +271,9 @@ return [
             'too_short' => 'Saisir plus de caractères',
         ],
     ],
+
+    //Uitype 10
+    'entity' => [
+        'confirmation_override' => "Cette entité est déjà liée à :name. Si vous continuez, :name_ sera remplacé par l'entité actuelle."
+    ]
 ];

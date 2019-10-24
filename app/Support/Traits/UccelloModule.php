@@ -131,7 +131,6 @@ trait UccelloModule
             elseif (substr(strrchr(get_class($filter), "\\"), 1) == 'Filter') {
                 $filterModel = $filter;
             }
-
             if ($filterModel) {
                 // Conditions
                 if (!empty($filterModel->conditions)) {

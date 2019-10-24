@@ -100,7 +100,7 @@ class PopupEditController extends Controller
         }
 
         event(new BeforeSaveEvent($domain, $module, $request, $record, 'create'));
-            
+
         // Save record
         $record->save();
 
@@ -112,8 +112,11 @@ class PopupEditController extends Controller
 
     public function getForm($domain, $module, $request, $record = null)
     {
-        if($record==null)
-            $record = new \App\Organisation;
+        if ($record === null) {
+            $modelClass = $module->model_class;
+            $record = new $modelClass;
+        }
+
         return $this->formBuilder->create(PopupEditForm::class, [
             'model' => $record,
             'data' => [

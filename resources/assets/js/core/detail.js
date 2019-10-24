@@ -57,7 +57,7 @@ export class Detail {
             $('table thead .search', modal).removeClass('hide')
 
             // Click callback
-            let rowClickCallback = (event, datatable, recordId, oldRelatedName) => {
+            let rowClickCallback = (event, datatable, recordId, recordLabel, oldRelatedName) => {
                 
                 if(oldRelatedName)
                 {

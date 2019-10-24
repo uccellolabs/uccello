@@ -30,9 +30,18 @@ export class EntityField {
             const modal = $(event.currentTarget).parents('.modal:first');
             const fieldName = modal.attr('data-field')
 
+            dispatchEvent(new CustomEvent('uccello.uitype.entity.deleted', {
+                detail: {
+                    id: $(`[name='${fieldName}']`).val(),
+                    fieldName: fieldName
+                }
+            }));
+
             $(`[name='${fieldName}']`).val('')
             $(`#${fieldName}_display`).val('')
             $(`#${fieldName}_display`).parent().find('label').removeClass('active')
+
+            
 
             $(modal).modal('close')
         })
@@ -45,6 +54,13 @@ export class EntityField {
         $(`[name='${fieldName}']`).val(recordId).trigger('keyup')
         $(`#${fieldName}_display`).val(recordLabel)
         $(`#${fieldName}_display`).parent().find('label').addClass('active')
+
+        dispatchEvent(new CustomEvent('uccello.uitype.entity.selected', {
+            detail: {
+                id: recordId,
+                fieldName: fieldName
+            }
+        }));
 
         $(modal).modal('close')
     }
@@ -71,6 +87,13 @@ export class EntityField {
                             $(`[name='${fieldName}']`).val(response.id).trigger('keyup')
                             $(`#${fieldName}_display`).val(response.recordLabel)
                             $(`#${fieldName}_display`).parent().find('label').addClass('active')
+
+                            dispatchEvent(new CustomEvent('uccello.uitype.entity.created', {
+                                detail: {
+                                    id: response.id,
+                                    fieldName: fieldName
+                                }
+                            }));
 
                             $(modal).modal('close')
 

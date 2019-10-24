@@ -239,7 +239,7 @@ export class Datatable {
         // Add click listener
         $(tr).on('click', function(event) {
             if (typeof that.rowClickCallback !== 'undefined') {
-                that.rowClickCallback(event, that, $(this).attr('data-record-id'), $(this).attr('data-related-record-label'))
+                that.rowClickCallback(event, that, $(this).attr('data-record-id'), $(this).attr('data-record-label'), $(this).attr('data-related-record-label'))
             } else {
                 document.location.href = $(this).attr('data-row-url')
             }

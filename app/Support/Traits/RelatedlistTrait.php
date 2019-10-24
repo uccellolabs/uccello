@@ -60,6 +60,29 @@ trait RelatedlistTrait
     }
 
     /**
+     * Get ids of related records for n-1 relations
+     *
+     * @param Relatedlist $relatedList
+     * @param integer $recordId
+     * @return Collection
+     */
+    public function getDependentListRecordIds(Relatedlist $relatedList, int $recordId) : Collection
+    {
+        // Get record
+        $modelClass = $relatedList->module->model_class;
+        $record = $modelClass::find($recordId);
+
+        // Get related key name
+        $relatedModel = new $relatedList->relatedModule->model_class;
+        $relatedTable = $relatedModel->table;
+        $relatedPrimaryKey = $relatedModel->getKeyName();
+
+        // Get related records ids
+        $relationName = $relatedList->relationName;
+        return $record->$relationName()->pluck("$relatedTable.$relatedPrimaryKey");
+    }
+
+    /**
      * Retrieves related records for n-n relations
      *
      * @param Relatedlist $relatedList

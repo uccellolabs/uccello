@@ -81,11 +81,13 @@
                     @endif
 
                     @if (isset($relatedlist) && Auth::user()->canDelete($domain, $relatedModule))
+
+                    {{-- {{ dd($relatedlist->getDeleteLink($domain, $record->id)) }} --}}
                     <a href="{{ $relatedlist->getDeleteLink($domain, $record->id) }}"
                         data-tooltip="{{ uctrans('button.delete', $relatedModule) }}"
                         data-position="top"
                         class="delete-btn primary-text"
-                        data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ $relatedlist->type === 'n-n' ? uctrans('confirm.button.delete_relation', $module) : uctrans('confirm.button.delete_record', $module) }}"}}'>
+                        data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('confirm.button.delete_relation', $module) }}"}}'>
                         <i class="material-icons">delete</i>
                     </a>
                     @endif

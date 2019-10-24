@@ -234,11 +234,12 @@ export class Datatable {
 
         $(tr).attr('data-record-id', record.__primaryKey)
         $(tr).attr('data-record-label', record.recordLabel)
+        $(tr).attr('data-related-record-label', record.__relatedEntityName)
 
         // Add click listener
         $(tr).on('click', function(event) {
             if (typeof that.rowClickCallback !== 'undefined') {
-                that.rowClickCallback(event, that, $(this).attr('data-record-id'), $(this).attr('data-record-label'))
+                that.rowClickCallback(event, that, $(this).attr('data-record-id'), $(this).attr('data-related-record-label'))
             } else {
                 document.location.href = $(this).attr('data-row-url')
             }

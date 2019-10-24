@@ -75,7 +75,7 @@ class Relatedlist extends Model
     {
         $relationName = null;
 
-        $relationName = $this->data->relationName ?? Str::plural($this->relatedModule->name);
+        $relationName = $this->data->relationName ?? Str::camel(Str::plural($this->relatedModule->name));
 
         return $relationName;
     }

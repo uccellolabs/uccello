@@ -54,6 +54,7 @@ return [
         'see_descendants_records' => 'Descendant view',
         'create_related_record' => 'Create new',
         'search_related_record' => 'Search',
+        'lines_number' => 'Lines',
     ],
 
     // Block

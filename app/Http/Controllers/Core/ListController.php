@@ -50,10 +50,13 @@ class ListController extends Controller
             ->where('type', 'list')
             ->get();
 
-        // Order by
+        // Order
         $filterOrderBy = (array) $selectedFilter->order;
 
-        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy'));
+        // See descendants
+        $seeDescendants = request()->session()->get('descendants');
+
+        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy', 'seeDescendants'));
     }
 
     /**
@@ -74,6 +77,9 @@ class ListController extends Controller
         $action = $request->get('action');
 
         $relatedModule = null;
+        if ($request->has('descendants') && $request->get('descendants') !== $request->session()->get('descendants')) {
+            $request->session()->put('descendants', $request->get('descendants'));
+        }
 
         // Pre-process
         $this->preProcess($domain, $module, $request, false);
@@ -294,8 +300,10 @@ class ListController extends Controller
             return false;
         }
 
+        uclog($this->request->session()->get('descendants'));
+
         // Filter on domain if column exists
-        $query = $modelClass::inDomain($this->domain, $this->request->get('descendants'))
+        $query = $modelClass::inDomain($this->domain, $this->request->session()->get('descendants'))
                             ->filterBy($filter);
 
         return $query;

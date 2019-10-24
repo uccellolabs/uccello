@@ -12,17 +12,19 @@
     <div class="action-buttons right-align">
         @yield('before-descendants-records-button')
         @if (auth()->user()->canSeeDescendantsRecords($domain))
-        <!-- Dropdown Trigger -->
-        <a class="dropdown-trigger btn-small primary" href="#" data-target="dropdown-descendants-records" data-constrain-width="false" data-alignment="right">
-            <span>{{ uctrans('button.see_descendants_records', $module) }}</span>
-            <i class="material-icons hide-on-med-and-down right">arrow_drop_down</i>
+        {{-- Dropdown Trigger --}}
+        <a class="btn-floating btn-small waves-effect @if ($seeDescendants)orange @else primary @endif"
+            href="javascript:void(0);"
+            data-table="datatable"
+            @if ($seeDescendants)
+            data-descendants-records-filter="0"
+            @else
+            data-descendants-records-filter="1"
+            @endif
+            data-tooltip="{{ uctrans('button.see_descendants_records', $module) }}"
+            data-position="top">
+            <i class="material-icons">account_tree</i>
         </a>
-
-        <!-- Dropdown Structure -->
-        <ul id="dropdown-descendants-records" class="dropdown-content" data-table="datatable">
-            <li><a href="javascript:void(0);" data-descendants-records-filter="1">{{ uctrans('yes', $module) }}</a></li>
-            <li class="active"><a href="javascript:void(0);" data-descendants-records-filter="0">{{ uctrans('no', $module) }}</a></li>
-        </ul>
         @endif
 
         @yield('after-descendants-records-button')
@@ -30,10 +32,15 @@
 
         {{-- Columns visibility --}}
         @section('columns-visibility-button')
-        <a href="#" class="btn-small waves-effect primary dropdown-trigger" data-target="dropdown-columns" data-close-on-click="false" data-constrain-width="false" data-alignment="right">
-            <span class="hide-on-small-only">{!! uctrans('button.columns', $module) !!}</span>
-            <i class="material-icons hide-on-med-and-up">view_column</i>
-            <i class="material-icons hide-on-med-and-down right">arrow_drop_down</i>
+        <a href="#"
+            class="dropdown-trigger btn-floating btn-small waves-effect primary"
+            data-target="dropdown-columns"
+            data-close-on-click="false"
+            data-constrain-width="false"
+            data-alignment="right"
+            data-tooltip="{{ uctrans('button.columns', $module) }}"
+            data-position="top">
+            <i class="material-icons">view_column</i>
         </a>
         <ul id="dropdown-columns" class="dropdown-content columns" data-table="datatable">
             @foreach ($datatableColumns as $column)
@@ -47,10 +54,13 @@
 
         {{-- Records number --}}
         @section('records-button')
-        <a href="#" class="btn-small waves-effect primary dropdown-trigger " data-target="dropdown-records-number" data-alignment="right">
-            <span class="hide-on-med-and-down">{!! uctrans('filter.show_n_records', $module, ['number' => '<strong class="records-number">'.($selectedFilter->data->length ?? 15).'</strong>']) !!}</span>
-            <strong class="records-number hide-on-large-only">{{ $selectedFilter->data->length ?? 15 }}</strong>
-            <i class="material-icons hide-on-med-and-down right">arrow_drop_down</i>
+        <a href="#"
+            class="dropdown-trigger btn-floating btn-small waves-effect primary"
+            data-target="dropdown-records-number"
+            data-alignment="right"
+            data-tooltip="{{ uctrans('button.lines_number', $module) }}"
+            data-position="top">
+            <strong class="records-number">{{ $selectedFilter->data->length ?? 15 }}</strong>
         </a>
         <ul id="dropdown-records-number" class="dropdown-content records-number" data-table="datatable">
             <li><a href="javascript:void(0);" class="waves-effect waves-block" data-number="15">15</a></li>

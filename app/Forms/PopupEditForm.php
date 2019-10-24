@@ -58,11 +58,9 @@ class PopupEditForm extends EditForm
 
         // Add a save button
         $this->add('save_btn', 'submit', [
-            'label' => '<i class="material-icons">save</i>',
+            'label' => '<i class="material-icons left">save</i> '.uctrans('button.save', $module),
             'attr' => [
-                'class' => 'btn-floating btn-large waves-effect green btn-save',
-                'data-tooltip' => uctrans('button.save', $module),
-                'data-position' => 'top',
+                'class' => 'btn waves-effect green right',
             ]
         ]);
     }

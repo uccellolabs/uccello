@@ -52,6 +52,8 @@ return [
         'delete_related_record' => 'Supprimer la relation',
         'user_account' => 'Mon compte',
         'see_descendants_records' => 'Vue descendante',
+        'create_related_record' => 'Créer nouveau',
+        'search_related_record' => 'Rechercher',
     ],
 
     // Block

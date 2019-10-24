@@ -53,10 +53,10 @@
 <header class="navbar-fixed navbar-top">
     <nav class="transparent z-depth-0">
         <div class="row">
-            <div class="col s12 m8 l6">
+            <div class="col s12 m9">
                 @section('breadcrumb')&nbsp;@show
             </div>
-            <div class="col s12 m4 l6 hide-on-small-only">
+            <div class="col s12 m3 hide-on-small-only">
                 @section('top-action-buttons')&nbsp;@show
             </div>
         </div>

@@ -42,34 +42,31 @@
                 {{-- Label --}}
                 <span>{{ uctrans($entityModule->name, $entityModule ) }}</span>
 
-                <a href="javascript:void(0)" class="btn-flat waves-effect red-text right delete-related-record">{{ uctrans('button.delete_related_record', $entityModule) }}</a>
+                <a href="javascript:void(0)" class="btn-flat waves-effect red-text right delete-related-record">
+                    <i class="material-icons left">delete</i>
+                    {{ uctrans('button.delete_related_record', $entityModule) }}
+                </a>
+                <a href="javascript:void(0)" class="btn-flat waves-effect primary-text right create-related-record">
+                    <i class="material-icons left">add</i>
+                    {{ uctrans('button.create_related_record', $entityModule) }}
+                </a>
+                <a href="javascript:void(0)" class="btn-flat waves-effect primary-text right search-related-record" style="display: none">
+                    <i class="material-icons left">search</i>
+                    {{ uctrans('button.search_related_record', $entityModule) }}
+                </a>
             </h4>
 
             <div class="row">
                 <div class="col s12 modal-body">
-                    <ul class="tabs">
-                        <li class="tab col s6">
-                            <a href="#tabSearch" class="active">
-                                <i class="material-icons left">search</i>
-                                {{ uctrans('datatable.search', $entityModule) }}
-                            </a>
-                        </li>
-                        <li class="tab col s6">
-                            <a href="#tabCreate">
-                                <i class="material-icons left">add</i>
-                                {{ uctrans('button.new', $entityModule) }}
-                            </a>
-                        </li>
-                    </ul>
-                    <div id="tabSearch" class="row" style="margin-top : 10px;">
+                    <div class="row search-related-record" style="margin-top : 10px;">
                         <div class="col s12">
                             {{-- Table --}}
                             <?php $datatableColumns = Uccello::getDatatableColumns($entityModule, null, 'related-list'); ?>
                             @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => 'datatable_'.$field->name, 'datatableContentUrl' => ucroute('uccello.list.content', $domain, $entityModule, ['action' => 'select']), 'relatedModule' => $entityModule, 'searchable' => true  ])
                         </div>
                     </div>
-                    <div id="tabCreate" class="row">
-                        <div class="col s12" id="tabCreateAjax">
+                    <div class="row create-related-record" style="display: none">
+                        <div class="col s12 create-ajax">
                             {{-- Will be loaded dynamicly through AJAX --}}
                         </div>
                     </div>

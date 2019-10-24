@@ -9,6 +9,7 @@ export class Edit {
         this.initDeleteCurrentFileListener()
         this.initSaveAndNewListener()
         this.initEntityFields()
+        this.initEntityModalButtonsListener()
     }
 
     initDeleteCurrentFileListener() {
@@ -28,7 +29,7 @@ export class Edit {
         $('.btn-save-new').on('click', () => {
             // Set we want to create a new record after save
             $("input[name='save_new_hdn']").val(1);
-            
+
             // Submit form
             $('form.edit-form').submit();
         })
@@ -39,5 +40,27 @@ export class Edit {
      */
     initEntityFields() {
         let entityField = new EntityField()
+    }
+
+    initEntityModalButtonsListener() {
+        $('a.create-related-record').click(event => {
+            let modal = $(event.currentTarget).parents('.modal:first')
+
+            $('div.create-related-record', modal).show()
+            $('div.search-related-record', modal).hide()
+
+            $('a.create-related-record', modal).hide()
+            $('a.search-related-record', modal).show()
+        })
+
+        $('a.search-related-record').click(event => {
+            let modal = $(event.currentTarget).parents('.modal:first')
+
+            $('div.search-related-record', modal).show()
+            $('div.create-related-record', modal).hide()
+
+            $('a.search-related-record', modal).hide()
+            $('a.create-related-record', modal).show()
+        })
     }
 }

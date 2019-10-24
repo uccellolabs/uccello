@@ -50,26 +50,22 @@ export class EntityField {
     }
 
 
-    setUpForm(html)
-    {
-        let that = this;
-        $('#tabCreateAjax').html(html);
+    setUpForm(html, modal) {
+        $('.create-ajax', modal).html(html);
 
         this.initMaterializeOnItems();
 
-        let form = $('#form_popup_'+this.relatedModule)
-        
-        $(form).submit(function(){
+        let form = $('#form_popup_'+this.relatedModule, modal)
+
+        form.submit(_ => {
             //Submit form with AJAX
             $.ajax(
                 {
-                    url: $(form).attr('action'),
+                    url: form.attr('action'),
                     type: 'POST',
-                    data : $(form).serialize(),
-                    success : function (response) {
-                        if(response.id && response.recordLabel)
-                        {
-                            const modal = $(form).parents('.modal:first');
+                    data : form.serialize(),
+                    success : response => {
+                        if (response.id && response.recordLabel) {
                             const fieldName = modal.attr('data-field');
 
                             $(`[name='${fieldName}']`).val(response.id).trigger('keyup')
@@ -77,10 +73,18 @@ export class EntityField {
                             $(`#${fieldName}_display`).parent().find('label').addClass('active')
 
                             $(modal).modal('close')
+
+                            // Display search list and refresh the list
+                            $('a.search-related-record', modal).click()
+                            let event = new CustomEvent('uccello.list.refresh', {detail: $('.search-related-record table', modal).attr('id')})
+                            dispatchEvent(event)
                         }
-                        else
-                        {
-                            that.setUpForm(response);
+                        else {
+                            this.setUpForm(response, modal);
+
+                            // Scroll to first error
+                            var scrollTo = $('.invalid:first');
+                            modal.animate({scrollTop: scrollTo.offset().top - modal.offset().top + modal.scrollTop() - 30, scrollLeft: 0},300);
                         }
                     },
                 }
@@ -114,14 +118,18 @@ export class EntityField {
     }
 
     initListener() {
-        let that = this;
-        $('a.entity-modal').on('click', function() {
-            let tableId = $(this).attr('data-table')
-            that.relatedModule = tableId.replace('datatable_', '');
+        $('a.entity-modal').on('click', event => {
+            let element = $(event.currentTarget);
+            let tableId = element.attr('data-table')
 
-            let edit_view_popup_url = $('meta[name="popup_url_'+that.relatedModule+'"]').attr('content');
+            let modalId = $(element).attr('href')
+            let modal = $(modalId);
+
+            this.relatedModule = tableId.replace('datatable_', '');
+
+            let edit_view_popup_url = $('meta[name="popup_url_'+this.relatedModule+'"]').attr('content');
             $.get(edit_view_popup_url).then((data) => {
-                that.setUpForm(data);
+                this.setUpForm(data, modal);
             });
         })
     }

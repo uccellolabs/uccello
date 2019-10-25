@@ -13,9 +13,9 @@ class AlterFilterModule extends Migration
      */
     public function up()
     {
-        Schema::table($this->tablePrefix.'filters', function(Blueprint $table) {
-            $table->renameColumn('order_by', 'order');
-        });
+        // Schema::table($this->tablePrefix.'filters', function(Blueprint $table) {
+        //     $table->renameColumn('order_by', 'order');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ class AlterFilterModule extends Migration
      */
     public function down()
     {
-        Schema::table($this->tablePrefix . 'filters', function (Blueprint $table) {
-            $table->renameColumn('order', 'order_by');
-        });
+        // Schema::table($this->tablePrefix . 'filters', function (Blueprint $table) {
+        //     $table->renameColumn('order', 'order_by');
+        // });
     }
 }

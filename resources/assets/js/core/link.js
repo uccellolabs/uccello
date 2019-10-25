@@ -76,6 +76,8 @@ export class Link {
         // Get Ajax config
         let ajaxConfig = typeof this.config.ajax === 'object' ? this.config.ajax : {}
 
+        console.log(this.config);
+
         // Method
         let method = "get"
         if (ajaxConfig.method) { method =  ajaxConfig.method}

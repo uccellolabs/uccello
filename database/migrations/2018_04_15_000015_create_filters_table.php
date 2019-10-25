@@ -22,7 +22,7 @@ class CreateFiltersTable extends Migration
             $table->string('type');
             $table->text('columns');
             $table->text('conditions')->nullable();
-            $table->string('order_by')->nullable();
+            $table->string('order')->nullable();
             $table->boolean('is_default')->default(false);
             $table->boolean('is_public')->default(false);
             $table->text('data')->nullable();

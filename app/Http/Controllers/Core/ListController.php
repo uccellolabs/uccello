@@ -286,8 +286,6 @@ class ListController extends Controller
             return false;
         }
 
-        uclog($this->request->session()->get('descendants'));
-
         // Filter on domain if column exists
         $query = $modelClass::inDomain($this->domain, $this->request->session()->get('descendants'))
                             ->filterBy($filter);

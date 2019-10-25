@@ -109,7 +109,7 @@ class CreateDomainStructure extends Migration
         $filter->type = 'list';
         $filter->columns = [ 'name', 'description', 'parent' ];
         $filter->conditions = null;
-        $filter->order = null;
+        $filter->order_by = null;
         $filter->is_default = true;
         $filter->is_public = false;
         $filter->data = [ 'readonly' => true ];

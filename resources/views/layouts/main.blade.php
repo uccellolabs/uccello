@@ -24,6 +24,9 @@
         <meta name="module" content="{{ $module->name }}">
         @endif
 
+        {{-- User settings urls --}}
+        <meta name="user-settings-url" content="{{ ucroute('uccello.user.settings.update', $domain) }}">
+
         @yield('extra-meta')
 
         {{-- Favicon --}}
@@ -44,7 +47,7 @@
         @yield('extra-css')
     </head>
 
-    <body class="@section('body-class')theme-{{ config('uccello.theme', 'uccello') }}@show @yield('body-extra-class')">
+    <body class="@section('body-class')theme-{{ config('uccello.theme', 'uccello') }}@show @yield('body-extra-class') @if (auth()->user()->getSettings('menu_mini', false)) sidenav-mini @endif">
         @yield('pre-content')
 
         @section('content-container')

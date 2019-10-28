@@ -114,6 +114,11 @@ class User extends Authenticatable implements Searchable
         return $this->belongsToMany(Group::class, 'uccello_rl_groups_users');
     }
 
+    public function userSettings()
+    {
+        return $this->hasOne(UserSettings::class, 'user_id');
+    }
+
     /**
      * Returns record label
      *
@@ -175,6 +180,27 @@ class User extends Authenticatable implements Searchable
         }
 
         return $image;
+    }
+
+    /**
+     * Returns user settings
+     *
+     * @return \stdClass;
+     */
+    public function getSettingsAttribute()
+    {
+        return $this->userSettings->data ?? new \stdClass;
+    }
+
+    /**
+     * Searches a settings by key and returns the current value
+     *
+     * @param string $key
+     * @param mixed $defaultValue
+     * @return \stdClass|null;
+     */
+    public function getSettings($key, $defaultValue=null) {
+        return $this->userSettings->data->{$key} ?? $defaultValue;
     }
 
     /**

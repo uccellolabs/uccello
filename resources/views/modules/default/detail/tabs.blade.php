@@ -10,7 +10,7 @@
     {{-- Tabs --}}
     @foreach ($module->tabs as $i => $tab)
     <li class="tab">
-        <a href="#{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
+        <a href="#tab_{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
             <i class="material-icons left">{{ $tab->icon ?? 'info' }}</i> <span>{{ uctrans($tab->label, $module) }}</span>
         </a>
     </li>

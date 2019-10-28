@@ -18,14 +18,14 @@
         <meta name="domains-tree-default-url" content="{{ ucroute('uccello.domains.tree.root', $domain) }}">
         <meta name="domains-tree-children-url" content="{{ ucroute('uccello.domains.tree.children', $domain) }}">
         <meta name="domains-tree-open-all" content="{{ config('uccello.domains.open_tree', true) }}">
+        {{-- User settings urls --}}
+        <meta name="user-settings-url" content="{{ ucroute('uccello.user.settings.update', $domain) }}">
         {{-- Domain --}}
         <meta name="domain" content="{{ $domain->slug }}">
         {{-- Module --}}
         <meta name="module" content="{{ $module->name }}">
         @endif
 
-        {{-- User settings urls --}}
-        <meta name="user-settings-url" content="{{ ucroute('uccello.user.settings.update', $domain) }}">
 
         @yield('extra-meta')
 

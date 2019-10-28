@@ -244,6 +244,11 @@ export class Datatable {
             }
         })
 
+        // Allow ctrl+click
+        $('a', tr).on('click', function(event) {
+            event.stopPropagation()
+        })
+
         // Dispatch event
         let event = new CustomEvent('uccello.list.row_added', {
             detail: {

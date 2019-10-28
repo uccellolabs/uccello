@@ -47,7 +47,7 @@
         @yield('extra-css')
     </head>
 
-    <body class="@section('body-class')theme-{{ config('uccello.theme', 'uccello') }}@show @yield('body-extra-class') @if (auth()->user()->getSettings('menu_mini', false)) sidenav-mini @endif">
+    <body class="@section('body-class')theme-{{ config('uccello.theme', 'uccello') }}@show @yield('body-extra-class') @if (auth()->user() && auth()->user()->getSettings('menu_mini', false)) sidenav-mini @endif">
         @yield('pre-content')
 
         @section('content-container')

@@ -19,6 +19,9 @@ return [
         'new_password' => 'Nouveau mot de passe',
         'new_password_confirm' => 'Nouveau mot de passe (confirmation)',
     ],
+    'relatedlist' => [
+        'groups' => 'Groupes',
+    ],
     'label' => [
         'no_role' => 'Aucun rôle lié',
         'my_account' => 'Mon compte',

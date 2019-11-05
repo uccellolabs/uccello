@@ -17,7 +17,8 @@ class Model extends DefaultModel
      * @var array
      */
     protected $appends = [
-        'recordLabel'
+        'recordLabel',
+        'uuid',
     ];
 
     public function __construct(array $attributes = [ ])

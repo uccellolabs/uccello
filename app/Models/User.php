@@ -72,7 +72,8 @@ class User extends Authenticatable implements Searchable
      * @var array
      */
     protected $appends = [
-        'recordLabel'
+        'recordLabel',
+        'uuid',
     ];
 
     public $searchableType = 'user';

@@ -3,23 +3,10 @@
 namespace Uccello\Core\Database\Eloquent;
 
 use Illuminate\Database\Eloquent\Model as DefaultModel;
-use Uccello\Core\Support\Traits\RelatedlistTrait;
 
 class Model extends DefaultModel
 {
-    use RelatedlistTrait;
-
     protected $tablePrefix;
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'recordLabel',
-        'uuid',
-    ];
 
     public function __construct(array $attributes = [ ])
     {

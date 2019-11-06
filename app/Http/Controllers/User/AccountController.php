@@ -7,6 +7,7 @@ use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Field;
 use Illuminate\Support\Facades\Validator;
+use Uccello\Core\Models\UserSettings;
 
 class AccountController extends Controller
 {
@@ -154,5 +155,36 @@ class AccountController extends Controller
         ucnotify(uctrans('success.password_updated', ucmodule('user')), 'success');
 
         return redirect(ucroute('uccello.user.account', $domain));
+    }
+
+    /**
+     * Update user settings
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updateSettings(?Domain $domain, Module $module)
+    {
+        $this->preProcess($domain, $module, request());
+
+        $userSettings = UserSettings::firstOrNew([
+            'user_id' => auth()->id()
+        ]);
+
+        $data = $userSettings->data ?? new \stdClass;
+
+        foreach ((array) request('settings') as $key => $value) {
+            if ($value === 'true') {
+                $value = true;
+            } elseif ($value === 'false') {
+                $value = false;
+            }
+
+            $data->{$key} = $value;
+        }
+
+        $userSettings->data = $data;
+        $userSettings->save();
+
+        return response()->json($userSettings->data);
     }
 }

@@ -26,6 +26,7 @@ class UccelloApp {
         this.initCountTo()
         this.initJsTree()
         this.initSearchBar()
+        this.initMenuSizeSwitcher()
     }
 
     initGlobal() {
@@ -339,6 +340,25 @@ class UccelloApp {
             $('.navbar-header .default-bar').show()
             $('.navbar-header .search-bar').hide()
             $('.navbar-header .search-bar #search').val('')
+        })
+    }
+
+    initMenuSizeSwitcher() {
+        $('#menu-size-switcher').click(event => {
+            $('body').toggleClass('sidenav-mini')
+            let isMenuMini = $("body").hasClass('sidenav-mini')
+            $('i', $(event.currentTarget)).text(isMenuMini ? 'menu' : 'menu_open')
+
+            // Save preference
+            let url = $("meta[name='user-settings-url']").attr('content')
+            let data = {
+                _token: $("meta[name='csrf-token']").attr('content'),
+                settings: {
+                    menu_mini: isMenuMini
+                }
+            }
+
+            $.post(url, data)
         })
     }
 

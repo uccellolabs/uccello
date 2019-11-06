@@ -9,22 +9,50 @@ use Illuminate\Support\Facades\Cache;
 use Uccello\Core\Support\Scopes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Uccello\Core\Models\Domain;
 
 trait UccelloModule
 {
+    use RelatedlistTrait;
+
     /**
-     * The "booting" method of the model.
+     * The "booting" method of the trait.
      *
      * @return void
      */
-    protected static function boot()
+    protected static function bootUccelloModule()
     {
-        parent::boot();
-
         if (static::isFilteredByUser()) {
             static::addGlobalScope(new Scopes\AssignedUser);
         }
+
+        // Create uuid after save
+        static::created(function ($model) {
+            $module = Module::where('model_class', get_class($model))->first();
+            if ($module) {
+                Entity::create([
+                    'id' => (string) Str::uuid(),
+                    'module_id' => $module->id,
+                    'record_id' => $model->getKey(),
+                ]);
+            }
+        });
+
+        // Delete uuid after forced delete
+        static::deleted(function ($model) {
+            if (!empty($model->uuid) && (!method_exists($model, 'isForceDeleting') || $model->isForceDeleting() === true)) {
+                $entity = Entity::find($model->uuid);
+                if ($entity) {
+                    $entity->delete();
+                }
+            }
+        });
+    }
+
+    public function initializeUccelloModule()
+    {
+        $this->appends = array_merge($this->appends, ['recordLabel','uuid']);
     }
 
     protected static function isFilteredByUser()
@@ -133,7 +161,7 @@ trait UccelloModule
             elseif (substr(strrchr(get_class($filter), "\\"), 1) == 'Filter') {
                 $filterModel = $filter;
             }
-            
+
             if ($filterModel) {
                 // Conditions
                 if (!empty($filterModel->conditions)) {
@@ -149,7 +177,7 @@ trait UccelloModule
                         }
                     }
                 }
-    
+
                 // Order results
                 if (!empty($filterModel->order)) {
                     foreach ($filterModel->order as $fieldName => $value) {

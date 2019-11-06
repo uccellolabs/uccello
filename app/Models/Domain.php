@@ -26,7 +26,8 @@ class Domain extends Tree implements Searchable
      * @var array
      */
     protected $appends = [
-        'recordLabel'
+        'recordLabel',
+        'uuid',
     ];
 
     /**

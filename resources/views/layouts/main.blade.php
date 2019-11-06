@@ -18,17 +18,20 @@
         <meta name="domains-tree-default-url" content="{{ ucroute('uccello.domains.tree.root', $domain) }}">
         <meta name="domains-tree-children-url" content="{{ ucroute('uccello.domains.tree.children', $domain) }}">
         <meta name="domains-tree-open-all" content="{{ config('uccello.domains.open_tree', true) }}">
+        {{-- User settings urls --}}
+        <meta name="user-settings-url" content="{{ ucroute('uccello.user.settings.update', $domain) }}">
         {{-- Domain --}}
         <meta name="domain" content="{{ $domain->slug }}">
         {{-- Module --}}
         <meta name="module" content="{{ $module->name }}">
         @endif
 
+
         @yield('extra-meta')
 
         {{-- Favicon --}}
-        <link rel="icon" href="{{ ucasset('images/favicon.png') }}" type="image/x-icon">
-        <base href="/">
+        <link rel="icon" href="@section('favicon'){{ ucasset('images/favicon.png') }}@show" type="image/x-icon">
+        @section('base-href')<base href="/">@show
 
         {{-- CSS --}}
         @section('uccello-css')
@@ -44,7 +47,7 @@
         @yield('extra-css')
     </head>
 
-    <body class="@section('body-class')theme-{{ config('uccello.theme', 'uccello') }}@show @yield('body-extra-class')">
+    <body class="@section('body-class')theme-{{ config('uccello.theme', 'uccello') }}@show @yield('body-extra-class') @if (auth()->user() && auth()->user()->getSettings('menu_mini', false)) sidenav-mini @endif">
         @yield('pre-content')
 
         @section('content-container')

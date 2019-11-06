@@ -52,6 +52,7 @@ return [
         'delete_related_record' => 'Supprimer la relation',
         'user_account' => 'Mon compte',
         'see_descendants_records' => 'Vue descendante',
+        'lines_number' => 'Lignes',
     ],
 
     // Block

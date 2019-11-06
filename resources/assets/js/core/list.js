@@ -321,29 +321,32 @@ export class List {
     initDescendantsRecordsFilterEventListener() {
         let that = this
         $('[data-descendants-records-filter]').on('click', function(e) {
-            $('#dropdown-descendants-records').find('li').each(function (){
-                $(this).removeClass('active')
-            })
-            $(this).parent().addClass('active')
             let seeDescendantsRecords = $(this).data('descendants-records-filter')
-            let table = $(this).parents('ul:first').data('table')
+            let table = $(this).data('table')
 
-            // Show / Hide domain column
             let domainColumnOption = $('#dropdown-columns li a[data-field="domain"]')
             if (seeDescendantsRecords == 1) {
                 $('#export_with_descendants').val(1);
 
+                // Show / Hide domain column
                 if (domainColumnOption.length > 0) {
                     $(domainColumnOption).parents('li:first').addClass('active')
                     $('th[data-field="domain"]').show()
                 }
+
+                $(this).data('descendants-records-filter', 0)
+                $(this).removeClass('primary').addClass('orange')
             } else {
                 $('#export_with_descendants').val(0);
 
+                // Show / Hide domain column
                 if (domainColumnOption.length > 0) {
                     $(domainColumnOption).parents('li:first').removeClass('active')
                     $('th[data-field="domain"]').hide()
                 }
+
+                $(this).data('descendants-records-filter', 1)
+                $(this).removeClass('orange').addClass('primary')
             }
 
             // Add filter to content URL

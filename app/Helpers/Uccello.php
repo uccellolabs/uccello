@@ -430,10 +430,38 @@ class Uccello
             return [ ];
         }
 
-        // Get all fields
-        $fields = $module->fields;
+        $fieldsAdded = [ ];
 
-        foreach ($fields as $field) {
+        $seeDescendants = request()->hasSession() && request()->session()->get('descendants') ? true : false;
+
+        // Get filter fields
+        foreach ($filter->columns as $fieldName) {
+            $field = $module->fields->where('name', $fieldName)->first();
+
+            // If the field does not exist or is not listable, continue
+            if (!$field  || !$field->isListable() || in_array($fieldName, $fieldsAdded)) {
+                continue;
+            }
+
+            $uitype = uitype($field->uitype_id);
+
+            // Add the field as a new column
+            $columns[ ] = [
+                'name' => $field->name,
+                'db_column' => $field->column,
+                'uitype' => $uitype->name,
+                'package' => $uitype->package,
+                'data' => $field->data,
+                'visible' => true
+            ];
+
+            $fieldsAdded[ ] = $fieldName;
+        }
+
+        // Get all other fields
+        $otherFields = $module->fields->whereNotIn('name', $fieldsAdded);
+
+        foreach ($otherFields as $field) {
             // If the field is not listable, continue
             if (!$field->isListable()) {
                 continue;
@@ -448,7 +476,7 @@ class Uccello
                 'uitype' => $uitype->name,
                 'package' => $uitype->package,
                 'data' => $field->data,
-                'visible' => in_array($field->name, $filter->columns)
+                'visible' => $field->name === 'domain' && $seeDescendants ? true : false
             ];
         }
 

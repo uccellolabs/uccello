@@ -1,3 +1,4 @@
+@section('navbar-header')
 <div class="navbar-header navbar-fixed">
     <nav class="header">
         <div class="nav-wrapper default-bar">
@@ -6,10 +7,19 @@
                     <a href="#" class="sidenav-trigger" data-target="sidenav-menu" style="margin-left: 0">
                         <i class="material-icons right">menu</i>
                     </a>
+                    <a href="javascript:void(0)" id="menu-size-switcher" class="hide-on-med-and-down" style="margin-left: 0">
+                        @if (auth()->user()->getSettings('menu_mini', false))
+                        <i class="material-icons right">menu</i>
+                        @else
+                        <i class="material-icons right">menu_open</i>
+                        @endif
+                    </a>
                 </li>
             </ul>
 
-            <a class="brand-logo" href="/" style="padding: 7px; max-height: 50px">{{ Html::image(ucasset('images/logo-uccello-white.png'), null, ['style' => 'max-width: 150px;']) }}</a>
+            @section('brand-logo')
+            <a class="brand-logo" href="/" style="padding: 7px; max-height: 50px">@section('logo'){{ Html::image(ucasset('images/logo-uccello-white.png'), null, ['style' => 'max-width: 150px;']) }}@show</a>
+            @show
 
             {{-- Display current domain name and a link to open domains list --}}
             <ul class="right">
@@ -44,15 +54,16 @@
         </div>
     </nav>
 </div>
+@show
 
 @section('navbar-top')
 <header class="navbar-fixed navbar-top">
     <nav class="transparent z-depth-0">
         <div class="row">
-            <div class="col s12 m8 l6">
+            <div class="col s12 m9">
                 @section('breadcrumb')&nbsp;@show
             </div>
-            <div class="col s12 m4 l6 hide-on-small-only">
+            <div class="col s12 m3 hide-on-small-only">
                 @section('top-action-buttons')&nbsp;@show
             </div>
         </div>

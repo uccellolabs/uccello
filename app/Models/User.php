@@ -72,7 +72,8 @@ class User extends Authenticatable implements Searchable
      * @var array
      */
     protected $appends = [
-        'recordLabel'
+        'recordLabel',
+        'uuid',
     ];
 
     public $searchableType = 'user';
@@ -112,6 +113,11 @@ class User extends Authenticatable implements Searchable
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'uccello_rl_groups_users');
+    }
+
+    public function userSettings()
+    {
+        return $this->hasOne(UserSettings::class, 'user_id');
     }
 
     /**
@@ -178,6 +184,27 @@ class User extends Authenticatable implements Searchable
     }
 
     /**
+     * Returns user settings
+     *
+     * @return \stdClass;
+     */
+    public function getSettingsAttribute()
+    {
+        return $this->userSettings->data ?? new \stdClass;
+    }
+
+    /**
+     * Searches a settings by key and returns the current value
+     *
+     * @param string $key
+     * @param mixed $defaultValue
+     * @return \stdClass|null;
+     */
+    public function getSettings($key, $defaultValue=null) {
+        return $this->userSettings->data->{$key} ?? $defaultValue;
+    }
+
+    /**
      * Returns user's roles on a domain
      *
      * @param \Uccello\Core\Models\Domain $domain
@@ -185,7 +212,7 @@ class User extends Authenticatable implements Searchable
      */
     public function rolesOnDomain($domain) : Collection
     {
-        return Cache::remember('domain_'.$domain->slug.'_roles', 600, function () use($domain) {
+        return Cache::remember('user_'.$this->id.'_domain_'.$domain->slug.'roles', 600, function () use($domain) {
             $roles = collect();
 
             if (config('uccello.roles.display_ancestors_roles')) {

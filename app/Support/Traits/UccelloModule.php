@@ -99,12 +99,16 @@ trait UccelloModule
     {
         $uuid = null;
 
-        $entity = Entity::where('module_id', $this->module->getKey())
-                        ->where('record_id', $this->getKey())
-                        ->first();
+        $module = $this->module;
 
-        if ($entity) {
-            $uuid = $entity->getKey();
+        if ($module) {
+            $entity = Entity::where('module_id', $module->getKey())
+                ->where('record_id', $this->getKey())
+                ->first();
+
+            if ($entity) {
+                $uuid = $entity->getKey();
+            }
         }
 
         return $uuid;

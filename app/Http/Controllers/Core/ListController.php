@@ -46,8 +46,20 @@ class ListController extends Controller
         $datatableColumns = Uccello::getDatatableColumns($module, $selectedFilterId);
 
         // Get filters
-        $filters = Filter::where('module_id', $module->id)
-            ->where('type', 'list')
+        $filters = Filter::where('module_id', $module->id)  // Module
+            ->where('type', 'list')                         // Type (list)
+            ->where(function ($query) use($domain) {        // Domain
+                $query->whereNull('domain_id')
+                    ->orWhere('domain_id', $domain->getKey());
+            })
+            ->where(function ($query) {                     // User
+                $query->where('is_public', true)
+                    ->orWhere(function ($query) {
+                        $query->where('is_public', false)
+                            ->where('user_id', '=', auth()->id());
+                    });
+            })
+            ->orderBy('order')
             ->get();
 
         // Order

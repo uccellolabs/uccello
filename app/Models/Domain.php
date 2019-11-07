@@ -15,7 +15,6 @@ class Domain extends Tree implements Searchable
 {
     use SoftDeletes;
     use Sluggable;
-    use RelatedlistTrait;
     use UccelloModule;
 
     protected $tablePrefix;

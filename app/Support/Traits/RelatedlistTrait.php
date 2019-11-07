@@ -5,7 +5,6 @@ namespace Uccello\Core\Support\Traits;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Uccello\Core\Models\Relatedlist;
-use Uccello\Core\Models\Relation;
 
 trait RelatedlistTrait
 {

@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
-use Uccello\Core\Support\Traits\RelatedlistTrait;
 use Uccello\Core\Support\Traits\UccelloModule;
 use Uccello\Core\Models\Group;
 
@@ -17,7 +16,6 @@ class User extends Authenticatable implements Searchable
 {
     use SoftDeletes;
     use Notifiable;
-    use RelatedlistTrait;
     use UccelloModule;
 
     /**

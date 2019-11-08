@@ -20,7 +20,7 @@
     {{-- Display admin menu for if the user can admin at least one admin module --}}
     <?php $settingsModule = ucmodule('settings'); ?>
     @if (Auth::user()->canAccessToSettingsPanel($domain) && $settingsModule->isActiveOnDomain($domain) && !$admin_env)
-        <li><a class="subheader">{{ uctrans('menu.admin', $module) }}</a></li>
+        <li><a class="subheader"><span>{{ uctrans('menu.admin', $module) }}</span></a></li>
 
         @yield('sidebar-admin-menu-before')
 

@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
-use Uccello\Core\Support\Traits\RelatedlistTrait;
 use Uccello\Core\Support\Traits\UccelloModule;
 use Uccello\Core\Models\Group;
 
@@ -17,7 +16,6 @@ class User extends Authenticatable implements Searchable
 {
     use SoftDeletes;
     use Notifiable;
-    use RelatedlistTrait;
     use UccelloModule;
 
     /**
@@ -72,7 +70,8 @@ class User extends Authenticatable implements Searchable
      * @var array
      */
     protected $appends = [
-        'recordLabel'
+        'recordLabel',
+        'uuid',
     ];
 
     public $searchableType = 'user';
@@ -112,6 +111,11 @@ class User extends Authenticatable implements Searchable
     public function groups()
     {
         return $this->belongsToMany(Group::class, 'uccello_rl_groups_users');
+    }
+
+    public function userSettings()
+    {
+        return $this->hasOne(UserSettings::class, 'user_id');
     }
 
     /**
@@ -175,6 +179,27 @@ class User extends Authenticatable implements Searchable
         }
 
         return $image;
+    }
+
+    /**
+     * Returns user settings
+     *
+     * @return \stdClass;
+     */
+    public function getSettingsAttribute()
+    {
+        return $this->userSettings->data ?? new \stdClass;
+    }
+
+    /**
+     * Searches a settings by key and returns the current value
+     *
+     * @param string $key
+     * @param mixed $defaultValue
+     * @return \stdClass|null;
+     */
+    public function getSettings($key, $defaultValue=null) {
+        return $this->userSettings->data->{$key} ?? $defaultValue;
     }
 
     /**

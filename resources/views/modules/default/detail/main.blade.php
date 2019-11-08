@@ -57,12 +57,17 @@
 
             {{-- Tabs and blocks --}}
             @foreach ($module->tabs as $i => $tab)
-            <div id="{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
+            <div id="tab_{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
                 {{-- Blocks --}}
                 @include('uccello::modules.default.detail.blocks')
 
                 {{-- Related lists as blocks --}}
                 @include('uccello::modules.default.detail.relatedlists.as-blocks')
+
+                {{-- Other blocks --}}
+                @if ($i === 0)
+                    @yield('other-blocks')
+                @endif
             </div>
             @endforeach
 
@@ -72,9 +77,6 @@
             {{-- Other tabs --}}
             @yield('other-tabs')
         @show
-
-        {{-- Other blocks --}}
-        @yield('other-blocks')
     </div>
 
     {{-- Action buttons --}}

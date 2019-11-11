@@ -23,12 +23,16 @@
             <span class="breadcrumb" href="#">
                 <a class="dropdown-trigger btn-flat" href="#" data-target="filters-list" data-constrain-width="false">
                     <i class="material-icons right">arrow_drop_down</i>
-                    <span class="primary-text">{{ uctrans($selectedFilter->name, $module) }}</span>
+                    <span class="primary-text">{{ $displayTrash ? uctrans('filter.trash', $module) : uctrans($selectedFilter->name, $module) }}</span>
                 </a>
                 <ul id="filters-list" class="dropdown-content">
                     @foreach ($filters as $filter)
-                    <li><a href="{{ ucroute('uccello.list', $domain, $module, ['filter' => $filter->id]) }}" @if($filter->id == $selectedFilter->id)class="active"@endif data-name="{{ $filter->name }}">{{ uctrans($filter->name, $module) }}</a></li>
+                    <li @if(!$displayTrash && $filter->id === $selectedFilter->id)class="active"@endif><a href="{{ ucroute('uccello.list', $domain, $module, ['filter' => $filter->id]) }}" data-name="{{ $filter->name }}">{{ uctrans($filter->name, $module) }}</a></li>
                     @endforeach
+
+                    @if ($usesSoftDeleting)
+                    <li @if($displayTrash)class="active"@endif><a href="{{ ucroute('uccello.list', $domain, $module, ['filter' => 'trash']) }}" data-name="filter.trash">{{ uctrans('filter.trash', $module) }}</a></li>
+                    @endif
                 </ul>
             </span>
 

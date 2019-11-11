@@ -102,6 +102,7 @@ Route::name('uccello.')->group(function() {
     Route::post($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
     Route::get($domainAndModuleParams.'/edit/relation/delete', 'Core\EditController@deleteRelation')->name('edit.relation.delete');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
+    Route::get($domainAndModuleParams.'/restore', 'Core\EditController@restore')->name('restore');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
     Route::get($domainAndModuleParams.'/download', 'Core\DownloadController@process')->name('download');
 });

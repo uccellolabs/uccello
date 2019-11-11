@@ -57,18 +57,36 @@ class ListController extends Controller
                     ->orWhere(function ($query) {
                         $query->where('is_public', false)
                             ->where('user_id', '=', auth()->id());
+                    })
+                    ->orWhere(function ($query) {
+                        $query->where('is_public', false)
+                            ->whereNull('user_id');
                     });
             })
             ->orderBy('order')
             ->get();
 
         // Order
-        $filterOrderBy = (array) $selectedFilter->order;
+        $filterOrder = (array) $selectedFilter->order;
 
         // See descendants
         $seeDescendants = request()->session()->get('descendants');
 
-        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy', 'seeDescendants'));
+        // Use soft deleting
+        $usesSoftDeleting = $this->isModuleUsingSoftDeleting();
+
+        // Check if we want to display trash data
+        $displayTrash = $this->isDisplayingTrash();
+
+        return $this->autoView(compact(
+            'datatableColumns',
+            'filters',
+            'selectedFilter',
+            'filterOrder',
+            'seeDescendants',
+            'usesSoftDeleting',
+            'displayTrash'
+        ));
     }
 
     /**
@@ -279,6 +297,29 @@ class ListController extends Controller
     }
 
     /**
+     * Check if the model class link to the module is using soft deleting.
+     *
+     * @return boolean
+     */
+    protected function isModuleUsingSoftDeleting()
+    {
+        return in_array(
+            \Illuminate\Database\Eloquent\SoftDeletes::class,
+            array_keys((new \ReflectionClass($this->module->model_class))->getTraits())
+        );
+    }
+
+    /**
+     * Check if we want to display trash data
+     *
+     * @return boolean
+     */
+    protected function isDisplayingTrash()
+    {
+        return $this->isModuleUsingSoftDeleting() && $this->request->get('filter') === 'trash';
+    }
+
+    /**
      * Build query for retrieving content
      *
      * @return \Illuminate\Database\Eloquent\Builder;
@@ -301,6 +342,11 @@ class ListController extends Controller
         // Filter on domain if column exists
         $query = $modelClass::inDomain($this->domain, $this->request->session()->get('descendants'))
                             ->filterBy($filter);
+
+        // Display trash if filter is selected
+        if ($this->isDisplayingTrash()) {
+            $query = $query->onlyTrashed();
+        }
 
         return $query;
     }

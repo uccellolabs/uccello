@@ -303,10 +303,10 @@ class ListController extends Controller
      */
     protected function isModuleUsingSoftDeleting()
     {
-        return in_array(
-            \Illuminate\Database\Eloquent\SoftDeletes::class,
-            array_keys((new \ReflectionClass($this->module->model_class))->getTraits())
-        );
+        $modelClass = $this->module->model_class;
+        $model = new $modelClass;
+
+        return method_exists($model, 'getDeletedAtColumn');
     }
 
     /**

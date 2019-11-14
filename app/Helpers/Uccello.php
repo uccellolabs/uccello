@@ -432,6 +432,8 @@ class Uccello
 
         $fieldsAdded = [ ];
 
+        $seeDescendants = request()->hasSession() && request()->session()->get('descendants') ? true : false;
+
         // Get filter fields
         foreach ($filter->columns as $fieldName) {
             $field = $module->fields->where('name', $fieldName)->first();
@@ -474,7 +476,7 @@ class Uccello
                 'uitype' => $uitype->name,
                 'package' => $uitype->package,
                 'data' => $field->data,
-                'visible' => false
+                'visible' => $field->name === 'domain' && $seeDescendants ? true : false
             ];
         }
 

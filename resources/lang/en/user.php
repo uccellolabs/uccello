@@ -19,6 +19,9 @@ return [
         'new_password' => 'New password',
         'new_password_confirm' => 'New password (confirmation)',
     ],
+    'relatedlist' => [
+        'groups' => 'Groups',
+    ],
     'label' => [
         'no_role' => 'No related role',
         'my_account' => 'My account',

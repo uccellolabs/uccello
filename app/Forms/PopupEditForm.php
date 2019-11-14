@@ -23,6 +23,8 @@ class PopupEditForm extends EditForm
         // Get request data
         $request = $this->getData('request');
 
+        $fieldName = $request->get('field');
+
         // Make route params
         $routeParams = [ ];
 
@@ -35,7 +37,7 @@ class PopupEditForm extends EditForm
             'url' => ucroute('uccello.popup.save', $domain, $module, $routeParams), // URL to call
             'class' => 'edit-form',
             'novalidate', // Deactivate HTML5 validation
-            'id' => 'form_popup_'.$module->name
+            'id' => 'form_popup_'.$fieldName
         ];
 
         // Add all fields

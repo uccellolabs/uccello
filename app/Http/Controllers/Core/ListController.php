@@ -46,17 +46,47 @@ class ListController extends Controller
         $datatableColumns = Uccello::getDatatableColumns($module, $selectedFilterId);
 
         // Get filters
-        $filters = Filter::where('module_id', $module->id)
-            ->where('type', 'list')
+        $filters = Filter::where('module_id', $module->id)  // Module
+            ->where('type', 'list')                         // Type (list)
+            ->where(function ($query) use($domain) {        // Domain
+                $query->whereNull('domain_id')
+                    ->orWhere('domain_id', $domain->getKey());
+            })
+            ->where(function ($query) {                     // User
+                $query->where('is_public', true)
+                    ->orWhere(function ($query) {
+                        $query->where('is_public', false)
+                            ->where('user_id', '=', auth()->id());
+                    })
+                    ->orWhere(function ($query) {
+                        $query->where('is_public', false)
+                            ->whereNull('user_id');
+                    });
+            })
+            ->orderBy('order')
             ->get();
 
         // Order
-        $filterOrderBy = (array) $selectedFilter->order;
+        $filterOrder = (array) $selectedFilter->order;
 
         // See descendants
         $seeDescendants = request()->session()->get('descendants');
 
-        return $this->autoView(compact('datatableColumns', 'filters', 'selectedFilter', 'filterOrderBy', 'seeDescendants'));
+        // Use soft deleting
+        $usesSoftDeleting = $this->isModuleUsingSoftDeleting();
+
+        // Check if we want to display trash data
+        $displayTrash = $this->isDisplayingTrash();
+
+        return $this->autoView(compact(
+            'datatableColumns',
+            'filters',
+            'selectedFilter',
+            'filterOrder',
+            'seeDescendants',
+            'usesSoftDeleting',
+            'displayTrash'
+        ));
     }
 
     /**
@@ -281,6 +311,29 @@ class ListController extends Controller
     }
 
     /**
+     * Check if the model class link to the module is using soft deleting.
+     *
+     * @return boolean
+     */
+    protected function isModuleUsingSoftDeleting()
+    {
+        $modelClass = $this->module->model_class;
+        $model = new $modelClass;
+
+        return method_exists($model, 'getDeletedAtColumn');
+    }
+
+    /**
+     * Check if we want to display trash data
+     *
+     * @return boolean
+     */
+    protected function isDisplayingTrash()
+    {
+        return $this->isModuleUsingSoftDeleting() && $this->request->get('filter') === 'trash';
+    }
+
+    /**
      * Build query for retrieving content
      *
      * @return \Illuminate\Database\Eloquent\Builder;
@@ -300,11 +353,14 @@ class ListController extends Controller
             return false;
         }
 
-        uclog($this->request->session()->get('descendants'));
-
         // Filter on domain if column exists
         $query = $modelClass::inDomain($this->domain, $this->request->session()->get('descendants'))
                             ->filterBy($filter);
+
+        // Display trash if filter is selected
+        if ($this->isDisplayingTrash()) {
+            $query = $query->onlyTrashed();
+        }
 
         return $query;
     }

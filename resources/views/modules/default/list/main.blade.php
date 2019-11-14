@@ -98,7 +98,7 @@
                             data-filter-type="list"
                             data-filter-id="{{ $selectedFilter->id ?? '' }}"
                             data-list-url="{{ ucroute('uccello.list', $domain, $module) }}"
-                            data-content-url="{{ ucroute('uccello.list.content', $domain, $module) }}"
+                            data-content-url="{{ ucroute('uccello.list.content', $domain, $module, ['filter' => $displayTrash ? 'trash' : $selectedFilter->id ?? '']) }}"
                             data-export-url="{{ ucroute('uccello.export', $domain, $module) }}"
                             data-save-filter-url="{{ ucroute('uccello.list.filter.save', $domain, $module) }}"
                             data-delete-filter-url="{{ ucroute('uccello.list.filter.delete', $domain, $module) }}"
@@ -119,8 +119,8 @@
                                             {{ uctrans('field.'.$column['name'], $module) }}
 
                                             {{-- Sort icon --}}
-                                            @if (!empty($filterOrderBy[$column['db_column']]))
-                                            <i class="fa @if ($filterOrderBy[$column['db_column']] === 'desc')fa-sort-amount-down @else fa-sort-amount-up @endif"></i>
+                                            @if (!empty($filterOrder[$column['db_column']]))
+                                            <i class="fa @if ($filterOrder[$column['db_column']] === 'desc')fa-sort-amount-down @else fa-sort-amount-up @endif"></i>
                                             @else
                                             <i class="fa fa-sort-amount-up" style="display: none"></i>
                                             @endif
@@ -171,12 +171,19 @@
                                     @endforeach
 
                                     <td class="actions-column hide-on-small-only hide-on-med-only right-align">
+                                        {{-- Edit --}}
                                         @if (Auth::user()->canUpdate($domain, $module))
                                         <a href="{{ ucroute('uccello.edit', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.edit', $module) }}" data-position="top" class="edit-btn primary-text"><i class="material-icons">edit</i></a>
                                         @endif
 
-                                        @if (Auth::user()->canDelete($domain, $module))
+                                        {{-- Delete --}}
+                                        @if (!$displayTrash && Auth::user()->canDelete($domain, $module))
                                         <a href="{{ ucroute('uccello.delete', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.delete', $module) }}" data-position="top" class="delete-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('confirm.button.delete_record', $module) }}"}}'><i class="material-icons">delete</i></a>
+                                        @endif
+
+                                        {{-- Restore --}}
+                                        @if ($displayTrash && Auth::user()->canUpdate($domain, $module))
+                                        <a href="{{ ucroute('uccello.restore', $domain, $module, ['id' => 'RECORD_ID']) }}" data-tooltip="{{ uctrans('button.restore', $module) }}" data-position="top" class="restore-btn primary-text" data-config='{"actionType":"link","confirm":true,"dialog":{"title":"{{ uctrans('confirm.button.restore_record', $module) }}"}}'><i class="material-icons">restore_from_trash</i></a>
                                         @endif
                                     </td>
                                 </tr>

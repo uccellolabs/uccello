@@ -106,6 +106,8 @@ body.theme-#{$theme} {
         top: 56px;
         width: 260px;
         border: none;
+        // -webkit-transition: width 0.8s, height 0.8s; /* Safari prior 6.1 */
+        // transition: width 0.8s, height 0.8s;
 
         &#sidenav-menu {
             // Menu
@@ -240,6 +242,64 @@ body.theme-#{$theme} {
         .collapsible-body > ul:not(.collapsible) > li.active,
         .sidenav.sidenav-fixed .collapsible-body > ul:not(.collapsible) > li.active {
             background-color: $sidenavLinkActiveBackgroundColor;
+        }
+    }
+
+    // Sidenav mini
+    @media only screen and (min-width: 992px) {
+        &.sidenav-mini {
+            header, main, footer {
+                padding-left: 50px;
+            }
+
+            .navbar-fixed {
+                &.navbar-top {
+                    nav {
+                        padding-left: 50px;
+                    }
+                }
+            }
+
+            .sidenav:not(:hover) {
+                width: 50px;
+
+                a span {
+                    display: none;
+                }
+
+                .user-info {
+                    .valign-wrapper {
+                        display: block;
+
+                        .user-image {
+                            // float: left;
+                            border-right: none !important;
+                            margin-top: 10px;
+                            width: 55px;
+                            height: 55px;
+
+                            .user-initials {
+                                width: 30px;
+                                height: 30px;
+                                padding-top: 5px;
+                                font-size: 16px;
+                            }
+                        }
+
+                        div.dropdown-trigger {
+                            display: none;
+                        }
+                    }
+                }
+
+                li ul.collapsible li a:not(.collapsible-header) {
+                    margin-left: 0 !important;
+                }
+
+                li ul.collapsible li a.collapsible-header:after {
+                    content: '' !important;
+                }
+            }
         }
     }
 

@@ -147,6 +147,36 @@ class EditController extends Controller
     }
 
     /**
+     * Restore a record from trash
+     *
+     * @param Domain|null $domain
+     * @param Module $module
+     * @param Request $request
+     * @return @return \Illuminate\Http\Response
+     */
+    public function restore(?Domain $domain, Module $module, Request $request)
+    {
+        // Pre-process
+        $this->preProcess($domain, $module, $request);
+
+        // Retrieve record
+        $recordId = (int) request('id');
+        $modelClass = $module->model_class;
+        $record = $modelClass::onlyTrashed()->findOrFail($recordId);
+
+        // Restore record if exists
+        if ($record) {
+            $record->restore();
+
+            ucnotify(uctrans('notification.record.restored', $module), 'success');
+        }
+
+        // Redirect to the trash list
+        $route = ucroute('uccello.list', $domain, $module, ['filter' => 'trash']);
+        return redirect($route);
+    }
+
+    /**
      * Add a relation between two records
      *
      * @param Domain|null $domain

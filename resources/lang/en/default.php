@@ -36,6 +36,7 @@ return [
         'new' => 'New',
         'edit' => 'Edit',
         'delete' => 'Delete',
+        'restore' => 'Restore',
         'clear_search' => 'Clear',
         'manage_filters' => 'Manage filters',
         'add_filter' => 'Add a filter',
@@ -77,6 +78,7 @@ return [
     // Filter
     'filter' => [
         'all' => 'All',
+        'trash' => 'Trash',
         'show_n_records' => ':number lines',
         'delete' => [
             'message' => 'Delete this filter?',
@@ -121,6 +123,7 @@ return [
         ],
         'button' => [
             'delete_record' => 'Delete this record?',
+            'restore_record' => 'Restore this record?',
             'delete_relation' => 'Delete this relation?',
         ],
     ],
@@ -130,6 +133,7 @@ return [
         'record' => [
             'created' => 'The record has been created.',
             'deleted' => 'The record has been deleted.',
+            'restored' => 'The record has been restored.',
         ],
         'relation' => [
             'deleted' => 'The relation has been deleted',

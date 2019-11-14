@@ -8,14 +8,12 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Gzero\EloquentTree\Model\Tree;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
-use Uccello\Core\Support\Traits\RelatedlistTrait;
 use Uccello\Core\Support\Traits\UccelloModule;
 
 class Domain extends Tree implements Searchable
 {
     use SoftDeletes;
     use Sluggable;
-    use RelatedlistTrait;
     use UccelloModule;
 
     protected $tablePrefix;
@@ -26,7 +24,8 @@ class Domain extends Tree implements Searchable
      * @var array
      */
     protected $appends = [
-        'recordLabel'
+        'recordLabel',
+        'uuid',
     ];
 
     /**

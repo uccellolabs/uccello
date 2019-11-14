@@ -78,6 +78,10 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'home')
         ->name('user.password.update');
 
+    Route::post($domainParam.'/user-account/settings', 'User\AccountController@updateSettings')
+        ->defaults('module', 'home')
+        ->name('user.settings.update');
+
 
     // Default routes
     Route::get($domainParam.'/home', 'Core\IndexController@process')
@@ -100,6 +104,7 @@ Route::name('uccello.')->group(function() {
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
     Route::get($domainAndModuleParams.'/popup_edit', 'Core\PopupEditController@process')->name('popup.edit');
     Route::post($domainAndModuleParams.'/popup', 'Core\PopupEditController@save')->name('popup.save');
+    Route::get($domainAndModuleParams.'/restore', 'Core\EditController@restore')->name('restore');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
     Route::get($domainAndModuleParams.'/download', 'Core\DownloadController@process')->name('download');
 });

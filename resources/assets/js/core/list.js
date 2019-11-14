@@ -351,7 +351,8 @@ export class List {
 
             // Add filter to content URL
             let $datatable = $('#' + table)
-            $datatable.attr('data-content-url', that.content_url + '?descendants=' + seeDescendantsRecords)
+            let url = that.content_url + (that.content_url.indexOf('?') > -1 ? '&' : '?') + 'descendants=' + seeDescendantsRecords
+            $datatable.attr('data-content-url', url)
             that.dispatchCustomEvent(table)
 
         })

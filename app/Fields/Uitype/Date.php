@@ -126,55 +126,55 @@ class Date extends DateTime implements Uitype
                         // Month
                         case uctrans('calendar.ranges.month', $field->module):
                             $dateStart = \Carbon\Carbon::today()->firstOfMonth();
-                            $dateEnd = \Carbon\Carbon::today()->lastOfMonth();
+                            $dateEnd = $dateStart->copy()->lastOfMonth();
                         break;
 
                         // Last month
                         case uctrans('calendar.ranges.last_month', $field->module):
-                            $dateStart = \Carbon\Carbon::today()->subMonth()->firstOfMonth();
-                            $dateEnd = \Carbon\Carbon::today()->subMonth()->lastOfMonth();
+                            $dateStart = \Carbon\Carbon::today()->firstOfMonth()->subMonth();
+                            $dateEnd = $dateStart->copy()->lastOfMonth();
                         break;
 
                         // Next month
                         case uctrans('calendar.ranges.next_month', $field->module):
-                            $dateStart = \Carbon\Carbon::today()->addMonth()->firstOfMonth();
-                            $dateEnd = \Carbon\Carbon::today()->addMonth()->lastOfMonth();
+                            $dateStart = \Carbon\Carbon::today()->firstOfMonth()->addMonth();
+                            $dateEnd = $dateStart->copy()->lastOfMonth();
                         break;
 
                         // Quarter
                         case uctrans('calendar.ranges.quarter', $field->module):
                             $dateStart = \Carbon\Carbon::today()->firstOfQuarter();
-                            $dateEnd = \Carbon\Carbon::today()->lastOfQuarter();
+                            $dateEnd = $dateStart->copy()->lastOfQuarter();
                         break;
 
                         // Last quarter
                         case uctrans('calendar.ranges.last_quarter', $field->module):
-                            $dateStart = \Carbon\Carbon::today()->subQuarter()->firstOfQuarter();
-                            $dateEnd = \Carbon\Carbon::today()->subQuarter()->lastOfQuarter();
+                            $dateStart = \Carbon\Carbon::today()->firstOfQuarter()->subQuarter();
+                            $dateEnd = $dateStart->copy()->lastOfQuarter();
                         break;
 
                         // Next quarter
                         case uctrans('calendar.ranges.next_quarter', $field->module):
-                            $dateStart = \Carbon\Carbon::today()->addQuarter()->firstOfQuarter();
-                            $dateEnd = \Carbon\Carbon::today()->addQuarter()->lastOfQuarter();
+                            $dateStart = \Carbon\Carbon::today()->firstOfQuarter()->addQuarter();
+                            $dateEnd = $dateStart->copy()->lastOfQuarter();
                         break;
 
                         // Year
                         case uctrans('calendar.ranges.year', $field->module):
                             $dateStart = \Carbon\Carbon::today()->firstOfYear();
-                            $dateEnd = \Carbon\Carbon::today()->lastOfYear();
+                            $dateEnd = $dateStart->copy()->lastOfYear();
                         break;
 
                         // Last year
                         case uctrans('calendar.ranges.last_year', $field->module):
-                            $dateStart = \Carbon\Carbon::today()->subYear()->firstOfYear();
-                            $dateEnd = \Carbon\Carbon::today()->subYear()->lastOfYear();
+                            $dateStart = \Carbon\Carbon::today()->firstOfYear()->subYear();
+                            $dateEnd = $dateStart->copy()->lastOfYear();
                         break;
 
                         // Next year
                         case uctrans('calendar.ranges.next_year', $field->module):
-                            $dateStart = \Carbon\Carbon::today()->addYear()->firstOfYear();
-                            $dateEnd = \Carbon\Carbon::today()->addYear()->lastOfYear();
+                            $dateStart = \Carbon\Carbon::today()->firstOfYear()->addYear();
+                            $dateEnd = $dateStart->copy()->lastOfYear();
                         break;
                     }
                 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
+use Uccello\Core\Database\Migrations\Migration;
 use Uccello\Core\Database\Migrations\Traits\TablePrefixTrait;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Domain;
@@ -44,9 +44,9 @@ class CreateGroupModule extends Migration
     public function down()
     {
         // Drop table
-        Schema::dropIfExists($this->tablePrefix . 'uccello_groups');
-        Schema::dropIfExists($this->tablePrefix . 'uccello_rl_groups_groups');
-        Schema::dropIfExists($this->tablePrefix . 'uccello_rl_groups_users');
+        Schema::dropIfExists($this->tablePrefix . 'groups');
+        Schema::dropIfExists($this->tablePrefix . 'rl_groups_groups');
+        Schema::dropIfExists($this->tablePrefix . 'rl_groups_users');
 
         // Delete module
         Module::where('name', 'group')->forceDelete();
@@ -55,18 +55,16 @@ class CreateGroupModule extends Migration
     protected function createTables()
     {
         // Module Table
-        Schema::create($this->tablePrefix . 'uccello_groups', function (Blueprint $table) {
+        Schema::create($this->tablePrefix . 'groups', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            // $table->foreign('domain_id')->references('id')->on('uccello_domains');
         });
 
         // Related List Table: Groups-Groups
-        Schema::create($this->tablePrefix . 'uccello_rl_groups_groups', function (Blueprint $table) {
+        Schema::create($this->tablePrefix . 'rl_groups_groups', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('parent_id');
             $table->unsignedInteger('children_id');
@@ -74,11 +72,11 @@ class CreateGroupModule extends Migration
 
             // Foreign keys
             $table->foreign('parent_id')
-                ->references('id')->on($this->tablePrefix . 'uccello_groups')
+                ->references('id')->on($this->tablePrefix . 'groups')
                 ->onDelete('cascade');
 
             $table->foreign('children_id')
-                ->references('id')->on($this->tablePrefix . 'uccello_groups')
+                ->references('id')->on($this->tablePrefix . 'groups')
                 ->onDelete('cascade');
 
             // Unique keys
@@ -86,7 +84,7 @@ class CreateGroupModule extends Migration
         });
 
         // Related List Table: Groups-Users
-        Schema::create($this->tablePrefix . 'uccello_rl_groups_users', function (Blueprint $table) {
+        Schema::create($this->tablePrefix . 'rl_groups_users', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('group_id');
             $table->unsignedInteger('user_id');
@@ -94,11 +92,11 @@ class CreateGroupModule extends Migration
 
             // Foreign keys
             $table->foreign('group_id')
-                ->references('id')->on($this->tablePrefix . 'uccello_groups')
+                ->references('id')->on($this->tablePrefix . 'groups')
                 ->onDelete('cascade');
 
             $table->foreign('user_id')
-                ->references('id')->on($this->tablePrefix . 'users')
+                ->references('id')->on('users')
                 ->onDelete('cascade');
 
             // Unique keys

@@ -4,7 +4,7 @@ export class EntityField {
     constructor() {
         this.initEntityFields()
         this.initListener()
-        this.relatedModule = '';
+        this.fieldName = '';
     }
 
     /**
@@ -71,7 +71,7 @@ export class EntityField {
 
         this.initMaterializeOnItems();
 
-        let form = $('#form_popup_'+this.relatedModule, modal)
+        let form = $('#form_popup_'+this.fieldName, modal)
 
         form.submit(_ => {
             //Submit form with AJAX
@@ -148,10 +148,10 @@ export class EntityField {
             let modalId = $(element).attr('href')
             let modal = $(modalId);
 
-            this.relatedModule = tableId.replace('datatable_', '');
+            this.fieldName = tableId.replace('datatable_', '');
 
-            let edit_view_popup_url = $('meta[name="popup_url_'+this.relatedModule+'"]').attr('content');
-            $.get(edit_view_popup_url).then((data) => {
+            let edit_view_popup_url = $('meta[name="popup_url_'+this.fieldName+'"]').attr('content');
+            $.get(edit_view_popup_url, {field: this.fieldName}).then((data) => {
                 this.setUpForm(data, modal);
             });
         })

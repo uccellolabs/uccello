@@ -245,6 +245,11 @@ export class Datatable {
             }
         })
 
+        // Allow ctrl+click
+        $('a', tr).on('click', function(event) {
+            event.stopPropagation()
+        })
+
         // Dispatch event
         let event = new CustomEvent('uccello.list.row_added', {
             detail: {
@@ -349,8 +354,12 @@ export class Datatable {
      */
     launchSearch(fieldName, q)
     {
+        if (!this.table) {
+            return
+        }
+
         if (q !== '') {
-            $('.clear-search').show()
+            $('.clear-search', this.table).show()
         }
 
         if (this.columns[fieldName].search !== q) {
@@ -371,7 +380,7 @@ export class Datatable {
             return
         }
 
-        $('.actions-column .clear-search').on('click', (event) => {
+        $('.actions-column .clear-search', this.table).on('click', (event) => {
             // Clear all search fields
             $('thead select', this.table).val('')
             $('thead input', this.table).val('')

@@ -19,7 +19,7 @@
             @foreach($module->tabs as $tab_i => $tab)
             <div id="#tab{{ $tab_i }}" class="col s12">
                 @foreach ($tab->blocks as $block_i => $block)
-                <div class="card">
+                <div class="card" data-block-name="{{$block->label}}">
                     <div class="card-content">
                         {{-- Title --}}
                         <span class="card-title">

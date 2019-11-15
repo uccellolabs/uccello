@@ -1,5 +1,5 @@
 @foreach ($tab->blocks as $block)
-    <div class="card">
+    <div class="card" data-block-name="{{$block->label}}">
         <div class="card-content">
             {{-- Title --}}
             <div class="card-title">

@@ -59,6 +59,9 @@
             <div class="row">
                 <div class="col s12 modal-body">
                     <div class="row search-related-record" style="margin-top : 10px;">
+                        <div class="progress transparent loader" data-table="{{ 'datatable_'.$field->name }}" style="margin: 0">
+                            <div class="indeterminate green"></div>
+                        </div>
                         <div class="col s12">
                             {{-- Table --}}
                             <?php $datatableColumns = Uccello::getDatatableColumns($entityModule, null, 'related-list'); ?>

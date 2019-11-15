@@ -67,6 +67,25 @@
                             <?php $datatableColumns = Uccello::getDatatableColumns($entityModule, null, 'related-list'); ?>
                             @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => 'datatable_'.$field->name, 'datatableContentUrl' => ucroute('uccello.list.content', $domain, $entityModule, ['action' => 'select']), 'relatedModule' => $entityModule, 'searchable' => true  ])
                         </div>
+                        <div class="loader center-align" data-table="{{ 'datatable_'.$field->name }}">
+                            <div class="preloader-wrapper big active">
+                                <div class="spinner-layer spinner-primary-only">
+                                    <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="gap-patch">
+                                        <div class="circle"></div>
+                                    </div>
+                                    <div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div>
+                                {{ uctrans('datatable.loading', $module) }}
+                            </div>
+                        </div>
                     </div>
                     <div class="row create-related-record" style="display: none">
                         <div class="col s12 create-ajax">

@@ -15,16 +15,18 @@ export class EntityField {
             return
         }
 
-        $('table[data-filter-type="related-list"]').each((index, el) => {
-            // Click callback
-            let rowClickCallback = (event, datatable, recordId, recordLabel) => {
-                this.selectRelatedModule(datatable, recordId, recordLabel)
-            }
+        //Datatable will now be loaded on entity click and not on page load
 
-            let datatable = new Datatable()
-            datatable.init(el, rowClickCallback)
-            datatable.makeQuery()
-        })
+        // $('table[data-filter-type="related-list"]').each((index, el) => {
+        //     // Click callback
+        //     let rowClickCallback = (event, datatable, recordId, recordLabel) => {
+        //         this.selectRelatedModule(datatable, recordId, recordLabel)
+        //     }
+
+        //     let datatable = new Datatable()
+        //     datatable.init(el, rowClickCallback)
+        //     datatable.makeQuery()
+        // })
 
         $('.delete-related-record').on('click', (event) => {
             const modal = $(event.currentTarget).parents('.modal:first');
@@ -149,6 +151,17 @@ export class EntityField {
             let modal = $(modalId);
 
             this.fieldName = tableId.replace('datatable_', '');
+
+
+            // Click callback
+            let rowClickCallback = (event, datatable, recordId, recordLabel) => {
+                this.selectRelatedModule(datatable, recordId, recordLabel)
+            }
+
+            let el = $('table#'+tableId)
+            let datatable = new Datatable()
+            datatable.init(el, rowClickCallback)
+            datatable.makeQuery()
 
             let edit_view_popup_url = $('meta[name="popup_url_'+this.fieldName+'"]').attr('content');
             $.get(edit_view_popup_url, {field: this.fieldName}).then((data) => {

@@ -11,7 +11,7 @@
 @section('top-action-buttons')
     <div class="action-buttons right-align">
         @yield('before-descendants-records-button')
-        @if (auth()->user()->canSeeDescendantsRecords($domain))
+        @if (uccello()->useMultiDomains() && auth()->user()->canSeeDescendantsRecords($domain))
         {{-- Dropdown Trigger --}}
         <a class="btn-floating btn-small waves-effect @if ($seeDescendants)orange @else primary @endif"
             href="javascript:void(0);"

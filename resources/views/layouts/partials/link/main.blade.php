@@ -16,9 +16,9 @@
             }
             // Color
             if (!empty($link->data->color)) {
-                $cssClass .= 'bg-'.$link->data->color.' ';
+                $cssClass .= $link->data->color.' ';
             } else {
-                $cssClass .= 'bg-primary ';
+                $cssClass .= 'primary ';
             }
         }
     }
@@ -37,7 +37,7 @@
     }
 ?>
 {{-- <a href="{{ $linkUrl }}"
-    
+
     @if ($link->data->target ?? false)target="{{ $link->data->target }}"@endif
     data-config='{!! json_encode($link->data) !!}'
 >
@@ -49,7 +49,7 @@
 
 <a
     href="{{ $linkUrl }}"
-    class="{{ $cssClass }}" 
+    class="{{ $cssClass }}"
     @if ($link->data->target ?? false)target="{{ $link->data->target }}"@endif
     data-config='{!! json_encode($link->data) !!}'>
         @if ($link->icon)<i class="material-icons left">{{ $link->icon }}</i>@endif

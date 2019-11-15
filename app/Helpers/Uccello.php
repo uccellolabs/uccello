@@ -543,14 +543,14 @@ class Uccello
      * Retrieves a record by its id or uuid
      *
      * @param int|string $idOrUuid
-     * @param string $className
+     * @param string|null $className
      * @return mixed
      */
-    public function getRecordByIdOrUuid($idOrUuid, $className)
+    public function getRecordByIdOrUuid($idOrUuid, $className = null)
     {
         $record = null;
 
-        if (is_numeric($idOrUuid)) {
+        if (is_numeric($idOrUuid) && !empty($className)) {
             $record = $className::find($idOrUuid);
         } else {
             $record = $this->getRecordByUuid($idOrUuid);

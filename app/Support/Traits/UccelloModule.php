@@ -140,9 +140,9 @@ trait UccelloModule
     }
 
     /**
-     * Returns Assigned User
+     * Add filter conditions to a query.
      * @param QueryBuilder $query
-     * @param Field|int|array $filter
+     * @param Filter|int|array $filter
      * @return QueryBuilder|null
      */
     public function scopeFilterBy($query, $filter)

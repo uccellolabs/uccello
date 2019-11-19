@@ -2,6 +2,7 @@
 
 namespace Uccello\Core\Fields\Uitype;
 
+use Illuminate\Http\Request;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
@@ -43,9 +44,15 @@ class Choice extends Select implements Uitype
             }
         }
 
+        // json_decode selected values for an edition
+        $selectedValues = null;
+        if ($record->{$field->column} ?? false) {
+            $selectedValues = json_decode($record->{$field->column});
+        }
+
         $options = [
             'choices' => $choices,
-            'selected' => $field->data->default ?? null,
+            'selected' => $selectedValues ?? $field->data->default ?? null,
             // 'empty_value' => uctrans('field.select_empty_value', $module),
             'attr' => [
                 // 'class' => 'form-control show-tick',
@@ -59,6 +66,7 @@ class Choice extends Select implements Uitype
 
     /**
      * Returns formatted value to display.
+     * If multiple is true, concat all selected values.
      *
      * @param \Uccello\Core\Models\Field $field
      * @param mixed $record
@@ -66,6 +74,42 @@ class Choice extends Select implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        return parent::getFormattedValueToDisplay($field, $record);
+        if ($field->data->multiple && !empty($record->{$field->column})) {
+            $values = [];
+
+            $fieldValues = json_decode($record->{$field->column});
+            if (is_array($fieldValues)) {
+                foreach ($fieldValues as $value) {
+                    if (empty($value)) {
+                        continue;
+                    }
+
+                    $values[] =  uctrans($value, $field->module);
+                }
+            }
+
+            $value = implode(', ', $values);
+        } else {
+            $value =  parent::getFormattedValueToDisplay($field, $record);
+        }
+
+        return $value;
+    }
+
+    /**
+     * Returns formatted value to save.
+     * If multiple is true, json_encode the $value (is an array).
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
+     * @return string|null
+     */
+    public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
+    {
+        return $field->data->multiple ? json_encode($value) : $value;
     }
 }

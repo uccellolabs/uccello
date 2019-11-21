@@ -74,7 +74,7 @@ class Choice extends Select implements Uitype
      */
     public function getFormattedValueToDisplay(Field $field, $record) : string
     {
-        if ($field->data->multiple && !empty($record->{$field->column})) {
+        if (isset($field->data->multiple) && $field->data->multiple === true && !empty($record->{$field->column})) {
             $values = [];
 
             $fieldValues = json_decode($record->{$field->column});
@@ -110,6 +110,6 @@ class Choice extends Select implements Uitype
      */
     public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
     {
-        return $field->data->multiple ? json_encode($value) : $value;
+        return isset($field->data->multiple) && $field->data->multiple === true ? json_encode($value) : $value;
     }
 }

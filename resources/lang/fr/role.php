@@ -19,4 +19,7 @@ return [
     'label' => [
         'no_profile' => 'Aucun profil lié',
     ],
+    'treeview' => [
+        'no_records' => 'Aucun rôle pour le moment.',
+    ],
 ];

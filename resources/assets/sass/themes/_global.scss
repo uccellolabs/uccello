@@ -874,4 +874,8 @@ body.theme-#{$theme} {
             margin-right: auto;
         }
     }
+
+    .jstree-default .jstree-search {
+        color: $treeviewSearchResultColor;
+    }
 }

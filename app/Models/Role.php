@@ -2,16 +2,18 @@
 
 namespace Uccello\Core\Models;
 
+use Gzero\EloquentTree\Model\Tree;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
-use Uccello\Core\Database\Eloquent\Model;
 use Uccello\Core\Support\Traits\UccelloModule;
 
-class Role extends Model implements Searchable
+class Role extends Tree implements Searchable
 {
     use SoftDeletes;
     use UccelloModule;
+
+    protected $tablePrefix;
 
     /**
      * The table associated with the model.
@@ -45,6 +47,37 @@ class Role extends Model implements Searchable
         'name'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        // Linck to parent record
+        static::created(function ($model) {
+            static::linkToParentRecord($model);
+        });
+
+        // static::updatedParent(function ($model) {
+        //     static::linkToParentRecord($model);
+        // });
+
+        static::updated(function ($model) {
+            static::linkToParentRecord($model);
+        });
+    }
+
+    public static function linkToParentRecord($model)
+    {
+        // Set parent record
+        $parentRecord = Role::find(request('parent'));
+        if (!is_null($parentRecord)) {
+            with($model)->setChildOf($parentRecord);
+        }
+        // Remove parent domain
+        else {
+            $model->setAsRoot();
+        }
+    }
+
     public function getSearchResult(): SearchResult
     {
         return new SearchResult(
@@ -53,19 +86,35 @@ class Role extends Model implements Searchable
         );
     }
 
+    public function __construct(array $attributes = [ ])
+    {
+        parent::__construct($attributes);
+
+        // Init table prefix
+        $this->initTablePrefix();
+
+        // Init table name
+        $this->initTableName();
+
+        $this->addTreeEvents(); // Adding tree events
+    }
+
+    public function getTablePrefix()
+    {
+        return $this->tablePrefix;
+    }
+
     protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }
 
-    public function parent()
+    protected function initTableName()
     {
-        return $this->belongsTo(static::class);
-    }
-
-    public function children()
-    {
-        return $this->hasMany(static::class);
+        if ($this->table)
+        {
+            $this->table = $this->tablePrefix.$this->table;
+        }
     }
 
     public function domain()

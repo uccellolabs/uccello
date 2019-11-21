@@ -576,4 +576,26 @@ class Uccello
 
         return $record;
     }
+
+    /**
+     * Checks if the module is related to a Model.
+     *
+     * @return boolean
+     */
+    public function isCrudModule(Module $module)
+    {
+        return !empty($module->model_class) && class_exists($module->model_class);
+    }
+
+    /**
+     * Checks if the module extends \Gzero\EloquentTree\Model\Tree.
+     *
+     * @return boolean
+     */
+    public function isTreeModule(Module $module)
+    {
+        $modelClass = $module->model_class;
+
+        return is_subclass_of((new $modelClass), \Gzero\EloquentTree\Model\Tree::class);
+    }
 }

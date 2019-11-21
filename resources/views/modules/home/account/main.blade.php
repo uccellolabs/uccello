@@ -10,7 +10,7 @@
             <div class="breadcrumb-container left">
                 {{-- Module icon --}}
                 <span class="breadcrumb">
-                    <a class="btn-flat" href="{{ ucroute('uccello.list', $domain, $module) }}">
+                    <a class="btn-flat" href="{{ ucroute($module->defaultRoute, $domain, $module) }}">
                         <i class="material-icons left">{{ $module->icon ?? 'extension' }}</i>
                         <span class="hide-on-small-only">{{ uctrans($module->name, $module) }}</span>
                     </a>

@@ -95,8 +95,8 @@ Route::name('uccello.')->group(function() {
     Route::post($domainAndModuleParams.'/list/content', 'Core\ListController@processForContent')->name('list.content');
     Route::get($domainAndModuleParams.'/list/autocomplete', 'Core\ListController@processForAutocomplete')->name('autocomplete');
     Route::post($domainAndModuleParams.'/list/filter', 'Core\ListController@saveFilter')->name('list.filter.save');
-    Route::post($domainAndModuleParams.'/export', 'Core\ExportController@process')->name('export');
     Route::post($domainAndModuleParams.'/list/filter/delete', 'Core\ListController@deleteFilter')->name('list.filter.delete');
+    Route::post($domainAndModuleParams.'/export', 'Core\ExportController@process')->name('export');
     Route::get($domainAndModuleParams.'/detail', 'Core\DetailController@process')->name('detail');
     Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
     Route::post($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
@@ -105,4 +105,7 @@ Route::name('uccello.')->group(function() {
     Route::get($domainAndModuleParams.'/restore', 'Core\EditController@restore')->name('restore');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
     Route::get($domainAndModuleParams.'/download', 'Core\DownloadController@process')->name('download');
+    Route::get($domainAndModuleParams.'/tree', 'Core\TreeController@process')->name('tree');
+    Route::get($domainAndModuleParams.'/tree/root', 'Core\TreeController@root')->name('tree.root');
+    Route::get($domainAndModuleParams.'/tree/children', 'Core\TreeController@children')->name('tree.children');
 });

@@ -210,13 +210,18 @@ class User extends Authenticatable implements Searchable
      */
     public function rolesOnDomain($domain) : Collection
     {
-        return Cache::remember('user_'.$this->id.'_domain_'.$domain->slug.'roles', 600, function () use($domain) {
+        // return Cache::remember('user_'.$this->id.'_domain_'.$domain->slug.'_roles', 600, function () use($domain) {
             $roles = collect();
 
             if (config('uccello.roles.display_ancestors_roles')) {
                 $treeDomainsIds = $domain->findAncestors()->pluck('id');
             } else {
                 $treeDomainsIds = collect([ $domain->id ]);
+            }
+
+            if ($domain->id !== 1)
+            {
+                uclog($treeDomainsIds);
             }
 
             foreach ($treeDomainsIds as $treeDomainId) {
@@ -227,8 +232,26 @@ class User extends Authenticatable implements Searchable
             }
 
             return $roles;
-        });
+        // });
 
+    }
+
+    /**
+     * Returns ids of user's roles on a domain
+     *
+     * @param \Uccello\Core\Models\Domain $domain
+     * @return \Illuminate\Support\Collection
+     */
+    public function subordonateRolesIdsOnDomain($domain) : Collection
+    {
+        $roles = $this->rolesOnDomain($domain);
+
+        $subordonateRoles = collect();
+        foreach ($roles as $role) {
+            $subordonateRoles = $subordonateRoles->merge($role->findDescendants()->pluck('id'));
+        }
+
+        return $subordonateRoles;
     }
 
     /**
@@ -570,31 +593,31 @@ class User extends Authenticatable implements Searchable
             'recordLabel' => uctrans('me', $this->module)
         ]]);
 
-        if ($this->is_admin) {
+        // if ($this->is_admin) {
             $groups = Group::orderBy('name')->get();
             $users  = \App\User::orderBy('name')->get();
-        } else {
-            $groups = [];
-            $users = [];
+        // } else {
+        //     $groups = [];
+        //     $users = [];
 
-            foreach ($this->groups as $group) {
-                $groups[$group->uuid] = $group;
+        //     foreach ($this->groups as $group) {
+        //         $groups[$group->uuid] = $group;
 
-                if($addUsers)
-                {
-                    foreach ($group->users as $user) {
-                        if (empty($users[$user->uuid])) {
-                            $users[$user->uuid] = $user;
-                        }
-                    }
-                }
-            };
+        //         if($addUsers)
+        //         {
+        //             foreach ($group->users as $user) {
+        //                 if (empty($users[$user->uuid])) {
+        //                     $users[$user->uuid] = $user;
+        //                 }
+        //             }
+        //         }
+        //     };
 
-            $this->addRecursiveChildrenGroups($groups, $users, $groups, $addUsers);
+        //     $this->addRecursiveChildrenGroups($groups, $users, $groups, $addUsers);
 
-            $groups = collect($groups)->sortBy('name');
-            $users  = collect($users)->sortBy('name');
-        }
+        //     $groups = collect($groups)->sortBy('name');
+        //     $users  = collect($users)->sortBy('name');
+        // }
 
         foreach ($groups as $uuid => $group) {
             $allowedUserUuids[] = [

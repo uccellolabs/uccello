@@ -29,4 +29,8 @@ return [
     'roles' => [
         'display_ancestors_roles' => false
     ],
+
+    'treeview' => [
+        'open_tree' => true
+    ]
 ];

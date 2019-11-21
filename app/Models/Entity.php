@@ -22,6 +22,7 @@ class Entity extends Model
         'id',
         'module_id',
         'record_id',
+        'creator_id',
     ];
 
     protected $primaryKey = 'id';   // TODO: Change to "uid" to make joins withs modules tables possible ???
@@ -33,6 +34,11 @@ class Entity extends Model
     protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getModuleAttribute()

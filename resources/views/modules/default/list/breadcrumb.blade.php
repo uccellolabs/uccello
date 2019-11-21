@@ -60,6 +60,16 @@
             <a href="#exportModal" class="btn-floating btn-small waves-effect primary z-depth-0 modal-trigger hide-on-small-only" data-position="top" data-tooltip="{{ uctrans('button.export', $module) }}">
                 <i class="material-icons">cloud_download</i>
             </a>
+
+            {{-- Link to Tree View --}}
+            @if (app('uccello')->isTreeModule($module))
+            <a href="{{ ucroute('uccello.tree', $domain, $module) }}"
+                class="btn-floating btn-small waves-effect orange z-depth-0 hide-on-small-only"
+                data-position="top"
+                data-tooltip="{{ uctrans('button.treeview', $module) }}">
+                    <i class="material-icons">account_tree</i>
+            </a>
+            @endif
         </div>
     </div>
 </div>

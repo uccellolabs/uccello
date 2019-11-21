@@ -54,6 +54,8 @@ return [
         'user_account' => 'My account',
         'see_descendants_records' => 'Descendant view',
         'lines_number' => 'Lines',
+        'listview' => 'List view',
+        'treeview' => 'Tree view',
     ],
 
     // Block
@@ -271,5 +273,10 @@ return [
             'searching' => 'Searching...',
             'too_short' => 'Enter more characters',
         ],
+    ],
+
+    'treeview' => [
+        'search' => 'Search',
+        'no_records' => 'No records',
     ],
 ];

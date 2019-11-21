@@ -62,6 +62,39 @@ class Domain extends Tree implements Searchable
         'parent_id',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        // Linck to parent record
+        static::created(function ($model) {
+            static::linkToParentRecord($model);
+        });
+
+        // static::updatedParent(function ($model) {
+        //     static::linkToParentRecord($model);
+        // });
+
+        static::updated(function ($model) {
+            static::linkToParentRecord($model);
+        });
+    }
+
+    public static function linkToParentRecord($model)
+    {
+        // Set parent record
+        $parentRecord = Domain::find(request('parent'));
+
+        dd($parentRecord);
+        if (!is_null($parentRecord)) {
+            with($model)->setChildOf($parentRecord);
+        }
+        // Remove parent domain
+        else {
+            $model->setAsRoot();
+        }
+    }
+
     /**
      * Return the sluggable configuration array for this model.
      *

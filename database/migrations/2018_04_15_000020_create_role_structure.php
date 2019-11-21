@@ -37,7 +37,7 @@ class CreateRoleStructure extends Migration
         $module->name = 'role';
         $module->icon = 'lock';
         $module->model_class = 'Uccello\Core\Models\Role';
-        $module->data = [ "package" => "uccello/uccello", "admin" => true, "mandatory" => true ];
+        $module->data = [ "package" => "uccello/uccello", "admin" => true, "mandatory" => true, "menu" => "uccello.tree" ];
         $module->save();
 
         return $module;

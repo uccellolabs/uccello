@@ -16,4 +16,7 @@ return [
     'label' => [
         'no_profile' => 'No related profile',
     ],
+    'treeview' => [
+        'no_records' => 'No roles for the moment.',
+    ],
 ];

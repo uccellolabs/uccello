@@ -161,6 +161,36 @@ class Module extends Model
     }
 
     /**
+     * Returns module's default route
+     *
+     * @return string
+     */
+    public function getDefaultRouteAttribute() : string
+    {
+        if (isset($this->data->menu)) {
+            // One route
+            if (is_string($this->data->menu)) {
+                $defaultRoute = $this->data->menu;
+            }
+            // Several routes
+            elseif (is_array($this->data->menu)) {
+                if (!empty($this->data->menu[0]->route)) {
+                    $defaultRoute = $this->data->menu[0]->route;
+                }
+            }
+            // No route wanted
+            elseif ($this->data->menu === false) {
+                $defaultRoute = null;
+            }
+        } else {
+            // No route defined, add it automaticaly
+            $defaultRoute = 'uccello.list';
+        }
+
+        return $defaultRoute;
+    }
+
+    /**
      * Searches in the module a field by name.
      *
      * @param string $name

@@ -35,6 +35,7 @@ trait UccelloModule
                     'id' => (string) Str::uuid(),
                     'module_id' => $module->id,
                     'record_id' => $model->getKey(),
+                    'creator_id' => auth()->id(),
                 ]);
             }
         });
@@ -122,6 +123,32 @@ trait UccelloModule
     public function getAssignedUserAttribute(): ?string
     {
         return $this->assigned_user_id;
+    }
+
+    /**
+     * Returns user who created the entity, if defined.
+     *
+     * @return \Uccello\Core\Models\User|null
+     */
+    public function getCreatorAttribute()
+    {
+        $creator = null;
+
+        $module = $this->module;
+
+        if ($module) {
+            $entity = Entity::where('module_id', $module->getKey())
+                ->where('record_id', $this->getKey())
+                ->first();
+
+                dd($this->getAttributes());
+
+            if ($entity) {
+                $creator = $entity->creator;
+            }
+        }
+
+        return $creator;
     }
 
     public function scopeInDomain($query, ?Domain $domain, $withDescendants = false)

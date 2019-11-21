@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Entity;
 
 class AssignedUser implements Scope
@@ -29,7 +30,9 @@ class AssignedUser implements Scope
             $builder->orWhereIn('assigned_user_id', function ($query) use ($user) {
                 $entityTable = with(new Entity)->getTable();
                 $privilegesTable = env('UCCELLO_TABLE_PREFIX', 'uccello_').'privileges';
-                $subordonateRolesIds = $user->subordonateRolesIdsOnDomain(request('domain'));
+
+                $domain = request()->has('domain') ? request('domain') : Domain::first();
+                $subordonateRolesIds = $user->subordonateRolesIdsOnDomain($domain);
 
                 $query->select($entityTable.'.id')
                     ->from($entityTable)

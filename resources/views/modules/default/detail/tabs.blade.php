@@ -19,7 +19,7 @@
     {{-- One tab by related list --}}
     @foreach ($module->relatedlists as $relatedlist)
     <?php $relatedModule = ucmodule($relatedlist->relatedModule->name); ?>
-    @continue(!empty($relatedlist->tab_id) || !Auth::user()->canRetrieve($domain, $relatedModule) || !$relatedlist->isVisibleAsTab)
+    @continue(!empty($relatedlist->tab_id) || !$relatedlist->relatedModule->isActiveOnDomain($domain) || !Auth::user()->canRetrieve($domain, $relatedModule) || !$relatedlist->isVisibleAsTab)
     <li class="tab">
         <a href="#relatedlist_{{ $relatedModule->name }}_{{ $relatedlist->id }}" @if ($selectedRelatedlistId === $relatedlist->id)class="active"@endif>
             {{-- Icon --}}

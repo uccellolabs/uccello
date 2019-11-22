@@ -2,7 +2,7 @@
     $datatableId = $datatableId.'-'.$relatedlist->id;
     $datatableColumns = Uccello::getDatatableColumns($relatedlist->relatedModule, null, 'list');
 ?>
-@if ($relatedlist->canSelect() && Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
+@if ($relatedlist->canSelect() && $relatedlist->relatedModule->isActiveOnDomain($domain) && Auth::user()->canRetrieve($domain, $relatedlist->relatedModule))
     <div class="selection-modal-content hide" data-relatedlist="{{ $relatedlist->id }}">
         {{-- Loader top --}}
         <div class="progress transparent loader" data-table="{{ $datatableId }}" style="margin: 0">

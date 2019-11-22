@@ -153,7 +153,7 @@ trait UccelloModule
     {
         if (!empty($domain) && Schema::hasColumn($this->table, 'domain_id')) {
             // Activate descendant view if the user is allowed
-            if (Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
+            if (Auth::user() && Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
                 $domainsIds = $domain->findDescendants()->pluck('id');
                 $query = $query->whereIn('domain_id', $domainsIds);
             } else {

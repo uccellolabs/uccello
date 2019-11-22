@@ -23,7 +23,7 @@ class AssignedUser implements Scope
         $user = Auth::user();
 
         // Records assigned to a group to which the user belongs
-        if (!$user->is_admin) {
+        if ($user && !$user->is_admin) {
             $builder->whereIn('assigned_user_id', $user->getAllowedGroupUuids());
 
             // Records assigned to an user with roles subordonate to the roles of the user

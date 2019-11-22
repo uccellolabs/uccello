@@ -219,11 +219,6 @@ class User extends Authenticatable implements Searchable
                 $treeDomainsIds = collect([ $domain->id ]);
             }
 
-            if ($domain->id !== 1)
-            {
-                uclog($treeDomainsIds);
-            }
-
             foreach ($treeDomainsIds as $treeDomainId) {
                 $_domain = Domain::find($treeDomainId);
                 foreach ($this->privileges->where('domain_id', $_domain->id) as $privilege) {

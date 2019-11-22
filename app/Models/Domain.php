@@ -85,14 +85,26 @@ class Domain extends Tree implements Searchable
         // Set parent record
         $parentRecord = Domain::find(request('parent'));
 
-        dd($parentRecord);
         if (!is_null($parentRecord)) {
             with($model)->setChildOf($parentRecord);
         }
         // Remove parent domain
         else {
-            $model->setAsRoot();
+            with($model)->setAsRoot();
         }
+    }
+
+    /**
+     * Check if node is root
+     * This function check foreign key field
+     *
+     * @return bool
+     */
+    public function isRoot()
+    {
+        // return (empty($this->{$this->getTreeColumn('parent')})) ? true : false;
+        return $this->{$this->getTreeColumn('path')} === $this->getKey() . '/'
+                && $this->{$this->getTreeColumn('level')} === 0;
     }
 
     /**

@@ -141,8 +141,6 @@ trait UccelloModule
                 ->where('record_id', $this->getKey())
                 ->first();
 
-                dd($this->getAttributes());
-
             if ($entity) {
                 $creator = $entity->creator;
             }

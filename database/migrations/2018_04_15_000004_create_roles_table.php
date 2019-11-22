@@ -19,18 +19,21 @@ class CreateRolesTable extends Migration
             $table->text('description')->nullable();
             $table->unsignedInteger('parent_id')->nullable();
             $table->string('path')->nullable();
-            $table->integer('level')->nullable();
+            $table->integer('level')->default(0);
             $table->unsignedInteger('domain_id');
             $table->timestamps();
             $table->softDeletes();
 
             // Foreign keys
             $table->foreign('parent_id')
-                    ->references('id')->on($this->tablePrefix.'roles');
+            ->references('id')->on($this->tablePrefix.'roles');
 
             $table->foreign('domain_id')
-                    ->references('id')->on($this->tablePrefix.'domains')
-                    ->onDelete('cascade');
+            ->references('id')->on($this->tablePrefix.'domains')
+            ->onDelete('cascade');
+
+            // Index
+            $table->index(array('path', 'parent_id', 'level'));
         });
     }
 

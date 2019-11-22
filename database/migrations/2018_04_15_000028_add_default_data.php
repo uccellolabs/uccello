@@ -68,7 +68,7 @@ class AddDefaultData extends Migration
     protected function addDefaultRole($profile)
     {
         $role = Role::create([
-            'name' => 'Administrator',
+            'name' => 'CEO',
             'description' => null,
             'parent_id' => null,
             'domain_id' => Domain::first()->id

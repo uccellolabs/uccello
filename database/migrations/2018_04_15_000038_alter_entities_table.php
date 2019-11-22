@@ -13,12 +13,14 @@ class AlterEntitiesTable extends Migration
      */
     public function up()
     {
-        Schema::table($this->tablePrefix.'entities', function(Blueprint $table) {
-            $table->unsignedInteger('creator_id')->nullable()->after('record_id');
+        if (!Schema::hasColumn($this->tablePrefix.'entities', 'creator_id')) {
+            Schema::table($this->tablePrefix.'entities', function(Blueprint $table) {
+                $table->unsignedInteger('creator_id')->nullable()->after('record_id');
 
-            // Foreign keys
-            $table->foreign('creator_id')->references('id')->on('users');
-        });
+                // Foreign keys
+                $table->foreign('creator_id')->references('id')->on('users');
+            });
+        }
     }
 
     /**

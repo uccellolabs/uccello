@@ -17,6 +17,7 @@ class CreateEntitiesTable extends Migration
             $table->uuid('id')->primary();
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('record_id');
+            $table->unsignedInteger('creator_id')->nullable();
             $table->timestamps();
 
             $table->index('module_id', 'record_id');
@@ -25,6 +26,12 @@ class CreateEntitiesTable extends Migration
             $table->foreign('module_id')
                 ->references('id')->on($this->tablePrefix.'modules')
                 ->onDelete('cascade');
+
+            $table->foreign('creator_id')
+                ->references('id')->on('users');
+
+            // Index
+            $table->index(array('module_id', 'creator_id'));
         });
     }
 

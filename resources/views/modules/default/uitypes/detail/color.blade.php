@@ -5,6 +5,6 @@
     <b title="{{ $label }}">{{ $label }}</b>
 </div>
 <div class="col {{ $isLarge ? 's7 m10' : 's7 m4' }}" style="position: relative">
-    <span class="p-l-30">{{ uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record) }}</span>
+    {{ uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record) }}
     <span style="position: absolute; top: -25px; font-size: 52px; color: {{ $color }}">&#9632;</span>
 </div>

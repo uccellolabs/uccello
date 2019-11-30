@@ -11,7 +11,8 @@ import 'jquery-countto'
 import 'jstree/src/jstree.search.js'
 import 'jstree/src/jstree.sort.js'
 // import 'devbridge-autocomplete'
-// import 'bootstrap-colorpicker'
+
+import Pickr from '@simonwep/pickr';
 
 
 class UccelloApp {
@@ -22,7 +23,7 @@ class UccelloApp {
         this.initTranslation()
         this.initScrollSpy()
         this.initDateRangePicker()
-        // this.initColorPicker()
+        this.initColorPicker()
         this.initCountTo()
         this.initJsTree()
         this.initSearchBar()
@@ -252,25 +253,90 @@ class UccelloApp {
     }
 
     initColorPicker() {
-        $('.colorpicker').colorpicker({
-            customClass: 'colorpicker-2x',
-            sliders: {
-                saturation: {
-                    maxLeft: 200,
-                    maxTop: 200
-                },
-                hue: {
-                    maxTop: 200
-                },
-                alpha: {
-                    maxTop: 200
+        if ($('.colorpicker').length === 0) {
+            return;
+        }
+
+        let pickr = Pickr.create({
+            el: '.colorpicker',
+            theme: 'classic', // or 'monolith', or 'nano'
+            default: '#007AD6',
+
+            swatches: [
+                'rgb(244, 67, 54)',
+                'rgb(233, 30, 99)',
+                'rgb(156, 39, 176)',
+                'rgb(103, 58, 183)',
+                'rgb(63, 81, 181)',
+                'rgb(33, 150, 243)',
+                'rgb(3, 169, 244)',
+                'rgb(0, 188, 212)',
+                'rgb(0, 150, 136)',
+                'rgb(76, 175, 80)',
+                'rgb(139, 195, 74)',
+                'rgb(205, 220, 57)',
+                'rgb(255, 235, 59)',
+                'rgb(255, 193, 7)'
+            ],
+
+            components: {
+
+                // Main components
+                preview: true,
+                opacity: true,
+                hue: true,
+
+                // Input / output Options
+                interaction: {
+                    // hex: true,
+                    // rgba: true,
+                    // hsla: true,
+                    // hsva: true,
+                    // cmyk: true,
+                    input: true,
+                    clear: true,
+                    save: true
                 }
-            }
-        }).on('changeColor', function (e) {
-            let rbga = e.color.toRGB()
-            $(e.currentTarget).parents('.input-field').find('.input-group-addon i')
-                .css('color', `rgba(${rbga.r},${rbga.g},${rbga.b},${rbga.a})`)
+            },
+
+            strings: {
+                save: uctrans.trans('uccello::default.button.select'),  // Default for save button
+                clear: uctrans.trans('uccello::default.button.clear'), // Default for clear button
+                cancel: uctrans.trans('uccello::default.button.cancel') // Default for cancel button
+             }
         })
+
+        // Init
+        pickr.on('init', instance => {
+            let input = $(instance._root.root).parents('.input-field:first').find('input[type="text"]')
+
+            // Init color
+            instance.setColor(input.val())
+
+            // Open color picker on click on input
+            input.on('click', _ => {
+                pickr.show()
+            })
+            .on('keyup', _ => {
+                pickr.setColor(input.val() || null)
+            })
+        })
+        // Save
+        .on('save', (color, instance) => {
+            let parent = $(instance._root.root).parents('.input-field:first')
+
+            if (color === null) {
+                parent.find('input').val('')
+                parent.find('label').removeClass('active')
+            } else {
+                parent.find('input').val(color.toHEXA().toString())
+                parent.find('label').addClass('active')
+            }
+
+            pickr.hide();
+        })
+
+
     }
 
     initCountTo() {

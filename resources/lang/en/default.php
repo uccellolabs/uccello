@@ -56,6 +56,8 @@ return [
         'lines_number' => 'Lines',
         'listview' => 'List view',
         'treeview' => 'Tree view',
+        'select' => 'Select',
+        'clear' => 'Clear',
     ],
 
     // Block

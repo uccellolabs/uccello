@@ -26,7 +26,6 @@
         <meta name="module" content="{{ $module->name }}">
         @endif
 
-
         @yield('extra-meta')
 
         {{-- Favicon --}}
@@ -59,6 +58,7 @@
                 @yield('extra-content')
             </div>
         </main>
+        @show
 
         @yield('post-content')
 

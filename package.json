@@ -12,7 +12,6 @@
     "devDependencies": {
         "axios": "^0.19.0",
         "bootstrap": "^4.3.1",
-        "bootstrap-colorpicker": "^2.5.3",
         "cropperjs": "^1.5.6",
         "cross-env": "^5.2.1",
         "daterangepicker": "^3.0.5",
@@ -33,5 +32,8 @@
         "sweetalert": "^2.1.2",
         "vue": "^2.6.10",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "@simonwep/pickr": "^1.4.7"
     }
 }

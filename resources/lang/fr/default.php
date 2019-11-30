@@ -56,6 +56,8 @@ return [
         'lines_number' => 'Lignes',
         'listview' => 'Vue en liste',
         'treeview' => 'Vue en arbre',
+        'select' => 'Sélectionner',
+        'clear' => 'Effacer',
     ],
 
     // Block

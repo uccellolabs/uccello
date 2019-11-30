@@ -39,7 +39,6 @@ class Color implements Uitype
     {
         return [
             'attr' => [
-                'class' => 'colorpicker',
                 'autocomplete' => 'off'
             ]
         ];

@@ -16,10 +16,11 @@ export class Edit {
             event.preventDefault();
 
             // Display file field
-            $(event.currentTarget).parents('.form-group:first').find('.file-field').removeClass('hide')
+            $(event.currentTarget).parents('.file-field:first').find('.btn').removeClass('hide')
+            $(event.currentTarget).parents('.file-field:first').find('.file-path-wrapper').removeClass('hide')
 
             // Remove current file
-            $(event.currentTarget).parents('.form-group:first').find('.delete-file-field').val(1)
+            $(event.currentTarget).parents('.file-field:first').find('.delete-file-field').val(1)
             $(event.currentTarget).parents('.current-file:first').remove()
         })
     }

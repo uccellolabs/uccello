@@ -191,6 +191,8 @@
 
                                 {{-- Other rows are generated automaticaly --}}
                             </tbody>
+
+                            @yield('datatable-columns-footer')
                         </table>
                         @show
 

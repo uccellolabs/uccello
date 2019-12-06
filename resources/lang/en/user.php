@@ -51,4 +51,14 @@ return [
         'avatar_updated' => 'The avatar has been updated!',
         'password_updated' => 'The password has been updated!'
     ],
+    'button' => [
+        'import_user' => 'Import',
+    ],
+    'modal' => [
+        'import_user' => [
+            'title' => 'Import user',
+            'description' => 'You can import a user who has been created in another domain, and assign roles to him in the current domain.',
+            'name' => 'User\'s login, email or name',
+        ],
+    ],
 ];

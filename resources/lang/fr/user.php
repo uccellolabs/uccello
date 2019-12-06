@@ -51,4 +51,14 @@ return [
         'avatar_updated' => 'L\'avatar a bien été mis à jour !',
         'password_updated' => 'Le mot de passe a bien été mis à jour !'
     ],
+    'button' => [
+        'import_user' => 'Importer',
+    ],
+    'modal' => [
+        'import_user' => [
+            'title' => 'Importer un utilisateur',
+            'description' => 'Vous pouvez importer un utilisateur qui a été créé dans un autre domaine, et lui affecter des rôles dans le domaine courant.',
+            'name' => 'Identifiant, email ou nom de l\'utilisateur',
+        ],
+    ],
 ];

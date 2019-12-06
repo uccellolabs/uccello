@@ -77,7 +77,9 @@ class User extends Authenticatable implements Searchable
     public $searchableType = 'user';
 
     public $searchableColumns = [
-        'name'
+        'username',
+        'name',
+        'email'
     ];
 
     public function getSearchResult(): SearchResult

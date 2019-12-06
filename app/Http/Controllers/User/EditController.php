@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use Uccello\Core\Http\Controllers\Core\EditController as CoreEditController;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Support\Traits\WithRoles;
 
 class EditController extends CoreEditController
 {
+    use WithRoles;
+
     /**
      * {@inheritdoc}
      */
@@ -32,25 +35,8 @@ class EditController extends CoreEditController
             }
         }
 
-        // Display ancestors roles only if it is allowed
-        if (config('uccello.roles.display_ancestors_roles')) {
-            $treeDomainsIds = $domain->findAncestors()->pluck('id');
-        } else {
-            $treeDomainsIds = collect([ $domain->id ]);
-        }
-
-        // Get all roles
-        $roles = [ ];
-        foreach ($treeDomainsIds as $treeDomainId) {
-            $_domain = Domain::find($treeDomainId);
-            foreach ($_domain->roles as $role) {
-                $roleName = $_domain->id === $domain->id ? $role->name : $_domain->name . ' > ' . $role->name;
-                $roles[ $role->id ] = $roleName;
-            }
-        }
-
         // Add data to the view
-        $view->roles = $roles;
+        $view->roles = $this->getAllRolesOnDomain($domain);
         $view->selectedRoleIds = $selectedRoleIds;
 
         return $view;

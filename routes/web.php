@@ -21,9 +21,17 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'role')
         ->name('role.edit');
 
+    Route::get($domainParam.'/user/list', 'User\ListController@process')
+        ->defaults('module', 'user')
+        ->name('user.list');
+
     Route::get($domainParam.'/user/edit', 'User\EditController@process')
         ->defaults('module', 'user')
         ->name('user.edit');
+
+    Route::post($domainParam.'/user/import', 'User\ListController@import')
+        ->defaults('module', 'user')
+        ->name('user.import');
 
     Route::post($domainParam.'/domain', 'Domain\EditController@save')
         ->defaults('module', 'domain')

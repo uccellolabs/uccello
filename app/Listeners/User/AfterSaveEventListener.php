@@ -6,9 +6,12 @@ use Illuminate\Contracts\Auth\Factory as AuthFactory;
 use Uccello\Core\Events\AfterSaveEvent;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Privilege;
+use Uccello\Core\Support\Traits\WithPrivileges;
 
 class AfterSaveEventListener
 {
+    use WithPrivileges;
+
     protected $auth;
 
     /**
@@ -41,27 +44,7 @@ class AfterSaveEventListener
 
         $roleIds = (array)$event->request->input('roles');
 
-        foreach ($roleIds as $roleId) {
-            $role = Role::find($roleId);
-
-            // Get ancestors domains only if it is allowed
-            if (config('uccello.roles.display_ancestors_roles')) {
-                $treeDomainsIds = $domain->findAncestors()->pluck('id');
-            } else {
-                $treeDomainsIds = collect([ $domain->id ]);
-            }
-
-            if (is_null($role) || !$treeDomainsIds->contains($role->domain->id)) {
-                continue;
-            }
-
-            // Create a new privilege and ignore duplicates
-            $newPrivileges[ ] = Privilege::firstOrCreate([
-                'domain_id' => $domain->id,
-                'role_id' => $role->id,
-                'user_id' => $user->id
-            ]);
-        }
+        $newPrivileges = $this->createPrivilegesForUser($domain, $user, $roleIds);
 
         // Delete obsolete privileges
         $this->deleteObsoletePrivileges($oldPrivileges, $newPrivileges);

@@ -167,6 +167,8 @@ class Module extends Model
      */
     public function getDefaultRouteAttribute() : string
     {
+        $defaultRoute = 'uccello.list';
+
         if (isset($this->data->menu)) {
             // One route
             if (is_string($this->data->menu)) {
@@ -178,13 +180,6 @@ class Module extends Model
                     $defaultRoute = $this->data->menu[0]->route;
                 }
             }
-            // No route wanted
-            elseif ($this->data->menu === false) {
-                $defaultRoute = null;
-            }
-        } else {
-            // No route defined, add it automaticaly
-            $defaultRoute = 'uccello.list';
         }
 
         return $defaultRoute;

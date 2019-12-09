@@ -43,7 +43,7 @@
                                 $roles,
                                 null,
                                 [ 'multiple' => 'multiple' ]) }}
-                            <label>{{ uctrans('block.roles', $module) }}</label>
+                            <label class="required">{{ uctrans('block.roles', $module) }}</label>
                         </div>
                     </div>
                 </div>

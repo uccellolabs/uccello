@@ -21,7 +21,7 @@
                             $roles,
                             $selectedRoleIds,
                             [ 'multiple' => 'multiple' ]) }}
-                        <label>{{ uctrans('block.roles', $module) }}</label>
+                        <label>{{ uctrans('field.roles', $module) }}</label>
                     </div>
                 </div>
             </div>

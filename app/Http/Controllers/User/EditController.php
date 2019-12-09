@@ -30,7 +30,7 @@ class EditController extends CoreEditController
         $selectedRoleIds = [ ];
 
         if ($record) {
-            foreach ($record->rolesOnDomain($domain) as $role) {
+            foreach ($record->rolesOnDomain($domain, false) as $role) {
                 $selectedRoleIds[ ] = $role->id;
             }
         }

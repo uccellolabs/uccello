@@ -4,8 +4,7 @@ return [
     'user' => 'Users',
     'user_single' => 'User',
     'block' => [
-        'auth' => 'Authentication',
-        'contact' => 'Contact',
+        'general' => 'General information',
         'roles' => 'Roles',
     ],
     'field' => [
@@ -18,6 +17,7 @@ return [
         'current_password' => 'Current password',
         'new_password' => 'New password',
         'new_password_confirm' => 'New password (confirmation)',
+        'roles' => 'Roles in the current domain',
     ],
     'relatedlist' => [
         'groups' => 'Groups',
@@ -26,6 +26,8 @@ return [
         'no_role' => 'No related role',
         'my_account' => 'My account',
         'avatar_type' => 'Avatar type',
+        'role_in_current_domain' => 'Roles defined in the current domain',
+        'role_in_ancestors_domains' => 'Roles defined in ancesters domais',
     ],
     'account' => [
         'profile' => 'Profile',

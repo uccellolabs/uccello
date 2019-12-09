@@ -242,14 +242,16 @@ class User extends Authenticatable implements Searchable
      * Returns user's roles on a domain
      *
      * @param \Uccello\Core\Models\Domain $domain
+     * @param bool $withAncestors
      * @return \Illuminate\Support\Collection
      */
-    public function rolesOnDomain($domain) : Collection
+    public function rolesOnDomain($domain, $withAncestors = true) : Collection
     {
         // return Cache::remember('user_'.$this->id.'_domain_'.$domain->slug.'_roles', 600, function () use($domain) {
             $roles = collect();
 
-            if (config('uccello.roles.display_ancestors_roles')) {
+            // Display all user's roles on ancestor domains
+            if ($withAncestors && config('uccello.roles.display_ancestors_roles')) {
                 $treeDomainsIds = $domain->findAncestors()->pluck('id');
             } else {
                 $treeDomainsIds = collect([ $domain->id ]);
@@ -262,7 +264,7 @@ class User extends Authenticatable implements Searchable
                 }
             }
 
-            return $roles;
+            return $roles->unique();
         // });
 
     }

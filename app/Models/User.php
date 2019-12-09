@@ -108,21 +108,34 @@ class User extends Authenticatable implements Searchable
 
         // Check if user is admin or if he has at least a role on the domain
         // or on descendants domains if withDescendants option is on
-        return $builder->where('is_admin',true)
+        $builder->where('domain_id', $domain->id)
             ->orWhereIn($this->getKeyName(), function ($query) use ($domain, $withDescendants) {
                 $privilegesTable = env('UCCELLO_TABLE_PREFIX', 'uccello_').'privileges';
 
                 $query->select('user_id')
                     ->from($privilegesTable);
 
-                if (Auth::user() && Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
-                    $domainsIds = $domain->findDescendants()->pluck('id');
-                    $query->whereIn('domain_id', $domainsIds);
+                // If necessary display all users with role defined in an ancestor domain
+                $domainParentIds = $domain->findAncestors()->pluck('id');
+                if (config('uccello.users.display_all_users_with_role')) {
+                    $query->whereIn('domain_id', $domainParentIds);
                 } else {
                     $query->where('domain_id', $domain->id);
                 }
+
+                if (Auth::user() && Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
+                    $domainsIds = $domain->findDescendants()->pluck('id');
+                    $query->orWhereIn('domain_id', $domainsIds);
+                }
             });
+
+        // If necessary display also all admin users
+        if (config('uccello.users.display_all_admin_users')) {
+            $builder->orWhere('is_admin', true);
         }
+
+        return $builder;
+    }
 
     public function domain()
     {
@@ -283,7 +296,7 @@ class User extends Authenticatable implements Searchable
         $privileges = collect();
 
         // Display all user's roles on ancestor domains
-        if ($withAncestors && config('uccello.roles.display_ancestors_roles')) {
+        if ($withAncestors) {
             $treeDomainsIds = $domain->findAncestors()->pluck('id');
         } else {
             $treeDomainsIds = collect([ $domain->id ]);

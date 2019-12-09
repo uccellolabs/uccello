@@ -13,34 +13,28 @@
         </div>
 
         <div class="row">
-            <div class="input-field col s12">
-                <b>{{ uctrans('label.role_in_current_domain', $module)}}</b><br>
-                @forelse ($record->rolesOnDomain($domain, false) as $role)
-                <a href="{{ ucroute('uccello.detail', $domain, 'role', [ 'id' => $role->id ]) }}" class="btn-flat waves-effect primary-text">
-                    @if ($role->domain_id !== $domain->id)
-                        {{ $role->domain->name }} > {{ $role->name }}
-                    @else
-                        {{ $role->name }}
-                    @endif
-                </a>
-                @empty
-                <span class="red-text" style="padding: 5px">{{ uctrans('label.no_role', $module) }}</span>
-                @endforelse
-            </div>
+            <div class="col s12">
+                <ul>
+                @forelse ($record->privilegesOnDomain($domain) as $privilege)
+                    <li class="collection-item">
+                        <a href="{{ ucroute('uccello.detail', $domain, 'role', [ 'id' => $privilege->role->id ]) }}" class="btn-flat waves-effect primary-text">
+                            @if ($privilege->role->domain_id !== $domain->id)
+                            {{ $privilege->role->domain->name }} > {{ $privilege->role->name }}
+                            @else
+                                {{ $privilege->role->name }}
+                            @endif
+                        </a>
 
-            <div class="input-field col s12">
-                <b>{{ uctrans('label.role_in_ancestors_domains', $module)}}</b><br>
-                @forelse ($record->rolesOnDomain($domain, true) as $role)
-                <a href="{{ ucroute('uccello.detail', $domain, 'role', [ 'id' => $role->id ]) }}" class="btn-flat waves-effect primary-text">
-                    @if ($role->domain_id !== $domain->id)
-                        {{ $role->domain->name }} > {{ $role->name }}
-                    @else
-                        {{ $role->name }}
-                    @endif
-                </a>
-                @empty
-                <span class="red-text" style="padding: 5px">{{ uctrans('label.no_role', $module) }}</span>
-                @endforelse
+                        {{-- Display in which domain the privilege was defined --}}
+                        {{ uctrans('label.defined_in', $module)}} <b>{{ $privilege->domain->name }}</b>
+                    </li>
+
+                    @empty
+                    <li class="collection-item">
+                        <span class="red-text" style="padding: 5px">{{ uctrans('label.no_role', $module) }}</span>
+                    </li>
+                    @endforelse
+                </ul>
             </div>
         </div>
     </div>

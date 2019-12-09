@@ -26,8 +26,7 @@ return [
         'no_role' => 'No related role',
         'my_account' => 'My account',
         'avatar_type' => 'Avatar type',
-        'role_in_current_domain' => 'Roles defined in the current domain',
-        'role_in_ancestors_domains' => 'Roles defined in ancesters domais',
+        'defined_in' => 'Defined in',
     ],
     'account' => [
         'profile' => 'Profile',

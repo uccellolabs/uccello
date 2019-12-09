@@ -260,13 +260,52 @@ class User extends Authenticatable implements Searchable
             foreach ($treeDomainsIds as $treeDomainId) {
                 $_domain = Domain::find($treeDomainId);
                 foreach ($this->privileges->where('domain_id', $_domain->id) as $privilege) {
-                    $roles[ ] = $privilege->role;
+                    if (!$roles->contains($privilege->role)) {
+                        $roles[ ] = $privilege->role;
+                    }
                 }
             }
 
-            return $roles->unique();
+            return $roles;
         // });
 
+    }
+
+    /**
+     * Returns user's privileges on a domain
+     *
+     * @param \Uccello\Core\Models\Domain $domain
+     * @param bool $withAncestors
+     * @return \Illuminate\Support\Collection
+     */
+    public function privilegesOnDomain($domain, $withAncestors = true) : Collection
+    {
+        $privileges = collect();
+
+        // Display all user's roles on ancestor domains
+        if ($withAncestors && config('uccello.roles.display_ancestors_roles')) {
+            $treeDomainsIds = $domain->findAncestors()->pluck('id');
+        } else {
+            $treeDomainsIds = collect([ $domain->id ]);
+        }
+
+        foreach ($treeDomainsIds as $treeDomainId) {
+            $_domain = Domain::find($treeDomainId);
+
+            $_privileges = $this->privileges()
+                ->where('domain_id', $_domain->id)
+                ->with('role')
+                ->with('domain')
+                ->get();
+
+            foreach ($_privileges as $privilege) {
+                if (!$privileges->contains($privilege)) {
+                    $privileges[ ] = $privilege;
+                }
+            }
+        }
+
+        return $privileges;
     }
 
     /**

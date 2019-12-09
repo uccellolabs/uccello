@@ -11,21 +11,24 @@
 @section('top-action-buttons')
     <div class="action-buttons right-align">
         @yield('before-descendants-records-button')
-        @if (uccello()->useMultiDomains() && auth()->user()->canSeeDescendantsRecords($domain))
-        {{-- Dropdown Trigger --}}
-        <a class="btn-floating btn-small waves-effect @if ($seeDescendants)orange @else primary @endif"
-            href="javascript:void(0);"
-            data-table="datatable"
-            @if ($seeDescendants)
-            data-descendants-records-filter="0"
-            @else
-            data-descendants-records-filter="1"
+
+        @section('descendants-records-button')
+            @if (uccello()->useMultiDomains() && auth()->user()->canSeeDescendantsRecords($domain))
+            {{-- Dropdown Trigger --}}
+            <a class="btn-floating btn-small waves-effect @if ($seeDescendants)orange @else primary @endif"
+                href="javascript:void(0);"
+                data-table="datatable"
+                @if ($seeDescendants)
+                data-descendants-records-filter="0"
+                @else
+                data-descendants-records-filter="1"
+                @endif
+                data-tooltip="{{ uctrans('button.see_descendants_records', $module) }}"
+                data-position="top">
+                <i class="material-icons">account_tree</i>
+            </a>
             @endif
-            data-tooltip="{{ uctrans('button.see_descendants_records', $module) }}"
-            data-position="top">
-            <i class="material-icons">account_tree</i>
-        </a>
-        @endif
+        @show
 
         @yield('after-descendants-records-button')
         @yield('before-columns-visibility-button')

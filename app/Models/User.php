@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
@@ -89,6 +90,39 @@ class User extends Authenticatable implements Searchable
             $this->recordLabel
         );
     }
+
+    /**
+     * Scope a query to only include users with role in domain.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $builder
+     * @param  \Uccello\Core\Models\Domain|null $domain
+     *
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithRoleInDomain($builder, ?Domain $domain, $withDescendants = false)
+    {
+        if (!$domain) {
+            $domain = Domain::first();
+        }
+
+        // Check if user is admin or if he has at least a role on the domain
+        // or on descendants domains if withDescendants option is on
+        return $builder->where('is_admin',true)
+            ->orWhereIn('id', function ($query) use ($domain, $withDescendants) {
+                $privilegesTable = env('UCCELLO_TABLE_PREFIX', 'uccello_').'privileges';
+
+                $query->select('user_id')
+                    ->from($privilegesTable);
+
+                if (Auth::user() && Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
+                    $domainsIds = $domain->findDescendants()->pluck('id');
+                    $query->whereIn('domain_id', $domainsIds);
+                } else {
+                    $query->where('domain_id', $domain->id);
+                }
+            });
+        }
 
     public function domain()
     {

@@ -80,7 +80,7 @@ class ListController extends CoreListController
         }
 
         // Filter on domain if column exists
-        $query = $modelClass::inDomain($this->domain, $this->request->session()->get('descendants'))
+        $query = $modelClass::withRoleInDomain($this->domain, $this->request->session()->get('descendants'))
                             ->filterBy($filter);
 
         // Display trash if filter is selected

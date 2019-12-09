@@ -109,7 +109,7 @@ class User extends Authenticatable implements Searchable
         // Check if user is admin or if he has at least a role on the domain
         // or on descendants domains if withDescendants option is on
         return $builder->where('is_admin',true)
-            ->orWhereIn('id', function ($query) use ($domain, $withDescendants) {
+            ->orWhereIn($this->getKeyName(), function ($query) use ($domain, $withDescendants) {
                 $privilegesTable = env('UCCELLO_TABLE_PREFIX', 'uccello_').'privileges';
 
                 $query->select('user_id')

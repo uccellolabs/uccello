@@ -42,6 +42,9 @@ class ListController extends Controller
             $selectedFilterId = $selectedFilter->id;
         }
 
+        // Add search conditions from request
+        $selectedFilter = $this->addSearchConditions($selectedFilter);
+
         // Get datatable columns
         $datatableColumns = Uccello::getDatatableColumns($module, $selectedFilterId);
 
@@ -317,6 +320,30 @@ class ListController extends Controller
     protected function isDisplayingTrash()
     {
         return $this->isModuleUsingSoftDeleting() && $this->request->get('filter') === 'trash';
+    }
+
+    /**
+     * Add to a filter all search conditions from defined in request
+     *
+     * @param \Uccello\Core\Models\Filter $filter
+     * @return \Uccello\Core\Models\Filter
+     */
+    protected function addSearchConditions($filter)
+    {
+        if ($this->request->has('search')) {
+            $conditions = [];
+            foreach ((array) $this->request->search as $fieldName => $value) {
+                $conditions[$fieldName] = $value;
+            }
+
+            if ($conditions) {
+                $filter->conditions = [
+                    'search' => $conditions
+                ];
+            }
+        }
+
+        return $filter;
     }
 
     /**

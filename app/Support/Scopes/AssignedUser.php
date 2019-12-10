@@ -24,10 +24,10 @@ class AssignedUser implements Scope
 
         // Records assigned to a group to which the user belongs
         if ($user && !$user->is_admin) {
-            $builder->whereIn('assigned_user_id', $user->getAllowedGroupUuids());
+            $builder->whereIn($model->getTable().'.assigned_user_id', $user->getAllowedGroupUuids());
 
             // Records assigned to an user with roles subordonate to the roles of the user
-            $builder->orWhereIn('assigned_user_id', function ($query) use ($user) {
+            $builder->orWhereIn($model->getTable().'.assigned_user_id', function ($query) use ($user) {
                 $entityTable = with(new Entity)->getTable();
                 $privilegesTable = env('UCCELLO_TABLE_PREFIX', 'uccello_').'privileges';
 

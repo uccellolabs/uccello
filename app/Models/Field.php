@@ -118,7 +118,9 @@ class Field extends Model
 
     public function getRequiredAttribute(): bool
     {
-        return $this->data->required ?? false;
+        $rules = explode('|', $this->data->rules ?? '');
+
+        return in_array('required', $rules);
     }
 
     /**

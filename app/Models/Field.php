@@ -173,14 +173,13 @@ class Field extends Model
 
     /**
      * Checks if the field can be displayed is hidden.
-     * A hidden field can be displayed in List view.
      *
      * @return boolean
      */
     public function isHidden() : bool
     {
         return Cache::rememberForever('displaytype_'.$this->displaytype_id.'_is_hidden', function() {
-            return $this->displaytype->isHidden();
+            return $this->displaytype->id === displaytype('hidden')->id;
         });
     }
 }

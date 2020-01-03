@@ -261,7 +261,7 @@ return [
             'last_quarter' => 'Trimestre dernier',
             'next_quarter' => 'Trimestre prochain',
             'year' => 'Cette année',
-            'last_year' => 'Année derniere',
+            'last_year' => 'Année dernière',
             'next_year' => 'Année prochaine',
         ],
     ],

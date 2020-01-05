@@ -163,9 +163,9 @@ class Module extends Model
     /**
      * Returns module's default route
      *
-     * @return string
+     * @return string|null
      */
-    public function getDefaultRouteAttribute() : string
+    public function getDefaultRouteAttribute() : ?string
     {
         $defaultRoute = 'uccello.list';
 

@@ -61,7 +61,7 @@ class Checkbox implements Uitype
      */
     public function getFormattedValueToSave(Request $request, Field $field, $value, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
     {
-        return $value ?? 0;
+        return isset($value) ? '1' : null;
     }
 
     /**

@@ -113,6 +113,8 @@ Route::name('uccello.')->group(function() {
     Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
     Route::post($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
     Route::get($domainAndModuleParams.'/edit/relation/delete', 'Core\EditController@deleteRelation')->name('edit.relation.delete');
+    Route::get($domainAndModuleParams.'/popup_edit', 'Core\PopupEditController@process')->name('popup.edit');
+    Route::post($domainAndModuleParams.'/popup', 'Core\PopupEditController@save')->name('popup.save');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
     Route::get($domainAndModuleParams.'/restore', 'Core\EditController@restore')->name('restore');
     Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');

@@ -283,10 +283,4 @@ return [
         'search' => 'Search',
         'no_records' => 'No records',
     ],
-    
-    //Uitype 'entity'
-    'entity' => [
-        'confirmation_override' => "This entity is already linked to :name. 
-                                    If you continue, :name_ will be replaced by current entity."
-    ]
 ];

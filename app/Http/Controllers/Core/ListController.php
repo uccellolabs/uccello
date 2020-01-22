@@ -108,6 +108,7 @@ class ListController extends Controller
         $recordId = $request->get('id');
         $relatedListId = $request->get('relatedlist');
         $action = $request->get('action');
+        $relatedModule = null;
 
         if ($request->has('descendants') && $request->get('descendants') !== $request->session()->get('descendants')) {
             $request->session()->put('descendants', $request->get('descendants'));
@@ -164,6 +165,10 @@ class ListController extends Controller
                     $filteredRecordIds[] = (int)$recordId;
                 }
 
+                if ($relatedList->module_id) {
+                    $relatedModule = ucmodule($relatedList->module_id);
+                }
+
                 // Make the quer
                 $records = $query->whereNotIn($model->getKeyName(), $filteredRecordIds)->paginate($length);
             }
@@ -172,7 +177,7 @@ class ListController extends Controller
             $records = $query->paginate($length);
         }
 
-        $records->getCollection()->transform(function ($record) use ($domain, $module) {
+        $records->getCollection()->transform(function ($record) use ($domain, $module, $relatedModule) {
             foreach ($module->fields as $field) {
                 // If a special template exists, use it. Else use the generic template
                 $uitype = uitype($field->uitype_id);
@@ -185,6 +190,13 @@ class ListController extends Controller
             // Add primary key name and value
             $record->__primaryKey = $record->getKey();
             $record->__primaryKeyName = $record->getKeyName();
+
+            if ($relatedModule) {
+                $moduleName = str_replace('-', '_', $relatedModule->name);
+                if ($record->$moduleName) {
+                    $record->__relatedEntityName = $record->$moduleName->recordLabel ?? null;
+                }
+            }
 
             return $record;
         });

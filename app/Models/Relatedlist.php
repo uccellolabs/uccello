@@ -75,9 +75,7 @@ class Relatedlist extends Model
     {
         $relationName = null;
 
-        if ($this->type === 'n-n') {
-            $relationName = $this->data->relationName ?? Str::camel(Str::plural($this->relatedModule->name));
-        }
+        $relationName = $this->data->relationName ?? Str::camel(Str::plural($this->relatedModule->name));
 
         return $relationName;
     }
@@ -177,6 +175,6 @@ class Relatedlist extends Model
      */
     public function canSelect() : bool
     {
-        return $this->type === 'n-n' && isset($this->data->actions) && in_array('select', $this->data->actions);
+        return isset($this->data->actions) && in_array('select', $this->data->actions);
     }
 }

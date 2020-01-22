@@ -233,13 +233,17 @@ class EditController extends Controller
             $relatedList = null;
         }
 
-        // Delete relation if it is a N-N relation
+        
         if ($relatedList && $relatedList->type === 'n-n') {
+            // Delete relation if it is a N-N relation
             $this->deleteRelationForNN($request);
             $message = 'notification.relation.deleted';
-        }
-        // Else delete record
-        else {
+        } elseif ($relatedList && $relatedList->type === 'n-1') {
+            // Delete relation if it is a N-1 relation
+            $this->deleteRelationForN1($request);
+            $message = 'notification.relation.deleted';
+        } else {
+            // Else delete record
             $this->deleteRecord($module, $request);
             $message = 'notification.record.deleted';
         }
@@ -284,7 +288,13 @@ class EditController extends Controller
 
         if ($record) {
             $relation = $record->$relationName();
-            $relation->attach($relatedRecordId);
+            if ($relatedList->type=='n-n') {
+                $relation->attach($relatedRecordId);
+            } elseif ($relatedList->type=='n-1') {
+                $relatedModelClass = $relatedList->relatedModule->model_class;
+                $related_record = $relatedModelClass::find($relatedRecordId);
+                $relation->save($related_record);
+            }
         }
     }
 
@@ -372,6 +382,29 @@ class EditController extends Controller
             if ($record) {
                 $record->$relationName()->detach($relatedRecordId);
             }
+        }
+    }
+
+    /**
+     * Delete a relation for a N-1 related list
+     *
+     * @return void
+     */
+    protected function deleteRelationForN1(Request $request)
+    {
+        $relatedListId = $request->get('relatedlist');
+        $recordId = $request->get('id');
+        $relatedRecordId = $request->get('related_id');
+        $relatedList = Relatedlist::find($relatedListId);
+        $modelClass = $relatedList->module->model_class;
+        $record = $modelClass::find($recordId);
+        if ($record) {
+            $relatedModelClass = $relatedList->relatedModule->model_class;
+            $related_record = $relatedModelClass::find($relatedRecordId);
+            $relationName = $relatedList->module->name;
+            
+            $related_record->$relationName()->dissociate();
+            $related_record->save();
         }
     }
 }

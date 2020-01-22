@@ -54,6 +54,8 @@ return [
         'user_account' => 'My account',
         'see_descendants_records' => 'Descendant view',
         'lines_number' => 'Lines',
+        'create_related_record' => 'Create new',
+        'search_related_record' => 'Search',
         'listview' => 'List view',
         'treeview' => 'Tree view',
         'select' => 'Select',

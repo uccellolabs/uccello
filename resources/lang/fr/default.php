@@ -53,6 +53,8 @@ return [
         'delete_related_record' => 'Supprimer la relation',
         'user_account' => 'Mon compte',
         'see_descendants_records' => 'Vue descendante',
+        'create_related_record' => 'Créer nouveau',
+        'search_related_record' => 'Rechercher',
         'lines_number' => 'Lignes',
         'listview' => 'Vue en liste',
         'treeview' => 'Vue en arbre',
@@ -284,7 +286,6 @@ return [
         'no_records' => 'Aucun enregistrement',
     ],
 
-    
     //Uitype entity
     'entity' => [
         'confirmation_override' => "Cette entité est déjà liée à :name. Si vous continuez, :name_ sera remplacé par l'entité actuelle."

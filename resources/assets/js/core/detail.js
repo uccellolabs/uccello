@@ -57,8 +57,30 @@ export class Detail {
             $('table thead .search', modal).removeClass('hide')
 
             // Click callback
-            let rowClickCallback = (event, datatable, recordId) => {
-                this.relatedListNNRowClickCallback(relatedListId, relatedListTable, datatable, recordId)
+            let rowClickCallback = (event, datatable, recordId, recordLabel, oldRelatedName) => {
+                
+                if(oldRelatedName)
+                {
+                    swal({
+                        title: uctrans.trans('uccello::default.confirm.dialog.title'),
+                        text: uctrans.trans('uccello::default.entity.confirmation_override', {name: oldRelatedName, name_: oldRelatedName}),
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                        buttons: [
+                            uctrans.trans('uccello::default.button.no'),
+                            uctrans.trans('uccello::default.button.yes')
+                        ],
+                    })
+                    .then((response) => {
+                        if (response === true) {
+                            this.relatedListNNRowClickCallback(relatedListId, relatedListTable, datatable, recordId)
+                        }
+                    })
+                }
+                else
+                    this.relatedListNNRowClickCallback(relatedListId, relatedListTable, datatable, recordId)
+
             }
 
             // Init datatable for selection

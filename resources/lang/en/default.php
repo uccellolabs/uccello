@@ -54,6 +54,8 @@ return [
         'user_account' => 'My account',
         'see_descendants_records' => 'Descendant view',
         'lines_number' => 'Lines',
+        'create_related_record' => 'Create new',
+        'search_related_record' => 'Search',
         'listview' => 'List view',
         'treeview' => 'Tree view',
         'select' => 'Select',
@@ -280,5 +282,10 @@ return [
     'treeview' => [
         'search' => 'Search',
         'no_records' => 'No records',
+    ],
+
+    //Uitype entity
+    'entity' => [
+        'confirmation_override' => "This entity is already linked to :name. If you continue, :name_ will be replaced by the current entity."
     ],
 ];

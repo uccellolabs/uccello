@@ -8,7 +8,7 @@
         if (isset($column['data']->autocomplete_search) && $column['data']->autocomplete_search === true) {
             $autocompleteSearch = true;
         } else {
-            $entities = auth()->user()->getAllowedGroupsAndUsers(false);
+            $entities = auth()->user()->getAllowedGroupsAndUsers($domain, false);
         }
         ?>
         <select class="field-search" multiple data-constrain-width="false" data-container=".card-content:parent div" data-alignment="right">

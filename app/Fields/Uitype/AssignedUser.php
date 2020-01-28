@@ -54,9 +54,9 @@ class AssignedUser implements Uitype
                 // 'data-live-search' => 'true',
                 // 'data-abs-ajax-url' => ucroute('uccello.autocomplete', $domain, $relatedModule)
             ],
-            'query_builder' => function($relatedRecord) use($record) {
+            'query_builder' => function ($relatedRecord) use ($domain, $record) {
                 // TODO: Filter depending users profiles...
-                return Auth::user()->getAllowedGroupsAndUsers(true);
+                return Auth::user()->getAllowedGroupsAndUsers($domain, true);
             },
         ];
 

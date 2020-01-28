@@ -31,7 +31,7 @@ class User extends Authenticatable implements Searchable
      *
      * @var array
      */
-    protected $dates = [ 'deleted_at' ];
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that should be casted to native types.
@@ -110,7 +110,7 @@ class User extends Authenticatable implements Searchable
         // or on descendants domains if withDescendants option is on
         $builder->where('domain_id', $domain->id)
             ->orWhereIn($this->getKeyName(), function ($query) use ($domain, $withDescendants) {
-                $privilegesTable = env('UCCELLO_TABLE_PREFIX', 'uccello_').'privileges';
+                $privilegesTable = env('UCCELLO_TABLE_PREFIX', 'uccello_') . 'privileges';
 
                 $query->select('user_id')
                     ->from($privilegesTable);
@@ -172,7 +172,7 @@ class User extends Authenticatable implements Searchable
      *
      * @return string
      */
-    public function getRecordLabelAttribute() : string
+    public function getRecordLabelAttribute(): string
     {
         return trim($this->name) ?? $this->username;
     }
@@ -182,7 +182,7 @@ class User extends Authenticatable implements Searchable
      *
      * @return string
      */
-    public function getAvatarTypeAttribute() : string
+    public function getAvatarTypeAttribute(): string
     {
         return $this->avatar->type ?? 'initials';
     }
@@ -192,7 +192,7 @@ class User extends Authenticatable implements Searchable
      *
      * @return string
      */
-    public function getInitialsAttribute() : string
+    public function getInitialsAttribute(): string
     {
         $initials = "";
 
@@ -216,13 +216,12 @@ class User extends Authenticatable implements Searchable
      *
      * @return string
      */
-    public function getImageAttribute() : string
+    public function getImageAttribute(): string
     {
         $image = 'vendor/uccello/uccello/images/user-no-image.png';
 
         if ($this->avatarType === 'gravatar') {
             $image = 'https://www.gravatar.com/avatar/' . md5($this->email) . '?d=mm';
-
         } elseif ($this->avatarType === 'image' && !empty($this->avatar->path)) {
             $image = $this->avatar->path;
         }
@@ -247,7 +246,8 @@ class User extends Authenticatable implements Searchable
      * @param mixed $defaultValue
      * @return \stdClass|null;
      */
-    public function getSettings($key, $defaultValue=null) {
+    public function getSettings($key, $defaultValue = null)
+    {
         return $this->userSettings->data->{$key} ?? $defaultValue;
     }
 
@@ -258,30 +258,29 @@ class User extends Authenticatable implements Searchable
      * @param bool $withAncestors
      * @return \Illuminate\Support\Collection
      */
-    public function rolesOnDomain($domain, $withAncestors = true) : Collection
+    public function rolesOnDomain($domain, $withAncestors = true): Collection
     {
         // return Cache::remember('user_'.$this->id.'_domain_'.$domain->slug.'_roles', 600, function () use($domain) {
-            $roles = collect();
+        $roles = collect();
 
-            // Display all user's roles on ancestor domains
-            if ($withAncestors && config('uccello.roles.display_ancestors_roles')) {
-                $treeDomainsIds = $domain->findAncestors()->pluck('id');
-            } else {
-                $treeDomainsIds = collect([ $domain->id ]);
-            }
+        // Display all user's roles on ancestor domains
+        if ($withAncestors && config('uccello.roles.display_ancestors_roles')) {
+            $treeDomainsIds = $domain->findAncestors()->pluck('id');
+        } else {
+            $treeDomainsIds = collect([$domain->id]);
+        }
 
-            foreach ($treeDomainsIds as $treeDomainId) {
-                $_domain = Domain::find($treeDomainId);
-                foreach ($this->privileges->where('domain_id', $_domain->id) as $privilege) {
-                    if (!$roles->contains($privilege->role)) {
-                        $roles[ ] = $privilege->role;
-                    }
+        foreach ($treeDomainsIds as $treeDomainId) {
+            $_domain = Domain::find($treeDomainId);
+            foreach ($this->privileges->where('domain_id', $_domain->id) as $privilege) {
+                if (!$roles->contains($privilege->role)) {
+                    $roles[] = $privilege->role;
                 }
             }
+        }
 
-            return $roles;
+        return $roles;
         // });
-
     }
 
     /**
@@ -291,7 +290,7 @@ class User extends Authenticatable implements Searchable
      * @param bool $withAncestors
      * @return \Illuminate\Support\Collection
      */
-    public function privilegesOnDomain($domain, $withAncestors = true) : Collection
+    public function privilegesOnDomain($domain, $withAncestors = true): Collection
     {
         $privileges = collect();
 
@@ -299,7 +298,7 @@ class User extends Authenticatable implements Searchable
         if ($withAncestors) {
             $treeDomainsIds = $domain->findAncestors()->pluck('id');
         } else {
-            $treeDomainsIds = collect([ $domain->id ]);
+            $treeDomainsIds = collect([$domain->id]);
         }
 
         foreach ($treeDomainsIds as $treeDomainId) {
@@ -313,7 +312,7 @@ class User extends Authenticatable implements Searchable
 
             foreach ($_privileges as $privilege) {
                 if (!$privileges->contains($privilege)) {
-                    $privileges[ ] = $privilege;
+                    $privileges[] = $privilege;
                 }
             }
         }
@@ -327,7 +326,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Domain $domain
      * @return \Illuminate\Support\Collection
      */
-    public function subordonateRolesIdsOnDomain($domain) : Collection
+    public function subordonateRolesIdsOnDomain($domain): Collection
     {
         $roles = $this->rolesOnDomain($domain);
 
@@ -345,7 +344,8 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Domain $domain
      * @return boolean
      */
-    public function hasRoleOnDomain($domain) : bool {
+    public function hasRoleOnDomain($domain): bool
+    {
         if ($this->is_admin) {
             return true;
         }
@@ -359,14 +359,15 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Domain $domain
      * @return boolean
      */
-    public function hasRoleOnDescendantDomain(Domain $domain) : bool {
+    public function hasRoleOnDescendantDomain(Domain $domain): bool
+    {
         if ($this->is_admin) {
             return true;
         }
 
         $hasRole = false;
 
-        $descendants = Cache::remember('domain_'.$domain->slug.'_descendants', 600, function () use($domain) {
+        $descendants = Cache::remember('domain_' . $domain->slug . '_descendants', 600, function () use ($domain) {
             return $domain->findDescendants()->get();
         });
 
@@ -388,11 +389,11 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return \Illuminate\Support\Collection
      */
-    public function capabilitiesOnModule(Domain $domain, Module $module) : Collection
+    public function capabilitiesOnModule(Domain $domain, Module $module): Collection
     {
-        $keyName = 'user_'.$this->id.'_'.$domain->slug.'_'.$module->name.'_capabilities';
+        $keyName = 'user_' . $this->id . '_' . $domain->slug . '_' . $module->name . '_capabilities';
 
-        return Cache::remember($keyName, 600, function () use($domain, $module) {
+        return Cache::remember($keyName, 600, function () use ($domain, $module) {
             $capabilities = collect();
 
             // Get the domain and all its parents
@@ -403,7 +404,6 @@ class User extends Authenticatable implements Searchable
                 $privileges = $this->privileges->where('domain_id', $_domain->id);
 
                 foreach ($privileges as $privilege) {
-
                     foreach ($privilege->role->profiles as $profile) {
                         $capabilities = $capabilities->merge($profile->capabilitiesOnModule($module));
                     }
@@ -422,7 +422,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function hasCapabilityOnModule(string $capabilityName, Domain $domain, Module $module) : bool
+    public function hasCapabilityOnModule(string $capabilityName, Domain $domain, Module $module): bool
     {
         $capability = capability($capabilityName);
 
@@ -438,15 +438,15 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Domain|null $domain
      * @return boolean
      */
-    public function canAccessToSettingsPanel(?Domain $domain) : bool
+    public function canAccessToSettingsPanel(?Domain $domain): bool
     {
         if (empty($domain)) {
             $domain = Domain::first();
         }
 
-        $keyName = 'user_'.$this->id.'_'.$domain->slug.'_can_access_to_settings_panel';
+        $keyName = 'user_' . $this->id . '_' . $domain->slug . '_can_access_to_settings_panel';
 
-        return Cache::remember($keyName, 600, function () use($domain) {
+        return Cache::remember($keyName, 600, function () use ($domain) {
 
             $hasCapability = false;
 
@@ -468,7 +468,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canAdmin(Domain $domain, Module $module) : bool
+    public function canAdmin(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('admin', $domain, $module);
     }
@@ -480,7 +480,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canCreate(Domain $domain, Module $module) : bool
+    public function canCreate(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('create', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -492,7 +492,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canRetrieve(Domain $domain, Module $module) : bool
+    public function canRetrieve(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('retrieve', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -504,7 +504,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canUpdate(Domain $domain, Module $module) : bool
+    public function canUpdate(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('update', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -516,7 +516,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canDelete(Domain $domain, Module $module) : bool
+    public function canDelete(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('delete', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -528,7 +528,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canCreateByApi(Domain $domain, Module $module) : bool
+    public function canCreateByApi(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('api-create', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -540,7 +540,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canRetrieveByApi(Domain $domain, Module $module) : bool
+    public function canRetrieveByApi(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('api-retrieve', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -552,7 +552,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canUpdateByApi(Domain $domain, Module $module) : bool
+    public function canUpdateByApi(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('api-update', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -564,7 +564,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Module $module
      * @return boolean
      */
-    public function canDeleteByApi(Domain $domain, Module $module) : bool
+    public function canDeleteByApi(Domain $domain, Module $module): bool
     {
         return $this->hasCapabilityOnModule('api-delete', $domain, $module) || ($module->isAdminModule() && $this->canAdmin($domain, $module));
     }
@@ -575,7 +575,7 @@ class User extends Authenticatable implements Searchable
      * @param \Uccello\Core\Models\Domain $domain
      * @return boolean
      */
-    public function canSeeDescendantsRecords(Domain $domain) : bool
+    public function canSeeDescendantsRecords(Domain $domain): bool
     {
         $allowed = false;
 
@@ -607,13 +607,16 @@ class User extends Authenticatable implements Searchable
         return $allowedGroups;
     }
 
-    public function getAllowedGroupsAndUsers($addUsers = true)
+    public function getAllowedGroupsAndUsers(Domain $domain, $addUsers = true)
     {
         // Use cache
         $allowedGroupsAndUsers = Cache::rememberForever(
-            'allowed_group_users_for_' . ($addUsers ? 'u_' : '') . ($this->is_admin ? 'admin' : $this->getKey()),
-            function () use ($addUsers) {
-                return $this->getAllowedGroupsAndUsersProcess($addUsers);
+            'allowed_group_users_for_' .
+                'd_' . $domain->getKey() . '_' .
+                ($addUsers ? 'u_' : '') .
+                ($this->is_admin ? 'admin' : $this->getKey()),
+            function () use ($domain, $addUsers) {
+                return $this->getAllowedGroupsAndUsersProcess($domain, $addUsers);
             }
         );
 
@@ -657,8 +660,7 @@ class User extends Authenticatable implements Searchable
                     $searchChildrenGroups[$childrenGroup->uuid] = $childrenGroup;
                 }
 
-                if($addUsers)
-                {
+                if ($addUsers) {
                     foreach ($childrenGroup->users as $user) {
                         if (empty($users[$user->uuid])) {
                             $users[$user->uuid] = $user;
@@ -671,7 +673,7 @@ class User extends Authenticatable implements Searchable
         }
     }
 
-    protected function getAllowedGroupsAndUsersProcess($addUsers = true)
+    protected function getAllowedGroupsAndUsersProcess(Domain $domain, $addUsers = true)
     {
         $allowedUserUuids = collect([[
             'uuid' => $this->uuid,
@@ -679,8 +681,8 @@ class User extends Authenticatable implements Searchable
         ]]);
 
         // if ($this->is_admin) {
-            $groups = Group::orderBy('name')->get();
-            $users  = \App\User::orderBy('name')->get();
+        $groups = Group::inDomain($domain)->orderBy('name')->get();
+        $users  = \App\User::inDomain($domain)->orderBy('name')->get();
         // } else {
         //     $groups = [];
         //     $users = [];
@@ -712,7 +714,7 @@ class User extends Authenticatable implements Searchable
         }
 
         foreach ($users as $uuid => $user) {
-            if($user->getKey() != $this->getKey()) {
+            if ($user->getKey() != $this->getKey()) {
                 $allowedUserUuids[] = [
                     'uuid' => $user->uuid,
                     'recordLabel' => $user->recordLabel

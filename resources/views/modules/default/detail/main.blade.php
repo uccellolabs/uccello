@@ -43,8 +43,13 @@
 @append
 
 @section('content')
+
+    @yield('before-tabs')
+
     {{-- Tab list --}}
     @include('uccello::modules.default.detail.tabs')
+
+    @yield('after-tabs')
 
     <div class="detail-blocks">
         @section('default-tabs')

@@ -1,3 +1,5 @@
+@yield('before-navbar-header')
+
 @section('navbar-header')
 <div class="navbar-header navbar-fixed">
     <nav class="header">
@@ -56,6 +58,8 @@
 </div>
 @show
 
+@yield('after-navbar-header')
+
 @section('navbar-top')
 <header class="navbar-fixed navbar-top">
     <nav class="transparent z-depth-0">
@@ -70,6 +74,8 @@
     </nav>
 </header>
 @show
+
+@yield('after-navbar-top')
 
 @section('domains-modal')
 @if (config('uccello.domains.display_tree') !== false)

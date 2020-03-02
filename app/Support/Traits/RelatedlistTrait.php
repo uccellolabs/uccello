@@ -34,8 +34,17 @@ trait RelatedlistTrait
         $relatedField = $relatedList->relatedField;
         $filter = ['order' => request('order')];
 
-        $query = $query->where($relatedField->column, $recordId)
-                        ->filterBy($filter);
+        $query = $query->where(function (Builder $_query) use ($recordId, $relatedList, $relatedField) {
+            // Search by id
+            $_query->where($relatedField->column, $recordId);
+
+            // Search by uuid
+            $record = ucrecord($recordId, $relatedList->module->model_class);
+            if ($record->uuid ?? false) {
+                $_query->orWhere($relatedField->column, $record->uuid);
+            }
+        })
+        ->filterBy($filter);
 
         return $query;
     }
@@ -55,10 +64,20 @@ trait RelatedlistTrait
         // Related field
         $relatedField = $relatedList->relatedField;
 
-        return $relatedModel::where($relatedField->column, $recordId)->count();
+        return $relatedModel::where(function (Builder $_query) use ($recordId, $relatedList, $relatedField) {
+            // Search by id
+            $_query->where($relatedField->column, $recordId);
+
+            // Search by uuid
+            $record = ucrecord($recordId, $relatedList->module->model_class);
+            if ($record->uuid ?? false) {
+                $_query->orWhere($relatedField->column, $record->uuid);
+            }
+        })
+        ->count();
     }
 
-        /**
+    /**
      * Get ids of related records for n-1 relations
      *
      * @param Relatedlist $relatedList
@@ -70,13 +89,15 @@ trait RelatedlistTrait
         // Get record
         $modelClass = $relatedList->module->model_class;
         $record = $modelClass::find($recordId);
+
         // Get related key name
         $relatedModel = new $relatedList->relatedModule->model_class;
         $relatedTable = $relatedModel->table;
         $relatedPrimaryKey = $relatedModel->getKeyName();
+
         // Get related records ids
         $relationName = $relatedList->relationName;
-        return $record->$relationName()->pluck("$relatedTable.$relatedPrimaryKey");
+        return $record->$relationName()->pluck("$relatedTable.$relatedPrimaryKey"); //TODO: Check if it works with uuid
     }
 
     /**

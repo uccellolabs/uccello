@@ -183,7 +183,7 @@ class ListController extends Controller
                 $uitype = uitype($field->uitype_id);
                 $uitypeViewName = sprintf('uitypes.list.%s', $uitype->name);
                 $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';
-                $uitypeViewToInclude = uccello()->view($uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                $uitypeViewToInclude = uccello()->view($module->package, $module, $uitypeViewName, $uitypeFallbackView);
                 $record->{$field->name.'_html'} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
             }
 

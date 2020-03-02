@@ -26,7 +26,7 @@
                                 $uitype = uitype($field->uitype_id);
                                 $uitypeViewName = sprintf('uitypes.detail.%s', $uitype->name);
                                 $uitypeFallbackView = 'uccello::modules.default.uitypes.detail.text';
-                                $uitypeViewToInclude = uccello()->view($uitype->package, $module, $uitypeViewName, $uitypeFallbackView);
+                                $uitypeViewToInclude = uccello()->view($module->package, $module, $uitypeViewName, $uitypeFallbackView);
 
                                 // Count columns
                                 $isLarge = $field->data->large ?? false;

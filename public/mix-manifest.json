@@ -1,10 +1,10 @@
 {
     "/js/manifest.js": "/js/manifest.js?id=7db827d654313dce4250",
-    "/js/vendor.js": "/js/vendor.js?id=db86f2217635bb471961",
-    "/js/app.js": "/js/app.js?id=478308d0bf734a7a98c0",
-    "/js/autoloader.js": "/js/autoloader.js?id=b1dd018b46ab99165112",
-    "/css/materialize.css": "/css/materialize.css?id=3a0904290f7f1a54a029",
-    "/css/app.css": "/css/app.css?id=f7bcc21cea851d6ff0ec",
+    "/js/vendor.js": "/js/vendor.js?id=7c91d3bac8ffcee928c8",
+    "/js/app.js": "/js/app.js?id=f992b911bd90366fc462",
+    "/js/autoloader.js": "/js/autoloader.js?id=9cb565cc09a8710b8686",
+    "/css/materialize.css": "/css/materialize.css?id=d17b8acd511f09bd0d39",
+    "/css/app.css": "/css/app.css?id=f9f534700641b900b81f",
     "/js/profile/autoloader.js": "/js/profile/autoloader.js?id=e6a8ebbbc8ce89b3a124",
     "/js/settings/autoloader.js": "/js/settings/autoloader.js?id=057eb55010a604462a44",
     "/js/user/autoloader.js": "/js/user/autoloader.js?id=e7edf24b602a09b5b579"

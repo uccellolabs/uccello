@@ -378,6 +378,17 @@ class ListController extends Controller
             return false;
         }
 
+        //Filter with additionnal rules (uitype entity for exemple)
+        if ($this->request->has('additional_rules') && $this->request->get('additional_rules')) {
+            $rules = json_decode($this->request->get('additional_rules'));
+
+            if ($rules) {
+                foreach ($rules as $column => $rule) {
+                    $filter['columns'][$column]['search'] = $rule;
+                }
+            }
+        }
+
         // Filter on domain if column exists
         $query = $modelClass::inDomain($this->domain, $this->request->session()->get('descendants'))
                             ->filterBy($filter);

@@ -4,6 +4,7 @@
     $entityModule = ucmodule($field->data->module ?? null);
     $relatedRecord = $record->{$field->name} ?? null;
     $displayFieldName = $field->name.'_display';
+    $additional_search_rules = $field->data->search ?? null;
 ?>
 <div class="col {{ $isLarge ? 's12' : 's12 m6' }} input-field @if($isError)invalid @endif">
 
@@ -65,7 +66,7 @@
                         <div class="col s12">
                             {{-- Table --}}
                             <?php $datatableColumns = Uccello::getDatatableColumns($entityModule, null, 'related-list'); ?>
-                            @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => 'datatable_'.$field->name, 'datatableContentUrl' => ucroute('uccello.list.content', $domain, $entityModule, ['action' => 'select']), 'relatedModule' => $entityModule, 'searchable' => true  ])
+                            @include('uccello::modules.default.detail.relatedlists.table', [ 'datatableId' => 'datatable_'.$field->name, 'datatableContentUrl' => ucroute('uccello.list.content', $domain, $entityModule, ['action' => 'select']), 'relatedModule' => $entityModule, 'searchable' => true, 'additional_search_rules' => json_encode($additional_search_rules) ])
                         </div>
                         <div class="loader center-align" data-table="{{ 'datatable_'.$field->name }}">
                             <div class="preloader-wrapper big active">

@@ -5,6 +5,7 @@
         class="striped highlight"
         data-filter-type="related-list"
         data-filter-id="{{ $selectedFilter->id ?? '' }}"
+        data-additional-rules="{{ $additional_search_rules ?? '' }}"
         data-relatedlist="{{ $relatedlist->id ?? '' }}"
         data-content-url="{{ $datatableContentUrl ?? ucroute('uccello.list.content', $domain, $relatedModule) }}"
         data-add-relation-url="{{ ucroute('uccello.edit.relation.add', $domain, $module) }}"

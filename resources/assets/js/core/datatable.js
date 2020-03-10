@@ -64,6 +64,7 @@ export class Datatable {
             id: $('meta[name="record"]').attr('content'),
             columns: this.columns,
             order: $(this.table).attr('data-order') ? JSON.parse($(this.table).attr('data-order')) : null,
+            additional_rules: $(this.table).attr('data-additional-rules') ? $(this.table).attr('data-additional-rules') : null,
             relatedlist: $(this.table).attr('data-relatedlist') ? $(this.table).attr('data-relatedlist') : null,
             length: $(this.table).attr('data-length'),
         }

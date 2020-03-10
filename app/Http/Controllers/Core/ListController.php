@@ -382,8 +382,10 @@ class ListController extends Controller
         if ($this->request->has('additional_rules') && $this->request->get('additional_rules')) {
             $rules = json_decode($this->request->get('additional_rules'));
 
-            foreach ($rules as $column => $rule) {
-                $filter['columns'][$column]['search'] = $rule;
+            if ($rules) {
+                foreach ($rules as $column => $rule) {
+                    $filter['columns'][$column]['search'] = $rule;
+                }
             }
         }
 

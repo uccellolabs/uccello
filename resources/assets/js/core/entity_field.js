@@ -150,10 +150,12 @@ export class EntityField {
             datatable.init(el, rowClickCallback)
             datatable.makeQuery()
 
-            let edit_view_popup_url = $('meta[name="popup_url_'+this.fieldName+'"]').attr('content');
-            $.get(edit_view_popup_url, {field: this.fieldName}).then((data) => {
-                this.setUpForm(data, modal);
-            });
+            if (!$("meta[name='entity-new-tab']").attr('content')) {
+                let edit_view_popup_url = $('meta[name="popup_url_'+this.fieldName+'"]').attr('content');
+                $.get(edit_view_popup_url, {field: this.fieldName}).then((data) => {
+                    this.setUpForm(data, modal);
+                });
+            }
         })
     }
 }

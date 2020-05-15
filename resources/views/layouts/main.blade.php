@@ -24,6 +24,8 @@
         <meta name="domain" content="{{ $domain->slug }}">
         {{-- Module --}}
         <meta name="module" content="{{ $module->name }}">
+        {{-- Entity fields --}}
+        <meta name="entity-new-tab" content="{{ config('uccello.entity.open_in_new_tab', true) }}">
         @endif
 
         @yield('extra-meta')

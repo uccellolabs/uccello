@@ -100,7 +100,9 @@ class Entity implements Uitype
 
         // Get related record
         $relatedModelClass = $relatedModule->model_class;
-        $relatedRecord = $relatedModelClass::find($relatedRecordId);
+        //TODO : Allow us on config to decide if we want to display entities on which we do not have access
+        $relatedRecord = $relatedModelClass::withoutGlobalScopes()
+            ->find($relatedRecordId);
 
         // Check if there is an attribute called displayLabel in the related record else use id
         if (!is_null($relatedRecord)) {

@@ -44,24 +44,31 @@ export class Edit {
     }
 
     initEntityModalButtonsListener() {
-        $('a.create-related-record').click(event => {
-            let modal = $(event.currentTarget).parents('.modal:first')
+        if (!$("meta[name='entity-new-tab']").attr('content')) {
+            $('a.create-related-record').click(event => {
+                let modal = $(event.currentTarget).parents('.modal:first')
 
-            $('div.create-related-record', modal).show()
-            $('div.search-related-record', modal).hide()
+                $('div.create-related-record', modal).show()
+                $('div.search-related-record', modal).hide()
 
-            $('a.create-related-record', modal).hide()
-            $('a.search-related-record', modal).show()
-        })
+                $('a.create-related-record', modal).hide()
+                $('a.search-related-record', modal).show()
+            })
 
-        $('a.search-related-record').click(event => {
-            let modal = $(event.currentTarget).parents('.modal:first')
+            $('a.search-related-record').click(event => {
+                let modal = $(event.currentTarget).parents('.modal:first')
 
-            $('div.search-related-record', modal).show()
-            $('div.create-related-record', modal).hide()
+                $('div.search-related-record', modal).show()
+                $('div.create-related-record', modal).hide()
 
-            $('a.search-related-record', modal).hide()
-            $('a.create-related-record', modal).show()
-        })
+                $('a.search-related-record', modal).hide()
+                $('a.create-related-record', modal).show()
+            })
+        } else {
+            $('a.create-related-record').click(event => {
+                let modal = $(event.currentTarget).parents('.modal:first')
+                modal.modal('close');
+            }) 
+        }
     }
 }

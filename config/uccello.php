@@ -62,4 +62,10 @@ return [
         // If true, all admin users will be shown in the users list.
         'display_all_admin_users' => false,
     ],
+
+    'entity' => [
+        //If true, a link to create view will be displayed in uitype entity popup
+        //Else, user will be able to create entity within the popup (but some bugs may occur cf. entity inside entity)
+        'open_in_new_tab' => true,
+    ],
 ];

@@ -47,7 +47,13 @@
                     <i class="material-icons left">delete</i>
                     {{ uctrans('button.delete_related_record', $entityModule) }}
                 </a>
-                <a href="javascript:void(0)" class="btn-flat waves-effect primary-text right create-related-record">
+                <a 
+                    @if(config('uccello.entity.open_in_new_tab', true))
+                    href="{{ ucroute('uccello.edit', $domain, $entityModule) }}" target="_blank"
+                    @else
+                    href="javascript:void(0)"
+                    @endif
+                    class="btn-flat waves-effect primary-text right create-related-record">
                     <i class="material-icons left">add</i>
                     {{ uctrans('button.create_related_record', $entityModule) }}
                 </a>
@@ -101,5 +107,7 @@
 @append
 
 @section('extra-meta')
+@if(!config('uccello.entity.open_in_new_tab', true))
 <meta name="popup_url_{{ $field->name }}" content="{{ ucroute('uccello.popup.edit', $domain, $entityModule) }}">
+@endif
 @append

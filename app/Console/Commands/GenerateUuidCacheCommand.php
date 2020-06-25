@@ -43,10 +43,14 @@ class GenerateUuidCacheCommand extends Command
             $this->info('Generating cache for <comment>'.$module->name.'</comment>');
 
             $modelClass = $module->model_class;
-            $modelClass::chunkById(300, function ($records) {
+            $count = $modelClass::count();
+            $cpt = 0;
+            $modelClass::chunkById(300, function ($records) use (&$cpt, $count) {
+                $this->comment($cpt.'/'.$count);
                 foreach ($records as $record) {
                     $record->uuid; // Automaticaly generate cache (see \Uccello\Core\Support\Traits\UccelloModule getUuidAttribute())
                 }
+                $cpt += 300;
             });
         }
     }

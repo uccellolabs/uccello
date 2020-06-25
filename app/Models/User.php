@@ -128,6 +128,7 @@ class User extends Authenticatable implements Searchable
                         $query->select('id')
                             ->from((new Domain)->getTable())
                             ->where('path', 'like', $domain->id.'%')
+                            ->orWhere('path', 'like', '%/'.$domain->id.'%')
                             ->get();
                     });
                 }

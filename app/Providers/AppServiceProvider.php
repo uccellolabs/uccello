@@ -5,6 +5,7 @@ namespace Uccello\Core\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
 use Illuminate\Database\Eloquent\Factory as EloquentFactory;
+use Uccello\Core\Console\Commands\GenerateUuidCacheCommand;
 use Uccello\Core\Console\Commands\InstallCommand;
 use Uccello\Core\Console\Commands\UserCommand;
 use Uccello\Core\Console\Commands\PublishCommand;
@@ -115,6 +116,7 @@ class AppServiceProvider extends ServiceProvider
             InstallCommand::class,
             UserCommand::class,
             PublishCommand::class,
+            GenerateUuidCacheCommand::class,
         ]);
     }
 }

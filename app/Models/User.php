@@ -124,8 +124,12 @@ class User extends Authenticatable implements Searchable
                 }
 
                 if (Auth::user() && Auth::user()->canSeeDescendantsRecords($domain) && $withDescendants) {
-                    $domainsIds = $domain->findDescendants()->pluck('id');
-                    $query->orWhereIn('domain_id', $domainsIds);
+                    $query->orWhereIn('domain_id', function ($query) use ($domain) {
+                        $query->select('id')
+                            ->from((new Domain)->getTable())
+                            ->where('path', 'like', $domain->id.'%')
+                            ->get();
+                    });
                 }
             });
 

@@ -103,13 +103,18 @@ trait UccelloModule
         $module = $this->module;
 
         if ($module) {
-            $entity = Entity::where('module_id', $module->getKey())
+            return Cache::rememberForever('uuid_'.$module->getKey().'_'.$this->getKey(), function () use ($module) {
+                $entity = Entity::where('module_id', $module->getKey())
                 ->where('record_id', $this->getKey())
                 ->first();
 
-            if ($entity) {
-                $uuid = $entity->getKey();
-            }
+                $uuid = null;
+                if ($entity) {
+                    $uuid = $entity->getKey();
+                }
+
+                return $uuid;
+            });
         }
 
         return $uuid;

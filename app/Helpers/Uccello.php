@@ -569,9 +569,11 @@ class Uccello
     {
         $record = null;
 
-        $entity = Entity::find($uuid);
-        if ($entity) {
-            $record = $entity->record;
+        if (!empty($uuid)) {
+            $entity = Entity::find($uuid);
+            if ($entity) {
+                $record = $entity->record;
+            }
         }
 
         return $record;

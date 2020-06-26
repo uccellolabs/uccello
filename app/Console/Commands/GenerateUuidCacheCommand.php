@@ -3,6 +3,7 @@
 namespace Uccello\Core\Console\Commands;
 
 use Illuminate\Console\Command;
+use Uccello\Core\Models\Entity;
 use Uccello\Core\Models\Module;
 
 class GenerateUuidCacheCommand extends Command
@@ -19,7 +20,7 @@ class GenerateUuidCacheCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Generate cache for uuid';
+    protected $description = 'Purge uuids linked to deleted records and generate cache for uuid';
 
     /**
      * Create a new command instance.
@@ -38,9 +39,36 @@ class GenerateUuidCacheCommand extends Command
      */
     public function handle()
     {
+        $this->purgeDeletedRecords();
+        $this->generateCache();
+    }
+
+    protected function purgeDeletedRecords()
+    {
         $modules = Module::whereNotNull('model_class')->get();
         foreach ($modules as $module) {
-            $this->info('Generating cache for <comment>'.$module->name.'</comment>');
+            $this->info('Purging '.$module->name);
+
+            $modelClass = $module->model_class;
+
+            $query = Entity::where('module_id', $module->id)
+                ->whereNotIn('record_id', function ($query) use ($modelClass) {
+                    $query->select('id')
+                        ->from((new $modelClass)->getTable())
+                        ->get();
+                });
+
+            $this->comment('Total to delete: '.$query->count());
+
+            $query->delete();
+        }
+    }
+
+    protected function generateCache()
+    {
+        $modules = Module::whereNotNull('model_class')->get();
+        foreach ($modules as $module) {
+            $this->info('Generating cache for '.$module->name);
 
             $modelClass = $module->model_class;
             $count = $modelClass::count();

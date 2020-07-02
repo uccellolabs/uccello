@@ -162,8 +162,8 @@ trait UccelloModule
                 $query->whereIn('domain_id', function ($query) use ($domain) {
                     $query->select('id')
                     ->from((new Domain)->getTable())
-                    ->where('path', 'like', $domain->id.'%')
-                    ->orWhere('path', 'like', '%/'.$domain->id.'%')
+                    ->where('path', 'like', $domain->id.'/%')
+                    ->orWhere('path', 'like', '%/'.$domain->id.'/%')
                     ->get();
                 });
             } else {

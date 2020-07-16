@@ -83,14 +83,16 @@ class Domain extends Tree implements Searchable
     public static function linkToParentRecord($model)
     {
         // Set parent record
-        $parentRecord = Domain::find(request('parent'));
+        if (request()->has('parent')) {
+            $parentRecord = Domain::find(request('parent'));
 
-        if (!is_null($parentRecord)) {
-            with($model)->setChildOf($parentRecord);
-        }
-        // Remove parent domain
-        else {
-            with($model)->setAsRoot();
+            if (!is_null($parentRecord)) {
+                with($model)->setChildOf($parentRecord);
+            }
+            // Remove parent domain
+            else {
+                with($model)->setAsRoot();
+            }
         }
     }
 

@@ -44,7 +44,7 @@ trait RelatedlistTrait
 
             // Is column is not int, check by uuid (else it compares only with the first number of the uuid string)
             $relatedModelClass = $relatedList->module->model_class;
-            $columnTypeResult = DB::select( DB::raw("SHOW COLUMNS FROM `".(new $relatedModelClass)->getTable()."` WHERE Field = '".$relatedField->column."'"));
+            $columnTypeResult = DB::select(DB::raw("SHOW COLUMNS FROM `".(new $relatedModelClass)->getTable()."` WHERE Field = '".$relatedField->column."'"));
             if ($record->uuid ?? false && !empty($columnTypeResult[0]) && strpos($columnTypeResult[0]->Type, 'int') !== false) {
                 $_query->orWhere($relatedField->column, $record->uuid);
             }
@@ -78,7 +78,7 @@ trait RelatedlistTrait
 
             // Is column is not int, check by uuid (else it compares only with the first number of the uuid string)
             $relatedModelClass = $relatedList->module->model_class;
-            $columnTypeResult = DB::select( DB::raw("SHOW COLUMNS FROM `".(new $relatedModelClass)->getTable()."` WHERE Field = '".$relatedField->column."'"));
+            $columnTypeResult = DB::select(DB::raw("SHOW COLUMNS FROM `".(new $relatedModelClass)->getTable()."` WHERE Field = '".$relatedField->column."'"));
             if ($record->uuid ?? false && !empty($columnTypeResult[0]) && strpos($columnTypeResult[0]->Type, 'int') !== false) {
                 $_query->orWhere($relatedField->column, $record->uuid);
             }

@@ -4,6 +4,7 @@ namespace Uccello\Core\Support\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Uccello\Core\Models\Relatedlist;
 
 trait RelatedlistTrait
@@ -40,7 +41,11 @@ trait RelatedlistTrait
 
             // Search by uuid
             $record = ucrecord($recordId, $relatedList->module->model_class);
-            if ($record->uuid ?? false) {
+
+            // Is column is not int, check by uuid (else it compares only with the first number of the uuid string)
+            $relatedModelClass = $relatedList->module->model_class;
+            $columnTypeResult = DB::select( DB::raw("SHOW COLUMNS FROM `".(new $relatedModelClass)->getTable()."` WHERE Field = '".$relatedField->column."'"));
+            if ($record->uuid ?? false && !empty($columnTypeResult[0]) && strpos($columnTypeResult[0]->Type, 'int') !== false) {
                 $_query->orWhere($relatedField->column, $record->uuid);
             }
         })
@@ -70,7 +75,11 @@ trait RelatedlistTrait
 
             // Search by uuid
             $record = ucrecord($recordId, $relatedList->module->model_class);
-            if ($record->uuid ?? false) {
+
+            // Is column is not int, check by uuid (else it compares only with the first number of the uuid string)
+            $relatedModelClass = $relatedList->module->model_class;
+            $columnTypeResult = DB::select( DB::raw("SHOW COLUMNS FROM `".(new $relatedModelClass)->getTable()."` WHERE Field = '".$relatedField->column."'"));
+            if ($record->uuid ?? false && !empty($columnTypeResult[0]) && strpos($columnTypeResult[0]->Type, 'int') !== false) {
                 $_query->orWhere($relatedField->column, $record->uuid);
             }
         })

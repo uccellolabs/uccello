@@ -18,7 +18,7 @@
 
     @section('extra-content')
         <div id="importUserModal" class="modal">
-            <form action="{{ ucroute('uccello.user.import', $domain, $module) }}" method="POST">
+            <form action="{{ ucroute('uccello.user.privileges.import', $domain, $module) }}" method="POST">
                 @csrf
                 <div class="modal-content">
                     <h4>

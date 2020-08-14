@@ -33,9 +33,9 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'user')
         ->name('user.edit');
 
-    Route::post($domainParam.'/user/import', 'User\ListController@import')
+    Route::post($domainParam.'/user/privileges/import', 'User\ListController@import')
         ->defaults('module', 'user')
-        ->name('user.import');
+        ->name('user.privileges.import');
 
     Route::post($domainParam.'/domain', 'Domain\EditController@save')
         ->defaults('module', 'domain')

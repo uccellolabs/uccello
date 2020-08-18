@@ -685,31 +685,30 @@ class User extends Authenticatable implements Searchable
             'recordLabel' => uctrans('me', $this->module)
         ]]);
 
-        // if ($this->is_admin) {
-        $groups = Group::inDomain($domain)->orderBy('name')->get();
-        $users  = \App\User::inDomain($domain)->orderBy('name')->get();
-        // } else {
-        //     $groups = [];
-        //     $users = [];
+        if (!config('uccello.users.assigned_user_filter_users_groups') || $this->is_admin) {
+            $groups = Group::inDomain($domain)->orderBy('name')->get();
+            $users  = \App\User::inDomain($domain)->orderBy('name')->get();
+        } else {
+            $groups = [];
+            $users = [];
 
-        //     foreach ($this->groups as $group) {
-        //         $groups[$group->uuid] = $group;
+            foreach ($this->groups as $group) {
+                $groups[$group->uuid] = $group;
 
-        //         if($addUsers)
-        //         {
-        //             foreach ($group->users as $user) {
-        //                 if (empty($users[$user->uuid])) {
-        //                     $users[$user->uuid] = $user;
-        //                 }
-        //             }
-        //         }
-        //     };
+                if ($addUsers) {
+                    foreach ($group->users as $user) {
+                        if (empty($users[$user->uuid])) {
+                            $users[$user->uuid] = $user;
+                        }
+                    }
+                }
+            };
 
-        //     $this->addRecursiveChildrenGroups($groups, $users, $groups, $addUsers);
+            $this->addRecursiveChildrenGroups($groups, $users, $groups, $addUsers);
 
-        //     $groups = collect($groups)->sortBy('name');
-        //     $users  = collect($users)->sortBy('name');
-        // }
+            $groups = collect($groups)->sortBy('name');
+            $users  = collect($users)->sortBy('name');
+        }
 
         foreach ($groups as $uuid => $group) {
             $allowedUserUuids[] = [

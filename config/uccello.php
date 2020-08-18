@@ -61,6 +61,10 @@ return [
 
         // If true, all admin users will be shown in the users list.
         'display_all_admin_users' => false,
+
+        // If true, any Uitype *AssignedUser* will display a filtered list of users and groups.
+        // Else, all groups and users will be displayed
+        'assigned_user_filter_users_groups' => true,
     ],
 
     'entity' => [

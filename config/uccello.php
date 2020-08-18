@@ -64,7 +64,7 @@ return [
 
         // If true, any Uitype *AssignedUser* will display a filtered list of users and groups.
         // Else, all groups and users will be displayed
-        'assigned_user_filter_users_groups' => false,
+        'assigned_user_filter_users_groups' => true,
     ],
 
     'entity' => [

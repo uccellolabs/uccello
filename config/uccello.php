@@ -47,12 +47,12 @@ return [
 
     'roles' => [
         // If true, displays in the current domain, the list of the roles created in an ancestor domain.
-        'display_ancestors_roles' => false
+        'display_ancestors_roles' => false,
     ],
 
     'treeview' => [
         // If true, the domain tree is automatically opened in the Tree View.  If false, the user have to click on each tree node to load its children records.
-        'open_tree' => true
+        'open_tree' => true,
     ],
 
     'users' => [
@@ -65,6 +65,9 @@ return [
         // If true, any Uitype *AssignedUser* will display a filtered list of users and groups.
         // Else, all groups and users will be displayed
         'assigned_user_filter_users_groups' => true,
+
+        // Maximum number of connections displayed in the connection log
+        'max_connections_displayed' => 100,
     ],
 
     'entity' => [

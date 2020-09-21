@@ -21,12 +21,17 @@ return [
     ],
     'relatedlist' => [
         'groups' => 'Groups',
+        'connection_log' => 'Connection log',
     ],
     'label' => [
         'no_role' => 'No related role',
         'my_account' => 'My account',
         'avatar_type' => 'Avatar type',
         'defined_in' => 'Defined in',
+        'no_connections' => 'No connections',
+        'total_connections' => 'Total connections:',
+        'first_connection' => 'First connection:',
+        'last_connections' => 'Last connections:',
     ],
     'account' => [
         'profile' => 'Profile',

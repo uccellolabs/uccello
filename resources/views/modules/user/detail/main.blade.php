@@ -15,13 +15,14 @@
         <div class="row">
             <div class="col s12">
                 <ul>
-                @forelse ($record->privilegesOnDomain($domain) as $privilege)
+                    @forelse ($record->privilegesOnDomain($domain) as $privilege)
                     <li class="collection-item">
-                        <a href="{{ ucroute('uccello.detail', $domain, 'role', [ 'id' => $privilege->role->id ]) }}" class="btn-flat waves-effect primary-text">
+                        <a href="{{ ucroute('uccello.detail', $domain, 'role', [ 'id' => $privilege->role->id ]) }}"
+                            class="btn-flat waves-effect primary-text">
                             @if ($privilege->role->domain_id !== $domain->id)
                             {{ $privilege->role->domain->name }} > {{ $privilege->role->name }}
                             @else
-                                {{ $privilege->role->name }}
+                            {{ $privilege->role->name }}
                             @endif
                         </a>
 
@@ -35,6 +36,78 @@
                     </li>
                     @endforelse
                 </ul>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('other-tabs-links')
+<li class="tab">
+    <a href="#relatedlist_connection_log">
+        {{-- Icon --}}
+        <i class="material-icons left">login</i>
+
+        {{-- Label --}}
+        <span>{{ uctrans('relatedlist.connection_log', $module) }}</span>
+    </a>
+</li>
+@endsection
+
+@section('other-tabs')
+<div id="relatedlist_connection_log">
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    {{-- Title --}}
+                    <span class="card-title">
+                        {{-- Icon --}}
+                        <i class="material-icons left primary-text">login</i>
+
+                        {{-- Label --}}
+                        {{ uctrans('relatedlist.connection_log', $module) }}
+                    </span>
+
+                    <div class="row">
+                        <div class="col s12">
+                            <p>
+                                <b>{{ uctrans('label.total_connections', $module) }}</b>
+                                {{ $connectionsCount }}
+                            </p>
+
+                            @if ($firstConnection)
+                            <p>
+                                <b>{{ uctrans('label.first_connection', $module) }}</b>
+                                {{ $firstConnection->datetime->format(config('uccello.format.php.datetime')) }}
+                            </p>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col s12">
+                            <p>
+                                <b>
+                                    @if ($connectionsCount > config('uccello.users.max_connections_displayed'))
+                                        {{ config('uccello.users.max_connections_displayed') }}
+                                        {{ strtolower(uctrans('label.last_connections', $module)) }}
+                                    @else
+                                        {{ uctrans('label.last_connections', $module) }}
+                                    @endif
+                                </b>
+                            </p>
+
+                            <ul class="collection">
+                                @forelse ($connections as $connection)
+                                <li class="collection-item">{{ $connection->datetime->format(config('uccello.format.php.datetime')) }}</li>
+                                @empty
+                                <li class="collection-item">{{ uctrans('label.no_connections', $module) }}</li>
+                                @endforelse
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

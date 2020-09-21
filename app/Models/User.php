@@ -172,6 +172,11 @@ class User extends Authenticatable implements Searchable
         return $this->hasOne(UserSettings::class, 'user_id');
     }
 
+    public function connections()
+    {
+        return $this->hasMany(Connection::class);
+    }
+
     /**
      * Returns record label
      *

@@ -59,12 +59,18 @@ return [
     ],
     'button' => [
         'import_user' => 'Import',
+        'change_password' => 'Change password',
     ],
     'modal' => [
         'import_user' => [
             'title' => 'Import user',
             'description' => 'You can import a user who has been created in another domain, and assign roles to him in the current domain.',
             'name' => 'User\'s login, email or name',
+        ],
+        'change_password' => [
+            'title' => 'Change password',
+            'new_password' => 'New password',
+            'new_password_confirmation' => 'New password (confirmation)',
         ],
     ],
 ];

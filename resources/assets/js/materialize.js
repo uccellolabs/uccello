@@ -69,6 +69,13 @@ $('[data-tooltip]').tooltip({
     transitionMovement: 0,
 })
 
-$('.modal').modal()
+$('.modal').each((index, el) => {
+    $(el).modal()
+
+    if ($(el).data('open')) {
+        // Open by default
+        $(el).modal('open')
+    }
+})
 
 $('.collapsible').collapsible()

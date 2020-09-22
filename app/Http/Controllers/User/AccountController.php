@@ -2,6 +2,8 @@
 
 namespace Uccello\Core\Http\Controllers\User;
 
+use App\User;
+use Illuminate\Support\Facades\Hash;
 use Uccello\Core\Http\Controllers\Core\Controller;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
@@ -132,8 +134,8 @@ class AccountController extends Controller
         $password_rules[] = 'confirmed';
 
         $validator = Validator::make(request()->all(), [
-            'current_password' => function($attribute, $value, $fail) use ($user) {
-                if (!\Hash::check($value, $user->password)) {
+            'current_password' => function ($attribute, $value, $fail) use ($user) {
+                if (!Hash::check($value, $user->password)) {
                     $fail(uctrans('error.current_password', ucmodule('user')));
                 }
             },
@@ -149,12 +151,53 @@ class AccountController extends Controller
                         ->with('form_name', 'password');
         }
 
-        $user->password = \Hash::make(request('password'));
+        $user->password = Hash::make(request('password'));
         $user->save();
 
         ucnotify(uctrans('success.password_updated', ucmodule('user')), 'success');
 
         return redirect(ucroute('uccello.user.account', $domain));
+    }
+
+    /**
+     * Update user password by admin
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePasswordByAdmin(?Domain $domain, Module $module)
+    {
+        $this->preProcess($domain, $module, request());
+
+        // Check if the current user is authorized to change password
+        if (!auth()->user()->canAdmin($domain, $module)) {
+            abort(403);
+        }
+
+        $user = User::findOrFail(request('id'));
+
+        $field = Field::where('module_id', ucmodule('user')->id)->where('name', 'password')->first();
+        $password_rules = isset($field->data->rules) ? explode('|', $field->data->rules) : '';
+        $password_rules[] = 'confirmed';
+
+        $validator = Validator::make(request()->all(), [
+            'password' => $password_rules,
+        ]);
+
+        if ($validator->fails()) {
+            ucnotify(uctrans('notification.form.not_valid', $module), 'error');
+
+            return redirect(ucroute('uccello.detail', $domain, ucmodule('user'), ['id' => $user->getKey()]))
+                        ->withErrors($validator)
+                        ->withInput()
+                        ->with('form_name', 'password');
+        }
+
+        $user->password = Hash::make(request('password'));
+        $user->save();
+
+        ucnotify(uctrans('success.password_updated', ucmodule('user')), 'success');
+
+        return redirect(ucroute('uccello.detail', $domain, ucmodule('user'), ['id' => $user->getKey()]));
     }
 
     /**

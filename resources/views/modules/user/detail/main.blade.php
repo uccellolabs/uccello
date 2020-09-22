@@ -1,5 +1,60 @@
 @extends('uccello::modules.default.detail.main')
 
+{{-- Edit password for admin --}}
+@if (auth()->user()->canAdmin($domain, $module))
+    {{-- Button --}}
+    @section('top-action-buttons')
+    <div class="action-buttons right-align">
+        <a href="#changePasswordModal"
+            class="btn-floating btn-small waves-effects orange modal-trigger"
+            data-tooltip="{{ uctrans('button.change_password', $module) }}"
+            data-position="top">
+            <i class="material-icons left">lock</i>
+        </a>
+    </div>
+    @append
+
+    {{-- Modal --}}
+    @section('extra-content')
+    <div id="changePasswordModal" class="modal" @if($errors->all())data-open="true"@endif>
+        <form action="{{ ucroute('uccello.user.password.update_by_admin', $domain, $module, ['id' => $record->getKey()]) }}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <h4>
+                    <i class="material-icons left primary-text">lock</i>
+                    {{ uctrans('modal.change_password.title', $module) }}
+                </h4>
+
+                <div class="row">
+                    <div class="col s12">
+                        <div class="input-field">
+                            <input id="new_password" name="password" type="password">
+                            <label for="new_password" class="required">{{ uctrans('modal.change_password.new_password', $module) }}</label>
+
+                            {{-- Error message --}}
+                            @if ($errors->has('password'))
+                            <span class="helper-text red-text">
+                                <strong>{{ $errors->first('password') }}</strong>
+                            </span>
+                        @endif
+                        </div>
+
+                        <div class="input-field">
+                            <input id="new_password_confirmation" name="password_confirmation" type="password">
+                            <label for="new_password_confirmation" class="required">{{ uctrans('modal.change_password.new_password_confirmation', $module) }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)" class="btn-flat waves-effect modal-close">{{ uctrans('button.cancel', $module) }}</a>
+                <button type="submit" class="btn-flat waves-effect green-text save">{{ uctrans('button.save', $module) }}</button>
+            </div>
+        </form>
+    </div>
+    @append
+@endif
+
 @section('other-blocks')
 <div class="card" style="margin-bottom: 80px">
     <div class="card-content">

@@ -59,12 +59,18 @@ return [
     ],
     'button' => [
         'import_user' => 'Importer',
+        'change_password' => 'Modifier le mot de passe',
     ],
     'modal' => [
         'import_user' => [
             'title' => 'Importer un utilisateur',
             'description' => 'Vous pouvez importer un utilisateur qui a été créé dans un autre domaine, et lui affecter des rôles dans le domaine courant.',
             'name' => 'Identifiant, email ou nom de l\'utilisateur',
+        ],
+        'change_password' => [
+            'title' => 'Modifier le mot de passe',
+            'new_password' => 'Nouveau mot de passe',
+            'new_password_confirmation' => 'Nouveau mot de passe (confirmation)',
         ],
     ],
 ];

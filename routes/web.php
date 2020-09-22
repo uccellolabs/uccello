@@ -37,6 +37,10 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'user')
         ->name('user.privileges.import');
 
+    Route::post($domainParam.'/user/password', 'User\AccountController@updatePasswordByAdmin')
+        ->defaults('module', 'user')
+        ->name('user.password.update_by_admin');
+
     Route::post($domainParam.'/domain', 'Domain\EditController@save')
         ->defaults('module', 'domain')
         ->name('domain.save');

@@ -28,8 +28,15 @@ class Entity extends Model
     protected $primaryKey = 'id';   // TODO: Change to "uid" to make joins withs modules tables possible ???
     public $incrementing = false;
 
-    // Allow Eloquent to return id as string instead of int.
-    protected $casts = ['id' => 'string'];
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'string', // Allow Eloquent to return id as string instead of int.
+        'data' => 'object',
+    ];
 
     protected function initTablePrefix()
     {

@@ -114,6 +114,7 @@ Route::name('uccello.')->group(function() {
     Route::post($domainAndModuleParams.'/list/filter/delete', 'Core\ListController@deleteFilter')->name('list.filter.delete');
     Route::post($domainAndModuleParams.'/export', 'Core\ExportController@process')->name('export');
     Route::get($domainAndModuleParams.'/detail', 'Core\DetailController@process')->name('detail');
+    Route::get($domainAndModuleParams.'/detail/record/{id}', 'Core\DetailController@getRecord')->name('detail.record');
     Route::get($domainAndModuleParams.'/edit', 'Core\EditController@process')->name('edit');
     Route::post($domainAndModuleParams.'/edit/relation', 'Core\EditController@addRelation')->name('edit.relation.add');
     Route::get($domainAndModuleParams.'/edit/relation/delete', 'Core\EditController@deleteRelation')->name('edit.relation.delete');

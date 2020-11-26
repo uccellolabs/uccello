@@ -51,7 +51,7 @@ class DetailController extends Controller
         $widgets = $module->widgets()->withPivot('sequence')->orderBy('pivot_sequence')->get(); // TODO: Get wigets with priority (1. User 2. Domain 3. Default)
 
         return $this->autoView([
-            'record' => $this->getRecord($recordId),
+            'record' => $this->getRecord($this->domain, $module, $recordId),
             'selectedTabId' => $selectedTabId,
             'selectedRelatedlistId' => $selectedRelatedlistId,
             'widgets' => $widgets,
@@ -59,17 +59,20 @@ class DetailController extends Controller
         ]);
     }
 
-    /**
-     * Get record by id
-     *
-     * @param int $id
-     * @return void
-     */
-    protected function getRecord(int $id)
+     /**
+      * Get record by id
+      *
+      * @param \Uccello\Core\Models\Domain|null $domain
+      * @param \Uccello\Core\Models\Module $module
+      * @param integer $id
+      *
+      * @return void
+      */
+    protected function getRecord(?Domain $domain, Module $module, int $id)
     {
         $record = null;
 
-        $modelClass = $this->module->model_class;
+        $modelClass = $module->model_class;
         $record = $modelClass::findOrFail($id);
 
         return $record;

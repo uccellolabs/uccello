@@ -22,12 +22,21 @@ class UccelloApp {
         this.autoOpenMenu()
         this.initTranslation()
         this.initScrollSpy()
-        this.initDateRangePicker()
-        this.initColorPicker()
-        this.initCountTo()
         this.initJsTree()
         this.initSearchBar()
         this.initMenuSizeSwitcher()
+        this.initFieldLibraries()
+
+        addEventListener('js.init.field.libraries', event => { // Used in uccello/import package
+            this.initFieldLibraries()
+        })
+    }
+
+    initFieldLibraries() {
+        this.initDateRangePicker()
+        this.initColorPicker()
+        this.initCountTo()
+
     }
 
     initGlobal() {

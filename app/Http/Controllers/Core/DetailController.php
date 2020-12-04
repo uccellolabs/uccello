@@ -8,7 +8,6 @@ use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Widget;
 use Uccello\Core\Models\Relatedlist;
 
-
 class DetailController extends Controller
 {
     protected $viewName = 'detail.main';

@@ -102,7 +102,7 @@ class Select implements Uitype
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder
     {
-        $query->where(function ($query) use($field, $value) {
+        $query->where(function ($query) use ($field, $value) {
             foreach ((array) $value as $_value) {
                 $formattedValue = $this->getFormattedValueToSearch($_value);
                 $query = $query->orWhere($field->column, 'like', $formattedValue);
@@ -127,7 +127,7 @@ class Select implements Uitype
         $options = $output->ask('Choose field options (e.g. list.option1,list.option2)');
 
         $choices = array_map(
-            function($value) {
+            function ($value) {
                 return trim($value);
             },
             explode(",", $options)

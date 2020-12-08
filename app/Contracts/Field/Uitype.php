@@ -58,6 +58,19 @@ interface Uitype
     public function getFormattedValueToDisplay(Field $field, $record) : string;
 
     /**
+     * Returns formatted value to save with config.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
+     * @return string|null
+     */
+    public function getFormattedValueToSaveWithConfig(Request $request, Field $field, $value, $config, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string;
+
+    /**
      * Returns formatted value to save.
      *
      * @param \Illuminate\Http\Request $request

@@ -70,6 +70,23 @@ class Uitype extends Model
     }
 
     /**
+     * Returns formatted value to save with config.
+     *
+     * @param Request $request
+     * @param Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param Domain|null $domain
+     * @param Module|null $module
+     * @return string|null
+     */
+    public function getFormattedValueToSaveWithConfig(Request $request, Field $field, $value, $config, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
+    {
+        $uitypeClass = $this->class;
+        return (new $uitypeClass())->getFormattedValueToSaveWithConfig($request, $field, $value, $config, $record, $domain, $module);
+    }
+
+    /**
      * Returns formatted value to search.
      *
      * @param mixed $value

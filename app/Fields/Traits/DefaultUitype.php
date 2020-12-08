@@ -77,6 +77,22 @@ trait DefaultUitype
     }
 
     /**
+     * Returns formatted value to save with config.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
+     * @return string|null
+     */
+    public function getFormattedValueToSaveWithConfig(Request $request, Field $field, $value, $config, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
+    {
+        return $this->getFormattedValueToSave($request, $field, $value, $record, $domain, $module);
+    }
+
+    /**
      * Returns formatted value to search.
      * By default adds % at the beginning end the ending to make a 'like' query.
      *
@@ -148,7 +164,7 @@ trait DefaultUitype
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
     {
-
+        //
     }
 
     /**

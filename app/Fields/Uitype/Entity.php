@@ -4,6 +4,7 @@ namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Http\Request;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -112,6 +113,38 @@ class Entity implements Uitype
         }
 
         return  $value;
+    }
+
+    /**
+     * Returns formatted value to save with config.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed|null $value
+     * @param mixed|null $record
+     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Module|null $module
+     * @return string|null
+     */
+    public function getFormattedValueToSaveWithConfig(Request $request, Field $field, $value, $config, $record = null, ?Domain $domain = null, ?Module $module = null) : ?string
+    {
+        $newValue = $value;
+
+        if (!is_null($value) && !empty($config) && !empty($config->related_field)) { // Search related record by a specific field
+            if ($field->data->module ?? false) {
+                $relatedModule = ucmodule($field->data->module);
+
+                $modelClass = $relatedModule->model_class;
+                $foundRecord = $modelClass::where($config->related_field, $value)->first();
+
+                $newValue = null;
+                if ($foundRecord) {
+                    $newValue = $foundRecord->getKey();
+                }
+            }
+        }
+
+        return $this->getFormattedValueToSave($request, $field, $newValue, $record, $domain, $module);
     }
 
     /**

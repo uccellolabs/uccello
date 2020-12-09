@@ -28,7 +28,7 @@ class ModuleList extends Select implements Uitype
      */
     public function getFormOptions($record, Field $field, Domain $domain, Module $module) : array
     {
-        $choices = [ ];
+        $moduleList = collect();
 
         $modules = Module::all();
         foreach ($modules as $_module) {
@@ -38,16 +38,21 @@ class ModuleList extends Select implements Uitype
                     continue;
                 }
 
-                $choices[ $_module->id ] = uctrans($_module->name, $_module);
+                $moduleList[] = [
+                    'id' => $_module->id,
+                    'name' => uctrans($_module->name, $_module)
+                ];
             }
         }
 
-        // Sort choices by values
-        sort($choices);
+        // Sort choices by translated names
+        foreach ($moduleList->sortBy('name') as $_module) {
+            $choices[$_module["id"]] = $_module["name"];
+        }
 
         $options = [
             'choices' => $choices,
-            'selected' => null,
+            'selected' => $record->{$field->column} ?? $field->data->default ?? null,
             'empty_value' => uctrans('field.select_empty_value', $module),
             'attr' => [
                 // 'class' => 'form-control show-tick',
@@ -100,8 +105,7 @@ class ModuleList extends Select implements Uitype
     {
         $query->where(function ($query) use ($field, $value) {
             foreach ((array) $value as $_value) {
-                $formattedValue = $this->getFormattedValueToSearch($_value);
-                $query = $query->orWhere($field->column, '=', $formattedValue);
+                $query = $query->orWhere($field->column, $_value);
             }
         });
 

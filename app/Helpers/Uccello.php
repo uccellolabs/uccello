@@ -100,8 +100,8 @@ class Uccello
      *
      * Priority:
      * 1 - Module view overrided in app
-     * 2 - Default view overrided in app
-     * 3 - Module view ovverrided in package
+     * 2 - Module view ovverrided in package
+     * 3 - Default view overrided in app
      * 4 - Default view defined in package
      * 5 - Module view ovverrided in uccello
      * 6 - Default view defined in uccello
@@ -136,10 +136,10 @@ class Uccello
         $viewToInclude = null;
         if (view()->exists($appModuleView)) {
             $viewToInclude = $appModuleView;
-        } elseif (view()->exists($appDefaultView)) {
-            $viewToInclude = $appDefaultView;
         } elseif (view()->exists($packageModuleView)) {
             $viewToInclude = $packageModuleView;
+        } elseif (view()->exists($appDefaultView)) {
+            $viewToInclude = $appDefaultView;
         } elseif (view()->exists($packageDefaultView)) {
             $viewToInclude = $packageDefaultView;
         } elseif (view()->exists($uccelloModuleView)) {
@@ -525,9 +525,7 @@ class Uccello
                 // Get attribute value if exists
                 if (isset($value->{$part})) {
                     $value = $value->{$part};
-                }
-                // If property does not exist return an empty value
-                else {
+                } else { // If property does not exist return an empty value
                     $value = null;
                     break;
                 }

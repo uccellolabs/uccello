@@ -5,6 +5,7 @@ namespace Uccello\Core\Helpers;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Uitype;
@@ -43,7 +44,7 @@ class Uccello
      * @param  string  $locale
      * @return \Illuminate\Contracts\Translation\Translator|string|array|null
      */
-    public function trans($key = null, ?Module $module = null, $replace = [ ], $locale = null)
+    public function trans($key = null, ?Module $module = null, $replace = [], $locale = null)
     {
         $translator = app('translator');
 
@@ -52,38 +53,37 @@ class Uccello
         }
 
         // If $module is an instance of Module class, add a prefix before the key
-        if (!is_null($module) && Module::class == get_class($module))
-        {
+        if (!is_null($module) && Module::class == get_class($module)) {
             // By default prefix is same as the module's name
-            $prefix = $module->name.'.';
+            $prefix = $module->name . '.';
 
             // 1. Get translation in app
-            $translation = $translator->trans($prefix.$key, $replace, $locale);
+            $translation = $translator->trans($prefix . $key, $replace, $locale);
 
-            if ($translation !== $prefix.$key) {
+            if ($translation !== $prefix . $key) {
                 return $translation;
             }
 
             // 2. Get translation in package
             if (!empty($module->package)) {
                 // If a package name is defined add it before
-                $prefix = $module->package.'::'.$prefix;
+                $prefix = $module->package . '::' . $prefix;
 
-                $translation = $translator->trans($prefix.$key, $replace, $locale);
-                if ($translation !== $prefix.$key) {
+                $translation = $translator->trans($prefix . $key, $replace, $locale);
+                if ($translation !== $prefix . $key) {
                     return $translation;
                 }
             }
 
             // 3. Try with default translation in app
-            $appDefaultTranslation = $translator->trans('default.'.$key, $replace, $locale);
-            if ($appDefaultTranslation !== 'default.'.$key) { // If default translation exists then use it
+            $appDefaultTranslation = $translator->trans('default.' . $key, $replace, $locale);
+            if ($appDefaultTranslation !== 'default.' . $key) { // If default translation exists then use it
                 return $appDefaultTranslation;
             }
 
             // 4. Try with default translation in uccello
-            $uccelloDefaultTranslation = $translator->trans('uccello::default.'.$key, $replace, $locale);
-            if ($uccelloDefaultTranslation !== 'uccello::default.'.$key) { // If default translation exists then use it
+            $uccelloDefaultTranslation = $translator->trans('uccello::default.' . $key, $replace, $locale);
+            if ($uccelloDefaultTranslation !== 'uccello::default.' . $key) { // If default translation exists then use it
                 return $uccelloDefaultTranslation;
             }
 
@@ -100,8 +100,8 @@ class Uccello
      *
      * Priority:
      * 1 - Module view overrided in app
-     * 2 - Module view ovverrided in package
-     * 3 - Default view overrided in app
+     * 2 - Default view overrided in app
+     * 3 - Module view ovverrided in package
      * 4 - Default view defined in package
      * 5 - Module view ovverrided in uccello
      * 6 - Default view defined in uccello
@@ -116,30 +116,30 @@ class Uccello
     public function view(string $package, Module $module, string $viewName, ?string $fallbackView = null): ?string
     {
         // Module view overrided in app
-        $appModuleView = 'uccello.modules.'.$module->name.'.'.$viewName;
+        $appModuleView = 'uccello.modules.' . $module->name . '.' . $viewName;
 
         // Default view overrided in app
-        $appDefaultView = 'uccello.modules.default.'.$viewName;
+        $appDefaultView = 'uccello.modules.default.' . $viewName;
 
         // Module view ovverrided in package
-        $packageModuleView = $package.'::modules.'.$module->name.'.'.$viewName;
+        $packageModuleView = $package . '::modules.' . $module->name . '.' . $viewName;
 
         // Default view defined in package
-        $packageDefaultView = $package.'::modules.default.'.$viewName;
+        $packageDefaultView = $package . '::modules.default.' . $viewName;
 
         // Module view ovverrided in uccello
-        $uccelloModuleView = 'uccello::modules.'.$module->name.'.'.$viewName;
+        $uccelloModuleView = 'uccello::modules.' . $module->name . '.' . $viewName;
 
         // Default view defined in uccello
-        $uccelloDefaultView = 'uccello::modules.default.'.$viewName;
+        $uccelloDefaultView = 'uccello::modules.default.' . $viewName;
 
         $viewToInclude = null;
         if (view()->exists($appModuleView)) {
             $viewToInclude = $appModuleView;
-        } elseif (view()->exists($packageModuleView)) {
-            $viewToInclude = $packageModuleView;
         } elseif (view()->exists($appDefaultView)) {
             $viewToInclude = $appDefaultView;
+        } elseif (view()->exists($packageModuleView)) {
+            $viewToInclude = $packageModuleView;
         } elseif (view()->exists($packageDefaultView)) {
             $viewToInclude = $packageDefaultView;
         } elseif (view()->exists($uccelloModuleView)) {
@@ -163,7 +163,7 @@ class Uccello
      * @param boolean $absolute
      * @return string
      */
-    public function route($name, $domain = null, $module = null, $parameters = [ ], $absolute = true) : string
+    public function route($name, $domain = null, $module = null, $parameters = [], $absolute = true): string
     {
         if (is_a($domain, Domain::class)) {
             $domain = $domain->slug;
@@ -178,16 +178,16 @@ class Uccello
         }
 
         // Get route uri to check if domain and module parameters are needed
-        $routeUri = \Route::getRoutes()->getByName($name)->uri ?? null;
+        $routeUri = Route::getRoutes()->getByName($name)->uri ?? null;
 
         // Add domain to route if we use multi domains and if the parameter is needed
-        if (!is_null($domain) && uccello()->useMultiDomains() && preg_match('`{domain}`', $routeUri)) {
-            $parameters[ 'domain' ] = $domain;
+        if (!is_null($domain) && $this->useMultiDomains() && preg_match('`{domain}`', $routeUri)) {
+            $parameters['domain'] = $domain;
         }
 
         // Add module to route if the parameter is needed
         if (!is_null($module) && preg_match('`{module}`', $routeUri)) {
-            $parameters[ 'module' ] = $module;
+            $parameters['module'] = $module;
         }
 
         return route($name, $parameters, $absolute);
@@ -236,7 +236,7 @@ class Uccello
             // Use cache
             $modules = Cache::rememberForever('modules_by_id', function () {
                 $modulesGroupedById = collect();
-                Module::all()->map(function($item) use($modulesGroupedById) {
+                Module::all()->map(function ($item) use ($modulesGroupedById) {
                     $modulesGroupedById[$item->id] = $item;
                     return $modulesGroupedById;
                 });
@@ -247,7 +247,7 @@ class Uccello
             // Use cache
             $modules = Cache::rememberForever('modules_by_name', function () {
                 $modulesGroupedByName = collect();
-                Module::all()->map(function($item) use($modulesGroupedByName) {
+                Module::all()->map(function ($item) use ($modulesGroupedByName) {
                     $modulesGroupedByName[$item->name] = $item;
                     return $modulesGroupedByName;
                 });
@@ -273,7 +273,7 @@ class Uccello
             // Use cache
             $uitypes = Cache::rememberForever('uitypes_by_id', function () {
                 $uitypesGroupedById = collect();
-                Uitype::all()->map(function($item) use($uitypesGroupedById) {
+                Uitype::all()->map(function ($item) use ($uitypesGroupedById) {
                     $uitypesGroupedById[$item->id] = $item;
                     return $uitypesGroupedById;
                 });
@@ -284,7 +284,7 @@ class Uccello
             // Use cache
             $uitypes = Cache::rememberForever('uitypes_by_name', function () {
                 $uitypesGroupedByName = collect();
-                Uitype::all()->map(function($item) use($uitypesGroupedByName) {
+                Uitype::all()->map(function ($item) use ($uitypesGroupedByName) {
                     $uitypesGroupedByName[$item->name] = $item;
                     return $uitypesGroupedByName;
                 });
@@ -310,7 +310,7 @@ class Uccello
             // Use cache
             $displaytypes = Cache::rememberForever('displaytypes_by_id', function () {
                 $displaytypesGroupedById = collect();
-                Displaytype::all()->map(function($item) use($displaytypesGroupedById) {
+                Displaytype::all()->map(function ($item) use ($displaytypesGroupedById) {
                     $displaytypesGroupedById[$item->id] = $item;
                     return $displaytypesGroupedById;
                 });
@@ -321,7 +321,7 @@ class Uccello
             // Use cache
             $displaytypes = Cache::rememberForever('displaytypes_by_name', function () {
                 $displaytypesGroupedByName = collect();
-                Displaytype::all()->map(function($item) use($displaytypesGroupedByName) {
+                Displaytype::all()->map(function ($item) use ($displaytypesGroupedByName) {
                     $displaytypesGroupedByName[$item->name] = $item;
                     return $displaytypesGroupedByName;
                 });
@@ -347,7 +347,7 @@ class Uccello
             // Use cache
             $capabilities = Cache::rememberForever('capabilities_by_id', function () {
                 $capabilitiesGroupedById = collect();
-                Capability::all()->map(function($item) use($capabilitiesGroupedById) {
+                Capability::all()->map(function ($item) use ($capabilitiesGroupedById) {
                     $capabilitiesGroupedById[$item->id] = $item;
                     return $capabilitiesGroupedById;
                 });
@@ -358,7 +358,7 @@ class Uccello
             // Use cache
             $capabilities = Cache::rememberForever('capabilities_by_name', function () {
                 $capabilitiesGroupedByName = collect();
-                Capability::all()->map(function($item) use($capabilitiesGroupedByName) {
+                Capability::all()->map(function ($item) use ($capabilitiesGroupedByName) {
                     $capabilitiesGroupedByName[$item->name] = $item;
                     return $capabilitiesGroupedByName;
                 });
@@ -392,7 +392,7 @@ class Uccello
         $domain = Auth::user()->lastDomain ?? Auth::user()->domain ?? null; // On login page user is not authenticated
 
         if (!$domain) {
-            $domain = $this->getRootDomains()[ 0 ];
+            $domain = $this->getRootDomains()[0];
         }
 
         return $domain;
@@ -406,9 +406,9 @@ class Uccello
      * @param string $type
      * @return array
      */
-    public function getDatatableColumns(Module $module, $filterId=null, $type='list'): array
+    public function getDatatableColumns(Module $module, $filterId = null, $type = 'list'): array
     {
-        $columns = [ ];
+        $columns = [];
 
         // Get default filter
         if ($filterId) {
@@ -421,16 +421,16 @@ class Uccello
             // If there is not result, try with type = list
             if (empty($filter) && $type !== 'list') {
                 $filter = Filter::where('module_id', $module->id)
-                ->where('type', 'list')
-                ->first();
+                    ->where('type', 'list')
+                    ->first();
             }
         }
 
         if (empty($filter)) {
-            return [ ];
+            return [];
         }
 
-        $fieldsAdded = [ ];
+        $fieldsAdded = [];
 
         $seeDescendants = request()->hasSession() && request()->session()->get('descendants') ? true : false;
 
@@ -446,7 +446,7 @@ class Uccello
             $uitype = uitype($field->uitype_id);
 
             // Add the field as a new column
-            $columns[ ] = [
+            $columns[] = [
                 'name' => $field->name,
                 'db_column' => $field->column,
                 'uitype' => $uitype->name,
@@ -455,7 +455,7 @@ class Uccello
                 'visible' => true
             ];
 
-            $fieldsAdded[ ] = $fieldName;
+            $fieldsAdded[] = $fieldName;
         }
 
         // Get all other fields
@@ -470,7 +470,7 @@ class Uccello
             $uitype = uitype($field->uitype_id);
 
             // Add the field as a new column
-            $columns[ ] = [
+            $columns[] = [
                 'name' => $field->name,
                 'db_column' => $field->column,
                 'uitype' => $uitype->name,
@@ -490,17 +490,17 @@ class Uccello
      * @param string $type
      * @return Filter
      */
-    public function getDefaultFilter(Module $module, $type="list")
+    public function getDefaultFilter(Module $module, $type = "list")
     {
         $filter = Filter::where('module_id', $module->id)
-        ->where('type', $type)
-        ->first();
+            ->where('type', $type)
+            ->first();
 
         // If there is not result, try with type = list
         if (empty($filter) && $type !== 'list') {
             $filter = Filter::where('module_id', $module->id)
-            ->where('type', 'list')
-            ->first();
+                ->where('type', 'list')
+                ->first();
         }
 
         return $filter;
@@ -512,16 +512,29 @@ class Uccello
      *
      * @param Object $record
      * @param string $attribute
+     * @param \Uccello\Core\Models\Domain|null $checkPermissionsForDomain
      * @return string|Object|Array|null
      */
-    public function getRecordAttribute($record, string $attribute) {
-
+    public function getRecordAttribute($record, string $attribute, ?Domain $checkPermissionsForDomain = null)
+    {
         $attributeParts = explode('.', $attribute);
 
         if (count($attributeParts) > 0) {
             $value = $record;
 
             foreach ($attributeParts as $part) {
+                // Check if current user can retrieve data from the module
+                if ($checkPermissionsForDomain) {
+                    // Get module from class name
+                    $module = Module::where('model_class', get_class($value))->first();
+
+                    // Check permissions
+                    if (!$module || !Auth::user()->canRetrieve($checkPermissionsForDomain, $module)) {
+                        $value = null;
+                        break;
+                    }
+                }
+
                 // Get attribute value if exists
                 if (isset($value->{$part})) {
                     $value = $value->{$part};

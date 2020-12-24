@@ -47,7 +47,7 @@ class Displaytype extends Model
      */
     public function isListable() : bool
     {
-        return Cache::rememberForever('displaytype_'.$this->id.'_is_listable', function() {
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_listable', function () {
             return $this->getInstance()->isListable();
         });
     }
@@ -59,7 +59,7 @@ class Displaytype extends Model
      */
     public function isDetailable() : bool
     {
-        return Cache::rememberForever('displaytype_'.$this->id.'_is_detailable', function() {
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_detailable', function () {
             return $this->getInstance()->isDetailable();
         });
     }
@@ -71,7 +71,7 @@ class Displaytype extends Model
      */
     public function isCreateable() : bool
     {
-        return Cache::rememberForever('displaytype_'.$this->id.'_is_createable', function() {
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_createable', function () {
             return $this->getInstance()->isCreateable();
         });
     }
@@ -83,7 +83,7 @@ class Displaytype extends Model
      */
     public function isEditable() : bool
     {
-        return Cache::rememberForever('displaytype_'.$this->id.'_is_editable', function() {
+        return Cache::rememberForever('displaytype_'.$this->id.'_is_editable', function () {
             return $this->getInstance()->isEditable();
         });
     }

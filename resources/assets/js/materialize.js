@@ -18,18 +18,22 @@ try {
 var FastClick = require('fastclick')
 FastClick.attach(document.body)
 
-function initMaterializeJs() {
+function initMaterializeJs(element) {
+    if (typeof element === 'undefined') {
+        element = $(document);
+    }
+
     // Init components
-    $('#sidenav-menu').sidenav({
+    $('#sidenav-menu', element).sidenav({
         edge: 'left',
         onOpenStart: () => {
             if ($(document).width() < 993) {
-                $('#sidenav-domains').sidenav('close')
+                $('#sidenav-domains', element).sidenav('close')
             }
         }
     })
 
-    $('#sidenav-domains').sidenav({
+    $('#sidenav-domains', element).sidenav({
         edge: 'right',
         onOpenStart: () => {
             if ($(document).width() < 993) {
@@ -38,7 +42,7 @@ function initMaterializeJs() {
         }
     })
 
-    $('.dropdown-trigger').each((index, el) => {
+    $('.dropdown-trigger', element).each((index, el) => {
         $(el).dropdown({
             alignment: $(el).data('alignment') ? $(el).data('alignment') : 'left',
             constrainWidth: $(el).data('constrain-width') === false ? false : true,
@@ -49,11 +53,11 @@ function initMaterializeJs() {
         })
     })
 
-    $('.tabs').tabs({
+    $('.tabs', element).tabs({
         // swipeable: true
     })
 
-    $('select').each((index, el) => {
+    $('select', element).each((index, el) => {
         $(el).formSelect({
             dropdownOptions: {
                 alignment: $(el).data('alignment') ? $(el).data('alignment') : 'left',
@@ -66,11 +70,11 @@ function initMaterializeJs() {
         })
     })
 
-    $('[data-tooltip]').tooltip({
+    $('[data-tooltip]', element).tooltip({
         transitionMovement: 0,
     })
 
-    $('.modal').each((index, el) => {
+    $('.modal', element).each((index, el) => {
         $(el).modal()
 
         if ($(el).data('open')) {
@@ -79,11 +83,11 @@ function initMaterializeJs() {
         }
     })
 
-    $('.collapsible').collapsible()
+    $('.collapsible', element).collapsible()
 }
 
-addEventListener('js.init.materialize', event => { // Used in uccello/import package
-    initMaterializeJs();
+addEventListener('js.init.materialize', event => { // Used in uccello/import and uccello/module-designer-ui packages
+    initMaterializeJs(event.detail.element || null);
 });
 
 initMaterializeJs();

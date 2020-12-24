@@ -28,13 +28,17 @@ class UccelloApp {
         this.initFieldLibraries()
 
         addEventListener('js.init.field.libraries', event => { // Used in uccello/import package
-            this.initFieldLibraries()
+            this.initFieldLibraries(event.detail.element || null)
         })
     }
 
-    initFieldLibraries() {
-        this.initDateRangePicker()
-        this.initColorPicker()
+    initFieldLibraries(element) {
+        if (typeof element === 'undefined') {
+            element = $(document);
+        }
+
+        this.initDateRangePicker(element)
+        this.initColorPicker(element)
         this.initCountTo()
 
     }
@@ -71,7 +75,7 @@ class UccelloApp {
         })
     }
 
-    initDateRangePicker() {
+    initDateRangePicker(element) {
         var today = uctrans.trans('uccello::default.calendar.ranges.today')
         var month = uctrans.trans('uccello::default.calendar.ranges.month')
         var lastMonth = uctrans.trans('uccello::default.calendar.ranges.last_month')
@@ -84,7 +88,7 @@ class UccelloApp {
         var nextYear = uctrans.trans('uccello::default.calendar.ranges.next_year')
 
         // Date range picker
-        $('.date-range-picker').each((index, el) => {
+        $('.date-range-picker', element).each((index, el) => {
             $(el).daterangepicker({
                 autoUpdateInput: false,
                 locale: this.getDaterangePickerLocale($(el).data('format')),
@@ -121,7 +125,7 @@ class UccelloApp {
 
 
         // Datetime range picker
-        $('.datetime-range-picker').each((index, el) => {
+        $('.datetime-range-picker', element).each((index, el) => {
             $(el).daterangepicker({
                 autoUpdateInput: false,
                 timePicker: true,
@@ -142,7 +146,7 @@ class UccelloApp {
         })
 
         // Date picker
-        $('.datepicker').each((index, el) => {
+        $('.datepicker', element).each((index, el) => {
             $(el).daterangepicker({
                 autoUpdateInput: false,
                 locale: this.getDaterangePickerLocale($(el).data('format')),
@@ -163,7 +167,7 @@ class UccelloApp {
         })
 
         // Datetime picker
-        $('.datetimepicker').each((index, el) => {
+        $('.datetimepicker', element).each((index, el) => {
             $(el).daterangepicker({
                 autoUpdateInput: false,
                 autoApply: true,
@@ -193,7 +197,7 @@ class UccelloApp {
         })
 
         // Month picker
-        $('.monthpicker').each((index, el) => {
+        $('.monthpicker', element).each((index, el) => {
             $(el).daterangepicker({
                 autoUpdateInput: false,
                 autoApply: true,
@@ -208,7 +212,7 @@ class UccelloApp {
         })
 
         // Week picker
-        $('.weekpicker').each((index, el) => {
+        $('.weekpicker', element).each((index, el) => {
             $(el).daterangepicker({
                 autoUpdateInput: false,
                 autoApply: true,
@@ -261,12 +265,12 @@ class UccelloApp {
         }
     }
 
-    initColorPicker() {
-        if ($('.colorpicker').length === 0) {
+    initColorPicker(element) {
+        if ($('.colorpicker', element).length === 0) {
             return;
         }
 
-        $('.colorpicker').each((index, element) => {
+        $('.colorpicker', element).each((index, element) => {
             let pickr = Pickr.create({
                 el: element,
                 theme: 'classic', // or 'monolith', or 'nano'

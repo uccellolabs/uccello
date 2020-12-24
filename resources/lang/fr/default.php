@@ -286,7 +286,7 @@ return [
         'no_records' => 'Aucun enregistrement',
     ],
 
-    //Uitype entity
+    // Uitype entity
     'entity' => [
         'confirmation_override' => "Cette entité est déjà liée à :name. Si vous continuez, :name_ sera remplacé par l'entité actuelle."
     ],

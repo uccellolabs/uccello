@@ -1,4 +1,7 @@
 <ul class="tabs transparent detail-tabs" role="tablist">
+    {{-- Before summary tab link --}}
+    @yield('before-summary-tab-link')
+
     {{-- Summary --}}
     @if ($widgets->count() > 0)
     <li class="tab">
@@ -6,6 +9,10 @@
             <i class="material-icons left">dashboard</i> <span>{{ uctrans('tab.summary', $module) }}</span>
         </a>
     </li>
+
+    {{-- After summary tab  --}}
+    @yield('after-summary-tab')
+
     @endif
     {{-- Tabs --}}
     @foreach ($module->tabs as $i => $tab)
@@ -15,6 +22,9 @@
         </a>
     </li>
     @endforeach
+
+    {{-- Before relatedlists tabs links  --}}
+    @yield('before-relatedlists-tabs-links')
 
     {{-- One tab by related list --}}
     @foreach ($module->relatedlists as $relatedlist)

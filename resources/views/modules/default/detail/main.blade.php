@@ -53,12 +53,18 @@
 
     <div class="detail-blocks">
         @section('default-tabs')
+            {{-- Before summary tab  --}}
+            @yield('before-summary-tab')
+
             {{-- Summary --}}
             @if ($widgets->count() > 0)
             <div id="summary" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
                 @include('uccello::modules.default.detail.summary')
             </div>
             @endif
+
+            {{-- After summary tab  --}}
+            @yield('after-summary-tab')
 
             {{-- Tabs and blocks --}}
             @foreach ($module->tabs as $i => $tab)
@@ -75,6 +81,9 @@
                 @endif
             </div>
             @endforeach
+
+            {{-- Before relatedlists tabs --}}
+            @yield('before-relatedlists-tabs')
 
             {{-- Related lists as tabs --}}
             @include('uccello::modules.default.detail.relatedlists.as-tabs')

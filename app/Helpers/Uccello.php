@@ -58,7 +58,12 @@ class Uccello
             $prefix = $module->name . '.';
 
             // 1. Get translation in app
-            $translation = $translator->trans($prefix . $key, $replace, $locale);
+            // Compatibilty with new version of Laravel
+            if (method_exists($translator, 'get')) {
+                $translation = $translator->get($prefix . $key, $replace, $locale);
+            } else {
+                $translation = $translator->trans($prefix . $key, $replace, $locale);
+            }
 
             if ($translation !== $prefix . $key) {
                 return $translation;
@@ -69,20 +74,36 @@ class Uccello
                 // If a package name is defined add it before
                 $prefix = $module->package . '::' . $prefix;
 
-                $translation = $translator->trans($prefix . $key, $replace, $locale);
+                // Compatibilty with new version of Laravel
+                if (method_exists($translator, 'get')) {
+                    $translation = $translator->get($prefix . $key, $replace, $locale);
+                } else {
+                    $translation = $translator->trans($prefix . $key, $replace, $locale);
+                }
+
                 if ($translation !== $prefix . $key) {
                     return $translation;
                 }
             }
 
             // 3. Try with default translation in app
-            $appDefaultTranslation = $translator->trans('default.' . $key, $replace, $locale);
+            if (method_exists($translator, 'get')) {
+                $appDefaultTranslation = $translator->get('default.' . $key, $replace, $locale);
+            } else {
+                $appDefaultTranslation = $translator->trans('default.' . $key, $replace, $locale);
+            }
+
             if ($appDefaultTranslation !== 'default.' . $key) { // If default translation exists then use it
                 return $appDefaultTranslation;
             }
 
             // 4. Try with default translation in uccello
-            $uccelloDefaultTranslation = $translator->trans('uccello::default.' . $key, $replace, $locale);
+            if (method_exists($translator, 'get')) {
+                $uccelloDefaultTranslation = $translator->get('uccello::default.' . $key, $replace, $locale);
+            } else {
+                $uccelloDefaultTranslation = $translator->trans('uccello::default.' . $key, $replace, $locale);
+            }
+
             if ($uccelloDefaultTranslation !== 'uccello::default.' . $key) { // If default translation exists then use it
                 return $uccelloDefaultTranslation;
             }
@@ -92,7 +113,11 @@ class Uccello
         }
 
         // Default behaviour
-        return $translator->trans($key, $replace, $locale);
+        if (method_exists($translator, 'get')) {
+            return $translator->get($key, $replace, $locale);
+        } else {
+            return $translator->trans($key, $replace, $locale);
+        }
     }
 
     /**

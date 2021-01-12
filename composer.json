@@ -23,9 +23,9 @@
     ],
     "require": {
         "php": "~7.0",
-        "laravel/framework": "~5.6",
+        "laravel/framework": ">=5.6",
         "arrilot/laravel-widgets": "^3.12",
-        "cviebrock/eloquent-sluggable": "^4.5",
+        "cviebrock/eloquent-sluggable": ">=4.5",
         "doctrine/dbal": "^2.7",
         "gzero/eloquent-tree": "^3.1",
         "kris/laravel-form-builder": "^1.14",
@@ -33,7 +33,7 @@
         "mpdf/mpdf": "^7.1",
         "spatie/laravel-menu": "^3.2",
         "spatie/laravel-searchable": "^1.2",
-        "thepinecode/i18n": "^0.5"
+        "conedevelopment/i18n": "^1.1"
     },
     "require-dev": {
         "laravel/dusk": "^3.0",

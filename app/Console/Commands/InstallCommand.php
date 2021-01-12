@@ -51,8 +51,9 @@ class InstallCommand extends Command
      */
     public function handle()
     {
-        $this->comment('Executing make:auth...');
-        $this->callSilent('make:auth', ['--force' => true]);
+        // $this->comment('Executing make:auth...');
+        // $this->callSilent('make:auth', ['--force' => true]);
+        // $this->callSilent('ui:auth', ['--force' => true]);
 
         $this->comment('Publishing Uccello Assets...');
         $this->callSilent('vendor:publish', ['--tag' => 'uccello-assets']);

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Uccello\Core\Database\Migrations\Migration;
 
 class CreateEntitiesTable extends Migration
@@ -17,7 +18,14 @@ class CreateEntitiesTable extends Migration
             $table->uuid('id')->primary();
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('record_id');
-            $table->unsignedInteger('creator_id')->nullable();
+
+            // Compatibility with Laravel < 5.8
+            if (DB::getSchemaBuilder()->getColumnType('users', 'id') === 'bigint') { // Laravel >= 5.8
+                $table->unsignedBigInteger('creator_id')->nullable();
+            } else { // Laravel < 5.8
+                $table->unsignedInteger('creator_id')->nullable();
+            }
+
             $table->timestamps();
 
             $table->index('module_id', 'record_id');

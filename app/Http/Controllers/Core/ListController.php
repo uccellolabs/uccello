@@ -38,7 +38,13 @@ class ListController extends Controller
         }
 
         if (empty($selectedFilter)) { // For example if the given filter does not exist
-            $selectedFilter = $module->filters()->where('type', 'list')->first();
+            // Default user filter
+            $userDefaultFilter = $this->getUserDefaultFilter('list');
+
+            // Module default filter
+            $defaultFilter = $module->filters()->where('type', 'list')->first();
+
+            $selectedFilter = $userDefaultFilter ?? $defaultFilter;
             $selectedFilterId = $selectedFilter->id;
         }
 
@@ -51,7 +57,7 @@ class ListController extends Controller
         // Get filters
         $filters = Filter::where('module_id', $module->id)  // Module
             ->where('type', 'list')                         // Type (list)
-            ->where(function ($query) use($domain) {        // Domain
+            ->where(function ($query) use ($domain) {        // Domain
                 $query->whereNull('domain_id')
                     ->orWhere('domain_id', $domain->getKey());
             })
@@ -183,7 +189,7 @@ class ListController extends Controller
                 $uitype = uitype($field->uitype_id);
                 $uitypeViewName = sprintf('uitypes.list.%s', $uitype->name);
                 $uitypeFallbackView = 'uccello::modules.default.uitypes.list.text';
-                $uitypeViewToInclude = uccello()->view($module->package, $module, $uitypeViewName, $uitypeFallbackView);
+                $uitypeViewToInclude = Uccello::view($module->package, $module, $uitypeViewName, $uitypeFallbackView);
                 $record->{$field->name.'_html'} = view()->make($uitypeViewToInclude, compact('domain', 'module', 'record', 'field'))->render();
             }
 
@@ -216,7 +222,7 @@ class ListController extends Controller
     public function processForAutocomplete(?Domain $domain, Module $module, Request $request)
     {
         // If we don't use multi domains, find the first one
-        if (!uccello()->useMultiDomains()) {
+        if (!Uccello::useMultiDomains()) {
             $domain = Domain::first();
         }
 
@@ -268,6 +274,24 @@ class ListController extends Controller
         $filter->is_public = $request->input('public');
         $filter->data = !empty($data) ? $data : null;
         $filter->save();
+
+        // Set old default filter for user in the same domain as not default
+        if ($request->input('default')) {
+            $userDefaultFiltersForDomain = $module->filters()
+                ->where('user_id', auth()->id())
+                ->where('domain_id', $domain->id)
+                ->where('type', $request->input('type'))
+                ->where('is_default', true)
+                ->where('id', '!=', $filter->id) // Ignore filter just created
+                ->get();
+
+            // Normally there should only be one default filter at most,
+            // but let's make a loop, you never know...
+            foreach ($userDefaultFiltersForDomain as $userFilter) {
+                $userFilter->is_default = false;
+                $userFilter->save();
+            }
+        }
 
         return $filter;
     }
@@ -399,5 +423,37 @@ class ListController extends Controller
         }
 
         return $query;
+    }
+
+    /**
+     * Checks if a default filter is defined for authenticated user
+     * in current domain. Else checks if a default filter is defined
+     * in general (domain_id = null)
+     *
+     * @param string $type
+     *
+     * @return \Uccello\Core\Models\Filter|null
+     */
+    protected function getUserDefaultFilter($type) : ?Filter
+    {
+        // Checks in domain
+        $defaultFilter = $this->module->filters()
+                ->where('type', $type)
+                ->where('user_id', auth()->id())
+                ->where('is_default', true)
+                ->where('domain_id', $this->domain->id)
+                ->first();
+
+        // Checks in general
+        if (!$defaultFilter) {
+            $defaultFilter = $this->module->filters()
+                ->where('type', $type)
+                ->where('user_id', auth()->id())
+                ->where('is_default', true)
+                ->whereNull('domain_id')
+                ->first();
+        }
+
+        return $defaultFilter;
     }
 }

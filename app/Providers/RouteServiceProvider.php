@@ -39,33 +39,36 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
             return $module;
         });
 
-        $this->routes(function () {
-            Route::middleware('web', 'auth')
-                ->namespace('Uccello\Core\Http\Controllers') // We prefer to do this instead of modifying $this->namespace, else LoginController is not find
-                ->group(__DIR__.'/../../routes/web.php');
-        });
+        // Compatibily with new Laravel version
+        if (method_exists($this, 'routes')) {
+            $this->routes(function () {
+                Route::middleware('web', 'auth')
+                    ->namespace('Uccello\Core\Http\Controllers') // We prefer to do this instead of modifying $this->namespace, else LoginController is not find
+                    ->group(__DIR__.'/../../routes/web.php');
+            });
+        }
     }
 
     /**
      * @inheritDoc
      */
-    // public function map()
-    // {
-    //     parent::map();
+    public function map()
+    {
+        parent::map();
 
-    //     $this->mapUccelloRoutes();
-    // }
+        $this->mapUccelloRoutes();
+    }
 
-    // /**
-    //  * Define "uccello" routes for the application.
-    //  *
-    //  * @return void
-    //  */
-    // protected function mapUccelloRoutes()
-    // {
-    //     // Web
-    //     Route::middleware('web', 'auth')
-    //         ->namespace('Uccello\Core\Http\Controllers') // We prefer to do this instead of modifying $this->namespace, else LoginController is not find
-    //         ->group(__DIR__.'/../../routes/web.php');
-    // }
+    /**
+     * Define "uccello" routes for the application.
+     *
+     * @return void
+     */
+    protected function mapUccelloRoutes()
+    {
+        // Web
+        Route::middleware('web', 'auth')
+            ->namespace('Uccello\Core\Http\Controllers') // We prefer to do this instead of modifying $this->namespace, else LoginController is not find
+            ->group(__DIR__.'/../../routes/web.php');
+    }
 }

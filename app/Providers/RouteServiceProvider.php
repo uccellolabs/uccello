@@ -38,6 +38,15 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
             }
             return $module;
         });
+
+        // Compatibily with new Laravel version
+        if (method_exists($this, 'routes')) {
+            $this->routes(function () {
+                Route::middleware('web', 'auth')
+                    ->namespace('Uccello\Core\Http\Controllers') // We prefer to do this instead of modifying $this->namespace, else LoginController is not find
+                    ->group(__DIR__.'/../../routes/web.php');
+            });
+        }
     }
 
     /**

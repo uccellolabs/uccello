@@ -4,7 +4,6 @@ namespace Uccello\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
-use Illuminate\Database\Eloquent\Factory as EloquentFactory;
 use Uccello\Core\Console\Commands\GenerateUuidCacheCommand;
 use Uccello\Core\Console\Commands\InstallCommand;
 use Uccello\Core\Console\Commands\UserCommand;
@@ -87,7 +86,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerEloquentFactoriesFrom($path)
     {
-        $this->app->make(EloquentFactory::class)->load($path);
+        // $this->app->make(Factory::class)->load($path);
     }
 
     /**

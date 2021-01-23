@@ -35,7 +35,7 @@ trait UccelloModule
                     'id' => (string) Str::uuid(),
                     'module_id' => $module->id,
                     'record_id' => $model->getKey(),
-                    'creator_id' => auth()->id(),
+                    'creator_id' => auth()->check() ? auth()->id() : null,
                 ]);
             }
         });

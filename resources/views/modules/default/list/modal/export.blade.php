@@ -11,12 +11,15 @@
             <div class="col s12">
                 <div class="input-field">
                     <select id="export_format">
-                        <option value="xlsx">{{ uctrans('modal.export.format.xlsx', $module) }}</option>
-                        <option value="xls">{{ uctrans('modal.export.format.xls', $module) }}</option>
-                        <option value="ods">{{ uctrans('modal.export.format.ods', $module) }}</option>
-                        <option value="csv">{{ uctrans('modal.export.format.csv', $module) }}</option>
-                        <option value="html">{{ uctrans('modal.export.format.html', $module) }}</option>
-                        <option value="pdf">{{ uctrans('modal.export.format.pdf', $module) }}</option>
+                        @section('export-formats')
+                            <option value="xlsx">{{ uctrans('modal.export.format.xlsx', $module) }}</option>
+                            <option value="xls">{{ uctrans('modal.export.format.xls', $module) }}</option>
+                            <option value="ods">{{ uctrans('modal.export.format.ods', $module) }}</option>
+                            <option value="csv">{{ uctrans('modal.export.format.csv', $module) }}</option>
+                            <option value="html">{{ uctrans('modal.export.format.html', $module) }}</option>
+                        @show
+
+                        @yield('extra-export-formats')
                     </select>
                     <label>{{ uctrans('modal.export.format_label', $module) }}</label>
                 </div>

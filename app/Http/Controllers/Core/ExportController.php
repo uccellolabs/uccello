@@ -31,8 +31,8 @@ class ExportController extends Controller
         // File extension
         $fileExtension = $request->input('extension') ?? 'xlsx';
 
-        // Use special format for pdf file
-        $specialFormat = $fileExtension === 'pdf' ? \Maatwebsite\Excel\Excel::MPDF : null;
+        // Get writer type according to file extension
+        $writerType = $this->getWriterType($fileExtension);
 
         // Init export
         $export = (new RecordsExport)
@@ -74,6 +74,24 @@ class ExportController extends Controller
         }
 
         // Export records
-        return $export->download($fileName.'.'.$fileExtension, $specialFormat);
+        return $export->download($fileName.'.'.$fileExtension, $writerType);
+    }
+
+    /**
+     * Returns writer type according to file extension
+     *
+     * @param string $fileExtension
+     *
+     * @return string
+     */
+    protected function getWriterType($fileExtension)
+    {
+        $writerType = null;
+
+        if ($fileExtension === 'pdf') {
+            $writerType = \Maatwebsite\Excel\Excel::MPDF;
+        }
+
+        return $writerType;
     }
 }

@@ -31,7 +31,7 @@ class CreateDomainStructure extends Migration
      */
     public function down()
     {
-        Module::where('name', 'domaine')->forceDelete();
+        Module::where('name', 'domain')->forceDelete();
     }
 
     protected function createModule()
@@ -52,7 +52,7 @@ class CreateDomainStructure extends Migration
         $tab = new Tab();
         $tab->label = 'tab.main';
         $tab->icon = null;
-        $tab->sequence = 0;
+        $tab->sequence = $module->tabs()->count();
         $tab->module_id = $module->id;
         $tab->save();
 
@@ -60,7 +60,7 @@ class CreateDomainStructure extends Migration
         $block = new Block();
         $block->label = 'block.general';
         $block->icon = 'info';
-        $block->sequence = 0;
+        $block->sequence = $module->blocks()->count();
         $block->tab_id = $tab->id;
         $block->module_id = $module->id;
         $block->save();
@@ -71,7 +71,7 @@ class CreateDomainStructure extends Migration
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = [ 'rules' => 'required|regex:/(?!^\d+$)^.+$/|unique:'.$this->getTablePrefix().'domains,name,%id%' ];
-        $field->sequence = 0;
+        $field->sequence = $module->fields()->count();
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -82,7 +82,7 @@ class CreateDomainStructure extends Migration
         $field->uitype_id = uitype('entity')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = [ 'module' => 'domain', 'field' => 'name' ];
-        $field->sequence = 1;
+        $field->sequence = $module->fields()->count();
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -93,7 +93,39 @@ class CreateDomainStructure extends Migration
         $field->uitype_id = uitype('textarea')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
         $field->data = [ 'large' => true ];
-        $field->sequence = 2;
+        $field->sequence = $module->fields()->count();
+        $field->block_id = $block->id;
+        $field->module_id = $module->id;
+        $field->save();
+
+        // System block
+        $block = new Block();
+        $block->label = 'block.system';
+        $block->icon = 'settings';
+        $block->data = null;
+        $block->sequence = $module->blocks()->count();
+        $block->tab_id = $tab->id;
+        $block->module_id = $module->id;
+        $block->save();
+
+        // Created at
+        $field = new Field();
+        $field->name = 'created_at';
+        $field->uitype_id = uitype('datetime')->id;
+        $field->displaytype_id = displaytype('detail')->id;
+        $field->data = null;
+        $field->sequence = $module->fields()->count();
+        $field->block_id = $block->id;
+        $field->module_id = $module->id;
+        $field->save();
+
+        // Updated at
+        $field = new Field();
+        $field->name = 'updated_at';
+        $field->uitype_id = uitype('datetime')->id;
+        $field->displaytype_id = displaytype('detail')->id;
+        $field->data = null;
+        $field->sequence = $module->fields()->count();
         $field->block_id = $block->id;
         $field->module_id = $module->id;
         $field->save();
@@ -109,7 +141,7 @@ class CreateDomainStructure extends Migration
         $filter->type = 'list';
         $filter->columns = [ 'name', 'description', 'parent' ];
         $filter->conditions = null;
-        $filter->order_by = null;
+        $filter->order = null;
         $filter->is_default = true;
         $filter->is_public = false;
         $filter->data = [ 'readonly' => true ];

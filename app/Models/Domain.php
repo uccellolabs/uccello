@@ -88,9 +88,7 @@ class Domain extends Tree implements Searchable
 
             if (!is_null($parentRecord)) {
                 with($model)->setChildOf($parentRecord);
-            }
-            // Remove parent domain
-            else {
+            } else { // Remove parent domain
                 with($model)->setAsRoot();
             }
         }
@@ -114,7 +112,7 @@ class Domain extends Tree implements Searchable
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [

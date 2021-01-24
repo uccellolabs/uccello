@@ -18,14 +18,7 @@ class CreatePrivilegesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('domain_id');
             $table->unsignedInteger('role_id');
-
-            // Compatibility with Laravel < 5.8
-            if (DB::getSchemaBuilder()->getColumnType('users', 'id') === 'bigint') { // Laravel >= 5.8
-                $table->unsignedBigInteger('user_id')->nullable();
-            } else { // Laravel < 5.8
-                $table->unsignedInteger('user_id')->nullable();
-            }
-
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
             // Foreign keys

@@ -2,7 +2,7 @@
 
 namespace Uccello\Core\Support\Traits;
 
-use App\User;
+use App\Models\User;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Privilege;
 use Uccello\Core\Models\Role;

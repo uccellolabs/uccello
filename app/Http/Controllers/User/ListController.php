@@ -2,7 +2,7 @@
 
 namespace Uccello\Core\Http\Controllers\User;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Uccello\Core\Http\Controllers\Core\ListController as CoreListController;
 use Uccello\Core\Models\Domain;

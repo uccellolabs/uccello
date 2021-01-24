@@ -2,7 +2,7 @@
 
 namespace Uccello\Core\Http\Controllers\User;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Uccello\Core\Http\Controllers\Core\Controller;
 use Uccello\Core\Models\Domain;

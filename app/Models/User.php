@@ -692,7 +692,8 @@ class User extends Authenticatable implements Searchable
 
         if (!config('uccello.users.assigned_user_filter_users_groups') || $this->is_admin) {
             $groups = Group::inDomain($domain)->orderBy('name')->get();
-            $users  = \App\User::inDomain($domain)->orderBy('name')->get();
+
+            $users  = \App\Models\User::inDomain($domain)->orderBy('name')->get();
         } else {
             $groups = [];
             $users = [];

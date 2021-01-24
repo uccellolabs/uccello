@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Hash;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Privilege;
-use App\User;
 
 class UserCommand extends Command
 {
@@ -50,7 +49,9 @@ class UserCommand extends Command
         $password = $this->secret(trans('uccello::command.user.password'));
         $isAdmin = $this->confirm(trans('uccello::command.user.is_admin'));
 
-        $user = User::create([
+        $userClass = config('auth.providers.users.model');
+
+        $user = $userClass::create([
             'username' => $username,
             'name' => $name,
             'email' => $email,

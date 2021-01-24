@@ -2,8 +2,10 @@
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
-Route::name('uccello.')->group(function() {
-
+Route::name('uccello.')
+->middleware('web', 'auth')
+->namespace('Uccello\Core\Http\Controllers')
+->group(function () {
     // Adapt params if we use or not multi domains
     if (!uccello()->useMultiDomains()) {
         $domainParam = '';

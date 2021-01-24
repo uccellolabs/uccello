@@ -5,7 +5,6 @@ use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Profile;
-use App\User;
 use Uccello\Core\Facades\Uccello;
 use Uccello\Core\Models\Permission;
 

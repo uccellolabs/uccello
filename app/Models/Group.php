@@ -7,7 +7,7 @@ use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Database\Eloquent\Model;
 use Uccello\Core\Support\Traits\UccelloModule;
-use App\User;
+use App\Models\User;
 
 class Group extends Model implements Searchable
 {
@@ -47,7 +47,7 @@ class Group extends Model implements Searchable
     ];
 
     public function getSearchResult(): SearchResult
-    {    
+    {
         return new SearchResult(
             $this,
             $this->recordLabel

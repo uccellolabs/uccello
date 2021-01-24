@@ -3,6 +3,7 @@
 namespace Uccello\Core\Http\Controllers\Core;
 
 use Illuminate\Support\Facades\Cache;
+use Uccello\Core\Facades\Uccello;
 use Uccello\Core\Models\Domain;
 
 class DomainsTreeController
@@ -15,11 +16,11 @@ class DomainsTreeController
     public function root(?Domain $domain)
     {
         // If we don't use multi domains, find the first one
-        if (!uccello()->useMultiDomains()) {
+        if (!Uccello::useMultiDomains()) {
             $domain = Domain::firstOrFail();
         }
 
-        return Cache::rememberForever('domains_root_user_'.auth()->id(), function () use($domain) {
+        return Cache::rememberForever('domains_root_user_'.auth()->id(), function () use ($domain) {
             $rootDomains = app('uccello')->getRootDomains();
 
             $domains = [];
@@ -42,13 +43,13 @@ class DomainsTreeController
     public function children(?Domain $domain)
     {
         // If we don't use multi domains, find the first one
-        if (!uccello()->useMultiDomains()) {
+        if (!Uccello::useMultiDomains()) {
             $domain = Domain::firstOrFail();
         }
 
         $parentDomain = Domain::find(request('id'));
 
-        return Cache::rememberForever('domains_'.$parentDomain->id.'_children_user_'.auth()->id(), function () use($domain, $parentDomain) {
+        return Cache::rememberForever('domains_'.$parentDomain->id.'_children_user_'.auth()->id(), function () use ($domain, $parentDomain) {
             $domains = [];
             if ($parentDomain) {
                 foreach ($parentDomain->children()->orderBy('name')->get() as $_domain) {
@@ -78,13 +79,21 @@ class DomainsTreeController
         $hasRoleOnDescendantDomain = $domain->children->count() > 0 ? auth()->user()->hasRoleOnDescendantDomain($domain) : false;
 
         if ($hasRoleOnDomain || $hasRoleOnDescendantDomain) {
+            if (!$hasRoleOnDomain) {
+                $cssClass = 'disabled';
+            } elseif ($domain->id === $currentDomain->id) {
+                $cssClass = 'current';
+            } else {
+                $cssClass = '';
+            }
+
             $formattedDomain = [
                 "id" => $domain->id,
                 "text" => $domain->name,
                 "children" => $domain->children->count() > 0,
                 "a_attr" => [
                     "href" => $hasRoleOnDomain && $domain->id !== $currentDomain->id ? ucroute('uccello.home', $domain) : '#',
-                    "class" => !$hasRoleOnDomain ? 'disabled' : $domain->id === $currentDomain->id ? 'current' : ''
+                    "class" => $cssClass
                 ]
             ];
         }

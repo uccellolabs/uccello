@@ -65,6 +65,7 @@ return [
     // Block
     'block' => [
         'general' => 'General information',
+        'system' => 'System information',
     ],
 
     // Field

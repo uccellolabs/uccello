@@ -1,4 +1,6 @@
 @foreach ($tab->blocks as $block)
+    {{-- Don't display the block if it does have visible fields  --}}
+    @continue(!$block->hasVisibleFieldsInDetailView())
     <div class="card">
         <div class="card-content">
             {{-- Title --}}

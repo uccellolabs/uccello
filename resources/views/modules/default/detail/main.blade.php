@@ -57,30 +57,34 @@
             @yield('before-summary-tab')
 
             {{-- Summary --}}
-            @if ($widgets->count() > 0)
-            <div id="summary" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
-                @include('uccello::modules.default.detail.summary')
-            </div>
-            @endif
+            @section('summary-tab')
+                @if ($widgets->count() > 0)
+                <div id="summary" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $widgets->count() > 0) || $selectedTabId === 'summary')class="active"@endif>
+                    @include('uccello::modules.default.detail.summary')
+                </div>
+                @endif
+            @show
 
             {{-- After summary tab  --}}
             @yield('after-summary-tab')
 
             {{-- Tabs and blocks --}}
-            @foreach ($module->tabs as $i => $tab)
-            <div id="tab_{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
-                {{-- Blocks --}}
-                @include('uccello::modules.default.detail.blocks')
+            @section('module-tabs')
+                @foreach ($module->tabs as $i => $tab)
+                <div id="tab_{{ $tab->id }}" @if ((empty($selectedTabId) && empty($selectedRelatedlistId) && $i === 0 && $widgets->count() === 0) || $selectedTabId === $tab->id)class="active"@endif>
+                    {{-- Blocks --}}
+                    @include('uccello::modules.default.detail.blocks')
 
-                {{-- Related lists as blocks --}}
-                @include('uccello::modules.default.detail.relatedlists.as-blocks')
+                    {{-- Related lists as blocks --}}
+                    @include('uccello::modules.default.detail.relatedlists.as-blocks')
 
-                {{-- Other blocks --}}
-                @if ($i === 0)
-                    @yield('other-blocks')
-                @endif
-            </div>
-            @endforeach
+                    {{-- Other blocks --}}
+                    @if ($i === 0)
+                        @yield('other-blocks')
+                    @endif
+                </div>
+                @endforeach
+            @show
 
             {{-- Before relatedlists tabs --}}
             @yield('before-relatedlists-tabs')

@@ -59,8 +59,12 @@
                     </label>
                 </p>
 
+                @yield('extra-export-options')
+
                 <input type="hidden" id="export_with_descendants" @if ($seeDescendants) value="1" @else value="0" @endif />
             </div>
+
+            @yield('extra-export-modal-content')
         </div>
     </div>
     <div class="modal-footer">

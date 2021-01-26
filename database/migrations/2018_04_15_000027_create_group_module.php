@@ -44,9 +44,9 @@ class CreateGroupModule extends Migration
     public function down()
     {
         // Drop table
-        Schema::dropIfExists($this->tablePrefix . 'groups');
         Schema::dropIfExists($this->tablePrefix . 'rl_groups_groups');
         Schema::dropIfExists($this->tablePrefix . 'rl_groups_users');
+        Schema::dropIfExists($this->tablePrefix . 'groups');
 
         // Delete module
         Module::where('name', 'group')->forceDelete();

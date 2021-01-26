@@ -1,9 +1,9 @@
-<div id="exportModal" class="modal">
+<div id="exportModal" class="modal modal-fixed-footer">
     <div class="modal-content">
-        <h4>
+        <h5>
             <i class="material-icons left primary-text">cloud_download</i>
             {{ uctrans('modal.export.title', $module) }}
-        </h4>
+        </h5>
 
         <p>{{ uctrans('modal.export.description', $module) }}</p>
 
@@ -67,8 +67,20 @@
             @yield('extra-export-modal-content')
         </div>
     </div>
+
+    @section('export-modal-footer')
     <div class="modal-footer">
+        @yield('before-cancel-export-button')
+
+        {{-- Cancel button --}}
         <a href="javascript:void(0)" class="btn-flat waves-effect modal-close">{{ uctrans('button.cancel', $module) }}</a>
+
+        @yield('before-export-button')
+
+        {{-- Export button --}}
         <a href="javascript:void(0)" class="btn-flat waves-effect modal-close green-text export">{{ uctrans('button.export', $module) }}</a>
+
+        @yield('after-export-button')
     </div>
+    @show
 </div>

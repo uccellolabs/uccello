@@ -1,6 +1,6 @@
-<div id="routeLinkModal" class="modal">
+<div id="routeLinkModal" class="modal modal-fixed-footer">
     <div class="modal-content">
-        <h4>
+        <h5>
             <i class="material-icons left primary-text">link</i>
             {{ uctrans('menu_manager.modal.route.title', $module) }}
         </h4>

@@ -170,12 +170,12 @@ export class List {
      * @return {Object}
      */
     getSearchConditions(table) {
-        let conditions = {}
+        let conditions = { search: {}}
 
         $('th[data-column]', table).each((index, el) => {
             let fieldName = $(el).data('field')
             if (this.datatable.columns[fieldName].search) {
-                conditions[fieldName] = this.datatable.columns[fieldName].search
+                conditions.search[fieldName] = this.datatable.columns[fieldName].search
             }
         })
 

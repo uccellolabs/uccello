@@ -2,10 +2,17 @@
 
 namespace Uccello\Core\Support\Traits;
 
-use Uccello\Core\Exports\RecordsExport;
+use Uccello\Core\Exports\ExportManager;
 
 trait IsExportable
 {
+    /**
+     * Export Manager
+     *
+     * @var \Uccello\Core\Exports\ExportManager
+     */
+    protected $exportManager;
+
     /**
      * Exports data according to user settings and download a file.
      *
@@ -15,57 +22,130 @@ trait IsExportable
      */
     protected function downloadExportedFile($fileExtension)
     {
-        $domain = $this->domain;
-        $module = $this->module;
-        $request = $this->request;
+        // Abort if the export manager is not initialized
+        $this->abortIfExportManagerIsNotInitialized();
 
-        // File name
-        $fileName = uctrans($module->name, $module).'_'.date('Ymd_His');
+        // Get downloaded file name
+        $downloadedFileName = $this->getDownloadedFileName($fileExtension);
 
         // Get writer type according to file extension
         $writerType = $this->getWriterType($fileExtension);
 
-        // Init export
-        $export = (new RecordsExport)
-                ->forDomain($domain)
-                ->forModule($module);
-
-        // With ID
-        if ($request->input('with_id') === '1') {
-            $export = $export->withId();
-        }
-
-        // With timestamps
-        if ($request->input('with_timestamps') === '1') {
-            $export = $export->withTimestamps();
-        }
-
-        // With descendants
-        if ($request->input('with_descendants') === '1') {
-            $export = $export->withDescendants();
-        }
-
-        // With hidden columns
-        if ($request->input('with_hidden_columns') !== '1') {
-            $columns = json_decode($request->input('columns'));
-            $export = $export->withColumns($columns);
-        }
-
-        // With conditions
-        if ($request->input('with_conditions') === '1') {
-            // TODO: Build $conditions['search'] earlier in the export process to match filter format...
-            $conditions = ['search' => json_decode($request->input('conditions'))];
-            $export = $export->withConditions($conditions);
-        }
-
-        // With order
-        if ($request->input('with_order') === '1') {
-            $order = json_decode($request->input('order'));
-            $export = $export->withOrder($order);
-        }
-
         // Export records
-        return $export->download($fileName.'.'.$fileExtension, $writerType);
+        return $this->exportManager->download($downloadedFileName, $writerType);
+    }
+
+    /**
+     * Constructs and returns file name.
+     * It is build with the translated name of the module concatenated with the current date and file extension.
+     *
+     * @param string $fileExtension
+     *
+     * @return string
+     */
+    protected function getDownloadedFileName($fileExtension)
+    {
+        $fileName = uctrans($this->module->name, $this->module).'_'.date('Ymd_His');
+        $fileNameWithExtension = "$fileName.$fileExtension";
+
+        return $fileNameWithExtension;
+    }
+
+    /**
+     * Returns a 500 error if the Export Manager was not initialized.
+     *
+     * @return void
+     */
+    protected function abortIfExportManagerIsNotInitialized()
+    {
+        if (!$this->exportManager) {
+            abort('500', 'Export manager is not defined. You have to use initializeExportManager() to do this.');
+        }
+    }
+
+    /**
+     * Initializes the Export Manager.
+     *
+     * @return void
+     */
+    protected function initializeExportManager()
+    {
+        $this->exportManager = (new ExportManager)
+                ->forDomain($this->domain)
+                ->forModule($this->module);
+    }
+
+    /**
+     * Informs the Export Manager that it must export records ids.
+     *
+     * @return void
+     */
+    protected function withId()
+    {
+        $this->exportManager->withId();
+
+        return $this;
+    }
+
+    /**
+     * Informs the Export Manager that it must export created_at and updated_at columns.
+     *
+     * @return void
+     */
+    protected function withTimestamps()
+    {
+        $this->exportManager->withTimestamps();
+
+        return $this;
+    }
+
+    /**
+     * Informs the Export Manager that it must export also records from descendants domain.
+     * It will be possible only if the user is allowed to do this.
+     *
+     * @return void
+     */
+    protected function withDescendants()
+    {
+        $this->exportManager->withDescendants();
+
+        return $this;
+    }
+
+    /**
+     * Informs the Export Manager that it must export only some columns.
+     *
+     * @return void
+     */
+    protected function withColumns($columns)
+    {
+        $this->exportManager->withColumns($columns);
+
+        return $this;
+    }
+
+    /**
+     * Informs the Export Manager that it must export records according to some conditions.
+     *
+     * @return void
+     */
+    protected function withConditions($conditions)
+    {
+        $this->exportManager->withConditions($conditions);
+
+        return $this;
+    }
+
+    /**
+     * Informs the Export Manager that it must export records respecting sort order.
+     *
+     * @return void
+     */
+    protected function withOrder($order)
+    {
+        $this->exportManager->withOrder($order);
+
+        return $this;
     }
 
     /**
@@ -80,7 +160,7 @@ trait IsExportable
         $writerType = null;
 
         if ($fileExtension === 'pdf') {
-            $writerType = \Maatwebsite\Excel\Excel::MPDF;
+            $writerType = \Maatwebsite\Excel\Excel::MPDF; // Or DOMPDF, or TCPDF
         }
 
         return $writerType;

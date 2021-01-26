@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 - Migrations concerning the same tables or modules have been merged.
 - `Uccello\Core\Http\Controllers\Core\ExportController` now uses `Uccello\Core\Support\Traits\IsExportable` trait.
+- `Uccello\Core\Exports\RecordsExport` was renamed `Uccello\Core\Exports\ExportManager`.
 
 ### Deprecated
 - Nothing

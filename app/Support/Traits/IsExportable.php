@@ -66,13 +66,15 @@ trait IsExportable
     /**
      * Initializes the Export Manager.
      *
-     * @return void
+     * @return object
      */
     protected function initializeExportManager()
     {
         $this->exportManager = (new ExportManager)
-                ->forDomain($this->domain)
-                ->forModule($this->module);
+            ->forDomain($this->domain)
+            ->forModule($this->module);
+
+        return $this;
     }
 
     /**

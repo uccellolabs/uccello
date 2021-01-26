@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Possibility to use new Export writer.
 - The `System information` block is now created by default.
 - With the `for_crud = true` option, a capability is now available only for modules linked to a `Model` class.
+- New methods for Module : `isPublic()` and `isPrivate()`.
 
 ### Changes
 - Migrations concerning the same tables or modules have been merged.

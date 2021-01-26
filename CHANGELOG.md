@@ -5,7 +5,9 @@ All notable changes to `uccello` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - YYYY-MM-DD
+## [Unreleased]
+
+## [2.0.0] - 2021-01-26
 
 ### Added
 - Uccello is now compatible with Laravel 8.x.
@@ -14,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Creation of the `Uccello\Core\Support\Traits\IsExportable` trait.
 - Possibility to use new Export writer.
 - The `System information` block is now created by default.
+- With the `for_crud = true` option, a capability is now available only for modules linked to a `Model` class.
 
 ### Changes
 - Migrations concerning the same tables or modules have been merged.

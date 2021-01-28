@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Possibility to use new Export writer.
 - The `System information` block is now created by default.
 - With the `for_crud = true` option, a capability is now available only for modules linked to a `Model` class.
-- New methods for Module : `isPublic()` and `isPrivate()`.
+- New methods for Module: `isPublic()` and `isPrivate()`.
+- New config param for multi domains option: `config('uccello.domains.multi_domains')`.
 
 ### Changes
 - Migrations concerning the same tables or modules have been merged.
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Uccello\Core\Exports\RecordsExport` was renamed `Uccello\Core\Exports\ExportManager`.
 - Now uses `h5` instead of `h4` for modal title.
 - Now modal footers are fixed.
+- Multi domains is now deactivated by default.
 
 ### Deprecated
 - Nothing

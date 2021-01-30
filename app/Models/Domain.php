@@ -66,6 +66,8 @@ class Domain extends UccelloModel implements Searchable, Tree
         'parent_id',
     ];
 
+    protected $stopEventPropagation = false;
+
     public static function boot()
     {
         parent::boot();
@@ -75,12 +77,11 @@ class Domain extends UccelloModel implements Searchable, Tree
             static::linkToParentRecord($model);
         });
 
-        // static::updatedParent(function ($model) {
-        //     static::linkToParentRecord($model);
-        // });
-
         static::updated(function ($model) {
-            static::linkToParentRecord($model);
+            if (!$model->stopEventPropagation) {
+                $model->stopEventPropagation = true;
+                static::linkToParentRecord($model);
+            }
         });
     }
 
@@ -88,7 +89,7 @@ class Domain extends UccelloModel implements Searchable, Tree
     {
         // Set parent record
         if (request()->has('parent')) {
-            $parentRecord = Domain::find(request('parent'));
+            $parentRecord = $model::find(request('parent'));
 
             if (!is_null($parentRecord)) {
                 with($model)->setChildOf($parentRecord);
@@ -101,19 +102,6 @@ class Domain extends UccelloModel implements Searchable, Tree
     protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
-    }
-
-    /**
-     * Check if node is root
-     * This function check foreign key field
-     *
-     * @return bool
-     */
-    public function isRoot()
-    {
-        // return (empty($this->{$this->getTreeColumn('parent')})) ? true : false;
-        return $this->{$this->getTreeColumn('path')} === $this->getKey() . '/'
-                && $this->{$this->getTreeColumn('level')} === 0;
     }
 
     /**

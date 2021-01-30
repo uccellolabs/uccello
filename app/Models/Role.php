@@ -50,6 +50,8 @@ class Role extends UccelloModel implements Searchable, Tree
         'name'
     ];
 
+    protected $stopEventPropagation = false;
+
     public static function boot()
     {
         parent::boot();
@@ -59,39 +61,26 @@ class Role extends UccelloModel implements Searchable, Tree
             static::linkToParentRecord($model);
         });
 
-        // static::updatedParent(function ($model) {
-        //     static::linkToParentRecord($model);
-        // });
-
         static::updated(function ($model) {
-            static::linkToParentRecord($model);
+            if (!$model->stopEventPropagation) {
+                $model->stopEventPropagation = true;
+                static::linkToParentRecord($model);
+            }
         });
     }
 
     public static function linkToParentRecord($model)
     {
         // Set parent record
-        $parentRecord = Role::find(request('parent'));
-        if (!is_null($parentRecord)) {
-            with($model)->setChildOf($parentRecord);
-        }
-        // Remove parent domain
-        else {
-            with($model)->setAsRoot();
-        }
-    }
+        if (request()->has('parent')) {
+            $parentRecord = $model::find(request('parent'));
 
-    /**
-     * Check if node is root
-     * This function check foreign key field
-     *
-     * @return bool
-     */
-    public function isRoot()
-    {
-        // return (empty($this->{$this->getTreeColumn('parent')})) ? true : false;
-        return $this->{$this->getTreeColumn('path')} === $this->getKey() . '/'
-                && $this->{$this->getTreeColumn('level')} === 0;
+            if (!is_null($parentRecord)) {
+                with($model)->setChildOf($parentRecord);
+            } else { // Remove parent domain
+                with($model)->setAsRoot();
+            }
+        }
     }
 
     public function getSearchResult(): SearchResult

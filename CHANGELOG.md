@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - With the `for_crud = true` option, a capability is now available only for modules linked to a `Model` class.
 - New methods for Module: `isPublic()` and `isPrivate()`.
 - New config param for multi domains option: `config('uccello.domains.multi_domains')`.
+- `php artisan uccello:install` adds `App\UccelloModel.php` file.
 
 ### Changes
 - Migrations concerning the same tables or modules have been merged.
@@ -27,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Now uses `h5` instead of `h4` for modal title.
 - Now modal footers are fixed.
 - Multi domains is now deactivated by default.
+- `Domain`, `Role`, `Profile` and `Group` models extends `App\UccelloModel`. Now, all modules should extends this model.
+- Now requires `uccello/eloquent-tree` instead of `gzero/eloquent-tree`.
+- `Domain` and `Role` models use `Uccello\EloquentTree\Support\Traits\IsTree` trait instead of extending `Gzero\EloquentTree\Model\Trait` model.
 
 ### Deprecated
 - Nothing

@@ -2,16 +2,19 @@
 
 namespace Uccello\Core\Models;
 
-use Gzero\EloquentTree\Model\Tree;
+use App\Models\UccelloModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Support\Traits\UccelloModule;
+use Uccello\EloquentTree\Contracts\Tree;
+use Uccello\EloquentTree\Traits\IsTree;
 
-class Role extends Tree implements Searchable
+class Role extends UccelloModel implements Searchable, Tree
 {
     use SoftDeletes;
     use UccelloModule;
+    use IsTree;
 
     protected $tablePrefix;
 
@@ -99,35 +102,9 @@ class Role extends Tree implements Searchable
         );
     }
 
-    public function __construct(array $attributes = [ ])
-    {
-        parent::__construct($attributes);
-
-        // Init table prefix
-        $this->initTablePrefix();
-
-        // Init table name
-        $this->initTableName();
-
-        $this->addTreeEvents(); // Adding tree events
-    }
-
-    public function getTablePrefix()
-    {
-        return $this->tablePrefix;
-    }
-
     protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
-    }
-
-    protected function initTableName()
-    {
-        if ($this->table)
-        {
-            $this->table = $this->tablePrefix.$this->table;
-        }
     }
 
     public function domain()

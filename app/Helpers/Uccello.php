@@ -634,6 +634,6 @@ class Uccello
     {
         $modelClass = $module->model_class;
 
-        return is_subclass_of((new $modelClass), \Gzero\EloquentTree\Model\Tree::class);
+        return (new $modelClass) instanceof \Uccello\EloquentTree\Contracts\Tree;
     }
 }

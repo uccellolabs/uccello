@@ -58,7 +58,6 @@ export class Detail {
 
             // Click callback
             let rowClickCallback = (event, datatable, recordId, recordLabel, oldRelatedName) => {
-                
                 if(oldRelatedName)
                 {
                     swal({

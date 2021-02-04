@@ -2,6 +2,7 @@ import { List } from './list'
 import { Edit } from './edit'
 import { Detail } from './detail'
 import { Tree } from './tree'
+import { Summary } from './summary';
 
 class Autoloader {
     constructor() {
@@ -22,6 +23,7 @@ class Autoloader {
 
             case 'detail':
                 new Detail()
+                new Summary()
                 break;
 
             case 'tree':

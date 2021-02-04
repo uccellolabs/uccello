@@ -129,4 +129,6 @@ Route::name('uccello.')
     Route::get($domainAndModuleParams.'/tree', 'Core\TreeController@process')->name('tree');
     Route::get($domainAndModuleParams.'/tree/root', 'Core\TreeController@root')->name('tree.root');
     Route::get($domainAndModuleParams.'/tree/children', 'Core\TreeController@children')->name('tree.children');
+
+    Route::get($domainAndModuleParams.'/savePosition', 'Core\SummaryController@savePosition')->name('savePosition');
 });

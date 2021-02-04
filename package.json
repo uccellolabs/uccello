@@ -30,6 +30,7 @@
         "resolve-url-loader": "^2.3.2",
         "sass": "^1.23.3",
         "sass-loader": "^7.3.1",
+        "sortablejs": "^1.13.0",
         "sweetalert": "^2.1.2",
         "vue-template-compiler": "^2.6.12"
     },

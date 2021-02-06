@@ -18,25 +18,19 @@ class CreateEntitiesTable extends Migration
             $table->uuid('id')->primary();
             $table->unsignedInteger('module_id');
             $table->unsignedInteger('record_id');
-
-            // Compatibility with Laravel < 5.8
-            if (DB::getSchemaBuilder()->getColumnType('users', 'id') === 'bigint') { // Laravel >= 5.8
-                $table->unsignedBigInteger('creator_id')->nullable();
-            } else { // Laravel < 5.8
-                $table->unsignedInteger('creator_id')->nullable();
-            }
-
+            $table->unsignedBigInteger('creator_id')->nullable();
+            $table->text('data')->nullable();
             $table->timestamps();
 
             $table->index('module_id', 'record_id');
 
             // Foreign keys
             $table->foreign('module_id')
-                ->references('id')->on($this->tablePrefix.'modules')
-                ->onDelete('cascade');
+                    ->references('id')->on($this->tablePrefix.'modules')
+                    ->onDelete('cascade');
 
             $table->foreign('creator_id')
-                ->references('id')->on('users');
+                    ->references('id')->on('users');
 
             // Index
             $table->index(array('module_id', 'creator_id'));

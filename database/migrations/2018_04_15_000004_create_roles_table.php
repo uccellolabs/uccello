@@ -17,6 +17,7 @@ class CreateRolesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description')->nullable();
+            $table->boolean('see_descendants_records')->default(false);
             $table->unsignedInteger('parent_id')->nullable();
             $table->string('path')->nullable();
             $table->integer('level')->default(0);
@@ -26,11 +27,11 @@ class CreateRolesTable extends Migration
 
             // Foreign keys
             $table->foreign('parent_id')
-            ->references('id')->on($this->tablePrefix.'roles');
+                    ->references('id')->on($this->tablePrefix.'roles');
 
             $table->foreign('domain_id')
-            ->references('id')->on($this->tablePrefix.'domains')
-            ->onDelete('cascade');
+                    ->references('id')->on($this->tablePrefix.'domains')
+                    ->onDelete('cascade');
 
             // Index
             $table->index(array('path', 'parent_id', 'level'));

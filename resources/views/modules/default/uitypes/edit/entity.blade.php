@@ -36,7 +36,7 @@
     @if (!empty($entityModule) && Auth::user()->canRetrieve($domain, $entityModule))
     <div id="entityModal_{{ $field->name }}" class="modal" data-field="{{ $field->name }}">
         <div class="modal-content">
-            <h4>
+            <h5>
                 {{-- Icon --}}
                 <i class="material-icons letf primary-text">{{ $entityModule->icon ?? 'extension' }}</i>
 
@@ -47,7 +47,7 @@
                     <i class="material-icons left">delete</i>
                     {{ uctrans('button.delete_related_record', $entityModule) }}
                 </a>
-                <a 
+                <a
                     @if(config('uccello.entity.open_in_new_tab', true))
                     href="{{ ucroute('uccello.edit', $domain, $entityModule) }}" target="_blank"
                     @else
@@ -88,7 +88,7 @@
                                     </div>
                                 </div>
                             </div>
-                
+
                             <div>
                                 {{ uctrans('datatable.loading', $module) }}
                             </div>

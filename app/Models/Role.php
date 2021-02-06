@@ -2,16 +2,19 @@
 
 namespace Uccello\Core\Models;
 
-use Gzero\EloquentTree\Model\Tree;
+use App\Models\UccelloModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Support\Traits\UccelloModule;
+use Uccello\EloquentTree\Contracts\Tree;
+use Uccello\EloquentTree\Traits\IsTree;
 
-class Role extends Tree implements Searchable
+class Role extends UccelloModel implements Searchable, Tree
 {
     use SoftDeletes;
     use UccelloModule;
+    use IsTree;
 
     protected $tablePrefix;
 
@@ -47,6 +50,8 @@ class Role extends Tree implements Searchable
         'name'
     ];
 
+    protected $stopEventPropagation = false;
+
     public static function boot()
     {
         parent::boot();
@@ -56,39 +61,26 @@ class Role extends Tree implements Searchable
             static::linkToParentRecord($model);
         });
 
-        // static::updatedParent(function ($model) {
-        //     static::linkToParentRecord($model);
-        // });
-
         static::updated(function ($model) {
-            static::linkToParentRecord($model);
+            if (!$model->stopEventPropagation) {
+                $model->stopEventPropagation = true;
+                static::linkToParentRecord($model);
+            }
         });
     }
 
     public static function linkToParentRecord($model)
     {
         // Set parent record
-        $parentRecord = Role::find(request('parent'));
-        if (!is_null($parentRecord)) {
-            with($model)->setChildOf($parentRecord);
-        }
-        // Remove parent domain
-        else {
-            with($model)->setAsRoot();
-        }
-    }
+        if (request()->has('parent')) {
+            $parentRecord = $model::find(request('parent'));
 
-    /**
-     * Check if node is root
-     * This function check foreign key field
-     *
-     * @return bool
-     */
-    public function isRoot()
-    {
-        // return (empty($this->{$this->getTreeColumn('parent')})) ? true : false;
-        return $this->{$this->getTreeColumn('path')} === $this->getKey() . '/'
-                && $this->{$this->getTreeColumn('level')} === 0;
+            if (!is_null($parentRecord)) {
+                with($model)->setChildOf($parentRecord);
+            } else { // Remove parent domain
+                with($model)->setAsRoot();
+            }
+        }
     }
 
     public function getSearchResult(): SearchResult
@@ -99,35 +91,9 @@ class Role extends Tree implements Searchable
         );
     }
 
-    public function __construct(array $attributes = [ ])
-    {
-        parent::__construct($attributes);
-
-        // Init table prefix
-        $this->initTablePrefix();
-
-        // Init table name
-        $this->initTableName();
-
-        $this->addTreeEvents(); // Adding tree events
-    }
-
-    public function getTablePrefix()
-    {
-        return $this->tablePrefix;
-    }
-
     protected function initTablePrefix()
     {
         $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
-    }
-
-    protected function initTableName()
-    {
-        if ($this->table)
-        {
-            $this->table = $this->tablePrefix.$this->table;
-        }
     }
 
     public function domain()

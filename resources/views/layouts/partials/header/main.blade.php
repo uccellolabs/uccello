@@ -79,9 +79,9 @@
 
 @section('domains-modal')
 @if (config('uccello.domains.display_tree') !== false)
-<div id="domains-modal" class="modal">
+<div id="domains-modal" class="modal modal-fixed-footer">
     <div class="modal-content">
-        <h4>
+        <h5>
             <i class="material-icons left primary-text">device_hub</i>
             {{ uctrans('modal.domains.title', $module) }}
         </h4>

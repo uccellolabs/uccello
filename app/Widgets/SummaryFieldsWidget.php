@@ -4,7 +4,7 @@ namespace Uccello\Core\Widgets;
 
 use Arrilot\Widgets\AbstractWidget;
 
-class SummaryFields extends AbstractWidget
+class SummaryFieldsWidget extends AbstractWidget
 {
     /**
      * The configuration array.

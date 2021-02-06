@@ -15,7 +15,8 @@ class AlterUsersTable extends Migration
     {
         Schema::table('users', function(Blueprint $table) {
             $table->string('username')->after('id');
-            $table->boolean('is_admin')->after('remember_token')->default(false);
+            $table->text('avatar')->nullable()->after('remember_token');
+            $table->boolean('is_admin')->after('avatar')->default(false);
             $table->unsignedInteger('domain_id')->after('is_admin');
             $table->unsignedInteger('last_domain_id')->after('domain_id')->nullable();
             $table->softDeletes();

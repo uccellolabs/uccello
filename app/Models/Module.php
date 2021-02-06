@@ -105,8 +105,7 @@ class Module extends Model
         $package = ''; // For modules created directory in the host application
 
         // Get only package name if defined (Format: vendor/package)
-        if (isset($this->data->package))
-        {
+        if (isset($this->data->package)) {
             $packageData = explode('/', $this->data->package);
             $package = array_pop($packageData);
         }
@@ -226,5 +225,25 @@ class Module extends Model
     public function isMandatory() : bool
     {
         return $this->data->mandatory ?? false;
+    }
+
+    /**
+     * Check if the module is public.
+     *
+     * @return boolean
+     */
+    public function isPublic() : bool
+    {
+        return !isset($this->data->private) || $this->data->private === true;
+    }
+
+    /**
+     * Check if the module is private.
+     *
+     * @return boolean
+     */
+    public function isPrivate() : bool
+    {
+        return $this->data->private ?? false;
     }
 }

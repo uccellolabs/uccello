@@ -2,19 +2,23 @@
 
 namespace Uccello\Core\Models;
 
+use App\Models\UccelloModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 use Cviebrock\EloquentSluggable\Sluggable;
-use Gzero\EloquentTree\Model\Tree;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 use Uccello\Core\Support\Traits\UccelloModule;
+use Uccello\EloquentTree\Contracts\Tree;
+use Uccello\EloquentTree\Traits\IsTree;
 
-class Domain extends Tree implements Searchable
+class Domain extends UccelloModel implements Searchable, Tree
 {
     use SoftDeletes;
     use Sluggable;
     use UccelloModule;
+    use IsTree;
 
     protected $tablePrefix;
 
@@ -62,6 +66,8 @@ class Domain extends Tree implements Searchable
         'parent_id',
     ];
 
+    protected $stopEventPropagation = false;
+
     public static function boot()
     {
         parent::boot();
@@ -71,12 +77,11 @@ class Domain extends Tree implements Searchable
             static::linkToParentRecord($model);
         });
 
-        // static::updatedParent(function ($model) {
-        //     static::linkToParentRecord($model);
-        // });
-
         static::updated(function ($model) {
-            static::linkToParentRecord($model);
+            if (!$model->stopEventPropagation) {
+                $model->stopEventPropagation = true;
+                static::linkToParentRecord($model);
+            }
         });
     }
 
@@ -84,29 +89,19 @@ class Domain extends Tree implements Searchable
     {
         // Set parent record
         if (request()->has('parent')) {
-            $parentRecord = Domain::find(request('parent'));
+            $parentRecord = $model::find(request('parent'));
 
             if (!is_null($parentRecord)) {
                 with($model)->setChildOf($parentRecord);
-            }
-            // Remove parent domain
-            else {
+            } else { // Remove parent domain
                 with($model)->setAsRoot();
             }
         }
     }
 
-    /**
-     * Check if node is root
-     * This function check foreign key field
-     *
-     * @return bool
-     */
-    public function isRoot()
+    protected function initTablePrefix()
     {
-        // return (empty($this->{$this->getTreeColumn('parent')})) ? true : false;
-        return $this->{$this->getTreeColumn('path')} === $this->getKey() . '/'
-                && $this->{$this->getTreeColumn('level')} === 0;
+        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
     }
 
     /**
@@ -114,7 +109,7 @@ class Domain extends Tree implements Searchable
      *
      * @return array
      */
-    public function sluggable()
+    public function sluggable(): array
     {
         return [
             'slug' => [
@@ -137,37 +132,6 @@ class Domain extends Tree implements Searchable
             $this,
             $this->recordLabel
         );
-    }
-
-    public function __construct(array $attributes = [ ])
-    {
-        parent::__construct($attributes);
-
-        // Init table prefix
-        $this->initTablePrefix();
-
-        // Init table name
-        $this->initTableName();
-
-        $this->addTreeEvents(); // Adding tree events
-    }
-
-    public function getTablePrefix()
-    {
-        return $this->tablePrefix;
-    }
-
-    protected function initTablePrefix()
-    {
-        $this->tablePrefix = env('UCCELLO_TABLE_PREFIX', 'uccello_');
-    }
-
-    protected function initTableName()
-    {
-        if ($this->table)
-        {
-            $this->table = $this->tablePrefix.$this->table;
-        }
     }
 
     public function privileges()
@@ -259,7 +223,7 @@ class Domain extends Tree implements Searchable
      */
     public function getMainMenuAttribute()
     {
-        $userMenu = auth()->user()->menus()->where('type', 'main')->where('domain_id', $this->id)->first();
+        $userMenu = Auth::user()->menus()->where('type', 'main')->where('domain_id', $this->id)->first();
         $domainMenu = $this->menus()->where('type', 'main')->whereNull('user_id')->first();
         $defaultMenu = Menu::where('type', 'main')->whereNull('domain_id')->whereNull('user_id')->first();
 
@@ -285,7 +249,7 @@ class Domain extends Tree implements Searchable
      */
     public function getAdminMenuAttribute()
     {
-        $userMenu = auth()->user()->menus()->where('type', 'admin')->where('domain_id', $this->id)->first();
+        $userMenu = Auth::user()->menus()->where('type', 'admin')->where('domain_id', $this->id)->first();
         $domainMenu = $this->menus()->where('type', 'admin')->whereNull('user_id')->first();
         $defaultMenu = Menu::where('type', 'admin')->whereNull('domain_id')->whereNull('user_id')->first();
 

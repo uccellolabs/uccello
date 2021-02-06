@@ -35,12 +35,12 @@ class CreateMenusTable extends Migration
 
             // Foreign keys
             $table->foreign('domain_id')
-                ->references('id')->on($this->tablePrefix.'domains')
-                ->onDelete('cascade');
+                    ->references('id')->on($this->tablePrefix.'domains')
+                    ->onDelete('cascade');
 
             $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
+                    ->references('id')->on('users')
+                    ->onDelete('cascade');
         });
 
         // Add default admin menu

@@ -3,7 +3,7 @@
 @section('body-extra-class', 'no-sidebar')
 
 @section('css')
-    {!! Html::style(mix('css/app.css')) !!}
+    {{-- {!! Html::style(mix('css/app.css')) !!} --}}
 @append
 
 @section('content')

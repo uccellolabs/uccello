@@ -5,7 +5,7 @@ use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Role;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Models\Profile;
-use App\User;
+use Uccello\Core\Facades\Uccello;
 use Uccello\Core\Models\Permission;
 
 class AddDefaultData extends Migration
@@ -30,7 +30,6 @@ class AddDefaultData extends Migration
      */
     public function down()
     {
-        User::where('username', 'admin')->forceDelete();
         Domain::where('name', 'Default')->forceDelete();
         Role::where('name', 'Administrator')->forceDelete();
     }
@@ -53,7 +52,7 @@ class AddDefaultData extends Migration
         ]);
 
         foreach (Module::all() as $module) {
-            foreach (uccello()->getCapabilities() as $capability) {
+            foreach (Uccello::getCapabilities() as $capability) {
                 Permission::firstOrCreate([
                     'profile_id' => $profile->id,
                     'module_id' => $module->id,

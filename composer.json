@@ -22,33 +22,24 @@
         }
     ],
     "require": {
-        "php": "~7.0",
-        "laravel/framework": ">=5.6",
-        "arrilot/laravel-widgets": "^3.12",
-        "cviebrock/eloquent-sluggable": ">=4.5",
+        "laravel/framework": "^8.0",
+        "arrilot/laravel-widgets": "^3.13",
+        "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^2.7",
-        "gzero/eloquent-tree": "^3.1",
+        "uccello/eloquent-tree": "^1.0",
         "kris/laravel-form-builder": "^1.14",
         "maatwebsite/excel": "^3.1",
-        "mpdf/mpdf": "^7.1",
         "spatie/laravel-menu": "^3.2",
         "spatie/laravel-searchable": "^1.2",
         "conedevelopment/i18n": "^1.1"
     },
     "require-dev": {
-        "laravel/dusk": "^3.0",
-        "orchestra/testbench": "^3.7",
-        "phpunit/phpunit": "^7.1",
-        "squizlabs/php_codesniffer": "^2.3"
+
     },
     "autoload": {
-        "classmap": [
-            "database/seeds",
-            "database/factories"
-        ],
         "psr-4": {
             "Uccello\\Core\\": "app/",
-            "Uccello\\Core\\Seeds\\": "database/seeds/"
+            "Uccello\\Database\\Factories\\": "database/factories/"
         },
         "files": [
             "app/helpers.php"
@@ -67,7 +58,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "2.x-dev"
         },
         "laravel": {
             "providers": [

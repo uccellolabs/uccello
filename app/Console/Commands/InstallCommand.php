@@ -62,11 +62,16 @@ class InstallCommand extends Command
         $this->callSilent('vendor:publish', ['--tag' => 'uccello-config']);
 
         // Compatibility with new Laravel version
-        $userModelPath = file_exists(app_path('Models/User.php')) ? app_path('Models/User.php') : app_path('User.php');
         $this->comment('Copying User Model...');
         copy(
             __DIR__.'/stubs/make/app/User.stub',
-            $userModelPath
+            app_path('Models/User.php')
+        );
+
+        $this->comment('Copying UccelloModel Model...');
+        copy(
+            __DIR__.'/stubs/make/app/UccelloModel.stub',
+            app_path('Models/UccelloModel.php')
         );
 
         $this->comment('Copying Login Controller...');

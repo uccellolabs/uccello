@@ -21,14 +21,7 @@ class CreateModulesWidgetsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('domain_id')->nullable();
             $table->unsignedInteger('module_id');
-
-            // Compatibility with Laravel < 5.8
-            if (DB::getSchemaBuilder()->getColumnType('users', 'id') === 'bigint') { // Laravel >= 5.8
-                $table->unsignedBigInteger('user_id')->nullable();
-            } else { // Laravel < 5.8
-                $table->unsignedInteger('user_id')->nullable();
-            }
-
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedInteger('widget_id');
             $table->unsignedInteger('sequence');
             $table->text('data')->nullable();
@@ -36,20 +29,20 @@ class CreateModulesWidgetsTable extends Migration
 
             // Foreign keys
             $table->foreign('domain_id')
-                ->references('id')->on($this->tablePrefix.'domains')
-                ->onDelete('cascade');
+                    ->references('id')->on($this->tablePrefix.'domains')
+                    ->onDelete('cascade');
 
             $table->foreign('module_id')
-                ->references('id')->on($this->tablePrefix.'modules')
-                ->onDelete('cascade');
+                    ->references('id')->on($this->tablePrefix.'modules')
+                    ->onDelete('cascade');
 
             $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
+                    ->references('id')->on('users')
+                    ->onDelete('cascade');
 
             $table->foreign('widget_id')
-                ->references('id')->on($this->tablePrefix.'widgets')
-                ->onDelete('cascade');
+                    ->references('id')->on($this->tablePrefix.'widgets')
+                    ->onDelete('cascade');
         });
     }
 

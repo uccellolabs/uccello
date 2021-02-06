@@ -38,7 +38,7 @@
                 </div>
                 <div class="card-content center-align">
                     {{-- Name and Email --}}
-                    <h4 style="margin-top: 30px; margin-bottom: 0">{{ $user->name }}</h4>
+                    <h5 style="margin-top: 30px; margin-bottom: 0">{{ $user->name }}</h4>
                     <span class="grey-text">{{ $user->email }}</span>
 
                     {{-- Roles --}}

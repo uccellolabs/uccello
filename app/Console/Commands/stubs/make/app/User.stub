@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Uccello\Core\Models\User as UccelloUser;
 

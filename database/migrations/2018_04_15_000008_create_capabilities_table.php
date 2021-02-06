@@ -37,17 +37,25 @@ class CreateCapabilitiesTable extends Migration
     protected function addCapabilities()
     {
         $capabilities = [
-            'retrieve',
-            'create',
-            'update',
-            'delete',
-            'admin',
+            'retrieve' => false,
+            'create' => true, // For CRUD
+            'update' => true, // For CRUD
+            'delete' => true, // For CRUD
+            'admin' => false,
         ];
 
-        foreach ($capabilities as $name) {
+        foreach ($capabilities as $name => $forCrud) {
+            $data = [
+                'package' => 'uccello/uccello'
+            ];
+
+            if ($forCrud === true) {
+                $data["for_crud"] = true;
+            }
+
             Capability::create([
                 'name' => $name,
-                'data' => [ 'package' => 'uccello/uccello' ]
+                'data' => $data
             ]);
         }
     }

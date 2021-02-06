@@ -5,6 +5,9 @@ return [
     'theme' => 'uccello',
 
     'domains' => [
+        // If true, Uccello activate multi domains management
+        'multi_domains' => env('UCCELLO_MULTI_DOMAINS', false),
+
         // If true, display the modal for switching between domains.
         'display_tree' => true,
 

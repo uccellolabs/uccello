@@ -56,4 +56,54 @@ class Block extends Model
     {
         return $this->data->description ?? null;
     }
+
+    /**
+     * Checks if the block contains at least one field visible accordin to view name.
+     *
+     * @param string $viewName
+     *
+     * @return boolean
+     */
+    public function hasVisibleFields($viewName)
+    {
+        if ($viewName === 'detail') {
+            return $this->hasVisibleFieldsInDetailView();
+        } elseif ($viewName === 'edit') {
+            return $this->hasVisibleFieldsInEditView();
+        } else {
+            throw new \Exception("View $viewName is not supported");
+        }
+    }
+
+    /**
+     * Checks if the block contains at least one field detailable.
+     *
+     * @return boolean
+     */
+    public function hasVisibleFieldsInDetailView()
+    {
+        foreach ($this->fields as $field) {
+            if ($field->isDetailable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the block contains at least one field editable.
+     *
+     * @return boolean
+     */
+    public function hasVisibleFieldsInEditView()
+    {
+        foreach ($this->fields as $field) {
+            if ($field->isEditable()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

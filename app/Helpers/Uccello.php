@@ -19,11 +19,11 @@ class Uccello
     /**
      * Returns true if multi domains are used, false else.
      *
-     * @return void
+     * @return boolean
      */
     public function useMultiDomains()
     {
-        return env('UCCELLO_MULTI_DOMAINS', true) !== false;
+        return config('uccello.domains.multi_domains');
     }
 
     /**
@@ -634,6 +634,6 @@ class Uccello
     {
         $modelClass = $module->model_class;
 
-        return is_subclass_of((new $modelClass), \Gzero\EloquentTree\Model\Tree::class);
+        return (new $modelClass) instanceof \Uccello\EloquentTree\Contracts\Tree;
     }
 }

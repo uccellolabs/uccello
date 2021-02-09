@@ -25,6 +25,10 @@ Route::name('uccello.')->group(function() {
         ->defaults('module', 'user')
         ->name('user.list');
 
+    Route::post($domainParam.'/user/list/content', 'User\ListController@processForContent')
+        ->defaults('module', 'user')
+        ->name('user.list.content');
+
     Route::get($domainParam.'/user/detail', 'User\DetailController@process')
         ->defaults('module', 'user')
         ->name('user.detail');

@@ -36,9 +36,10 @@
 {{-- Custom links --}}
 @section('top-action-buttons')
     <div class="action-buttons right-align">
-    @section ('custom-links')
-        @include('uccello::modules.default.detail.links')
-    @show
+        @yield('custom-top-action-buttons')
+        @section ('custom-links')
+            @include('uccello::modules.default.detail.links')
+        @show
     </div>
 @append
 

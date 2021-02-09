@@ -3,15 +3,13 @@
 {{-- Edit password for admin --}}
 @if (auth()->user()->canAdmin($domain, $module))
     {{-- Button --}}
-    @section('top-action-buttons')
-    <div class="action-buttons right-align">
+    @section('custom-top-action-buttons')
         <a href="#changePasswordModal"
             class="btn-floating btn-small waves-effects orange modal-trigger"
             data-tooltip="{{ uctrans('button.change_password', $module) }}"
             data-position="top">
             <i class="material-icons left">lock</i>
         </a>
-    </div>
     @append
 
     {{-- Modal --}}

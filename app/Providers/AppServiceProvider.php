@@ -28,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
         $this->registerPublishing();
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
+
+        // Routes
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
     }
 
     /**

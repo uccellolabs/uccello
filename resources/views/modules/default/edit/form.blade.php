@@ -19,6 +19,8 @@
             @foreach($module->tabs as $tab_i => $tab)
             <div id="tab{{ $tab_i }}" class="col s12">
                 @foreach ($tab->blocks as $block_i => $block)
+                {{-- Don't display the block if it does have visible fields  --}}
+                @continue(!$block->hasVisibleFieldsInEditView())
                 <div class="card">
                     <div class="card-content">
                         {{-- Title --}}

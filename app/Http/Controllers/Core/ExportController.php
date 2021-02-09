@@ -3,14 +3,21 @@
 namespace Uccello\Core\Http\Controllers\Core;
 
 use Illuminate\Http\Request;
-use Uccello\Core\Exports\RecordsExport;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Support\Traits\IsExportable;
 
 class ExportController extends Controller
 {
+    use IsExportable;
+
     /**
-     * Check user permissions
+     * Default export format.
+     */
+    const DEFAULT_EXPORT_FORMAT = 'xlsx';
+
+    /**
+     * @inheritDoc
      */
     protected function checkPermissions()
     {
@@ -25,55 +32,127 @@ class ExportController extends Controller
         // Pre-process
         $this->preProcess($domain, $module, $request);
 
-        // File name
-        $fileName = uctrans($module->name, $module).'_'.date('Ymd_His');
+        // Initialize Export Manager
+        $this->initializeExportManager();
+
+        // Set export options
+        $this->setExportOptions();
 
         // File extension
-        $fileExtension = $request->input('extension') ?? 'xlsx';
+        $fileExtension = $this->getFileExtension();
 
-        // Use special format for pdf file
-        $specialFormat = $fileExtension === 'pdf' ? \Maatwebsite\Excel\Excel::MPDF : null;
+        // Download file
+        return $this->downloadExportedFile($fileExtension);
+    }
 
-        // Init export
-        $export = (new RecordsExport)
-                ->forDomain($domain)
-                ->forModule($module);
+    /**
+     * Returns file extension defined in the URL param if defined, else returns default one.
+     *
+     * @return string
+     */
+    protected function getFileExtension()
+    {
+        return $this->request->extension ?? static::DEFAULT_EXPORT_FORMAT;
+    }
 
+    /**
+     * Sets export options according to request params
+     *
+     * @return void
+     */
+    protected function setExportOptions()
+    {
         // With ID
-        if ($request->input('with_id') === '1') {
-            $export = $export->withId();
-        }
+        $this->setWithIdOption();
 
         // With timestamps
-        if ($request->input('with_timestamps') === '1') {
-            $export = $export->withTimestamps();
-        }
+        $this->setWithTimestampsOption();
 
         // With descendants
-        if ($request->input('with_descendants') === '1') {
-            $export = $export->withDescendants();
-        }
+        $this->setWithDescendantsOption();
 
         // With hidden columns
-        if ($request->input('with_hidden_columns') !== '1') {
-            $columns = json_decode($request->input('columns'));
-            $export = $export->withColumns($columns);
-        }
+        $this->setWithColumnsOption();
 
         // With conditions
-        if ($request->input('with_conditions') === '1') {
-            // TODO: Build $conditions['search'] earlier in the export process to match filter format...
-            $conditions = ['search' => json_decode($request->input('conditions'))];
-            $export = $export->withConditions($conditions);
-        }
+        $this->setWithConditionsOption();
 
         // With order
-        if ($request->input('with_order') === '1') {
-            $order = json_decode($request->input('order'));
-            $export = $export->withOrder($order);
-        }
+        $this->setWithOrderOption();
+    }
 
-        // Export records
-        return $export->download($fileName.'.'.$fileExtension, $specialFormat);
+    /**
+     * Adds withId option if it was asked.
+     *
+     * @return void
+     */
+    protected function setWithIdOption()
+    {
+        if ($this->request->with_id === '1') {
+            $this->withId();
+        }
+    }
+
+    /**
+     * Adds withTimestamp option if it was asked.
+     *
+     * @return void
+     */
+    protected function setWithTimestampsOption()
+    {
+        if ($this->request->with_timestamps === '1') {
+            $this->withTimestamps();
+        }
+    }
+
+    /**
+     * Adds withDescendants option if it was asked.
+     *
+     * @return void
+     */
+    protected function setWithDescendantsOption()
+    {
+        if ($this->request->with_descendants === '1') {
+            $this->withDescendants();
+        }
+    }
+
+    /**
+     * Adds withColumns option if it was asked.
+     *
+     * @return void
+     */
+    protected function setWithColumnsOption()
+    {
+        if ($this->request->with_hidden_columns !== '1') {
+            $columns = json_decode($this->request->columns);
+            $this->withColumns($columns);
+        }
+    }
+
+    /**
+     * Adds withConditions option if it was asked.
+     *
+     * @return void
+     */
+    protected function setWithConditionsOption()
+    {
+        if ($this->request->with_conditions === '1') {
+            $conditions = json_decode($this->request->conditions);
+            $this->withConditions($conditions);
+        }
+    }
+
+    /**
+     * Adds withOrder option if it was asked.
+     *
+     * @return void
+     */
+    protected function setWithOrderOption()
+    {
+        if ($this->request->with_order === '1') {
+            $order = json_decode($this->request->order);
+            $this->withOrder($order);
+        }
     }
 }

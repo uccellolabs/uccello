@@ -16,11 +16,11 @@
 
     {{-- Modal --}}
     @section('extra-content')
-    <div id="changePasswordModal" class="modal" @if($errors->all())data-open="true"@endif>
+    <div id="changePasswordModal" class="modal modal-fixed-footer" @if($errors->all())data-open="true"@endif>
         <form action="{{ ucroute('uccello.user.password.update_by_admin', $domain, $module, ['id' => $record->getKey()]) }}" method="POST">
             @csrf
             <div class="modal-content">
-                <h4>
+                <h5>
                     <i class="material-icons left primary-text">lock</i>
                     {{ uctrans('modal.change_password.title', $module) }}
                 </h4>

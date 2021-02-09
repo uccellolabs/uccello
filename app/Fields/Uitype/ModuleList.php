@@ -38,6 +38,11 @@ class ModuleList extends Select implements Uitype
                     continue;
                 }
 
+                // Ignore modules not for CRUD if necessary
+                if (!$_module->model_class && isset($field->data->crud) && $field->data->crud === true) {
+                    continue;
+                }
+
                 $moduleList[] = [
                     'id' => $_module->id,
                     'name' => uctrans($_module->name, $_module)
@@ -127,6 +132,12 @@ class ModuleList extends Select implements Uitype
 
         if ($show === false) {
             $field->data->admin = false;
+        }
+
+        $crud = $output->confirm('Do you want to show only CRUD modules ?', true);
+
+        if ($show === true) {
+            $field->data->crud = true;
         }
     }
 }

@@ -1,13 +1,6 @@
-import { Link } from './link'
-
 export class Global {
     constructor() {
-        this.initLinks()
         this.initNotifications()
-    }
-
-    initLinks() {
-        new Link()
     }
 
     initNotifications() {

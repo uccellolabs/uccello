@@ -68,6 +68,7 @@
                                     @foreach (uccello()->getCapabilities() as $capability)
                                     <?php $isApiCapability = strpos($capability->name, 'api-') !== false; ?>
                                     <td class="center-align @if ($isApiCapability)for-api hide @endif">
+                                        @if ((uccello()->isCrudModule($_module) && $capability->forCrud) || !$capability->forCrud)
                                         <p>
                                             <label>
                                                 <input type="checkbox"
@@ -78,6 +79,7 @@
                                                 <span></span>
                                             </label>
                                         </p>
+                                        @endif
                                     </td>
                                     @endforeach
                                 </tr>

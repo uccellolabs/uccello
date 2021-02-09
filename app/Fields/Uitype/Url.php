@@ -60,21 +60,4 @@ class Url extends Text implements Uitype
             $field->data->repeated = true;
         }
     }
-
-    /**
-     * Returns some specific options relative to the field, used by uccello/module-designer
-     *
-     * @return array
-     */
-    public function moduleDesignerConfig()
-    {
-        return [
-            [
-                'label' => trans('uccello::config.uitypes.global.repeat_field'),
-                'type' => 'boolean',
-                'attribute' => 'repeated',
-                'default' => false,
-            ],
-        ];
-    }
 }

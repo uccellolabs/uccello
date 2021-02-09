@@ -37,12 +37,14 @@ class CreateDisplaytypesTable extends Migration
     protected function addDisplaytypes()
     {
         $displaytypes = [
-            'everywhere'    => 'Uccello\Core\Fields\Displaytype\Everywhere',
-            'create'        => 'Uccello\Core\Fields\Displaytype\Create',
-            'detail'        => 'Uccello\Core\Fields\Displaytype\Detail',
-            'edit_detail'   => 'Uccello\Core\Fields\Displaytype\EditDetail',
-            'hidden'        => 'Uccello\Core\Fields\Displaytype\Hidden',
-            'create_edit'   => 'Uccello\Core\Fields\Displaytype\CreateEdit',
+            'everywhere'    => \Uccello\Core\Fields\Displaytype\Everywhere::class,
+            'create'        => \Uccello\Core\Fields\Displaytype\Create::class,
+            'detail'        => \Uccello\Core\Fields\Displaytype\Detail::class,
+            'edit_detail'   => \Uccello\Core\Fields\Displaytype\EditDetail::class,
+            'hidden'        => \Uccello\Core\Fields\Displaytype\Hidden::class,
+            'create_edit'   => \Uccello\Core\Fields\Displaytype\CreateEdit::class,
+            'create_detail' => \Uccello\Core\Fields\Displaytype\CreateDetail::class,
+            'list_only'     => \Uccello\Core\Fields\Displaytype\ListOnly::class,
         ];
 
         foreach ($displaytypes as $name => $class) {

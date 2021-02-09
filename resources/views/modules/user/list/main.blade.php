@@ -17,11 +17,11 @@
     @endsection
 
     @section('extra-content')
-        <div id="importUserModal" class="modal">
+        <div id="importUserModal" class="modal modal-fixed-footer">
             <form action="{{ ucroute('uccello.user.privileges.import', $domain, $module) }}" method="POST">
                 @csrf
                 <div class="modal-content">
-                    <h4>
+                    <h5>
                         <i class="material-icons left orange-text">person_add</i>
                         {{ uctrans('modal.import_user.title', $module) }}
                     </h4>

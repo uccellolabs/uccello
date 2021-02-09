@@ -1,24 +1,31 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace Uccello\Database\Factory;
 
-/*
-|--------------------------------------------------------------------------
-| Model Factories
-|--------------------------------------------------------------------------
-|
-| This directory should contain each of the model factory definitions for
-| your application. Factories provide a convenient way to generate new
-| model instances for testing / seeding your application's database.
-|
-*/
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Uccello\Core\Models\Module;
 
-$factory->define(\Uccello\Core\Models\Module::class, function(Faker $faker) {
+class ModuleFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Module::class;
 
-    return [
-        'name' => $faker->word,
-        'icon' => null,
-        'model_class' => null,
-        'data' => null
-    ];
-});
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->word,
+            'icon' => null,
+            'model_class' => null,
+            'data' => null
+        ];
+    }
+}

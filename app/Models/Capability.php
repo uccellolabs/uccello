@@ -52,12 +52,27 @@ class Capability extends Model
         $package = ''; // For modules created directory in the host application
 
         // Get only package name if defined (Format: vendor/package)
-        if (isset($this->data->package))
-        {
+        if (isset($this->data->package)) {
             $packageData = explode('/', $this->data->package);
             $package = array_pop($packageData);
         }
 
         return $package;
+    }
+
+    /**
+     * Returns true if it is a capability for CRUD, else returns false.
+     *
+     * @return string|null
+     */
+    public function getForCrudAttribute() : ?string
+    {
+        $forCrud = false;
+
+        if (isset($this->data->for_crud)) {
+            $forCrud = $this->data->for_crud;
+        }
+
+        return $forCrud;
     }
 }

@@ -25,8 +25,8 @@ class CreateBlocksTable extends Migration
 
             // Foreign keys
             $table->foreign('module_id')
-                ->references('id')->on($this->tablePrefix.'modules')
-                ->onDelete('cascade');
+                    ->references('id')->on($this->tablePrefix.'modules')
+                    ->onDelete('cascade');
 
             $table->foreign('tab_id')
                     ->references('id')->on($this->tablePrefix.'tabs')

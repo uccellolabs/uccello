@@ -7,9 +7,8 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\Exportable;
-use Illuminate\Support\Facades\Schema;
 
-class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize
+class ExportManager implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize
 {
     use Exportable;
 
@@ -76,7 +75,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
      * Set the domain from which we want to retrieve records.
      *
      * @param \Uccello\Core\Models\Domain $domain
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function forDomain($domain)
     {
@@ -93,7 +92,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
      * Set the module from which we want to export records.
      *
      * @param \Uccello\Core\Models\Domain $domain
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function forModule($module)
     {
@@ -109,7 +108,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     /**
      * Specify that we want to export record id
      *
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function withId()
     {
@@ -121,7 +120,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     /**
      * Specify that we want to export timestamps columns (created_at, updated_at)
      *
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function withTimestamps()
     {
@@ -133,7 +132,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     /**
      * Specify that we want to export records of the descendants domains
      *
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function withDescendants()
     {
@@ -145,7 +144,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     /**
      * Specify that we want to export only certain columns
      *
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function withColumns($columns)
     {
@@ -157,7 +156,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     /**
      * Specify that we want to filter records with search conditions
      *
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function withConditions($conditions)
     {
@@ -169,7 +168,7 @@ class RecordsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     /**
      * Specify that we want to order records
      *
-     * @return \Uccello\Core\Exports\RecordsExport
+     * @return \Uccello\Core\Exports\ExportManager
      */
     public function withOrder($order)
     {

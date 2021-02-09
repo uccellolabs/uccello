@@ -30,7 +30,7 @@ class CreateWidgetsTable extends Migration
         Widget::create([
             'label' => 'widget.main_fields',
             'type' => 'summary',
-            'class' => 'Uccello\Core\Widgets\SummaryFields',
+            'class' => \Uccello\Core\Widgets\SummaryFieldsWidget::class,
             'data' => [ 'package' => 'uccello/uccello' ]
         ]);
 
@@ -38,7 +38,7 @@ class CreateWidgetsTable extends Migration
         Widget::create([
             'label' => 'widget.relatedlist',
             'type' => 'summary',
-            'class' => 'Uccello\Core\Widgets\Relatedlist',
+            'class' => \Uccello\Core\Widgets\RelatedlistWidget::class,
             'data' => [ 'package' => 'uccello/uccello' ]
         ]);
     }

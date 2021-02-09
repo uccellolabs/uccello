@@ -1,6 +1,6 @@
-<div id="groupModal" class="modal">
+<div id="groupModal" class="modal modal-fixed-footer">
     <div class="modal-content">
-        <h4>
+        <h5>
             <i class="material-icons left primary-text">filter_list</i>
             {{ uctrans('menu_manager.modal.group.title', $module) }}
         </h4>

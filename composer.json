@@ -23,14 +23,13 @@
     ],
     "require": {
         "php": "~7.0",
-        "laravel/framework": ">=5.6",
+        "laravel/framework": "^5.6|^6.0|^7.0",
         "arrilot/laravel-widgets": "^3.12",
         "cviebrock/eloquent-sluggable": ">=4.5",
         "doctrine/dbal": "^2.7",
         "gzero/eloquent-tree": "^3.1",
         "kris/laravel-form-builder": "^1.14",
         "maatwebsite/excel": "^3.1",
-        "mpdf/mpdf": "^7.1",
         "spatie/laravel-menu": "^3.2",
         "spatie/laravel-searchable": "^1.2",
         "conedevelopment/i18n": "^1.1"

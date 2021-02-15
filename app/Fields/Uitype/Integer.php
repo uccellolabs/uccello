@@ -44,19 +44,25 @@ class Integer extends Number implements Uitype
     public function getFieldOptions() : array
     {
         return [
-            'min' => [
-                'type' => 'integer',
-                'default_value' => null,
+            [
+                'key' => 'min',
+                'label' => trans('uccello::uitype.option.number.min'),
+                'type' => 'number',
+                'default' => null,
             ],
-            'max' => [
-                'type' => 'integer',
-                'default_value' => null,
+            [
+                'key' => 'max',
+                'label' => trans('uccello::uitype.option.number.max'),
+                'type' => 'number',
+                'default' => null,
             ],
-            'step' => [
+            [
+                'key' => 'step',
+                'label' => trans('uccello::uitype.option.number.step'),
                 'mandatory' => true,
-                'type' => 'float',
-                'default_value' => 1,
-            ],
+                'type' => 'number',
+                'default' => 1,
+            ]
         ];
     }
 

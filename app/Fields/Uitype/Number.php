@@ -59,24 +59,25 @@ class Number implements Uitype
     public function getFieldOptions() : array
     {
         return [
-            'min' => [
-                'type' => 'float',
-                'default_value' => null,
+            [
+                'key' => 'min',
+                'label' => trans('uccello::uitype.option.number.min'),
+                'type' => 'number',
+                'default' => null,
             ],
-            'max' => [
-                'type' => 'float',
-                'default_value' => null,
+            [
+                'key' => 'max',
+                'label' => trans('uccello::uitype.option.number.max'),
+                'type' => 'number',
+                'default' => null,
             ],
-            'step' => [
+            [
+                'key' => 'step',
+                'label' => trans('uccello::uitype.option.number.step'),
                 'mandatory' => true,
-                'type' => 'float',
-                'default_value' => 0.01,
-            ],
-            'precision' => [
-                'mandatory' => true,
-                'type' => 'float',
-                'default_value' => 2,
-            ],
+                'type' => 'number',
+                'default' => 0.01,
+            ]
         ];
     }
 

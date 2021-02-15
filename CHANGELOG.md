@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New config param for multi domains option: `config('uccello.domains.multi_domains')`.
 - `php artisan uccello:install` adds `App\UccelloModel.php` file.
 - Possibility to display only CRUD modules in `ModuleList` UiType with `crud = true` option.
+- Translations for `uitype` and `displaytyped` defined in the package.
 
 ### Changes
 - Migrations concerning the same tables or modules have been merged.

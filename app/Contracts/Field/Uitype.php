@@ -103,6 +103,13 @@ interface Uitype
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder;
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array;
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module

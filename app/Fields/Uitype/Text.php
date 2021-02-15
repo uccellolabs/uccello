@@ -31,10 +31,12 @@ class Text implements Uitype
     public function getFieldOptions() : array
     {
         return [
-            'repeated' => [
+            [
+                'key' => 'repeated',
+                'label' => trans('uccello::uitype.option.text.repeated'),
                 'type' => 'boolean',
-                'default_value' => false,
-            ],
+                'default' => false
+            ]
         ];
     }
 

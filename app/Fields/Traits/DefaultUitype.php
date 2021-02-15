@@ -154,6 +154,16 @@ trait DefaultUitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @return array
+     */
+    public function getFieldOptions() : array
+    {
+        return [];
+    }
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module

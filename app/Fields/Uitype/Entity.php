@@ -58,14 +58,31 @@ class Entity implements Uitype
     public function getFieldOptions() : array
     {
         return [
-            'module' => [
+            [
+                'key' => 'module',
+                'label' => trans('uccello::uitype.option.entity.module'),
                 'mandatory' => true,
-                'type' => 'module',
-                'whitelist' => [ ],
-                'blacklist' => [ ],
-                'add_crud_modules' => true,
-                'add_not_crud_modules' => true,
-                'include_itself' => true,
+                'type' => 'select',
+                'choices' => function () {
+                    $choices = [];
+
+                    // Get all CRUD modules and add translation
+                    $modules = Module::whereNotNull('model_class')->get();
+                    $modules = $modules->map(function ($module) {
+                        $module->label = uctrans($module->name, $module);
+                        return $module;
+                    });
+
+                    // Make choices list
+                    foreach ($modules->sortBy('label') as $module) {
+                        $choices[] = [
+                            'key' => $module->name,
+                            'label' => $module->label
+                        ];
+                    }
+
+                    return $choices;
+                }
             ],
         ];
     }

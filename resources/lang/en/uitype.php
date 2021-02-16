@@ -40,6 +40,7 @@ return [
             'module' => 'Module',
             'field' => 'Field to display',
             'record_label' => '(Default)',
+            'relatedlist' => 'Create a related list',
         ],
         'file' => [
             'path' => 'Specific path',

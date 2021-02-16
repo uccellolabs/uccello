@@ -40,6 +40,7 @@ return [
             'module' => 'Module',
             'field' => 'Champ à afficher',
             'record_label' => '(Par défaut)',
+            'relatedlist' => 'Créer une liste liée',
         ],
         'file' => [
             'path' => 'Chemin spécifique',

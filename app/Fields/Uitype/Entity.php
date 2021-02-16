@@ -112,6 +112,12 @@ class Entity implements Uitype
 
                     return $options; // TODO: Add params to the function to know which module was selected
                 }
+            ],
+            [
+                'key' => 'relatedlist',
+                'label' => trans('uccello::uitype.option.entity.relatedlist'),
+                'type' => 'boolean',
+                'default' => true
             ]
         ];
     }

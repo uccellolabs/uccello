@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Uitype;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
@@ -65,13 +66,17 @@ class Select implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
-            'choices' => [
-                'mandatory' => true,
+            [
+                'key' => 'choices',
+                'label' => trans('uccello::uitype.option.select.choices'),
+                'required' => true,
                 'type' => 'array',
             ],
         ];

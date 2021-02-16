@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Uitype;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,15 +54,18 @@ class Entity implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
             [
                 'key' => 'module',
                 'label' => trans('uccello::uitype.option.entity.module'),
-                'mandatory' => true,
+                'required' => true,
+                'altersDynamicFields' => true,
                 'type' => 'select',
                 'choices' => function () {
                     $choices = [];
@@ -76,7 +80,7 @@ class Entity implements Uitype
                     // Make choices list
                     foreach ($modules->sortBy('label') as $module) {
                         $choices[] = [
-                            'key' => $module->name,
+                            'value' => $module->name,
                             'label' => $module->label
                         ];
                     }
@@ -84,6 +88,31 @@ class Entity implements Uitype
                     return $choices;
                 }
             ],
+            [
+                'key' => 'field',
+                'label' => trans('uccello::uitype.option.entity.field'),
+                'type' => 'select',
+                'default' => 'recordLabel',
+                'choices' => function () use ($bundle) {
+                    $options = [
+                        ['value' => null, 'label' => trans('uccello::uitype.option.entity.record_label')],
+                    ];
+
+                    if (!empty($bundle->field->data['module'])) {
+                        $module = Module::where('name', $bundle->field->data['module'])->first();
+                        foreach ($module->fields->sortBy('sequence') as $field) {
+                            $options[] = [
+                                'value' => $field->name,
+                                'label' => uctrans('field.'.$field->name, $module)
+                            ];
+                        }
+                    }
+
+                    // dd($inputFields->where('name', 'domain')->first());
+
+                    return $options; // TODO: Add params to the function to know which module was selected
+                }
+            ]
         ];
     }
 

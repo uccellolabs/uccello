@@ -29,7 +29,7 @@ return [
         'module_list' => 'Liste de modules',
     ],
     'option' => [
-        'text' => [
+        'common' => [
             'repeated' => 'Confirmer',
         ],
         'choice' => [
@@ -38,6 +38,8 @@ return [
         ],
         'entity' => [
             'module' => 'Module',
+            'field' => 'Champ à afficher',
+            'record_label' => '(Par défaut)',
         ],
         'file' => [
             'path' => 'Chemin spécifique',
@@ -47,16 +49,15 @@ return [
             'path' => 'Chemin spécifique',
         ],
         'number' => [
-            'repeated' => 'Confirmer',
             'min' => 'Valeur minimale',
             'max' => 'Valeur maximale',
             'step' => 'Écart entre deux valeurs',
-            'module_list' => [
-                'admin' => 'Afficher modules d\'administration',
-            ],
+        ],
+        'module_list' => [
+            'admin' => 'Afficher modules d\'administration',
+            'for_crud' => 'Seulement les modules liés à un modèle de données',
         ],
         'range' => [
-            'repeated' => 'Confirmer',
             'min' => 'Valeur minimale',
             'max' => 'Valeur maximale',
             'step' => 'Écart entre deux valeurs',

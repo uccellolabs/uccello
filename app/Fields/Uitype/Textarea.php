@@ -3,6 +3,7 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Models\Field;
@@ -40,6 +41,24 @@ class Textarea extends Text implements Uitype
         ];
 
         return $options;
+    }
+
+    /**
+     * Return options for Module Designer
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptions($bundle) : array
+    {
+        return [
+            [
+                'key' => 'repeated',
+                'label' => trans('uccello::uitype.option.common.repeated'),
+                'type' => 'boolean'
+            ]
+        ];
     }
 
     /**

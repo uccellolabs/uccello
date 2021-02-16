@@ -6,6 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Fluent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Contracts\Field\Uitype;
@@ -53,16 +54,17 @@ class Date extends DateTime implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
             [
                 'key' => 'repeated',
-                'label' => trans('uccello::uitype.option.text.repeated'),
-                'type' => 'boolean',
-                'default' => false
+                'label' => trans('uccello::uitype.option.common.repeated'),
+                'type' => 'boolean'
             ]
         ];
     }

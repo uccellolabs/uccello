@@ -3,6 +3,7 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -39,29 +40,34 @@ class Integer extends Number implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
             [
                 'key' => 'min',
                 'label' => trans('uccello::uitype.option.number.min'),
-                'type' => 'number',
-                'default' => null,
+                'type' => 'number'
             ],
             [
                 'key' => 'max',
                 'label' => trans('uccello::uitype.option.number.max'),
-                'type' => 'number',
-                'default' => null,
+                'type' => 'number'
             ],
             [
                 'key' => 'step',
                 'label' => trans('uccello::uitype.option.number.step'),
-                'mandatory' => true,
+                'required' => true,
                 'type' => 'number',
                 'default' => 1,
+            ],
+            [
+                'key' => 'repeated',
+                'label' => trans('uccello::uitype.option.common.repeated'),
+                'type' => 'boolean'
             ]
         ];
     }

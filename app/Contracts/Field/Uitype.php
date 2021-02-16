@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
@@ -105,9 +106,11 @@ interface Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array;
+    public function getFieldOptions($bundle) : array;
 
     /**
      * Ask the user some specific options relative to a field

@@ -29,7 +29,7 @@ return [
         'module_list' => 'Modules list',
     ],
     'option' => [
-        'text' => [
+        'common' => [
             'repeated' => 'Confirm',
         ],
         'choice' => [
@@ -38,6 +38,8 @@ return [
         ],
         'entity' => [
             'module' => 'Module',
+            'field' => 'Field to display',
+            'record_label' => '(Default)',
         ],
         'file' => [
             'path' => 'Specific path',
@@ -47,16 +49,15 @@ return [
             'path' => 'Specific path',
         ],
         'number' => [
-            'repeated' => 'Confirm',
             'min' => 'Min value',
             'max' => 'Max value',
             'step' => 'Gap between two values',
-            'module_list' => [
-                'admin' => 'Display admin modules',
-            ],
+        ],
+        'module_list' => [
+            'admin' => 'Display admin modules',
+            'for_crud' => 'Only modules link to a data model',
         ],
         'range' => [
-            'repeated' => 'Confirm',
             'min' => 'Min value',
             'max' => 'Max value',
             'step' => 'Gap between two values',

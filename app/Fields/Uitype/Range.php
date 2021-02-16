@@ -2,6 +2,7 @@
 
 namespace Uccello\Core\Fields\Uitype;
 
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Contracts\Field\Uitype;
@@ -52,26 +53,37 @@ class Range implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
-            'min' => [
-                'mandatory' => true,
-                'type' => 'float',
-                'default_value' => 0,
+            [
+                'key' => 'min',
+                'label' => trans('uccello::uitype.option.range.min'),
+                'type' => 'number',
+                'default' => 0,
             ],
-            'max' => [
-                'mandatory' => true,
-                'type' => 'float',
-                'default_value' => 100,
+            [
+                'key' => 'max',
+                'label' => trans('uccello::uitype.option.range.max'),
+                'type' => 'number',
+                'default' => 100,
             ],
-            'step' => [
-                'mandatory' => true,
-                'type' => 'float',
-                'default_value' => 1,
+            [
+                'key' => 'step',
+                'label' => trans('uccello::uitype.option.range.step'),
+                'required' => true,
+                'type' => 'number',
+                'default' => 1,
             ],
+            [
+                'key' => 'repeated',
+                'label' => trans('uccello::uitype.option.common.repeated'),
+                'type' => 'boolean'
+            ]
         ];
     }
 

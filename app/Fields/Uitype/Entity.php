@@ -108,9 +108,7 @@ class Entity implements Uitype
                         }
                     }
 
-                    // dd($inputFields->where('name', 'domain')->first());
-
-                    return $options; // TODO: Add params to the function to know which module was selected
+                    return $options;
                 }
             ],
             [

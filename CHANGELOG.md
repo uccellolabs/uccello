@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `php artisan uccello:install` adds `App\UccelloModel.php` file.
 - Possibility to display only CRUD modules in `ModuleList` UiType with `crud = true` option.
 - Translations for `uitype` and `displaytyped` defined in the package.
+- Uitype have new function `getFormattedFieldDataAndTranslationFromOptions()`. It allows to format data column and generate related translations.
 
 ### Changes
 - Migrations concerning the same tables or modules have been merged.

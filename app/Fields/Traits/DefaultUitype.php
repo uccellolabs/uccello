@@ -167,6 +167,21 @@ trait DefaultUitype
     }
 
     /**
+     * Return formatted data column and eventualy all related translations.
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFormattedFieldDataAndTranslationFromOptions($bundle) : array
+    {
+        return [
+            'data' => $bundle->field->data ?? null,
+            'translation' => []
+        ];
+    }
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module

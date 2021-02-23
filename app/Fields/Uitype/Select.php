@@ -83,6 +83,46 @@ class Select implements Uitype
     }
 
     /**
+     * Return formatted data column and eventualy all related translations.
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFormattedFieldDataAndTranslationFromOptions($bundle) : array
+    {
+        $data = (object) $bundle->field->data;
+        $data->choices = [];
+
+        $translations = [];
+
+        if (!empty($bundle->field->data['choices'])) {
+            foreach ($bundle->field->data['choices'] as $choice) {
+                if (is_string($choice)) { // String
+                    $data->choices[] = $choice;
+                } elseif (is_array($choice)) { // Array (value => label)
+                    // Choice
+                    if (!empty($choice['value'])) {
+                        $data->choices[] = $bundle->field->name . '.' . $choice['value']; // fieldName.value
+
+                        // Translation
+                        if (!empty($choice['label'])) {
+                            $translations[$choice['value']] = $choice['label'];
+                        }
+                    }
+                }
+            }
+        }
+
+        return [
+            "data" => $data,
+            "translation" => [
+                $bundle->field->name => $translations
+            ],
+        ];
+    }
+
+    /**
      * Returns formatted value to display.
      * Translate the value.
      *

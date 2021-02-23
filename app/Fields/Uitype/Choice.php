@@ -82,7 +82,7 @@ class Choice extends Select implements Uitype
                 'type' => 'array',
             ],
             [
-                'key' => 'multipe',
+                'key' => 'multiple',
                 'label' => trans('uccello::uitype.option.choice.multiple'),
                 'type' => 'boolean',
             ],

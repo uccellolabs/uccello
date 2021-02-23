@@ -121,6 +121,33 @@ class Entity implements Uitype
     }
 
     /**
+     * Return formatted data column and eventualy all related translations.
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFormattedFieldDataAndTranslationFromOptions($bundle) : array
+    {
+        $data = (object) $bundle->field->data;
+
+        // Delete relatedlist param (not useful)
+        if (!empty($bundle->field->data['relatedlist'])) {
+            unset($data->relatedlist);
+        }
+
+        // Delete field=recordLabel (not useful)
+        if ($bundle->field->data['field'] === 'recordLabel') {
+            unset($data->field);
+        }
+
+        return [
+            "data" => $data,
+            "translation" => [],
+        ];
+    }
+
+    /**
      * Returns default database column name.
      *
      * @return string

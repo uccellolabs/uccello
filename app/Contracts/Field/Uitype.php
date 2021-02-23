@@ -113,6 +113,15 @@ interface Uitype
     public function getFieldOptions($bundle) : array;
 
     /**
+     * Return formatted data column and eventualy all related translations.
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFormattedFieldDataAndTranslationFromOptions($bundle) : array;
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module

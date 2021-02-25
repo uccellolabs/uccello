@@ -137,7 +137,7 @@ class Entity implements Uitype
         }
 
         // Delete field=recordLabel (not useful)
-        if ($bundle->field->data['field'] === 'recordLabel') {
+        if (!empty($bundle->field->data['field']) && $bundle->field->data['field'] === 'recordLabel') {
             unset($data->field);
         }
 

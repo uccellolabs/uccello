@@ -1,13 +1,18 @@
 <?php
 
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+use Illuminate\Support\Facades\Route;
+use Uccello\Core\Facades\Uccello;
+
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')
+->middleware('web')
+->name('logout');
 
 Route::name('uccello.')
 ->middleware('web', 'auth')
 ->namespace('Uccello\Core\Http\Controllers')
 ->group(function () {
     // Adapt params if we use or not multi domains
-    if (!uccello()->useMultiDomains()) {
+    if (!Uccello::useMultiDomains()) {
         $domainParam = '';
         $domainAndModuleParams = '{module}';
     } else {
@@ -26,6 +31,10 @@ Route::name('uccello.')
     Route::get($domainParam.'/user/list', 'User\ListController@process')
         ->defaults('module', 'user')
         ->name('user.list');
+
+    Route::post($domainParam.'/user/list/content', 'User\ListController@processForContent')
+        ->defaults('module', 'user')
+        ->name('user.list.content');
 
     Route::get($domainParam.'/user/detail', 'User\DetailController@process')
         ->defaults('module', 'user')
@@ -108,7 +117,7 @@ Route::name('uccello.')
 
     Route::get($domainParam.'/search', 'Core\SearchController@search')->name('search');
 
-    Route::get($domainAndModuleParams, 'Core\IndexController@process')->name('index');
+    Route::get($domainAndModuleParams.'/index', 'Core\IndexController@process')->name('index');
     Route::get($domainAndModuleParams.'/list', 'Core\ListController@process')->name('list');
     Route::post($domainAndModuleParams.'/list/content', 'Core\ListController@processForContent')->name('list.content');
     Route::get($domainAndModuleParams.'/list/autocomplete', 'Core\ListController@processForAutocomplete')->name('autocomplete');
@@ -124,7 +133,7 @@ Route::name('uccello.')
     Route::post($domainAndModuleParams.'/popup', 'Core\PopupEditController@save')->name('popup.save');
     Route::get($domainAndModuleParams.'/delete', 'Core\DeleteController@process')->name('delete');
     Route::get($domainAndModuleParams.'/restore', 'Core\EditController@restore')->name('restore');
-    Route::post($domainAndModuleParams, 'Core\EditController@save')->name('save');
+    Route::post($domainAndModuleParams.'/save', 'Core\EditController@save')->name('save');
     Route::get($domainAndModuleParams.'/download', 'Core\DownloadController@process')->name('download');
     Route::get($domainAndModuleParams.'/tree', 'Core\TreeController@process')->name('tree');
     Route::get($domainAndModuleParams.'/tree/root', 'Core\TreeController@root')->name('tree.root');

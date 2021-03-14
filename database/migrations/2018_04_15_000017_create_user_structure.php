@@ -68,7 +68,7 @@ class CreateUserStructure extends Migration
         $field->name = 'username';
         $field->uitype_id = uitype('text')->id;
         $field->displaytype_id = displaytype('everywhere')->id;
-        $field->data = [ 'rules' => 'required|regex:/^(?:[A-Z\d][A-Z\d_-]{3,}|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})$/i|unique:users,username,%id%', 'icon' => 'vpn_key' ];
+        $field->data = [ 'rules' => 'required|regex:/[a-zA-Z0-9-._@]+/i|unique:users,username,%id%', 'icon' => 'vpn_key' ];
         $field->sequence = $module->fields()->count();
         $field->block_id = $block->id;
         $field->module_id = $module->id;

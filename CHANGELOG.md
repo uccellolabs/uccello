@@ -5,10 +5,15 @@ All notable changes to `uccello` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.2] - 2021-03-15
+### Added
+- Creation of `Uccello\Core\Http\Middleware\AuthUserSetLocale` middleware. It allows to change locale according to user preferences.
 
-## [2.0.0] - 2021-01-26
+## [2.0.1] - 2021-03-14
+### Fixed
+- Changes regex used for username field.
 
+## [2.0.0] - 2021-03-10
 ### Added
 - Uccello is now compatible with Laravel 8.x.
 - New Blade sections in the detail view to allow the overriding of the tabs.

@@ -5,6 +5,10 @@ All notable changes to `uccello` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.3] - 2021-03-22
+### Fixed
+- Debugs `getDependentList` and `getDependentListCount`. It uses now the good column name for ID.
+
 ## [2.0.2] - 2021-03-15
 ### Added
 - Creation of `Uccello\Core\Http\Middleware\AuthUserSetLocale` middleware. It allows to change locale according to user preferences.

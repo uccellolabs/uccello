@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Traits;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -151,6 +152,33 @@ trait DefaultUitype
         }
 
         return false;
+    }
+
+    /**
+     * Return options for Module Designer
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptions($bundle) : array
+    {
+        return [];
+    }
+
+    /**
+     * Return formatted data column and eventualy all related translations.
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFormattedFieldDataAndTranslationFromOptions($bundle) : array
+    {
+        return [
+            'data' => $bundle->field->data ?? null,
+            'translation' => []
+        ];
     }
 
     /**

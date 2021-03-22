@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
@@ -101,6 +102,24 @@ interface Uitype
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function addConditionToSearchQuery(Builder $query, Field $field, $value) : Builder;
+
+    /**
+     * Return options for Module Designer
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptions($bundle) : array;
+
+    /**
+     * Return formatted data column and eventualy all related translations.
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFormattedFieldDataAndTranslationFromOptions($bundle) : array;
 
     /**
      * Ask the user some specific options relative to a field

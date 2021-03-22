@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
@@ -31,15 +32,23 @@ class File implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
-            'path' => [
-                'type' => 'path',
-                'default_value' => null,
+            [
+                'key' => 'path',
+                'label' => trans('uccello::uitype.option.file.path'),
+                'type' => 'text'
             ],
+            [
+                'key' => 'public',
+                'label' => trans('uccello::uitype.option.file.public'),
+                'type' => 'boolean'
+            ]
         ];
     }
 

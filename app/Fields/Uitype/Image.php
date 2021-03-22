@@ -4,6 +4,7 @@ namespace Uccello\Core\Fields\Uitype;
 
 use Uccello\Core\Contracts\Field\Uitype;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
@@ -29,6 +30,24 @@ class Image extends File implements Uitype
     public function getDefaultIcon() : ?string
     {
         return 'image';
+    }
+
+    /**
+     * Return options for Module Designer
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptions($bundle) : array
+    {
+        return [
+            [
+                'key' => 'path',
+                'label' => trans('uccello::uitype.option.image.path'),
+                'type' => 'text'
+            ]
+        ];
     }
 
     /**
@@ -63,7 +82,6 @@ class Image extends File implements Uitype
 
         // Update file
         if ($request->file($field->name)) {
-
             // Field data
             $fieldData = $field->data;
 

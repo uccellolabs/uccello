@@ -3,6 +3,7 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Contracts\Field\Uitype;
@@ -66,6 +67,30 @@ class ModuleList extends Select implements Uitype
         ];
 
         return $options;
+    }
+
+    /**
+     * Return options for Module Designer
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptions($bundle) : array
+    {
+        return [
+            [
+                'key' => 'admin',
+                'label' => trans('uccello::uitype.option.module_list.admin'),
+                'type' => 'boolean',
+                'default' => true
+            ],
+            [
+                'key' => 'for_crud',
+                'label' => trans('uccello::uitype.option.module_list.for_crud'),
+                'type' => 'boolean'
+            ]
+        ];
     }
 
     /**

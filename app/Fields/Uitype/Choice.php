@@ -3,6 +3,7 @@
 namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
@@ -62,6 +63,30 @@ class Choice extends Select implements Uitype
         ];
 
         return $options;
+    }
+
+    /**
+     * Return options for Module Designer
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptions($bundle) : array
+    {
+        return [
+            [
+                'key' => 'choices',
+                'label' => trans('uccello::uitype.option.choice.choices'),
+                'required' => true,
+                'type' => 'array',
+            ],
+            [
+                'key' => 'multiple',
+                'label' => trans('uccello::uitype.option.choice.multiple'),
+                'type' => 'boolean',
+            ],
+        ];
     }
 
     /**

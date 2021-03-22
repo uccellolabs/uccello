@@ -5,6 +5,7 @@ namespace Uccello\Core\Fields\Uitype;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Fluent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -53,20 +54,96 @@ class Entity implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
-            'module' => [
-                'mandatory' => true,
-                'type' => 'module',
-                'whitelist' => [ ],
-                'blacklist' => [ ],
-                'add_crud_modules' => true,
-                'add_not_crud_modules' => true,
-                'include_itself' => true,
+            [
+                'key' => 'module',
+                'label' => trans('uccello::uitype.option.entity.module'),
+                'required' => true,
+                'altersDynamicFields' => true,
+                'type' => 'select',
+                'choices' => function () {
+                    $choices = [];
+
+                    // Get all CRUD modules and add translation
+                    $modules = Module::whereNotNull('model_class')->get();
+                    $modules = $modules->map(function ($module) {
+                        $module->label = uctrans($module->name, $module);
+                        return $module;
+                    });
+
+                    // Make choices list
+                    foreach ($modules->sortBy('label') as $module) {
+                        $choices[] = [
+                            'value' => $module->name,
+                            'label' => $module->label
+                        ];
+                    }
+
+                    return $choices;
+                }
             ],
+            [
+                'key' => 'field',
+                'label' => trans('uccello::uitype.option.entity.field'),
+                'type' => 'select',
+                'default' => 'recordLabel',
+                'choices' => function () use ($bundle) {
+                    $options = [
+                        ['value' => null, 'label' => trans('uccello::uitype.option.entity.record_label')],
+                    ];
+
+                    if (!empty($bundle->field->data['module'])) {
+                        $module = Module::where('name', $bundle->field->data['module'])->first();
+                        foreach ($module->fields->sortBy('sequence') as $field) {
+                            $options[] = [
+                                'value' => $field->name,
+                                'label' => uctrans('field.'.$field->name, $module)
+                            ];
+                        }
+                    }
+
+                    return $options;
+                }
+            ],
+            [
+                'key' => 'relatedlist',
+                'label' => trans('uccello::uitype.option.entity.relatedlist'),
+                'type' => 'boolean',
+                'default' => true
+            ]
+        ];
+    }
+
+    /**
+     * Return formatted data column and eventualy all related translations.
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFormattedFieldDataAndTranslationFromOptions($bundle) : array
+    {
+        $data = (object) $bundle->field->data;
+
+        // Delete relatedlist param (not useful)
+        if (!empty($bundle->field->data['relatedlist'])) {
+            unset($data->relatedlist);
+        }
+
+        // Delete field=recordLabel (not useful)
+        if (!empty($bundle->field->data['field']) && $bundle->field->data['field'] === 'recordLabel') {
+            unset($data->field);
+        }
+
+        return [
+            "data" => $data,
+            "translation" => [],
         ];
     }
 

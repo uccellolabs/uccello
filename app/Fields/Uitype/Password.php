@@ -4,6 +4,7 @@ namespace Uccello\Core\Fields\Uitype;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Contracts\Field\Uitype;
@@ -54,15 +55,18 @@ class Password extends Text implements Uitype
     /**
      * Return options for Module Designer
      *
+     * @param object $bundle
+     *
      * @return array
      */
-    public function getFieldOptions() : array
+    public function getFieldOptions($bundle) : array
     {
         return [
-            'repeated' => [
-                'type' => 'boolean',
-                'default_value' => true,
-            ],
+            [
+                'key' => 'repeated',
+                'label' => trans('uccello::uitype.option.common.repeated'),
+                'type' => 'boolean'
+            ]
         ];
     }
 

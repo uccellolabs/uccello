@@ -88,6 +88,9 @@ class ListController extends CoreListController
             $query = $query->onlyTrashed();
         }
 
+        // Only users
+        $query->where('type', 'user');
+
         return $query;
     }
 }

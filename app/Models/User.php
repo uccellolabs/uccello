@@ -53,6 +53,7 @@ class User extends Authenticatable implements Searchable
         'email',
         'password',
         'is_admin',
+        'type',
         'domain_id'
     ];
 

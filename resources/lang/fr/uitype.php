@@ -27,6 +27,9 @@ return [
         'image' => 'Image',
         'assigned_user' => 'Assigné à',
         'module_list' => 'Liste de modules',
+        'currency' => 'Devise',
+        'percent' => 'Pourcentage',
+        'auto_number' => 'Numérotation automatique',
     ],
     'option' => [
         'common' => [
@@ -65,6 +68,23 @@ return [
         ],
         'select' => [
             'choices' => 'Options',
-        ]
+        ],
+        'percent' => [
+            'precision' => 'Précision (nombre décimales)',
+        ],
+        'currency' => [
+            'precision' => 'Précision (nombre décimales)',
+            'symbol' => 'Symbole devise',
+            'symbol_position' => 'Position symbole',
+            'symbol_position_left' => '€1,00',
+            'symbol_position_right' => '1,00€',
+        ],
+        'auto_number' => [
+            'start_value' => 'Valeur départ',
+            'increment' => 'Incrément',
+            'prefix' => 'Préfixe',
+            'suffix' => 'Suffixe',
+            'strlen_min' => 'Taille minimum (permet de remplir avec des 0 au début)',
+        ],
     ]
 ];

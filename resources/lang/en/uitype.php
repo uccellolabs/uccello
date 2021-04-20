@@ -66,5 +66,22 @@ return [
         'select' => [
             'choices' => 'Options',
         ]
-    ]
+    ],
+    'percent' => [
+        'precision' => 'Precision (number of decimals)',
+    ],
+    'currency' => [
+        'precision' => 'Precision (number of decimals)',
+        'symbol' => 'Currency symbol',
+        'symbol_position' => 'Symbol position',
+        'symbol_position_left' => '$1.00',
+        'symbol_position_right' => '1.00$',
+    ],
+    'auto_number' => [
+        'start_value' => 'Start value',
+        'increment' => 'Increment',
+        'prefix' => 'Prefix',
+        'suffix' => 'Suffix',
+        'strlen_min' => 'Minimum length (allow to fill in with 0 at start)',
+    ],
 ];

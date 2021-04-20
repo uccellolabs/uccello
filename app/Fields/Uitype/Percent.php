@@ -8,27 +8,12 @@ use Illuminate\Support\Fluent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Uccello\Core\Contracts\Field\Uitype;
-use Uccello\Core\Fields\Traits\DefaultUitype;
-use Uccello\Core\Fields\Traits\UccelloUitype;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
 
-class Number implements Uitype
+class Percent extends Number implements Uitype
 {
-    use DefaultUitype;
-    use UccelloUitype;
-
-    /**
-     * Returns field type used by Form builder.
-     *
-     * @return string
-     */
-    public function getFormType() : string
-    {
-        return 'number';
-    }
-
     /**
      * Returns options for Form builder.
      *
@@ -42,11 +27,7 @@ class Number implements Uitype
     {
         return [
             'attr' => [
-                'data-min' => $field->data->min ?? null,
-                'data-max' => $field->data->max ?? null,
                 'data-precision' => $field->data->precision ?? 2,
-                'data-step' => $field->data->step ?? 0.01,
-                'autocomplete' => 'off',
             ],
             'default_value' => request($field->name) ?? $field->data->default ?? 0,
         ];
@@ -63,28 +44,28 @@ class Number implements Uitype
     {
         return [
             [
-                'key' => 'min',
-                'label' => trans('uccello::uitype.option.number.min'),
-                'type' => 'number'
-            ],
-            [
-                'key' => 'max',
-                'label' => trans('uccello::uitype.option.number.max'),
-                'type' => 'number'
-            ],
-            [
-                'key' => 'step',
-                'label' => trans('uccello::uitype.option.number.step'),
-                'required' => true,
+                'key' => 'precision',
+                'label' => trans('uccello::uitype.option.percent.precision'),
                 'type' => 'number',
-                'default' => 0.01
+                'default' => 0,
             ],
-            [
-                'key' => 'repeated',
-                'label' => trans('uccello::uitype.option.common.repeated'),
-                'type' => 'boolean'
-            ]
         ];
+    }
+
+    /**
+     * Returns formatted value to display.
+     *
+     * @param \Uccello\Core\Models\Field $field
+     * @param mixed $record
+     * @return string
+     */
+    public function getFormattedValueToDisplay(Field $field, $record) : string
+    {
+        $precision = $field->data->precision ?? 0;
+
+        $value = round($record->{$field->column}, $precision) ?? '';
+
+        return $value.' %';
     }
 
     /**
@@ -98,17 +79,8 @@ class Number implements Uitype
      */
     public function askFieldOptions(\StdClass &$module, \StdClass &$field, InputInterface $input, OutputInterface $output)
     {
-        // Minimum value
-        $field->data->min = (int)$output->ask('What is the minimum value?');
-
-        // Maximum value
-        $field->data->max = (int)$output->ask('What is the maximum value?');
-
-        // Increment
-        $field->data->step = (int)$output->ask('What is the increment?', 0.01);
-
         // Precision
-        $field->data->precision = $output->ask('What is the precision? (e.g: Type 2 for having 0.01)', 2);
+        $field->data->precision = (int)$output->ask('What is the precision?', 2);
     }
 
     /**
@@ -120,7 +92,7 @@ class Number implements Uitype
      */
     public function createFieldColumn(Field $field, Blueprint $table) : Fluent
     {
-        $leftPartLength = !empty($field->data->max) ? strlen($field->data->max) : 11;
+        $leftPartLength = 11;
         $rightPartLength = isset($field->data->precision) && $field->data->precision > 2 ? $field->data->precision : 2; // At leat 2
         $totalLength = $leftPartLength + $rightPartLength;
 
@@ -135,7 +107,7 @@ class Number implements Uitype
      */
     public function createFieldColumnStr(Field $field) : string
     {
-        $leftPartLength = !empty($field->data->max) ? strlen($field->data->max) : 11;
+        $leftPartLength = 11;
         $rightPartLength = isset($field->data->precision) && $field->data->precision > 2 ? $field->data->precision : 2; // At least 2
         $totalLength = $leftPartLength + $rightPartLength;
 

@@ -32,7 +32,8 @@ trait WithAutoNumber
                 $strlen_min = $field->data->strlen_min ?? 1;
 
                 $increment = $field->data->increment ?? 1;
-                $previousValue = $field->data->current_value ?? ($field->data->start_value-1) ?? 0;
+                $startValue = $field->data->start_value ?? 1;
+                $previousValue = $field->data->current_value ?? ($startValue-1) ?? 0;
                 $currentValue = $previousValue + $increment;
 
                 $value = sprintf("%0".$strlen_min."d", $currentValue);

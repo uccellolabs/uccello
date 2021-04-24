@@ -12,6 +12,7 @@ use Uccello\Core\Models\Uitype;
 use Uccello\Core\Models\Displaytype;
 use Uccello\Core\Models\Capability;
 use Uccello\Core\Models\Entity;
+use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Filter;
 
 class Uccello
@@ -573,6 +574,80 @@ class Uccello
         }
 
         return $value;
+    }
+
+    /**
+     * Returns a record field value.
+     * It is able to follow a complex path according to models definition (e.g. 'domain.parent.name')
+     *
+     * @param Object $record
+     * @param string $fieldName
+     * @param \Uccello\Core\Models\Domain|null $checkPermissionsForDomain
+     * @return string|Object|Array|null
+     */
+    public function getRecordFieldValue($record, string $fieldName, ?Domain $checkPermissionsForDomain = null)
+    {
+        $value = null;
+
+        $fieldNameParts = explode('.', $fieldName);
+
+        if (count($fieldNameParts) > 1) {
+            $newRecord = $record;
+            $finalFieldExists = false;
+
+            for ($i=0; $i<count($fieldNameParts)-1; $i++) {
+                $field = $this->getField($fieldNameParts[$i], $newRecord);
+
+                if ($field->uitype_id === uitype('entity')->id) {
+                    $relatedModule = Module::where('name', $field->data->module)->first();
+
+                    if ($checkPermissionsForDomain) {
+                        if (!Auth::user()->canRetrieve($checkPermissionsForDomain, $relatedModule)) {
+                            break;
+                        }
+                    }
+
+                    $modelClass = $relatedModule->model_class;
+                    $newRecordId = $newRecord->{$field->column};
+                    $newRecord = $modelClass::find($newRecordId);
+
+                    if ($i === count($fieldNameParts)-2) {
+                        $finalFieldExists = true;
+                    }
+                }
+            }
+
+            if ($finalFieldExists) {
+                $value = $this->getFieldFormattedValue($fieldNameParts[count($fieldNameParts)-1], $newRecord);
+            }
+        } else {
+            $value = $this->getFieldFormattedValue($fieldName, $record);
+        }
+
+        return $value;
+    }
+
+    public function getField($fieldName, $record)
+    {
+        $field = null;
+
+        $module = $record->module;
+        if ($module) {
+            $field = $module->fields()->where('name', $fieldName)->first();
+        }
+
+        return $field;
+    }
+
+    public function getFieldFormattedValue($fieldName, $record)
+    {
+        $field = $this->getField($fieldName, $record);
+
+        if (empty($field)) {
+            return null;
+        }
+
+        return uitype($field->uitype_id)->getFormattedValueToDisplay($field, $record);
     }
 
     /**

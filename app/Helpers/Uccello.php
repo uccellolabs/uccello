@@ -621,7 +621,9 @@ class Uccello
                 $value = $this->getFieldFormattedValue($fieldNameParts[count($fieldNameParts)-1], $newRecord);
             }
         } else {
-            $value = $this->getFieldFormattedValue($fieldName, $record);
+            if (!$checkPermissionsForDomain || Auth::user()->canRetrieve($checkPermissionsForDomain, $record->module)) {
+                $value = $this->getFieldFormattedValue($fieldName, $record);
+            }
         }
 
         return $value;

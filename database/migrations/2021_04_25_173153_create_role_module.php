@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Uccello\Core\Models\Module;
 
-class CreateDomainModule extends Migration
+class CreateRoleModule extends Migration
 {
     /**
      * Run the migrations.
@@ -20,33 +20,31 @@ class CreateDomainModule extends Migration
 
     private function createTable()
     {
-        Schema::create(config('uccello.database.table_prefix').'domains', function (Blueprint $table) {
+        $prefix = config('uccello.database.table_prefix');
+        Schema::create($prefix.'roles', function (Blueprint $table) use ($prefix) {
             $table->id();
             $table->string('name');
-            $table->string('slug')->unique();
             $table->foreignId('parent_id')->nullable()->constrained($table->getTable());
             $table->string('path', 255)->nullable();
             $table->integer('level')->default(0);
+            $table->foreignId('domain_id')->constrained($prefix.'domains');
             $table->json('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            // Index
-            $table->index(['path', 'parent_id', 'level']);
         });
     }
 
     private function createModule()
     {
         Module::create([
-            'name' => 'domain',
+            'name' => 'role',
             'data' => [
                 'package' => 'uccello/uccello',
-                'model' => \Uccello\Core\Models\Domain::class,
+                'model' => \Uccello\Core\Models\Role::class,
                 'admin' => true,
                 'required' => true,
                 'structure' => [
-                    'icon' => 'domain',
+                    'icon' => 'lock',
                     'tabs' => [
                         [
                             'name' => 'main',
@@ -60,17 +58,24 @@ class CreateDomainModule extends Migration
                                             'uitype' => 'string',
                                             'displaytype' => 'everywhere',
                                             'required' => true,
-                                            'rules' => [
-                                                'regex:/(?!^\d+$)^.+$/',
-                                                'unique:'.config('uccello.database.table_prefix').'domains,name,%id%'
-                                            ]
                                         ],
                                         [
                                             'name' => 'parent',
                                             'uitype' => [
                                                 'name' => 'entity',
-                                                'module' => 'domain',
+                                                'module' => 'role',
                                             ],
+                                            'displaytype' => 'everywhere',
+                                        ],
+                                        [
+                                            'name' => 'see_descendant_records',
+                                            'uitype' => 'boolean',
+                                            'displaytype' => 'everywhere',
+                                            'info' => 'field_info.see_descendant_records',
+                                        ],
+                                        [
+                                            'name' => 'description',
+                                            'uitype' => 'string',
                                             'displaytype' => 'everywhere',
                                         ],
                                     ]
@@ -99,7 +104,7 @@ class CreateDomainModule extends Migration
                         [
                             'name' => 'all',
                             'type' => 'list',
-                            'columns' => ['name', 'parent'],
+                            'columns' => ['name', 'parent', 'description', 'see_descendant_records'],
                             'default' => true,
                             'readonly' => true,
                         ],
@@ -116,8 +121,8 @@ class CreateDomainModule extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('uccello.database.table_prefix').'domains');
+        Schema::dropIfExists(config('uccello.database.table_prefix').'roles');
 
-        Module::where('name', 'domain')->delete();
+        Module::where('name', 'role')->delete();
     }
 }

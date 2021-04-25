@@ -13,7 +13,7 @@ class ListController extends Controller
     use UccelloController;
 
     /**
-     * Handles treatments.
+     * Handle treatments.
      *
      * @param \Uccello\Core\Models\Domain|null $domain
      * @param \Uccello\Core\Models\Module $module
@@ -24,16 +24,17 @@ class ListController extends Controller
     public function __invoke(?Domain $domain, Module $module, Request $request)
     {
         $this->preProcess($domain, $module, $request);
+
         return $this->process();
     }
 
     /**
-     * Launches process.
+     * Launch process.
      *
-     * @return \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
      */
     protected function process()
     {
-        dd($this->structure);
+        return response()->json($this->repository->getAll());
     }
 }

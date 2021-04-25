@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Uccello\Core\Models\Module;
 
-class CreateDomainModule extends Migration
+class CreateUserModule extends Migration
 {
     /**
      * Run the migrations.
@@ -20,33 +20,26 @@ class CreateDomainModule extends Migration
 
     private function createTable()
     {
-        Schema::create(config('uccello.database.table_prefix').'domains', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->foreignId('parent_id')->nullable()->constrained($table->getTable());
-            $table->string('path', 255)->nullable();
-            $table->integer('level')->default(0);
-            $table->json('data')->nullable();
-            $table->timestamps();
+        Schema::table('users', function(Blueprint $table) {
+            $table->string('username')->unique()->after('id');
+            $table->boolean('is_admin')->after('remember_token')->default(false);
+            $table->foreignId('domain_id')->after('is_admin')->constrained(config('uccello.database.table_prefix').'domains');
+            $table->json('data')->after('domain_id')->nullable();
             $table->softDeletes();
-
-            // Index
-            $table->index(['path', 'parent_id', 'level']);
         });
     }
 
     private function createModule()
     {
         Module::create([
-            'name' => 'domain',
+            'name' => 'user',
             'data' => [
                 'package' => 'uccello/uccello',
-                'model' => \Uccello\Core\Models\Domain::class,
+                'model' => \App\Models\User::class,
                 'admin' => true,
                 'required' => true,
                 'structure' => [
-                    'icon' => 'domain',
+                    'icon' => 'person',
                     'tabs' => [
                         [
                             'name' => 'main',
@@ -56,22 +49,46 @@ class CreateDomainModule extends Migration
                                     'icon' => 'info',
                                     'fields' => [
                                         [
-                                            'name' => 'name',
+                                            'name' => 'username',
                                             'uitype' => 'string',
                                             'displaytype' => 'everywhere',
                                             'required' => true,
                                             'rules' => [
-                                                'regex:/(?!^\d+$)^.+$/',
-                                                'unique:'.config('uccello.database.table_prefix').'domains,name,%id%'
-                                            ]
+                                                'regex:/^(?:[A-Z\d][A-Z\d_-]{3,}|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})$/i',
+                                                'unique:users,username,%id%',
+                                            ],
                                         ],
                                         [
-                                            'name' => 'parent',
-                                            'uitype' => [
-                                                'name' => 'entity',
-                                                'module' => 'domain',
-                                            ],
+                                            'name' => 'is_admin',
+                                            'uitype' => 'boolean',
                                             'displaytype' => 'everywhere',
+                                        ],
+                                        [
+                                            'name' => 'name',
+                                            'uitype' => 'string',
+                                            'displaytype' => 'everywhere',
+                                            'required' => true,
+                                            'icon' => 'person',
+                                        ],
+                                        [
+                                            'name' => 'email',
+                                            'uitype' => 'email',
+                                            'displaytype' => 'everywhere',
+                                            'required' => true,
+                                            'rules' => [
+                                                'email',
+                                                'unique:users,email,%id%',
+                                            ],
+                                        ],
+                                        [
+                                            'name' => 'password',
+                                            'uitype' => 'password',
+                                            'displaytype' => 'create',
+                                            'required' => true,
+                                            'repeated' => true,
+                                            'rules' => [
+                                                'min:6'
+                                            ],
                                         ],
                                     ]
                                 ],
@@ -99,7 +116,7 @@ class CreateDomainModule extends Migration
                         [
                             'name' => 'all',
                             'type' => 'list',
-                            'columns' => ['name', 'parent'],
+                            'columns' => ['username', 'name', 'email', 'is_admin'],
                             'default' => true,
                             'readonly' => true,
                         ],
@@ -116,8 +133,12 @@ class CreateDomainModule extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('uccello.database.table_prefix').'domains');
+        Schema::table('users', function(Blueprint $table) {
+            $table->dropColumn('username');
+            $table->dropColumn('is_admin');
+            $table->dropColumn('domain_id');
+        });
 
-        Module::where('name', 'domain')->delete();
+        Module::where('name', 'user')->delete();
     }
 }

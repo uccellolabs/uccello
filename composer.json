@@ -13,7 +13,8 @@
     ],
     "require": {
         "laravel/framework": "^8.0",
-        "cviebrock/eloquent-sluggable": "^8.0"
+        "cviebrock/eloquent-sluggable": "^8.0",
+        "uccello/eloquent-tree": "^1.0"
     },
     "license": "MIT",
     "authors": [
@@ -24,7 +25,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Uccello\\Core\\": "app/"
+            "Uccello\\Core\\": "app/",
+            "Uccello\\Core\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {

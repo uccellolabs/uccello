@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
-use Uccello\Core\Models\Repositories\ModuleRepository;
 use Uccello\Core\Support\Traits\UccelloController;
 
 class DetailController extends Controller
@@ -16,7 +15,7 @@ class DetailController extends Controller
     protected $record;
 
     /**
-     * Handles treatments.
+     * Handle treatments.
      *
      * @param \Uccello\Core\Models\Domain|null $domain
      * @param \Uccello\Core\Models\Module $module
@@ -34,7 +33,7 @@ class DetailController extends Controller
     }
 
     /**
-     * Retrieves a record by id
+     * Retrieve a record by id
      *
      * @param string|int $recordId
      *
@@ -42,17 +41,16 @@ class DetailController extends Controller
      */
     protected function retrieveRecordById($recordId)
     {
-        $repository = new ModuleRepository($this->module);
-        $this->record = $repository->getById($recordId);
+        $this->record = $this->repository->getById($recordId);
     }
 
     /**
-     * Launches process.
+     * Launch process.
      *
-     * @return \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
      */
     protected function process()
     {
-        dd($this->record);
+        return response()->json($this->record);
     }
 }

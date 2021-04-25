@@ -1,11 +1,11 @@
 <?php
 
-namespace Uccello\Core\Models\Repositories;
+namespace Uccello\Core\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 use Uccello\Core\Models\Module;
 
-class ModuleRepository
+class RecordRepository
 {
     protected $model;
 
@@ -28,8 +28,9 @@ class ModuleRepository
     public function getByIds($ids)
     {
         if ($ids == null) {
-            return array();
+            return [];
         }
+
         if (is_array($ids)) {
             return $this->model->whereIn('id', $ids)->get();
         }

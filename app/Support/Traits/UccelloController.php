@@ -5,6 +5,7 @@ namespace Uccello\Core\Support\Traits;
 use Illuminate\Http\Request;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
+use Uccello\Core\Repositories\RecordRepository;
 
 trait UccelloController
 {
@@ -28,8 +29,13 @@ trait UccelloController
      */
     protected $structure;
 
+    /**
+     * @var \Uccello\Core\Repositories\RecordRepository;
+     */
+    protected $repository;
+
    /**
-     * Initializes local variables.
+     * Initialize local variables.
      *
      * @param \Uccello\Core\Models\Domain|null $domain
      * @param \Uccello\Core\Models\Module $module
@@ -44,10 +50,12 @@ trait UccelloController
         $this->request = $request;
 
         $this->loadModuleStructure();
+
+        $this->instanciateRecordRepository();
     }
 
     /**
-     * Retrieves first domain.
+     * Retrieve first domain.
      *
      * @return void
      */
@@ -66,5 +74,15 @@ trait UccelloController
         if ($this->module) {
             $this->structure = $this->module->structure ?? null;
         }
+    }
+
+    /**
+     * Instanciate module repository.
+     *
+     * @return void
+     */
+    private function instanciateRecordRepository()
+    {
+        $this->repository = new RecordRepository($this->module);
     }
 }

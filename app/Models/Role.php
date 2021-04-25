@@ -2,25 +2,26 @@
 
 namespace Uccello\Core\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Uccello\Core\Database\Eloquent\Model;
-use Uccello\Core\Database\Factories\DomainFactory;
+use Uccello\Core\Database\Factories\RoleFactory;
 use Uccello\Core\Support\Traits\UccelloModule;
 use Uccello\EloquentTree\Contracts\Tree;
 use Uccello\EloquentTree\Traits\IsTree;
 
-class Domain extends Model implements Tree
+class Role extends Model implements Tree
 {
-    use HasFactory, SoftDeletes, Sluggable, IsTree, UccelloModule;
+    use HasFactory, SoftDeletes, IsTree, UccelloModule;
 
-    public $table = 'domains';
+    public $table = 'roles';
 
     public $fillable = [
         'name',
         'parent_id',
+        'description',
         'data',
+        'domain_id',
     ];
 
     public $casts = [
@@ -61,28 +62,12 @@ class Domain extends Model implements Tree
     }
 
     /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'name',
-                'onUpdate' => true,
-                'includeTrashed' => false
-            ]
-        ];
-    }
-
-    /**
      * Create a new factory instance for the model.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
     protected static function newFactory()
     {
-        return DomainFactory::new();
+        return RoleFactory::new();
     }
 }

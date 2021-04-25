@@ -1,0 +1,66 @@
+{
+    "name": "uccello/uccello",
+    "type": "library",
+    "description": "Uccello is a Laravel Package for providing a way to make easily complete web applications.",
+    "keywords": [
+        "uccellolabs",
+        "uccello",
+        "laravel",
+        "application",
+        "crud",
+        "admin",
+        "panel"
+    ],
+    "require": {
+        "laravel/framework": "^8.0",
+        "cviebrock/eloquent-sluggable": "^8.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jonathan SARDO",
+            "email": "jonathan@uccellolabs.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Uccello\\Core\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Uccello\\Core\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/phpunit",
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Uccello\\Core\\Providers\\AppServiceProvider",
+                "Uccello\\Core\\Providers\\RouteServiceProvider"
+            ],
+            "aliases": {
+                "Uccello": "Uccello\\Core\\Facades\\Uccello"
+            }
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "orchestra/testbench": "^6.17",
+        "phpunit/phpunit": "^9.5"
+    }
+}

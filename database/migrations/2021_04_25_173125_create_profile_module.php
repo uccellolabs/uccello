@@ -52,14 +52,14 @@ class CreateProfileModule extends Migration
                                     'fields' => [
                                         [
                                             'name' => 'name',
-                                            'uitype' => 'string',
-                                            'displaytype' => 'everywhere',
+                                            'type' => 'string',
+                                            'display' => true,
                                             'required' => true,
                                         ],
                                         [
                                             'name' => 'description',
-                                            'uitype' => 'string',
-                                            'displaytype' => 'everywhere',
+                                            'type' => 'string',
+                                            'display' => true,
                                         ],
                                     ]
                                 ],
@@ -70,13 +70,19 @@ class CreateProfileModule extends Migration
                                     'fields' => [
                                         [
                                             'name' => 'created_at',
-                                            'uitype' => 'datetime',
-                                            'displaytype' => 'detail',
+                                            'type' => 'datetime',
+                                            'display' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
                                         ],
                                         [
                                             'name' => 'updated_at',
-                                            'uitype' => 'datetime',
-                                            'displaytype' => 'detail',
+                                            'type' => 'datetime',
+                                            'display' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
                                         ]
                                     ]
                                 ]

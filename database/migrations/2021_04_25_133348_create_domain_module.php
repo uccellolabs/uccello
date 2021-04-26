@@ -57,8 +57,8 @@ class CreateDomainModule extends Migration
                                     'fields' => [
                                         [
                                             'name' => 'name',
-                                            'uitype' => 'string',
-                                            'displaytype' => 'everywhere',
+                                            'type' => 'string',
+                                            'display' => true,
                                             'required' => true,
                                             'rules' => [
                                                 'regex:/(?!^\d+$)^.+$/',
@@ -67,11 +67,11 @@ class CreateDomainModule extends Migration
                                         ],
                                         [
                                             'name' => 'parent',
-                                            'uitype' => [
+                                            'type' => [
                                                 'name' => 'entity',
                                                 'module' => 'domain',
                                             ],
-                                            'displaytype' => 'everywhere',
+                                            'display' => true,
                                         ],
                                     ]
                                 ],
@@ -82,13 +82,19 @@ class CreateDomainModule extends Migration
                                     'fields' => [
                                         [
                                             'name' => 'created_at',
-                                            'uitype' => 'datetime',
-                                            'displaytype' => 'detail',
+                                            'type' => 'datetime',
+                                            'display' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
                                         ],
                                         [
                                             'name' => 'updated_at',
-                                            'uitype' => 'datetime',
-                                            'displaytype' => 'detail',
+                                            'type' => 'datetime',
+                                            'display' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
                                         ]
                                     ]
                                 ]

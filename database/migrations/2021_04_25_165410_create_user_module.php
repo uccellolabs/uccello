@@ -50,8 +50,8 @@ class CreateUserModule extends Migration
                                     'fields' => [
                                         [
                                             'name' => 'username',
-                                            'uitype' => 'string',
-                                            'displaytype' => 'everywhere',
+                                            'type' => 'string',
+                                            'display' => true,
                                             'required' => true,
                                             'rules' => [
                                                 'regex:/^(?:[A-Z\d][A-Z\d_-]{3,}|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})$/i',
@@ -60,20 +60,20 @@ class CreateUserModule extends Migration
                                         ],
                                         [
                                             'name' => 'is_admin',
-                                            'uitype' => 'boolean',
-                                            'displaytype' => 'everywhere',
+                                            'type' => 'boolean',
+                                            'display' => true,
                                         ],
                                         [
                                             'name' => 'name',
-                                            'uitype' => 'string',
-                                            'displaytype' => 'everywhere',
+                                            'type' => 'string',
+                                            'display' => true,
                                             'required' => true,
                                             'icon' => 'person',
                                         ],
                                         [
                                             'name' => 'email',
-                                            'uitype' => 'email',
-                                            'displaytype' => 'everywhere',
+                                            'type' => 'email',
+                                            'display' => true,
                                             'required' => true,
                                             'rules' => [
                                                 'email',
@@ -82,10 +82,12 @@ class CreateUserModule extends Migration
                                         ],
                                         [
                                             'name' => 'password',
-                                            'uitype' => 'password',
-                                            'displaytype' => 'create',
+                                            'type' => 'password',
+                                            'display' => [
+                                                'create' => true,
+                                            ],
                                             'required' => true,
-                                            'repeated' => true,
+                                            'confirm' => true,
                                             'rules' => [
                                                 'min:6'
                                             ],
@@ -99,13 +101,19 @@ class CreateUserModule extends Migration
                                     'fields' => [
                                         [
                                             'name' => 'created_at',
-                                            'uitype' => 'datetime',
-                                            'displaytype' => 'detail',
+                                            'type' => 'datetime',
+                                            'display' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
                                         ],
                                         [
                                             'name' => 'updated_at',
-                                            'uitype' => 'datetime',
-                                            'displaytype' => 'detail',
+                                            'type' => 'datetime',
+                                            'display' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
                                         ]
                                     ]
                                 ]

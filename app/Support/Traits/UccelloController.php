@@ -3,16 +3,16 @@
 namespace Uccello\Core\Support\Traits;
 
 use Illuminate\Http\Request;
-use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Workspace;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Repositories\RecordRepository;
 
 trait UccelloController
 {
     /**
-     * @var \Uccello\Core\Models\Domain
+     * @var \Uccello\Core\Models\Workspace
      */
-    protected $domain;
+    protected $workspace;
 
     /**
      * @var \Uccello\Core\Models\Module
@@ -37,15 +37,15 @@ trait UccelloController
    /**
      * Initialize local variables.
      *
-     * @param \Uccello\Core\Models\Domain|null $domain
+     * @param \Uccello\Core\Models\Workspace|null $workspace
      * @param \Uccello\Core\Models\Module $module
      * @param \Illuminate\Http\Request $request
      *
      * @return void
      */
-    protected function preProcess(?Domain $domain, Module $module, Request $request)
+    protected function preProcess(?Workspace $workspace, Module $module, Request $request)
     {
-        $this->domain = $domain ?? $this->retrieveFirstDomain();
+        $this->workspace = $workspace ?? $this->retrieveFirstWorkspace();
         $this->module = $module;
         $this->request = $request;
 
@@ -55,13 +55,13 @@ trait UccelloController
     }
 
     /**
-     * Retrieve first domain.
+     * Retrieve first workspace.
      *
      * @return void
      */
-    private function retrieveFirstDomain()
+    private function retrieveFirstWorkspace()
     {
-        $this->domain = Domain::first();
+        $this->workspace = Workspace::first();
     }
 
     /**
@@ -72,7 +72,7 @@ trait UccelloController
     private function loadModuleStructure()
     {
         if ($this->module) {
-            $this->structure = $this->module->structure ?? null;
+            $this->structure = $this->module->data->structure ?? null;
         }
     }
 

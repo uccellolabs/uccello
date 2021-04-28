@@ -6,16 +6,16 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Uccello\Core\Database\Eloquent\Model;
-use Uccello\Core\Database\Factories\DomainFactory;
+use Uccello\Core\Database\Factories\WorkspaceFactory;
 use Uccello\Core\Support\Traits\UccelloModule;
 use Uccello\EloquentTree\Contracts\Tree;
 use Uccello\EloquentTree\Traits\IsTree;
 
-class Domain extends Model implements Tree
+class Workspace extends Model implements Tree
 {
     use HasFactory, SoftDeletes, Sluggable, IsTree, UccelloModule;
 
-    public $table = 'domains';
+    public $table = 'workspaces';
 
     public $fillable = [
         'name',
@@ -54,7 +54,7 @@ class Domain extends Model implements Tree
 
             if (!is_null($parentRecord)) {
                 with($model)->setChildOf($parentRecord);
-            } else { // Remove parent domain
+            } else { // Remove parent workspace
                 with($model)->setAsRoot();
             }
         }
@@ -83,6 +83,6 @@ class Domain extends Model implements Tree
      */
     protected static function newFactory()
     {
-        return DomainFactory::new();
+        return WorkspaceFactory::new();
     }
 }

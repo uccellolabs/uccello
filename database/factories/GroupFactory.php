@@ -23,7 +23,7 @@ class GroupFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'domain_id' => 1,
+            'workspace_id' => 1,
         ];
     }
 }

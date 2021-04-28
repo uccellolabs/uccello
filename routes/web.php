@@ -8,15 +8,15 @@ Route::name('uccello.')
 ->middleware('web')
 ->namespace(\Uccello\Core\Http\Controllers::class)
 ->group(function () {
-    // Adapt params if we use or not multi domains
-    if (!Uccello::useMultiDomains()) {
-        $domainParam = '';
-        $domainAndModuleParams = '{module}';
+    // Adapt params if we use or not multi workspace
+    if (!Uccello::useMultiWorkspaces()) {
+        $workspaceParam = '';
+        $workspaceAndModuleParams = '{module}';
     } else {
-        $domainParam = '{domain}';
-        $domainAndModuleParams = '{domain}/{module}';
+        $workspaceParam = '{workspace}';
+        $workspaceAndModuleParams = '{workspace}/{module}';
     }
 
-    Route::get($domainAndModuleParams, 'Core\ListController')->name('list');
-    Route::get($domainAndModuleParams.'/{id}', 'Core\DetailController')->where('id', '[0-9]+')->name('detail');
+    Route::get($workspaceAndModuleParams, 'Core\ListController')->name('list');
+    Route::get($workspaceAndModuleParams.'/{id}', 'Core\DetailController')->where('id', '[0-9]+')->name('detail');
 });

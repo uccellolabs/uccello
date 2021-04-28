@@ -27,7 +27,7 @@ class CreateRoleModule extends Migration
             $table->foreignId('parent_id')->nullable()->constrained($table->getTable());
             $table->string('path', 255)->nullable();
             $table->integer('level')->default(0);
-            $table->foreignId('domain_id')->constrained($prefix.'domains');
+            $table->foreignId('workspace_id')->constrained($prefix.'workspaces');
             $table->json('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -39,6 +39,7 @@ class CreateRoleModule extends Migration
         Module::create([
             'name' => 'role',
             'data' => [
+                'name' => 'role',
                 'package' => 'uccello/uccello',
                 'model' => \Uccello\Core\Models\Role::class,
                 'admin' => true,

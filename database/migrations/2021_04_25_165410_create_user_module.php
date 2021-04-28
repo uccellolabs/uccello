@@ -23,8 +23,8 @@ class CreateUserModule extends Migration
         Schema::table('users', function(Blueprint $table) {
             $table->string('username')->unique()->after('id');
             $table->boolean('is_admin')->after('remember_token')->default(false);
-            $table->foreignId('domain_id')->after('is_admin')->constrained(config('uccello.database.table_prefix').'domains');
-            $table->json('data')->after('domain_id')->nullable();
+            $table->foreignId('workspace_id')->after('is_admin')->constrained(config('uccello.database.table_prefix').'workspaces');
+            $table->json('data')->after('workspace_id')->nullable();
             $table->softDeletes();
         });
     }
@@ -34,6 +34,7 @@ class CreateUserModule extends Migration
         Module::create([
             'name' => 'user',
             'data' => [
+                'name' => 'user',
                 'package' => 'uccello/uccello',
                 'model' => \App\Models\User::class,
                 'admin' => true,
@@ -92,6 +93,21 @@ class CreateUserModule extends Migration
                                                 'min:6'
                                             ],
                                         ],
+                                        [
+                                            'name' => 'status',
+                                            'type' => [
+                                                'name' => 'select',
+                                                'choices' => [
+                                                    "status.pending",
+                                                    "status.active",
+                                                    "status.blocked",
+                                                ]
+                                            ],
+                                            'display' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
+                                        ],
                                     ]
                                 ],
                                 [
@@ -144,7 +160,7 @@ class CreateUserModule extends Migration
         Schema::table('users', function(Blueprint $table) {
             $table->dropColumn('username');
             $table->dropColumn('is_admin');
-            $table->dropColumn('domain_id');
+            $table->dropColumn('workspace_id');
         });
 
         Module::where('name', 'user')->delete();

@@ -18,7 +18,7 @@ class Group extends Model
         'name',
         'description',
         'data',
-        'domain_id',
+        'workspace_id',
     ];
 
     public $casts = [

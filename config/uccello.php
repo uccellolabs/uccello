@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'domain' => [
-        'multi_domains' => env('UCCELLO_MULTI_DOMAINS', false),
+    'workspace' => [
+        'multi_workspaces' => env('UCCELLO_MULTI_WorkspaceS', false),
     ],
     'database' => [
         'table_prefix' => 'uccello_',

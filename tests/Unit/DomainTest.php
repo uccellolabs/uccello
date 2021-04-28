@@ -3,9 +3,9 @@
 namespace Uccello\Core\Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Workspace;
 
-class DomainTest extends \Orchestra\Testbench\TestCase
+class WorkspaceTest extends \Orchestra\Testbench\TestCase
 {
     use RefreshDatabase;
 
@@ -28,10 +28,10 @@ class DomainTest extends \Orchestra\Testbench\TestCase
      */
     public function testSlugIsCreated()
     {
-        $domain = Domain::create([
+        $workspace = Workspace::create([
             'name' => 'Uccello'
         ]);
 
-        $this->assertEquals($domain->slug, "uccello");
+        $this->assertEquals($workspace->slug, "uccello");
     }
 }

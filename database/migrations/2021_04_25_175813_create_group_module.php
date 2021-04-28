@@ -24,7 +24,7 @@ class CreateGroupModule extends Migration
         Schema::create($prefix.'groups', function (Blueprint $table) use ($prefix) {
             $table->id();
             $table->string('name');
-            $table->foreignId('domain_id')->constrained($prefix.'domains');
+            $table->foreignId('workspace_id')->constrained($prefix.'workspaces');
             $table->json('data')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -36,6 +36,7 @@ class CreateGroupModule extends Migration
         Module::create([
             'name' => 'group',
             'data' => [
+                'name' => 'group',
                 'package' => 'uccello/uccello',
                 'model' => \Uccello\Core\Models\Group::class,
                 'admin' => true,

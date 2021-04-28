@@ -20,6 +20,11 @@ class RecordRepository
         return $this->model->all();
     }
 
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
+    {
+        return $this->model->paginate($perPage, $columns, $pageName, $page);
+    }
+
     public function getById($id)
     {
         return $this->model->find($id);

@@ -21,7 +21,7 @@ class Role extends Model implements Tree
         'parent_id',
         'description',
         'data',
-        'domain_id',
+        'workspace_id',
     ];
 
     public $casts = [
@@ -55,7 +55,7 @@ class Role extends Model implements Tree
 
             if (!is_null($parentRecord)) {
                 with($model)->setChildOf($parentRecord);
-            } else { // Remove parent domain
+            } else { // Remove parent workspace
                 with($model)->setAsRoot();
             }
         }

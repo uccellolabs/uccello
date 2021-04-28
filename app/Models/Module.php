@@ -3,9 +3,12 @@
 namespace Uccello\Core\Models;
 
 use Uccello\Core\Database\Eloquent\Model;
+use Uccello\Core\Support\Traits\HasModuleStructure;
 
 class Module extends Model
 {
+    use HasModuleStructure;
+
     public $table = 'modules';
 
     public $fillable = [
@@ -17,14 +20,17 @@ class Module extends Model
         'data' => 'object',
     ];
 
-    public function getStructureAttribute()
+    public static function booted()
     {
-        return !empty($this->data) ? $this->data->structure : null;
+        static::saving(function ($model) {
+            $model->retrieveNameFromData();
+        });
     }
 
-    public function getInstance()
+    private function retrieveNameFromData()
     {
-        $modelClass = $this->data->model ?? null;
-        return !empty($modelClass) ? new $modelClass : null;
+        if (empty($this->name) && optional($this->data)->name) {
+            $this->name = $this->data->name;
+        }
     }
 }

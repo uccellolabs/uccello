@@ -4,7 +4,7 @@ namespace Uccello\Core\Providers;
 
 use App\Providers\RouteServiceProvider as DefaultRouteServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Uccello\Core\Models\Domain;
+use Uccello\Core\Models\Workspace;
 use Uccello\Core\Models\Module;
 
 /**
@@ -19,14 +19,14 @@ class RouteServiceProvider extends DefaultRouteServiceProvider
     {
         parent::boot();
 
-        // Bind domain
-        Route::bind('domain', function ($value) {
+        // Bind workspace
+        Route::bind('workspace', function ($value) {
             if (preg_match('`^[0-9]+$`', $value)) { // By id
-                $domain = Domain::findOrFail($value);
+                $workspace = Workspace::findOrFail($value);
             } else { // By slug
-                $domain = Domain::where('slug', $value)->first() ?? abort(404);
+                $workspace = Workspace::where('slug', $value)->first() ?? abort(404);
             }
-            return $domain;
+            return $workspace;
         });
 
         // Bind module

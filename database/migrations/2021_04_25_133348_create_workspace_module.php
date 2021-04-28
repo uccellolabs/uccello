@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Uccello\Core\Models\Module;
 
-class CreateDomainModule extends Migration
+class CreateWorkspaceModule extends Migration
 {
     /**
      * Run the migrations.
@@ -20,7 +20,7 @@ class CreateDomainModule extends Migration
 
     private function createTable()
     {
-        Schema::create(config('uccello.database.table_prefix').'domains', function (Blueprint $table) {
+        Schema::create(config('uccello.database.table_prefix').'workspaces', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
@@ -39,14 +39,15 @@ class CreateDomainModule extends Migration
     private function createModule()
     {
         Module::create([
-            'name' => 'domain',
+            'name' => 'workspace',
             'data' => [
+                'name' => 'workspace',
                 'package' => 'uccello/uccello',
-                'model' => \Uccello\Core\Models\Domain::class,
+                'model' => \Uccello\Core\Models\Workspace::class,
                 'admin' => true,
                 'required' => true,
                 'structure' => [
-                    'icon' => 'domain',
+                    'icon' => 'workspace',
                     'tabs' => [
                         [
                             'name' => 'main',
@@ -62,14 +63,14 @@ class CreateDomainModule extends Migration
                                             'required' => true,
                                             'rules' => [
                                                 'regex:/(?!^\d+$)^.+$/',
-                                                'unique:'.config('uccello.database.table_prefix').'domains,name,%id%'
+                                                'unique:'.config('uccello.database.table_prefix').'workspaces,name,%id%'
                                             ]
                                         ],
                                         [
                                             'name' => 'parent',
                                             'type' => [
                                                 'name' => 'entity',
-                                                'module' => 'domain',
+                                                'module' => 'workspace',
                                             ],
                                             'display' => true,
                                         ],
@@ -122,8 +123,8 @@ class CreateDomainModule extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('uccello.database.table_prefix').'domains');
+        Schema::dropIfExists(config('uccello.database.table_prefix').'workspaces');
 
-        Module::where('name', 'domain')->delete();
+        Module::where('name', 'workspace')->delete();
     }
 }

@@ -16,7 +16,7 @@ class Filter
         if ($data === null || is_object($data)) {
             $this->data = $data;
         } else {
-            throw 'First argument must be an object';
+            throw new \Exception('First argument must be an object');
         }
     }
 

@@ -16,12 +16,14 @@ class Field
         if ($data === null || is_object($data)) {
             $this->data = $data;
         } else {
-            throw 'First argument must be an object';
+            throw new \Exception('First argument must be an object');
         }
     }
 
     /**
      * Getter to retrieve an attribute from $data.
+     * Checks if a method with the same attribute's name exists,
+     * else checks if the attribute exists.
      *
      * @param string $attribute
      *
@@ -29,7 +31,11 @@ class Field
      */
     public function __get(string $attribute)
     {
-        return optional($this->data)->{$attribute};
+        if (method_exists($this, $attribute)) {
+            return $this->{$attribute}();
+        } else {
+            return optional($this->data)->{$attribute};
+        }
     }
 
     /**
@@ -78,7 +84,17 @@ class Field
      */
     public function isVisibleEverywhere()
     {
-        return optional($this->data)->visible === true;
+        return optional($this->data)->visible === true
+            ||
+            (
+                $this->isVisibleInCreateView()
+                &&
+                $this->isVisibleInEditView()
+                &&
+                $this->isVisibleInDetailView()
+                &&
+                $this->isVisibleInListView()
+            );
     }
 
     /**
@@ -88,7 +104,7 @@ class Field
      */
     public function isVisibleInCreateView()
     {
-        return $this->isVisibleEverywhere()
+        return optional($this->data)->visible === true
             ||
             (
                 is_object($this->data->visible)
@@ -104,7 +120,7 @@ class Field
      */
     public function isVisibleInEditView()
     {
-        return $this->isVisibleEverywhere()
+        return optional($this->data)->visible === true
             ||
             (
                 is_object($this->data->visible)
@@ -120,7 +136,7 @@ class Field
      */
     public function isVisibleInDetailView()
     {
-        return $this->isVisibleEverywhere()
+        return optional($this->data)->visible === true
             ||
             (
                 is_object($this->data->visible)
@@ -136,12 +152,30 @@ class Field
      */
     public function isVisibleInListView()
     {
-        return $this->isVisibleEverywhere()
+        return optional($this->data)->visible === true
             ||
             (
                 is_object($this->data->visible)
                 &&
                 optional($this->data->visible)->list === true
             );
+    }
+
+    /**
+     * Return column name according to the following priorities:
+     * 1 - Column name defined in the field structure
+     * 2 - Field type default column name
+     *
+     * @return string
+     */
+    public function column()
+    {
+        if (!empty($this->data->column)) {
+            $column = $this->data->column;
+        } else {
+            $column = $this->type === 'entity' ? $this->name.'_id' : $this->name;
+        }
+
+        return $column;
     }
 }

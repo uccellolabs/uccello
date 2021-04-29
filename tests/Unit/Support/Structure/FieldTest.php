@@ -233,4 +233,32 @@ class FieldTest extends TestCase
         $this->assertFalse($field->isVisibleInDetailView());
         $this->assertFalse($field->isVisibleInListView());
     }
+
+    public function testGetter()
+    {
+        $field = $this->makeField([
+            'name' => 'label',
+            'type' => 'string'
+        ]);
+
+        $this->assertEquals($field->name, 'label');
+        $this->assertEquals($field->type, 'string');
+    }
+
+    public function testSetter()
+    {
+        // Original name
+        $field = $this->makeField([
+            'name' => 'label',
+        ]);
+        $this->assertEquals($field->name, 'label');
+
+        // Change name
+        $field->name = 'title';
+        $this->assertEquals($field->name, 'title');
+
+        // Add attribute
+        $field->type = 'string';
+        $this->assertEquals($field->type, 'string');
+    }
 }

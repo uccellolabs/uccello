@@ -40,7 +40,7 @@ class Block
      */
     public function __set(string $attribute, $value)
     {
-        $this->data[$attribute] = $value;
+        $this->data->{$attribute} = $value;
     }
 
     /**

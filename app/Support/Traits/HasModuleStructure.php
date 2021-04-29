@@ -2,7 +2,9 @@
 
 namespace Uccello\Core\Support\Traits;
 
-use function PHPUnit\Framework\isNull;
+use Uccello\Core\Support\Structure\Block;
+use Uccello\Core\Support\Structure\Field;
+use Uccello\Core\Support\Structure\Tab;
 
 trait HasModuleStructure
 {
@@ -27,7 +29,7 @@ trait HasModuleStructure
 
         if ($this->isStructureDefined()) {
             foreach ($this->structure->tabs ?? [] as $tab) {
-                $tabs[] = $tab;
+                $tabs[] = new Tab($tab);
             }
         }
 
@@ -46,7 +48,7 @@ trait HasModuleStructure
         if ($this->isStructureDefined()) {
             foreach ($this->structure->tabs ?? [] as $tab) {
                 foreach ($tab->blocks ?? [] as $block) {
-                    $blocks[] = $block;
+                    $blocks[] = new Block($block);
                 }
             }
         }
@@ -67,7 +69,7 @@ trait HasModuleStructure
             foreach ($this->structure->tabs ?? [] as $tab) {
                 foreach ($tab->blocks ?? [] as $block) {
                     foreach ($block->fields ?? [] as $field) {
-                        $fields[] = $field;
+                        $fields[] = new Field($field);
                     }
                 }
             }

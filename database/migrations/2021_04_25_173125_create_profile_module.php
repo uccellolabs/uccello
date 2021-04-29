@@ -54,13 +54,13 @@ class CreateProfileModule extends Migration
                                         [
                                             'name' => 'name',
                                             'type' => 'string',
-                                            'display' => true,
+                                            'visible' => true,
                                             'required' => true,
                                         ],
                                         [
                                             'name' => 'description',
                                             'type' => 'string',
-                                            'display' => true,
+                                            'visible' => true,
                                         ],
                                     ]
                                 ],
@@ -70,9 +70,20 @@ class CreateProfileModule extends Migration
                                     'close' => true,
                                     'fields' => [
                                         [
+                                            'name' => 'workspace',
+                                            'type' => 'entity',
+                                            'visible' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
+                                            'config' => [
+                                                'module' => 'workspace'
+                                            ]
+                                        ],
+                                        [
                                             'name' => 'created_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],
@@ -80,7 +91,7 @@ class CreateProfileModule extends Migration
                                         [
                                             'name' => 'updated_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],

@@ -4,10 +4,12 @@ namespace Uccello\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
+use Livewire\Livewire;
 use Uccello\Core\Console\Commands\GenerateUuidCacheCommand;
 use Uccello\Core\Console\Commands\InstallCommand;
 use Uccello\Core\Console\Commands\UserCommand;
 use Uccello\Core\Console\Commands\PublishCommand;
+use Uccello\Core\Http\Livewire\Datatable;
 
 /**
  * App Service Provider
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->registerMigrations();
         $this->registerTranslations();
         $this->registerPublishing();
+        $this->registerLivewireComponents();
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'uccello');
 
@@ -74,6 +77,16 @@ class AppServiceProvider extends ServiceProvider
                 __DIR__ . '/../../config/uccello.php' => config_path('uccello.php'),
             ], 'uccello-config');
         }
+    }
+
+    /**
+     * Register livewire components
+     *
+     * @return void
+     */
+    private function registerLivewireComponents()
+    {
+        Livewire::component('uc-datatable', Datatable::class);
     }
 
     /**

@@ -59,7 +59,7 @@ class CreateWorkspaceModule extends Migration
                                         [
                                             'name' => 'name',
                                             'type' => 'string',
-                                            'display' => true,
+                                            'visible' => true,
                                             'required' => true,
                                             'rules' => [
                                                 'regex:/(?!^\d+$)^.+$/',
@@ -68,11 +68,11 @@ class CreateWorkspaceModule extends Migration
                                         ],
                                         [
                                             'name' => 'parent',
-                                            'type' => [
-                                                'name' => 'entity',
+                                            'type' => 'entity',
+                                            'visible' => true,
+                                            'config' => [
                                                 'module' => 'workspace',
-                                            ],
-                                            'display' => true,
+                                            ]
                                         ],
                                     ]
                                 ],
@@ -84,7 +84,7 @@ class CreateWorkspaceModule extends Migration
                                         [
                                             'name' => 'created_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],
@@ -92,7 +92,7 @@ class CreateWorkspaceModule extends Migration
                                         [
                                             'name' => 'updated_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],

@@ -52,7 +52,7 @@ class CreateUserModule extends Migration
                                         [
                                             'name' => 'username',
                                             'type' => 'string',
-                                            'display' => true,
+                                            'visible' => true,
                                             'required' => true,
                                             'rules' => [
                                                 'regex:/^(?:[A-Z\d][A-Z\d_-]{3,}|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4})$/i',
@@ -62,19 +62,19 @@ class CreateUserModule extends Migration
                                         [
                                             'name' => 'is_admin',
                                             'type' => 'boolean',
-                                            'display' => true,
+                                            'visible' => true,
                                         ],
                                         [
                                             'name' => 'name',
                                             'type' => 'string',
-                                            'display' => true,
+                                            'visible' => true,
                                             'required' => true,
                                             'icon' => 'person',
                                         ],
                                         [
                                             'name' => 'email',
                                             'type' => 'email',
-                                            'display' => true,
+                                            'visible' => true,
                                             'required' => true,
                                             'rules' => [
                                                 'email',
@@ -84,7 +84,7 @@ class CreateUserModule extends Migration
                                         [
                                             'name' => 'password',
                                             'type' => 'password',
-                                            'display' => [
+                                            'visible' => [
                                                 'create' => true,
                                             ],
                                             'required' => true,
@@ -95,18 +95,18 @@ class CreateUserModule extends Migration
                                         ],
                                         [
                                             'name' => 'status',
-                                            'type' => [
-                                                'name' => 'select',
+                                            'type' => 'select',
+                                            'visible' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
+                                            'config' => [
                                                 'choices' => [
                                                     "status.pending",
                                                     "status.active",
                                                     "status.blocked",
                                                 ]
-                                            ],
-                                            'display' => [
-                                                'detail' => true,
-                                                'list' => true
-                                            ],
+                                            ]
                                         ],
                                     ]
                                 ],
@@ -116,9 +116,20 @@ class CreateUserModule extends Migration
                                     'close' => true,
                                     'fields' => [
                                         [
+                                            'name' => 'workspace',
+                                            'type' => 'entity',
+                                            'visible' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
+                                            'config' => [
+                                                'module' => 'workspace'
+                                            ]
+                                        ],
+                                        [
                                             'name' => 'created_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],
@@ -126,7 +137,7 @@ class CreateUserModule extends Migration
                                         [
                                             'name' => 'updated_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],

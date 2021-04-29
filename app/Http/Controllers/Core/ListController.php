@@ -36,19 +36,8 @@ class ListController extends Controller
     protected function process()
     {
         return view('uccello::list.main', [
-            'module' => $this->module,
-            'headers' => $this->getFieldNames(),
-            'records' => $this->getPaginatedRecords()
+            'workspace' => $this->workspace,
+            'module' => $this->module
         ]);
-    }
-
-    private function getFieldNames()
-    {
-        return $this->module->fields->pluck('name');
-    }
-
-    private function getPaginatedRecords()
-    {
-        return $this->repository->paginate();
     }
 }

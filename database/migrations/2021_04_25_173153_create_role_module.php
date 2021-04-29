@@ -57,27 +57,27 @@ class CreateRoleModule extends Migration
                                         [
                                             'name' => 'name',
                                             'type' => 'string',
-                                            'displaytype' => true,
+                                            'visible' => true,
                                             'required' => true,
                                         ],
                                         [
                                             'name' => 'parent',
-                                            'type' => [
-                                                'name' => 'entity',
-                                                'module' => 'role',
-                                            ],
-                                            'displaytype' => true,
+                                            'type' => 'entity',
+                                            'visible' => true,
+                                            'config' => [
+                                                'module' => 'role'
+                                            ]
                                         ],
                                         [
                                             'name' => 'see_descendant_records',
                                             'type' => 'boolean',
-                                            'displaytype' => true,
+                                            'visible' => true,
                                             'info' => 'field_info.see_descendant_records',
                                         ],
                                         [
                                             'name' => 'description',
                                             'type' => 'string',
-                                            'displaytype' => true,
+                                            'visible' => true,
                                         ],
                                     ]
                                 ],
@@ -87,9 +87,20 @@ class CreateRoleModule extends Migration
                                     'close' => true,
                                     'fields' => [
                                         [
+                                            'name' => 'workspace',
+                                            'type' => 'entity',
+                                            'visible' => [
+                                                'detail' => true,
+                                                'list' => true
+                                            ],
+                                            'config' => [
+                                                'module' => 'workspace'
+                                            ]
+                                        ],
+                                        [
                                             'name' => 'created_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],
@@ -97,7 +108,7 @@ class CreateRoleModule extends Migration
                                         [
                                             'name' => 'updated_at',
                                             'type' => 'datetime',
-                                            'display' => [
+                                            'visible' => [
                                                 'detail' => true,
                                                 'list' => true
                                             ],

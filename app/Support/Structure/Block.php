@@ -14,7 +14,11 @@ class Block
     public function __construct($data = null)
     {
         if ($data === null || is_object($data)) {
+            // Set data
             $this->data = $data;
+
+            // Convert structure
+            $this->convertStructure();
         } else {
             throw new \Exception('First argument must be an object');
         }
@@ -41,6 +45,38 @@ class Block
     public function __set(string $attribute, $value)
     {
         $this->data->{$attribute} = $value;
+
+        if ($attribute === 'fields') {
+            $this->convertFields();
+        }
+    }
+
+    /**
+     * Convert structure.
+     * All structure object will be converted into specialized structure object.
+     *
+     * @return void
+     */
+    private function convertStructure()
+    {
+        // Fields
+        $this->convertFields();
+    }
+
+    /**
+     * Convert fields.
+     *
+     * @return void
+     */
+    private function convertFields()
+    {
+        if (!empty($this->data->fields)) {
+            $fields = collect();
+            foreach ($this->data->fields as $field) {
+                $fields[] = new Field($field);
+            }
+            $this->data->fields = $fields;
+        }
     }
 
     /**

@@ -2,9 +2,7 @@
 
 namespace Uccello\Core\Support\Traits;
 
-use Uccello\Core\Support\Structure\Block;
-use Uccello\Core\Support\Structure\Field;
-use Uccello\Core\Support\Structure\Tab;
+use Uccello\Core\Support\Structure;
 
 trait HasModuleStructure
 {
@@ -15,7 +13,7 @@ trait HasModuleStructure
      */
     public function getStructureAttribute()
     {
-        return $this->data->structure ?? null;
+        return new Structure\Module($this->data->structure) ?? null;
     }
 
     /**
@@ -29,7 +27,7 @@ trait HasModuleStructure
 
         if ($this->isStructureDefined()) {
             foreach ($this->structure->tabs ?? [] as $tab) {
-                $tabs[] = new Tab($tab);
+                $tabs[] = $tab;
             }
         }
 
@@ -48,7 +46,7 @@ trait HasModuleStructure
         if ($this->isStructureDefined()) {
             foreach ($this->structure->tabs ?? [] as $tab) {
                 foreach ($tab->blocks ?? [] as $block) {
-                    $blocks[] = new Block($block);
+                    $blocks[] = $block;
                 }
             }
         }
@@ -69,7 +67,7 @@ trait HasModuleStructure
             foreach ($this->structure->tabs ?? [] as $tab) {
                 foreach ($tab->blocks ?? [] as $block) {
                     foreach ($block->fields ?? [] as $field) {
-                        $fields[] = new Field($field);
+                        $fields[] = $field;
                     }
                 }
             }
@@ -85,13 +83,13 @@ trait HasModuleStructure
      */
     public function getFiltersAttribute()
     {
+        $filters = collect();
+
         if ($this->isStructureDefined()) {
             $filters = $this->structure->filters;
-        } else {
-            $filters = [];
         }
 
-        return collect($filters);
+        return $filters;
     }
 
     /**

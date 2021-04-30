@@ -14,7 +14,11 @@ class Tab
     public function __construct($data = null)
     {
         if ($data === null || is_object($data)) {
+            // Set data
             $this->data = $data;
+
+            // Convert structure
+            $this->convertStructure();
         } else {
             throw new \Exception('First argument must be an object');
         }
@@ -41,6 +45,38 @@ class Tab
     public function __set(string $attribute, $value)
     {
         $this->data->{$attribute} = $value;
+
+        if ($attribute === 'blocks') {
+            $this->convertBlocks();
+        }
+    }
+
+    /**
+     * Convert structure.
+     * All structure object will be converted into specialized structure object.
+     *
+     * @return void
+     */
+    private function convertStructure()
+    {
+        // Blocks
+        $this->convertBlocks();
+    }
+
+    /**
+     * Convert blocks.
+     *
+     * @return void
+     */
+    private function convertBlocks()
+    {
+        if (!empty($this->data->blocks)) {
+            $blocks = collect();
+            foreach ($this->data->blocks as $block) {
+                $blocks[] = new Block($block);
+            }
+            $this->data->blocks = $blocks;
+        }
     }
 
     /**

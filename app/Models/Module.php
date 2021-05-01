@@ -33,4 +33,22 @@ class Module extends Model
             $this->name = $this->data->name;
         }
     }
+
+    /**
+     * Returns module package name
+     *
+     * @return string|null
+     */
+    public function getPackageAttribute() : ?string
+    {
+        $package = ''; // For modules created directory in the host application
+
+        // Get only package name if defined (Format: vendor/package)
+        if (isset($this->data->package)) {
+            $packageData = explode('/', $this->data->package);
+            $package = array_pop($packageData);
+        }
+
+        return $package;
+    }
 }

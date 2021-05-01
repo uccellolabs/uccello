@@ -3,7 +3,7 @@
         <tr>
             @foreach ($fields as $field)
                 @continue(!$field->isVisibleInListView())
-                <x-uc-datatable-th :field="$field" :sortFieldName="$sortFieldName" :sortOrder="$sortOrder">{{ $field->name }}</x-uc-datatable-th>
+                <x-uc-datatable-th :field="$field" :sortFieldName="$sortFieldName" :sortOrder="$sortOrder">{{ app('uccello')->trans('field.'.$field->name, $module) }}</x-uc-datatable-th>
             @endforeach
         </tr>
         @foreach ($records as $record)

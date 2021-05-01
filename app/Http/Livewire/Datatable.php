@@ -32,7 +32,6 @@ class Datatable extends Component
     public function mount()
     {
         $this->length = config('uccello.datatable.length');
-        $this->queryString['length'] = ['except' => $this->length];
     }
 
     /**
@@ -42,6 +41,8 @@ class Datatable extends Component
      */
     public function render()
     {
+        $this->queryString['length'] = ['except' => config('uccello.datatable.length')];
+
         return view('uccello::livewire.datatable', [
             'fields' => $this->getModuleFields(),
             'records' => $this->getPaginatedRecords()
@@ -57,13 +58,13 @@ class Datatable extends Component
      */
     public function changeSortOrder($fieldName)
     {
-        if ($this->sortFieldName === $fieldName) {
+        if ($this->sortFieldName === $fieldName) { // Same field
             $this->sortOrder = $this->sortOrder === 'asc' ? 'desc' : false;
 
             if ($this->sortOrder === false) {
                 $this->reset('sortFieldName', 'sortOrder');
             }
-        } else {
+        } else { // Other field
             $this->sortFieldName = $fieldName;
             $this->reset('sortOrder');
         }

@@ -198,13 +198,27 @@ class Field
         return Uccello::uitype($this->type);
     }
 
+    /**
+     * Return formatted value
+     *
+     * @param mixed $record
+     *
+     * @return string
+     */
     public function value($record)
     {
         $uitypeInstance = $this->getUitypeInstance();
 
-        return $uitypeInstance ? $uitypeInstance->value($this, $record) : null;
+        return $uitypeInstance ? $uitypeInstance->value($this, $record) : '';
     }
 
+    /**
+     * Return raw value
+     *
+     * @param mixed $record
+     *
+     * @return mixed|null
+     */
     public function rawValue($record)
     {
         $uitypeInstance = $this->getUitypeInstance();
@@ -212,6 +226,11 @@ class Field
         return $uitypeInstance ? $uitypeInstance->rawValue($this, $record) : null;
     }
 
+    /**
+     * Makes an instance of Uitype
+     *
+     * @return mixed|null
+     */
     private function getUitypeInstance()
     {
         $instance = null;

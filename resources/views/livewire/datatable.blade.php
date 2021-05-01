@@ -28,7 +28,7 @@
         <tr>
             @foreach ($fields as $field)
                 @continue(!$field->isVisibleInListView())
-                <td class="p-1 border border-gray-400">{{ $record->{$field->column} }}</td>
+                <td class="p-1 border border-gray-400">{{ $field->value($record) }}</td>
             @endforeach
         </tr>
         @endforeach

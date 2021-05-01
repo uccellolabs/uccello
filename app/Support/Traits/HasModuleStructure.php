@@ -3,6 +3,7 @@
 namespace Uccello\Core\Support\Traits;
 
 use Uccello\Core\Support\Structure;
+use Uccello\Core\Support\Structure\ModuleStructure;
 
 trait HasModuleStructure
 {
@@ -13,7 +14,7 @@ trait HasModuleStructure
      */
     public function getStructureAttribute()
     {
-        return new Structure\Module($this->data->structure) ?? null;
+        return new ModuleStructure($this->data->structure) ?? null;
     }
 
     /**

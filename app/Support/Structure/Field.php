@@ -2,6 +2,9 @@
 
 namespace Uccello\Core\Support\Structure;
 
+use Uccello\Core\Facades\Uccello;
+use Uccello\Core\Models\Uitype;
+
 class Field
 {
     private $data;
@@ -183,5 +186,42 @@ class Field
         }
 
         return $column;
+    }
+
+    /**
+     * Return uitype
+     *
+     * @return \Uccello\Core\Models\Uitype|null
+     */
+    public function uitype()
+    {
+        return Uccello::uitype($this->type);
+    }
+
+    public function value($record)
+    {
+        $uitypeInstance = $this->getUitypeInstance();
+
+        return $uitypeInstance ? $uitypeInstance->value($this, $record) : null;
+    }
+
+    public function rawValue($record)
+    {
+        $uitypeInstance = $this->getUitypeInstance();
+
+        return $uitypeInstance ? $uitypeInstance->rawValue($this, $record) : null;
+    }
+
+    private function getUitypeInstance()
+    {
+        $instance = null;
+
+        $uitype = $this->uitype();
+        if (!empty($uitype)) {
+            $uitypeClass = $uitype->class;
+            $instance = new $uitypeClass;
+        }
+
+        return $instance;
     }
 }

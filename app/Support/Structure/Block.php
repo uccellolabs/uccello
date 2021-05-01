@@ -62,11 +62,10 @@ class Block
      * Convert stdClass to Field if necessary.
      *
      * @param \stdClass|array|\Uccello\Core\Support\Structure\Field $field
-     * @param boolean $returnField
      *
      * @return \Uccello\Core\Support\Structure\Field
      */
-    public function addField($field, $returnField = false)
+    public function addField($field)
     {
         // Initialize fields
         if (empty($this->fields)) {

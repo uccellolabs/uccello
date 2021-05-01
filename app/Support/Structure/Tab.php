@@ -9,11 +9,16 @@ class Tab
     /**
      * Constructure
      *
-     * @param \stdclass $data
+     * @param \stdclass|array|null $data
      */
     public function __construct($data = null)
     {
-        if ($data === null || is_object($data)) {
+        if ($data === null || is_object($data) || is_array($data)) {
+            // Convert to stdClass if necessary
+            if (is_array($data)) {
+                $data = json_decode(json_encode($data));
+            }
+
             // Set data
             $this->data = $data;
 
@@ -52,6 +57,33 @@ class Tab
     }
 
     /**
+     * Adds a new block.
+     * Initialize blocks collection if necessary.
+     * Convert stdClass to Block if necessary.
+     *
+     * @param \stdClass|array|\Uccello\Core\Support\Structure\Block $block
+     *
+     * @return \Uccello\Core\Support\Structure\Block
+     */
+    public function addBlock($block)
+    {
+        // Initialize blocks
+        if (empty($this->blocks)) {
+            $this->blocks = collect();
+        }
+
+        // Convert block if necessary
+        if ($block instanceof Block === false) {
+            $block = new Block($block);
+        }
+
+        // Add block
+        $this->blocks[] = $block;
+
+        return $block;
+    }
+
+    /**
      * Convert structure.
      * All structure object will be converted into specialized structure object.
      *
@@ -71,11 +103,11 @@ class Tab
     private function convertBlocks()
     {
         if (!empty($this->data->blocks)) {
-            $blocks = collect();
-            foreach ($this->data->blocks as $block) {
-                $blocks[] = new Block($block);
+            foreach ($this->data->blocks as &$block) {
+                if ($block instanceof Block === false) {
+                    $block = new Block($block);
+                }
             }
-            $this->data->blocks = $blocks;
         }
     }
 

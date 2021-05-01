@@ -7,16 +7,30 @@ use Uccello\Core\Support\Structure\Field;
 
 class FieldTest extends TestCase
 {
-    private function makeField($params)
+    public function testIfArrayIsConvertedIntoFieldObject()
     {
-        $data = json_decode(json_encode($params));
+        $field = new Field([
+            'name' => 'label',
+            'type' => 'string',
+        ]);
 
-        return new Field($data);
+        $this->assertTrue($field instanceof Field);
+    }
+
+    public function testIfStdClassIsConvertedIntoFieldObject()
+    {
+        $fieldObject = new \stdClass;
+        $fieldObject->name = 'label';
+        $fieldObject->type = 'string';
+
+        $field = new Field($fieldObject);
+
+        $this->assertTrue($field instanceof Field);
     }
 
     public function testIfColumnIsOverrided()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'label',
             'type' => 'string',
             'column' => 'the_label'
@@ -27,7 +41,7 @@ class FieldTest extends TestCase
 
     public function testIfColumnIsOverridedWithEntityField()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'type' => 'entity',
             'column' => 'id_user'
@@ -38,7 +52,7 @@ class FieldTest extends TestCase
 
     public function testIfColumnIsSameAsFieldName()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'label',
             'type' => 'string'
         ]);
@@ -48,7 +62,7 @@ class FieldTest extends TestCase
 
     public function testIfColumnIsOverridedAutomaticalyWithEntityField()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'type' => 'entity'
         ]);
@@ -58,7 +72,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleEverywhere()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => true
         ]);
@@ -78,7 +92,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleEverywhere2()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => [
                 'create' => true,
@@ -103,7 +117,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleOnlyInCreateView()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => [
                 'create' => true
@@ -125,7 +139,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleOnlyInEditView()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => [
                 'edit' => true
@@ -147,7 +161,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleOnlyInDetailView()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => [
                 'detail' => true
@@ -169,7 +183,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleOnlyInListView()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => [
                 'list' => true
@@ -191,7 +205,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleNowhere()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => false
         ]);
@@ -211,7 +225,7 @@ class FieldTest extends TestCase
 
     public function testIfFieldIsVisibleNowhere2()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'user',
             'visible' => [
                 'create' => false,
@@ -236,7 +250,7 @@ class FieldTest extends TestCase
 
     public function testGetter()
     {
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'label',
             'type' => 'string'
         ]);
@@ -248,7 +262,7 @@ class FieldTest extends TestCase
     public function testSetter()
     {
         // Original name
-        $field = $this->makeField([
+        $field = new Field([
             'name' => 'label',
         ]);
         $this->assertEquals($field->name, 'label');

@@ -9,18 +9,23 @@ class Block
     /**
      * Constructure
      *
-     * @param \stdclass $data
+     * @param \stdClass|array|null $data
      */
     public function __construct($data = null)
     {
-        if ($data === null || is_object($data)) {
+        if ($data === null || is_object($data) || is_array($data)) {
+            // Convert to stdClass if necessary
+            if (is_array($data)) {
+                $data = json_decode(json_encode($data));
+            }
+
             // Set data
             $this->data = $data;
 
             // Convert structure
             $this->convertStructure();
         } else {
-            throw new \Exception('First argument must be an object');
+            throw new \Exception('First argument must be an object or an array');
         }
     }
 
@@ -52,6 +57,34 @@ class Block
     }
 
     /**
+     * Adds a new field.
+     * Initialize fields collection if necessary.
+     * Convert stdClass to Field if necessary.
+     *
+     * @param \stdClass|array|\Uccello\Core\Support\Structure\Field $field
+     * @param boolean $returnField
+     *
+     * @return \Uccello\Core\Support\Structure\Field
+     */
+    public function addField($field, $returnField = false)
+    {
+        // Initialize fields
+        if (empty($this->fields)) {
+            $this->fields = collect();
+        }
+
+        // Convert field if necessary
+        if ($field instanceof Field === false) {
+            $field = new Field($field);
+        }
+
+        // Add field
+        $this->fields[] = $field;
+
+        return $field;
+    }
+
+    /**
      * Convert structure.
      * All structure object will be converted into specialized structure object.
      *
@@ -71,11 +104,11 @@ class Block
     private function convertFields()
     {
         if (!empty($this->data->fields)) {
-            $fields = collect();
-            foreach ($this->data->fields as $field) {
-                $fields[] = new Field($field);
+            foreach ($this->data->fields as &$field) {
+                if ($field instanceof Field === false) {
+                    $field = new Field($field);
+                }
             }
-            $this->data->fields = $fields;
         }
     }
 

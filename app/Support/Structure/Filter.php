@@ -9,14 +9,20 @@ class Filter
     /**
      * Constructure
      *
-     * @param \stdclass $data
+     * @param \stdClass|array|null $data
      */
     public function __construct($data = null)
     {
-        if ($data === null || is_object($data)) {
+        if ($data === null || is_object($data) || is_array($data)) {
+            // Convert to stdClass if necessary
+            if (is_array($data)) {
+                $data = json_decode(json_encode($data));
+            }
+
+            // Set data
             $this->data = $data;
         } else {
-            throw new \Exception('First argument must be an object');
+            throw new \Exception('First argument must be an object or an array');
         }
     }
 

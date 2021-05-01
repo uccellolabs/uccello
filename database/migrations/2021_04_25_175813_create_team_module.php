@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Uccello\Core\Models\Module;
 
-class CreateGroupModule extends Migration
+class CreateTeamModule extends Migration
 {
     /**
      * Run the migrations.
@@ -21,7 +21,7 @@ class CreateGroupModule extends Migration
     private function createTable()
     {
         $prefix = config('uccello.database.table_prefix');
-        Schema::create($prefix.'groups', function (Blueprint $table) use ($prefix) {
+        Schema::create($prefix.'teams', function (Blueprint $table) use ($prefix) {
             $table->id();
             $table->string('name');
             $table->foreignId('workspace_id')->constrained($prefix.'workspaces');
@@ -34,11 +34,11 @@ class CreateGroupModule extends Migration
     private function createModule()
     {
         Module::create([
-            'name' => 'group',
+            'name' => 'team',
             'data' => [
-                'name' => 'group',
+                'name' => 'team',
                 'package' => 'uccello/uccello',
-                'model' => \Uccello\Core\Models\Group::class,
+                'model' => \Uccello\Core\Models\Team::class,
                 'admin' => true,
                 'required' => true,
                 'structure' => [
@@ -122,8 +122,8 @@ class CreateGroupModule extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('uccello.database.table_prefix').'groups');
+        Schema::dropIfExists(config('uccello.database.table_prefix').'teams');
 
-        Module::where('name', 'group')->delete();
+        Module::where('name', 'team')->delete();
     }
 }

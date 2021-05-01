@@ -5,7 +5,7 @@ All notable changes to `uccello` will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.0.0] - 2021-04-29
+## [3.0.0] - 2021-05-01
 ### Added
 - Uccello now uses repository `Uccello\Core\Repositories\RecordRepository` to retrieve module records.
 - Uccello now uses Livewire components for Datatables.
@@ -15,3 +15,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Routes now respects default schema for CRUD.
 - Class `Uccello\Core\Database\Eloquent\Model` now extends `App\Model\UccelloModel`.
 - `Domain` is now called `Workspace`.
+- Class `Uccello\Core\Models\Group` was renamed `Uccello\Core\Models\Team`.

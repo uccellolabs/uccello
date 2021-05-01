@@ -24,6 +24,8 @@ class CreateRoleModule extends Migration
         Schema::create($prefix.'roles', function (Blueprint $table) use ($prefix) {
             $table->id();
             $table->string('name');
+            $table->string('description')->nullable();
+            $table->boolean('see_descendant_records')->default(false);
             $table->foreignId('parent_id')->nullable()->constrained($table->getTable());
             $table->string('path', 255)->nullable();
             $table->integer('level')->default(0);

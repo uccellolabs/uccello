@@ -23,6 +23,7 @@ class CreateUserModule extends Migration
         Schema::table('users', function(Blueprint $table) {
             $table->string('username')->unique()->after('id');
             $table->boolean('is_admin')->after('remember_token')->default(false);
+            $table->string('status')->after('is_admin')->default('status.pending');
             $table->foreignId('workspace_id')->after('is_admin')->constrained(config('uccello.database.table_prefix').'workspaces');
             $table->json('data')->after('workspace_id')->nullable();
             $table->softDeletes();

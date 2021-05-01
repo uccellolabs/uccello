@@ -24,6 +24,7 @@ class CreateProfileModule extends Migration
         Schema::create($prefix.'profiles', function (Blueprint $table) use ($prefix) {
             $table->id();
             $table->string('name');
+            $table->string('description')->nullable();
             $table->foreignId('workspace_id')->constrained($prefix.'workspaces');
             $table->json('data')->nullable();
             $table->timestamps();

@@ -117,7 +117,8 @@ class Uccello
             // 4. Try with default translation in uccello
             $uccelloDefaultTranslation = $translator->get('uccello::default.' . $key, $replace, $locale);
 
-            if ($uccelloDefaultTranslation !== 'uccello::default.' . $key) { // If default translation exists then use it
+            // If default translation exists then use it
+            if ($uccelloDefaultTranslation !== 'uccello::default.' . $key) {
                 return $uccelloDefaultTranslation;
             }
 

@@ -27,7 +27,10 @@
         "psr-4": {
             "Uccello\\Core\\": "app/",
             "Uccello\\Core\\Database\\Factories\\": "database/factories/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

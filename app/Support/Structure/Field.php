@@ -194,7 +194,7 @@ class Field
      */
     public function uitype()
     {
-        return Uccello::uitype($this->type);
+        return uitype($this->type);
     }
 
     /**

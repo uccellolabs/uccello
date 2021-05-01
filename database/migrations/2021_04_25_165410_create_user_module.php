@@ -20,7 +20,7 @@ class CreateUserModule extends Migration
 
     private function createTable()
     {
-        Schema::table('users', function(Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             $table->string('username')->unique()->after('id');
             $table->boolean('is_admin')->after('remember_token')->default(false);
             $table->string('status')->after('is_admin')->default('status.pending');

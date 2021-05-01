@@ -3,7 +3,6 @@
 namespace Uccello\Core\Support\Structure;
 
 use Uccello\Core\Facades\Uccello;
-use Uccello\Core\Models\Uitype;
 
 class Field
 {

@@ -16,19 +16,45 @@ class Datatable extends Component
     public $sortFieldName;
     public $sortOrder = 'asc';
 
+    public $length;
+
     protected $queryString = [
         'sortFieldName',
-        'sortOrder' => ['except' => 'asc']
+        'sortOrder' => ['except' => 'asc'],
+        'length'
     ];
 
+    /**
+     * Mount component.
+     *
+     * @return void
+     */
+    public function mount()
+    {
+        $this->length = config('uccello.datatable.length');
+        $this->queryString['length'] = ['except' => $this->length];
+    }
+
+    /**
+     * Render page.
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function render()
     {
         return view('uccello::livewire.datatable', [
-            'fields' => $this->getFields(),
+            'fields' => $this->getModuleFields(),
             'records' => $this->getPaginatedRecords()
         ]);
     }
 
+    /**
+     * Change sort order.
+     *
+     * @param string $fieldName
+     *
+     * @return void
+     */
     public function changeSortOrder($fieldName)
     {
         if ($this->sortFieldName === $fieldName) {
@@ -43,20 +69,83 @@ class Datatable extends Component
         }
     }
 
-    private function getFields()
+    /**
+     * Retrieve all module fields.
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    private function getModuleFields()
     {
         return $this->module->fields;
     }
 
+    /**
+     * Retrives module records and paginate the results.
+     *
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
     private function getPaginatedRecords()
     {
-        $this->repository = new RecordRepository($this->module);
-        $model = $this->repository->newInstance();
+        // Initialize
+        $model = $this->getModuleModel();
 
+        // Sort if necessary
+        $model = $this->addOrderBy($model);
+
+        // Paginate
+        return $model->paginate($this->length);
+    }
+
+    /**
+     * Make a new instance of module model.
+     *
+     * @return mixed
+     */
+    private function getModuleModel()
+    {
+        $repository = new RecordRepository($this->module);
+
+        return $repository->newInstance();
+    }
+
+    /**
+     * Add order by clause if a field is selected.
+     *
+     * @param mixed $model
+     *
+     * @return mixed
+     */
+    private function addOrderBy($model)
+    {
         if ($this->sortFieldName) {
-            $model = $model->orderBy($this->sortFieldName, $this->sortOrder);
+            $field = $this->getFieldByName($this->sortFieldName);
+
+            if ($field) {
+                $model = $model->orderBy($field->column, $this->sortOrder);
+            }
         }
 
-        return $model->paginate(5);
+        return $model;
+    }
+
+    /**
+     * Search field by name.
+     *
+     * @param string $name
+     *
+     * @return \Uccello\Core\Support\Structure\Field|null
+     */
+    private function getFieldByName($name)
+    {
+        $foundField = null;
+
+        foreach ($this->module->fields as $field) {
+            if ($field->name === $name) {
+                $foundField = $field;
+                break;
+            }
+        }
+
+        return $foundField;
     }
 }

@@ -3,6 +3,7 @@
 namespace Uccello\Core\Support\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 use Uccello\Core\Models\Workspace;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Repositories\RecordRepository;
@@ -84,5 +85,17 @@ trait UccelloController
     private function instanciateRecordRepository()
     {
         $this->repository = new RecordRepository($this->module);
+    }
+
+    /**
+     * Share global variables with all Blade views
+     */
+    protected function shareBladeVariables()
+    {
+        // Selected workspace
+        View::share('workspace', $this->workspace);
+
+        // Selected module
+        View::share('module', $this->module);
     }
 }

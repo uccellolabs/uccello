@@ -129,4 +129,68 @@ class Uccello
         // Default behaviour
         return $translator->get($key, $replace, $locale);
     }
+
+    /**
+     * Detects which view it must use and returns the evaluated view contents.
+     *
+     * Priority:
+     * 1 - Module view overrided in app
+     * 2 - Module view ovverrided in package
+     * 3 - Default view overrided in app
+     * 4 - Default view defined in package
+     * 5 - Module view ovverrided in uccello
+     * 6 - Default view defined in uccello
+     * 7 - Fallback view if defined
+     *
+     * @param string $package
+     * @param Module $module
+     * @param string $viewName
+     * @param string|null $fallbackView
+     * @return string|null
+     */
+    public function view(string $package, Module $module, string $viewName, ?string $fallbackView = null): ?string
+    {
+        return Cache::remember(
+            $package.'_'.$module->name.'_'.$viewName.'_'.$fallbackView,
+            now()->addMinutes(10),
+            function () use ($package, $module, $viewName, $fallbackView) {
+                // Module view overrided in app
+                $appModuleView = 'uccello.modules.' . $module->name . '.' . $viewName;
+
+                // Default view overrided in app
+                $appDefaultView = 'uccello.modules.default.' . $viewName;
+
+                // Module view ovverrided in package
+                $packageModuleView = $package . '::modules.' . $module->name . '.' . $viewName;
+
+                // Default view defined in package
+                $packageDefaultView = $package . '::modules.default.' . $viewName;
+
+                // Module view ovverrided in uccello
+                $uccelloModuleView = 'uccello::modules.' . $module->name . '.' . $viewName;
+
+                // Default view defined in uccello
+                $uccelloDefaultView = 'uccello::modules.default.' . $viewName;
+
+                $viewToInclude = null;
+                if (view()->exists($appModuleView)) {
+                    $viewToInclude = $appModuleView;
+                } elseif (view()->exists($packageModuleView)) {
+                    $viewToInclude = $packageModuleView;
+                } elseif (view()->exists($appDefaultView)) {
+                    $viewToInclude = $appDefaultView;
+                } elseif (view()->exists($packageDefaultView)) {
+                    $viewToInclude = $packageDefaultView;
+                } elseif (view()->exists($uccelloModuleView)) {
+                    $viewToInclude = $uccelloModuleView;
+                } elseif (view()->exists($uccelloDefaultView)) {
+                    $viewToInclude = $uccelloDefaultView;
+                } elseif (!is_null($fallbackView)) {
+                    $viewToInclude = $fallbackView;
+                }
+
+                return $viewToInclude;
+            }
+        );
+    }
 }

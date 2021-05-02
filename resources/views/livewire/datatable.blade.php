@@ -10,7 +10,7 @@
         <tr>
             @foreach ($fields as $field)
                 @continue(!$field->isVisibleInListView())
-                <x-uc-datatable-td :field="$field" :record="$record"/>
+                <x-uc-datatable-td :workspace="$workspace" :module="$module" :field="$field" :record="$record"/>
             @endforeach
         </tr>
         @endforeach

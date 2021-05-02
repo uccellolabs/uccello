@@ -4,6 +4,7 @@ namespace Uccello\Core\Http\Controllers\Core;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Uccello\Core\Facades\Uccello;
 use Uccello\Core\Models\Workspace;
 use Uccello\Core\Models\Module;
 use Uccello\Core\Support\Traits\UccelloController;
@@ -35,9 +36,26 @@ class ListController extends Controller
      */
     protected function process()
     {
-        return view('uccello::list.main', [
+        $viewName = $this->getViewNameToUse();
+
+        return view($viewName, [
             'workspace' => $this->workspace,
             'module' => $this->module
         ]);
+    }
+
+    /**
+     * Retrieve view name to use.
+     *
+     * @return string|null
+     */
+    private function getViewNameToUse()
+    {
+        return Uccello::view(
+            $this->module->package,
+            $this->module,
+            'list.main',
+            'uccello::modules.default.list.main'
+        );
     }
 }

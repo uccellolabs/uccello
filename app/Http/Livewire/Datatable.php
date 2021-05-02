@@ -44,6 +44,8 @@ class Datatable extends Component
         $this->queryString['length'] = ['except' => config('uccello.datatable.length')];
 
         return view('uccello::livewire.datatable', [
+            'workspace' => $this->workspace,
+            'module' => $this->module,
             'fields' => $this->getModuleFields(),
             'records' => $this->getPaginatedRecords()
         ]);

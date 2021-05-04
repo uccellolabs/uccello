@@ -11,7 +11,7 @@
 </head>
 <body class="flex">
     {{-- Sidebar --}}
-    <aside class="w-1/6 h-screen bg-white border border-gray-200 text-sm overflow-auto">
+    <aside class="w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
         {{-- Logo & Workspace --}}
         <div class="text-base font-semibold py-7 px-5 bg-white sticky top-0">
             <div class="">Logo entreprise</div>

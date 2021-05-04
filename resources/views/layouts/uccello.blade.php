@@ -12,7 +12,7 @@
 </head>
 <body class="flex">
     {{-- Sidebar --}}
-    <aside class="flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
+    <aside class="flex flex-col w-1/5 h-screen bg-white border border-gray-200 text-xs overflow-auto">
         {{-- Logo & Workspace --}}
         <div class="text-base font-semibold py-7 px-5 bg-white sticky top-0">
             <div class="">Logo entreprise</div>
@@ -205,9 +205,9 @@
     </aside>
 
     
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-5/6">
         {{-- Header --}}
-        <header class="flex flex-row justify-end items-center h-20 w-full text-xs bg-white border-b border-gray-200">
+        <header class="flex flex-row justify-end items-center h-16 w-full text-xs bg-white border-b border-gray-200">
             <ul class="flex flex-row items-center mr-12">
                 {{-- Marketplace --}}
                 <li class="mr-6">

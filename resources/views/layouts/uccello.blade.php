@@ -70,7 +70,7 @@
 
                 {{-- Modules content --}}
                 {{-- Category --}}
-                <div class="" x-data="{open:false}">
+                <div class="" x-data="{open:true}">
                     {{-- Category title --}}
                     <div class="flex flex-row justify-between text-primary-900 my-4 cursor-pointer" x-on:click="open=!open">
                         <div class="">Catégorie 1</div>
@@ -106,13 +106,7 @@
                             </div>
                         </div>
                         </div>
-                    <div class="flex flex-row justify-between">
-                        <div class="flex flex-row items-center py-2">
-                            <div class="border border-primary-500 border-dashed p-2 mr-5 bg-primary-500 bg-opacity-10 rounded-full"><img src="{{ ucasset('img/module-icon_picto.svg') }}"></div>
-                            <div class="">Créer un module</div>
-                        </div>
                     </div>
-                </div>
                 <div class="" x-data="{open:false}">
                     {{-- Category title --}}
                     <div class="flex flex-row justify-between text-primary-900 my-4 cursor-pointer" x-on:click="open=!open">
@@ -138,17 +132,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-row justify-between">
-                        <div class="flex flex-row items-center py-2">
-                            <div class="border border-primary-500 border-dashed p-2 mr-5 bg-primary-500 bg-opacity-10 rounded-full"><img src="{{ ucasset('img/module-icon_picto.svg') }}"></div>
-                            <div class="">Créer un module</div>
-                        </div>
+                </div>
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-row items-center py-2">
+                        <div class="border border-primary-500 border-dashed p-2 mr-5 bg-primary-500 bg-opacity-10 rounded-full"><img src="{{ ucasset('img/module-icon_picto.svg') }}"></div>
+                        <div class="">Créer un module</div>
                     </div>
                 </div>
             </div> {{-- End Modules --}}
 
             {{-- Tools --}}
-            <div class="mb-10" x-data="{open:false}">
+            <div class="mb-10" x-data="{open:true}">
                 {{-- Tools title --}}
                 <div class="flex flex-row justify-between">
                     <div class="flex flex-row text-primary-500 font-semibold text-xs cursor-pointer" x-on:click="open=!open">MES OUTILS</div>

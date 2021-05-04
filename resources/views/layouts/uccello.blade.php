@@ -12,7 +12,7 @@
 </head>
 <body class="flex">
     {{-- Sidebar --}}
-    <aside class="flex flex-col w-1/5 h-screen bg-white border border-gray-200 text-xs overflow-auto">
+    <aside class="flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
         {{-- Logo & Workspace --}}
         <div class="text-base font-semibold py-7 px-5 bg-white sticky top-0">
             <div class="">Logo entreprise</div>
@@ -28,7 +28,7 @@
             </div>
         </div>
         {{-- Sidebar content --}}
-        <div class="pl-8 pr-5 text-gray-500 font-normal">
+        <div class="px-5 text-gray-500 font-normal">
             {{-- Dashboard --}}
             <div class="mb-10" x-data="{open:false}">
                 {{-- Dashboard title --}}

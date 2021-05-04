@@ -27,9 +27,23 @@ if (!function_exists('uctrans')) {
      *
      * @see Uccello\Core\Helpers\Uccello
      */
-    function uctrans($key = null, ? Module $module = null, $replace = [ ], $locale = null)
+    function uctrans($key = null, ?Module $module = null, $replace = [ ], $locale = null)
     {
         return app('uccello')->trans($key, $module, $replace, $locale);
+    }
+}
+
+if (!function_exists('ucasset')) {
+    /**
+     * Get complete path to asset
+     *
+     * @param string $path
+     * @param string $package
+     * @return void
+     */
+    function ucasset($path, $package = 'uccello/uccello')
+    {
+        return asset("vendor/$package/$path");
     }
 }
 

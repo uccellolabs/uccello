@@ -1,4 +1,4 @@
-{{-- <img src="{{ asset('img/') }}" --}}
+{{-- <img src="{{ ucasset('img/') }}"> --}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,12 +19,20 @@
         </div>
         <div class="px-5 mb-10">
             
-            <div class="bg-gray-100 border border-gray-200 p-2">
-                <div class="">
+            <div class="flex flex-row rounded bg-gray-100 border border-gray-200 p-2">
+                <div class="w-5/6 flex justify-between items-center">
                     <div class="">My workspace</div>
-                    <div class=""></div>
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
                 </div>
-                <div class=""></div>
+                <div class="w-1/6 flex justify-center items-center border-l border-gray-200">
+                    <div class="">
+                        <img class="text-primary-900" src="{{ ucasset('img/filter_picto.svg') }}">
+                    </div>
+                </div>
             </div>
         </div>
         {{-- Sidebar content --}}
@@ -233,8 +241,55 @@
             </ul>
         </header>
          {{-- Content --}}
-        <main class="p-12">
+        <main class="p-8 mr-12">
+            {{-- Admin settings --}}
+            {{-- Admin settings title --}}
+            <div class="flex flex-row items-center">
+                <div class="mr-2"><img src="{{ ucasset('img/settings-icon_picto.svg') }}"></div>
+                <div class="text-primary-900 text-3xl font-semibold">ADMIN SETTINGS</div>
+            </div>
             
+            {{-- Admin settings content --}}
+            <div class="mt-8" x-data="{open:true}">
+                {{-- Navigation --}}
+                <div class="flex flex-row items-center text-gray-400">
+                    <div class="p-4 ml-6 cursor-pointer" x-on:click="open=!open" :class="{'text-primary-900 border-b-2 border-primary-900 ':open===true}">Users</div>
+                    <div class="p-4 ml-6" x-on:click="">Mon instance</div>
+                    <div class="p-4 ml-6" x-on:click="">Mes plans</div>
+                    <div class="p-4 ml-6" x-on:click="">Mon compte</div>
+                    <div class="p-4 ml-6" x-on:click="">Mes webhook</div>
+                    <div class="ml-6 p-4" x-on:click="">
+                        <div class="bg-black rounded-full text-white">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Default bg --}}
+                <div class="bg-white border border-gray-200 rounded">
+                    {{-- Sub navigation --}}
+                    {{-- Users sub --}}
+                    <div class="flex flex-row justify-between items-center text-primary-900" x-show="open">
+                        <div class="flex">
+                            <div class="p-4 ml-6" :class="{'border-b-2 border-primary-500 ':open===true}">Mes users</div>
+                            <div class="p-4 ml-6">Tous les rôles</div>
+                        </div>
+                        <div class="p-2">
+                            <div class="py-2 px-4 text-white bg-primary-900 rounded  cursor-pointer">+ Inviter un user</div>
+                        </div>
+                    </div>
+                    {{-- Mon instance sub --}}
+                    {{-- Mes plans sub --}}
+                    {{-- ... --}}
+
+                    {{-- Navigation content --}}
+                    <div class="">
+
+                    </div>
+                </div>
+            </div>
             @yield('content')
         </main>
 

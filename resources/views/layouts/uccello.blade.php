@@ -10,7 +10,7 @@
     <title>@yield('title', 'Uccello')</title>
     @livewireStyles
 </head>
-<body class="flex text-primary-900">
+<body class="flex text-primary-900 bg-gray-100">
     {{-- Sidebar --}}
     <aside class="z-20 flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
         {{-- Logo & Workspace --}}

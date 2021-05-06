@@ -10,9 +10,9 @@
     <title>@yield('title', 'Uccello')</title>
     @livewireStyles
 </head>
-<body class="flex">
+<body class="flex text-primary-900">
     {{-- Sidebar --}}
-    <aside class="flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
+    <aside class="z-20 flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
         {{-- Logo & Workspace --}}
         <div class="text-base font-semibold py-7 px-5 bg-white sticky top-0">
             <div class="">Logo entreprise</div>
@@ -209,7 +209,7 @@
     
     <div class="flex flex-col w-5/6">
         {{-- Header --}}
-        <header class="flex flex-row justify-end items-center h-16 w-full text-xs bg-white border-b border-gray-200">
+        <header class="z-20 flex flex-row justify-end items-center h-16 w-full text-xs bg-white border-b border-gray-200">
             <ul class="flex flex-row items-center mr-12">
                 {{-- Marketplace --}}
                 <li class="mr-6">
@@ -240,62 +240,10 @@
 
             </ul>
         </header>
-         {{-- Content --}}
-        <main class="p-8 mr-12">
-            {{-- Admin settings --}}
-            {{-- Admin settings title --}}
-            <div class="flex flex-row items-center">
-                <div class="mr-2"><img src="{{ ucasset('img/settings-icon_picto.svg') }}"></div>
-                <div class="text-primary-900 text-3xl font-semibold">ADMIN SETTINGS</div>
-            </div>
-            
-            {{-- Admin settings content --}}
-            <div class="mt-8" x-data="{open:true}">
-                {{-- Navigation --}}
-                <div class="flex flex-row items-center text-gray-400">
-                    <div class="p-4 ml-6 cursor-pointer" x-on:click="open=!open" :class="{'text-primary-900 border-b-2 border-primary-900 ':open===true}">Users</div>
-                    <div class="p-4 ml-6" x-on:click="">Mon instance</div>
-                    <div class="p-4 ml-6" x-on:click="">Mes plans</div>
-                    <div class="p-4 ml-6" x-on:click="">Mon compte</div>
-                    <div class="p-4 ml-6" x-on:click="">Mes webhook</div>
-                    <div class="ml-6 p-4" x-on:click="">
-                        <div class="bg-black rounded-full text-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Default bg --}}
-                <div class="bg-white border border-gray-200 rounded">
-                    {{-- Sub navigation --}}
-                    {{-- Users sub --}}
-                    <div class="flex flex-row justify-between items-center text-primary-900" x-show="open">
-                        <div class="flex">
-                            <div class="p-4 ml-6" :class="{'border-b-2 border-primary-500 ':open===true}">Mes users</div>
-                            <div class="p-4 ml-6">Tous les rôles</div>
-                        </div>
-                        <div class="p-2">
-                            <div class="py-2 px-4 text-white bg-primary-900 rounded  cursor-pointer">+ Inviter un user</div>
-                        </div>
-                    </div>
-                    {{-- Mon instance sub --}}
-                    {{-- Mes plans sub --}}
-                    {{-- ... --}}
-
-                    {{-- Navigation content --}}
-                    <div class="">
-
-                    </div>
-                </div>
-            </div>
-            @yield('content')
-        </main>
+         
+        @yield('content')
+    </div>
 
     @livewireScripts
-    </div>
-    
-   
 </body>
 </html>

@@ -17,6 +17,18 @@ Route::name('uccello.')
         $workspaceAndModuleParams = '{workspace}/{module}';
     }
 
+    Route::get($workspaceParam.'/onboarding', function() {
+        return view('uccello::modules.onboarding.main');
+    });
+    Route::get($workspaceParam.'/dashboard', function() {
+        return view('uccello::modules.dashboard.main');
+    });
+    Route::get($workspaceParam.'/admin-settings', function() {
+        return view('uccello::modules.admin-settings.main');
+    });
+    Route::get($workspaceParam.'/add-from-marketplace', function() {
+        return view('uccello::modules.add-from-marketplace.main');
+    });
     Route::get($workspaceAndModuleParams, 'Core\ListController')->name('list');
     Route::get($workspaceAndModuleParams.'/{id}', 'Core\DetailController')->where('id', '[0-9]+')->name('detail');
 });

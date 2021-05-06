@@ -24,12 +24,7 @@ module.exports = {
     
     extend: {
       height: {
-        as_table_lg: '46vh',
-        as_table_xl: '54vh',
-        as_table_2xl: '60vh',
-        table_lg: '56vh',
-        table_xl: '62vh',
-        table_2xl: '68vh',
+        table_lg: '74vh',
        },
       colors: {
         primary: {

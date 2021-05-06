@@ -15,5 +15,5 @@ return [
         'pending' => 'Pending',
         'active' => 'Active',
         'blocked' => 'Blocked',
-    ]
+    ],
 ];

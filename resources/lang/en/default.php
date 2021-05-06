@@ -8,5 +8,6 @@ return [
     'label' => [
         'yes' => 'Yes',
         'no' => 'No',
+        'action' => 'Action',
     ],
 ];

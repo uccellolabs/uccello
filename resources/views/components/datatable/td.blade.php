@@ -1,1 +1,6 @@
-<td class="p-1 border border-gray-400">@include($viewName, ['value' => $value])</td>
+<td class=" border-t border-b border-gray-200 whitespace-nowrap">
+  <div class="w-full">
+    @include($viewName, ['value' => $value])
+  </div>
+</td>
+ 

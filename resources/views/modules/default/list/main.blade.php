@@ -11,7 +11,7 @@
         </div>
     </div>
     {{-- Table --}}
-    <div  class="overflow-auto bg-white border border-gray-200 rounded-lg px-7 w-full h-table_lg">
+    <div  class="w-full overflow-auto bg-white border border-gray-200 rounded-lg px-7" style="height: calc(100vh - 200px)">
         <livewire:uc-datatable :workspace="$workspace" :module="$module"/>
     </div>
     

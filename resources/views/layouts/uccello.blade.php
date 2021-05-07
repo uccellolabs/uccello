@@ -82,7 +82,7 @@
                     {{-- Category title --}}
                     <div class="flex flex-row justify-between text-primary-900 my-4 cursor-pointer" x-on:click="open=!open">
                         <div class="">Catégorie 1</div>
-                        <div class="text-primary-900" :class="{'transform rotate-180 duration-300':open===true}">
+                        <div class="text-primary-900" :class="{'transform rotate-180 duration-300':open===true, 'transform duration-300':open===false}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 15l7-7 7 7" />
                             </svg>
@@ -119,7 +119,7 @@
                     {{-- Category title --}}
                     <div class="flex flex-row justify-between text-primary-900 my-4 cursor-pointer" x-on:click="open=!open">
                         <div class="">Catégorie 2</div>
-                        <div class="text-primary-900" :class="{'transform rotate-180 duration-300':open===true}">
+                        <div class="text-primary-900" :class="{'transform rotate-180 duration-300':open===true, 'transform duration-300':open===false}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 15l7-7 7 7" />
                             </svg>
@@ -160,7 +160,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                             </svg>
                         </div>
-                        <div class="ml-2 text-primary-900" :class="{'transform rotate-180 duration-300':open===true}">
+                        <div class="ml-2 text-primary-900" :class="{'transform rotate-180 duration-300':open===true, 'transform duration-300':open===false}">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 15l7-7 7 7" />
                             </svg>

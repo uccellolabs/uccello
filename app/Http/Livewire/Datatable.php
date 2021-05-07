@@ -21,7 +21,7 @@ class Datatable extends Component
     protected $queryString = [
         'sortFieldName',
         'sortOrder' => ['except' => 'asc'],
-        'length'
+        'length',
     ];
 
     /**
@@ -150,5 +150,15 @@ class Datatable extends Component
         }
 
         return $foundField;
+    }
+
+    public function paginationView()
+    {
+        return 'uccello::livewire.pagination.tailwind';
+    }
+
+    public function paginationSimpleView()
+    {
+        return 'uccello::livewire.pagination.simple-tailwind';
     }
 }

@@ -12,7 +12,7 @@
 </head>
 <body class="flex text-primary-900 bg-gray-100">
     {{-- Sidebar --}}
-    <aside class="z-20 flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
+    <aside class="z-20 flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200">
         {{-- Logo & Workspace --}}
         <div class="text-base font-semibold py-7 px-5 bg-white sticky z-10 top-0">
             <div class="">Logo entreprise</div>

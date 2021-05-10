@@ -186,7 +186,7 @@
         </div>
     </div>
     {{-- Table --}}
-    <div  class="w-full overflow-auto bg-white border border-gray-200 rounded-lg px-7" style="height: calc(100vh - 200px)">
+    <div  class="w-full overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200 bg-white border border-gray-200 rounded-lg px-7" style="height: calc(100vh - 200px)">
         <livewire:uc-datatable :workspace="$workspace" :module="$module"/>
     </div>
     

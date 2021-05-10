@@ -53,7 +53,7 @@
                                             {{-- Pop-up content --}}
                                             <div class="p-7">
                                                 <div class="">Email</div>
-                                                <div class="h-20 max-h-36 overflow-auto bg-gray-100 border border-gray-200 rounded" contenteditable="true"></div>
+                                                <div class="h-20 max-h-36 overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200 bg-gray-100 border border-gray-200 rounded" contenteditable="true"></div>
 
                                                 <div class="flex flex-row my-2">
                                                     <div class="flex w-4/12">Workspace</div>
@@ -69,7 +69,7 @@
                                                             </svg>
                                                         </div>
                                                     </div>
-                                                    <div contenteditable="true" class="flex overflow-auto h-10 max-h-24 w-7/12 ml-2 p-2 flex-row items-center bg-gray-100 border border-gray-200 rounded">
+                                                    <div contenteditable="true" class="flex overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200 h-10 max-h-24 w-7/12 ml-2 p-2 flex-row items-center bg-gray-100 border border-gray-200 rounded">
                                                         
                                                     </div>
                                                     <div class="flex w-1/12 ml-2 items-center">
@@ -91,7 +91,7 @@
                                                             </svg>
                                                         </div>
                                                     </div>
-                                                    <div contenteditable="true" class="flex h-10 max-h-24 overflow-auto w-7/12 ml-2 p-2 flex-row items-center bg-gray-100 border border-gray-200 rounded">
+                                                    <div contenteditable="true" class="flex h-10 max-h-24 overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200 w-7/12 ml-2 p-2 flex-row items-center bg-gray-100 border border-gray-200 rounded">
                                                         
                                                     </div>
                                                     <div class="flex w-1/12 ml-2 items-center">
@@ -136,7 +136,7 @@
                             </div>
                             {{-- Content --}}
                             <div class="w-full mt-10 bg-white px-7 rounded-lg" style="height: calc(100vh - 370px)">
-                                <div class="overflow-auto" x-show="subtab===1">
+                                <div class="overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200" x-show="subtab===1">
                                     1
                                 </div>
                                 <div class="" x-show="subtab===2">
@@ -159,7 +159,7 @@
                         {{-- Content --}}
                         <div class="w-full mt-10 bg-white px-7 rounded-lg" style="height: calc(100vh - 370px)">
                             {{-- Table --}}
-                            <div class="overflow-auto" x-show="subtab===1">
+                            <div class="overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200" x-show="subtab===1">
                                 1
                             </div>
                             <div class="" x-show="subtab===2">
@@ -181,7 +181,7 @@
                         {{-- Content --}}
                         <div class="w-full mt-10 bg-white px-7 rounded-lg" style="height: calc(100vh - 370px)">
                             {{-- Table --}}
-                            <div class="overflow-auto" x-show="subtab===1">
+                            <div class="overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200" x-show="subtab===1">
                                 1
                             </div>
                             <div class="" x-show="subtab===2">
@@ -203,7 +203,7 @@
                         {{-- Content --}}
                         <div class="w-full mt-10 bg-white px-7 rounded-lg" style="height: calc(100vh - 370px)">
                             {{-- Table --}}
-                            <div class="overflow-auto" x-show="subtab===1">
+                            <div class="overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200" x-show="subtab===1">
                                 1
                             </div>
                             <div class="" x-show="subtab===2">
@@ -225,7 +225,7 @@
                         {{-- Content --}}
                         <div class="w-full mt-10 bg-white px-7 rounded-lg" style="height: calc(100vh - 370px)">
                             {{-- Table --}}
-                            <div class="overflow-auto" x-show="subtab===1">
+                            <div class="overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200" x-show="subtab===1">
                                 1
                             </div>
                             <div class="" x-show="subtab===2">

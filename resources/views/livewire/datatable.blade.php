@@ -1,5 +1,5 @@
 <div>
-    <table cellpadding="11" cellspacing="10" class="table-auto w-auto">
+    <table cellpadding="11" cellspacing="10" class="table-auto w-auto p-8">
         <tr class="w-full">
             <th class="sticky top-0 bg-white">
                 <input type="checkbox" class="ml-3 checked:bg-primary-900">

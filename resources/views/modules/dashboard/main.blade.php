@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- Content --}}
-    <main class="p-8 mr-12">
+    <main class="p-8">
         {{-- Dashboard --}}
         {{-- Dashboard title --}}
         <div class="flex flex-row items-center">
@@ -30,7 +30,7 @@
                         <div class="p-7 shadow-lg bg-primary-500 rounded-lg mr-2">
                             <img src="{{ ucasset('img/metrics-GDS_picto.svg') }}" alt="Metrics" class="w-8">
                         </div>
-                        <div class="text-2xl ml-6 leading-10 font-semibold">Add a new Google Data Studio dashboard</div>
+                        <div class="text-3xl ml-6 leading-10 font-semibold">Add a new Google Data Studio dashboard</div>
                     </div>
                     {{-- Modal content --}}
                     <div class="p-7">

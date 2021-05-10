@@ -12,7 +12,7 @@
         {{-- Dashboards content --}}
         <div class="mt-8 p-8 z-0 flex items-center justify-center bg-white rounded-lg border border-gray-200" x-data="{open:false}">
             {{-- Default bg --}}
-            <img src="{{ ucasset('img/dashboard-bg_img.svg') }}">
+            <img width="95%" src="{{ ucasset('img/dashboard-bg_img.svg') }}">
 
             {{-- Button add a dashbaord --}}
             <div class="absolute z-10 flex items-center bg-primary-500 rounded-lg cursor-pointer p-3 text-white" x-on:click="open=!open">
@@ -49,39 +49,58 @@
                             </div>
                         </div>
 
-                        <div class="flex flex-row mb-2">
-                            <div class="flex w-4/12">Workspace</div>
-                            <div class="flex w-7/12 ml-1">Rôles</div>
-                        </div>
-
-                        <div class="flex flex-row my-2">
-                            <div class="p-2 h-10 w-4/12 flex flex-row items-center justify-between bg-gray-100 border border-gray-200 rounded">
-                                <div class="">Market team</div>
-                                <div class="">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7" />
-                                    </svg>
+                        <div class="flex flex-row my-2" x-data="{search:false}">
+                            <div class="flex items-start w-full justify-center">
+                                <div class="relative w-full flex items-center">
+                                    <img src="{{ ucasset('img/search_picto.svg') }}" class="absolute ml-2">
+                                    <input type="text" class="h-12 p-4 pl-8 w-full bg-gray-100 border border-gray-200 rounded" x-on:focus="search=!search">
                                 </div>
-                            </div>
-                            <div contenteditable="true" class="flex h-10 w-7/12 ml-2 p-2 flex-row items-center bg-gray-100 border border-gray-200 rounded">
-                                Market team
-                            </div>
-                            <div class="flex w-1/12 ml-2 items-center">
-                                <div class="">
-                                    <div class="p-2 bg-primary-900 text-white rounded">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" />
-                                        </svg>
+                                {{-- Dropdown --}}
+                                <div class="mt-3 text-sm flex flex-col absolute bg-white rounded-md shadow-lg w-36 h-36 p-1" x-show="search">
+                                    <div class="flex flex-row items-center">
+                                        <img src="{{ ucasset('img/search_picto.svg') }}" class="absolute ml-1" width="12%">
+                                        <input type="text" class="pl-6 w-full bg-gray-100 border border-gray-200 rounded">
+                                    </div>
+                                    <div class="overflow-auto">
+                                        <div class="flex flex-row p-1 items-center">
+                                            <div class="text-primary-500 mr-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                </svg>
+                                            </div>
+                                            <div class="">Market team</div>
+                                        </div>
+                                        <div class="flex flex-row p-1 items-center">
+                                            <div class="text-primary-500 mr-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                            <div class="">John doe 1</div>
+                                        </div>
+                                        <div class="flex flex-row p-1 items-center">
+                                            <div class="text-primary-500 mr-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                            <div class="">John doe 1</div>
+                                        </div>
+                                        <div class="flex flex-row p-1 items-center">
+                                            <div class="text-primary-500 mr-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </div>
+                                            <div class="">John doe 1</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="mt-4 p-3 cursor-pointer bg-primary-900 text-white rounded text-center">
-                            + Invite on another workspace
-                        </div>
                     </div>
-                    <div class="border-t border-gray-200 my-2"></div>
+
+                    <div class="border-t border-gray-200 mt-1 mb-2"></div>
                     <div class="p-7">
                         <div class="">
                             <div class="">Insert <a href="https://funnel.io/marketing-reporting-google-data-studio?utm_source=google&utm_medium=cpc&utm_campaign=g_eu_generic&utm_term=datastudio-eu">Google Data Studio</a></div>

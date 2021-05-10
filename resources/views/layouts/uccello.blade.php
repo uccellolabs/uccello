@@ -14,24 +14,37 @@
     {{-- Sidebar --}}
     <aside class="z-20 flex flex-col w-1/6 h-screen bg-white border border-gray-200 text-xs overflow-auto">
         {{-- Logo & Workspace --}}
-        <div class="text-base font-semibold py-7 px-5 bg-white sticky top-0">
+        <div class="text-base font-semibold py-7 px-5 bg-white sticky z-10 top-0">
             <div class="">Logo entreprise</div>
         </div>
-        <div class="px-5 mb-10">
-            
+        <div class="px-5 mb-10" x-data="{open:false}">
             <div class="flex flex-row rounded bg-gray-100 border border-gray-200 p-2">
-                <div class="w-5/6 flex justify-between items-center">
-                    <div class="">My workspace</div>
-                    <div class="mr-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7" />
-                        </svg>
+                <div class="w-5/6 flex flex-col cursor-pointer" x-on:click="open=!open">
+                    <div class="w-full flex justify-between items-center">
+                        <div class="w-full flex items-center">My workspace</div>
+                        <div class="mr-1 text-primary-900"  :class="{'transform rotate-90 duration-300':open===true, 'transform duration-300':open===false}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <div class="w-1/6 flex justify-center items-center border-l border-gray-200 pl-1">
                     <div class="flex items-center text-primary-900">
                         <img class="text-primary-900" src="{{ ucasset('img/filter_picto.svg') }}">
                     </div>
+                </div>
+            </div>
+            <div class="text-sm bg-white border border-gray-200 rounded-b-md p-1" x-show="open">
+                <div class="w-full flex flex-col">
+                    <div class="flex flex-row items-center relative">
+                        <img src="{{ ucasset('img/search_picto.svg') }}" class="absolute ml-2" width="10%">
+                        <input type="text" class="pl-8 p-1 w-full bg-gray-100 border border-gray-200 rounded">
+                    </div>
+                    <div class="flex flex-row items-center ml-2 hover:bg-gray-50 p-1 cursor-pointer">Market team</div>
+                    <div class="flex flex-row items-center ml-2 hover:bg-gray-50 p-1 cursor-pointer">Market team</div>
+                    <div class="flex flex-row items-center ml-2 hover:bg-gray-50 p-1 cursor-pointer">Market team</div>
+                    <div class="flex flex-row items-center ml-2 hover:bg-gray-50 p-1 cursor-pointer">Market team</div>
                 </div>
             </div>
         </div>

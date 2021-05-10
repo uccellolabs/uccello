@@ -13,13 +13,13 @@
             <div class="cursor-pointer bg-white p-2 rounded-lg shadow-sm flex items-center">
                 <img src="{{ ucasset('img/download_picto.svg') }}">
             </div>
-            {{-- Dropdown --}}
+            {{-- Grid --}}
             <div class="text-sm relative" x-data="{dropdown:false}">
                 <div class="cursor-pointer bg-white p-2 rounded-lg shadow-sm ml-4 flex items-center" x-on:click="dropdown=!dropdown">
                     <img src="{{ ucasset('img/grid_picto.svg') }}">
                 </div>
                 {{-- Dropdown --}}
-                <div class="z-20 w-44 shadow-sm bg-white absolute top-12 left-3 border border-gray-200 rounded-md" x-show="dropdown">
+                <div class="z-20 w-44 shadow-sm bg-white absolute top-12 left-3 border border-gray-200 rounded-md" x-show="dropdown" @click.away="dropdown = false">
                     <div class="flex flex-col p-3">
                         <div class="flex items-center flex-row justify-between py-1 px-2 mb-2 bg-gray-100 rounded-lg">
                             <div class="">Date</div>
@@ -93,13 +93,13 @@
                     </div>
                 </div>
             </div>
-            
+            {{-- Filter --}}
             <div class="text-sm relative" x-data="{dropdown:false}">
                 <div class="cursor-pointer bg-white p-3 rounded-lg shadow-sm ml-4 flex items-center justify-end" x-on:click="dropdown=!dropdown">
                     <img src="{{ ucasset('img/filter-blue_img.png') }}">
                 </div>
                 {{-- Dropdown --}}
-                <div class="z-20 w-44 shadow-sm bg-white absolute top-12 left-3 border border-gray-200 rounded-md" x-show="dropdown">
+                <div class="z-20 w-44 shadow-sm bg-white absolute top-12 left-3 border border-gray-200 rounded-md" x-show="dropdown" @click.away="dropdown = false">
                     <div class="flex flex-col p-3">
                         <div class="flex items-center flex-row justify-between py-1 px-2 mb-2 bg-gray-100 rounded-lg">
                             <div class="">Filter 1</div>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="" x-show="modale">
                             {{-- Modal --}}
-                            <div class="z-30 fixed top-24 left-1/3 w-1/3 bg-white border border-gray-200 rounded-lg">
+                            <div class="z-30 fixed top-24 left-1/3 w-1/3 bg-white border border-gray-200 rounded-lg"@click.away="modale = false">
                                 {{-- Modal title --}}
                                 <div class="px-7 pt-7 flex flex-row items-center">
                                     <div class="p-7 shadow-lg bg-primary-500 rounded-lg mr-2">

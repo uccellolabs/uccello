@@ -47,7 +47,7 @@
                                     {{-- Pop-up add a user --}}
                                     <div class="" x-show="add_user">
                                         {{-- Pop-up --}}
-                                        <div class="fixed left-1/3 top-14 bg-white w-1/3 border border-gray-200 rounded-2xl z-30">
+                                        <div class="fixed left-1/3 top-14 bg-white w-1/3 border border-gray-200 rounded-2xl z-30" @click.away="add_user = false">
                                             {{-- Pop-up title --}}
                                             <div class="p-7 text-2xl border-b border-gray-200 font-semibold">Invite user(s)</div>
                                             {{-- Pop-up content --}}

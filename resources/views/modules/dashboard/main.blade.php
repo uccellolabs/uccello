@@ -53,7 +53,20 @@
                             <div class="flex items-start w-full justify-center">
                                 <div class="relative w-full flex items-center">
                                     <img src="{{ ucasset('img/search_picto.svg') }}" class="absolute ml-2">
-                                    <input type="text" class="h-12 p-4 pl-8 w-full bg-gray-100 border border-gray-200 rounded" x-on:focus="search=!search">
+                                    <div type="text" class="flex items-center font-normal text-sm h-12 p-4 pl-8 w-full bg-gray-100 border border-gray-200 rounded" contenteditable="true">
+                                        {{-- Tags --}}
+                                        <div class="ml-2 py-1 pl-2 pr-1 items-center rounded-xl bg-white shadow-sm flex flex-row justify-between">
+                                            <div class="">Entête 1</div>
+                                            <div class="ml-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="ml-2 px-2 py-1 cursor-pointer text-white items-center rounded-xl bg-primary-500 shadow-sm" x-on:click="search=!search">
+                                            <div class="">+ Add user or team</div>
+                                        </div>
+                                    </div>
                                 </div>
                                 {{-- Dropdown --}}
                                 <div class="mt-3 text-sm flex flex-col absolute bg-white rounded-md shadow-lg w-36 h-36 p-1" x-show="search">

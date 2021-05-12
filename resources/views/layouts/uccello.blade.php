@@ -268,10 +268,10 @@
                     <div class="pl-8 border-l border-gray-200"><img src="{{ ucasset('img/notif_picto.svg') }}"></div>
                 </li>
                 {{-- User connected --}}
-                <li>
+                <li class="relative" x-data="{dropdown:false}">
                     <div class="flex flex-row items-center">
                         <div class="p-4 mr-2 rounded-md bg-green-300"></div>
-                        <div class="flex flex-col leading-4">
+                        <div class="flex flex-col leading-4 cursor-pointer" x-on:click="dropdown=!dropdown" @click.away="dropdown = false">
                             <div class="text-base">Mes settings</div>
                             <div class="text-sm text-gray-400">carbonneau.guillaume@...</div>
                         </div>
@@ -279,6 +279,35 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 9l-7 7-7-7" />
                             </svg>
+                        </div>
+                    </div>
+                    {{-- Dropdown --}}
+                    <div class="absolute right-0 top-12 w-32 bg-white border border-gray-200 rounded-lg shadow-lg" x-show="dropdown">
+                        <div class="flex flex-col p-3 font-semibold">
+                            <div class="flex items-center flex-row py-1">
+                                <div class="mr-2 text-primary-900">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                </div>
+                                <div class="">Mon profil</div>
+                            </div>
+                            <div class="flex items-center flex-row py-1">
+                                <div class="mr-2 text-primary-900">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                    </svg>
+                                </div>
+                                <div class="">Mes plans</div>
+                            </div>
+                            <div class="flex items-center flex-row py-1">
+                                <div class="mr-2 text-primary-900">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                </div>
+                                <div class="">Sign out</div>
+                            </div>
                         </div>
                     </div>
                 </li>

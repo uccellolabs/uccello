@@ -6,6 +6,7 @@ return [
         'name' => 'Name',
         'is_admin' => 'Is admin?',
         'email' => 'Email',
+        'password' => 'Password',
         'status' => 'Status',
         'workspace' => 'Workspace',
         'created_at' => 'Created at',

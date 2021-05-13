@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Blade;
 use Livewire\Livewire;
 use Uccello\Core\Http\Livewire\Datatable;
+use Uccello\Core\Http\Livewire\DatatableColumns;
+use Uccello\Core\View\Components\Datatable\Search;
 use Uccello\Core\View\Components\Datatable\Th;
 use Uccello\Core\View\Components\Datatable\Td;
 
@@ -82,9 +84,10 @@ class AppServiceProvider extends ServiceProvider
     private function registerBladeComponents()
     {
         Blade::components([
-            'th' => Th::class,
-            'td' => Td::class,
-        ], 'uc-datatable');
+            'datatable-th' => Th::class,
+            'datatable-td' => Td::class,
+            'datatable-search' => Search::class,
+        ], 'uc');
     }
 
     /**
@@ -95,6 +98,7 @@ class AppServiceProvider extends ServiceProvider
     private function registerLivewireComponents()
     {
         Livewire::component('uc-datatable', Datatable::class);
+        Livewire::component('uc-datatable-columns', DatatableColumns::class);
     }
 
     /**

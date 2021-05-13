@@ -17,11 +17,17 @@ class Datatable extends Component
     public $sortOrder = 'asc';
 
     public $length;
+    public $visibleFields;
 
     protected $queryString = [
         'sortFieldName',
         'sortOrder' => ['except' => 'asc'],
         'length',
+        'visibleFields',
+    ];
+
+    protected $listeners = [
+        'visibleFieldsChanged' => 'onVisibleFieldsChanged'
     ];
 
     /**
@@ -32,6 +38,8 @@ class Datatable extends Component
     public function mount()
     {
         $this->length = config('uccello.datatable.length');
+
+        $this->getVisibleFields();
     }
 
     /**
@@ -49,6 +57,26 @@ class Datatable extends Component
             'fields' => $this->getModuleFields(),
             'records' => $this->getPaginatedRecords()
         ]);
+    }
+
+    /**
+     * Return view to use for pagination
+     *
+     * @return string
+     */
+    public function paginationView()
+    {
+        return 'uccello::livewire.pagination.tailwind';
+    }
+
+    /**
+     * Return view to use for simple pagination
+     *
+     * @return string
+     */
+    public function paginationSimpleView()
+    {
+        return 'uccello::livewire.pagination.simple-tailwind';
     }
 
     /**
@@ -152,13 +180,33 @@ class Datatable extends Component
         return $foundField;
     }
 
-    public function paginationView()
+    /**
+     * Detect visible fields
+     *
+     * @return array
+     */
+    private function getVisibleFields()
     {
-        return 'uccello::livewire.pagination.tailwind';
+        if (empty($this->visibleFields)) {
+            if (count($this->module->structure->filters) > 0) {
+                $this->visibleFields = $this->module->structure->filters[0]->columns;
+            }
+        }
+
+        $this->emit('visibleFieldsDetected', $this->visibleFields);
+
+        return $this->visibleFields;
     }
 
-    public function paginationSimpleView()
+    /**
+     * Changes list of displayed fields
+     *
+     * @param array $visibleFields
+     *
+     * @return void
+     */
+    public function onVisibleFieldsChanged($visibleFields)
     {
-        return 'uccello::livewire.pagination.simple-tailwind';
+        $this->visibleFields = $visibleFields;
     }
 }

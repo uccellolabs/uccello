@@ -180,13 +180,13 @@
                     </div>
                 </div>
             </div>
-            <div class="cursor-pointer bg-primary-500 text-white p-2 rounded-lg shadow-sm ml-4 flex items-center">
+            <div class="cursor-pointer bg-primary-500 text-white py-2 px-5 rounded-lg shadow-sm ml-4 flex items-center">
                 + Add Member
             </div>
         </div>
     </div>
     {{-- Table --}}
-    <div  class="w-full overflow-auto  scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200 bg-white border border-gray-200 rounded-lg px-7" style="height: calc(100vh - 200px)">
+    <div  class="w-full overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-gray-300 scrollbar-track-gray-200 bg-white border border-gray-200 rounded-lg px-7" style="height: calc(100vh - 200px)">
         <livewire:uc-datatable :workspace="$workspace" :module="$module"/>
     </div>
     

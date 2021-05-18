@@ -1,4 +1,4 @@
-<th class="text-left sticky top-0 py-4 bg-white z-10" wire:click="changeSortOrder('{{ $fieldName }}')">
+<th class="text-left text-sm sticky top-0 py-4 bg-white z-10" wire:click="changeSortOrder('{{ $fieldName }}')">
     <div class="w-full whitespace-nowrap">
         <div class="flex flex-row items-center">
             <span class="flex flex-grow font-semibold">{{ $slot }}</span>

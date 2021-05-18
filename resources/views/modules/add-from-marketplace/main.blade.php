@@ -1,7 +1,7 @@
 @extends('uccello::layouts.uccello')
 
 @section('content')
-<main class="p-8 mr-12 h-full">
+<main class="p-8 h-full">
     {{-- Content --}}
 
         {{-- Buttons --}}

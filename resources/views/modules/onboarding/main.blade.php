@@ -1,7 +1,7 @@
 @extends('uccello::layouts.uccello')
 
 @section('content')
-    <main class="p-8 mr-12 h-full">
+    <main class="p-8 h-full">
         {{-- Welcome text --}}
         <div class="flex flex-col">
             <div class="flex text-primary-500 text-3xl font-semibold">

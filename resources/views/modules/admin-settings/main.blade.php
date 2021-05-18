@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- Content --}}
-    <main class="p-8 mr-12">
+    <main class="p-8">
         {{-- Admin settings --}}
         {{-- Admin settings title --}}
         <div class="flex flex-row items-center">

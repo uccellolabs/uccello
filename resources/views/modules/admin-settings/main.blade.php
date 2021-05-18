@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- Content --}}
-    <main class="p-8">
+    <div class="p-8">
         {{-- Admin settings --}}
         {{-- Admin settings title --}}
         <div class="flex flex-row items-center">
@@ -237,5 +237,5 @@
             </div>
         </div>
         
-    </main>
+    </div>
 @endsection

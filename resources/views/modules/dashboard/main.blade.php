@@ -2,7 +2,7 @@
 
 @section('content')
     {{-- Content --}}
-    <main class="p-8">
+    <div class="p-8">
         {{-- Dashboard --}}
         {{-- Dashboard title --}}
         <div class="flex flex-row items-center">
@@ -162,5 +162,5 @@
         </div>
        
         
-    </main>
+    </div>
 @endsection

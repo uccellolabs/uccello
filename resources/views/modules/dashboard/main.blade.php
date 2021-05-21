@@ -96,7 +96,7 @@
             </div>
 
         </div>
-        <?php /*
+
             {{-- Add by GDS modal  --}}
         <div class="">
             {{-- Modal --}}
@@ -214,7 +214,7 @@
             </div>
             {{-- Overlay --}}
             <div class="bg-primary-900 bg-opacity-50 z-10 fixed top-0 bottom-0 right-0 left-0"></div>
-        </div> */ ?>
+        </div>
 
     </div>
 @endsection

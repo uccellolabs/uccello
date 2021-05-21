@@ -252,7 +252,7 @@
     </aside>
 
     
-    <div class="flex flex-col w-5/6">
+    <div class="flex text-sm flex-col w-5/6">
         {{-- Header --}}
         <header class="z-20 flex flex-row justify-end items-center h-16 w-full text-xs bg-white border-b border-gray-200">
             <ul class="flex flex-row items-center mr-8">

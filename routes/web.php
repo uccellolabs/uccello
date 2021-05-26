@@ -35,6 +35,7 @@ Route::name('uccello.')
     Route::get($workspaceParam.'/module-designer', function() {
         return view('uccello::modules.module-designer.main');
     });
+
     Route::get($workspaceAndModuleParams, 'Core\ListController')->name('list');
     Route::get($workspaceAndModuleParams.'/{id}', 'Core\DetailController')->where('id', '[0-9]+')->name('detail');
 });

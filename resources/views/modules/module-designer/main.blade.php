@@ -49,7 +49,7 @@
                                 <input type="text" class="h-10 p-4 pl-6 w-full bg-gray-100 border border-gray-200 rounded" placeholder="Nom module">
                             </div>
                             {{-- Dropdown --}}
-                            <div class="top-0 left-0 right-0 w-full z-20 shadow-lg border border-gray-200 rounded-b-lg bg-white" x-show="dropdown" @click.away="dropdown = false">
+                            <div class="absolute top-16 left-0 right-0 w-full z-20 shadow-lg border border-gray-200 rounded-b-lg bg-white" x-show="dropdown" @click.away="dropdown = false">
                                 <div class="ml-6">
                                     <div class="p-2">Category 1</div>
                                     <div class="p-2">Category 1</div>
@@ -104,10 +104,10 @@
                     </div>
                     <div class="flex flex-row mb-3">
                         <div class="flex items-center" x-data="{toggle: '0'}">
-                            <div class="flex items-center relative rounded-full w-10 h-5 transition duration-200 ease-linear border-2 border-primary-900">
+                            <div class="flex items-center relative rounded-full w-10 h-5 transition duration-200 ease-linear border-2" :class="[toggle === '1' ? 'border-primary-900' : 'border-gray-400']">
                               <label for="toggle"
-                                    class="absolute left-1 bg-primary-900 w-3 h-3 rounded-full transition transform duration-100 ease-linear cursor-pointer"
-                                    :class="[toggle === '1' ? 'translate-x-4' : 'translate-x-0']"></label>
+                                    class="absolute left-1 w-3 h-3 rounded-full transition transform duration-100 ease-linear cursor-pointer"
+                                    :class="[toggle === '1' ? 'translate-x-4 bg-primary-900' : 'translate-x-0 bg-gray-400']"></label>
                               <input type="checkbox" id="toggle" name="toggle"
                                     class="appearance-none w-full h-full active:outline-none focus:outline-none"
                                     x-on:click="toggle === '0' ? toggle = '1' : toggle = '0'"/>
@@ -118,21 +118,23 @@
                     <div class="" x-data="{choice:1}">
                         <div class="mb-2">Qui aura accès aux données de ce module ?</div>
                         <div class="flex flex-col">
-                            <div class="flex flex-row items-start border border-gray-200 rounded-md p-3" :class="{'border-primary-500 bg-blue-50':choice===1}">
-                                <div class="mr-3">
-                                    <input class="border-primary-900 checked:bg-primary-900" type="radio" name="choice" id="public" checked x-on:click="choice=1">
-                                </div>
-                                <div class="flex flex-col">
+                            <div class="flex flex-col border border-gray-200 rounded-md p-3" :class="{'border-primary-500 bg-blue-50':choice===1}">
+                                <div class="flex flex-row items-center">
+                                    <input class="mr-3 border-primary-900 checked:bg-primary-900" type="radio" name="choice" id="public" checked x-on:click="choice=1">
                                     <div class="font-semibold">Public</div>
-                                    <div class="">Tous les utilisateurs ayant accès à ce module dans ce workspace pourront voir kes données</div>
+                                </div>
+                                <div class="flex flex-row ml-6">
+                                    <div class="">
+                                        Tous les utilisateurs ayant accès à ce module dans ce workspace pourront voir les données
+                                    </div>
                                 </div>
                             </div>
-                            <div class="flex flex-row items-start border border-gray-200 rounded-md p-3 mt-2" :class="{'border-primary-500 bg-blue-50':choice===2}">
-                                <div class="mr-3">
-                                    <input class="border-primary-900 checked:bg-primary-900" type="radio" name="choice" id="private" x-on:click="choice=2">
-                                </div>
-                                <div class="flex flex-col">
+                            <div class="flex flex-col border border-gray-200 rounded-md p-3 mt-2" :class="{'border-primary-500 bg-blue-50':choice===2}">
+                                <div class="flex flex-row items-center">
+                                    <input class="mr-3 border-primary-900 checked:bg-primary-900" type="radio" name="choice" id="private" x-on:click="choice=2">
                                     <div class="font-semibold">Privé</div>
+                                </div>
+                                <div class="flex flex-col ml-6">
                                     <div class="">- Ajout d'un champ "Assigné à" dans vos colonnes</div>
                                     <div class="">- Aront accès aux données : les administrateurs, les supérieurs hiérarchiques et tous users ou teams assignés.</div>
                                 </div>
@@ -189,7 +191,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="w-4/12 flex flex-col" x-data="{dropdown:false}">
                                 <div class="mb-1">Type de champ</div>
-                                <div class="bg-gray-100 border border-gray-200 rounded-md p-2">
+                                <div class="relative flex flex-col bg-gray-100 border border-gray-200 rounded-md p-2">
                                     <div class="flex flex-row justify-between items-center cursor-pointer" x-on:click="dropdown=!dropdown">
                                         <div class="flex flex-row items-center">
                                             <div class="mr-1">
@@ -200,8 +202,8 @@
                                         <div class=""><img width=70% src="{{ ucasset('img/triangle_picto.svg') }}"></div>
                                     </div>
                                     {{--  Dropdown --}}
-                                    <div class="" x-show="dropdown" @click.away="dropdown = false">
-                                        <div class="flex flex-row py-2">
+                                    <div class="absolute top-8 right-0 left-0 bg-gray-100 border-b border-r border-l border-gray-200 rounded-b-md" x-show="dropdown" @click.away="dropdown = false">
+                                        <div class="flex flex-row p-2">
                                             <div class="mr-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16M4 18h7" />
@@ -219,14 +221,14 @@
                             <div class="w-2/12 flex flex-col">
                                 <div class="mb-3">Obligatoire</div>
                                 <div class="flex flex-row">
-                                    <div class="flex items-center" x-data="{toggle2: '0'}">
-                                        <div class="flex items-center relative rounded-full w-10 h-5 transition duration-200 ease-linear border-2 border-primary-900">
-                                          <label for="toggle2"
-                                                class="absolute left-1 bg-primary-900 w-3 h-3 rounded-full transition transform duration-100 ease-linear cursor-pointer"
-                                                :class="[toggle2 === '1' ? 'translate-x-4' : 'translate-x-0']"></label>
-                                          <input type="checkbox" id="toggle2" name="toggle2"
+                                    <div class="flex items-center" x-data="{toggle: '0'}">
+                                        <div class="flex items-center relative rounded-full w-10 h-5 transition duration-200 ease-linear border-2" :class="[toggle === '1' ? 'border-primary-900' : 'border-gray-400']">
+                                        <label for="toggle"
+                                                class="absolute left-1 w-3 h-3 rounded-full transition transform duration-100 ease-linear cursor-pointer"
+                                                :class="[toggle === '1' ? 'translate-x-4 bg-primary-900' : 'translate-x-0 bg-gray-400']"></label>
+                                        <input type="checkbox" id="toggle2" name="toggle"
                                                 class="appearance-none w-full h-full active:outline-none focus:outline-none"
-                                                x-on:click="toggle2 === '0' ? toggle2 = '1' : toggle2 = '0'"/>
+                                                x-on:click="toggle === '0' ? toggle = '1' : toggle = '0'"/>
                                         </div>
                                     </div>
                                     <div class="ml-2">Oui</div>
@@ -299,7 +301,7 @@
                         <div class="flex flex-row justify-between">
                             <div class="w-4/12 flex flex-col" x-data="{dropdown:false}">
                                 <div class="mb-1">Type de champ</div>
-                                <div class="bg-gray-100 border border-gray-200 rounded-md p-2">
+                                <div class="relative bg-gray-100 border border-gray-200 rounded-md p-2">
                                     <div class="flex flex-row justify-between items-center cursor-pointer" x-on:click="dropdown=!dropdown">
                                         <div class="flex flex-row items-center">
                                             <div class="mr-1">
@@ -311,13 +313,15 @@
                                         </div>
                                         <div class=""><img width=70% src="{{ ucasset('img/triangle_picto.svg') }}"></div>
                                     </div>
-                                    {{--  Dropdown --}}
-                                    <div class="" x-show="dropdown" @click.away="dropdown = false">
-                                        <div class="flex flex-row py-2">
+                                   {{--  Dropdown --}}
+                                   <div class="absolute top-8 right-0 left-0 bg-gray-100 border-b border-r border-l border-gray-200 rounded-b-md" x-show="dropdown" @click.away="dropdown = false">
+                                        <div class="flex flex-row p-2">
                                             <div class="mr-2">
-                                                <img width=70% src="{{ ucasset('img/type-group_picto.svg') }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 6h16M4 12h16M4 18h7" />
+                                                </svg>
                                             </div>
-                                            <div class="">Champ lié</div>
+                                            <div class="">Texte simple</div>
                                         </div>
                                     </div>
                                 </div>
@@ -329,14 +333,14 @@
                             <div class="w-2/12 flex flex-col">
                                 <div class="mb-3">Obligatoire</div>
                                 <div class="flex flex-row">
-                                    <div class="flex items-center" x-data="{toggle2: '0'}">
-                                        <div class="flex items-center relative rounded-full w-10 h-5 transition duration-200 ease-linear border-2 border-primary-900">
-                                          <label for="toggle2"
-                                                class="absolute left-1 bg-primary-900 w-3 h-3 rounded-full transition transform duration-100 ease-linear cursor-pointer"
-                                                :class="[toggle2 === '1' ? 'translate-x-4' : 'translate-x-0']"></label>
-                                          <input type="checkbox" id="toggle2" name="toggle2"
+                                    <div class="flex items-center" x-data="{toggle: '0'}">
+                                        <div class="flex items-center relative rounded-full w-10 h-5 transition duration-200 ease-linear border-2" :class="[toggle === '1' ? 'border-primary-900' : 'border-gray-400']">
+                                        <label for="toggle"
+                                                class="absolute left-1 w-3 h-3 rounded-full transition transform duration-100 ease-linear cursor-pointer"
+                                                :class="[toggle === '1' ? 'translate-x-4 bg-primary-900' : 'translate-x-0 bg-gray-400']"></label>
+                                        <input type="checkbox" id="toggle3" name="toggle"
                                                 class="appearance-none w-full h-full active:outline-none focus:outline-none"
-                                                x-on:click="toggle2 === '0' ? toggle2 = '1' : toggle2 = '0'"/>
+                                                x-on:click="toggle === '0' ? toggle = '1' : toggle = '0'"/>
                                         </div>
                                     </div>
                                     <div class="ml-2">Oui</div>
@@ -359,7 +363,7 @@
                                         <div class="w-2/4">
                                             Les données de cette colonne seront affichées
                                         </div>
-                                        <div class="w-1/3 bg-gray-100 border border-gray-200 rounded-md p-2" x-data="{choice:false}">
+                                        <div class="w-1/3 relative bg-gray-100 border border-gray-200 rounded-md p-2" x-data="{choice:false}">
                                             <div class="flex flex-row justify-between items-center cursor-pointer" x-on:click="choice=!choice">
                                                 <div class="flex flex-row items-center">
                                                     <div class="">Champ lié</div>
@@ -367,7 +371,7 @@
                                                 <div class=""><img width=70% src="{{ ucasset('img/triangle_picto.svg') }}"></div>
                                             </div>
                                             {{--  Dropdown --}}
-                                            <div class="" x-show="choice" @click.away="choice = false">
+                                            <div class="absolute w-full top-8 right-0 left-0 bg-gray-100 border-b border-l border-r border-gray-200 rounded-b-md px-2" x-show="choice" @click.away="choice = false">
                                                 <div class="flex flex-row py-2">
                                                     <div class="">Texte simple</div>
                                                 </div>

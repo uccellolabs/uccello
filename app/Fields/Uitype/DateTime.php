@@ -65,6 +65,25 @@ class DateTime implements Uitype
     }
 
     /**
+     * Return options for Import
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptionsForImport($bundle) : array
+    {
+        return [
+            [
+                'key' => 'format',
+                'label' => trans('uccello::uitype.import_option.datetime.format'),
+                'type' => 'text',
+                'placeholder' => 'Y-m-d H:i:s',
+            ]
+        ];
+    }
+
+    /**
      * Return options for Module Designer
      *
      * @param object $bundle

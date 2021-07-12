@@ -1,6 +1,6 @@
 export class Tree {
     constructor() {
-        this.initJsTree();
+        // this.initJsTree();
     }
 
     initJsTree() {

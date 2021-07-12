@@ -70,6 +70,25 @@ class Date extends DateTime implements Uitype
     }
 
     /**
+     * Return options for Import
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptionsForImport($bundle) : array
+    {
+        return [
+            [
+                'key' => 'format',
+                'label' => trans('uccello::uitype.import_option.date.format'),
+                'type' => 'text',
+                'placeholder' => 'Y-m-d',
+            ]
+        ];
+    }
+
+    /**
      * Returns formatted value to display.
      *
      * @param \Uccello\Core\Models\Field $field

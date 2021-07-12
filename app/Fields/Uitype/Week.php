@@ -62,6 +62,25 @@ class Week implements Uitype
     }
 
     /**
+     * Return options for Import
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptionsForImport($bundle) : array
+    {
+        return [
+            [
+                'key' => 'format',
+                'label' => trans('uccello::uitype.import_option.week.format'),
+                'type' => 'text',
+                'placeholder' => 'Y-W',
+            ]
+        ];
+    }
+
+    /**
      * Ask the user some specific options relative to a field
      *
      * @param \StdClass $module

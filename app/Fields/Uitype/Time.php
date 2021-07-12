@@ -74,6 +74,25 @@ class Time extends DateTime implements Uitype
     }
 
     /**
+     * Return options for Import
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptionsForImport($bundle) : array
+    {
+        return [
+            [
+                'key' => 'format',
+                'label' => trans('uccello::uitype.import_option.time.format'),
+                'type' => 'text',
+                'placeholder' => 'H:i:s',
+            ]
+        ];
+    }
+
+    /**
      * Returns formatted value to display.
      *
      * @param \Uccello\Core\Models\Field $field

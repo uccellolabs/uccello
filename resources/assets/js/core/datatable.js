@@ -1,5 +1,3 @@
-import { Link } from './link'
-
 export class Datatable {
     /**
      * Init Datatable configuration
@@ -7,7 +5,6 @@ export class Datatable {
      */
     init(element, rowClickCallback) {
         this.table = $(element)
-        this.linkManager = new Link(false)
         this.rowClickCallback = rowClickCallback
 
         this.initColumns()
@@ -261,7 +258,7 @@ export class Datatable {
         dispatchEvent(event)
 
         // Init click listener on delete button
-        this.linkManager.initClickListener(tr)
+        // this.linkManager.initClickListener(tr)
 
         // Add the record to tbody
         tr.removeClass('hide')

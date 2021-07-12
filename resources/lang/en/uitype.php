@@ -40,6 +40,7 @@ return [
             'module' => 'Module',
             'field' => 'Field to display',
             'record_label' => '(Default)',
+            'id' => 'ID',
             'relatedlist' => 'Create a related list',
         ],
         'file' => [
@@ -65,23 +66,44 @@ return [
         ],
         'select' => [
             'choices' => 'Options',
-        ]
+        ],
+        'percent' => [
+            'precision' => 'Precision (number of decimals)',
+        ],
+        'currency' => [
+            'precision' => 'Precision (number of decimals)',
+            'symbol' => 'Currency symbol',
+            'symbol_position' => 'Symbol position',
+            'symbol_position_left' => '$1.00',
+            'symbol_position_right' => '1.00$',
+        ],
+        'auto_number' => [
+            'start_value' => 'Start value',
+            'increment' => 'Increment',
+            'prefix' => 'Prefix',
+            'suffix' => 'Suffix',
+            'strlen_min' => 'Minimum length (allow to fill in with 0 at start)',
+        ],
     ],
-    'percent' => [
-        'precision' => 'Precision (number of decimals)',
-    ],
-    'currency' => [
-        'precision' => 'Precision (number of decimals)',
-        'symbol' => 'Currency symbol',
-        'symbol_position' => 'Symbol position',
-        'symbol_position_left' => '$1.00',
-        'symbol_position_right' => '1.00$',
-    ],
-    'auto_number' => [
-        'start_value' => 'Start value',
-        'increment' => 'Increment',
-        'prefix' => 'Prefix',
-        'suffix' => 'Suffix',
-        'strlen_min' => 'Minimum length (allow to fill in with 0 at start)',
+    'import_option' => [
+        'entity' => [
+            'field' => 'Field to compare',
+            'id' => 'ID',
+        ],
+        'date' => [
+            'format' => 'Format in the file',
+        ],
+        'datetime' => [
+            'format' => 'Format in the file',
+        ],
+        'time' => [
+            'format' => 'Format in the file',
+        ],
+        'week' => [
+            'format' => 'Format in the file',
+        ],
+        'month' => [
+            'format' => 'Format in the file',
+        ],
     ],
 ];

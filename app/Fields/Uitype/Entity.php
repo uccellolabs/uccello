@@ -121,6 +121,42 @@ class Entity implements Uitype
     }
 
     /**
+     * Return options for Import
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptionsForImport($bundle) : array
+    {
+        return [
+            [
+                'key' => 'field',
+                'label' => trans('uccello::uitype.import_option.entity.field'),
+                'type' => 'select',
+                'default' => 'id',
+                'choices' => function () use ($bundle) {
+                    $options = [
+                        ['value' => null, 'label' => trans('uccello::uitype.option.entity.id')],
+                    ];
+
+                    if (!empty($bundle->field->data->module)) {
+                        $module = Module::where('name', $bundle->field->data->module)->first();
+                        foreach ($module->fields->sortBy('sequence') as $field) {
+                            $options[] = [
+                                'value' => $field->name,
+                                'label' => uctrans('field.'.$field->name, $module)
+                            ];
+                        }
+                    }
+
+                    return $options;
+                }
+            ],
+        ];
+    }
+
+    /**
      * Return formatted data column and eventualy all related translations.
      *
      * @param object $bundle

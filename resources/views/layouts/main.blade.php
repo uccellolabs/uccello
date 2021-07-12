@@ -52,7 +52,7 @@
         @yield('pre-content')
 
         @section('content-container')
-        <main id="app">
+        <main>
             <div class="content @yield('content-class')">
                 {{-- Content --}}
                 @yield('content')

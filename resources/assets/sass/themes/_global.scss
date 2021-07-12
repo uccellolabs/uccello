@@ -2,18 +2,18 @@ body.theme-#{$theme} {
     background-color: $backgroundColor;
     color: $textColor;
 
-    header, main, footer {
+    > header, > main, > footer {
         padding-left: 260px;
     }
 
     @media only screen and (max-width : 992px) {
-        header, main, footer {
+        > header, > main, > footer {
             padding-left: 0;
         }
     }
 
     &.no-sidebar {
-        header, main, footer {
+        > header, > main, > footer {
             padding-left: 0;
         }
     }
@@ -248,7 +248,7 @@ body.theme-#{$theme} {
     // Sidenav mini
     @media only screen and (min-width: 992px) {
         &.sidenav-mini {
-            header, main, footer {
+            >header, >main, >footer {
                 padding-left: 50px;
             }
 

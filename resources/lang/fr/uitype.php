@@ -43,6 +43,7 @@ return [
             'module' => 'Module',
             'field' => 'Champ à afficher',
             'record_label' => '(Par défaut)',
+            'id' => 'ID',
             'relatedlist' => 'Créer une liste liée',
         ],
         'file' => [
@@ -86,5 +87,26 @@ return [
             'suffix' => 'Suffixe',
             'strlen_min' => 'Taille minimum (permet de remplir avec des 0 au début)',
         ],
-    ]
+    ],
+    'import_option' => [
+        'entity' => [
+            'field' => 'Champ à comparer',
+            'id' => 'ID',
+        ],
+        'date' => [
+            'format' => 'Format dans le fichier',
+        ],
+        'datetime' => [
+            'format' => 'Format dans le fichier',
+        ],
+        'time' => [
+            'format' => 'Format dans le fichier',
+        ],
+        'week' => [
+            'format' => 'Format dans le fichier',
+        ],
+        'month' => [
+            'format' => 'Format dans le fichier',
+        ],
+    ],
 ];

@@ -167,6 +167,18 @@ trait DefaultUitype
     }
 
     /**
+     * Return options for Module Designer
+     *
+     * @param object $bundle
+     *
+     * @return array
+     */
+    public function getFieldOptionsForImport($bundle) : array
+    {
+        return [];
+    }
+
+    /**
      * Return formatted data column and eventualy all related translations.
      *
      * @param object $bundle

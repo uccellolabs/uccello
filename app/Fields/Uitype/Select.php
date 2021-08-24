@@ -5,10 +5,10 @@ namespace Uccello\Core\Fields\Uitype;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
 use Uccello\Core\Contracts\Field\Uitype;
 use Uccello\Core\Fields\Traits\DefaultUitype;
 use Uccello\Core\Fields\Traits\UccelloUitype;
+use Uccello\Core\Models\Block;
 use Uccello\Core\Models\Field;
 use Uccello\Core\Models\Domain;
 use Uccello\Core\Models\Module;
@@ -97,9 +97,24 @@ class Select implements Uitype
         $translations = [];
 
         if (!empty($bundle->field->data['choices'])) {
+            // Retrieve module from field block
+            if (!empty($bundle->field->block_id)) {
+                $block = Block::find($bundle->field->block_id);
+                if ($block) {
+                    $module = Module::find($block->module_id);
+                }
+            }
+
             foreach ($bundle->field->data['choices'] as $choice) {
                 if (is_string($choice)) { // String
                     $data->choices[] = $choice;
+
+                    // Set translation
+                    if (!empty($module)) {
+                        $value = str_replace($bundle->field->name.'.', '', $choice);
+                        $translations[$value] = uctrans($choice, $module);
+                    }
+
                 } elseif (is_array($choice)) { // Array (value => label)
                     // Choice
                     if (!empty($choice['value'])) {

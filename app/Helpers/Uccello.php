@@ -598,7 +598,7 @@ class Uccello
             for ($i=0; $i<count($fieldNameParts)-1; $i++) {
                 $field = $this->getField($fieldNameParts[$i], $newRecord);
 
-                if ($field->uitype_id === uitype('entity')->id) {
+                if ($field && $field->uitype_id === uitype('entity')->id) {
                     $relatedModule = Module::where('name', $field->data->module)->first();
 
                     if ($checkPermissionsForDomain) {
@@ -633,7 +633,7 @@ class Uccello
     {
         $field = null;
 
-        $module = $record->module;
+        $module = $record->module ?? null;
         if ($module) {
             $field = $module->fields()->where('name', $fieldName)->first();
         }

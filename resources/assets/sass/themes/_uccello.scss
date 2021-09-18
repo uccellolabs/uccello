@@ -1,12 +1,12 @@
 // Variables
 $theme: "uccello";
-$primaryColor: #017ad6;
-$accentColor: #51555D;
-$accentColor2: #3F434C;
+$primaryColor: #017AD5;
+$accentColor: #fff;
+$accentColor2: #edf0fa;
 
 // Body
 $backgroundColor: #F3F4F6;
-$textColor: #464646;
+$textColor: #40434C;
 
 // Loader
 $loaderBackgroundColor: $primaryColor;
@@ -31,13 +31,13 @@ $tabBadgeColor: #fff;
 
 // Sidenav
 $sidenavBackgroundColor: $accentColor;
-$sidenavLinkColor: #fff;
-$sidenavIconColor: #fff;
+$sidenavLinkColor: #40434C;
+$sidenavIconColor: $primaryColor;
 $sidenavLinkHoverBackgroundColor: transparent;
 $sidenavLinkHoverColor: $primaryColor;
 $sidenavIconHoverColor: $primaryColor;
-$sidenavUserInfoBackgroundColor: $accentColor2;
-$sidenavUserInfoColor: #fff;
+$sidenavUserInfoBackgroundColor: #F3F4F6;
+$sidenavUserInfoColor: #000;
 $sidenavDividerColor: $accentColor2;
 $sidenavSubheaderBackgroundColor: $accentColor2;
 $sidenavLinkActiveBackgroundColor: $accentColor2;

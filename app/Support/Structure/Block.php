@@ -4,7 +4,11 @@ namespace Uccello\Core\Support\Structure;
 
 class Block
 {
-    private $data;
+    public $name;
+    public $icon;
+    public $closed = false;
+    public $info;
+    public $fields = [];
 
     /**
      * Constructure
@@ -20,39 +24,11 @@ class Block
             }
 
             // Set data
-            $this->data = $data;
-
-            // Convert structure
-            $this->convertStructure();
+            foreach ($data as $key => $val) {
+                $this->{$key} = $val;
+            }
         } else {
             throw new \Exception('First argument must be an object or an array');
-        }
-    }
-
-    /**
-     * Getter to retrieve an attribute from $data.
-     *
-     * @param string $attribute
-     *
-     * @return mixed
-     */
-    public function __get(string $attribute)
-    {
-        return optional($this->data)->{$attribute};
-    }
-
-    /**
-     * Setter to update an attribute into $data.
-     *
-     * @param string $attribute
-     * @param mixed $value
-     */
-    public function __set(string $attribute, $value)
-    {
-        $this->data->{$attribute} = $value;
-
-        if ($attribute === 'fields') {
-            $this->convertFields();
         }
     }
 
@@ -84,34 +60,6 @@ class Block
     }
 
     /**
-     * Convert structure.
-     * All structure object will be converted into specialized structure object.
-     *
-     * @return void
-     */
-    private function convertStructure()
-    {
-        // Fields
-        $this->convertFields();
-    }
-
-    /**
-     * Convert fields.
-     *
-     * @return void
-     */
-    private function convertFields()
-    {
-        if (!empty($this->data->fields)) {
-            foreach ($this->data->fields as &$field) {
-                if ($field instanceof Field === false) {
-                    $field = new Field($field);
-                }
-            }
-        }
-    }
-
-    /**
      * Checks if block is visible in a view.
      * A block is visible if at least one field is visible.
      *
@@ -123,8 +71,8 @@ class Block
     {
         $isVisible = false;
 
-        if (optional($this->data)->fields) {
-            foreach ($this->data->fields as $field) {
+        if ($this->fields) {
+            foreach ($this->fields as $field) {
                 if ($field->isVisible($viewName)) {
                     $isVisible = true;
                     break;

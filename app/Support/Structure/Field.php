@@ -6,7 +6,14 @@ use Uccello\Core\Facades\Uccello;
 
 class Field
 {
-    private $data;
+    public $name;
+    public $column;
+    public $type = 'string';
+    public $visible = true;
+    public $required = false;
+    public $rules;
+    public $info;
+    public $options;
 
     /**
      * Constructure
@@ -22,39 +29,12 @@ class Field
             }
 
             // Set data
-            $this->data = $data;
+            foreach ($data as $key => $val) {
+                $this->{$key} = $val;
+            }
         } else {
             throw new \Exception('First argument must be an object or an array');
         }
-    }
-
-    /**
-     * Getter to retrieve an attribute from $data.
-     * Checks if a method with the same attribute's name exists,
-     * else checks if the attribute exists.
-     *
-     * @param string $attribute
-     *
-     * @return mixed
-     */
-    public function __get(string $attribute)
-    {
-        if (method_exists($this, $attribute)) {
-            return $this->{$attribute}();
-        } else {
-            return optional($this->data)->{$attribute};
-        }
-    }
-
-    /**
-     * Setter to update an attribute into $data.
-     *
-     * @param string $attribute
-     * @param mixed $value
-     */
-    public function __set(string $attribute, $value)
-    {
-        $this->data->{$attribute} = $value;
     }
 
     /**
@@ -92,7 +72,7 @@ class Field
      */
     public function isVisibleEverywhere()
     {
-        return optional($this->data)->visible === true
+        return $this->visible === true
             ||
             (
                 $this->isVisibleInCreateView()
@@ -112,12 +92,12 @@ class Field
      */
     public function isVisibleInCreateView()
     {
-        return optional($this->data)->visible === true
+        return $this->visible === true
             ||
             (
-                is_object($this->data->visible)
+                is_object($this->visible)
                 &&
-                optional($this->data->visible)->create === true
+                optional($this->visible)->create === true
             );
     }
 
@@ -128,12 +108,12 @@ class Field
      */
     public function isVisibleInEditView()
     {
-        return optional($this->data)->visible === true
+        return $this->visible === true
             ||
             (
-                is_object($this->data->visible)
+                is_object($this->visible)
                 &&
-                optional($this->data->visible)->edit === true
+                optional($this->visible)->edit === true
             );
     }
 
@@ -144,12 +124,12 @@ class Field
      */
     public function isVisibleInDetailView()
     {
-        return optional($this->data)->visible === true
+        return $this->visible === true
             ||
             (
-                is_object($this->data->visible)
+                is_object($this->visible)
                 &&
-                optional($this->data->visible)->detail === true
+                optional($this->visible)->detail === true
             );
     }
 
@@ -160,12 +140,12 @@ class Field
      */
     public function isVisibleInListView()
     {
-        return optional($this->data)->visible === true
+        return $this->visible === true
             ||
             (
-                is_object($this->data->visible)
+                is_object($this->visible)
                 &&
-                optional($this->data->visible)->list === true
+                optional($this->visible)->list === true
             );
     }
 
@@ -178,8 +158,8 @@ class Field
      */
     public function column()
     {
-        if (!empty($this->data->column)) {
-            $column = $this->data->column;
+        if (!empty($this->column)) {
+            $column = $this->column;
         } else {
             $column = $this->type === 'entity' ? $this->name.'_id' : $this->name;
         }

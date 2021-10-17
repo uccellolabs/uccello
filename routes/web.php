@@ -17,22 +17,22 @@ Route::name('uccello.')
         $workspaceAndModuleParams = '{workspace}/{module}';
     }
 
-    Route::get($workspaceParam.'/onboarding', function() {
+    Route::get($workspaceParam.'/onboarding', function () {
         return view('uccello::modules.onboarding.main');
     });
-    Route::get($workspaceParam.'/dashboard', function() {
+    Route::get($workspaceParam.'/dashboard', function () {
         return view('uccello::modules.dashboard.main');
     });
-    Route::get($workspaceParam.'/admin-settings', function() {
+    Route::get($workspaceParam.'/admin-settings', function () {
         return view('uccello::modules.admin-settings.main');
     });
-    Route::get($workspaceParam.'/add-from-marketplace', function() {
+    Route::get($workspaceParam.'/add-from-marketplace', function () {
         return view('uccello::modules.add-from-marketplace.main');
     });
-    Route::get($workspaceParam.'/settings', function() {
+    Route::get($workspaceParam.'/settings', function () {
         return view('uccello::modules.settings.main');
     });
-    Route::get($workspaceParam.'/module-designer', function() {
+    Route::get($workspaceParam.'/module-designer', function () {
         return view('uccello::modules.module-designer.main');
     });
 

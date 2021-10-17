@@ -4,7 +4,11 @@ namespace Uccello\Core\Support\Structure;
 
 class Filter
 {
-    private $data;
+    public $name;
+    public $type;
+    public $columns = [];
+    public $default = false;
+    public $readonly = false;
 
     /**
      * Constructure
@@ -20,32 +24,11 @@ class Filter
             }
 
             // Set data
-            $this->data = $data;
+            foreach ($data as $key => $val) {
+                $this->{$key} = $val;
+            }
         } else {
             throw new \Exception('First argument must be an object or an array');
         }
-    }
-
-    /**
-     * Getter to retrieve an attribute from $data.
-     *
-     * @param string $attribute
-     *
-     * @return mixed
-     */
-    public function __get(string $attribute)
-    {
-        return optional($this->data)->{$attribute};
-    }
-
-    /**
-     * Setter to update an attribute into $data.
-     *
-     * @param string $attribute
-     * @param mixed $value
-     */
-    public function __set(string $attribute, $value)
-    {
-        $this->data->{$attribute} = $value;
     }
 }
